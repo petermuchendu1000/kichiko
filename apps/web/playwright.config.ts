@@ -29,8 +29,12 @@ export default defineConfig({
     ? undefined
     : {
         command: 'npm run start',
-        url: 'http://localhost:3000',
+        // Probe a STATIC route for readiness: the app's DB-backed pages (Home,
+        // Markets) SSR against the live DB and can be slow to first-byte from a
+        // CI runner, which would stall webServer readiness. /offline is a static
+        // PWA fallback that returns 200 as soon as the server is listening.
+        url: 'http://localhost:3000/offline',
         reuseExistingServer: !process.env.CI,
-        timeout: 120_000,
+        timeout: 180_000,
       },
 })
