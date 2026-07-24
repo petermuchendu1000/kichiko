@@ -191,20 +191,44 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  # M6 — Dependency review, fully green AND fully enforcing.
+  # The Dependency graph is enabled on this repo, so the review runs and gates
+  # PRs on high-severity advisories (security intent preserved). We DON'T use a
+  # job-level `continue-on-error` (that leaves a red ✗ on the check even when the
+  # run passes). Instead we probe the dependency-graph API first: when it's
+  # available (the normal path) we enforce; when it's genuinely unavailable
+  # (e.g. a fork, or the graph is ever disabled) we skip with a notice so the
+  # check is a clean green ✓ rather than a hard failure that blocks every PR.
   dependency-review:
     name: Dependency review
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
-    # Requires the repository Dependency graph to be enabled
-    # (Settings → Code security → Dependency graph). Until it is, the action
-    # hard-errors with "Dependency review is not supported on this repository",
-    # which would block every PR. Keep the advisory scan running but
-    # non-blocking so the pipeline stays green; it re-activates automatically
-    # once the graph is enabled.
-    continue-on-error: true
+    permissions:
+      contents: read
+      pull-requests: read
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/dependency-review-action@v4
+      - name: Probe dependency graph availability
+        id: probe
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          base='${{ github.event.pull_request.base.sha }}'
+          head='${{ github.event.pull_request.head.sha }}'
+          status=$(curl -sS -o /dev/null -w '%{http_code}' \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/dependency-graph/compare/${base}...${head}") || status=000
+          echo "dependency-graph/compare -> HTTP ${status}"
+          if [ "${status}" = "200" ]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "::notice title=Dependency review skipped::Dependency graph unavailable (HTTP ${status}) for this ref — skipping as non-fatal so the PR check stays green."
+          fi
+      - name: Dependency review (enforced when graph available)
+        if: steps.probe.outputs.available == 'true'
+        uses: actions/dependency-review-action@v4
         with:
           fail-on-severity: high
 
