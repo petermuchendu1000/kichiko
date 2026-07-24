@@ -7,7 +7,7 @@
 # node_modules). Runtime runs as a non-root user with a /api/health HEALTHCHECK.
 
 # Pin the exact patch for reproducibility (matches CI Node 20).
-FROM node:20.18.1-alpine AS base
+FROM node:26.5.0-alpine AS base
 WORKDIR /app
 RUN apk add --no-cache libc6-compat
 
