@@ -38,6 +38,7 @@ import {
   PENDING_BET_KEY,
   PENDING_BET_PARAM,
 } from '@/lib/pending-bet'
+import { openAuthDialog } from '@/components/auth/auth-dialog'
 import { normalizeOutcomes, isMultiOutcome, type Outcome } from '@/lib/markets/outcomes'
 import { formatCurrency, usdToLocal, localToUsd } from '@/lib/currency'
 import { useClobBook } from '@/components/trading/order-book-table'
@@ -623,7 +624,7 @@ export function PmTicket({
     return `${s.endsWith('.0') ? s.slice(0, -2) : s}¢`
   }
 
-  const goToAuth = (route: '/auth/login' | '/auth/register') => {
+  const goToAuth = (mode: 'login' | 'register') => {
     const bet = {
       marketId: market.id,
       slug: market.slug,
@@ -635,17 +636,27 @@ export function PmTicket({
     }
     const now = Date.now()
     let next = `/markets/${market.slug}`
-    // Only carry a snapshot when there's a real stake worth preserving. The bet
-    // rides on TWO carriers: localStorage (fast, same-device) and a base64url
-    // `pb` token folded into `next` (durable — survives the email-confirmation
-    // callback landing on another device/browser).
+    // Persist the stake on TWO carriers so the ONLY path that leaves this page —
+    // email confirmation — can still rebuild the ticket anywhere it lands:
+    //   • localStorage (fast, same-device)
+    //   • a base64url `pb` token folded into `next` (durable, cross-device).
+    // The common password path never navigates, so the bet simply stays in React
+    // state and the ticket re-enables the instant auth succeeds (onAuthStateChange).
     if (amountNum > 0) {
       next = `${next}?${PENDING_BET_PARAM}=${encodePendingBetParam(bet, now)}`
       if (typeof window !== 'undefined') {
         window.localStorage.setItem(PENDING_BET_KEY, serializePendingBet(bet, now))
       }
     }
-    router.push(`${route}?next=${encodeURIComponent(next)}`)
+    const reason =
+      amountNum > 0
+        ? `Sign in to place ${formatCurrency(amountNum, preferredCurrency)} on ${
+            selectedOutcome?.label ?? side.toUpperCase()
+          }`
+        : 'Sign in to trade'
+    // Open the in-context dialog (no navigation → no lost ticket). The full-page
+    // /auth routes remain the fallback for deep links and the email callback.
+    openAuthDialog({ mode, next, reason })
   }
 
   // CLOB order placement — routes buy AND sell through the order-book engine
@@ -654,7 +665,7 @@ export function PmTicket({
   // share-denominated from the user's position and can be market (fill now at
   // the best bid) or limit (rest on the book). AMM RPCs are never touched here.
   const handleClobTrade = async () => {
-    if (!user) return goToAuth('/auth/login')
+    if (!user) return goToAuth('login')
     if (!selectedOutcome) return setError('Choose a candidate to continue.')
     setError('')
 

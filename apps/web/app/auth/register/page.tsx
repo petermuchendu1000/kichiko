@@ -10,35 +10,15 @@ import { PasswordInput } from '@/components/auth/password-input'
 import { LogoMark, IconShield, IconArrowRight, IconCheck } from '@/components/ui/icons'
 import { safeRedirectPath } from '@/lib/security/sanitize'
 import { withNext } from '@/lib/auth-redirect'
-
-const COUNTRIES = [
-  { code: 'KE', name: 'Kenya', currency: 'KES' },
-  { code: 'UG', name: 'Uganda', currency: 'UGX' },
-  { code: 'TZ', name: 'Tanzania', currency: 'TZS' },
-  { code: 'RW', name: 'Rwanda', currency: 'RWF' },
-  { code: 'ZM', name: 'Zambia', currency: 'ZMW' },
-  { code: 'ET', name: 'Ethiopia', currency: 'ETB' },
-  { code: 'BI', name: 'Burundi', currency: 'BIF' },
-]
-
-/** 0..4 password strength from length + character variety. */
-function scorePassword(pw: string): number {
-  if (!pw) return 0
-  let score = 0
-  if (pw.length >= 8) score++
-  if (pw.length >= 12) score++
-  if (/[a-z]/.test(pw) && /[A-Z]/.test(pw)) score++
-  if (/\d/.test(pw) && /[^A-Za-z0-9]/.test(pw)) score++
-  return Math.min(score, 4)
-}
-
-const STRENGTH = [
-  { label: 'Too short', cls: 'bg-no' },
-  { label: 'Weak', cls: 'bg-no' },
-  { label: 'Fair', cls: 'bg-amber' },
-  { label: 'Good', cls: 'bg-pip-500' },
-  { label: 'Strong', cls: 'bg-yes' },
-]
+import {
+  AUTH_COUNTRIES,
+  currencyForCountry,
+  scorePassword,
+  PASSWORD_STRENGTH,
+  canSubmitRegister,
+  normalizeAuthError,
+  MIN_PASSWORD_LENGTH,
+} from '@/lib/auth-form'
 
 export default function RegisterPage() {
   const router = useRouter()
@@ -69,12 +49,12 @@ export default function RegisterPage() {
   )
 
   const strength = useMemo(() => scorePassword(password), [password])
-  const canSubmit =
-    !loading && name.trim().length > 1 && /\S+@\S+\.\S+/.test(email) && password.length >= 8
+  const canSubmit = canSubmitRegister({ name, email, password, loading })
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (password.length < 8) return setError('Password must be at least 8 characters')
+    if (password.length < MIN_PASSWORD_LENGTH)
+      return setError(`Password must be at least ${MIN_PASSWORD_LENGTH} characters`)
     setError('')
     setLoading(true)
 
@@ -90,7 +70,7 @@ export default function RegisterPage() {
         data: {
           display_name: name,
           country_code: country,
-          preferred_currency: COUNTRIES.find((c) => c.code === country)?.currency ?? 'KES',
+          preferred_currency: currencyForCountry(country),
           referral_code_used: refCode || null,
         },
         emailRedirectTo: callbackUrl.toString(),
@@ -98,7 +78,7 @@ export default function RegisterPage() {
     })
 
     if (error) {
-      setError(error.message)
+      setError(normalizeAuthError(error, 'register'))
       setLoading(false)
     } else if (data.session) {
       // Email confirmation disabled → session is live now; return immediately.
@@ -195,14 +175,14 @@ export default function RegisterPage() {
                   <span
                     key={i}
                     className={`h-1 flex-1 rounded-pill transition-colors ${
-                      i < strength ? STRENGTH[strength].cls : 'bg-hairline'
+                      i < strength ? PASSWORD_STRENGTH[strength].cls : 'bg-hairline'
                     }`}
                   />
                 ))}
               </div>
               <p className="mt-1 text-xs text-text-muted">
-                Password strength: <span className="font-medium">{STRENGTH[strength].label}</span>
-                {password.length < 8 && ' · at least 8 characters'}
+                Password strength: <span className="font-medium">{PASSWORD_STRENGTH[strength].label}</span>
+                {password.length < MIN_PASSWORD_LENGTH && ` · at least ${MIN_PASSWORD_LENGTH} characters`}
               </p>
             </div>
           )}
@@ -218,7 +198,7 @@ export default function RegisterPage() {
             value={country}
             onChange={(e) => setCountry(e.target.value)}
           >
-            {COUNTRIES.map((c) => (
+            {AUTH_COUNTRIES.map((c) => (
               <option key={c.code} value={c.code}>
                 {c.name} · {c.currency}
               </option>

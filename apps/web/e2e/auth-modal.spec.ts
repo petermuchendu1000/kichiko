@@ -1,0 +1,115 @@
+// e2e/auth-modal.spec.ts
+// ---------------------------------------------------------------------------
+// In-context auth dialog (Milestone 3). Verifies the DIALOG CONTRACT and the
+// market ticket WIRING without ever creating a real account (no DB writes):
+//   • opens on the decoupled marketpips:open-auth event
+//   • correct roles / labelling / initial focus (a11y)
+//   • tab toggle reveals the right fields per mode
+//   • submit gating (disabled until the form is valid)
+//   • Esc + scrim dismiss, focus restore, body scroll-lock
+//   • the market ticket's "Log in to trade" CTA actually opens it
+//
+// Runs guest (no auth storage). The dialog contract tests use /help — a
+// static route that still mounts the root layout + Providers (where AuthDialog
+// lives) — so they're fast and independent of DB-backed market SSR.
+import { test, expect, type Page } from '@playwright/test'
+
+const A_MARKET_SLUG = process.env.E2E_MARKET_SLUG || 'ke-ruto-reelection-2027'
+
+async function openAuth(page: Page, detail: Record<string, unknown> = { mode: 'login' }) {
+  // Retry the dispatch until the dialog appears — the listener attaches in a
+  // useEffect after hydration, so a single early dispatch can be missed.
+  await expect(async () => {
+    await page.evaluate((d) => {
+      window.dispatchEvent(new CustomEvent('marketpips:open-auth', { detail: d }))
+    }, detail)
+    await expect(page.getByRole('dialog')).toBeVisible({ timeout: 1000 })
+  }).toPass({ timeout: 15000 })
+}
+
+test.describe('Auth dialog — contract', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/help')
+  })
+
+  test('opens on event with dialog semantics + focus in dialog', async ({ page }) => {
+    await openAuth(page, { mode: 'login', reason: 'Sign in to place your prediction' })
+    const dialog = page.getByRole('dialog')
+    await expect(dialog).toHaveAttribute('aria-modal', 'true')
+    await expect(dialog).toHaveAttribute('aria-labelledby', /.+/)
+    await expect(page.getByText('Sign in to place your prediction')).toBeVisible()
+    // Initial focus lands inside the dialog (email field for login).
+    await expect(dialog.getByLabel('Email')).toBeFocused()
+  })
+
+  test('login submit is gated until email + password are valid', async ({ page }) => {
+    await openAuth(page, { mode: 'login' })
+    const submit = page.getByRole('button', { name: /^sign in$/i })
+    await expect(submit).toBeDisabled()
+    await page.getByLabel('Email').fill('trader@example.com')
+    await expect(submit).toBeDisabled()
+    await page.getByLabel('Password', { exact: true }).fill('secret123')
+    await expect(submit).toBeEnabled()
+  })
+
+  test('switching to Create account reveals name + country and gates on password length', async ({
+    page,
+  }) => {
+    await openAuth(page, { mode: 'login' })
+    await page.getByRole('tab', { name: /create account/i }).click()
+    await expect(page.getByLabel('Full name')).toBeVisible()
+    await expect(page.getByLabel('Country')).toBeVisible()
+    const submit = page.getByRole('button', { name: /create free account/i })
+    await page.getByLabel('Full name').fill('Jane Trader')
+    await page.getByLabel('Email').fill('jane@example.com')
+    await page.getByLabel('Password', { exact: true }).fill('short')
+    await expect(submit).toBeDisabled() // < 8 chars
+    await page.getByLabel('Password', { exact: true }).fill('longenough1')
+    await expect(submit).toBeEnabled()
+  })
+
+  test('password strength meter appears on register typing', async ({ page }) => {
+    await openAuth(page, { mode: 'register' })
+    await page.getByLabel('Password', { exact: true }).fill('Abcdefghijk1!')
+    await expect(page.getByText(/password strength/i)).toBeVisible()
+    await expect(page.getByText(/strong/i)).toBeVisible()
+  })
+
+  test('Escape closes and restores body scroll', async ({ page }) => {
+    await openAuth(page)
+    await expect(page.locator('body')).toHaveCSS('overflow', 'hidden')
+    await page.keyboard.press('Escape')
+    await expect(page.getByRole('dialog')).toBeHidden()
+    await expect(page.locator('body')).not.toHaveCSS('overflow', 'hidden')
+  })
+
+  test('scrim click dismisses', async ({ page }) => {
+    await openAuth(page)
+    // The scrim is the aria-hidden overlay behind the panel.
+    await page.locator('[aria-hidden="true"].bg-black\\/50').click({ position: { x: 5, y: 5 } })
+    await expect(page.getByRole('dialog')).toBeHidden()
+  })
+
+  test('does not open for an already-signed-in guest event when no session (no-op safety)', async ({
+    page,
+  }) => {
+    // Two rapid opens should still yield exactly one dialog (idempotent open).
+    await openAuth(page)
+    await page.evaluate(() =>
+      window.dispatchEvent(new CustomEvent('marketpips:open-auth', { detail: { mode: 'login' } })),
+    )
+    await expect(page.getByRole('dialog')).toHaveCount(1)
+  })
+})
+
+test.describe('Auth dialog — market ticket wiring', () => {
+  test('the ticket "Log in to trade" CTA opens the dialog (desktop)', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'chromium', 'Desktop sidebar ticket only')
+    await page.goto(`/markets/${A_MARKET_SLUG}`)
+    const cta = page.getByRole('button', { name: /log in to trade/i }).first()
+    await cta.waitFor({ state: 'visible' })
+    await cta.click()
+    await expect(page.getByRole('dialog')).toBeVisible()
+    await expect(page.getByRole('tab', { name: /create account/i })).toBeVisible()
+  })
+})
