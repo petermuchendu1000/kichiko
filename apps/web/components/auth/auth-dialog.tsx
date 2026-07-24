@@ -270,20 +270,20 @@ export function AuthDialog() {
   }
 
   // ---- Passwordless email OTP ----------------------------------------------
+  // We ask Supabase for a numeric CODE, not a magic link: NO `emailRedirectTo`
+  // is passed, so no {{ .ConfirmationURL }} is generated and the "magic_link"
+  // email template (see supabase/templates/magic_link.html) renders {{ .Token }}
+  // — a 6-digit code the user types back into this dialog via verifyOtp().
+  // Passing emailRedirectTo here is what made Supabase mint a link instead.
   const requestCode = async () => {
     if (!canRequestCode(mode, { name, email, loading })) return
     setError('')
     setLoading(true)
-    const callbackUrl =
-      typeof window !== 'undefined'
-        ? new URL(withNext('/auth/callback', next), window.location.origin).toString()
-        : undefined
     const { error: err } = await supabase.auth.signInWithOtp({
       email,
       options: {
         // Sign-in must not silently create accounts; register may.
         shouldCreateUser: mode === 'register',
-        emailRedirectTo: callbackUrl,
         data:
           mode === 'register'
             ? {

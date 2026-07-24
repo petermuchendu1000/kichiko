@@ -42,19 +42,29 @@ the screen.
   label. Error is `role="alert" aria-live="assertive"`. Esc / scrim / focus-trap
   from M3 still apply.
 
-## ⚠️ Required Supabase configuration (one-time, dashboard)
-For the email to contain a **numeric code** (not just a magic link), the
-**Auth → Email Templates → Magic Link** template must include the token, e.g.:
+## ✅ Supabase configuration (codified — no manual dashboard step)
+The old default **Magic Link** template rendered `{{ .ConfirmationURL }}` (a
+link), which is exactly why sign-in emails arrived as a *link* and no *code* —
+issues #1 and #2. The fix is now checked into the repo as Infrastructure-as-Code:
 
-```
-Your MarketPips sign-in code is: {{ .Token }}
+- **`supabase/templates/magic_link.html`** — branded template that renders
+  **`{{ .Token }}`** (the 6-digit code) and *no* `ConfirmationURL`.
+- **`supabase/config.toml`** — `[auth.email.template.magic_link]` points at that
+  file; `otp_length = 6`, `otp_expiry = 3600` pin a 6-digit, 60-minute code.
+- **Client** — `requestCode()` calls `signInWithOtp` **without** `emailRedirectTo`,
+  so Supabase never mints a magic-link URL; the email is code-only. `verifyOtp({
+  type: 'email' })` validates the typed token.
+
+Apply to any environment with:
+
+```bash
+supabase link --project-ref <ref>   # once per env
+supabase config push                # syncs auth config + email templates
 ```
 
-`verifyOtp({ type: 'email' })` validates that token. The magic link in the same
-email still works and lands on `/auth/callback?next=…` (M1 pending-bet rebuilds
-the ticket), so the feature degrades gracefully if a user clicks the link instead
-of typing the code. Also ensure **Email OTP** is enabled and the OTP expiry is
-sane (default 1h).
+Local `supabase start` picks it up automatically. There is intentionally **no
+magic link** in the email anymore — the code is the single, in-dialog path, so a
+guest never leaves the market they were betting on.
 
 ## Tests
 - **+5 unit** (`auth-form`): `sanitizeOtpInput`, `isCompleteOtp`, `canRequestCode`
