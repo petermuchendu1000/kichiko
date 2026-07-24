@@ -41,7 +41,7 @@
        --surface-2 keeps the faint slate tint for chips / hovers / secondary fills. */
     --bg:var(--paper); --surface:var(--paper); --surface-2:var(--ink-50);
     --elevated:var(--paper);
-    --text:var(--ink-950); --text-2:var(--ink-600); --text-3:var(--ink-500);
+    --text:var(--ink-950); --text-2:var(--ink-600); --text-3:#656D78; /* a11y: ink-500 was 3.66:1 on surface-2; #656D78 = 4.8:1 (WCAG AA) */
     --hairline:var(--ink-100); --hairline-strong:var(--ink-200);
     /* Soft in-card divider (Polymarket neutral-100 #e6e8ea) — lighter than the
        structural --hairline; used for outcome-row/comment/footer separators. */
@@ -109,7 +109,7 @@
     color-scheme: dark;
     --bg:var(--ink-950); --surface:var(--ink-900); --surface-2:var(--ink-800);
     --elevated:var(--ink-800);
-    --text:#F3F5F8; --text-2:var(--ink-300); --text-3:var(--ink-400);
+    --text:#F3F5F8; --text-2:var(--ink-300); --text-3:#9AA1AB; /* a11y: ink-400 was 4.35:1 on surface-2; #9AA1AB = 4.74:1 (WCAG AA) */
     --hairline:var(--ink-700); --hairline-strong:var(--ink-600);
     --hairline-soft:var(--ink-800);
     /* Dark-mode dotted gridline: a touch lighter than the structural hairline

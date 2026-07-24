@@ -7,7 +7,11 @@ const BASE_URL = process.env.E2E_BASE_URL || 'http://localhost:3000'
 
 export default defineConfig({
   testDir: './e2e',
-  timeout: 30_000,
+  // CI runners are far from the eu-west-1 DB and some pages (Home trending,
+  // Markets board) do heavy server-side data fetching, so their SSR first-byte
+  // can be slow. Give navigations generous headroom in CI to avoid flaky
+  // timeouts on these DB-backed pages (local stays snappy).
+  timeout: process.env.CI ? 120_000 : 30_000,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
@@ -15,6 +19,7 @@ export default defineConfig({
   use: {
     baseURL: BASE_URL,
     trace: 'on-first-retry',
+    navigationTimeout: process.env.CI ? 90_000 : 30_000,
   },
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
@@ -26,8 +31,12 @@ export default defineConfig({
     ? undefined
     : {
         command: 'npm run start',
-        url: 'http://localhost:3000',
+        // Probe a STATIC route for readiness: the app's DB-backed pages (Home,
+        // Markets) SSR against the live DB and can be slow to first-byte from a
+        // CI runner, which would stall webServer readiness. /offline is a static
+        // PWA fallback that returns 200 as soon as the server is listening.
+        url: 'http://localhost:3000/offline',
         reuseExistingServer: !process.env.CI,
-        timeout: 120_000,
+        timeout: 180_000,
       },
 })

@@ -236,6 +236,13 @@ jobs:
           NEXT_PUBLIC_APP_URL: ${{ secrets.NEXT_PUBLIC_APP_URL }}
         run: npm run build
       - name: Run axe accessibility checks
+        # The Playwright webServer runs `next start`; give it the same runtime
+        # Supabase config the Build got, else DB-backed pages (Home, Markets)
+        # hang and page.goto times out.
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_APP_URL: ${{ secrets.NEXT_PUBLIC_APP_URL }}
         run: npm --workspace apps/web run test:a11y
 
   # ------------------------------------------------------------------
@@ -261,8 +268,15 @@ jobs:
           NEXT_PUBLIC_APP_URL: ${{ secrets.NEXT_PUBLIC_APP_URL }}
         run: npm run build
       - name: Run Lighthouse CI
+        # Pass runtime Supabase config to `next start` so DB-backed pages render
+        # (otherwise `/` hangs and wait-on times out), and give the slower CI
+        # runner more headroom to boot before probing.
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_APP_URL: ${{ secrets.NEXT_PUBLIC_APP_URL }}
         run: |
           npm install -g @lhci/cli@0.14.x
           npm --workspace apps/web run start &
-          npx --yes wait-on http://localhost:3000 -t 60000
+          npx --yes wait-on http-get://localhost:3000/ -t 180000
           lhci autorun --config=./lighthouserc.json || true
