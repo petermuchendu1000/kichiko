@@ -88,6 +88,31 @@ otp_expiry = 3600
 subject = "Your MarketPips sign-in code"
 content_path = "./supabase/templates/magic_link.html"
 
+# Signup email confirmation (link -> /auth/callback activates the account).
+[auth.email.template.confirmation]
+subject = "Confirm your MarketPips email"
+content_path = "./supabase/templates/confirmation.html"
+
+# Password reset (link -> /auth/reset-password).
+[auth.email.template.recovery]
+subject = "Reset your MarketPips password"
+content_path = "./supabase/templates/recovery.html"
+
+# Email address change (link confirms the new address; double_confirm_changes on).
+[auth.email.template.email_change]
+subject = "Confirm your new MarketPips email"
+content_path = "./supabase/templates/email_change.html"
+
+# Admin invite (link -> account setup).
+[auth.email.template.invite]
+subject = "You are invited to MarketPips"
+content_path = "./supabase/templates/invite.html"
+
+# Reauthentication before a sensitive change (numeric code).
+[auth.email.template.reauthentication]
+subject = "Confirm it is you"
+content_path = "./supabase/templates/reauthentication.html"
+
 [auth.sms]
 # Allow/disallow new user signups via SMS to your project.
 enable_signup = true
