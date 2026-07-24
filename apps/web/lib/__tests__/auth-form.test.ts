@@ -8,6 +8,10 @@ import {
   canSubmitLogin,
   canSubmitRegister,
   normalizeAuthError,
+  OTP_LENGTH,
+  sanitizeOtpInput,
+  isCompleteOtp,
+  canRequestCode,
 } from '@/lib/auth-form'
 
 describe('currencyForCountry', () => {
@@ -97,5 +101,40 @@ describe('normalizeAuthError — human, non-leaky copy', () => {
   it('handles empty / nullish input', () => {
     expect(normalizeAuthError('', 'login')).toMatch(/something went wrong/i)
     expect(normalizeAuthError(null, 'register')).toMatch(/something went wrong/i)
+  })
+})
+
+describe('passwordless OTP helpers', () => {
+  it('sanitizeOtpInput keeps only digits, capped at OTP_LENGTH', () => {
+    expect(sanitizeOtpInput('12ab34')).toBe('1234')
+    expect(sanitizeOtpInput('  1 2-3 4 5 6 7 8 ')).toBe('123456')
+    expect(sanitizeOtpInput('abc')).toBe('')
+    expect(sanitizeOtpInput('9'.repeat(20))).toHaveLength(OTP_LENGTH)
+  })
+
+  it('isCompleteOtp requires exactly OTP_LENGTH digits', () => {
+    expect(isCompleteOtp('123456')).toBe(true)
+    expect(isCompleteOtp('12345')).toBe(false)
+    expect(isCompleteOtp('1234567')).toBe(false)
+    expect(isCompleteOtp('12345a')).toBe(false)
+  })
+
+  it('canRequestCode: login needs a plausible email only', () => {
+    expect(canRequestCode('login', { email: 'a@b.co' })).toBe(true)
+    expect(canRequestCode('login', { email: 'bad' })).toBe(false)
+    expect(canRequestCode('login', { email: 'a@b.co', loading: true })).toBe(false)
+  })
+
+  it('canRequestCode: register also needs a real name', () => {
+    expect(canRequestCode('register', { name: 'Jo', email: 'a@b.co' })).toBe(true)
+    expect(canRequestCode('register', { name: 'J', email: 'a@b.co' })).toBe(false)
+    expect(canRequestCode('register', { name: '', email: 'a@b.co' })).toBe(false)
+  })
+
+  it('normalizeAuthError maps expired/invalid OTP codes', () => {
+    expect(normalizeAuthError('Token has expired or is invalid', 'login')).toMatch(
+      /invalid or has expired/i,
+    )
+    expect(normalizeAuthError('Invalid OTP', 'login')).toMatch(/invalid or has expired/i)
   })
 })

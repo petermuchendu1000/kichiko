@@ -40,6 +40,10 @@ import {
   canSubmitRegister,
   normalizeAuthError,
   MIN_PASSWORD_LENGTH,
+  OTP_LENGTH,
+  sanitizeOtpInput,
+  isCompleteOtp,
+  canRequestCode,
   type AuthMode,
 } from '@/lib/auth-form'
 
@@ -85,9 +89,16 @@ export function AuthDialog() {
   const [error, setError] = useState('')
   const [emailSent, setEmailSent] = useState(false)
 
+  // Passwordless (email OTP): 'form' collects details + sends a code; 'otp' is
+  // the in-dialog 6-digit entry so the guest never leaves for their inbox.
+  const [step, setStep] = useState<'form' | 'otp'>('form')
+  const [otp, setOtp] = useState('')
+
   const dialogRef = useRef<HTMLDivElement>(null)
   const firstFieldRef = useRef<HTMLInputElement>(null)
+  const otpFieldRef = useRef<HTMLInputElement>(null)
   const lastFocused = useRef<HTMLElement | null>(null)
+  const verifyingRef = useRef(false)
 
   const strength = useMemo(() => scorePassword(password), [password])
   const canSubmit =
@@ -108,6 +119,9 @@ export function AuthDialog() {
     setError('')
     setEmailSent(false)
     setLoading(false)
+    setStep('form')
+    setOtp('')
+    verifyingRef.current = false
     // Seed the referral from the URL (?ref=…), progressively disclosed.
     if (typeof window !== 'undefined') {
       const ref = new URLSearchParams(window.location.search).get('ref') ?? ''
@@ -182,12 +196,22 @@ export function AuthDialog() {
       cancelAnimationFrame(raf)
       lastFocused.current?.focus?.()
     }
-  }, [open, close, mode, emailSent])
+  }, [open, close, mode, emailSent, step])
+
+  // When the passwordless step opens, move focus to the code field.
+  useEffect(() => {
+    if (open && step === 'otp') {
+      const raf = requestAnimationFrame(() => otpFieldRef.current?.focus())
+      return () => cancelAnimationFrame(raf)
+    }
+  }, [open, step])
 
   const switchMode = (m: AuthMode) => {
     setMode(m)
     setError('')
     setEmailSent(false)
+    setStep('form')
+    setOtp('')
   }
 
   const handleLogin = async () => {
@@ -244,6 +268,64 @@ export function AuthDialog() {
     setLoading(false)
     setEmailSent(true)
   }
+
+  // ---- Passwordless email OTP ----------------------------------------------
+  const requestCode = async () => {
+    if (!canRequestCode(mode, { name, email, loading })) return
+    setError('')
+    setLoading(true)
+    const callbackUrl =
+      typeof window !== 'undefined'
+        ? new URL(withNext('/auth/callback', next), window.location.origin).toString()
+        : undefined
+    const { error: err } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        // Sign-in must not silently create accounts; register may.
+        shouldCreateUser: mode === 'register',
+        emailRedirectTo: callbackUrl,
+        data:
+          mode === 'register'
+            ? {
+                display_name: name,
+                country_code: country,
+                preferred_currency: currencyForCountry(country),
+                referral_code_used: refCode || null,
+              }
+            : undefined,
+      },
+    })
+    setLoading(false)
+    if (err) {
+      setError(normalizeAuthError(err, mode))
+      return
+    }
+    setOtp('')
+    setStep('otp')
+  }
+
+  const verifyCode = useCallback(async () => {
+    if (verifyingRef.current || !isCompleteOtp(otp)) return
+    verifyingRef.current = true
+    setError('')
+    setLoading(true)
+    const { error: err } = await supabase.auth.verifyOtp({ email, token: otp, type: 'email' })
+    if (err) {
+      setError(normalizeAuthError(err, mode))
+      setLoading(false)
+      verifyingRef.current = false
+      setOtp('')
+      return
+    }
+    // Session is live → onAuthStateChange re-enables the ticket. Bet intact.
+    toast.success(mode === 'register' ? 'Account created' : 'Signed in')
+    close()
+  }, [otp, email, mode, supabase, close])
+
+  // Auto-verify the instant a full 6-digit code is present (paste or last key).
+  useEffect(() => {
+    if (step === 'otp' && isCompleteOtp(otp) && !verifyingRef.current) void verifyCode()
+  }, [step, otp, verifyCode])
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -320,6 +402,99 @@ export function AuthDialog() {
               >
                 Back to sign in
               </button>
+            </div>
+          ) : step === 'otp' ? (
+            <div className="py-1">
+              <h2 id={titleId} className="font-display text-2xl text-text-primary">
+                Enter your code
+              </h2>
+              <p className="mt-1 text-sm text-text-muted">
+                We emailed a {OTP_LENGTH}-digit code to{' '}
+                <strong className="text-text-primary">{email}</strong>.
+              </p>
+
+              <label htmlFor="auth-otp" className="sr-only">
+                {OTP_LENGTH}-digit code
+              </label>
+              <input
+                id="auth-otp"
+                ref={otpFieldRef}
+                className="input input-lg mt-5 w-full text-center tracking-[0.5em]"
+                type="text"
+                inputMode="numeric"
+                autoComplete="one-time-code"
+                aria-describedby={error ? 'auth-otp-err' : undefined}
+                maxLength={OTP_LENGTH}
+                placeholder={'•'.repeat(OTP_LENGTH)}
+                value={otp}
+                onChange={(e) => {
+                  setOtp(sanitizeOtpInput(e.target.value))
+                  setError('')
+                }}
+              />
+
+              {error && (
+                <div
+                  id="auth-otp-err"
+                  role="alert"
+                  aria-live="assertive"
+                  className="mt-3 rounded-md border border-no/30 bg-no/10 p-3 text-xs text-no"
+                >
+                  {error}
+                </div>
+              )}
+
+              <button
+                type="button"
+                onClick={() => void verifyCode()}
+                disabled={!isCompleteOtp(otp) || loading}
+                className="btn btn-primary btn-lg mt-4 w-full"
+              >
+                {loading ? (
+                  <span className="flex items-center gap-2">
+                    <svg
+                      className="animate-spin"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      aria-hidden
+                    >
+                      <path d="M21 12a9 9 0 11-6.219-8.56" />
+                    </svg>
+                    Verifying…
+                  </span>
+                ) : (
+                  <>
+                    Verify &amp; continue
+                    <IconArrowRight size={15} />
+                  </>
+                )}
+              </button>
+
+              <div className="mt-4 flex items-center justify-between text-xs">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setStep('form')
+                    setOtp('')
+                    setError('')
+                  }}
+                  className="font-medium text-text-muted hover:text-text-primary"
+                >
+                  ← Use a different email
+                </button>
+                <button
+                  type="button"
+                  onClick={() => void requestCode()}
+                  disabled={loading}
+                  className="font-medium text-pip-text hover:underline disabled:opacity-50"
+                >
+                  Resend code
+                </button>
+              </div>
             </div>
           ) : (
             <>
@@ -538,6 +713,23 @@ export function AuthDialog() {
                       <IconArrowRight size={15} />
                     </>
                   )}
+                </button>
+
+                {/* Passwordless — an email code entered right here, no inbox trip. */}
+                <div className="flex items-center gap-3 py-1" aria-hidden>
+                  <span className="h-px flex-1 bg-hairline" />
+                  <span className="text-[11px] font-medium uppercase tracking-wide text-text-muted">
+                    or
+                  </span>
+                  <span className="h-px flex-1 bg-hairline" />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => void requestCode()}
+                  disabled={!canRequestCode(mode, { name, email, loading })}
+                  className="btn btn-secondary w-full"
+                >
+                  Email me a {isLogin ? 'sign-in ' : ''}code
                 </button>
               </form>
 

@@ -65,9 +65,7 @@ export function canSubmitLogin(input: {
 }): boolean {
   if (input.loading) return false
   return isPlausibleEmail(input.email) && input.password.length > 0
-}
-
-/** Sign-up needs a real name, a plausible email, and a policy-length password. */
+}/** Sign-up needs a real name, a plausible email, and a policy-length password. */
 export function canSubmitRegister(input: {
   name: string
   email: string
@@ -97,6 +95,13 @@ export function normalizeAuthError(raw: unknown, mode: AuthMode): string {
   if (msg.includes('email not confirmed') || msg.includes('not confirmed')) {
     return 'Please confirm your email first — check your inbox for the link.'
   }
+  // Passwordless (email OTP) failures — expired or wrong code.
+  if (
+    (msg.includes('token') || msg.includes('otp') || msg.includes('code')) &&
+    (msg.includes('expired') || msg.includes('invalid') || msg.includes('incorrect'))
+  ) {
+    return 'That code is invalid or has expired. Request a new one.'
+  }
   if (msg.includes('already registered') || msg.includes('already exists') || msg.includes('user already')) {
     return 'An account with this email already exists. Try signing in instead.'
   }
@@ -116,4 +121,37 @@ export function normalizeAuthError(raw: unknown, mode: AuthMode): string {
   return mode === 'login'
     ? 'Could not sign you in. Please try again.'
     : 'Could not create your account. Please try again.'
+}
+
+// ---- Passwordless email OTP (in-context code entry) -----------------------
+// A guest can authenticate with a one-time email code entered INSIDE the dialog
+// (no "check email → new tab" context loss). These pure helpers own the code
+// validation + the "can I request a code?" gate; the dialog owns the network.
+
+/** Length of the email one-time code (Supabase default numeric token). */
+export const OTP_LENGTH = 6
+
+/** Keep only digits, capped at OTP_LENGTH — for controlled code inputs / paste. */
+export function sanitizeOtpInput(raw: string): string {
+  return (raw.match(/\d/g) ?? []).join('').slice(0, OTP_LENGTH)
+}
+
+/** True once the code is exactly OTP_LENGTH digits (ready to verify). */
+export function isCompleteOtp(code: string): boolean {
+  return new RegExp(`^\\d{${OTP_LENGTH}}$`).test(code)
+}
+
+/**
+ * Can we request a code yet? Sign-in needs a plausible email; sign-up also needs
+ * a real name (country defaults to KES and is adjustable later), so the code
+ * path stays the lowest-friction entry without dropping profile essentials.
+ */
+export function canRequestCode(
+  mode: AuthMode,
+  input: { name?: string; email: string; loading?: boolean },
+): boolean {
+  if (input.loading) return false
+  if (!isPlausibleEmail(input.email)) return false
+  if (mode === 'register') return (input.name ?? '').trim().length > 1
+  return true
 }
