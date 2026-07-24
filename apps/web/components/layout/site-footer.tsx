@@ -146,7 +146,7 @@ export function SiteFooter() {
           className="rounded-xl px-5 py-4 mb-10 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5"
           style={{ background: 'var(--surface-2)', border: '1px solid var(--hairline)' }}
         >
-          <p className="text-[12.5px] leading-relaxed flex-1" style={{ color: 'var(--text-3)' }}>
+          <p className="text-[12.5px] leading-relaxed flex-1" style={{ color: 'var(--text-2)' }}>
             <strong style={{ color: 'var(--text-2)' }}>Trade responsibly.</strong>{' '}
             Prediction markets involve financial risk and you may lose the amount you commit.
             MarketPips is intended for users aged 18+. Set deposit and loss limits, take cooldowns,
