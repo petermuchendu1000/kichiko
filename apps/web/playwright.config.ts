@@ -7,7 +7,9 @@ const BASE_URL = process.env.E2E_BASE_URL || 'http://localhost:3000'
 
 export default defineConfig({
   testDir: './e2e',
-  timeout: 30_000,
+  // CI runners are slower and some pages (Home trending, Markets board) render
+  // server-side against the live DB, so give navigations more headroom in CI.
+  timeout: process.env.CI ? 60_000 : 30_000,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
@@ -15,6 +17,7 @@ export default defineConfig({
   use: {
     baseURL: BASE_URL,
     trace: 'on-first-retry',
+    navigationTimeout: process.env.CI ? 45_000 : 30_000,
   },
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
