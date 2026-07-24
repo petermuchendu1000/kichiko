@@ -26,6 +26,7 @@ export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const [depositOpen, setDepositOpen] = useState(false)
+  const [depositAmount, setDepositAmount] = useState('')
   const [searchOpen, setSearchOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
@@ -36,9 +37,15 @@ export function Navbar() {
   const currencyInfo = CURRENCIES[preferredCurrency]
 
   // Let any surface (e.g. the betting panel's "Add funds" CTA) open the deposit
-  // sheet without prop-drilling, via a decoupled global event.
+  // sheet without prop-drilling, via a decoupled global event. An optional
+  // `amountLocal` in the event prefills the sheet to the exact stake shortfall.
   useEffect(() => {
-    const openDeposit = () => setDepositOpen(true)
+    const openDeposit = (e: Event) => {
+      const detail = (e as CustomEvent).detail as { amountLocal?: number } | undefined
+      const amt = detail?.amountLocal
+      setDepositAmount(amt && amt > 0 ? String(Math.ceil(amt)) : '')
+      setDepositOpen(true)
+    }
     window.addEventListener('marketpips:open-deposit', openDeposit)
     return () => window.removeEventListener('marketpips:open-deposit', openDeposit)
   }, [])
@@ -319,16 +326,16 @@ export function Navbar() {
 
       {/* Deposit modal placeholder — swap for real modal */}
       {depositOpen && (
-        <DepositSheet onClose={() => setDepositOpen(false)} />
+        <DepositSheet onClose={() => setDepositOpen(false)} initialAmount={depositAmount} />
       )}
     </>
   )
 }
 
 // Inline deposit sheet (lightweight, no heavy modal lib)
-function DepositSheet({ onClose }: { onClose: () => void }) {
+function DepositSheet({ onClose, initialAmount }: { onClose: () => void; initialAmount?: string }) {
   const { preferredCurrency } = useWallets()
-  const [amount, setAmount] = useState('')
+  const [amount, setAmount] = useState(initialAmount ?? '')
   const [phone, setPhone] = useState('')
   const [step, setStep] = useState<'form' | 'loading' | 'success'>('form')
 
