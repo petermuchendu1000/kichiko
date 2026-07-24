@@ -25,14 +25,9 @@ import { useWallets } from '@/hooks/use-wallets'
 import { useRates } from '@/hooks/use-rates'
 import { createClient } from '@/lib/supabase/client'
 import {
-  previewBet,
-  previewOptionBet,
-  previewOptionBinaryBet,
   orderTarget,
   clampLimitCents,
   oppositeSide,
-  meetsMinBet,
-  MIN_BET_USD,
 } from '@/lib/trading'
 import { serializePendingBet, parsePendingBet, PENDING_BET_KEY } from '@/lib/pending-bet'
 import { normalizeOutcomes, isMultiOutcome, type Outcome } from '@/lib/markets/outcomes'
@@ -398,60 +393,7 @@ export function PmTicket({
   const limitPrice = orderType === 'limit' ? (parseFloat(limitCents) || 0) / 100 : 0
   const amountNum = parseFloat(amount) || 0
 
-  const preview = useMemo(() => {
-    // CLOB markets price from the live order book, not the LMSR curve — never
-    // show an AMM-derived preview on a book market (it would mis-state fills).
-    if (clob) return null
-    if (amountNum <= 0) return null
-    try {
-      if (isMulti) {
-        if (!selectedOutcome) return null
-        if (indepMulti) {
-          return previewOptionBinaryBet({
-            amountLocal: amountNum,
-            currency: preferredCurrency,
-            optionId: selectedOutcome.id,
-            side,
-            optionYesPrice: selYesPrice,
-            optionNoPrice: selNoPrice,
-            liquidityPoolUsd: market.liquidity_pool_usd,
-            rates,
-            platformFeeRate: market.platform_fee_rate,
-            creatorRewardRate: market.creator_reward_rate,
-          })
-        }
-        return previewOptionBet({
-          amountLocal: amountNum,
-          currency: preferredCurrency,
-          optionId: selectedOutcome.id,
-          optionPrice: selectedOutcome.price,
-          rates,
-          platformFeeRate: market.platform_fee_rate,
-          creatorRewardRate: market.creator_reward_rate,
-        })
-      }
-      return previewBet({
-        amountLocal: amountNum,
-        currency: preferredCurrency,
-        side,
-        yesPrice: market.yes_price,
-        noPrice: market.no_price,
-        liquidityPoolUsd: market.liquidity_pool_usd,
-        rates,
-        platformFeeRate: market.platform_fee_rate,
-        creatorRewardRate: market.creator_reward_rate,
-      })
-    } catch {
-      return null
-    }
-  }, [clob, amountNum, preferredCurrency, side, isMulti, indepMulti, selectedOutcome, selYesPrice, selNoPrice, market, rates])
-
-  const previewAvgPrice = preview && 'avgPrice' in preview ? preview.avgPrice : preview?.price ?? currentPrice
-  const payoutLocal = preview ? usdToLocal(preview.potentialPayoutUsd, preferredCurrency, rates) : 0
-
-  const belowMin = amountNum > 0 && !meetsMinBet(amountNum, preferredCurrency, rates)
   const overBalance = balance > 0 && amountNum > balance
-  const limitInvalid = orderType === 'limit' && (limitPrice <= 0 || limitPrice >= 1)
 
   // ---- CLOB estimates (from the live top-of-book) ---------------------------
   const clobBestBid = clobBook?.best_bid ?? null // cents
@@ -479,9 +421,7 @@ export function PmTicket({
     sellSizeNum <= clobAvail &&
     (orderType === 'limit' ? !clobSellLimitInvalid : !!clobBestBid)
 
-  const canSubmit = clob
-    ? (action === 'buy' ? clobBuyOk : clobSellOk) && !loading
-    : isOpen && action === 'buy' && !!selectedOutcome && amountNum > 0 && !belowMin && !overBalance && !limitInvalid && !loading
+  const canSubmit = (action === 'buy' ? clobBuyOk : clobSellOk) && !loading
 
   // Additive quick-add chips (+$1/+$5/+$20/+$100 equivalents in local currency).
   const chips = useMemo(() => {
@@ -730,56 +670,8 @@ export function PmTicket({
     }
   }
 
-  const handleTrade = async () => {
-    if (clob) return handleClobTrade()
-    if (!user) return goToAuth('/auth/login')
-    if (isMulti && !selectedOutcome) return setError('Choose an option to continue.')
-    if (amountNum <= 0) return setError('Enter an amount to continue.')
-    if (limitInvalid) return setError('Enter a limit price between 1¢ and 99¢.')
-    if (belowMin) {
-      const minLocal = usdToLocal(MIN_BET_USD, preferredCurrency, rates)
-      return setError(`Minimum trade is ${formatCurrency(minLocal, preferredCurrency)}.`)
-    }
-    if (overBalance) return setError(`Insufficient balance — you have ${formatCurrency(balance, preferredCurrency)}.`)
-    setError('')
-    setLoading(true)
-    try {
-      const res = await fetch('/api/orders', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          market_id: market.id,
-          ...orderTarget({ isMulti, independent: indepMulti, optionId: selectedOutcome?.id, side }),
-          amount_local: amountNum,
-          currency: preferredCurrency,
-          order_type: isMulti ? 'market' : orderType,
-          ...(!isMulti && orderType === 'limit' ? { limit_price: limitPrice } : {}),
-        }),
-      })
-      const data = await res.json()
-      const rpc = data?.data ?? {}
-      if (res.ok && (data.success || rpc.order_id)) {
-        setReceipt({
-          label: isMulti ? (indepMulti ? `${selectedOutcome!.label} · ${side.toUpperCase()}` : selectedOutcome!.label) : side.toUpperCase(),
-          tone: isMulti ? (indepMulti ? side : 'brand') : side,
-          shares: rpc.shares ?? preview?.shares ?? 0,
-          avgPrice: rpc.avg_fill_price ?? rpc.new_price ?? previewAvgPrice,
-          payoutUsd: rpc.potential_payout_usd ?? preview?.potentialPayoutUsd ?? 0,
-          kind: 'buy',
-          headlineLocal: amountNum,
-        })
-        window.dispatchEvent(new CustomEvent('marketpips:bet-placed', { detail: { marketId: market.id } }))
-        await refreshWallets()
-        router.refresh()
-      } else {
-        setError(data.error ?? 'Order failed. Please try again.')
-      }
-    } catch {
-      setError('Network error. Please try again.')
-    } finally {
-      setLoading(false)
-    }
-  }
+  // The platform is CLOB-only; every submit goes through the order-book engine.
+  const handleTrade = handleClobTrade
 
   // ---- Success receipt ------------------------------------------------------
   if (receipt) {
@@ -1016,17 +908,6 @@ export function PmTicket({
         {/* Payout preview — reserved slot (present even when empty so the Trade
             button never shifts), matching PM: "To win $X" (tinted) + avg ¢. */}
         <div className="flex min-h-[40px] flex-col items-center justify-center gap-0.5">
-          {preview && amountNum > 0 && (
-            <>
-              <div className="flex items-center gap-1.5">
-                <span className="text-base font-medium text-[#484E56]">To win</span>
-                <span className={`text-[18px] font-semibold tabular-nums ${side === 'yes' ? 'text-[#42C772]' : 'text-[#E23939]'}`}>
-                  {formatCurrency(payoutLocal, preferredCurrency)}
-                </span>
-              </div>
-              <span className="text-xs font-medium tabular-nums text-text-muted">{cents(previewAvgPrice)}</span>
-            </>
-          )}
           {clob && amountNum > 0 && (
             <>
               <div className="flex items-center gap-1.5">
@@ -1595,28 +1476,6 @@ export function PmTicket({
                 </button>
               ))}
             </div>
-
-            {/* Live preview — Polymarket Total / To win summary. */}
-            {preview && amountNum > 0 && (
-              <div className="mt-4 space-y-1.5 rounded-md bg-surface-2 px-3 py-3 text-sm">
-                <div className="flex items-center justify-between text-text-muted">
-                  <span>Avg price</span>
-                  <span className="tabular-nums">{cents(previewAvgPrice)} · {preview.shares.toFixed(1)} shares</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-text-secondary">Total</span>
-                  <span className="font-semibold tabular-nums text-text-primary">
-                    {formatCurrency(amountNum, preferredCurrency)}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between border-t border-hairline pt-1.5">
-                  <span className="text-text-secondary">To win</span>
-                  <span className={`text-base font-bold tabular-nums ${outcomeTone}`}>
-                    {formatCurrency(payoutLocal, preferredCurrency)}
-                  </span>
-                </div>
-              </div>
-            )}
 
             {/* CLOB buy estimate — priced off the live best ask (the server
                 reconfirms against the book and never overspends). */}
