@@ -20,6 +20,17 @@ Conventional-Commit messages by `.github/workflows/release.yml`.
   changelog.
 
 ### Fixed
+- **Auth — email sign-in delivers a 6-digit code, not a magic link.** Added a
+  branded `magic_link` email template rendering `{{ .Token }}` and wired it in
+  `supabase/config.toml` (`otp_length=6`, `otp_expiry=3600`); the in-dialog
+  `requestCode()` now omits `emailRedirectTo` so GoTrue never mints a link.
+- **UI — overlay focus.** Full-screen modal scrims (sign-in/up, share-chart,
+  market drawer, mobile trade sheet) now apply a subtle `backdrop-blur-sm`.
+- **CI — Dependency review is fully green and still enforcing (M6).** Enabled
+  the repo Dependency graph + Dependabot alerts and replaced the job-level
+  `continue-on-error` with an availability probe: the review enforces
+  `fail-on-severity: high` when the graph is available and skips gracefully
+  (green, non-fatal) only when it is genuinely unavailable.
 - Enable Next.js `output: 'standalone'` (+ `outputFileTracingRoot`) so container
   builds/deploys produce a runnable image (the Dockerfile referenced
   `.next/standalone` which was never emitted).
