@@ -100,6 +100,44 @@ test.describe('Auth dialog — contract', () => {
     )
     await expect(page.getByRole('dialog')).toHaveCount(1)
   })
+
+  test('passwordless: requesting a code moves to in-dialog OTP entry', async ({ page }) => {
+    // Mock the Supabase OTP send so no real email is dispatched.
+    await page.route('**/auth/v1/otp**', (route) =>
+      route.fulfill({ status: 200, contentType: 'application/json', body: '{}' }),
+    )
+    await openAuth(page, { mode: 'login' })
+    await page.getByLabel('Email').fill('trader@example.com')
+    await page.getByRole('button', { name: /email me a sign-in code/i }).click()
+    await expect(page.getByRole('heading', { name: /enter your code/i })).toBeVisible()
+    await expect(page.getByText(/we emailed a 6-digit code to/i)).toBeVisible()
+    await expect(page.getByRole('button', { name: /resend code/i })).toBeVisible()
+    await expect(page.getByRole('button', { name: /use a different email/i })).toBeVisible()
+  })
+
+  test('passwordless: verify is gated to 6 digits and auto-submits on completion', async ({
+    page,
+  }) => {
+    await page.route('**/auth/v1/otp**', (route) =>
+      route.fulfill({ status: 200, contentType: 'application/json', body: '{}' }),
+    )
+    // Reject verify so we exercise the error path without a fabricated session.
+    await page.route('**/auth/v1/verify**', (route) =>
+      route.fulfill({
+        status: 401,
+        contentType: 'application/json',
+        body: JSON.stringify({ error: 'invalid_otp', error_description: 'Token has expired or is invalid' }),
+      }),
+    )
+    await openAuth(page, { mode: 'login' })
+    await page.getByLabel('Email').fill('trader@example.com')
+    await page.getByRole('button', { name: /email me a sign-in code/i }).click()
+    const code = page.getByLabel(/6-digit code/i)
+    await code.fill('12345')
+    await expect(page.getByRole('button', { name: /verify/i })).toBeDisabled()
+    await code.fill('123456') // completes → auto-verify fires → mocked 401
+    await expect(page.locator('#auth-otp-err')).toContainText(/invalid or has expired/i)
+  })
 })
 
 test.describe('Auth dialog — market ticket wiring', () => {
