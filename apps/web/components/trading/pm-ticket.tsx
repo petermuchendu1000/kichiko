@@ -2,9 +2,10 @@
 
 // components/trading/pm-ticket.tsx
 // ---------------------------------------------------------------------------
-// The compact, high-conversion order ticket used on the market detail page when
-// `flags.pm_ticket` is on (deploy ≠ release; falls back to the guided/pro panel
-// when off). Layout follows the canonical prediction-market ticket:
+// The compact, high-conversion order ticket used on the market detail page —
+// the single trade surface for both the desktop sidebar (variant='panel') and
+// the mobile bottom sheet (variant='sheet'). Layout follows the canonical
+// prediction-market ticket:
 //
 //   [icon] Market title · selected outcome (tinted)
 //   Buy | Sell                         Market ▾
@@ -29,7 +30,14 @@ import {
   clampLimitCents,
   oppositeSide,
 } from '@/lib/trading'
-import { serializePendingBet, parsePendingBet, PENDING_BET_KEY } from '@/lib/pending-bet'
+import {
+  serializePendingBet,
+  parsePendingBet,
+  encodePendingBetParam,
+  decodePendingBetParam,
+  PENDING_BET_KEY,
+  PENDING_BET_PARAM,
+} from '@/lib/pending-bet'
 import { normalizeOutcomes, isMultiOutcome, type Outcome } from '@/lib/markets/outcomes'
 import { formatCurrency, usdToLocal, localToUsd } from '@/lib/currency'
 import { useClobBook } from '@/components/trading/order-book-table'
@@ -56,6 +64,13 @@ interface PmTicketProps {
   initialSide?: Side
   initialOptionId?: string
   initialAmount?: string
+  /**
+   * Currency the `initialAmount` was entered in (resume hand-off from the mobile
+   * trade bar). When it differs from the account's current preferred currency we
+   * convert the stake through USD so a guest's "500 KES" is not misread as
+   * "500 UGX" after they finish signup on a different currency.
+   */
+  initialCurrency?: string
   independent?: boolean
   /**
    * Order-book (CLOB) market. When true the ticket routes BOTH buy and sell
@@ -266,6 +281,7 @@ export function PmTicket({
   initialSide,
   initialOptionId,
   initialAmount,
+  initialCurrency,
   independent = false,
   closesAt,
   variant = 'panel',
@@ -443,26 +459,69 @@ export function PmTicket({
     if (restoredRef.current || typeof window === 'undefined') return
     if (initialAmount) {
       restoredRef.current = true
+      // Currency-correct the handed-off stake (see initialCurrency prop doc).
+      if (initialCurrency && initialCurrency !== preferredCurrency) {
+        const n = Number(initialAmount)
+        if (Number.isFinite(n) && n > 0) {
+          setAmount(
+            String(
+              Math.round(
+                usdToLocal(
+                  localToUsd(n, initialCurrency as CurrencyCode, rates),
+                  preferredCurrency,
+                  rates,
+                ) * 100,
+              ) / 100,
+            ),
+          )
+        }
+      }
       setResumePay(true)
       return
     }
-    const pending = parsePendingBet(window.localStorage.getItem(PENDING_BET_KEY), {
-      nowMs: Date.now(),
-      marketId: market.id,
-    })
+    // Prefer the same-device localStorage snapshot; fall back to the URL token,
+    // which survives cross-device email confirmation. Both go through the SAME
+    // validation + freshness + market-scope checks (fail-safe on any mismatch).
+    const opts = { nowMs: Date.now(), marketId: market.id }
+    const pending =
+      parsePendingBet(window.localStorage.getItem(PENDING_BET_KEY), opts) ??
+      decodePendingBetParam(
+        new URLSearchParams(window.location.search).get(PENDING_BET_PARAM),
+        opts,
+      )
     if (!pending) return
     restoredRef.current = true
     setTouched(true)
     setSide(pending.side)
     if (pending.optionId && isMulti) setSelectedOptionId(pending.optionId)
-    setAmount(String(pending.amount))
+    // Preserve the economic STAKE, not the raw number. A guest defaults to KES
+    // and may have settled their new account on a different currency; convert
+    // through USD so "500 KES" doesn't silently become "500 UGX" on return.
+    const restoredAmount =
+      pending.currency === preferredCurrency
+        ? pending.amount
+        : Math.round(
+            usdToLocal(
+              localToUsd(pending.amount, pending.currency as CurrencyCode, rates),
+              preferredCurrency,
+              rates,
+            ) * 100,
+          ) / 100
+    setAmount(String(restoredAmount))
     setResumePay(true)
-  }, [market.id, isMulti, initialAmount])
+  }, [market.id, isMulti, initialAmount, initialCurrency, preferredCurrency, rates])
 
   useEffect(() => {
     if (!resumePay || !user || walletsLoading) return
     if (typeof window !== 'undefined') {
       window.localStorage.removeItem(PENDING_BET_KEY)
+      // Strip the pending-bet token from the URL so a refresh / back-nav or a
+      // shared link can't resurrect (or leak) a consumed intent.
+      const url = new URL(window.location.href)
+      if (url.searchParams.has(PENDING_BET_PARAM)) {
+        url.searchParams.delete(PENDING_BET_PARAM)
+        window.history.replaceState(null, '', url.pathname + url.search + url.hash)
+      }
       if (amountNum > 0 && balance < amountNum) {
         window.dispatchEvent(new CustomEvent('marketpips:open-deposit'))
       }
@@ -565,24 +624,28 @@ export function PmTicket({
   }
 
   const goToAuth = (route: '/auth/login' | '/auth/register') => {
-    if (typeof window !== 'undefined') {
-      window.localStorage.setItem(
-        PENDING_BET_KEY,
-        serializePendingBet(
-          {
-            marketId: market.id,
-            slug: market.slug,
-            side,
-            optionId: isMulti ? selectedOutcome?.id : undefined,
-            amount: amountNum,
-            currency: preferredCurrency,
-            independent: indepMulti,
-          },
-          Date.now(),
-        ),
-      )
+    const bet = {
+      marketId: market.id,
+      slug: market.slug,
+      side,
+      optionId: isMulti ? selectedOutcome?.id : undefined,
+      amount: amountNum,
+      currency: preferredCurrency,
+      independent: indepMulti,
     }
-    router.push(`${route}?next=${encodeURIComponent(`/markets/${market.slug}`)}`)
+    const now = Date.now()
+    let next = `/markets/${market.slug}`
+    // Only carry a snapshot when there's a real stake worth preserving. The bet
+    // rides on TWO carriers: localStorage (fast, same-device) and a base64url
+    // `pb` token folded into `next` (durable — survives the email-confirmation
+    // callback landing on another device/browser).
+    if (amountNum > 0) {
+      next = `${next}?${PENDING_BET_PARAM}=${encodePendingBetParam(bet, now)}`
+      if (typeof window !== 'undefined') {
+        window.localStorage.setItem(PENDING_BET_KEY, serializePendingBet(bet, now))
+      }
+    }
+    router.push(`${route}?next=${encodeURIComponent(next)}`)
   }
 
   // CLOB order placement — routes buy AND sell through the order-book engine

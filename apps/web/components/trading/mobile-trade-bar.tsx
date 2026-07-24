@@ -19,7 +19,12 @@ import {
   normalizeOutcomes,
   isMultiOutcome,
 } from '@/lib/markets/outcomes'
-import { parsePendingBet, PENDING_BET_KEY } from '@/lib/pending-bet'
+import {
+  parsePendingBet,
+  decodePendingBetParam,
+  PENDING_BET_KEY,
+  PENDING_BET_PARAM,
+} from '@/lib/pending-bet'
 import type { Market, MarketOption } from '@/types'
 
 export function MobileTradeBar({
@@ -55,6 +60,9 @@ export function MobileTradeBar({
   // When present the sheet auto-opens on return so a phone user sees their
   // rebuilt ticket (and gets the funding prompt) instead of a bare bar.
   const [resumedAmount, setResumedAmount] = useState<string | undefined>(undefined)
+  // Currency the restored stake was entered in, so the sheet ticket can convert
+  // it to the account's preferred currency instead of misreading the magnitude.
+  const [resumedCurrency, setResumedCurrency] = useState<string | undefined>(undefined)
   const resumedRef = useRef(false)
   const sheetRef = useRef<HTMLDivElement>(null)
   const lastFocused = useRef<HTMLElement | null>(null)
@@ -115,15 +123,21 @@ export function MobileTradeBar({
     if (resumedRef.current || typeof window === 'undefined') return
     const isMobile = window.matchMedia('(max-width: 1023.98px)').matches
     if (!isMobile) return
-    const pending = parsePendingBet(window.localStorage.getItem(PENDING_BET_KEY), {
-      nowMs: Date.now(),
-      marketId: market.id,
-    })
+    // Same-device localStorage first, then the durable URL token (survives a
+    // cross-device email-confirmation return). Both share one validation path.
+    const opts = { nowMs: Date.now(), marketId: market.id }
+    const pending =
+      parsePendingBet(window.localStorage.getItem(PENDING_BET_KEY), opts) ??
+      decodePendingBetParam(
+        new URLSearchParams(window.location.search).get(PENDING_BET_PARAM),
+        opts,
+      )
     if (!pending) return
     resumedRef.current = true
     setPendingSide(pending.side)
     if (pending.optionId) setPendingOptionId(pending.optionId)
     setResumedAmount(String(pending.amount))
+    setResumedCurrency(pending.currency)
     setOpen(true)
   }, [market.id])
 
@@ -261,6 +275,7 @@ export function MobileTradeBar({
                   initialSide={pendingSide}
                   initialOptionId={pendingOptionId}
                   initialAmount={resumedAmount}
+                  initialCurrency={resumedCurrency}
                   independent={independent}
                   closesAt={closesAt}
                   variant="sheet"

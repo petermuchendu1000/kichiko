@@ -2,6 +2,8 @@ import { describe, it, expect } from 'vitest'
 import {
   serializePendingBet,
   parsePendingBet,
+  encodePendingBetParam,
+  decodePendingBetParam,
   PENDING_BET_TTL_MS,
   type PendingBetInput,
 } from '@/lib/pending-bet'
@@ -105,5 +107,45 @@ describe('parsePendingBet — validation (fail-safe)', () => {
   it('rejects a non-boolean independent flag', () => {
     const bad = JSON.stringify({ v: 1, ts: NOW, ...baseInput, independent: 'yes' })
     expect(parsePendingBet(bad, { nowMs: NOW })).toBeNull()
+  })
+})
+
+describe('encode/decodePendingBetParam — URL carrier (cross-device)', () => {
+  it('round-trips a bet through the URL token', () => {
+    const token = encodePendingBetParam({ ...baseInput, optionId: 'opt-9' }, NOW)
+    const decoded = decodePendingBetParam(token, { nowMs: NOW })
+    expect(decoded).toEqual({ v: 1, ts: NOW, ...baseInput, optionId: 'opt-9' })
+  })
+
+  it('produces a URL-safe token (base64url alphabet only)', () => {
+    const token = encodePendingBetParam(baseInput, NOW)
+    expect(token).toMatch(/^[A-Za-z0-9_-]+$/)
+  })
+
+  it('applies the SAME freshness window as the localStorage carrier', () => {
+    const token = encodePendingBetParam(baseInput, NOW)
+    expect(decodePendingBetParam(token, { nowMs: NOW + PENDING_BET_TTL_MS - 1 })).not.toBeNull()
+    expect(decodePendingBetParam(token, { nowMs: NOW + PENDING_BET_TTL_MS + 1 })).toBeNull()
+  })
+
+  it('enforces market scoping just like parsePendingBet', () => {
+    const token = encodePendingBetParam(baseInput, NOW)
+    expect(decodePendingBetParam(token, { nowMs: NOW, marketId: 'm-123' })).not.toBeNull()
+    expect(decodePendingBetParam(token, { nowMs: NOW, marketId: 'other' })).toBeNull()
+  })
+
+  it('fails safe on malformed / empty tokens', () => {
+    for (const bad of ['', 'not-base64url!!', '@@@', null, undefined, 123]) {
+      expect(decodePendingBetParam(bad as unknown, { nowMs: NOW })).toBeNull()
+    }
+  })
+
+  it('rejects a token whose decoded payload is not a valid bet', () => {
+    const junk = Buffer.from('{"v":1,"nope":true}', 'utf8')
+      .toString('base64')
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=+$/, '')
+    expect(decodePendingBetParam(junk, { nowMs: NOW })).toBeNull()
   })
 })
