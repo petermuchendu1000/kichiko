@@ -10,6 +10,7 @@ import { PasswordInput } from '@/components/auth/password-input'
 import { LogoMark, IconShield, IconArrowRight } from '@/components/ui/icons'
 import { safeRedirectPath } from '@/lib/security/sanitize'
 import { withNext } from '@/lib/auth-redirect'
+import { canSubmitLogin, normalizeAuthError } from '@/lib/auth-form'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -33,7 +34,7 @@ export default function LoginPage() {
     setLoading(true)
     const { error } = await supabase.auth.signInWithPassword({ email, password })
     if (error) {
-      setError(error.message)
+      setError(normalizeAuthError(error, 'login'))
       setLoading(false)
     } else {
       router.push(safeRedirectPath(next))
@@ -101,7 +102,11 @@ export default function LoginPage() {
           </div>
         )}
 
-        <button type="submit" className="btn btn-primary btn-lg mt-2 w-full" disabled={loading}>
+        <button
+          type="submit"
+          className="btn btn-primary btn-lg mt-2 w-full"
+          disabled={!canSubmitLogin({ email, password, loading })}
+        >
           {loading ? (
             <span className="flex items-center gap-2">
               <svg className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
