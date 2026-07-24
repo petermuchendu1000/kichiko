@@ -188,7 +188,6 @@ export default async function MarketPage({
     (market as { pricing_engine?: string }).pricing_engine === 'clob' &&
     (await isFeatureEnabled(supabase, 'flags.clob'))
 
-  // Beginner-first "Guided 2-Step" checkout (Option B), dark-launched behind a
   // The order ticket is the Polymarket-style compact ticket, wired to the CLOB
   // order-book engine. It is the single, canonical trade surface (the legacy
   // AMM/LMSR guided + pro betting panels were retired when the platform moved

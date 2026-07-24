@@ -1,31 +1,44 @@
 // ============================================================
 // MarketPips — Pending bet (auth round-trip continuity) · pure logic
 // ------------------------------------------------------------
-// A logged-out user can build an entire bet in the guided flow (Option B)
-// before being asked to authenticate. The moment they tap "Place bet" we send
-// them to sign-in / sign-up — and we must NOT lose the work they just did. This
-// module owns the DECISIONS for that hand-off:
+// A logged-out user can build an entire bet on the market ticket (pm-ticket)
+// before being asked to authenticate. The moment they tap "Log in to trade" we
+// send them to sign-in / sign-up — and we must NOT lose the work they just did.
+// This module owns the DECISIONS for that hand-off, on TWO carriers:
 //
-//   • serializePendingBet — snapshot the built bet into a compact, versioned
-//                           string to stash in localStorage before redirect.
-//   • parsePendingBet     — validate + freshness-check a stored snapshot on
-//                           return, optionally scoped to the current market, so
-//                           we only ever rehydrate a trustworthy, recent intent.
+//   • localStorage (fast path, same-device):
+//       - serializePendingBet — snapshot the built bet into a compact, versioned
+//                               string to stash before redirect.
+//       - parsePendingBet     — validate + freshness-check a stored snapshot on
+//                               return, optionally scoped to the current market.
+//   • URL param (durable path, survives cross-device email confirmation):
+//       - encodePendingBetParam — base64url the snapshot so it can ride inside
+//                                 the auth `next` return path all the way through
+//                                 the email-confirmation callback to any browser.
+//       - decodePendingBetParam — decode + reuse the same validation as above.
+//
+// Why both: localStorage is lost when the confirmation link opens on a different
+// device/browser (signup on phone, email on desktop, in-app browsers). The URL
+// carrier makes the exact ticket rebuildable anywhere the `next` path lands.
 //
 // Keeping this framework-free (no DOM, no Next) means the browser wiring in
-// guided-bet-flow.tsx stays thin and dumb, and every rule here is unit-tested
-// under vitest's `node` environment — exactly like lib/guided-bet + lib/trading.
+// pm-ticket.tsx / mobile-trade-bar.tsx stays thin, and every rule here is
+// unit-tested under vitest's `node` environment — like lib/trading.
 // ============================================================
 
-/** localStorage key the guided flow reads/writes for a deferred-auth bet. */
+/** localStorage key the ticket reads/writes for a deferred-auth bet. */
 export const PENDING_BET_KEY = 'marketpips:pending-bet'
 
+/** URL query param that carries the pending bet across the auth round-trip. */
+export const PENDING_BET_PARAM = 'pb'
+
 /**
- * How long a stashed bet stays restorable. Long enough to sign in or confirm an
- * email in another tab, short enough that a stale intent (prices move, wallet
- * changes) is never silently resurrected days later.
+ * How long a stashed bet stays restorable. Sized to outlast an email-confirmation
+ * round-trip (Supabase confirmation links are valid for ~24h and users often
+ * confirm hours later, on another device) while still expiring a stale intent so
+ * a days-old snapshot is never silently resurrected against moved prices.
  */
-export const PENDING_BET_TTL_MS = 30 * 60 * 1000 // 30 minutes
+export const PENDING_BET_TTL_MS = 24 * 60 * 60 * 1000 // 24 hours
 
 export type PendingSide = 'yes' | 'no'
 
@@ -126,4 +139,67 @@ export function parsePendingBet(raw: unknown, opts: ParsePendingBetOptions): Pen
     independent: b.independent,
     ts: b.ts,
   }
+}
+
+
+// ---- URL carrier (cross-device durability) --------------------------------
+// The snapshot rides inside the auth `next` path as a base64url token, e.g.
+//   /auth/login?next=%2Fmarkets%2Fabc%3Fpb%3DeyJ2Ijox...
+// base64url is URL-safe, so nesting it inside an already-encoded `next` value
+// (and threading it through the email-confirmation callback) is lossless.
+
+/** Isomorphic UTF-8 → base64url (Node Buffer or browser btoa/TextEncoder). */
+function toBase64Url(s: string): string {
+  let b64: string
+  if (typeof Buffer !== 'undefined') {
+    b64 = Buffer.from(s, 'utf8').toString('base64')
+  } else {
+    const bytes = new TextEncoder().encode(s)
+    let bin = ''
+    bytes.forEach((b) => {
+      bin += String.fromCharCode(b)
+    })
+    b64 = btoa(bin)
+  }
+  return b64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
+}
+
+/** Isomorphic base64url → UTF-8. Returns null on malformed input. */
+function fromBase64Url(token: string): string | null {
+  try {
+    const b64 = token.replace(/-/g, '+').replace(/_/g, '/')
+    if (typeof Buffer !== 'undefined') {
+      return Buffer.from(b64, 'base64').toString('utf8')
+    }
+    const bin = atob(b64)
+    const bytes = Uint8Array.from(bin, (c) => c.charCodeAt(0))
+    return new TextDecoder().decode(bytes)
+  } catch {
+    return null
+  }
+}
+
+/**
+ * Encode a built bet into a compact, URL-safe token for the auth `next` path.
+ * `nowMs` is injected (not read from Date.now) so the function stays pure and
+ * deterministic under test.
+ */
+export function encodePendingBetParam(input: PendingBetInput, nowMs: number): string {
+  return toBase64Url(serializePendingBet(input, nowMs))
+}
+
+/**
+ * Decode + validate + freshness-check a URL token. Returns a fully-typed
+ * PendingBet only when every invariant holds; otherwise `null` (fail-safe). The
+ * validation is exactly parsePendingBet's, so the URL and localStorage carriers
+ * can never disagree on what counts as a trustworthy intent.
+ */
+export function decodePendingBetParam(
+  token: unknown,
+  opts: ParsePendingBetOptions,
+): PendingBet | null {
+  if (typeof token !== 'string' || token.length === 0) return null
+  const json = fromBase64Url(token)
+  if (json === null) return null
+  return parsePendingBet(json, opts)
 }
