@@ -342,7 +342,7 @@ export function AuthDialog() {
     <div className="fixed inset-0 z-[120] lg:flex lg:items-center lg:justify-center">
       {/* Scrim */}
       <div
-        className="absolute inset-0 bg-black/50 animate-fade-in"
+        className="absolute inset-0 bg-black/50 backdrop-blur-sm animate-fade-in"
         onClick={close}
         aria-hidden
       />

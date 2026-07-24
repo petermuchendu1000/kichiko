@@ -137,7 +137,7 @@ export function ShareChartModal({ open, onClose, userName, userId, profitLoss, r
 
   return createPortal(
     <div className="fixed inset-0 z-[60] flex items-end justify-center sm:items-center">
-      <button type="button" aria-label="Close" onClick={onClose} className="absolute inset-0 cursor-default bg-black/50" />
+      <button type="button" aria-label="Close" onClick={onClose} className="absolute inset-0 cursor-default bg-black/50 backdrop-blur-sm" />
       <div
         className="relative w-full max-w-md animate-slide-up rounded-t-2xl bg-surface p-5 shadow-e3 sm:rounded-2xl"
         role="dialog"
