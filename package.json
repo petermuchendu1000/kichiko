@@ -27,6 +27,6 @@
     "npm": ">=9.0.0"
   },
   "dependencies": {
-    "next-intl": "^3.26.5"
+    "next-intl": "^4.13.4"
   }
 }
