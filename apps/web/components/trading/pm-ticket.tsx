@@ -39,6 +39,7 @@ import {
   PENDING_BET_PARAM,
 } from '@/lib/pending-bet'
 import { openAuthDialog } from '@/components/auth/auth-dialog'
+import { planFunding } from '@/lib/funding'
 import { normalizeOutcomes, isMultiOutcome, type Outcome } from '@/lib/markets/outcomes'
 import { formatCurrency, usdToLocal, localToUsd } from '@/lib/currency'
 import { useClobBook } from '@/components/trading/order-book-table'
@@ -456,6 +457,11 @@ export function PmTicket({
   // ---- Auth round-trip continuity (shared snapshot with the pro panel) -------
   const restoredRef = useRef(false)
   const [resumePay, setResumePay] = useState(false)
+  // Set when the guest is sent to authenticate with a staged bet. Once they come
+  // back signed in (modal path — no remount), we auto-advance them to the action.
+  const [awaitingAuth, setAwaitingAuth] = useState(false)
+  // The primary Trade CTA, focused after auth so the next step is obvious.
+  const ctaRef = useRef<HTMLButtonElement>(null)
   useEffect(() => {
     if (restoredRef.current || typeof window === 'undefined') return
     if (initialAmount) {
@@ -524,11 +530,38 @@ export function PmTicket({
         window.history.replaceState(null, '', url.pathname + url.search + url.hash)
       }
       if (amountNum > 0 && balance < amountNum) {
-        window.dispatchEvent(new CustomEvent('marketpips:open-deposit'))
+        window.dispatchEvent(
+          new CustomEvent('marketpips:open-deposit', {
+            detail: { amountLocal: planFunding(balance, amountNum).shortfall, currency: preferredCurrency },
+          }),
+        )
       }
     }
     setResumePay(false)
-  }, [resumePay, user, walletsLoading, amountNum, balance])
+  }, [resumePay, user, walletsLoading, amountNum, balance, preferredCurrency])
+
+  // Post-auth auto-advance (in-context modal path — no remount). When a guest who
+  // staged a bet comes back signed in, move them straight to completion: open the
+  // deposit sheet prefilled with the EXACT shortfall if the wallet can't cover the
+  // stake, otherwise focus the Trade CTA so a single tap places it. We never
+  // auto-execute a real-money order — the final tap stays with the user.
+  useEffect(() => {
+    if (!awaitingAuth || !user || walletsLoading) return
+    setAwaitingAuth(false)
+    if (typeof window === 'undefined') return
+    if (amountNum > 0 && !selectedOutcome) return
+    const plan = planFunding(balance, amountNum)
+    if (!plan.funded) {
+      window.dispatchEvent(
+        new CustomEvent('marketpips:open-deposit', {
+          detail: { amountLocal: plan.shortfall, currency: preferredCurrency },
+        }),
+      )
+    } else if (amountNum > 0) {
+      ctaRef.current?.scrollIntoView?.({ block: 'nearest', behavior: 'smooth' })
+      ctaRef.current?.focus?.({ preventScroll: true })
+    }
+  }, [awaitingAuth, user, walletsLoading, amountNum, balance, selectedOutcome, preferredCurrency])
 
   // Sync selection from the CandidateList board (multi markets).
   useEffect(() => {
@@ -656,6 +689,7 @@ export function PmTicket({
         : 'Sign in to trade'
     // Open the in-context dialog (no navigation → no lost ticket). The full-page
     // /auth routes remain the fallback for deep links and the email callback.
+    setAwaitingAuth(true)
     openAuthDialog({ mode, next, reason })
   }
 
@@ -1017,6 +1051,7 @@ export function PmTicket({
 
         {/* 6. Trade button */}
         <button
+          ref={ctaRef}
           type="button"
           onClick={handleTrade}
           disabled={!!user && !canSubmit}
@@ -1581,6 +1616,7 @@ export function PmTicket({
             {error && <p className="mt-3 text-sm font-medium text-no">{error}</p>}
 
             <button
+              ref={ctaRef}
               type="button"
               onClick={handleTrade}
               disabled={!!user && !canSubmit}

@@ -140,6 +140,33 @@ test.describe('Auth dialog — contract', () => {
   })
 })
 
+test.describe('Post-auth funding — exact-stake deposit prefill', () => {
+  test('open-deposit event prefills the sheet with the exact amount', async ({ page }) => {
+    await page.goto('/help')
+    await expect(async () => {
+      await page.evaluate(() =>
+        window.dispatchEvent(
+          new CustomEvent('marketpips:open-deposit', { detail: { amountLocal: 300 } }),
+        ),
+      )
+      await expect(page.getByRole('dialog')).toBeVisible({ timeout: 1000 })
+    }).toPass({ timeout: 15000 })
+    await expect(page.locator('#amount-kes')).toHaveValue('300')
+    await expect(page.getByRole('button', { name: /pay kes 300/i })).toBeVisible()
+  })
+
+  test('open-deposit without an amount opens an empty sheet', async ({ page }) => {
+    await page.goto('/help')
+    await expect(async () => {
+      await page.evaluate(() =>
+        window.dispatchEvent(new CustomEvent('marketpips:open-deposit', { detail: {} })),
+      )
+      await expect(page.getByRole('dialog')).toBeVisible({ timeout: 1000 })
+    }).toPass({ timeout: 15000 })
+    await expect(page.locator('#amount-kes')).toHaveValue('')
+  })
+})
+
 test.describe('Auth dialog — market ticket wiring', () => {
   test('the ticket "Log in to trade" CTA opens the dialog (desktop)', async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== 'chromium', 'Desktop sidebar ticket only')
