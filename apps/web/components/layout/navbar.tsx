@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/use-auth'
 import { useWallets } from '@/hooks/use-wallets'
 import { createClient } from '@/lib/supabase/client'
-import { CURRENCIES } from '@/types'
+import { CURRENCIES, type CurrencyCode } from '@/types'
 import {
   LogoMark,
   IconSearch, IconBell, IconUser, IconMenu, IconX,
@@ -27,6 +27,7 @@ export function Navbar() {
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const [depositOpen, setDepositOpen] = useState(false)
   const [depositAmount, setDepositAmount] = useState('')
+  const [withdrawOpen, setWithdrawOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
@@ -48,6 +49,13 @@ export function Navbar() {
     }
     window.addEventListener('marketpips:open-deposit', openDeposit)
     return () => window.removeEventListener('marketpips:open-deposit', openDeposit)
+  }, [])
+
+  // Symmetric global opener for the withdraw sheet (e.g. from the portfolio).
+  useEffect(() => {
+    const openWithdraw = () => setWithdrawOpen(true)
+    window.addEventListener('marketpips:open-withdraw', openWithdraw)
+    return () => window.removeEventListener('marketpips:open-withdraw', openWithdraw)
   }, [])
 
   useEffect(() => {
@@ -208,6 +216,9 @@ export function Navbar() {
                             <button onClick={() => { setDepositOpen(true); setUserMenuOpen(false) }} className="dropdown-item w-full">
                               <IconDeposit size={15} /><span>Deposit</span>
                             </button>
+                            <button onClick={() => { setWithdrawOpen(true); setUserMenuOpen(false) }} className="dropdown-item w-full">
+                              <IconWithdraw size={15} /><span>Withdraw</span>
+                            </button>
                             <Link href="/portfolio" className="dropdown-item" onClick={() => setUserMenuOpen(false)}>
                               <IconPortfolio size={15} /><span>Portfolio</span>
                             </Link>
@@ -327,6 +338,9 @@ export function Navbar() {
       {/* Deposit modal placeholder — swap for real modal */}
       {depositOpen && (
         <DepositSheet onClose={() => setDepositOpen(false)} initialAmount={depositAmount} />
+      )}
+      {withdrawOpen && (
+        <WithdrawSheet onClose={() => setWithdrawOpen(false)} balance={balance} currency={preferredCurrency} />
       )}
     </>
   )
@@ -474,6 +488,134 @@ function DepositSheet({ onClose, initialAmount }: { onClose: () => void; initial
             <p className="text-center text-xs mt-4" style={{ color: 'var(--text-muted)' }}>
               Secured by Safaricom · MTN · Airtel encryption
             </p>
+          </>
+        )}
+      </div>
+    </div>
+  )
+}
+
+
+// Inline withdraw (cash-out) sheet — mirrors DepositSheet. Closes the biggest
+// dead-end in the money flow: users could fund but never cash out. Shows the
+// available balance + a Max button, surfaces every rejection reason (min, KYC,
+// insufficient, review hold) with a clear next step, and refreshes the wallet.
+function WithdrawSheet({ onClose, balance, currency }: { onClose: () => void; balance: number; currency: CurrencyCode }) {
+  const { refreshWallets } = useWallets()
+  const router = useRouter()
+  const [amount, setAmount] = useState('')
+  const [phone, setPhone] = useState('')
+  const [step, setStep] = useState<'form' | 'loading' | 'success'>('form')
+  const [error, setError] = useState('')
+  const [needsKyc, setNeedsKyc] = useState(false)
+  const symbol = CURRENCIES[currency]?.symbol ?? ''
+  const amt = parseFloat(amount) || 0
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [onClose])
+
+  const submit = async () => {
+    if (!amount || !phone) return
+    setError(''); setNeedsKyc(false); setStep('loading')
+    try {
+      const res = await fetch('/api/payments/withdraw', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount: amt, currency, phone_number: phone, provider: 'mpesa' }),
+      })
+      const data = await res.json()
+      if (res.ok && (data.success || data.withdrawal || data.withdrawal_id)) {
+        setStep('success')
+        await refreshWallets()
+      } else {
+        // Never dead-end: route to KYC when required, otherwise show the exact
+        // reason (minimum, insufficient, suspended, provider) and let them fix it.
+        if (data.kyc_required) setNeedsKyc(true)
+        setError(data.error ?? 'We could not start the withdrawal. Check the amount and phone number, then try again.')
+        setStep('form')
+      }
+    } catch {
+      setError('Network error — check your connection and try again.')
+      setStep('form')
+    }
+  }
+
+  return (
+    <div className="modal-overlay" role="presentation" onClick={e => e.target === e.currentTarget && onClose()}>
+      <div className="modal-sheet animate-slide-up" role="dialog" aria-modal="true">
+        <div className="w-10 h-1 bg-[var(--border)] rounded-full mx-auto mb-5" />
+
+        {step === 'success' ? (
+          <div className="text-center py-6">
+            <div className="w-16 h-16 rounded-full bg-[var(--green-dim)] flex items-center justify-center mx-auto mb-4">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--green)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <h3 className="font-display text-xl mb-2" style={{ color: 'var(--text-primary)' }}>Withdrawal requested</h3>
+            <p className="text-sm mb-6" style={{ color: 'var(--text-secondary)' }}>
+              We&rsquo;re sending <strong>{symbol}{amt.toLocaleString()} {currency}</strong> to <strong>{phone}</strong>. Large payouts may be held for a short review. Track it in your portfolio.
+            </p>
+            <button className="btn btn-primary btn-lg w-full" onClick={onClose}>Done</button>
+          </div>
+        ) : (
+          <>
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h3 className="font-display text-lg font-bold" style={{ color: 'var(--text-primary)' }}>Withdraw Funds</h3>
+                <p className="text-sm mt-0.5" style={{ color: 'var(--text-secondary)' }}>To M-Pesa · MTN · Airtel</p>
+              </div>
+              <button onClick={onClose} className="btn-ghost p-2 rounded-lg" aria-label="Close">
+                <IconX size={18} className="text-[var(--text-muted)]" />
+              </button>
+            </div>
+
+            {/* Available balance + Max */}
+            <div className="mb-4 flex items-center justify-between rounded-lg border border-[var(--border)] bg-[var(--bg-tertiary)] px-3 py-2.5">
+              <span className="text-xs font-semibold uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>Available</span>
+              <span className="font-mono font-bold" style={{ color: 'var(--text-primary)' }}>{symbol}{balance.toLocaleString()} {currency}</span>
+            </div>
+
+            <div className="mb-4">
+              <div className="flex items-center justify-between mb-2">
+                <label htmlFor="wd-amount" className="text-xs font-semibold uppercase tracking-wide block" style={{ color: 'var(--text-muted)' }}>Amount ({currency})</label>
+                <button type="button" onClick={() => setAmount(String(Math.floor(balance)))} className="text-xs font-semibold text-[var(--pip-500)] hover:underline" disabled={balance <= 0}>
+                  Max
+                </button>
+              </div>
+              <input id="wd-amount" className="input input-lg" type="number" placeholder="Enter amount…" value={amount}
+                onChange={e => setAmount(e.target.value)} />
+            </div>
+
+            <div className="mb-5">
+              <label htmlFor="wd-phone" className="text-xs font-semibold uppercase tracking-wide mb-2 block" style={{ color: 'var(--text-muted)' }}>Phone Number</label>
+              <input id="wd-phone" className="input" type="tel" placeholder="+254 700 000 000" value={phone} onChange={e => setPhone(e.target.value)} />
+            </div>
+
+            {error && (
+              <div role="alert" aria-live="assertive" className="mb-3 rounded-lg border border-[var(--red)]/25 bg-[var(--red)]/10 px-3 py-2 text-sm text-[var(--red)]">
+                <p>{error}</p>
+                {needsKyc && (
+                  <button type="button" onClick={() => { onClose(); router.push('/kyc') }} className="mt-1 font-semibold underline">
+                    Verify your identity to continue
+                  </button>
+                )}
+              </div>
+            )}
+
+            <button className="btn btn-primary btn-lg w-full" onClick={submit}
+              disabled={step === 'loading' || !amount || !phone || amt <= 0 || amt > balance}>
+              {step === 'loading' ? 'Processing…' : amt > balance ? 'Amount exceeds balance' : 'Withdraw'}
+            </button>
+            {balance <= 0 && (
+              <p className="mt-3 text-center text-xs" style={{ color: 'var(--text-muted)' }}>
+                No funds to withdraw yet.{' '}
+                <button type="button" onClick={() => { onClose(); window.dispatchEvent(new CustomEvent('marketpips:open-deposit')) }} className="font-semibold text-[var(--pip-500)] hover:underline">
+                  Deposit first
+                </button>
+              </p>
+            )}
           </>
         )}
       </div>

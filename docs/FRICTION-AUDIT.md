@@ -22,9 +22,13 @@ _Last updated: 2026-07-25._
 5. ✅ **Deposit sheet — wrong currency label.** Hardcoded "Amount (KES)" while
    submitting the user's preferredCurrency. Now labelled with the real currency.
 6. ✅ **Trade — "no ask liquidity"** message softened to actionable copy.
-7. ⬜ **[P1] No user-facing withdraw UI at all.** `IconWithdraw` is imported but
-   unused; the withdraw API + admin actions exist, but users can deposit and
-   never cash out. Needs a WithdrawSheet (amount/limits, phone/B2C, KYC gate).
+7. ✅ **No user-facing withdraw UI.** Added a WithdrawSheet (navbar dropdown +
+   `marketpips:open-withdraw` event): shows available balance + Max, validates
+   amount ≤ balance, surfaces every rejection reason (min, insufficient,
+   suspended, review hold), routes to `/kyc` when `kyc_required`, and offers
+   "Deposit first" at zero balance. DB reserve path verified E2E (funded
+   reserves + fee/net; unfunded → P0006). Live disbursement still needs the B2C
+   initiator + security credential (see GO-LIVE-PROVISIONING.md).
 8. ⬜ **[P2] Deposit success is a dead "Check your phone" screen.** No STK
    status polling; the user doesn't learn if it succeeded without leaving. Poll
    deposit status and reflect pending/credited in the wallet + a toast.
