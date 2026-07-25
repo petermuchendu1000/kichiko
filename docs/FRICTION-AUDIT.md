@@ -37,10 +37,14 @@ _Last updated: 2026-07-25._
    **still-processing** timeout (never a dead-end). Redirect-based providers
    (PesaPal) are sent to their hosted-payment URL instead. Status transition
    pending→completed verified E2E against the live DB.
-9. ⬜ **[P2] Deposit quick-amounts are KES-only** (500/1k/2k/5k) regardless of
-   currency; make presets currency-aware.
-10. ⬜ **[P2] Deposit phone** has no format validation/help and doesn't default
-    from the profile country; add validation + country prefix.
+9. ✅ **[P2] Deposit quick-amounts are now currency-aware.** `depositPresets()`
+   returns sensible presets per currency (KES/UGX/TZS/RWF/ZMW/ETB/BIF/USD) and
+   the pay button shows the real currency symbol instead of a hardcoded "KES".
+10. ✅ **[P2] Deposit phone now validates + guides.** The field prefills the
+    country dial code, shows a currency-specific example placeholder + help
+    text, validates the national length inline (no more silent gateway 400s),
+    and submits a canonical E.164 number. Pure `normalizePhone`/`isValidPhone`
+    helpers are unit-tested across all input variants (0…, …, +254…, 00254…).
 11. ⬜ **[P3] Portfolio has no deposit/withdraw buttons** — funding is only
     reachable from the navbar. Add primary actions on `/portfolio`.
 

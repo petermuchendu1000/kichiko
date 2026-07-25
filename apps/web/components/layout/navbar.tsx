@@ -7,6 +7,7 @@ import { useAuth } from '@/hooks/use-auth'
 import { useWallets } from '@/hooks/use-wallets'
 import { createClient } from '@/lib/supabase/client'
 import { CURRENCIES, type CurrencyCode } from '@/types'
+import { depositPresets, phonePlaceholder, phonePrefill, normalizePhone, isValidPhone } from '@/lib/payments/deposit-ux'
 import {
   LogoMark,
   IconSearch, IconBell, IconUser, IconMenu, IconX,
@@ -351,7 +352,12 @@ function DepositSheet({ onClose, initialAmount }: { onClose: () => void; initial
   const { preferredCurrency, refreshWallets } = useWallets()
   const router = useRouter()
   const [amount, setAmount] = useState(initialAmount ?? '')
-  const [phone, setPhone] = useState('')
+  // Prefill the phone with the country dial code so the user only types the
+  // local part (friction #10); presets and placeholder are currency-aware (#9/#10).
+  const [phone, setPhone] = useState(() => phonePrefill(preferredCurrency))
+  const [phoneError, setPhoneError] = useState('')
+  const presets = depositPresets(preferredCurrency)
+  const curSymbol = CURRENCIES[preferredCurrency]?.symbol ?? preferredCurrency
   const [step, setStep] = useState<'form' | 'loading' | 'success'>('form')
   const [error, setError] = useState('')
   // STK-push confirmation state (friction #8): after the push we don't dead-end
@@ -414,13 +420,20 @@ function DepositSheet({ onClose, initialAmount }: { onClose: () => void; initial
 
   const submit = async () => {
     if (!amount || !phone) return
+    // Validate the phone up-front so the user gets an inline hint instead of a
+    // gateway 400 (friction #10). Send the canonical E.164 form to the API.
+    if (!isValidPhone(phone, preferredCurrency)) {
+      setPhoneError(`Enter a valid ${preferredCurrency} mobile number, e.g. ${phonePlaceholder(preferredCurrency)}`)
+      return
+    }
+    setPhoneError('')
     setError('')
     setStep('loading')
     try {
       const res = await fetch('/api/payments/deposit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: parseFloat(amount), currency: preferredCurrency, phone_number: phone, provider: 'mpesa' }),
+        body: JSON.stringify({ amount: parseFloat(amount), currency: preferredCurrency, phone_number: normalizePhone(phone, preferredCurrency), provider: 'mpesa' }),
       })
       const data = await res.json()
       if (res.ok && (data.success || data.deposit_id || data.checkout_request_id)) {
@@ -522,20 +535,23 @@ function DepositSheet({ onClose, initialAmount }: { onClose: () => void; initial
             <div className="mb-4">
               <label htmlFor="amount-kes" className="text-xs font-semibold uppercase tracking-wide mb-2 block" style={{ color: 'var(--text-muted)' }}>Amount ({preferredCurrency})</label>
               <div className="grid grid-cols-4 gap-2 mb-3">
-                {['500', '1000', '2000', '5000'].map(v => (
-                  <button
-                    key={v}
-                    onClick={() => setAmount(v)}
-                    className={`py-2 rounded-lg text-sm font-semibold border transition-all ${
-                      amount === v
-                        ? 'bg-[var(--pip-500)] text-white border-[var(--pip-500)]'
-                        : 'border-[var(--border)] text-[var(--text-secondary)] hover:border-[var(--pip-400)]'
-                    }`}
-                    style={{ background: amount === v ? undefined : 'var(--bg-tertiary)' }}
-                  >
-                    {v}
-                  </button>
-                ))}
+                {presets.map(v => {
+                  const val = String(v)
+                  return (
+                    <button
+                      key={val}
+                      onClick={() => setAmount(val)}
+                      className={`py-2 rounded-lg text-sm font-semibold border transition-all ${
+                        amount === val
+                          ? 'bg-[var(--pip-500)] text-white border-[var(--pip-500)]'
+                          : 'border-[var(--border)] text-[var(--text-secondary)] hover:border-[var(--pip-400)]'
+                      }`}
+                      style={{ background: amount === val ? undefined : 'var(--bg-tertiary)' }}
+                    >
+                      {v.toLocaleString()}
+                    </button>
+                  )
+                })}
               </div>
               <input id="amount-kes"
                 className="input input-lg"
@@ -551,10 +567,16 @@ function DepositSheet({ onClose, initialAmount }: { onClose: () => void; initial
               <input id="phone-number"
                 className="input"
                 type="tel"
-                placeholder="+254 700 000 000"
+                inputMode="tel"
+                placeholder={phonePlaceholder(preferredCurrency)}
+                aria-invalid={phoneError ? true : undefined}
+                aria-describedby="phone-help"
                 value={phone}
-                onChange={e => setPhone(e.target.value)}
+                onChange={e => { setPhone(e.target.value); if (phoneError) setPhoneError('') }}
               />
+              <p id="phone-help" className={`mt-1.5 text-xs ${phoneError ? 'text-[var(--red)]' : ''}`} style={phoneError ? undefined : { color: 'var(--text-muted)' }} aria-live="polite">
+                {phoneError || `The mobile-money number to charge · e.g. ${phonePlaceholder(preferredCurrency)}`}
+              </p>
             </div>
 
             {error && (
@@ -577,7 +599,7 @@ function DepositSheet({ onClose, initialAmount }: { onClose: () => void; initial
               ) : (
                 <>
                   <IconDeposit size={16} />
-                  Pay {amount ? `KES ${parseInt(amount).toLocaleString()}` : 'Now'}
+                  Pay {amount && !isNaN(parseFloat(amount)) ? `${curSymbol} ${parseFloat(amount).toLocaleString()}` : 'Now'}
                 </>
               )}
             </button>
