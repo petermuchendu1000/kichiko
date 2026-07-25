@@ -35,7 +35,7 @@ interface HoldingsTableProps {
   holdings: HoldingRow[]
 }
 
-const cents = (p: number) => `${Math.round(p * 100)}\u00A2`
+const cents = (p: number) => `${Math.round(p * 100)}%`
 const pnlClass = (n: number) => (n > 0 ? 'text-yes' : n < 0 ? 'text-no' : 'text-text-secondary')
 const signedUSD = (n: number) => `${n >= 0 ? '+' : ''}${formatUSD(n)}`
 

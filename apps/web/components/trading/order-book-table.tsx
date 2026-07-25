@@ -169,7 +169,7 @@ export function BookTable({
       >
         <span>
           Last:{' '}
-          {book.last != null ? `${dualPriceLabel(book.last).percent} ${dualPriceLabel(book.last).cents}` : '—'}
+          {book.last != null ? dualPriceLabel(book.last).percent : '-'}
         </span>
         <span>Spread: {book.spread != null ? formatCents(book.spread) : '—'}</span>
       </div>
@@ -205,8 +205,7 @@ function BookRow({ level, tone, pill }: { level: BookLevel; tone: 'yes' | 'no'; 
       </span>
       <div className="relative z-[1] flex items-center gap-6 tabular-nums sm:gap-10">
         <span className="w-16 text-right text-sm font-semibold">
-          <span className={priceColor}>{price.percent}</span>{' '}
-          <span className="text-text-muted text-xs">{price.cents}</span>
+          <span className={priceColor}>{price.percent}</span>
         </span>
         <span className="w-20 text-right text-sm text-text-primary">{num(level.size)}</span>
         <span className="w-24 text-right text-sm text-text-primary">${num(level.totalUsd)}</span>
@@ -266,7 +265,7 @@ export function OrderBookPanel({
               <IconRefresh size={14} />
             </button>
             <span className="rounded border border-hairline px-1.5 py-0.5 text-xs font-medium text-text-muted">
-              0.1¢
+              0.1%
             </span>
           </div>
         </div>

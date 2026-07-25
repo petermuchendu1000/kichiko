@@ -170,7 +170,7 @@ export function CandidateList({
 
   // PM parity: cents carry ONE decimal (e.g. 19.9¢ / 80.2¢) and a Yes/No pair
   // reads as complements summing to 100.0¢ under our pick-one LMSR model.
-  const cents = (p: number) => `${(p * 100).toFixed(1)}\u00A2`
+  const cents = (p: number) => `${(p * 100).toFixed(1)}%`
 
   return (
     <div className="overflow-hidden">

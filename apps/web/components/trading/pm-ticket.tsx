@@ -241,7 +241,7 @@ function PmLimitBody({
               size={4}
               className="w-[42px] bg-transparent text-center text-[18px] font-semibold tabular-nums text-text-primary outline-none placeholder:text-ink-300"
             />
-            <span className="text-[18px] font-semibold text-text-primary">¢</span>
+            <span className="text-[18px] font-semibold text-text-primary">%</span>
           </div>
           <button
             type="button"
@@ -758,7 +758,7 @@ export function PmTicket({
   // dropped so round prices read cleanly (20¢). Matches live PM order ticket.
   const cents = (p: number) => {
     const s = (p * 100).toFixed(1)
-    return `${s.endsWith('.0') ? s.slice(0, -2) : s}¢`
+    return `${s.endsWith('.0') ? s.slice(0, -2) : s}%`
   }
 
   const goToAuth = (mode: 'login' | 'register') => {
@@ -814,7 +814,7 @@ export function PmTicket({
         // Limit buy: share-denominated with a price. Lets the user act on a
         // fresh market with no resting asks by posting a resting bid (#19).
         if (buyLimitSharesNum <= 0) return setError('Enter how many shares to buy.')
-        if (buyLimitPriceInvalid) return setError('Enter a limit price between 0.1¢ and 99.9¢.')
+        if (buyLimitPriceInvalid) return setError('Enter a limit price between 0.1% and 99.9%.')
         if (buyLimitOverBalance) {
           const shortfall = planFunding(balance, buyLimitCostLocal).shortfall
           awaitingFundsRef.current = true
@@ -876,7 +876,7 @@ export function PmTicket({
       if (sellSizeNum > clobAvail)
         return setError(`You can sell at most ${clobAvail.toFixed(2)} shares.`)
       if (orderType === 'limit' && clobSellLimitInvalid)
-        return setError('Enter a limit price between 0.1¢ and 99.9¢.')
+        return setError('Enter a limit price between 0.1% and 99.9%.')
       if (orderType === 'market' && !clobBestBid)
         return setError('No resting bids to fill a market sell right now.')
       payload = buildClobOrderPayload({
@@ -1511,7 +1511,7 @@ export function PmTicket({
                             placeholder={clobBestBid ? String(clobBestBid) : '50'}
                             className="w-10 bg-transparent text-right text-sm font-semibold tabular-nums text-text-primary outline-none"
                           />
-                          <span className="text-sm text-text-muted">¢</span>
+                          <span className="text-sm text-text-muted">%</span>
                         </div>
                         <button
                           type="button"
@@ -1732,7 +1732,7 @@ export function PmTicket({
                       placeholder="50"
                       className="w-8 bg-transparent text-right text-sm font-semibold tabular-nums text-text-primary outline-none"
                     />
-                    <span className="text-sm text-text-muted">¢</span>
+                    <span className="text-sm text-text-muted">%</span>
                   </div>
                   <button
                     type="button"

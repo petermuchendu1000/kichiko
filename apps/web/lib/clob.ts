@@ -33,9 +33,9 @@ export function complementCents(cents: number): number {
 // Probability % and price ¢ are numerically identical on a $1 contract.
 // ---------------------------------------------------------------------------
 export function formatCents(cents: number): string {
-  // Trim a trailing ".0" so 20.0 → "20¢" (matches PM), keep 19.8 → "19.8¢".
+  // Price and probability are identical on a $1 contract, so we display % only.
   const n = Math.round(cents * 10) / 10
-  return `${Number.isInteger(n) ? n : n.toFixed(1)}¢`
+  return `${Number.isInteger(n) ? n : n.toFixed(1)}%`
 }
 
 export function formatPercent(cents: number): string {
@@ -43,9 +43,9 @@ export function formatPercent(cents: number): string {
   return `${Number.isInteger(n) ? n : n.toFixed(1)}%`
 }
 
-/** PM's dual label, e.g. { percent: "19.8%", cents: "(19.8¢)" }. */
-export function dualPriceLabel(cents: number): { percent: string; cents: string } {
-  return { percent: formatPercent(cents), cents: `(${formatCents(cents)})` }
+/** Price label as a probability percentage (e.g. { percent: "19.8%" }). */
+export function dualPriceLabel(cents: number): { percent: string } {
+  return { percent: formatPercent(cents) }
 }
 
 // ---------------------------------------------------------------------------

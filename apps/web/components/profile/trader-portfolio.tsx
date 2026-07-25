@@ -40,7 +40,7 @@ interface PositionRow {
 type Status = 'active' | 'closed'
 type Sort = 'value' | 'pnl'
 
-const cents = (p: number) => `${Math.round(Number(p) * 100)}¢`
+const cents = (p: number) => `${Math.round(Number(p) * 100)}%`
 const shares = (n: number) => Number(n).toLocaleString(undefined, { maximumFractionDigits: 1 })
 
 function SearchIcon() {

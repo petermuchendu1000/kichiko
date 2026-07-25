@@ -107,7 +107,7 @@ export async function RelatedMarkets({ marketId, category }: RelatedMarketsProps
               {pct != null && (
                 <span className="my-auto ml-1 flex flex-none flex-col items-end">
                   <span className="text-base font-medium leading-normal tabular-nums text-text-primary lg:text-lg">
-                    {pct}¢
+                    {pct}%
                   </span>
                   {subLabel && (
                     <span className="max-w-[7.5rem] truncate text-xs text-text-muted">

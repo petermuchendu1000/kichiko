@@ -41,7 +41,7 @@ interface PositionRow {
 /** Polymarket-style average price in cents ("52¢", "1.7¢" for sub-dime). */
 function avgCents(price: number | null): string {
   const c = (price ?? 0) * 100
-  return `${c > 0 && c < 10 ? c.toFixed(1) : Math.round(c)}¢`
+  return `${c > 0 && c < 10 ? c.toFixed(1) : Math.round(c)}%`
 }
 
 function PositionRowItem({ row, isSelf }: { row: PositionRow; isSelf: boolean }) {

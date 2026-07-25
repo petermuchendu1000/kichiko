@@ -106,7 +106,7 @@ export function OrderBookDrawer({
             <IconRefresh size={14} />
           </button>
           <span className="rounded border border-hairline px-1.5 py-0.5 text-xs font-medium text-text-muted">
-            0.1¢
+            0.1%
           </span>
         </div>
       </div>

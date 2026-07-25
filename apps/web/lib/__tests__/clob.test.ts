@@ -38,13 +38,13 @@ describe('clob price ticks', () => {
 
 describe('clob formatting (PM dual %+¢)', () => {
   it('trims trailing .0 like PM', () => {
-    expect(formatCents(20)).toBe('20¢')
-    expect(formatCents(19.8)).toBe('19.8¢')
+    expect(formatCents(20)).toBe('20%')
+    expect(formatCents(19.8)).toBe('19.8%')
     expect(formatPercent(20)).toBe('20%')
     expect(formatPercent(19.8)).toBe('19.8%')
   })
-  it('dual label pairs percent + parenthesised cents', () => {
-    expect(dualPriceLabel(19.8)).toEqual({ percent: '19.8%', cents: '(19.8¢)' })
+  it('dual label exposes the probability percent', () => {
+    expect(dualPriceLabel(19.8)).toEqual({ percent: '19.8%' })
   })
 })
 
