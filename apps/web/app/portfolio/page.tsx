@@ -10,6 +10,7 @@ import type { Position, Transaction, Wallet, CurrencyCode, MarketStatus } from '
 import { SummaryCards } from '@/components/portfolio/summary-cards'
 import { AllocationDonut, type AllocationSlice } from '@/components/portfolio/allocation-donut'
 import { HoldingsTable, type HoldingRow } from '@/components/portfolio/holdings-table'
+import { distinctOptionLabel } from '@/lib/portfolio/labels'
 import { TransactionHistory } from '@/components/portfolio/transaction-history'
 import { PortfolioFundingActions } from '@/components/portfolio/funding-actions'
 
@@ -206,14 +207,13 @@ async function PortfolioData() {
     .sort((a, b) => b.marketValue - a.marketValue)
 
   const slices: AllocationSlice[] = holdings.map((h) => {
-    // Only append the option label when it adds information. For binary-style
-    // markets the option label IS the market title, so `${title} — ${label}`
-    // rendered the same text twice ("Kenyan wins… — Kenyan wins…"). Collapse
-    // that to a single title.
-    const opt = h.optionLabel?.trim()
-    const showOpt = opt && opt.toLowerCase() !== h.title.trim().toLowerCase()
+    // Only append the option label when it adds information. Binary markets can
+    // carry a single option whose label mirrors the title (differing only by
+    // punctuation), which rendered the market name twice in the legend. The
+    // helper normalizes + de-duplicates so we show the title once.
+    const opt = distinctOptionLabel(h.title, h.optionLabel)
     return {
-      label: showOpt ? `${h.title} — ${opt}` : h.title,
+      label: opt ? `${h.title} — ${opt}` : h.title,
       value: h.marketValue,
       side: h.side,
     }
