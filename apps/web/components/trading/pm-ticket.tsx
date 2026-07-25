@@ -493,8 +493,19 @@ export function PmTicket({
   const clobSellProceedsUsd = estimateClobSellProceedsUsd(sellSizeNum, clobSellPriceCents)
   const clobSellLimitInvalid = orderType === 'limit' && (clobSellPriceCents <= 0 || clobSellPriceCents >= 100)
 
-  // CLOB submit gates (buy = market/amount; sell = market|limit from position).
-  const clobBuyOk = clob && isOpen && action === 'buy' && !!selectedOutcome && amountNum > 0 && !overBalance && !!clobBestAsk
+  // Buy-limit inputs (share-denominated with a price), from PmLimitBody.
+  const buyLimitSharesNum = orderType === 'limit' ? Math.max(0, parseInt(shares || '0', 10) || 0) : 0
+  const buyLimitPriceInvalid = orderType === 'limit' && (limitPrice <= 0 || limitPrice >= 1)
+  const buyLimitCostLocal = buyLimitSharesNum * limitPrice // shares × price-fraction
+  const buyLimitOverBalance = orderType === 'limit' && balance > 0 && buyLimitCostLocal > balance
+
+  // CLOB submit gates. Market buy = amount/best-ask; LIMIT buy = shares + valid
+  // price (rests when it can't cross); sell = market|limit from the position.
+  const clobBuyOk = clob && isOpen && action === 'buy' && !!selectedOutcome && (
+    orderType === 'limit'
+      ? buyLimitSharesNum > 0 && !buyLimitPriceInvalid && !buyLimitOverBalance
+      : amountNum > 0 && !overBalance && !!clobBestAsk
+  )
   const clobSellOk =
     clob &&
     isOpen &&
@@ -771,32 +782,65 @@ export function PmTicket({
 
     let payload: Record<string, unknown>
     if (action === 'buy') {
-      if (amountNum <= 0) return setError('Enter an amount to continue.')
-      if (overBalance) {
-        // Dead-end fix: don't just report "insufficient balance" — guide the
-        // user straight to funding by opening the deposit sheet prefilled with
-        // the EXACT shortfall, then explain why.
-        const shortfall = planFunding(balance, amountNum).shortfall
-        window.dispatchEvent(
-          new CustomEvent('marketpips:open-deposit', {
-            detail: { amountLocal: shortfall, currency: preferredCurrency },
-          }),
-        )
-        return setError(
-          `You need ${formatCurrency(shortfall, preferredCurrency)} more to place this order — opening deposit.`,
-        )
+      if (orderType === 'limit') {
+        // Limit buy: share-denominated with a price. Lets the user act on a
+        // fresh market with no resting asks by posting a resting bid (#19).
+        if (buyLimitSharesNum <= 0) return setError('Enter how many shares to buy.')
+        if (buyLimitPriceInvalid) return setError('Enter a limit price between 0.1¢ and 99.9¢.')
+        if (buyLimitOverBalance) {
+          const shortfall = planFunding(balance, buyLimitCostLocal).shortfall
+          window.dispatchEvent(
+            new CustomEvent('marketpips:open-deposit', {
+              detail: { amountLocal: shortfall, currency: preferredCurrency },
+            }),
+          )
+          return setError(
+            `You need ${formatCurrency(shortfall, preferredCurrency)} more for this limit order — opening deposit.`,
+          )
+        }
+        payload = buildClobOrderPayload({
+          marketId: market.id,
+          marketOptionId: selectedOutcome.id,
+          outcomeSide: side,
+          action: 'buy',
+          orderType: 'limit',
+          currency: preferredCurrency,
+          size: buyLimitSharesNum,
+          priceCents: parseFloat(limitCents) || 0,
+        })
+      } else {
+        if (amountNum <= 0) return setError('Enter an amount to continue.')
+        if (overBalance) {
+          // Dead-end fix: don't just report "insufficient balance" — guide the
+          // user straight to funding by opening the deposit sheet prefilled with
+          // the EXACT shortfall, then explain why.
+          const shortfall = planFunding(balance, amountNum).shortfall
+          window.dispatchEvent(
+            new CustomEvent('marketpips:open-deposit', {
+              detail: { amountLocal: shortfall, currency: preferredCurrency },
+            }),
+          )
+          return setError(
+            `You need ${formatCurrency(shortfall, preferredCurrency)} more to place this order — opening deposit.`,
+          )
+        }
+        if (!clobBestAsk) {
+          // Fresh market with no resting asks: a market buy can't fill. Instead
+          // of dead-ending, switch to a limit order so the user can set a price
+          // and post a resting buy that seeds the book (#19).
+          setOrderType('limit')
+          return setError('No sellers yet — set your price with a limit order to place a resting buy.')
+        }
+        payload = buildClobOrderPayload({
+          marketId: market.id,
+          marketOptionId: selectedOutcome.id,
+          outcomeSide: side,
+          action: 'buy',
+          orderType: 'market',
+          currency: preferredCurrency,
+          amountLocal: amountNum,
+        })
       }
-      if (!clobBestAsk)
-        return setError('No sell orders to match right now. Try a smaller amount or check back shortly.')
-      payload = buildClobOrderPayload({
-        marketId: market.id,
-        marketOptionId: selectedOutcome.id,
-        outcomeSide: side,
-        action: 'buy',
-        orderType: 'market',
-        currency: preferredCurrency,
-        amountLocal: amountNum,
-      })
     } else {
       if (sellSizeNum <= 0) return setError('Enter how many shares to sell.')
       if (sellSizeNum > clobAvail)

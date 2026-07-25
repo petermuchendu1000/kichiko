@@ -76,8 +76,12 @@ _Last updated: 2026-07-25._
     has a "Browse open markets" CTA.
 18. ✅ **[P2] "Account is not active" (403 on trade)** no longer dead-ends — the
     ticket now explains the block and offers a "Contact support" link to `/help`.
-19. ⬜ **[P2] Fresh market with no resting asks** — market buys can't fill and
-    buys are market-only; offer a limit-buy path so the user can still act.
+19. ✅ **[P2] Fresh market with no resting asks** no longer dead-ends. A market
+    buy that can't fill now switches the ticket to **Limit** and prompts the
+    user to set a price, posting a resting bid that seeds the book. Limit buys
+    are share-denominated (`buildClobOrderPayload` buy-limit path) with a
+    balance guard that routes to deposit on shortfall. Resting-buy placement
+    verified E2E against the live `clob_place_order` RPC (rolled back).
 20. ⬜ **[P3] Market detail empty states** (no positions / no activity / no
     comments) are fine but could nudge the first action.
 

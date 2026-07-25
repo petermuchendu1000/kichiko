@@ -248,7 +248,13 @@ export function buildClobOrderPayload(i: ClobTicketPayloadInput): Record<string,
     currency: i.currency,
   }
   if (i.action === 'buy') {
-    // Buys always go through the market path (amount-denominated).
+    // Buys are amount-denominated at market (converted to shares server-side via
+    // the best ask). A LIMIT buy is share-denominated with a price and rests on
+    // the book when it can't cross — the path that lets a user act on a fresh
+    // market with no resting asks (friction #19).
+    if (i.orderType === 'limit') {
+      return { ...base, order_type: 'limit', size: i.size, price_cents: clampPriceCents(i.priceCents ?? 0) }
+    }
     return { ...base, order_type: 'market', amount_local: i.amountLocal }
   }
   // Sell — share-denominated; limit adds a clamped price, market does not.

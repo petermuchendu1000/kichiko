@@ -191,10 +191,16 @@ describe('buildClobOrderPayload', () => {
     // The result is a valid CLOB order body.
     expect(clobOrderSchema.safeParse(p).success).toBe(true)
   })
-  it('forces buys to market even if a limit type slips through', () => {
-    const p = buildClobOrderPayload({ ...ids, action: 'buy', orderType: 'limit', amountLocal: 100, priceCents: 40 })
-    expect(p.order_type).toBe('market')
-    expect(p).not.toHaveProperty('price_cents')
+  it('limit buy: share-denominated + clamped price (rests on the book, friction #19)', () => {
+    const p = buildClobOrderPayload({ ...ids, action: 'buy', orderType: 'limit', size: 10, priceCents: 22.64 })
+    expect(p).toMatchObject({ engine: 'clob', action: 'buy', order_type: 'limit', size: 10, price_cents: 22.6 })
+    expect(p).not.toHaveProperty('amount_local')
+    // A valid CLOB order body the RPC accepts as a resting bid.
+    expect(clobOrderSchema.safeParse(p).success).toBe(true)
+  })
+  it('clamps an out-of-band limit BUY price into the tradable band', () => {
+    expect(buildClobOrderPayload({ ...ids, action: 'buy', orderType: 'limit', size: 5, priceCents: 250 }).price_cents).toBe(CLOB_MAX_CENTS)
+    expect(buildClobOrderPayload({ ...ids, action: 'buy', orderType: 'limit', size: 5, priceCents: 0 }).price_cents).toBe(CLOB_MIN_CENTS)
   })
   it('market sell: share-denominated, no price', () => {
     const p = buildClobOrderPayload({ ...ids, action: 'sell', orderType: 'market', size: 100 })
