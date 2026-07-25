@@ -442,6 +442,43 @@
   .tab-pill:hover { color:var(--text); background:var(--surface-2); }
   .tab-pill.active { background:var(--pip-100); color:var(--pip-text); border-color:color-mix(in srgb, var(--pip-500) 24%, transparent); font-weight:600; }
 
+  /* ---- Kalshi-style category tabs (flat text, underline-active, no icons) ----
+     Muted labels that darken on hover; the active tab is near-black + semibold
+     with a 2px accent underline pinned to the bar's bottom edge. */
+  .cat-tab {
+    display:inline-flex; align-items:center; padding:12px 2px;
+    font-size:14px; font-weight:500; line-height:20px; letter-spacing:-0.1px;
+    color:var(--text-3); background:transparent; border:0;
+    white-space:nowrap; cursor:pointer; text-decoration:none;
+    box-shadow:inset 0 -2px 0 transparent; /* reserve underline slot */
+    transition:color var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out);
+  }
+  .cat-tab:hover { color:var(--text); box-shadow:inset 0 -2px 0 var(--hairline-strong); }
+  .cat-tab.active { color:var(--text); font-weight:600; box-shadow:inset 0 -2px 0 var(--text); }
+  .cat-tab:focus-visible { outline:2px solid var(--pip-500); outline-offset:2px; border-radius:4px; }
+
+  /* ---- Hero activity ticker (looping marquee) ----
+     The list is rendered twice; the track scrolls up -50% for a seamless wrap.
+     Soft top/bottom fade so rows dissolve at the edges. Pauses on hover; frozen
+     entirely under reduced-motion. Pure CSS → keeps the hero server-rendered. */
+  .hero-activity {
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 12px, #000 calc(100% - 16px), transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0, #000 12px, #000 calc(100% - 16px), transparent 100%);
+  }
+  @keyframes hero-activity-scroll {
+    from { transform: translateY(0); }
+    to   { transform: translateY(-50%); }
+  }
+  .hero-activity-track {
+    animation: hero-activity-scroll 22s linear infinite;
+    will-change: transform;
+  }
+  .hero-activity:hover .hero-activity-track { animation-play-state: paused; }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-activity-track { animation: none; }
+    .hero-activity { -webkit-mask-image:none; mask-image:none; }
+  }
+
   /* ---- Carousel arrows ---- */
   .carousel-arrow {
     position:absolute; top:50%; transform:translateY(-50%); z-index:20;

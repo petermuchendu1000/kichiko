@@ -74,6 +74,8 @@ interface ProbLinesProps {
   fadeHistory?: boolean
   /** Salt to keep per-line gradient ids unique across multiple charts on a page. */
   idSalt?: string
+  /** Faint centered brand watermark drawn behind the lines (charting-tool style). */
+  watermark?: string
 }
 
 /** Smooth Catmull-Rom-ish path (midpoint cubic bézier) for organic curves. */
@@ -114,6 +116,7 @@ export function ProbLines({
   endpointHalo = false,
   fadeHistory = false,
   idSalt = '',
+  watermark,
 }: ProbLinesProps) {
   const drawn = [...lines].sort((a, b) => b.price - a.price).slice(0, maxLines)
   if (drawn.length === 0) return null
@@ -197,6 +200,26 @@ export function ProbLines({
             </g>
           ))}
         </g>
+      )}
+
+      {/* Brand watermark — centered in the plot area, drawn BEFORE the lines so
+          it sits behind them; faint + non-interactive (charting-tool style). */}
+      {watermark && (
+        <text
+          x={padL + w / 2}
+          y={padT + h / 2}
+          textAnchor="middle"
+          dominantBaseline="middle"
+          fontFamily={axisFont}
+          fontWeight={700}
+          fontSize={Math.round(Math.min(w, h) * 0.16)}
+          fill="var(--text-3)"
+          opacity={0.08}
+          aria-hidden
+          style={{ userSelect: 'none', letterSpacing: '0.02em' }}
+        >
+          {watermark}
+        </text>
       )}
 
       {drawn.map((line, li) => {

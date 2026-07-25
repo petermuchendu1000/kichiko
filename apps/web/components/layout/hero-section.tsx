@@ -62,10 +62,6 @@ function fmtVol(n: number) {
   return `$${Math.round(n)}`
 }
 
-function fmtDate(iso: string) {
-  return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-}
-
 /** Title-case a raw tag into a breadcrumb sub-label. */
 function prettyTag(t?: string | null) {
   if (!t) return null
@@ -106,17 +102,23 @@ function ActivityRow({ item }: { item: HeroActivityItem }) {
   const when = fmtRelative(item.at)
   if (item.kind === 'trade') {
     const isYes = item.side === 'yes'
-    const verb = item.action === 'sell' ? 'sold' : 'bought'
+    const isSell = item.action === 'sell'
+    const verb = isSell ? 'sold' : 'bought'
+    // Buy → green, Sell → red; the traded amount is always green (money in
+    // motion) to reinforce the "live activity" feel of the hero feed.
+    const verbColor = isSell ? 'var(--no-text)' : 'var(--yes-text)'
     return (
       <li className="flex items-center gap-2">
         <EntityAvatar name={item.author} imageUrl={item.avatarUrl} size={20} shape="circle" className="flex-none" />
         <span className="min-w-0 flex-1 truncate" style={{ fontSize: 13, color: 'var(--text-2)' }}>
           <span className="font-semibold" style={{ color: 'var(--text)' }}>{item.author}</span>{' '}
-          {verb}{' '}
+          <span className="font-semibold" style={{ color: verbColor }}>{verb}</span>{' '}
           <span className="font-semibold" style={{ color: isYes ? 'var(--yes-text)' : 'var(--no-text)' }}>
             {isYes ? 'Yes' : 'No'}
           </span>
-          {item.amountUsd ? <>{' · '}{fmtVol(item.amountUsd)}</> : null}
+          {item.amountUsd ? (
+            <>{' · '}<span className="font-semibold tabular-nums" style={{ color: 'var(--yes-text)' }}>{fmtVol(item.amountUsd)}</span></>
+          ) : null}
         </span>
         <span className="flex-none tabular-nums" style={{ fontSize: 12, color: 'var(--text-3)' }}>{when}</span>
       </li>
@@ -150,9 +152,16 @@ function ActivityRow({ item }: { item: HeroActivityItem }) {
 }
 
 /** Live trader-activity feed that fills the left column (esp. binary markets,
- *  which otherwise leave dead space below two Yes/No rows). Grows to fill. */
+ *  which otherwise leave dead space below two Yes/No rows). It LOOPS: the list
+ *  is duplicated and scrolled upward with a pure-CSS marquee (0 client JS,
+ *  server-rendered), giving the illusion of never-ending market activity. The
+ *  loop pauses on hover and freezes entirely under prefers-reduced-motion. */
 function TraderActivity({ items, max }: { items?: HeroActivityItem[]; max: number }) {
   if (!items || items.length === 0) return null
+  const list = items.slice(0, max)
+  // Only animate when there are enough rows to make a seamless loop worthwhile;
+  // otherwise a short static list looks better than a slow crawl.
+  const loop = list.length >= 3
   return (
     <div
       className="mt-1 flex min-h-0 flex-1 flex-col gap-2.5 border-t pt-3"
@@ -164,11 +173,18 @@ function TraderActivity({ items, max }: { items?: HeroActivityItem[]; max: numbe
       >
         Activity
       </span>
-      <ul className="flex flex-col gap-2.5">
-        {items.slice(0, max).map((it) => (
-          <ActivityRow key={it.id} item={it} />
-        ))}
-      </ul>
+      {/* Clipped viewport with soft top/bottom fade (mask) so rows dissolve at
+          the edges as they scroll — the "ticker" look. */}
+      <div className="hero-activity relative min-h-0 flex-1 overflow-hidden">
+        <ul className={`flex flex-col gap-2.5 ${loop ? 'hero-activity-track' : ''}`}>
+          {list.map((it) => (
+            <ActivityRow key={it.id} item={it} />
+          ))}
+          {/* Duplicate set — the track translates -50% for a seamless wrap. */}
+          {loop &&
+            list.map((it) => <ActivityRow key={`${it.id}-loop`} item={it} />)}
+        </ul>
+      </div>
     </div>
   )
 }
@@ -193,7 +209,7 @@ function Spotlight({ market, series, comments, activity }: HeroMarket & { commen
       // activity, footer) and MUST grow to fit its content — a fixed max-height
       // + overflow-hidden previously clipped the footer volume/CTA and the
       // trailing outcome rows.
-      className="group relative flex h-full flex-col overflow-hidden lg:min-h-[480px] lg:max-h-[500px]"
+      className="group relative flex h-full flex-col overflow-hidden lg:min-h-[560px] lg:max-h-[560px]"
       style={{
         background: 'var(--surface)',
         // Polymarket parity (live-measured): blue-tinted hairline + blue-500/7 shadow.
@@ -333,7 +349,7 @@ function Spotlight({ market, series, comments, activity }: HeroMarket & { commen
             {/* Trader activity — DESKTOP only. Removed on mobile to keep the card
                 compact and every key detail (Yes/No CTA, chart) visible. */}
             <div className="hidden min-h-0 flex-1 flex-col lg:flex">
-              <TraderActivity items={feed} max={series.binary ? 5 : 2} />
+              <TraderActivity items={feed} max={series.binary ? 6 : 4} />
             </div>
           </div>
 
@@ -372,13 +388,16 @@ function Spotlight({ market, series, comments, activity }: HeroMarket & { commen
               xLabels={ticks}
               strokeWidth={1.75}
               fadeHistory
+              watermark="MarketPips"
               idSalt={market.id}
               className="w-full"
             />
           </div>
         </div>
 
-        {/* footer: volume + close date */}
+        {/* footer: volume + primary CTA. The close date and the "· MarketPips"
+            byline were removed for a cleaner strip — branding now lives as a
+            watermark inside the chart (parity with pro charting tools). */}
         <div
           className="mt-auto flex items-center justify-between gap-3 border-t pt-3"
           style={{ borderColor: 'var(--hairline-soft)', color: 'var(--ink-300)' }}
@@ -394,14 +413,9 @@ function Spotlight({ market, series, comments, activity }: HeroMarket & { commen
               className="relative z-10 inline-flex items-center gap-1 rounded-full px-3 py-1 font-semibold transition-transform active:scale-[97%]"
               style={{ fontSize: 13, background: 'var(--pip-500)', color: '#fff' }}
             >
-              Predict <IconArrowRight size={13} />
+              Predict &amp; Earn <IconArrowRight size={13} />
             </Link>
           </div>
-          {market.closes_at && (
-            <span className="truncate font-medium" style={{ fontSize: 13, letterSpacing: '-0.1px' }}>
-              Ends {fmtDate(market.closes_at)} · <span style={{ color: 'var(--text-3)' }}>MarketPips</span>
-            </span>
-          )}
         </div>
       </div>
     </div>
@@ -588,7 +602,7 @@ export function HeroSection({
     <section className="relative">
       <div className="relative mx-auto max-w-[1350px] px-4 py-6 lg:px-6 sm:py-8">
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-[2.35fr_1fr]">
-          <HeroCarousel slides={slides} titles={titles} />
+          <HeroCarousel slides={slides} titles={titles} autoPlayMs={11000} />
           <HeroRail hotTopics={hotTopics} breaking={breaking} />
         </div>
       </div>
