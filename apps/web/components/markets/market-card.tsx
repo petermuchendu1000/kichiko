@@ -291,18 +291,18 @@ export function MarketCard({
           <Link
             href={sideHref('yes')}
             className="btn btn-yes pointer-events-auto flex-1 justify-center gap-1.5 py-2.5 text-[13px]"
-            aria-label={isUpDown ? `Bet ${yesLabel}` : `Buy ${yesLabel} at ${yesPct} cents`}
+            aria-label={isUpDown ? `Predict ${yesLabel}` : `Buy ${yesLabel} at ${yesPct}%`}
           >
             {isUpDown && <IconArrowUp size={14} />} {yesLabel}
-            {!isUpDown && <span className="font-mono font-bold tabular-nums">{yesPct}¢</span>}
+            {!isUpDown && <span className="font-mono font-bold tabular-nums">{yesPct}%</span>}
           </Link>
           <Link
             href={sideHref('no')}
             className="btn btn-no pointer-events-auto flex-1 justify-center gap-1.5 py-2.5 text-[13px]"
-            aria-label={isUpDown ? `Bet ${noLabel}` : `Buy ${noLabel} at ${100 - yesPct} cents`}
+            aria-label={isUpDown ? `Predict ${noLabel}` : `Buy ${noLabel} at ${100 - yesPct}%`}
           >
             {isUpDown && <IconArrowDown size={14} />} {noLabel}
-            {!isUpDown && <span className="font-mono font-bold tabular-nums">{100 - yesPct}¢</span>}
+            {!isUpDown && <span className="font-mono font-bold tabular-nums">{100 - yesPct}%</span>}
           </Link>
         </div>
       )}
@@ -317,7 +317,7 @@ export function MarketCard({
             now == null ? (
               <LivePill />
             ) : new Date(market.closes_at).getTime() <= now ? (
-              <span className="font-semibold" style={{ color: 'var(--text-3)' }}>Settling…</span>
+              <span className="font-semibold" style={{ color: 'var(--text-3)' }}>Deciding…</span>
             ) : (
               <>
                 <LivePill />
