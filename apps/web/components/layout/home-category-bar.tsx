@@ -88,7 +88,7 @@ export function HomeCategoryBar() {
 
         <nav
           ref={scrollRef}
-          aria-label="Browse markets by category"
+          aria-label="Browse events by category"
           className="flex items-stretch gap-5 overflow-x-auto scrollbar-hide flex-1"
         >
           {PILLS.map((p) =>

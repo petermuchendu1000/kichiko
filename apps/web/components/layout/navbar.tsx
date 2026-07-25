@@ -62,7 +62,7 @@ export function Navbar() {
       // where they fill the sheet only to hit a 401 on submit).
       if (!userRef.current) {
         setPendingDeposit(amtStr)
-        openAuthDialog({ reason: 'Sign in to add funds to your wallet' })
+        openAuthDialog({ reason: 'Sign in to deposit to your wallet' })
         return
       }
       setDepositAmount(amtStr)
@@ -123,7 +123,7 @@ export function Navbar() {
   }
 
   const navLinks = [
-    { href: '/markets', label: 'Markets', icon: <IconMarkets size={15}/> },
+    { href: '/markets', label: 'Events', icon: <IconMarkets size={15}/> },
     { href: '/leaderboard', label: 'Leaders', icon: <IconTrophy size={15}/> },
   ]
 
@@ -167,7 +167,7 @@ export function Navbar() {
               className="w-full flex items-center gap-2 px-3 py-2 rounded-lg bg-[var(--bg-tertiary)] border border-[var(--border)] text-[var(--text-muted)] text-sm hover:border-[var(--border-hover)] transition-colors"
             >
               <IconSearch size={14} />
-              <span>Search markets…</span>
+              <span>Search events…</span>
               <span className="ml-auto text-xs border border-[var(--border)] rounded px-1 py-0.5 font-mono">/</span>
             </button>
           </div>
@@ -415,7 +415,7 @@ function DepositSheet({ onClose, initialAmount, resumeOrder = false }: { onClose
         setStep('form')
       }
     } catch {
-      setError('Network error — check your connection and try again.')
+      setError('Network error. Check your connection and try again.')
       setStep('form')
     }
   }
@@ -488,7 +488,7 @@ function DepositSheet({ onClose, initialAmount, resumeOrder = false }: { onClose
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h3 className="font-display text-lg font-bold" style={{ color: 'var(--text-primary)' }}>Deposit Funds</h3>
-                <p className="text-sm mt-0.5" style={{ color: 'var(--text-secondary)' }}>Instant via M-Pesa · MTN · Airtel</p>
+                <p className="text-sm mt-0.5" style={{ color: 'var(--text-secondary)' }}>Instant via M-Pesa</p>
               </div>
               <button onClick={onClose} className="btn-ghost p-2 rounded-lg">
                 <IconX size={18} className="text-[var(--text-muted)]" />
@@ -558,7 +558,7 @@ function DepositSheet({ onClose, initialAmount, resumeOrder = false }: { onClose
             </button>
 
             <p className="text-center text-xs mt-4" style={{ color: 'var(--text-muted)' }}>
-              Secured by Safaricom · MTN · Airtel encryption
+              Secured by Safaricom encryption
             </p>
           </>
         )}
@@ -623,7 +623,7 @@ function WithdrawSheet({ onClose, balance, currency }: { onClose: () => void; ba
         setStep('form')
       }
     } catch {
-      setError('Network error — check your connection and try again.')
+      setError('Network error. Check your connection and try again.')
       setStep('form')
     }
   }
@@ -649,7 +649,7 @@ function WithdrawSheet({ onClose, balance, currency }: { onClose: () => void; ba
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h3 className="font-display text-lg font-bold" style={{ color: 'var(--text-primary)' }}>Withdraw Funds</h3>
-                <p className="text-sm mt-0.5" style={{ color: 'var(--text-secondary)' }}>To M-Pesa · MTN · Airtel</p>
+                <p className="text-sm mt-0.5" style={{ color: 'var(--text-secondary)' }}>To M-Pesa</p>
               </div>
               <button onClick={onClose} className="btn-ghost p-2 rounded-lg" aria-label="Close">
                 <IconX size={18} className="text-[var(--text-muted)]" />

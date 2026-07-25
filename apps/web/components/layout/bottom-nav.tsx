@@ -159,7 +159,7 @@ function MoreSheet({
   }, [onClose])
 
   const links: { href: string; label: string; icon: React.ReactNode; auth?: boolean }[] = [
-    { href: '/markets', label: 'Markets', icon: <IconMarkets size={18} /> },
+    { href: '/markets', label: 'Events', icon: <IconMarkets size={18} /> },
     { href: '/leaderboard', label: 'Leaderboard', icon: <IconTrophy size={18} /> },
     { href: '/portfolio', label: 'Portfolio', icon: <IconPortfolio size={18} />, auth: true },
     { href: '/notifications', label: 'Notifications', icon: <IconBell size={18} />, auth: true },
