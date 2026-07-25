@@ -51,8 +51,11 @@ _Last updated: 2026-07-25._
 ## Auth / identity
 12. ✅ **Sell tab — "Log in to view positions"** was dead text; now a button
     that opens the in-context auth dialog.
-13. ⬜ **[P2] "Add funds" while logged out** should open auth first, then the
-    deposit sheet (currently opens deposit which then needs auth).
+13. ✅ **[P2] "Add funds"/"Withdraw" while logged out** now opens the auth
+    dialog first (with a "Sign in to add funds" reason) and **resumes the
+    funding sheet automatically** once the user is signed in — no more filling
+    the sheet only to hit a 401 on submit. Deferred intent (incl. prefilled
+    stake shortfall) is preserved across the auth round-trip.
 14. ⬜ **[P2] Full-page `/auth/login`** offers only password; the dialog also
     offers an email code. Align surfaces so neither is a lesser path.
 15. ⬜ **[P2] KYC** — after submitting (status `pending`) the wizard should

@@ -8,6 +8,7 @@ import { useWallets } from '@/hooks/use-wallets'
 import { createClient } from '@/lib/supabase/client'
 import { CURRENCIES, type CurrencyCode } from '@/types'
 import { depositPresets, phonePlaceholder, phonePrefill, normalizePhone, isValidPhone } from '@/lib/payments/deposit-ux'
+import { openAuthDialog } from '@/components/auth/auth-dialog'
 import {
   LogoMark,
   IconSearch, IconBell, IconUser, IconMenu, IconX,
@@ -31,8 +32,16 @@ export function Navbar() {
   const [withdrawOpen, setWithdrawOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  // Deferred funding intent (friction #13): when a logged-out user triggers
+  // "Add funds"/"Withdraw", we open the auth dialog first and stash the intent
+  // here, then complete it automatically once they're signed in.
+  const [pendingDeposit, setPendingDeposit] = useState<string | null>(null)
+  const [pendingWithdraw, setPendingWithdraw] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
   const searchRef = useRef<HTMLInputElement>(null)
+  // Latest auth state for use inside stable (deps-[]) event handlers.
+  const userRef = useRef(user)
+  userRef.current = user
 
   const wallet = wallets.find(w => w.currency === preferredCurrency)
   const balance = wallet?.available_balance ?? 0
@@ -45,7 +54,15 @@ export function Navbar() {
     const openDeposit = (e: Event) => {
       const detail = (e as CustomEvent).detail as { amountLocal?: number } | undefined
       const amt = detail?.amountLocal
-      setDepositAmount(amt && amt > 0 ? String(Math.ceil(amt)) : '')
+      const amtStr = amt && amt > 0 ? String(Math.ceil(amt)) : ''
+      // Logged out → authenticate first, then resume the deposit (no dead-end
+      // where they fill the sheet only to hit a 401 on submit).
+      if (!userRef.current) {
+        setPendingDeposit(amtStr)
+        openAuthDialog({ reason: 'Sign in to add funds to your wallet' })
+        return
+      }
+      setDepositAmount(amtStr)
       setDepositOpen(true)
     }
     window.addEventListener('marketpips:open-deposit', openDeposit)
@@ -54,10 +71,31 @@ export function Navbar() {
 
   // Symmetric global opener for the withdraw sheet (e.g. from the portfolio).
   useEffect(() => {
-    const openWithdraw = () => setWithdrawOpen(true)
+    const openWithdraw = () => {
+      if (!userRef.current) {
+        setPendingWithdraw(true)
+        openAuthDialog({ reason: 'Sign in to withdraw your funds' })
+        return
+      }
+      setWithdrawOpen(true)
+    }
     window.addEventListener('marketpips:open-withdraw', openWithdraw)
     return () => window.removeEventListener('marketpips:open-withdraw', openWithdraw)
   }, [])
+
+  // Resume a deferred funding intent once the user is authenticated (#13).
+  useEffect(() => {
+    if (!user) return
+    if (pendingDeposit !== null) {
+      setDepositAmount(pendingDeposit)
+      setDepositOpen(true)
+      setPendingDeposit(null)
+    }
+    if (pendingWithdraw) {
+      setWithdrawOpen(true)
+      setPendingWithdraw(false)
+    }
+  }, [user, pendingDeposit, pendingWithdraw])
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
