@@ -205,11 +205,19 @@ async function PortfolioData() {
     })
     .sort((a, b) => b.marketValue - a.marketValue)
 
-  const slices: AllocationSlice[] = holdings.map((h) => ({
-    label: h.optionLabel ? `${h.title} — ${h.optionLabel}` : h.title,
-    value: h.marketValue,
-    side: h.side,
-  }))
+  const slices: AllocationSlice[] = holdings.map((h) => {
+    // Only append the option label when it adds information. For binary-style
+    // markets the option label IS the market title, so `${title} — ${label}`
+    // rendered the same text twice ("Kenyan wins… — Kenyan wins…"). Collapse
+    // that to a single title.
+    const opt = h.optionLabel?.trim()
+    const showOpt = opt && opt.toLowerCase() !== h.title.trim().toLowerCase()
+    return {
+      label: showOpt ? `${h.title} — ${opt}` : h.title,
+      value: h.marketValue,
+      side: h.side,
+    }
+  })
 
   return (
     <div className="space-y-6">
