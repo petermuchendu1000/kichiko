@@ -25,7 +25,11 @@ interface MarketActivityProps {
 
 export function MarketActivity({ activity }: MarketActivityProps) {
   if (!activity.length) {
-    return <p className="py-4 text-center text-sm text-text-muted">No activity yet</p>
+    return (
+      <p className="py-4 text-center text-sm text-text-muted">
+        No activity yet — be the first to trade this market.
+      </p>
+    )
   }
 
   return (

@@ -6,6 +6,14 @@ next.** Status: ✅ fixed this pass · ⬜ open (prioritized P1–P3).
 
 _Last updated: 2026-07-25._
 
+> **Status: all 25 catalogued friction points resolved.** The money and identity
+> flows (deposit, withdraw, KYC, trade) no longer dead-end — every point shows
+> what happened and what to do next. Pure logic (KYC gate, deposit presets/phone,
+> CLOB limit-buy payload) is unit-tested; DB-touching paths (KYC gate config,
+> deposit status poll, limit-buy reserve) were verified E2E against the live
+> database (rolled back). Kept behind dark-launch flags where it affects the
+> money path (e.g. `flags.withdraw_kyc_gate`).
+
 ## Money path (highest impact)
 1. ✅ **Trade — insufficient balance (client check).** Was: "Insufficient
    balance" and stop. Now: opens the deposit sheet prefilled with the exact
@@ -88,8 +96,10 @@ _Last updated: 2026-07-25._
     are share-denominated (`buildClobOrderPayload` buy-limit path) with a
     balance guard that routes to deposit on shortfall. Resting-buy placement
     verified E2E against the live `clob_place_order` RPC (rolled back).
-20. ⬜ **[P3] Market detail empty states** (no positions / no activity / no
-    comments) are fine but could nudge the first action.
+20. ✅ **[P3] Market detail empty states nudge the first action.** Market
+    activity now reads "No activity yet — be the first to trade this market";
+    comments ("Be the first to share your prediction"), top-holders ("Be the
+    first to take a side"), and positions already nudge/guide.
 
 ## Cross-cutting
 21. ✅ **[P2] Rate-limited (429)** now shows a "please wait a moment" message
@@ -97,8 +107,11 @@ _Last updated: 2026-07-25._
     `Retry-After`) then re-enables — instead of a generic error.
 22. ✅ **[P2] Network errors** on trade now render an explicit **Try again**
     button (not just a message). Deposit/withdraw already retry via the form.
-23. ⬜ **[P3] Todifferentiate "loading" vs "empty"** on slow lists so a slow
-    fetch doesn't read as an empty dead-end.
+23. ✅ **[P3] Loading vs empty is differentiated** on the market-detail lists:
+    comments, positions and top-holders each render a skeleton while fetching
+    (`isLoading` / `rows === null`) and only show the empty copy once loaded, so
+    a slow fetch never reads as an empty dead-end. Activity is server-fed (no
+    client fetch race).
 24. ✅ **[P3] Success confirmations offer the obvious next step.** The trade
     receipt now has a "View in portfolio" action (alongside "Place another
     trade"); the deposit success screen offers "View portfolio". 
