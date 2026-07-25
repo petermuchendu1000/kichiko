@@ -9,6 +9,7 @@ import { createClient } from '@/lib/supabase/client'
 import { CURRENCIES, type CurrencyCode } from '@/types'
 import { depositPresets, phonePlaceholder, phonePrefill, normalizePhone, isValidPhone } from '@/lib/payments/deposit-ux'
 import { openAuthDialog } from '@/components/auth/auth-dialog'
+import { StkPushLoader } from '@/components/payments/stk-push-loader'
 import {
   LogoMark,
   IconSearch, IconBell, IconUser, IconMenu, IconX,
@@ -29,6 +30,9 @@ export function Navbar() {
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const [depositOpen, setDepositOpen] = useState(false)
   const [depositAmount, setDepositAmount] = useState('')
+  // When the deposit is opened to fund a trade the user was placing, we carry an
+  // 'order' intent so the sheet can resume the order once payment is confirmed.
+  const [depositIntent, setDepositIntent] = useState<'order' | null>(null)
   const [withdrawOpen, setWithdrawOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -52,9 +56,10 @@ export function Navbar() {
   // `amountLocal` in the event prefills the sheet to the exact stake shortfall.
   useEffect(() => {
     const openDeposit = (e: Event) => {
-      const detail = (e as CustomEvent).detail as { amountLocal?: number } | undefined
+      const detail = (e as CustomEvent).detail as { amountLocal?: number; intent?: 'order' } | undefined
       const amt = detail?.amountLocal
       const amtStr = amt && amt > 0 ? String(Math.ceil(amt)) : ''
+      setDepositIntent(detail?.intent ?? null)
       // Logged out → authenticate first, then resume the deposit (no dead-end
       // where they fill the sheet only to hit a 401 on submit).
       if (!userRef.current) {
@@ -376,7 +381,7 @@ export function Navbar() {
 
       {/* Deposit modal placeholder — swap for real modal */}
       {depositOpen && (
-        <DepositSheet onClose={() => setDepositOpen(false)} initialAmount={depositAmount} />
+        <DepositSheet onClose={() => { setDepositOpen(false); setDepositIntent(null) }} initialAmount={depositAmount} resumeOrder={depositIntent === 'order'} />
       )}
       {withdrawOpen && (
         <WithdrawSheet onClose={() => setWithdrawOpen(false)} balance={balance} currency={preferredCurrency} />
@@ -386,7 +391,7 @@ export function Navbar() {
 }
 
 // Inline deposit sheet (lightweight, no heavy modal lib)
-function DepositSheet({ onClose, initialAmount }: { onClose: () => void; initialAmount?: string }) {
+function DepositSheet({ onClose, initialAmount, resumeOrder = false }: { onClose: () => void; initialAmount?: string; resumeOrder?: boolean }) {
   const { preferredCurrency, refreshWallets } = useWallets()
   const router = useRouter()
   const [amount, setAmount] = useState(initialAmount ?? '')
@@ -456,6 +461,16 @@ function DepositSheet({ onClose, initialAmount }: { onClose: () => void; initial
     setConfirm('waiting'); setConfirmReason('')
   }
 
+  // Once the deposit is credited AND it was opened to fund a trade the user was
+  // placing, hand back to the ticket: broadcast so it can place the order, then
+  // close the sheet after a short beat (the "…then place the order" step).
+  useEffect(() => {
+    if (confirm !== 'credited' || !resumeOrder) return
+    window.dispatchEvent(new CustomEvent('marketpips:deposit-credited'))
+    const t = setTimeout(() => onClose(), 1400)
+    return () => clearTimeout(t)
+  }, [confirm, resumeOrder, onClose])
+
   const submit = async () => {
     if (!amount || !phone) return
     // Validate the phone up-front so the user gets an inline hint instead of a
@@ -504,9 +519,23 @@ function DepositSheet({ onClose, initialAmount }: { onClose: () => void; initial
         {/* Handle */}
         <div className="w-10 h-1 bg-[var(--border)] rounded-full mx-auto mb-5" />
 
-        {step === 'success' ? (
+        {step === 'loading' ? (
+          <StkPushLoader phase="sending" phone={phone} />
+        ) : step === 'success' ? (
           <div className="text-center py-6">
             {confirm === 'credited' ? (
+              resumeOrder ? (
+                <>
+                  <div className="w-16 h-16 rounded-full bg-[var(--green-dim)] flex items-center justify-center mx-auto mb-4">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--green)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  </div>
+                  <h3 className="font-display text-xl mb-2" style={{ color: 'var(--text-primary)' }}>Funds added</h3>
+                  <p className="text-sm mb-5" style={{ color: 'var(--text-secondary)' }}>
+                    Payment confirmed — placing your order…
+                  </p>
+                  <svg className="animate-spin mx-auto" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--pip-500)" strokeWidth="2.5" strokeLinecap="round" aria-hidden><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
+                </>
+              ) : (
               <>
                 <div className="w-16 h-16 rounded-full bg-[var(--green-dim)] flex items-center justify-center mx-auto mb-4">
                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--green)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -520,6 +549,7 @@ function DepositSheet({ onClose, initialAmount }: { onClose: () => void; initial
                   <button className="btn btn-ghost w-full" onClick={onClose}>Done</button>
                 </div>
               </>
+              )
             ) : confirm === 'failed' ? (
               <>
                 <div className="w-16 h-16 rounded-full bg-[var(--red)]/12 flex items-center justify-center mx-auto mb-4">
@@ -534,22 +564,7 @@ function DepositSheet({ onClose, initialAmount }: { onClose: () => void; initial
               </>
             ) : (
               <>
-                <div className="w-16 h-16 rounded-full bg-[var(--pip-500)]/12 flex items-center justify-center mx-auto mb-4">
-                  {confirm === 'waiting' ? (
-                    <svg className="animate-spin" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--pip-500)" strokeWidth="2.5" strokeLinecap="round"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
-                  ) : (
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--pip-500)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
-                  )}
-                </div>
-                <h3 className="font-display text-xl mb-2" style={{ color: 'var(--text-primary)' }}>Check your phone</h3>
-                <p className="text-sm mb-2" style={{ color: 'var(--text-secondary)' }}>
-                  An M-Pesa push has been sent to <strong>{phone}</strong>. Enter your PIN to complete.
-                </p>
-                <p className="text-xs mb-6" style={{ color: 'var(--text-muted)' }} aria-live="polite">
-                  {confirm === 'waiting'
-                    ? 'Waiting for confirmation… this updates automatically.'
-                    : "Still processing. It can take a moment — we'll credit your wallet as soon as it clears."}
-                </p>
+                <StkPushLoader phase="waiting" phone={phone} timedOut={confirm === 'timeout'} />
                 <div className="flex flex-col gap-2">
                   <button className="btn btn-primary btn-lg w-full" onClick={() => { onClose(); router.push('/portfolio') }}>View in portfolio</button>
                   <button className="btn btn-ghost w-full" onClick={onClose}>Done</button>
@@ -625,21 +640,10 @@ function DepositSheet({ onClose, initialAmount }: { onClose: () => void; initial
             <button
               className="btn btn-primary btn-lg w-full"
               onClick={submit}
-              disabled={step === 'loading' || !amount || !phone}
+              disabled={!amount || !phone}
             >
-              {step === 'loading' ? (
-                <span className="flex items-center gap-2">
-                  <svg className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M21 12a9 9 0 11-6.219-8.56"/>
-                  </svg>
-                  Sending push…
-                </span>
-              ) : (
-                <>
-                  <IconDeposit size={16} />
-                  Pay {amount && !isNaN(parseFloat(amount)) ? `${curSymbol} ${parseFloat(amount).toLocaleString()}` : 'Now'}
-                </>
-              )}
+              <IconDeposit size={16} />
+              Pay {amount && !isNaN(parseFloat(amount)) ? `${curSymbol} ${parseFloat(amount).toLocaleString()}` : 'Now'}
             </button>
 
             <p className="text-center text-xs mt-4" style={{ color: 'var(--text-muted)' }}>

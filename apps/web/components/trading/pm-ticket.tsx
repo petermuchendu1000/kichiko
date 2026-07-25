@@ -357,6 +357,34 @@ export function PmTicket({
   const router = useRouter()
   const supabase = useMemo(() => createClient(), [])
 
+  // "Deposit → then place the order" continuity. When a trade can't be funded we
+  // open the deposit sheet tagged with intent:'order' and mark that we're
+  // awaiting funds; when the sheet confirms the credit it broadcasts
+  // `marketpips:deposit-credited`, and we refresh this ticket's balance and
+  // resume the exact order the user was placing.
+  const awaitingFundsRef = useRef(false)
+  const handleTradeRef = useRef<() => void>(() => {})
+  const [resumeFunded, setResumeFunded] = useState(false)
+
+  useEffect(() => {
+    const onCredited = () => {
+      if (!awaitingFundsRef.current) return
+      awaitingFundsRef.current = false
+      // Pull the new balance into this ticket, then resume on the next tick.
+      void refreshWallets().finally(() => setResumeFunded(true))
+    }
+    window.addEventListener('marketpips:deposit-credited', onCredited)
+    return () => window.removeEventListener('marketpips:deposit-credited', onCredited)
+  }, [refreshWallets])
+
+  useEffect(() => {
+    if (!resumeFunded) return
+    setResumeFunded(false)
+    // Defer one tick so the refreshed balance is in state before we re-submit.
+    const t = setTimeout(() => handleTradeRef.current?.(), 0)
+    return () => clearTimeout(t)
+  }, [resumeFunded])
+
   const isMulti = isMultiOutcome(market, options)
   const indepMulti = isMulti && independent
   const outcomes: Outcome[] = useMemo(() => normalizeOutcomes(market, options), [market, options])
@@ -789,9 +817,10 @@ export function PmTicket({
         if (buyLimitPriceInvalid) return setError('Enter a limit price between 0.1¢ and 99.9¢.')
         if (buyLimitOverBalance) {
           const shortfall = planFunding(balance, buyLimitCostLocal).shortfall
+          awaitingFundsRef.current = true
           window.dispatchEvent(
             new CustomEvent('marketpips:open-deposit', {
-              detail: { amountLocal: shortfall, currency: preferredCurrency },
+              detail: { amountLocal: shortfall, currency: preferredCurrency, intent: 'order' },
             }),
           )
           return setError(
@@ -815,9 +844,10 @@ export function PmTicket({
           // user straight to funding by opening the deposit sheet prefilled with
           // the EXACT shortfall, then explain why.
           const shortfall = planFunding(balance, amountNum).shortfall
+          awaitingFundsRef.current = true
           window.dispatchEvent(
             new CustomEvent('marketpips:open-deposit', {
-              detail: { amountLocal: shortfall, currency: preferredCurrency },
+              detail: { amountLocal: shortfall, currency: preferredCurrency, intent: 'order' },
             }),
           )
           return setError(
@@ -898,9 +928,10 @@ export function PmTicket({
         // instead of dead-ending on the message.
         if (res.status === 402) {
           const shortfall = planFunding(balance, amountNum).shortfall
+          awaitingFundsRef.current = true
           window.dispatchEvent(
             new CustomEvent('marketpips:open-deposit', {
-              detail: { amountLocal: shortfall > 0 ? shortfall : amountNum, currency: preferredCurrency },
+              detail: { amountLocal: shortfall > 0 ? shortfall : amountNum, currency: preferredCurrency, intent: 'order' },
             }),
           )
           setError(data.error ?? 'You need more funds — opening deposit.')
@@ -932,6 +963,9 @@ export function PmTicket({
 
   // The platform is CLOB-only; every submit goes through the order-book engine.
   const handleTrade = handleClobTrade
+  // Keep the ref pointing at the latest handler (fresh balance/closure) so the
+  // post-deposit resume re-submits with up-to-date state.
+  handleTradeRef.current = handleClobTrade
 
   // ---- Success receipt ------------------------------------------------------
   if (receipt) {

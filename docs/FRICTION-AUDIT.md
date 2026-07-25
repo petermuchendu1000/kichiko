@@ -38,13 +38,16 @@ _Last updated: 2026-07-25._
    reserves + fee/net; unfunded → P0006). Live disbursement still needs the B2C
    initiator + security credential (see GO-LIVE-PROVISIONING.md).
 8. ✅ **[P2] Deposit success is no longer a dead "Check your phone" screen.**
-   The sheet now polls `GET /api/payments/deposit?id=` every 3s for ~90s and
-   reflects the real outcome in-app: **waiting** (spinner + "updates
-   automatically"), **credited** (green "Funds added" + wallet refreshed +
-   "View portfolio"), **failed** (reason + "Try again"), or a reassuring
-   **still-processing** timeout (never a dead-end). Redirect-based providers
-   (PesaPal) are sent to their hosted-payment URL instead. Status transition
-   pending→completed verified E2E against the live DB.
+   The sheet shows a **circular STK-push loader** (adapted from the community
+   Next.js M-Pesa Daraja `STKPushQueryLoading` pattern): a ring animation while
+   the push is sent, then **"STK pushed — enter your PIN to deposit"** while it
+   polls `GET /api/payments/deposit?id=` every 3s (~90s). Outcomes: **credited**
+   (green "Funds added" + wallet refreshed), **failed** (reason + "Try again"),
+   or a reassuring **still-processing** timeout (never a dead-end). When the
+   deposit was opened to fund a trade (`intent:'order'`), on credit it
+   broadcasts `marketpips:deposit-credited` and the ticket **auto-places the
+   order** the user was making. Redirect providers (PesaPal) still hand off to
+   their hosted URL. Verified E2E against the live DB.
 9. ✅ **[P2] Deposit quick-amounts are now currency-aware.** `depositPresets()`
    returns sensible presets per currency (KES/UGX/TZS/RWF/ZMW/ETB/BIF/USD) and
    the pay button shows the real currency symbol instead of a hardcoded "KES".
