@@ -22,7 +22,7 @@ import { createClient } from '@/lib/supabase/client'
 import {
   IconHome, IconSearch, IconFire, IconMenu, IconX,
   IconMarkets, IconTrophy, IconPortfolio, IconBell, IconUser,
-  IconSettings, IconShield, IconLogOut,
+  IconSettings, IconShield, IconLogOut, IconWallet,
 } from '@/components/ui/icons'
 import { ThemeToggle } from '@/components/ui/theme-toggle'
 
@@ -190,6 +190,19 @@ function MoreSheet({
         </div>
 
         <div className="grid grid-cols-1 gap-1">
+          {/* Deposit — moved here from the removed top-nav mobile menu so cash-in
+              stays one tap away on mobile. Opens the funding modal via the same
+              global event the navbar listens for (handles the auth-first flow). */}
+          {user && (
+            <button
+              type="button"
+              onClick={() => { onClose(); window.dispatchEvent(new CustomEvent('marketpips:open-deposit')) }}
+              className="flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)]"
+            >
+              <IconWallet size={18} />
+              Deposit
+            </button>
+          )}
           {links.map((l) => (
             <Link
               key={l.href}

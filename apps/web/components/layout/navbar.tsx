@@ -13,7 +13,7 @@ import { openAuthDialog } from '@/components/auth/auth-dialog'
 import { StkPushLoader } from '@/components/payments/stk-push-loader'
 import {
   LogoMark,
-  IconSearch, IconBell, IconUser, IconMenu, IconX,
+  IconSearch, IconBell, IconUser, IconX,
   IconWallet, IconDeposit, IconWithdraw, IconPortfolio,
   IconSettings, IconLogOut, IconLeaderboard, IconShield,
   IconMarkets, IconChevronDown, IconTrophy,
@@ -27,7 +27,6 @@ export function Navbar() {
   const { wallets, preferredCurrency } = useWallets()
   const supabase = createClient()
 
-  const [menuOpen, setMenuOpen] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const [depositOpen, setDepositOpen] = useState(false)
   const [depositAmount, setDepositAmount] = useState('')
@@ -35,7 +34,6 @@ export function Navbar() {
   // 'order' intent so the sheet can resume the order once payment is confirmed.
   const [depositIntent, setDepositIntent] = useState<'order' | null>(null)
   const [withdrawOpen, setWithdrawOpen] = useState(false)
-  const [searchOpen, setSearchOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   // Deferred funding intent (friction #13): when a logged-out user triggers
   // "Add funds"/"Withdraw", we open the auth dialog first and stash the intent
@@ -43,7 +41,6 @@ export function Navbar() {
   const [pendingDeposit, setPendingDeposit] = useState<string | null>(null)
   const [pendingWithdraw, setPendingWithdraw] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
-  const searchRef = useRef<HTMLInputElement>(null)
   // Latest auth state for use inside stable (deps-[]) event handlers.
   const userRef = useRef(user)
   userRef.current = user
@@ -119,13 +116,6 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  useEffect(() => {
-    if (searchOpen) setTimeout(() => searchRef.current?.focus(), 50)
-  }, [searchOpen])
-
-  // Close mobile menu on navigation
-  useEffect(() => { setMenuOpen(false) }, [pathname])
-
   const signOut = async () => {
     await supabase.auth.signOut()
     router.push('/')
@@ -184,15 +174,6 @@ export function Navbar() {
 
           {/* Right side */}
           <div className="flex items-center gap-2 ml-auto">
-
-            {/* Search icon — mobile */}
-            <button
-              className="md:hidden btn-ghost p-2 rounded-lg"
-              onClick={() => router.push('/search')}
-              aria-label="Search"
-            >
-              <IconSearch size={18} className="text-[var(--text-secondary)]" />
-            </button>
 
             {/* Light/dark switch — desktop only; on mobile it lives in the
                 "More" menu to declutter the top bar. */}
@@ -296,88 +277,11 @@ export function Navbar() {
               </>
             )}
 
-            {/* Mobile hamburger */}
-            <button
-              className="md:hidden p-2 rounded-lg hover:bg-[var(--bg-tertiary)] transition-colors"
-              onClick={() => setMenuOpen(v => !v)}
-              aria-label="Menu"
-            >
-              {menuOpen
-                ? <IconX size={18} className="text-[var(--text)]" />
-                : <IconMenu size={18} className="text-[var(--text-secondary)]" />
-              }
-            </button>
+            {/* Mobile navigation lives entirely in the bottom nav (Home ·
+                Search · Breaking · More) — the redundant top-bar search icon and
+                the ☰ hamburger/menu were removed to declutter the mobile chrome. */}
           </div>
         </div>
-
-        {/* Mobile menu */}
-        {menuOpen && (
-          <div className="md:hidden border-t border-[var(--border)] bg-[var(--bg-secondary)] animate-fade-in">
-            <div className="max-w-7xl mx-auto px-4 py-3 space-y-1">
-              {navLinks.map(link => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                    isActive(link.href)
-                      ? 'bg-[var(--pip-100)] text-[var(--pip-text)]'
-                      : 'text-[var(--text-secondary)]'
-                  }`}
-                >
-                  {link.icon}{link.label}
-                </Link>
-              ))}
-              {/* Theme toggle — available to guests + members (moved off the bar). */}
-              <div className="flex items-center justify-between px-3 py-2 rounded-lg">
-                <span className="text-sm font-medium text-[var(--text-secondary)]">Theme</span>
-                <ThemeToggle />
-              </div>
-
-              {user && (
-                <>
-                  <div className="my-1 border-t border-[var(--border)]" />
-                  {/* Balance (was in the desktop profile dropdown). */}
-                  <div className="flex items-center justify-between px-3 py-2">
-                    <span className="text-xs text-[var(--text-muted)]">Balance</span>
-                    <span className="font-mono font-bold text-sm" style={{ color: 'var(--text)' }}>
-                      {currencyInfo?.symbol}{balance.toLocaleString()} {preferredCurrency}
-                    </span>
-                  </div>
-                  <Link href="/notifications" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-[var(--text-secondary)]">
-                    <IconBell size={15} />Notifications
-                  </Link>
-                  <Link href="/portfolio" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-[var(--text-secondary)]">
-                    <IconPortfolio size={15} />Portfolio
-                  </Link>
-                  <Link href="/profile" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-[var(--text-secondary)]">
-                    <IconUser size={15} />Profile
-                  </Link>
-                  <Link href="/kyc" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-[var(--text-secondary)]">
-                    <IconShield size={15} />Verify Identity
-                  </Link>
-                  <Link href="/settings" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-[var(--text-secondary)]">
-                    <IconSettings size={15} />Settings
-                  </Link>
-                  <div className="pt-2 mt-1 border-t border-[var(--border)]">
-                    <button
-                      onClick={() => { setDepositOpen(true); setMenuOpen(false) }}
-                      className="w-full btn btn-primary btn-sm mb-2"
-                    >
-                      <IconDeposit size={14} /> Deposit Funds
-                    </button>
-                    <button
-                      onClick={signOut}
-                      className="flex w-full items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium"
-                      style={{ color: 'var(--no-700)' }}
-                    >
-                      <IconLogOut size={15} />Sign out
-                    </button>
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-        )}
       </nav>
 
       {/* Deposit modal placeholder — swap for real modal */}
