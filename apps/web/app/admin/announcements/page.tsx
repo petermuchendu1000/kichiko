@@ -17,7 +17,7 @@ import { AnnouncementForm } from '@/components/admin/announcements/AnnouncementF
 import { AnnouncementActions } from '@/components/admin/announcements/AnnouncementActions'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Admin — Announcements' }
+export const metadata = { title: 'Admin · Announcements' }
 
 // ISO alpha-2 codes for the platform's East-Africa footprint (matches profiles.country_code).
 const COUNTRIES = ['KE', 'UG', 'TZ', 'RW', 'ZM', 'ET', 'BI']

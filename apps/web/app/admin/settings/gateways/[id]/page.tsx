@@ -12,7 +12,7 @@ import { GatewayActions } from '@/components/admin/settings/GatewayActions'
 import { EnvBadge, EnabledBadge } from '@/components/admin/settings/GatewayBadges'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Admin — Gateway' }
+export const metadata = { title: 'Admin · Gateway' }
 
 export default async function GatewayDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params

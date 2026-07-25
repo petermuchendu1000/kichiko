@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/icons'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Admin — Finance' }
+export const metadata = { title: 'Admin · Finance' }
 
 async function count(supabase: any, table: string, build: (q: any) => any): Promise<number> {
   const { count } = await build(supabase.from(table).select('id', { count: 'exact', head: true }))

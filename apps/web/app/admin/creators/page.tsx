@@ -7,7 +7,7 @@ import { ApplicationActions } from '@/components/admin/growth/ApplicationActions
 import { CreatorStatusActions } from '@/components/admin/growth/CreatorActions'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Admin — Creator Management' }
+export const metadata = { title: 'Admin · Creator Management' }
 
 interface JoinedProfile {
   username: string | null

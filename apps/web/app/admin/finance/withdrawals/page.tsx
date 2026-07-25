@@ -12,7 +12,7 @@ import {
 import { IconWithdraw, IconAlertTriangle } from '@/components/ui/icons'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Admin — Withdrawals' }
+export const metadata = { title: 'Admin · Withdrawals' }
 
 const STATUS_OPTIONS = ['', 'pending', 'processing', 'completed', 'failed', 'refunded']
 const PROVIDER_OPTIONS = ['', 'mpesa', 'mtn_momo', 'airtel_money', 'pesapal', 'bank_transfer', 'internal']

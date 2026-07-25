@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/icons'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Admin — Dashboard' }
+export const metadata = { title: 'Admin · Dashboard' }
 
 async function count(sb: any, table: string, build: (q: any) => any): Promise<number> {
   try {

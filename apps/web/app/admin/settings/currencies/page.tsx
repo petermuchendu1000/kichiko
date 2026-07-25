@@ -4,7 +4,7 @@ import { requirePageCapability } from '@/lib/admin/page-guard'
 import { CurrencyManager, type RateRow } from '@/components/admin/settings/CurrencyManager'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Admin — Currencies & FX' }
+export const metadata = { title: 'Admin · Currencies & FX' }
 
 const ALL = ['KES', 'UGX', 'TZS', 'RWF', 'ZMW', 'ETB', 'BIF', 'USD']
 

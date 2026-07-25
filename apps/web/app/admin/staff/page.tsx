@@ -32,7 +32,7 @@ import { IconShield, IconCheck, IconArrowRight } from '@/components/ui/icons'
 import type { Enums } from '@/types/supabase'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Admin — Staff & Roles' }
+export const metadata = { title: 'Admin · Staff & Roles' }
 
 // Staff roles shown as columns in the capability matrix (low → high privilege).
 const MATRIX_ROLES: Role[] = ['support', 'finance', 'moderator', 'admin', 'superadmin']

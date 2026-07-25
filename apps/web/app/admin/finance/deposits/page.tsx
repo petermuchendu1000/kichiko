@@ -12,7 +12,7 @@ import {
 import { IconDeposit } from '@/components/ui/icons'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Admin — Deposits' }
+export const metadata = { title: 'Admin · Deposits' }
 
 const STATUS_OPTIONS = ['', 'pending', 'processing', 'completed', 'failed', 'refunded']
 const PROVIDER_OPTIONS = ['', 'mpesa', 'mtn_momo', 'airtel_money', 'pesapal', 'bank_transfer', 'internal']

@@ -4,7 +4,7 @@ import { requirePageCapability } from '@/lib/admin/page-guard'
 import { GatewayForm } from '@/components/admin/settings/GatewayForm'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Admin — New Gateway' }
+export const metadata = { title: 'Admin · New Gateway' }
 
 export default async function NewGatewayPage() {
   await requirePageCapability('gateways:write')

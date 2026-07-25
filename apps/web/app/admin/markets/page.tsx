@@ -15,7 +15,7 @@ import {
 import { IconGavel, IconMarkets, IconFire, IconStar } from '@/components/ui/icons'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Admin — Markets' }
+export const metadata = { title: 'Admin · Events' }
 
 const STATUS_OPTIONS = ['', 'draft', 'pending', 'active', 'closed', 'resolved', 'disputed', 'cancelled']
 const CATEGORY_OPTIONS = ['', 'politics', 'sports', 'crypto', 'economics', 'entertainment', 'technology', 'weather', 'other']
@@ -55,8 +55,8 @@ export default async function MarketsPage({
   return (
     <div>
       <PageHeader
-        title="Markets"
-        description="Approve, resolve, feature and moderate every market on the platform."
+        title="Events"
+        description="Approve, resolve, feature and moderate every event on the platform."
         meta={<span>{total.toLocaleString()} markets</span>}
         actions={
           <Link href="/admin/markets/disputes" className="btn btn-secondary btn-sm gap-1.5">
@@ -110,7 +110,7 @@ export default async function MarketsPage({
             ))}
             {rows.length === 0 && (
               <EmptyRow colSpan={7}>
-                <span className="inline-flex items-center gap-2"><IconMarkets size={16} /> No markets match these filters.</span>
+                <span className="inline-flex items-center gap-2"><IconMarkets size={16} /> No events match these filters.</span>
               </EmptyRow>
             )}
           </tbody>

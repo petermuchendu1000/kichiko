@@ -9,7 +9,7 @@ import { PageHeader, Panel, PanelHead, PanelBody, Kpi, KpiGrid, Pill } from '@/c
 import { IconDollar, IconWallet, IconActivity, IconUsers } from '@/components/ui/icons'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Admin — Market detail' }
+export const metadata = { title: 'Admin · Market detail' }
 
 const money = (v: number | null | undefined) => '$' + Number(v ?? 0).toLocaleString(undefined, { maximumFractionDigits: 2 })
 const dt = (v: string | null | undefined) => (v ? new Date(v).toLocaleString() : '—')

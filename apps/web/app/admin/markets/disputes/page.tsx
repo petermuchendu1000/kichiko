@@ -6,7 +6,7 @@ import { PageHeader, Panel, Pill, EmptyState } from '@/components/admin/ui'
 import { IconGavel, IconClock, IconArrowRight } from '@/components/ui/icons'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Admin — Market disputes' }
+export const metadata = { title: 'Admin · Event disputes' }
 
 export default async function DisputesPage() {
   const ctx = await requirePageCapability(['markets:resolve', 'markets:cancel'])
@@ -24,15 +24,15 @@ export default async function DisputesPage() {
   return (
     <div>
       <PageHeader
-        crumbs={[{ label: 'Markets', href: '/admin/markets' }, { label: 'Disputes' }]}
+        crumbs={[{ label: 'Events', href: '/admin/markets' }, { label: 'Disputes' }]}
         title="Dispute queue"
-        description="Markets flagged for dispute, oldest first. Resolve or cancel each before its SLA lapses."
+        description="Events flagged for dispute, oldest first. Resolve or cancel each before its SLA lapses."
         meta={<Pill tone={rows.length > 0 ? 'red' : 'green'} dot>{rows.length} open</Pill>}
       />
 
       {rows.length === 0 ? (
         <Panel>
-          <EmptyState icon={<IconGavel size={20} />} title="No disputed markets" description="Every disputed market has been resolved. The queue is clear." />
+          <EmptyState icon={<IconGavel size={20} />} title="No disputed events" description="Every disputed event has been resolved. The queue is clear." />
         </Panel>
       ) : (
         <div className="flex flex-col gap-3">

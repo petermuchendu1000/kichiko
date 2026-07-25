@@ -7,7 +7,7 @@ import { ApplicationActions } from '@/components/admin/growth/ApplicationActions
 import { MarketerStatusActions } from '@/components/admin/growth/MarketerActions'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Admin — Marketer Management' }
+export const metadata = { title: 'Admin · Marketer Management' }
 
 interface JoinedProfile {
   username: string | null

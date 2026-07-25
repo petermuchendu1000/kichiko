@@ -1,6 +1,7 @@
 // app/admin/finance/ledger/page.tsx — Unified transaction ledger: reconciliation
 // summary, date-range filtering and CSV export on the shared admin UI kit.
 import { requirePageCapability } from '@/lib/admin/page-guard'
+import { usdToLocal } from '@/lib/currency'
 import {
   parseLedgerParams,
   fetchLedger,
@@ -18,7 +19,7 @@ import {
 } from '@/components/ui/icons'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Admin — Ledger' }
+export const metadata = { title: 'Admin · Ledger' }
 
 const TYPE_OPTIONS = ['', 'deposit', 'withdrawal', 'bet_placed', 'bet_won', 'bet_lost', 'bet_refunded', 'fee', 'bonus', 'referral_bonus', 'creator_reward']
 const STATUS_OPTIONS = ['', 'pending', 'processing', 'completed', 'failed', 'refunded']
@@ -27,7 +28,7 @@ const opt = (values: string[], any: string) =>
   values.map((v) => ({ value: v, label: v === '' ? any : v.replace(/_/g, ' ') }))
 
 const usd = (v: number) =>
-  '$' + v.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+  'KSh ' + Math.round(usdToLocal(v ?? 0, 'KES')).toLocaleString('en-KE')
 
 const fmtDate = (v: string | null) =>
   v ? new Date(v).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—'

@@ -20,7 +20,7 @@ import { ReportStatusBadge, ReasonBadge, EntityBadge, SlaBadge } from '@/compone
 import { ReportActions } from '@/components/admin/moderation/ModerationActions'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Admin — Content Moderation' }
+export const metadata = { title: 'Admin · Content Moderation' }
 
 function qs(p: ReportListParams, o: Partial<ReportListParams>): string {
   const m = { ...p, ...o }

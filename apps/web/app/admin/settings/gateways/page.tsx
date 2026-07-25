@@ -18,7 +18,7 @@ import { EnvBadge, EnabledBadge, HealthBadge } from '@/components/admin/settings
 import { GatewayActions } from '@/components/admin/settings/GatewayActions'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Admin — Payment Gateways' }
+export const metadata = { title: 'Admin · Payment Gateways' }
 
 function qs(p: GatewayListParams, o: Partial<GatewayListParams>): string {
   const m = { ...p, ...o }

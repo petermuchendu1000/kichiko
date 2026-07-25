@@ -7,7 +7,7 @@ import { PageHeader, Panel, Segmented, EmptyState } from '@/components/admin/ui'
 import { IconShield, IconClock } from '@/components/ui/icons'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Admin — KYC' }
+export const metadata = { title: 'Admin · KYC' }
 
 export default async function KycQueuePage({
   searchParams,

@@ -7,7 +7,7 @@ import { CampaignStatusBadge, KindBadge } from '@/components/admin/growth/Badges
 import { CampaignCreate, CampaignStatusActions } from '@/components/admin/growth/CampaignForm'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Admin — Campaigns' }
+export const metadata = { title: 'Admin · Campaigns' }
 
 export default async function CampaignsPage() {
   const ctx = await requirePageCapability('marketers:manage')

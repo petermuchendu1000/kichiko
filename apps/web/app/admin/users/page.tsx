@@ -16,7 +16,7 @@ import {
 import { IconDownload, IconUsers } from '@/components/ui/icons'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Admin — Users' }
+export const metadata = { title: 'Admin · Users' }
 
 const ROLE_OPTIONS = ['', 'user', 'creator', 'marketer', 'resolver', 'support', 'finance', 'moderator', 'admin', 'superadmin']
 const STATUS_OPTIONS = ['', 'active', 'suspended', 'closed']

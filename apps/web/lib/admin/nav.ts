@@ -37,11 +37,11 @@ export const ADMIN_NAV: AdminNavGroup[] = [
     ],
   },
   {
-    label: 'Markets',
+    label: 'Events',
     items: [
       {
         href: '/admin/markets',
-        label: 'Markets',
+        label: 'Events',
         icon: 'BarChart3',
         capability: ['markets:approve', 'markets:resolve', 'markets:cancel'],
       },

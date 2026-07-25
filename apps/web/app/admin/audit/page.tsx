@@ -11,7 +11,7 @@ import {
 } from '@/lib/admin/audit'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Admin — Audit & Security' }
+export const metadata = { title: 'Admin · Audit & Security' }
 
 function qs(p: AuditListParams, o: Partial<AuditListParams> & { view?: string }): string {
   const m = { ...p, ...o }

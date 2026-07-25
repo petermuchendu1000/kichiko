@@ -7,7 +7,7 @@ import { RunStatusBadge, KindBadge, ItemStatusBadge, SettlementBadge } from '@/c
 import { PayoutRunActions, ClawbackButton } from '@/components/admin/growth/PayoutActions'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Admin — Payout Run' }
+export const metadata = { title: 'Admin · Payout Run' }
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (

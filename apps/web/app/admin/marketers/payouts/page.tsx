@@ -6,7 +6,7 @@ import { RunStatusBadge, KindBadge } from '@/components/admin/growth/Badges'
 import { PayoutRunCreate } from '@/components/admin/growth/PayoutActions'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Admin — Payout Runs' }
+export const metadata = { title: 'Admin · Payout Runs' }
 
 export default async function PayoutRunsPage() {
   const ctx = await requirePageCapability('payouts:run')

@@ -7,7 +7,7 @@ import { ProfileStatusBadge, TierBadge } from '@/components/admin/growth/Badges'
 import { CreatorStatusActions, CreatorEditForm } from '@/components/admin/growth/CreatorActions'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Admin — Creator' }
+export const metadata = { title: 'Admin · Creator' }
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (

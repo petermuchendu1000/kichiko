@@ -5,7 +5,7 @@ import { fetchSettings, groupSettings } from '@/lib/admin/settings'
 import { SettingsForm } from '@/components/admin/settings/SettingsForm'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Admin — System Settings' }
+export const metadata = { title: 'Admin · System Settings' }
 
 export default async function SettingsPage() {
   const ctx = await requirePageCapability('settings:write')

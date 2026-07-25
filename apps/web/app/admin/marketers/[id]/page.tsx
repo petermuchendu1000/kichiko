@@ -8,7 +8,7 @@ import { ProfileStatusBadge } from '@/components/admin/growth/Badges'
 import { MarketerStatusActions, RegenCodeButton, MarketerPlanForm } from '@/components/admin/growth/MarketerActions'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Admin — Marketer' }
+export const metadata = { title: 'Admin · Marketer' }
 
 function Stat({ label, value, hint }: { label: string; value: string; hint?: string }) {
   return (
