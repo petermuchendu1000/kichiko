@@ -310,12 +310,12 @@ def _catalog_markets(cur) -> list[tuple]:
 
 def _usd_makers(cur, n=40):
     cur.execute("""select u.id, w.id from auth.users u
-                   join wallets w on w.user_id=u.id and w.currency='USD'
+                   join wallets w on w.user_id=u.id and w.currency='KES'
                    where u.email like '%%@demo.marketpips' order by u.created_at limit %s""", (n,))
     rows = cur.fetchall()
     if not rows:
         cur.execute("""select u.id, w.id from auth.users u
-                       join wallets w on w.user_id=u.id and w.currency='USD'
+                       join wallets w on w.user_id=u.id and w.currency='KES'
                        order by u.created_at limit %s""", (n,))
         rows = cur.fetchall()
     return rows
@@ -389,7 +389,7 @@ def simulate(conn, rng, dry: bool) -> dict:
         for i in range(n):
             pv = float(path[i])
             ph_rows.append((mkt, oid, round(pv, 6), round(1 - pv, 6), round(pv, 6),
-                            round(float(rng.uniform(2e3, 9e4)), 2), ts[i]))
+                            round(float(rng.uniform(20, 900)), 2), ts[i]))
 
         # ---- resting two-sided book (migration-030 contract) ----
         book = quant.clob_book(mid_cents, rng, depth=BOOK_DEPTH)
@@ -405,14 +405,14 @@ def simulate(conn, rng, dry: bool) -> dict:
                 if size <= 0:
                     continue
                 order_rows.append((mkt, oid, uid_, wid, side, "buy", "limit",
-                                   pc, size, 0, "open", "USD", 1, round(pc / 100 * size, 2)))
+                                   pc, size, 0, "open", "KES", 0.01, round(pc / 100 * size, 2)))
 
         # ---- trade history: autocorrelated taker flow ----
         flow = quant.taker_flow(FILLS_PER_BOOK, rng)
         for k in range(FILLS_PER_BOOK):
             drift = flow[k] * float(rng.uniform(0.0, 1.5))
             pc = min(99.9, max(0.1, round(mid_cents + drift + rng.normal(0, 0.8), 1)))
-            size = round(float(rng.uniform(50, 6000)), 2)
+            size = round(float(rng.uniform(20, 2000)), 2)
             taker = makers[rng.integers(0, len(makers))][0]
             maker = makers[rng.integers(0, len(makers))][0]
             mk = "direct" if rng.random() < 0.82 else ("mint" if rng.random() < 0.5 else "burn")
@@ -439,7 +439,7 @@ def simulate(conn, rng, dry: bool) -> dict:
                                  cur_val, round(cur_val - inv, 2), 0, 0, True, None,
                                  NOW - timedelta(days=int(rng.integers(15, 200))), NOW, 0))
 
-        top_yes = 4_000_000 * p
+        top_yes = 40_000 * p  # KES peg: 1 share = KSh 100, so keep whale positions realistic
         _book_side("yes", p, top_yes, HOLDERS_YES)
         _book_side("no", 1 - p, top_yes * 0.5, HOLDERS_NO)
 
