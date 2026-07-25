@@ -34,6 +34,7 @@ export const SETTINGS_SCHEMA: SettingDef[] = [
   { key: 'limits.withdraw_min_usd', label: 'Withdraw min (USD)', group: 'Limits', type: 'number', default: 2, isPublic: true, min: 0 },
   { key: 'limits.withdraw_max_usd', label: 'Withdraw max (USD)', group: 'Limits', type: 'number', default: 3000, isPublic: true, min: 0 },
   { key: 'limits.daily_withdraw_max_usd', label: 'Daily withdraw cap (USD)', group: 'Limits', type: 'number', default: 5000, isPublic: false, min: 0 },
+  { key: 'limits.kyc_required_usd', label: 'KYC required above (USD)', group: 'Limits', type: 'number', default: 100, isPublic: true, min: 0, help: 'Withdrawals whose USD value exceeds this require a verified identity (only enforced when the "Withdraw KYC gate" flag is on).' },
   { key: 'limits.max_open_markets_per_creator', label: 'Max open markets / creator', group: 'Limits', type: 'number', default: 10, isPublic: false, min: 0 },
   // Feature flags
   { key: 'flags.market_creation_enabled', label: 'Market creation', group: 'Feature flags', type: 'boolean', default: true, isPublic: true },
@@ -46,6 +47,7 @@ export const SETTINGS_SCHEMA: SettingDef[] = [
   { key: 'flags.social_sharing', label: 'Social sharing (dark launch)', group: 'Feature flags', type: 'boolean', default: false, isPublic: true, help: 'Share buttons on markets. Ships off; enable when ready.' },
   { key: 'flags.independent_options', label: 'Independent option lines (dark launch)', group: 'Feature flags', type: 'boolean', default: false, isPublic: true, help: 'Polymarket/Kalshi-style per-candidate Yes/No pricing (each candidate an independent binary line). Ships off; only affects markets migrated to independent mode. Kill-switch for Phase C.' },
   { key: 'flags.clob', label: 'CLOB order book (dark launch)', group: 'Feature flags', type: 'boolean', default: false, isPublic: true, help: 'Polymarket-style per-candidate Central Limit Order Book: real resting limit orders matched by price-time priority with complementary minting, plus the inline Order Book / Graph / Resolution drawer and Buy-Yes/Buy-No per candidate. Only affects markets with pricing_engine=clob. Ships off; instant kill-switch for the money path.' },
+  { key: 'flags.withdraw_kyc_gate', label: 'Withdraw KYC gate (dark launch)', group: 'Feature flags', type: 'boolean', default: false, isPublic: false, help: 'Require a verified identity to withdraw above the "KYC required above (USD)" limit. Ships off; enable once the KYC review queue is staffed. When on, gated withdrawals return kyc_required and the UI routes the user to /kyc.' },
   // Maintenance
   { key: 'maintenance.enabled', label: 'Maintenance mode', group: 'Maintenance', type: 'boolean', default: false, isPublic: true, help: 'Puts the platform into read-only / freeze mode.' },
   { key: 'maintenance.message', label: 'Maintenance banner message', group: 'Maintenance', type: 'text', default: '', isPublic: true },
@@ -127,6 +129,34 @@ export function groupSettings(resolved: ResolvedSetting[]): Record<string, Resol
   const out: Record<string, ResolvedSetting[]> = {}
   for (const s of resolved) (out[s.group] ??= []).push(s)
   return out
+}
+
+/**
+ * Read a single typed setting value from platform_settings, applying the schema
+ * default when the row is absent. One round-trip; use for hot-path config reads
+ * (e.g. limit thresholds inside an API route).
+ */
+export async function getSettingValue(
+  supabase: SupabaseClient<Database>,
+  key: string
+): Promise<SettingValue> {
+  const def = SETTINGS_BY_KEY[key]
+  if (!def) throw new Error(`Unknown setting: ${key}`)
+  const { data } = await supabase
+    .from('platform_settings')
+    .select('value')
+    .eq('key', key)
+    .maybeSingle()
+  return readSettingValue(def, (data?.value ?? undefined) as Json | undefined)
+}
+
+/** Convenience: read a numeric setting, coerced with its schema default. */
+export async function getNumberSetting(
+  supabase: SupabaseClient<Database>,
+  key: string
+): Promise<number> {
+  const v = await getSettingValue(supabase, key)
+  return typeof v === 'number' ? v : Number(v)
 }
 
 export async function fetchSettings(

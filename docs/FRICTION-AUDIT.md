@@ -49,9 +49,15 @@ _Last updated: 2026-07-25._
 15. ⬜ **[P2] KYC** — after submitting (status `pending`) the wizard should
     route the user back to what they were doing (resume the pending action),
     not leave them on a confirmation.
-16. ⬜ **[P1] Withdraw KYC gate is deferred** (commented in the API). When
-    enabled it must return `kyc_required` and the UI must route to `/kyc` with a
-    clear "verify to withdraw" message rather than a bare 403.
+16. ✅ **[P1] Withdraw KYC gate is now config-driven** (was deferred/commented).
+    Enforced behind the `flags.withdraw_kyc_gate` feature flag: withdrawals whose
+    USD value exceeds `limits.kyc_required_usd` (default $100) require a verified
+    identity, otherwise the API returns `403 { kyc_required: true }` with a clear
+    "verify to withdraw" message and the WithdrawSheet routes to `/kyc`. Ships
+    OFF (dark launch) so behaviour is unchanged until the KYC queue is staffed;
+    admins toggle it (and the threshold) from the settings console. Pure gate
+    decision unit-tested (`requiresKycVerification`); config resolves to safe
+    defaults verified against the live DB.
 
 ## Markets / trading
 17. ✅ **Closed/resolved market ticket** showed a message with no next step; now

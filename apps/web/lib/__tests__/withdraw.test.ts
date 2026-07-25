@@ -7,6 +7,8 @@ import {
   meetsMinWithdrawal,
   MIN_WITHDRAWALS,
   REVIEW_THRESHOLD_USD,
+  requiresKycVerification,
+  KYC_REQUIRED_USD_DEFAULT,
 } from '@/lib/payments/withdraw'
 import { parseMpesaB2CResult } from '@/lib/payments/mpesa'
 
@@ -78,6 +80,38 @@ describe('REVIEW_THRESHOLD_USD', () => {
     expect(REVIEW_THRESHOLD_USD).toBe(500)
     expect(501 > REVIEW_THRESHOLD_USD).toBe(true)
     expect(500 > REVIEW_THRESHOLD_USD).toBe(false)
+  })
+})
+
+describe('requiresKycVerification (friction #16 gate)', () => {
+  const T = KYC_REQUIRED_USD_DEFAULT // 100
+
+  it('blocks unverified accounts above the threshold', () => {
+    expect(requiresKycVerification(150, T, 'unverified')).toBe(true)
+    expect(requiresKycVerification(150, T, 'pending')).toBe(true)
+    expect(requiresKycVerification(150, T, 'rejected')).toBe(true)
+    expect(requiresKycVerification(150, T, null)).toBe(true)
+    expect(requiresKycVerification(150, T, undefined)).toBe(true)
+  })
+
+  it('always allows a verified account, regardless of amount', () => {
+    expect(requiresKycVerification(150, T, 'verified')).toBe(false)
+    expect(requiresKycVerification(100000, T, 'verified')).toBe(false)
+  })
+
+  it('allows any status at or below the threshold (gate is above only)', () => {
+    expect(requiresKycVerification(100, T, 'unverified')).toBe(false) // exactly at threshold
+    expect(requiresKycVerification(50, T, 'unverified')).toBe(false)
+    expect(requiresKycVerification(0, T, 'rejected')).toBe(false)
+  })
+
+  it('respects a custom threshold', () => {
+    expect(requiresKycVerification(300, 500, 'unverified')).toBe(false)
+    expect(requiresKycVerification(501, 500, 'unverified')).toBe(true)
+  })
+
+  it('exposes a sane default threshold', () => {
+    expect(KYC_REQUIRED_USD_DEFAULT).toBe(100)
   })
 })
 

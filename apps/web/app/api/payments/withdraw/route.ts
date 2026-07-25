@@ -11,13 +11,18 @@
 //   3. If the provider rejects synchronously, we fail_withdrawal immediately so
 //      the reserved funds are refunded — money is never stuck reserved.
 //
-// KYC gate: DEFERRED (Module 8). The hook is marked below — re-enable it by
-// restoring the kyc_status check before the reserve. Account-status and the
-// USD review-threshold gates remain active.
+// KYC gate: config-driven (friction #16). Enforced when the
+// `flags.withdraw_kyc_gate` feature flag is ON: any withdrawal whose USD value
+// exceeds `limits.kyc_required_usd` requires a verified identity, otherwise the
+// route returns 403 { kyc_required: true } and the UI routes to /kyc. The flag
+// ships OFF (dark launch) so behaviour is unchanged until the KYC review queue
+// is staffed. Account-status and the USD review-threshold gates remain active.
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient, createAdminClient } from '@/lib/supabase/server'
 import { z } from 'zod'
 import { processWithdrawal } from '@/lib/payments'
+import { isFeatureEnabled } from '@/lib/flags'
+import { getNumberSetting } from '@/lib/admin/settings'
 import {
   computeWithdrawalFee,
   withdrawalNetAmount,
@@ -26,6 +31,7 @@ import {
   withdrawalAmountUsd,
   requestWithdrawal,
   failWithdrawal,
+  requiresKycVerification,
   REVIEW_THRESHOLD_USD,
   INSUFFICIENT_BALANCE_CODE,
 } from '@/lib/payments/withdraw'
@@ -58,10 +64,10 @@ export async function POST(req: NextRequest) {
     const cur = currency as CurrencyCode
     const prov = provider as PaymentProvider
 
-    // Account-status gate (KYC gate deferred — see file header).
+    // Account-status gate.
     const { data: profile } = await supabase
       .from('profiles')
-      .select('account_status')
+      .select('account_status, kyc_status')
       .eq('id', user.id)
       .single()
 
@@ -72,22 +78,34 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Account is suspended' }, { status: 403 })
     }
 
-    // -----------------------------------------------------------------
-    // KYC GATE — DEFERRED (Module 8). To re-enable, uncomment:
-    //
-    //   if (amountUSD > 100 && profile.kyc_status !== 'verified') {
-    //     return NextResponse.json(
-    //       { error: 'KYC verification required for withdrawals over $100.',
-    //         kyc_required: true }, { status: 403 })
-    //   }
-    // -----------------------------------------------------------------
-
     // Minimum withdrawal (currency-specific).
     if (!meetsMinWithdrawal(amount, cur)) {
       return NextResponse.json(
         { error: `Minimum withdrawal is ${minWithdrawal(cur)} ${currency}` },
         { status: 400 },
       )
+    }
+
+    // USD value drives both the KYC gate and the review-threshold decision.
+    const amountUSD = await withdrawalAmountUsd(admin, amount, cur)
+
+    // -----------------------------------------------------------------
+    // KYC GATE (config-driven — see file header). Only enforced when the
+    // feature flag is ON. Large payouts (by USD value) need a verified
+    // identity; otherwise we return a guided 403 that the UI turns into a
+    // "verify to withdraw" → /kyc step rather than a bare rejection.
+    // -----------------------------------------------------------------
+    if (await isFeatureEnabled(supabase, 'flags.withdraw_kyc_gate')) {
+      const kycThresholdUsd = await getNumberSetting(supabase, 'limits.kyc_required_usd')
+      if (requiresKycVerification(amountUSD, kycThresholdUsd, profile.kyc_status)) {
+        return NextResponse.json(
+          {
+            error: `Verify your identity to withdraw more than $${kycThresholdUsd}. It only takes a minute.`,
+            kyc_required: true,
+          },
+          { status: 403 },
+        )
+      }
     }
 
     // Resolve the user's wallet for this currency.
@@ -106,7 +124,6 @@ export async function POST(req: NextRequest) {
     // review instead of being disbursed immediately.
     const feeAmount = computeWithdrawalFee(amount, prov)
     const netAmount = withdrawalNetAmount(amount, prov)
-    const amountUSD = await withdrawalAmountUsd(admin, amount, cur)
     const requiresReview = amountUSD > REVIEW_THRESHOLD_USD
 
     // Atomic reserve + pending withdrawal/transaction creation.

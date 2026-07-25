@@ -71,6 +71,27 @@ export function meetsMinWithdrawal(amount: number, currency: CurrencyCode): bool
   return amount >= minWithdrawal(currency)
 }
 
+/** KYC status that clears the withdrawal identity gate. */
+export const KYC_VERIFIED_STATUS = 'verified'
+
+/** Default USD value above which a verified identity is required to withdraw. */
+export const KYC_REQUIRED_USD_DEFAULT = 100
+
+/**
+ * PURE KYC-gate decision (friction #16): should this withdrawal be blocked
+ * pending identity verification? True only when the USD value exceeds the
+ * threshold AND the account is not verified. The caller is responsible for
+ * checking the `flags.withdraw_kyc_gate` feature flag first — when the flag is
+ * off this decision is never consulted.
+ */
+export function requiresKycVerification(
+  amountUsd: number,
+  thresholdUsd: number,
+  kycStatus: string | null | undefined,
+): boolean {
+  return amountUsd > thresholdUsd && kycStatus !== KYC_VERIFIED_STATUS
+}
+
 // ------------------------------------------------------------
 // FX resolution (live rate wins, else currency-correct fallback)
 // ------------------------------------------------------------
