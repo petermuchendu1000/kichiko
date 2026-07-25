@@ -1439,7 +1439,10 @@ export function PmTicket({
               </div>
             ) : !user ? (
               <p className="rounded-md border border-hairline bg-surface-2 p-4 text-center text-text-secondary">
-                Log in to view and close your positions.
+                <button type="button" onClick={() => goToAuth('login')} className="font-semibold text-pip-500 hover:underline">
+                  Log in
+                </button>{' '}
+                to view and close your positions.
               </p>
             ) : sellPosition === null ? (
               <p className="rounded-md border border-hairline bg-surface-2 p-4 text-center text-text-secondary">

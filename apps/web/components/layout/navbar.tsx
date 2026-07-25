@@ -338,6 +338,7 @@ function DepositSheet({ onClose, initialAmount }: { onClose: () => void; initial
   const [amount, setAmount] = useState(initialAmount ?? '')
   const [phone, setPhone] = useState('')
   const [step, setStep] = useState<'form' | 'loading' | 'success'>('form')
+  const [error, setError] = useState('')
 
   // Close on Escape for keyboard users (backdrop click handles pointer dismissal).
   useEffect(() => {
@@ -348,6 +349,7 @@ function DepositSheet({ onClose, initialAmount }: { onClose: () => void; initial
 
   const submit = async () => {
     if (!amount || !phone) return
+    setError('')
     setStep('loading')
     try {
       const res = await fetch('/api/payments/deposit', {
@@ -356,9 +358,18 @@ function DepositSheet({ onClose, initialAmount }: { onClose: () => void; initial
         body: JSON.stringify({ amount: parseFloat(amount), currency: preferredCurrency, phone_number: phone, provider: 'mpesa' }),
       })
       const data = await res.json()
-      if (data.success || data.checkout_request_id) setStep('success')
-      else setStep('form')
-    } catch { setStep('form') }
+      if (res.ok && (data.success || data.checkout_request_id)) {
+        setStep('success')
+      } else {
+        // Never dead-end silently: surface the exact reason (min amount, bad
+        // phone, gateway down, etc.) so the user knows what to fix.
+        setError(data.error ?? 'We could not start the deposit. Check the amount and phone number, then try again.')
+        setStep('form')
+      }
+    } catch {
+      setError('Network error — check your connection and try again.')
+      setStep('form')
+    }
   }
 
   return (
@@ -398,7 +409,7 @@ function DepositSheet({ onClose, initialAmount }: { onClose: () => void; initial
 
             {/* Quick amounts */}
             <div className="mb-4">
-              <label htmlFor="amount-kes" className="text-xs font-semibold uppercase tracking-wide mb-2 block" style={{ color: 'var(--text-muted)' }}>Amount (KES)</label>
+              <label htmlFor="amount-kes" className="text-xs font-semibold uppercase tracking-wide mb-2 block" style={{ color: 'var(--text-muted)' }}>Amount ({preferredCurrency})</label>
               <div className="grid grid-cols-4 gap-2 mb-3">
                 {['500', '1000', '2000', '5000'].map(v => (
                   <button
@@ -435,6 +446,11 @@ function DepositSheet({ onClose, initialAmount }: { onClose: () => void; initial
               />
             </div>
 
+            {error && (
+              <p role="alert" aria-live="assertive" className="mb-3 rounded-lg border border-[var(--red)]/25 bg-[var(--red)]/10 px-3 py-2 text-sm text-[var(--red)]">
+                {error}
+              </p>
+            )}
             <button
               className="btn btn-primary btn-lg w-full"
               onClick={submit}
