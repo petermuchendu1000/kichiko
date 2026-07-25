@@ -3,7 +3,7 @@
 // components/admin/AdminNav.tsx — control-plane sidebar.
 // Uses the bespoke MarketPips icon language (zero external icon libraries) to
 // stay consistent with the rest of the product.
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
@@ -100,6 +100,21 @@ function NavList({
 export function AdminNav({ groups }: { groups: AdminNavGroup[] }) {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
+
+  // A11y: close the mobile drawer on Escape and whenever the route changes, so
+  // keyboard users aren't trapped and the menu never lingers after navigation.
+  useEffect(() => {
+    if (!open) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false)
+    }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [open])
+
+  useEffect(() => {
+    setOpen(false)
+  }, [pathname])
 
   return (
     <>
