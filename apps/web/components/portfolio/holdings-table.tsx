@@ -8,6 +8,7 @@
 import { Fragment, useState } from 'react'
 import Link from 'next/link'
 import { formatUSD } from '@/lib/utils'
+import { distinctOptionLabel } from '@/lib/portfolio/labels'
 import { IconChevronDown, IconArrowRight } from '@/components/ui/icons'
 
 export interface HoldingRow {
@@ -58,34 +59,36 @@ export function HoldingsTable({ holdings }: HoldingsTableProps) {
   return (
     <div className="card overflow-hidden">
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[640px] text-sm">
+        <table className="w-full min-w-[600px] text-sm">
+          <colgroup>
+            <col className="w-full" />
+          </colgroup>
           <thead>
             <tr className="border-b border-hairline text-left text-xs text-text-muted">
               <th scope="col" className="px-4 py-2.5 font-medium">Position</th>
-              <th scope="col" className="px-3 py-2.5 text-right font-medium">Avg cost</th>
-              <th scope="col" className="px-3 py-2.5 text-right font-medium">Live</th>
-              <th scope="col" className="px-3 py-2.5 text-right font-medium">Mkt value</th>
-              <th scope="col" className="px-3 py-2.5 text-right font-medium">Unrealized P&amp;L</th>
-              <th scope="col" className="px-4 py-2.5 text-right font-medium">Weight</th>
+              <th scope="col" className="whitespace-nowrap px-3 py-2.5 text-right font-medium">Avg cost</th>
+              <th scope="col" className="whitespace-nowrap px-3 py-2.5 text-right font-medium">Live</th>
+              <th scope="col" className="whitespace-nowrap px-3 py-2.5 text-right font-medium">Mkt value</th>
+              <th scope="col" className="whitespace-nowrap px-3 py-2.5 text-right font-medium">Unrealized P&amp;L</th>
+              <th scope="col" className="whitespace-nowrap px-4 py-2.5 text-right font-medium">Weight</th>
             </tr>
           </thead>
           <tbody>
             {holdings.map((h) => {
               const isOpen = expanded === h.id
-              // Show the option chip only when it carries information the title
-              // doesn't already. For binary-style markets the option label IS
-              // the title, so rendering both duplicated the market name in the
-              // Position cell. Yes/No positions always keep their colored badge.
-              const optLabel = h.optionLabel?.trim()
-              const showOptionChip =
-                h.side === 'option' && !!optLabel && optLabel.toLowerCase() !== h.title.trim().toLowerCase()
+              // The chip only shows a pick that adds information beyond the
+              // title. Binary markets can carry a single option whose label
+              // mirrors the title (differing only by punctuation), which
+              // duplicated the market name in the cell — the helper normalizes
+              // and drops it. Yes/No positions always keep their colored badge.
+              const optChip = h.side === 'option' ? distinctOptionLabel(h.title, h.optionLabel) : null
               return (
                 <Fragment key={h.id}>
                   <tr
                     className="cursor-pointer border-b border-hairline transition-colors hover:bg-surface-2"
                     onClick={() => setExpanded(isOpen ? null : h.id)}
                   >
-                    <td className="max-w-[220px] px-4 py-3 sm:max-w-[340px] md:max-w-[440px]">
+                    <td className="w-full max-w-0 px-4 py-3">
                       <div className="flex min-w-0 items-center gap-2">
                         <button
                           type="button"
@@ -101,12 +104,12 @@ export function HoldingsTable({ holdings }: HoldingsTableProps) {
                           <IconChevronDown size={15} />
                         </button>
                         {h.side === 'option' ? (
-                          showOptionChip && (
+                          optChip && (
                             <span
                               className="badge badge-muted flex-none max-w-[9rem] truncate"
-                              title={optLabel}
+                              title={optChip}
                             >
-                              {optLabel}
+                              {optChip}
                             </span>
                           )
                         ) : (
@@ -121,17 +124,17 @@ export function HoldingsTable({ holdings }: HoldingsTableProps) {
                         </span>
                       </div>
                     </td>
-                    <td className="px-3 py-3 text-right font-mono text-text-secondary">{cents(h.avgCost)}</td>
-                    <td className="px-3 py-3 text-right font-mono text-text-primary">{cents(h.livePrice)}</td>
-                    <td className="px-3 py-3 text-right font-mono text-text-primary">{formatUSD(h.marketValue)}</td>
-                    <td className={`px-3 py-3 text-right font-mono font-semibold ${pnlClass(h.pnl)}`}>
+                    <td className="whitespace-nowrap px-3 py-3 text-right font-mono text-text-secondary">{cents(h.avgCost)}</td>
+                    <td className="whitespace-nowrap px-3 py-3 text-right font-mono text-text-primary">{cents(h.livePrice)}</td>
+                    <td className="whitespace-nowrap px-3 py-3 text-right font-mono text-text-primary">{formatUSD(h.marketValue)}</td>
+                    <td className={`whitespace-nowrap px-3 py-3 text-right font-mono font-semibold ${pnlClass(h.pnl)}`}>
                       {signedUSD(h.pnl)}
                       <span className="ml-1 text-xs font-medium opacity-80">
                         ({h.pnl >= 0 ? '+' : ''}
                         {(h.pnlPct * 100).toFixed(1)}%)
                       </span>
                     </td>
-                    <td className="px-4 py-3">
+                    <td className="whitespace-nowrap px-4 py-3">
                       <div className="flex items-center justify-end gap-2">
                         <div className="prob-bar h-1.5 w-14">
                           <div className="prob-bar-fill" style={{ width: `${Math.round(h.weight * 100)}%` }} />
