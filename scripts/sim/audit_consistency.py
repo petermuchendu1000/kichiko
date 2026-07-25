@@ -152,6 +152,45 @@ def main():
     check("Non-KES FX rates are live (not fallback/peg)", len(non_kes_stale) == 0,
           f"stale: {[(r['from_currency'], r['source']) for r in non_kes_stale]}", level="WARN")
 
+    # ---------------- I. LEDGER RECONCILIATION (double-entry integrity) ----------------
+    print("\n[I] Ledger reconciliation & double-entry integrity")
+    r = one("""
+      with last_txn as (
+        select distinct on (wallet_id) wallet_id, balance_after
+        from transactions order by wallet_id, created_at desc, balance_after
+      )
+      select count(*) filter (where abs(coalesce(lt.balance_after,0) - w.available_balance) > 0.5) mismatched,
+             count(*) total
+      from wallets w left join last_txn lt on lt.wallet_id = w.id where w.currency='KES'
+    """)
+    check("Every wallet balance reconciles to its transaction ledger", (r['mismatched'] or 0) == 0,
+          f"{r['mismatched']}/{r['total']} wallets mismatch ledger", level="FAIL")
+    r = one("select count(*) n from transactions where balance_after < 0 or balance_before < 0")
+    check("No negative running balance in ledger", r['n'] == 0, f"{r['n']} negative-balance txns")
+    r = one("select count(*) n from transactions where idempotency_key is null")
+    check("Every transaction has an idempotency key (traceability)", r['n'] == 0, f"{r['n']} missing keys")
+    r = one("select count(*) n from (select idempotency_key, count(*) c from transactions group by 1 having count(*)>1) t")
+    check("Idempotency keys are unique (no double-apply)", r['n'] == 0, f"{r['n']} duplicated keys")
+
+    # ---------------- J. PAYMENT REALISM & TRACEABILITY ----------------
+    print("\n[J] Payment realism & traceability")
+    r = one("select count(*) n, max(amount) mx from deposits where amount > 250000")
+    check("Deposits obey the M-Pesa single-txn cap (<= KSh 250k)", (r['n'] or 0) == 0,
+          f"{r['n']} deposits exceed cap (max KSh {float(r['mx'] or 0):,.0f})", level="FAIL")
+    r = one("select count(*) n from deposits where transaction_id is null")
+    check("Every deposit links to a ledger transaction", r['n'] == 0, f"{r['n']} unlinked deposits", level="FAIL")
+    r = one("select count(*) n from withdrawals where transaction_id is null and status <> 'failed'")
+    check("Every (non-failed) withdrawal links to a ledger transaction", r['n'] == 0, f"{r['n']} unlinked", level="FAIL")
+    r = one("select (max(created_at)::date - min(created_at)::date) span from deposits")
+    check("Deposit history spans a realistic window (not one day)", (r['span'] or 0) >= 30,
+          f"deposits span only {r['span']} days", level="WARN")
+
+    # ---------------- K. INTEGRITY CONSTRAINTS PRESENT ----------------
+    print("\n[K] Persistent integrity constraints (schema-level guards)")
+    r = one("select count(*) n from pg_constraint where conname like 'ck\\_%%' and contype='c'")
+    check("Data-integrity CHECK constraints installed", (r['n'] or 0) >= 11,
+          f"only {r['n']} ck_* constraints present", level="WARN")
+
     conn.close()
     print("\n" + "=" * 70)
     print(f"RESULT: {fails} FAIL, {warns} WARN")
