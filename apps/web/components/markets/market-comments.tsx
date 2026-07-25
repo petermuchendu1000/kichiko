@@ -386,7 +386,7 @@ export function MarketComments({ marketId, options, resolutionType }: MarketComm
     const pending = likePending.has(comment.id)
     const name = comment.user?.display_name || comment.user?.username || 'Anonymous'
     return (
-      <div id={`c-${comment.id}`} className="flex gap-3 scroll-mt-24">
+      <div id={`c-${comment.id}`} className="group flex gap-3 scroll-mt-24">
         <Link
           href={traderHref(comment.user_id)}
           className="flex-none rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[var(--pip-400)]"
@@ -403,45 +403,56 @@ export function MarketComments({ marketId, options, resolutionType }: MarketComm
           </div>
           <p className="whitespace-pre-wrap break-words text-sm leading-relaxed text-text-secondary">{comment.content}</p>
 
-          {/* Action row: like · reply · share. */}
+          {/* Action row (Polymarket/Twitter-style disclosure):
+              • Like (heart + count) is ALWAYS visible — it is the primary
+                reaction and the count is meaningful information that must not
+                hide. Liking is a one-tap action on every device.
+              • Reply + Share fade in on hover / keyboard-focus on desktop (sm+)
+                so the thread reads cleanly, and are ALWAYS visible on touch
+                (mobile) where there is no hover. They stay in the DOM and reveal
+                on focus-within, so the disclosure is keyboard- and
+                screen-reader-accessible (WCAG 1.4.13 friendly). */}
           <div className="mt-1.5 flex items-center gap-4 text-xs text-text-muted">
             <button
               type="button"
               onClick={() => toggleLike(comment.id)}
               disabled={pending}
               aria-pressed={liked}
-              aria-label={liked ? 'Unlike comment' : 'Like comment'}
+              aria-label={liked ? `Unlike (${comment.like_count})` : 'Like comment'}
               className={`flex items-center gap-1 transition-colors hover:text-no disabled:opacity-60 ${
                 liked ? 'text-no' : ''
               }`}
             >
               <HeartIcon filled={liked} />
               {comment.like_count > 0 && <span className="tabular-nums">{comment.like_count}</span>}
+              <span className={comment.like_count > 0 ? 'sr-only' : ''}>Like</span>
             </button>
 
-            <button
-              type="button"
-              onClick={() => {
-                setReplyingTo((cur) => (cur === comment.id ? null : comment.id))
-                setReplyText('')
-              }}
-              aria-expanded={replyingTo === comment.id}
-              aria-label="Reply to comment"
-              className="flex items-center gap-1 transition-colors hover:text-text-primary"
-            >
-              <IconComments size={14} />
-              Reply
-            </button>
+            <div className="flex items-center gap-4 transition-opacity duration-150 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100">
+              <button
+                type="button"
+                onClick={() => {
+                  setReplyingTo((cur) => (cur === comment.id ? null : comment.id))
+                  setReplyText('')
+                }}
+                aria-expanded={replyingTo === comment.id}
+                aria-label="Reply to comment"
+                className="flex items-center gap-1 transition-colors hover:text-text-primary"
+              >
+                <IconComments size={14} />
+                Reply
+              </button>
 
-            <button
-              type="button"
-              onClick={() => shareComment(comment.id)}
-              aria-label="Share comment"
-              className="flex items-center gap-1 transition-colors hover:text-text-primary"
-            >
-              <IconShare size={14} />
-              Share
-            </button>
+              <button
+                type="button"
+                onClick={() => shareComment(comment.id)}
+                aria-label="Share comment"
+                className="flex items-center gap-1 transition-colors hover:text-text-primary"
+              >
+                <IconShare size={14} />
+                Share
+              </button>
+            </div>
           </div>
 
           {/* Inline reply composer — parent pinned to the thread root. */}
