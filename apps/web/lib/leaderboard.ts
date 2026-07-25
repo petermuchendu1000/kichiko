@@ -5,6 +5,8 @@
 // and unit-testable (mirrors the SQL RANK() semantics in migration 007).
 // ============================================================
 
+import { usdToLocal } from './currency'
+
 export const LEADERBOARD_METRICS = ['volume', 'winrate', 'pnl'] as const
 export type LeaderboardMetric = (typeof LEADERBOARD_METRICS)[number]
 
@@ -120,18 +122,18 @@ export function medalFor(rank: number | undefined): string | null {
 
 // ---------- Formatters ----------
 
+// Amounts are stored in USD; the pilot displays everything in Kenyan Shillings,
+// so these render KES via the shared FX conversion (falls back to the pegged rate).
 export function formatUsd(n: number | null | undefined): string {
-  const v = n ?? 0
-  return `$${v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+  const kes = usdToLocal(n ?? 0, 'KES')
+  return `KSh ${Math.round(kes).toLocaleString('en-KE')}`
 }
 
 export function formatSignedUsd(n: number | null | undefined): string {
   const v = n ?? 0
   const sign = v >= 0 ? '+' : '-'
-  return `${sign}$${Math.abs(v).toLocaleString('en-US', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })}`
+  const kes = usdToLocal(Math.abs(v), 'KES')
+  return `${sign}KSh ${Math.round(kes).toLocaleString('en-KE')}`
 }
 
 export function formatPct(rate: number | null | undefined): string {

@@ -5,7 +5,7 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { summarizePortfolio, toValuationInput } from '@/lib/portfolio'
-import { buildRatesMap, localToUsd } from '@/lib/currency'
+import { buildRatesMap, localToUsd, usdToLocal } from '@/lib/currency'
 import type { Position, Transaction, Wallet, CurrencyCode, MarketStatus } from '@/types'
 import { SummaryCards } from '@/components/portfolio/summary-cards'
 import { AllocationDonut, type AllocationSlice } from '@/components/portfolio/allocation-donut'
@@ -244,8 +244,8 @@ async function PortfolioData() {
                   summary.totalRealizedPnl >= 0 ? 'text-yes' : 'text-no'
                 }`}
               >
-                {summary.totalRealizedPnl >= 0 ? '+' : ''}
-                {summary.totalRealizedPnl.toFixed(2)} USD
+                {summary.totalRealizedPnl >= 0 ? '+' : '-'}KSh{' '}
+                {Math.round(usdToLocal(Math.abs(summary.totalRealizedPnl), 'KES')).toLocaleString('en-KE')}
               </p>
               <p className="mt-0.5 text-xs text-text-muted">
                 Across {summary.settledCount} settled position{summary.settledCount === 1 ? '' : 's'}

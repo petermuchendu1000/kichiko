@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest'
+import { usdToLocal } from '../currency'
 import {
   normalizeMetric,
   normalizePeriod,
@@ -105,9 +106,9 @@ describe('formatters & helpers', () => {
     expect(medalFor(undefined)).toBeNull()
   })
   it('usd formatters', () => {
-    expect(formatUsd(1234.5)).toBe('$1,234.50')
-    expect(formatSignedUsd(50)).toBe('+$50.00')
-    expect(formatSignedUsd(-20)).toBe('-$20.00')
+    expect(formatUsd(1234.5)).toBe(`KSh ${Math.round(usdToLocal(1234.5, 'KES')).toLocaleString('en-KE')}`)
+    expect(formatSignedUsd(50)).toBe(`+KSh ${Math.round(usdToLocal(50, 'KES')).toLocaleString('en-KE')}`)
+    expect(formatSignedUsd(-20)).toBe(`-KSh ${Math.round(usdToLocal(20, 'KES')).toLocaleString('en-KE')}`)
   })
   it('percent', () => {
     expect(formatPct(0.6)).toBe('60%')

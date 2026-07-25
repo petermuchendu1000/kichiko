@@ -24,6 +24,7 @@ import Link from 'next/link'
 import type { Market } from '@/types'
 import { CATEGORY_LABELS } from '@/types'
 import { splitHighlight } from '@/lib/search'
+import { usdToLocal } from '@/lib/currency'
 import { IconArrowUp, IconArrowDown, IconBookmark, IconGift } from '@/components/ui/icons'
 import { EntityAvatar } from '@/components/ui/entity-avatar'
 import type { CardOption } from '@/lib/markets/card-options'
@@ -79,19 +80,19 @@ function timeLeft(closes: string, now: number) {
   return `${s}s`
 }
 
-/** Compact volume like Polymarket ("$4B", "$55M", "$1.2M", "$820K", "$430").
- *  Integers at each scale; a single decimal only below 10 (and trailing .0 is
- *  stripped) — matches PM's "$4B" / "$55M" / "$1.2M" rhythm. */
+/** Compact traded volume in KES ("KSh 4B", "KSh 55M", "KSh 1.2M", "KSh 820K").
+ *  Values are stored in USD and converted to Kenyan Shillings for display. */
 function volShort(usd: number) {
+  const kes = usdToLocal(usd || 0, 'KES')
   const fmt = (n: number, suffix: string) => {
     const s = n < 10 ? n.toFixed(1).replace(/\.0$/, '') : String(Math.round(n))
-    return `$${s}${suffix}`
+    return `KSh ${s}${suffix}`
   }
-  const abs = Math.abs(usd)
-  if (abs >= 1e9) return fmt(usd / 1e9, 'B')
-  if (abs >= 1e6) return fmt(usd / 1e6, 'M')
-  if (abs >= 1e3) return fmt(usd / 1e3, 'K')
-  return `$${Math.round(usd)}`
+  const abs = Math.abs(kes)
+  if (abs >= 1e9) return fmt(kes / 1e9, 'B')
+  if (abs >= 1e6) return fmt(kes / 1e6, 'M')
+  if (abs >= 1e3) return fmt(kes / 1e3, 'K')
+  return `KSh ${Math.round(kes)}`
 }
 
 /**

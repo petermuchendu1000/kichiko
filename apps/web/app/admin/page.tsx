@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { getAuthContext } from '@/lib/auth'
 import { canAccessAdminPortal } from '@/lib/admin/rbac'
+import { usdToLocal } from '@/lib/currency'
 import { PageHeader, Kpi, KpiGrid, Panel, PanelHead, Table, Th, Td, EmptyRow, Pill } from '@/components/admin/ui'
 import {
   IconUsers, IconMarkets, IconWallet, IconShield, IconFlag, IconGavel,
@@ -64,7 +65,7 @@ export default async function AdminDashboard() {
     slate: 'text-slate-600 dark:text-slate-300 bg-slate-500/10',
   }
 
-  const fmtMoney = (n: number) => `$${(n ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+  const fmtMoney = (n: number) => `KSh ${Math.round(usdToLocal(n ?? 0, 'KES')).toLocaleString('en-KE')}`
 
   return (
     <div>
