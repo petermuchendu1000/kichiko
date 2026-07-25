@@ -8,7 +8,7 @@ import { IconLeaderboard } from '@/components/ui/icons'
 export const metadata: Metadata = {
   title: 'Leaderboard',
   description:
-    'The top traders on MarketPips — ranked by volume, win rate and profit & loss across all-time, this month and this week.',
+    'The top players on MarketPips, ranked by how much they have traded, their win rate, and profit or loss (all-time, this month and this week).',
   alternates: { canonical: '/leaderboard' },
 }
 

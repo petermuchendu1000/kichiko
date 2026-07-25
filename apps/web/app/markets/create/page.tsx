@@ -30,7 +30,7 @@ export default function CreateMarketPage() {
   if (!user) {
     return (
       <div className="mx-auto max-w-md px-4 py-20 text-center">
-        <h1 className="font-display text-2xl text-text-primary">Sign in to create a market</h1>
+        <h1 className="font-display text-2xl text-text-primary">Sign in to create an event</h1>
         <p className="mx-auto mt-2 max-w-sm text-sm text-text-secondary">
           You need an account to author and publish prediction markets.
         </p>

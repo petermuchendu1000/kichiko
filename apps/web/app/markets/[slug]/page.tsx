@@ -59,7 +59,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params
   const market = await getMarket(slug)
-  if (!market) return { title: 'Market not found' }
+  if (!market) return { title: 'Event not found' }
 
   const description = market.description.slice(0, 160)
   return {

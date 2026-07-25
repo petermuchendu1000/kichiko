@@ -8,8 +8,8 @@ export const metadata: Metadata = {
 }
 
 const GUIDES: { href: string; label: string; desc: string }[] = [
-  { href: '/markets', label: 'Browse markets', desc: 'Find something to trade on.' },
-  { href: '/portfolio', label: 'Your portfolio', desc: 'Track positions and P&L.' },
+  { href: '/markets', label: 'Browse events', desc: 'Find an event to predict on.' },
+  { href: '/portfolio', label: 'Your portfolio', desc: 'See what you hold and your profit or loss.' },
   { href: '/kyc', label: 'Verify your identity', desc: 'Needed to withdraw.' },
   { href: '/notifications', label: 'Notifications', desc: 'Choose how we reach you.' },
 ]
@@ -37,7 +37,7 @@ export default function HelpPage() {
         ))}
       </ul>
 
-      <h2>How betting works</h2>
+      <h2>How predicting works</h2>
       <p>
         You buy YES or NO shares on a question about the future. The price (0–100%)
         is the market&rsquo;s estimate of how likely the outcome is. Winning shares
@@ -62,8 +62,8 @@ export default function HelpPage() {
 
       <h2>Play responsibly</h2>
       <p>
-        Please see <a href="/legal/responsible-play">Responsible play</a>. Trading
-        involves real risk — only stake what you can afford to lose.
+        Please see <a href="/legal/responsible-play">Responsible play</a>. This is
+        real money and real risk. Only stake what you can afford to lose.
       </p>
 
       <h2>Policies</h2>

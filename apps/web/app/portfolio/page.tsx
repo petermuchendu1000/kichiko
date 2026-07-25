@@ -231,14 +231,14 @@ async function PortfolioData() {
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2">
-          <h2 className="mb-3 text-sm font-semibold text-text-secondary">Holdings</h2>
+          <h2 className="mb-3 text-sm font-semibold text-text-secondary">What you hold</h2>
           <HoldingsTable holdings={holdings} />
         </div>
         <div>
           <AllocationDonut slices={slices} />
           {summary.totalRealizedPnl !== 0 && (
             <div className="card mt-4 p-4">
-              <p className="text-xs font-medium text-text-muted">Realized P&amp;L (settled)</p>
+              <p className="text-xs font-medium text-text-muted">Profit or loss (settled)</p>
               <p
                 className={`mt-1 font-mono text-lg font-bold ${
                   summary.totalRealizedPnl >= 0 ? 'text-yes' : 'text-no'
