@@ -13,7 +13,7 @@
 -- INITIAL EXCHANGE RATES (approximate)
 -- ============================================================
 INSERT INTO public.exchange_rates (from_currency, to_currency, rate, source) VALUES
-  ('KES', 'USD', 0.00775,  'seed'),
+  ('KES', 'USD', 0.01,  'pilot-peg-ksh100'),
   ('UGX', 'USD', 0.000267, 'seed'),
   ('TZS', 'USD', 0.000385, 'seed'),
   ('RWF', 'USD', 0.000714, 'seed'),

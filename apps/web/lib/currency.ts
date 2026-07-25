@@ -53,7 +53,9 @@ export const CURRENCY_META: Record<CurrencyCode, CurrencyMeta> = {
 // these here means a transient DB hiccup degrades to a sane, currency-correct
 // estimate instead of a dangerous constant.
 export const FALLBACK_USD_RATES: Record<CurrencyCode, number> = {
-  KES: 0.00775,
+  // Pilot peg: 1 internal unit ("USD") = KSh 100, so a share settles at KSh 100
+  // and price (0-100) reads as both the probability % and the KSh cost.
+  KES: 0.01,
   UGX: 0.000267,
   TZS: 0.000385,
   RWF: 0.000714,

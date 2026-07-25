@@ -79,7 +79,7 @@ describe('localToUsd', () => {
   })
 
   it('uses fallback rate when no live rate supplied', () => {
-    expect(localToUsd(1000, 'KES')).toBe(7.75)
+    expect(localToUsd(1000, 'KES')).toBe(1000 * FALLBACK_USD_RATES.KES)
   })
 
   it('rejects non-finite amounts', () => {
