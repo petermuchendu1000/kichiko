@@ -166,10 +166,32 @@ export const CLOB_ERRORS: Record<string, { status: number; error: string }> = {
   P0112: { status: 409, error: 'Order is no longer cancellable' },
 }
 
-/** Find the matching CLOB error for a Postgres error message, if any. */
-export function clobErrorFor(message: string): { status: number; error: string } | null {
-  const code = Object.keys(CLOB_ERRORS).find((c) => message.includes(c))
-  return code ? CLOB_ERRORS[code] : null
+/**
+ * Map a CLOB RPC error to an HTTP status + friendly message.
+ *
+ * Postgres `RAISE ... USING ERRCODE='P00xx'` puts the code in the SQLSTATE,
+ * which supabase-js/PostgREST expose as `error.code` — NOT inside
+ * `error.message` (the message is the human string like "Insufficient
+ * balance..."). So we MUST match on the code. We accept the whole error object
+ * (preferred) and match `error.code` first; a raw string is still accepted and
+ * scanned for a code as a fallback (keeps older callers/tests working).
+ */
+export function clobErrorFor(
+  err: string | { code?: string | null; message?: string | null } | null | undefined,
+): { status: number; error: string } | null {
+  if (err == null) return null
+  if (typeof err === 'string') {
+    const code = Object.keys(CLOB_ERRORS).find((c) => err.includes(c))
+    return code ? CLOB_ERRORS[code] : null
+  }
+  // Primary path: exact SQLSTATE match on the error code.
+  if (err.code && CLOB_ERRORS[err.code]) return CLOB_ERRORS[err.code]
+  // Defensive fallback: some layers embed the code in the message text.
+  if (err.message) {
+    const code = Object.keys(CLOB_ERRORS).find((c) => err.message!.includes(c))
+    if (code) return CLOB_ERRORS[code]
+  }
+  return null
 }
 
 // ---------------------------------------------------------------------------

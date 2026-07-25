@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
     })
 
     if (rpcError) {
-      const mapped = clobErrorFor(rpcError.message)
+      const mapped = clobErrorFor(rpcError)
       if (mapped) return NextResponse.json({ error: mapped.error }, { status: mapped.status })
       console.error('CLOB cancel error:', rpcError)
       return NextResponse.json({ error: 'Failed to cancel order' }, { status: 500 })

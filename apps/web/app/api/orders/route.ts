@@ -149,7 +149,7 @@ async function handleClobOrder({
   })
 
   if (rpcError) {
-    const mapped = clobErrorFor(rpcError.message)
+    const mapped = clobErrorFor(rpcError)
     if (mapped) return NextResponse.json({ error: mapped.error }, { status: mapped.status })
     console.error('CLOB order error:', rpcError)
     return NextResponse.json({ error: 'Failed to place order' }, { status: 500 })

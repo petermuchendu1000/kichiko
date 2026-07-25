@@ -127,6 +127,26 @@ describe('clobErrorFor (SQLSTATE → HTTP)', () => {
   it('returns null for unknown codes', () => {
     expect(clobErrorFor('P9999 nope')).toBeNull()
   })
+
+  // Regression: real PostgREST/supabase-js errors carry the SQLSTATE in
+  // `.code`, and the message is a human string WITHOUT the code. The mapper
+  // must match on `.code`, else every RPC error fell through to a generic 500
+  // ("Failed to place order") — which is exactly the bug this covers.
+  it('maps by error.code even when the message omits the code', () => {
+    expect(
+      clobErrorFor({ code: 'P0006', message: 'Insufficient balance. Available: 0.000000, Required: 130.30' }),
+    ).toEqual({ status: 402, error: 'Insufficient balance' })
+  })
+  it('maps cancel/sell guards by error.code', () => {
+    expect(clobErrorFor({ code: 'P0111', message: 'not your order' })?.status).toBe(403)
+    expect(clobErrorFor({ code: 'P0113', message: 'Not enough shares to sell (available 1, requested 5)' })?.status).toBe(409)
+  })
+  it('returns null for an object with an unknown/absent code', () => {
+    expect(clobErrorFor({ code: 'P9999', message: 'nope' })).toBeNull()
+    expect(clobErrorFor({ message: 'no code at all' })).toBeNull()
+    expect(clobErrorFor(null)).toBeNull()
+    expect(clobErrorFor(undefined)).toBeNull()
+  })
 })
 
 describe('CLOB ticket estimate helpers', () => {
