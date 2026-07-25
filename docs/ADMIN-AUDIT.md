@@ -26,6 +26,13 @@ _Last updated: 2026-07-25._
 ## Findings
 
 ### Fixed this pass
+- **[P1, bug] Gateway secrets never decrypted on Supabase.**
+  `admin_get_gateway_secret` / `admin_rotate_gateway_secret` are SECURITY DEFINER
+  with `search_path=public`, but pgcrypto lives in the `extensions` schema, so
+  `pgp_sym_decrypt`/`encrypt` were unresolvable — every secret read failed and
+  the gateway connection test reported "Missing consumer_key / consumer_secret".
+  Migration `036` recreates both with `search_path = public, extensions` (still a
+  fixed path). Verified: M-Pesa health check now returns ✓ "OAuth token acquired".
 - **[P2, a11y] Mobile nav drawer**: no Escape-to-close and it lingered after
   navigation. Added `Escape` handler + auto-close on route change in `AdminNav`.
 
