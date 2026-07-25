@@ -99,8 +99,9 @@ _Last updated: 2026-07-25._
     button (not just a message). Deposit/withdraw already retry via the form.
 23. ⬜ **[P3] Todifferentiate "loading" vs "empty"** on slow lists so a slow
     fetch doesn't read as an empty dead-end.
-24. ⬜ **[P3] Success confirmations** should offer the obvious next step (after a
-    trade: "View in portfolio"; after deposit: "Place your order").
+24. ✅ **[P3] Success confirmations offer the obvious next step.** The trade
+    receipt now has a "View in portfolio" action (alongside "Place another
+    trade"); the deposit success screen offers "View portfolio". 
 25. ✅ **[P3] Dead import cleanup** — `IconWithdraw` in the navbar is now used
     by the Withdraw dropdown item (resolved when the withdraw UI landed).
 

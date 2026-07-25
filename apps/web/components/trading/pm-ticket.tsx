@@ -976,6 +976,14 @@ export function PmTicket({
         >
           Place another trade
         </button>
+        {/* Obvious next step after a fill (#24): see the position you just took. */}
+        <button
+          type="button"
+          onClick={() => router.push('/portfolio')}
+          className="btn btn-ghost mt-2 w-full"
+        >
+          View in portfolio
+        </button>
       </div>
     )
   }
