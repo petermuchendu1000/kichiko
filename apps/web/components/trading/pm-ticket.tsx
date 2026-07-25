@@ -859,6 +859,14 @@ export function PmTicket({
       <div className="card p-5">
         <p className="mb-1 text-sm font-semibold text-text-primary">{closedCopy.label}</p>
         <p className="text-sm text-text-secondary">{closedCopy.body}</p>
+        {/* Don't dead-end on a closed market: point the user to live ones. */}
+        <button
+          type="button"
+          onClick={() => router.push('/markets')}
+          className="btn btn-secondary mt-4 block w-full py-2.5 text-center"
+        >
+          Browse open markets
+        </button>
       </div>
     )
   }
