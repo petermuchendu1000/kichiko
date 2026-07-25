@@ -45,15 +45,15 @@ function toURLSearchParams(sp: RawSearchParams): URLSearchParams {
 
 const SORT_LABELS: Record<SearchSort, string> = {
   relevance: 'Best match',
-  volume: 'Most volume',
+  volume: 'Most traded',
   closing: 'Closing soon',
   newest: 'Newest',
-  bettors: 'Most traders',
+  bettors: 'Most people',
 }
 
 const STATUS_LABELS: Record<SearchStatus, string> = {
   active: 'Open',
-  resolved: 'Resolved',
+  resolved: 'Decided',
   closed: 'Closed',
   all: 'All',
 }
@@ -100,7 +100,7 @@ export default async function MarketsPage(
           </p>
         </div>
         <Link href="/markets/create" className="btn btn-primary flex-none">
-          <IconPlus size={16} /> <span className="hidden xs:inline">Create market</span>
+          <IconPlus size={16} /> <span className="hidden xs:inline">Create an event</span>
         </Link>
       </div>
 
@@ -165,8 +165,8 @@ async function Results({ parsed }: { parsed: ReturnType<typeof parseSearchParams
   if (error) {
     return (
       <div className="card p-12 text-center mt-5">
-        <h2 className="font-semibold mb-1" style={{ color: 'var(--text)' }}>Couldn’t load markets</h2>
-        <p className="text-sm mb-6" style={{ color: 'var(--text-2)' }}>Something went wrong fetching markets. Please try again.</p>
+        <h2 className="font-semibold mb-1" style={{ color: 'var(--text)' }}>Couldn’t load events</h2>
+        <p className="text-sm mb-6" style={{ color: 'var(--text-2)' }}>Something went wrong loading events. Please try again.</p>
         <Link href="/markets" className="btn btn-secondary">Reset</Link>
       </div>
     )
@@ -235,7 +235,7 @@ function EmptyState({ hasFilters, query }: { hasFilters: boolean; query: string 
       {hasFilters ? (
         <Link href="/markets" className="btn btn-secondary">Clear filters</Link>
       ) : (
-        <Link href="/markets/create" className="btn btn-primary">Create the first market <IconArrowRight size={15} /></Link>
+        <Link href="/markets/create" className="btn btn-primary">Create the first event <IconArrowRight size={15} /></Link>
       )}
     </div>
   )
