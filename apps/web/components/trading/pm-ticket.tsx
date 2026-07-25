@@ -58,6 +58,67 @@ import { IconCheck, IconChevronDown, IconWallet } from '@/components/ui/icons'
 
 type Side = 'yes' | 'no'
 type Action = 'buy' | 'sell'
+
+// Follow-up affordance attached to a trade error so the user is never left at a
+// dead-end message (friction #18 account-not-active, #21 rate-limit, #22 retry).
+type TradeErrorAction = null | 'retry' | 'support' | 'wait'
+
+/**
+ * Renders a trade error plus a contextual next step:
+ *   retry   → a Retry button (network failures)
+ *   support → a link to Help/Support (account not active)
+ *   wait    → a countdown, then an enabled Retry (rate limited / 429)
+ */
+function TradeError({
+  error,
+  action,
+  retryAfter,
+  onRetry,
+  className,
+}: {
+  error: string
+  action: TradeErrorAction
+  retryAfter: number
+  onRetry: () => void
+  className?: string
+}) {
+  const [remaining, setRemaining] = useState(retryAfter)
+  useEffect(() => { setRemaining(retryAfter) }, [retryAfter, error])
+  useEffect(() => {
+    if (action !== 'wait' || remaining <= 0) return
+    const t = setTimeout(() => setRemaining((s) => Math.max(0, s - 1)), 1000)
+    return () => clearTimeout(t)
+  }, [action, remaining])
+
+  if (!error) return null
+  return (
+    <div className={className} role="alert" aria-live="assertive">
+      <p className="text-sm font-medium text-no">{error}</p>
+      {action === 'retry' && (
+        <button type="button" onClick={onRetry} className="mt-1.5 text-sm font-semibold text-pip-500 hover:underline">
+          Try again
+        </button>
+      )}
+      {action === 'wait' && (
+        <button
+          type="button"
+          onClick={onRetry}
+          disabled={remaining > 0}
+          className="mt-1.5 text-sm font-semibold text-pip-500 hover:underline disabled:opacity-60 disabled:no-underline disabled:cursor-not-allowed"
+        >
+          {remaining > 0 ? `Try again in ${remaining}s` : 'Try again'}
+        </button>
+      )}
+      {action === 'support' && (
+        <a href="/help" className="mt-1.5 inline-block text-sm font-semibold text-pip-500 hover:underline">
+          Contact support
+        </a>
+      )}
+    </div>
+  )
+}
+
+
 type OrderType = 'market' | 'limit'
 
 interface PmTicketProps {
@@ -313,6 +374,10 @@ export function PmTicket({
   const [touched, setTouched] = useState(!!initialAmount)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  // Structured follow-up affordance for the current error (friction #18/#21/#22):
+  // 'retry' (network), 'support' (account not active), 'wait' (rate limited).
+  const [errorAction, setErrorAction] = useState<TradeErrorAction>(null)
+  const [retryAfter, setRetryAfter] = useState(0)
   const [receipt, setReceipt] = useState<{
     label: string
     tone: 'yes' | 'no' | 'brand'
@@ -702,6 +767,7 @@ export function PmTicket({
     if (!user) return goToAuth('login')
     if (!selectedOutcome) return setError('Choose a candidate to continue.')
     setError('')
+    setErrorAction(null)
 
     let payload: Record<string, unknown>
     if (action === 'buy') {
@@ -793,11 +859,28 @@ export function PmTicket({
               detail: { amountLocal: shortfall > 0 ? shortfall : amountNum, currency: preferredCurrency },
             }),
           )
+          setError(data.error ?? 'You need more funds — opening deposit.')
+        } else if (res.status === 403) {
+          // Account not active (suspended / restricted): explain and route to
+          // support rather than dead-ending on a bare message (#18).
+          setError(data.error ?? 'Your account is not active, so this order was blocked.')
+          setErrorAction('support')
+        } else if (res.status === 429) {
+          // Rate limited: tell them to wait, and offer a retry that enables
+          // itself after the server's Retry-After window (#21).
+          const ra = parseInt(res.headers.get('Retry-After') ?? '', 10)
+          setRetryAfter(Number.isFinite(ra) && ra > 0 ? ra : 10)
+          setError(data.error ?? "You're going a bit fast — please wait a moment and try again.")
+          setErrorAction('wait')
+        } else {
+          setError(data.error ?? 'Order failed. Please try again.')
+          setErrorAction('retry')
         }
-        setError(data.error ?? 'Order failed. Please try again.')
       }
     } catch {
-      setError('Network error. Please try again.')
+      // Network/exception: keep the message but give an explicit Retry (#22).
+      setError('Network error. Please check your connection and try again.')
+      setErrorAction('retry')
     } finally {
       setLoading(false)
     }
@@ -1080,7 +1163,7 @@ export function PmTicket({
         </>
         )}
 
-        {error && <p className="-mt-2 text-center text-sm font-medium text-no">{error}</p>}
+        {error && <TradeError error={error} action={errorAction} retryAfter={retryAfter} onRetry={handleTrade} className="-mt-2 text-center" />}
 
         {/* 6. Trade button */}
         <button
@@ -1420,7 +1503,7 @@ export function PmTicket({
                     </div>
                   )}
 
-                  {error && <p className="mt-3 text-sm font-medium text-no">{error}</p>}
+                  {error && <TradeError error={error} action={errorAction} retryAfter={retryAfter} onRetry={handleTrade} className="mt-3" />}
 
                   <button
                     type="button"
@@ -1649,7 +1732,7 @@ export function PmTicket({
               </div>
             )}
 
-            {error && <p className="mt-3 text-sm font-medium text-no">{error}</p>}
+            {error && <TradeError error={error} action={errorAction} retryAfter={retryAfter} onRetry={handleTrade} className="mt-3" />}
 
             <button
               ref={ctaRef}

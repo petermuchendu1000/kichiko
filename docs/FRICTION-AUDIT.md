@@ -74,18 +74,19 @@ _Last updated: 2026-07-25._
 ## Markets / trading
 17. ✅ **Closed/resolved market ticket** showed a message with no next step; now
     has a "Browse open markets" CTA.
-18. ⬜ **[P2] "Account is not active" (403 on trade)** dead-ends; explain why and
-    link to support / the relevant remediation.
+18. ✅ **[P2] "Account is not active" (403 on trade)** no longer dead-ends — the
+    ticket now explains the block and offers a "Contact support" link to `/help`.
 19. ⬜ **[P2] Fresh market with no resting asks** — market buys can't fill and
     buys are market-only; offer a limit-buy path so the user can still act.
 20. ⬜ **[P3] Market detail empty states** (no positions / no activity / no
     comments) are fine but could nudge the first action.
 
 ## Cross-cutting
-21. ⬜ **[P2] Rate-limited (429)** responses surface generic errors; show a
-    "please wait a moment" message with a disabled-then-enabled retry.
-22. ⬜ **[P2] Network errors** on actions (trade, deposit) show a message but no
-    explicit Retry button; add one.
+21. ✅ **[P2] Rate-limited (429)** now shows a "please wait a moment" message
+    with a Retry that stays disabled (counting down from the server's
+    `Retry-After`) then re-enables — instead of a generic error.
+22. ✅ **[P2] Network errors** on trade now render an explicit **Try again**
+    button (not just a message). Deposit/withdraw already retry via the form.
 23. ⬜ **[P3] Todifferentiate "loading" vs "empty"** on slow lists so a slow
     fetch doesn't read as an empty dead-end.
 24. ⬜ **[P3] Success confirmations** should offer the obvious next step (after a
