@@ -2,11 +2,18 @@
 
 // components/leaderboard/leaderboard-view.tsx
 // ---------------------------------------------------------------------------
-// Leaderboard — institutional league table (Pip system). Metric segmented
-// control + period pills, a restrained top-3 podium and a monospaced standings
-// table. Every trader is a link to their public profile (/traders/{id}); the
-// current user's row is highlighted and their rank is surfaced. Backed by
-// GET /api/leaderboard. No hardcoded rows — all figures come from the API.
+// Leaderboard — institutional league table (Pip system). A metric segmented
+// control + period pills, a professional top-3 podium (gold / silver / bronze,
+// #1 crowned and elevated) and a metric-rich standings table. Every trader is a
+// link to their public profile (/traders/{id}); the current user's row is
+// highlighted and their rank is surfaced. Backed by GET /api/leaderboard.
+// No hardcoded rows — all figures come from the API.
+//
+// Design language borrows the conventions common to best-in-class competitive
+// fintech leaderboards (Polymarket standings, BrightFunded / prop-firm podiums,
+// the shadcn "medal podium" pattern): a three-tier hero podium for the top
+// three, then a dense, scannable table with color-coded P&L and win-rate and a
+// clearly emphasised active-metric column.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -34,18 +41,48 @@ const PERIOD_LABEL: Record<LeaderboardPeriod, string> = {
   week: 'This week',
 }
 
-/** Primary metric value for the active metric (podium + emphasized column). */
+// Medal palette for the top three. Gold reuses the brand brass tokens; silver
+// (cool steel) and bronze (warm) are the two hues a medal set genuinely needs
+// to stay distinguishable — defined once here, never inlined ad hoc.
+type Medal = { label: string; ordinal: string; accent: string; ring: string; tint: string }
+const MEDALS: Record<1 | 2 | 3, Medal> = {
+  1: {
+    label: '1st',
+    ordinal: '1',
+    accent: 'var(--brass-600)',
+    ring: 'var(--brass-500)',
+    tint: 'var(--brass-100)',
+  },
+  2: {
+    label: '2nd',
+    ordinal: '2',
+    accent: '#7C8698',
+    ring: '#9AA4B2',
+    tint: 'color-mix(in srgb, #9AA4B2 16%, var(--surface))',
+  },
+  3: {
+    label: '3rd',
+    ordinal: '3',
+    accent: '#A9713C',
+    ring: '#C08A4E',
+    tint: 'color-mix(in srgb, #C08A4E 15%, var(--surface))',
+  },
+}
+
+/** Primary metric value for the active metric (podium hero + emphasised column). */
 function primaryValue(e: LeaderboardEntry, metric: LeaderboardMetric): string {
   if (metric === 'winrate') return formatPct(e.win_rate)
   if (metric === 'pnl') return formatSignedUsd(e.profit_loss_usd)
   return formatUsd(e.total_volume_usd)
 }
 
-/** Secondary supporting stat shown under the podium value. */
-function secondaryLine(e: LeaderboardEntry, metric: LeaderboardMetric): string {
-  if (metric === 'winrate') return `${(e.total_bets || 0).toLocaleString()} bets`
-  if (metric === 'pnl') return `${formatUsd(e.total_volume_usd)} vol`
-  return `${formatPct(e.win_rate)} win`
+/** Small crown for the champion — inline (the shared icon set has no crown). */
+function Crown({ size = 15, color }: { size?: number; color: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill={color} aria-hidden="true">
+      <path d="M3 8l4 3 5-6 5 6 4-3-2 11H5L3 8z" />
+    </svg>
+  )
 }
 
 /** Segmented control (metric / period) — roving-focus tablist on the Pip track. */
@@ -98,16 +135,12 @@ function Segmented({
   )
 }
 
-/** Rank medallion — tinted numeral (never an emoji medal). */
-function RankMedallion({ rank, size = 30 }: { rank: number; size?: number }) {
-  const styles =
-    rank === 1
-      ? { background: 'var(--brass-100)', color: 'var(--brass-600)', border: '1px solid color-mix(in srgb, var(--brass-500) 40%, transparent)' }
-      : rank === 2
-        ? { background: 'var(--surface-2)', color: 'var(--text)', border: '1px solid var(--hairline-strong)' }
-        : rank === 3
-          ? { background: 'color-mix(in srgb, var(--brass-500) 10%, var(--surface-2))', color: 'var(--brass-600)', border: '1px solid var(--hairline)' }
-          : { background: 'transparent', color: 'var(--text-3)', border: 'none' }
+/** Rank medallion — tinted numeral used in the standings table (never emoji). */
+function RankMedallion({ rank, size = 28 }: { rank: number; size?: number }) {
+  const medal = rank <= 3 ? MEDALS[rank as 1 | 2 | 3] : null
+  const styles = medal
+    ? { background: medal.tint, color: medal.accent, border: `1px solid ${medal.ring}` }
+    : { background: 'transparent', color: 'var(--text-3)', border: 'none' }
   return (
     <span
       className="mono inline-flex items-center justify-center rounded-full font-bold"
@@ -118,7 +151,40 @@ function RankMedallion({ rank, size = 30 }: { rank: number; size?: number }) {
   )
 }
 
-/** Clickable top-3 podium card. */
+/** One supporting stat on a podium card; the active metric is emphasised. */
+function StatChip({
+  label,
+  value,
+  emphasise,
+  accent,
+  tone,
+}: {
+  label: string
+  value: string
+  emphasise: boolean
+  accent: string
+  tone?: 'pos' | 'neg'
+}) {
+  const valueColor = tone === 'pos' ? 'var(--yes-700)' : tone === 'neg' ? 'var(--no-700)' : 'var(--text-primary)'
+  return (
+    <div
+      className="flex flex-col items-center rounded-md px-1 py-1.5"
+      style={emphasise ? { background: 'color-mix(in srgb, var(--pip-500) 7%, transparent)' } : undefined}
+    >
+      <span
+        className="text-[10px] font-semibold uppercase tracking-wide"
+        style={{ color: emphasise ? accent : 'var(--text-muted)' }}
+      >
+        {label}
+      </span>
+      <span className="mono mt-0.5 text-xs font-semibold" style={{ color: valueColor }}>
+        {value}
+      </span>
+    </div>
+  )
+}
+
+/** Clickable top-3 podium hero card — a real, filled surface (no empty box). */
 function PodiumCard({
   entry,
   rank,
@@ -126,70 +192,123 @@ function PodiumCard({
   isSelf,
 }: {
   entry: LeaderboardEntry
-  rank: number
+  rank: 1 | 2 | 3
   metric: LeaderboardMetric
   isSelf: boolean
 }) {
+  const medal = MEDALS[rank]
   const isFirst = rank === 1
   const tier = tierForVolume(entry.total_volume_usd)
+  const avatarSize = isFirst ? 72 : 56
+  const pnlPositive = (entry.profit_loss_usd || 0) >= 0
+  // sm+ visual order: #2 (left), #1 (centre), #3 (right). items-end + a taller
+  // #1 card forms the podium "step" without any transforms.
+  const orderClass = isFirst ? 'sm:order-2' : rank === 2 ? 'sm:order-1' : 'sm:order-3'
   return (
     <Link
       href={traderHref(entry.id)}
-      className="group flex flex-col items-center text-center outline-none"
-      aria-label={`${displayName(entry)} — rank ${rank}`}
+      aria-label={`${displayName(entry)} — rank ${rank}, ${primaryValue(entry, metric)}`}
+      className={`group relative flex w-full flex-col items-center rounded-2xl border px-4 pb-4 pt-9 text-center outline-none transition-[transform,box-shadow,border-color] duration-150 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-[var(--pip-400)] ${orderClass} ${
+        isFirst ? 'sm:min-h-[286px]' : 'sm:min-h-[248px]'
+      }`}
+      style={{
+        borderColor: isFirst ? medal.ring : 'var(--hairline)',
+        background: isFirst
+          ? `linear-gradient(180deg, ${medal.tint} 0%, var(--surface) 58%)`
+          : 'var(--surface)',
+        boxShadow: isFirst ? 'var(--e2)' : 'var(--e1)',
+      }}
     >
-      <div className="relative mb-3">
-        <span
-          className="block rounded-full ring-2 ring-transparent transition group-hover:ring-[var(--pip-300)] group-focus-visible:ring-[var(--pip-400)]"
-          style={isFirst ? { boxShadow: '0 0 0 3px color-mix(in srgb, var(--brass-500) 30%, transparent)' } : undefined}
-        >
-          <TraderAvatar id={entry.id} name={displayName(entry)} imageUrl={entry.avatar_url} size={isFirst ? 66 : 54} tier={tier.key} />
-        </span>
-        <span className="absolute -bottom-1 -right-1">
-          <RankMedallion rank={rank} size={isFirst ? 26 : 22} />
-        </span>
-      </div>
-      <div className="flex max-w-[9.5rem] items-center gap-1.5">
+      {/* Medal ribbon */}
+      <span
+        className="absolute -top-3 left-1/2 inline-flex -translate-x-1/2 items-center gap-1 rounded-pill px-2.5 py-0.5 text-xs font-bold shadow-sm"
+        style={{ background: medal.tint, color: medal.accent, border: `1px solid ${medal.ring}` }}
+      >
+        {isFirst && <Crown size={13} color={medal.accent} />}
+        {medal.label}
+      </span>
+
+      {/* Avatar with medal-tinted ring */}
+      <span
+        className="relative mb-2.5 inline-flex rounded-full"
+        style={{ boxShadow: `0 0 0 3px ${medal.ring}, 0 0 0 6px color-mix(in srgb, ${medal.ring} 22%, transparent)` }}
+      >
+        <TraderAvatar
+          id={entry.id}
+          name={displayName(entry)}
+          imageUrl={entry.avatar_url}
+          size={avatarSize}
+          tier={tier.key}
+        />
+      </span>
+
+      {/* Identity */}
+      <div className="flex max-w-full items-center justify-center gap-1.5">
         <p
-          className="truncate text-sm font-semibold text-text-primary underline-offset-2 group-hover:text-pip-text group-hover:underline"
+          className="max-w-[10rem] truncate text-sm font-semibold underline-offset-2 group-hover:underline"
+          style={{ color: 'var(--text-primary)' }}
           title={displayName(entry)}
         >
           {displayName(entry)}
         </p>
-        {isSelf && <span className="flex-none rounded-pill bg-pip-100 px-1.5 py-px text-[10px] font-semibold text-pip-text">You</span>}
+        {isSelf && (
+          <span className="flex-none rounded-pill bg-pip-100 px-1.5 py-px text-[10px] font-semibold text-pip-text">
+            You
+          </span>
+        )}
       </div>
-      <p className="mono mt-1 text-base font-bold" style={{ color: isFirst ? 'var(--brass-600)' : 'var(--text-primary)' }}>
+      {entry.username && (
+        <p className="mt-0.5 max-w-[11rem] truncate text-xs" style={{ color: 'var(--text-muted)' }}>
+          @{entry.username}
+        </p>
+      )}
+
+      {/* Hero metric (the active ranking metric) */}
+      <p
+        className={`mono mt-2 font-bold ${isFirst ? 'text-2xl' : 'text-xl'}`}
+        style={{
+          color:
+            metric === 'pnl'
+              ? pnlPositive
+                ? 'var(--yes-700)'
+                : 'var(--no-700)'
+              : isFirst
+                ? medal.accent
+                : 'var(--text-primary)',
+        }}
+      >
         {primaryValue(entry, metric)}
       </p>
-      <p className="mono mt-0.5 text-xs" style={{ color: 'var(--text-muted)' }}>
-        {secondaryLine(entry, metric)}
+      <p className="mt-0.5 text-[11px] font-medium uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>
+        {METRIC_META[metric].label}
       </p>
+
+      {/* Supporting stats — always all three, active one emphasised. */}
       <div
-        className={`card mt-3 flex w-full items-center justify-center transition group-hover:border-[var(--pip-300)] ${isFirst ? 'h-16' : rank === 2 ? 'h-12' : 'h-9'}`}
-        style={
-          isFirst
-            ? { borderColor: 'color-mix(in srgb, var(--brass-500) 45%, transparent)', background: 'color-mix(in srgb, var(--brass-500) 6%, var(--surface))' }
-            : undefined
-        }
+        className="mt-3 grid w-full grid-cols-3 gap-1 border-t pt-3"
+        style={{ borderColor: 'var(--hairline)' }}
       >
-        <span className="mono text-lg font-bold" style={{ color: isFirst ? 'var(--brass-600)' : 'var(--text-3)' }}>
-          {rank}
-        </span>
+        <StatChip label="Vol" value={formatUsd(entry.total_volume_usd)} emphasise={metric === 'volume'} accent={medal.accent} />
+        <StatChip label="Win" value={formatPct(entry.win_rate)} emphasise={metric === 'winrate'} accent={medal.accent} />
+        <StatChip
+          label="P&L"
+          value={formatSignedUsd(entry.profit_loss_usd)}
+          emphasise={metric === 'pnl'}
+          accent={medal.accent}
+          tone={pnlPositive ? 'pos' : 'neg'}
+        />
       </div>
     </Link>
   )
 }
 
 function Podium({ rows, metric, selfId }: { rows: LeaderboardEntry[]; metric: LeaderboardMetric; selfId: string | null }) {
-  // Visual order: #2 (left), #1 (center, tallest), #3 (right).
-  const order = [1, 0, 2]
+  const top3 = rows.slice(0, 3)
   return (
-    <div className="mb-8 grid grid-cols-3 items-end gap-3 sm:gap-5">
-      {order.map((idx, col) => {
-        const p = rows[idx]
-        if (!p) return <div key={col} />
-        return <PodiumCard key={p.id} entry={p} rank={idx + 1} metric={metric} isSelf={p.id === selfId} />
-      })}
+    <div className="mb-8 grid grid-cols-1 items-stretch gap-4 sm:grid-cols-3 sm:items-end">
+      {top3.map((p, i) => (
+        <PodiumCard key={p.id} entry={p} rank={(i + 1) as 1 | 2 | 3} metric={metric} isSelf={p.id === selfId} />
+      ))}
     </div>
   )
 }
@@ -282,13 +401,9 @@ export function LeaderboardView() {
 
       {loading ? (
         <div className="space-y-3">
-          <div className="mb-8 grid grid-cols-3 items-end gap-4">
-            {[52, 64, 44].map((h, i) => (
-              <div key={i} className="flex flex-col items-center gap-3">
-                <div className="skeleton h-14 w-14 rounded-full" />
-                <div className="skeleton h-3 w-16 rounded" />
-                <div className="skeleton w-full rounded-md" style={{ height: h }} />
-              </div>
+          <div className="mb-8 grid grid-cols-1 items-end gap-4 sm:grid-cols-3">
+            {[248, 286, 248].map((h, i) => (
+              <div key={i} className="skeleton w-full rounded-2xl" style={{ height: h }} />
             ))}
           </div>
           {Array.from({ length: 8 }).map((_, i) => (
@@ -331,7 +446,10 @@ function StandingsTable({
     <div className="card table-wrapper overflow-x-auto p-0">
       <table className="w-full border-collapse text-sm">
         <thead>
-          <tr className="text-left" style={{ color: 'var(--text-muted)' }}>
+          <tr
+            className="text-left"
+            style={{ color: 'var(--text-muted)', background: 'var(--surface-2)' }}
+          >
             <th className="w-14 px-4 py-3 text-xs font-semibold">#</th>
             <th className="px-4 py-3 text-xs font-semibold">Trader</th>
             <th className="px-4 py-3 text-right text-xs font-semibold" style={th('volume')}>Volume</th>
@@ -354,6 +472,7 @@ function StandingsTable({
                 style={{
                   borderColor: 'var(--hairline)',
                   background: isSelf ? 'color-mix(in srgb, var(--pip-500) 6%, transparent)' : undefined,
+                  boxShadow: isSelf ? 'inset 3px 0 0 0 var(--pip-500)' : undefined,
                 }}
                 onClick={() => onRowActivate(p.id)}
               >
