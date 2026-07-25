@@ -348,11 +348,18 @@ export function Navbar() {
 
 // Inline deposit sheet (lightweight, no heavy modal lib)
 function DepositSheet({ onClose, initialAmount }: { onClose: () => void; initialAmount?: string }) {
-  const { preferredCurrency } = useWallets()
+  const { preferredCurrency, refreshWallets } = useWallets()
+  const router = useRouter()
   const [amount, setAmount] = useState(initialAmount ?? '')
   const [phone, setPhone] = useState('')
   const [step, setStep] = useState<'form' | 'loading' | 'success'>('form')
   const [error, setError] = useState('')
+  // STK-push confirmation state (friction #8): after the push we don't dead-end
+  // on "Check your phone" — we poll the deposit status and reflect the real
+  // outcome (credited / failed / still-waiting) in-app, then refresh the wallet.
+  const [depositId, setDepositId] = useState<string | null>(null)
+  const [confirm, setConfirm] = useState<'waiting' | 'credited' | 'failed' | 'timeout'>('waiting')
+  const [confirmReason, setConfirmReason] = useState('')
 
   // Close on Escape for keyboard users (backdrop click handles pointer dismissal).
   useEffect(() => {
@@ -360,6 +367,50 @@ function DepositSheet({ onClose, initialAmount }: { onClose: () => void; initial
     document.addEventListener('keydown', onKey)
     return () => document.removeEventListener('keydown', onKey)
   }, [onClose])
+
+  // Poll the deposit status once we're on the success screen with an id. The
+  // STK push is confirmed asynchronously by the provider webhook, so we check
+  // every 3s for ~90s. Terminal states (completed/failed/refunded) stop the
+  // poll; a timeout leaves a reassuring "still processing" message (never a
+  // dead-end). On credit we refresh the wallet so the new balance shows.
+  useEffect(() => {
+    if (step !== 'success' || !depositId || confirm !== 'waiting') return
+    let active = true
+    let tries = 0
+    const MAX_TRIES = 30 // 30 × 3s = 90s
+    const tick = async () => {
+      if (!active) return
+      tries += 1
+      try {
+        const res = await fetch(`/api/payments/deposit?id=${encodeURIComponent(depositId)}`)
+        const body = await res.json()
+        const status: string | undefined = body?.data?.status
+        if (!active) return
+        if (status === 'completed') {
+          setConfirm('credited')
+          await refreshWallets()
+          return
+        }
+        if (status === 'failed' || status === 'refunded') {
+          setConfirm('failed')
+          setConfirmReason(body?.data?.failure_reason || 'The payment was not completed.')
+          return
+        }
+      } catch {
+        // Transient network error — keep polling; don't dead-end.
+      }
+      if (!active) return
+      if (tries >= MAX_TRIES) { setConfirm('timeout'); return }
+      timer = setTimeout(tick, 3000)
+    }
+    let timer = setTimeout(tick, 3000)
+    return () => { active = false; clearTimeout(timer) }
+  }, [step, depositId, confirm, refreshWallets])
+
+  const resetForm = () => {
+    setStep('form'); setError(''); setDepositId(null)
+    setConfirm('waiting'); setConfirmReason('')
+  }
 
   const submit = async () => {
     if (!amount || !phone) return
@@ -372,7 +423,13 @@ function DepositSheet({ onClose, initialAmount }: { onClose: () => void; initial
         body: JSON.stringify({ amount: parseFloat(amount), currency: preferredCurrency, phone_number: phone, provider: 'mpesa' }),
       })
       const data = await res.json()
-      if (res.ok && (data.success || data.checkout_request_id)) {
+      if (res.ok && (data.success || data.deposit_id || data.checkout_request_id)) {
+        // A redirect-based provider (e.g. PesaPal) hands back a hosted-payment
+        // URL — send the user there rather than showing the STK screen.
+        if (data.redirect_url) { window.location.href = data.redirect_url; return }
+        setDepositId(data.deposit_id ?? null)
+        setConfirm('waiting')
+        setConfirmReason('')
         setStep('success')
       } else {
         // Never dead-end silently: surface the exact reason (min amount, bad
@@ -398,16 +455,56 @@ function DepositSheet({ onClose, initialAmount }: { onClose: () => void; initial
 
         {step === 'success' ? (
           <div className="text-center py-6">
-            <div className="w-16 h-16 rounded-full bg-[var(--green-dim)] flex items-center justify-center mx-auto mb-4">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--green)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="20 6 9 17 4 12"/>
-              </svg>
-            </div>
-            <h3 className="font-display text-xl mb-2" style={{ color: 'var(--text-primary)' }}>Check your phone</h3>
-            <p className="text-sm mb-6" style={{ color: 'var(--text-secondary)' }}>
-              An M-Pesa push has been sent to <strong>{phone}</strong>. Enter your PIN to complete.
-            </p>
-            <button className="btn btn-primary btn-lg w-full" onClick={onClose}>Done</button>
+            {confirm === 'credited' ? (
+              <>
+                <div className="w-16 h-16 rounded-full bg-[var(--green-dim)] flex items-center justify-center mx-auto mb-4">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--green)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <h3 className="font-display text-xl mb-2" style={{ color: 'var(--text-primary)' }}>Funds added</h3>
+                <p className="text-sm mb-6" style={{ color: 'var(--text-secondary)' }}>
+                  Your deposit is confirmed and your balance is updated. You&rsquo;re ready to trade.
+                </p>
+                <div className="flex flex-col gap-2">
+                  <button className="btn btn-primary btn-lg w-full" onClick={() => { onClose(); router.push('/portfolio') }}>View portfolio</button>
+                  <button className="btn btn-ghost w-full" onClick={onClose}>Done</button>
+                </div>
+              </>
+            ) : confirm === 'failed' ? (
+              <>
+                <div className="w-16 h-16 rounded-full bg-[var(--red)]/12 flex items-center justify-center mx-auto mb-4">
+                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--red)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </div>
+                <h3 className="font-display text-xl mb-2" style={{ color: 'var(--text-primary)' }}>Deposit not completed</h3>
+                <p className="text-sm mb-6" style={{ color: 'var(--text-secondary)' }}>{confirmReason}</p>
+                <div className="flex flex-col gap-2">
+                  <button className="btn btn-primary btn-lg w-full" onClick={resetForm}>Try again</button>
+                  <button className="btn btn-ghost w-full" onClick={onClose}>Close</button>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="w-16 h-16 rounded-full bg-[var(--pip-500)]/12 flex items-center justify-center mx-auto mb-4">
+                  {confirm === 'waiting' ? (
+                    <svg className="animate-spin" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--pip-500)" strokeWidth="2.5" strokeLinecap="round"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
+                  ) : (
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--pip-500)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
+                  )}
+                </div>
+                <h3 className="font-display text-xl mb-2" style={{ color: 'var(--text-primary)' }}>Check your phone</h3>
+                <p className="text-sm mb-2" style={{ color: 'var(--text-secondary)' }}>
+                  An M-Pesa push has been sent to <strong>{phone}</strong>. Enter your PIN to complete.
+                </p>
+                <p className="text-xs mb-6" style={{ color: 'var(--text-muted)' }} aria-live="polite">
+                  {confirm === 'waiting'
+                    ? 'Waiting for confirmation… this updates automatically.'
+                    : "Still processing. It can take a moment — we'll credit your wallet as soon as it clears."}
+                </p>
+                <div className="flex flex-col gap-2">
+                  <button className="btn btn-primary btn-lg w-full" onClick={() => { onClose(); router.push('/portfolio') }}>View in portfolio</button>
+                  <button className="btn btn-ghost w-full" onClick={onClose}>Done</button>
+                </div>
+              </>
+            )}
           </div>
         ) : (
           <>

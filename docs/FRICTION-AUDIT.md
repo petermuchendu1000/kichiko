@@ -29,9 +29,14 @@ _Last updated: 2026-07-25._
    "Deposit first" at zero balance. DB reserve path verified E2E (funded
    reserves + fee/net; unfunded → P0006). Live disbursement still needs the B2C
    initiator + security credential (see GO-LIVE-PROVISIONING.md).
-8. ⬜ **[P2] Deposit success is a dead "Check your phone" screen.** No STK
-   status polling; the user doesn't learn if it succeeded without leaving. Poll
-   deposit status and reflect pending/credited in the wallet + a toast.
+8. ✅ **[P2] Deposit success is no longer a dead "Check your phone" screen.**
+   The sheet now polls `GET /api/payments/deposit?id=` every 3s for ~90s and
+   reflects the real outcome in-app: **waiting** (spinner + "updates
+   automatically"), **credited** (green "Funds added" + wallet refreshed +
+   "View portfolio"), **failed** (reason + "Try again"), or a reassuring
+   **still-processing** timeout (never a dead-end). Redirect-based providers
+   (PesaPal) are sent to their hosted-payment URL instead. Status transition
+   pending→completed verified E2E against the live DB.
 9. ⬜ **[P2] Deposit quick-amounts are KES-only** (500/1k/2k/5k) regardless of
    currency; make presets currency-aware.
 10. ⬜ **[P2] Deposit phone** has no format validation/help and doesn't default
