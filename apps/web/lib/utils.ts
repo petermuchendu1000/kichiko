@@ -1,6 +1,7 @@
 // lib/utils.ts
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
+import { usdToLocal } from './currency'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -23,19 +24,21 @@ export function formatCurrency(
   }
 }
 
+// Named for its historical USD role; the pilot displays Kenyan Shillings. All
+// call sites pass USD-stored amounts, which this converts to KES for display.
 export function formatUSD(amount: number): string {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(amount)
+  const kes = usdToLocal(amount || 0, 'KES')
+  return `KSh ${Math.round(kes).toLocaleString('en-KE')}`
 }
 
+// Amounts are stored in USD; the pilot shows Kenyan Shillings, so this converts
+// via the shared FX helper (falls back to the pegged KES rate).
 export function formatVolume(usd: number): string {
-  if (usd >= 1_000_000) return `$${(usd / 1_000_000).toFixed(1)}M`
-  if (usd >= 1_000) return `$${(usd / 1_000).toFixed(1)}K`
-  return `$${usd.toFixed(0)}`
+  const kes = usdToLocal(usd || 0, 'KES')
+  if (kes >= 1_000_000_000) return `KSh ${(kes / 1_000_000_000).toFixed(1)}B`
+  if (kes >= 1_000_000) return `KSh ${(kes / 1_000_000).toFixed(1)}M`
+  if (kes >= 1_000) return `KSh ${(kes / 1_000).toFixed(1)}K`
+  return `KSh ${Math.round(kes)}`
 }
 
 export function formatPercent(value: number, decimals: number = 0): string {

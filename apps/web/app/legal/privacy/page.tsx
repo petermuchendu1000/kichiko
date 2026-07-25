@@ -20,13 +20,13 @@ export default function PrivacyPage() {
       <ul>
         <li><strong>Account:</strong> email, phone, country, preferred currency &amp; language.</li>
         <li><strong>KYC:</strong> identity documents and details, where required.</li>
-        <li><strong>Financial:</strong> deposits, withdrawals, trades, balances.</li>
+        <li><strong>Financial:</strong> deposits, withdrawals, predictions, balances.</li>
         <li><strong>Technical:</strong> device/usage data, cookies, and performance telemetry.</li>
       </ul>
 
       <h2>How we use it</h2>
       <ul>
-        <li>To operate your account, process payments, and settle trades.</li>
+        <li>To operate your account, process payments, and settle predictions.</li>
         <li>To verify identity and meet legal / anti-money-laundering obligations.</li>
         <li>To secure the Platform, prevent fraud, and improve performance.</li>
         <li>To send you service and (with consent) marketing communications.</li>

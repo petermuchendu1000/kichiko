@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest'
+import { usdToLocal } from '@/lib/currency'
 import {
   formatVolume,
   formatPercent,
@@ -8,9 +9,17 @@ import {
 } from '@/lib/utils'
 
 describe('formatVolume', () => {
-  it('formats millions', () => expect(formatVolume(2_500_000)).toBe('$2.5M'))
-  it('formats thousands', () => expect(formatVolume(12_300)).toBe('$12.3K'))
-  it('formats small values', () => expect(formatVolume(450)).toBe('$450'))
+  // Amounts are USD in, KES out; expected mirrors the converted-KES tiering.
+  const expected = (usd: number) => {
+    const kes = usdToLocal(usd, 'KES')
+    if (kes >= 1_000_000_000) return `KSh ${(kes / 1_000_000_000).toFixed(1)}B`
+    if (kes >= 1_000_000) return `KSh ${(kes / 1_000_000).toFixed(1)}M`
+    if (kes >= 1_000) return `KSh ${(kes / 1_000).toFixed(1)}K`
+    return `KSh ${Math.round(kes)}`
+  }
+  it('formats millions', () => expect(formatVolume(2_500_000)).toBe(expected(2_500_000)))
+  it('formats thousands', () => expect(formatVolume(12_300)).toBe(expected(12_300)))
+  it('formats small values', () => expect(formatVolume(450)).toBe(expected(450)))
 })
 
 describe('formatPercent', () => {

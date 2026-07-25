@@ -49,10 +49,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { id } = await params
   const t = await getTrader(id)
-  if (!t) return { title: 'Trader not found' }
+  if (!t) return { title: 'Player not found' }
   const name = traderName(t)
   return {
-    title: `${name} — Trader profile`,
+    title: `${name}: Player profile`,
     description: `${name}'s prediction-market track record on MarketPips: positions, profit & loss, and trading activity.`,
     alternates: { canonical: `/traders/${id}` },
     openGraph: { title: `${name} on MarketPips`, type: 'profile' },
@@ -123,9 +123,9 @@ export default async function TraderProfilePage({
           </div>
 
           <div className="mt-5 grid grid-cols-3 gap-3 border-t border-hairline pt-4">
-            <Stat label="Positions value" value={formatVolume(t.positions_value)} />
+            <Stat label="Value held" value={formatVolume(t.positions_value)} />
             {/* Compact like PM ($218.5K) so three stats fit a 390px row without overlap. */}
-            <Stat label="Biggest win" value={t.biggest_win_usd > 0 ? formatVolume(t.biggest_win_usd) : '—'} />
+            <Stat label="Biggest win" value={t.biggest_win_usd > 0 ? formatVolume(t.biggest_win_usd) : '-'} />
             <Stat label="Predictions" value={Number(t.predictions).toLocaleString()} />
           </div>
         </div>

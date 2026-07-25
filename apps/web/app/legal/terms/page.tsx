@@ -11,7 +11,7 @@ export default function TermsPage() {
     <LegalPage title="Terms of Service" updated="July 2026">
       <p>
         These Terms govern your access to and use of MarketPips (the
-        &ldquo;Platform&rdquo;). By creating an account or placing a trade you
+        &ldquo;Platform&rdquo;). By creating an account or making a prediction you
         agree to these Terms. <strong>This is a launch template pending final
         review by legal counsel for each East-African jurisdiction we operate
         in.</strong>
@@ -34,12 +34,12 @@ export default function TermsPage() {
 
       <h2>3. Trading &amp; risk</h2>
       <ul>
-        <li>Trades involve real money and real risk of loss.</li>
+        <li>Predictions involve real money and a real risk of loss.</li>
         <li>
           Prices are set by an automated market maker (LMSR) based on trading
           activity; markets resolve to the real, verified outcome.
         </li>
-        <li>All trades are final once confirmed, subject to market resolution.</li>
+        <li>All predictions are final once confirmed, until the event is decided.</li>
       </ul>
 
       <h2>4. Deposits, withdrawals &amp; fees</h2>
