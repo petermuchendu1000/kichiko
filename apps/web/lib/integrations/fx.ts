@@ -36,9 +36,8 @@ export interface FxFetchResult {
 
 const OER_LATEST_URL = 'https://openexchangerates.org/api/latest.json'
 // Free, no-API-key, reputable provider (ExchangeRate-API "open" endpoint).
-// Returns { result:'success', rates:{ KES: 129.4, ... } } USD-base, refreshed
-// daily. Used as the DEFAULT source so a live rate needs no secret to work.
-const ERAPI_LATEST_URL = 'https://open.er-api.com/v6/latest/USD'
+// Overridable per-environment via FX_PROVIDER_URL (no code change needed).
+const ERAPI_LATEST_URL = process.env.FX_PROVIDER_URL || 'https://open.er-api.com/v6/latest/USD'
 const DEFAULT_TIMEOUT_MS = 8000
 
 /**

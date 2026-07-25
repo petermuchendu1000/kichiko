@@ -3,6 +3,8 @@ import {
   SUPPORTED_CURRENCIES,
   CURRENCY_META,
   FALLBACK_USD_RATES,
+  SHARE_PAYOUT_KES,
+  KES_SETTLEMENT_RATE,
   isSupportedCurrency,
   getUsdRate,
   localToUsd,
@@ -12,6 +14,23 @@ import {
   buildRatesMap,
   fetchRatesMap,
 } from '@/lib/currency'
+
+describe('settlement peg: single source of truth (no hardcoded 0.01/100/129)', () => {
+  it('derives the KES peg from SHARE_PAYOUT_KES', () => {
+    expect(SHARE_PAYOUT_KES).toBeGreaterThan(0)
+    expect(KES_SETTLEMENT_RATE).toBeCloseTo(1 / SHARE_PAYOUT_KES, 12)
+    expect(FALLBACK_USD_RATES.KES).toBe(KES_SETTLEMENT_RATE)
+  })
+  it('keeps display consistent: 1 share pays exactly SHARE_PAYOUT_KES', () => {
+    // usdToLocal(1 internal unit -> KES) must equal the per-share payout.
+    expect(usdToLocal(1, 'KES')).toBeCloseTo(SHARE_PAYOUT_KES, 6)
+  })
+  it('non-KES fallbacks are populated from the generated bootstrap (positive)', () => {
+    for (const c of ['UGX', 'TZS', 'RWF', 'ZMW', 'ETB', 'BIF'] as const) {
+      expect(FALLBACK_USD_RATES[c]).toBeGreaterThan(0)
+    }
+  })
+})
 
 // Live rates mirror of the exchange_rates seed (local -> USD).
 const RATES = {

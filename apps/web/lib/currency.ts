@@ -20,6 +20,24 @@
 // ============================================================
 import Big from 'big.js'
 import type { CurrencyCode } from '@/types'
+import fxBootstrap from '@/lib/generated/fx-fallback.json'
+
+/**
+ * SETTLEMENT PEG — single source of truth.
+ * One share settles at KSh `SHARE_PAYOUT_KES`. This is a contract denomination
+ * (like Polymarket's $1/share), NOT an FX market quote. Every internal
+ * "USD unit" therefore equals 1/SHARE_PAYOUT_KES USD, i.e. KES->USD = 0.01 when
+ * the payout is 100. Derive the peg from here; never hardcode 0.01 / 100 / 129
+ * anywhere else. The runtime value can be overridden per-environment via
+ * NEXT_PUBLIC_SHARE_PAYOUT_KES without code changes.
+ */
+export const SHARE_PAYOUT_KES: number = (() => {
+  const raw = Number(process.env.NEXT_PUBLIC_SHARE_PAYOUT_KES)
+  return Number.isFinite(raw) && raw > 0 ? raw : 100
+})()
+
+/** KES->USD settlement peg, derived from the share payout (never a literal). */
+export const KES_SETTLEMENT_RATE = 1 / SHARE_PAYOUT_KES
 
 export const SUPPORTED_CURRENCIES = [
   'KES', 'UGX', 'TZS', 'RWF', 'ZMW', 'ETB', 'BIF', 'USD',
@@ -48,20 +66,24 @@ export const CURRENCY_META: Record<CurrencyCode, CurrencyMeta> = {
   USD: { code: 'USD', name: 'US Dollar',          symbol: '$',   decimals: 2, country: 'United States', locale: 'en-US' },
 }
 
-// Last-known-good local->USD rates. Mirrors the `exchange_rates` seed and is
-// used ONLY as a graceful fallback when a live rate is unavailable. Keeping
-// these here means a transient DB hiccup degrades to a sane, currency-correct
+// Last-known-good local->USD rates. Used ONLY as a graceful fallback when a
+// live rate is unavailable. Assembled from three non-hardcoded sources:
+//   - non-KES market rates: lib/generated/fx-fallback.json (auto-generated from
+//     the live provider by scripts/ops/refresh_fx_fallback.py; never hand-edited)
+//   - KES: the settlement peg, derived from SHARE_PAYOUT_KES
+//   - USD: the base (1 by definition)
+// A transient DB/provider hiccup thus degrades to a fresh, currency-correct
 // estimate instead of a dangerous constant.
+const BOOTSTRAP_RATES = (fxBootstrap as { rates?: Partial<Record<CurrencyCode, number>> }).rates ?? {}
+
 export const FALLBACK_USD_RATES: Record<CurrencyCode, number> = {
-  // Pilot peg: 1 internal unit ("USD") = KSh 100, so a share settles at KSh 100
-  // and price (0-100) reads as both the probability % and the KSh cost.
-  KES: 0.01,
-  UGX: 0.000267,
-  TZS: 0.000385,
-  RWF: 0.000714,
-  ZMW: 0.0385,
-  ETB: 0.00714,
-  BIF: 0.000333,
+  KES: KES_SETTLEMENT_RATE,
+  UGX: BOOTSTRAP_RATES.UGX ?? 0,
+  TZS: BOOTSTRAP_RATES.TZS ?? 0,
+  RWF: BOOTSTRAP_RATES.RWF ?? 0,
+  ZMW: BOOTSTRAP_RATES.ZMW ?? 0,
+  ETB: BOOTSTRAP_RATES.ETB ?? 0,
+  BIF: BOOTSTRAP_RATES.BIF ?? 0,
   USD: 1,
 }
 
