@@ -706,8 +706,22 @@ export function PmTicket({
     let payload: Record<string, unknown>
     if (action === 'buy') {
       if (amountNum <= 0) return setError('Enter an amount to continue.')
-      if (overBalance) return setError(`Insufficient balance — you have ${formatCurrency(balance, preferredCurrency)}.`)
-      if (!clobBestAsk) return setError('No resting liquidity to fill a market buy right now.')
+      if (overBalance) {
+        // Dead-end fix: don't just report "insufficient balance" — guide the
+        // user straight to funding by opening the deposit sheet prefilled with
+        // the EXACT shortfall, then explain why.
+        const shortfall = planFunding(balance, amountNum).shortfall
+        window.dispatchEvent(
+          new CustomEvent('marketpips:open-deposit', {
+            detail: { amountLocal: shortfall, currency: preferredCurrency },
+          }),
+        )
+        return setError(
+          `You need ${formatCurrency(shortfall, preferredCurrency)} more to place this order — opening deposit.`,
+        )
+      }
+      if (!clobBestAsk)
+        return setError('No sell orders to match right now. Try a smaller amount or check back shortly.')
       payload = buildClobOrderPayload({
         marketId: market.id,
         marketOptionId: selectedOutcome.id,
@@ -769,6 +783,17 @@ export function PmTicket({
         await refreshWallets()
         router.refresh()
       } else {
+        // Server-side insufficient funds (e.g. fees/reserve push the true cost
+        // just over a balance that passed the client check): guide to funding
+        // instead of dead-ending on the message.
+        if (res.status === 402) {
+          const shortfall = planFunding(balance, amountNum).shortfall
+          window.dispatchEvent(
+            new CustomEvent('marketpips:open-deposit', {
+              detail: { amountLocal: shortfall > 0 ? shortfall : amountNum, currency: preferredCurrency },
+            }),
+          )
+        }
         setError(data.error ?? 'Order failed. Please try again.')
       }
     } catch {
