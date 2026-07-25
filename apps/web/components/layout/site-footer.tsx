@@ -15,9 +15,12 @@ import { LogoMark, IconArrowRight } from '@/components/ui/icons'
 
 const YEAR = new Date().getFullYear()
 
-// Settlement currencies + payment rails — mirrors the hero's clean, no-emoji treatment.
-const CURRENCIES = ['KES', 'UGX', 'TZS', 'RWF', 'ZMW', 'ETB', 'BIF']
-const PAYMENTS = ['M-Pesa', 'MTN MoMo', 'Airtel Money', 'PesaPal']
+// Settlement currencies + payment rails. These mirror what actually exists in the
+// platform today: wallets are provisioned in KES/UGX/TZS/RWF, and the only enabled
+// payment gateway is M-Pesa (Kenya pilot). Keep this list in step with the live
+// `wallets` currencies and enabled `payment_gateways` as new rails go live.
+const CURRENCIES = ['KES', 'UGX', 'TZS', 'RWF']
+const PAYMENTS = ['M-Pesa']
 
 type FooterLink = { href: string; label: string }
 type FooterColumn = { heading: string; links: FooterLink[] }
@@ -75,8 +78,8 @@ export function SiteFooter() {
             </Link>
 
             <p className="mt-4 text-[0.95rem] leading-relaxed max-w-[38ch]" style={{ color: 'var(--text-2)' }}>
-              The clearest view of what happens next — a transparent, regulated prediction
-              market built for East Africa. Live probabilities, fair pricing, instant mobile-money settlement.
+              The clearest view of what happens next — a transparent prediction
+              market built for East Africa. Live probabilities, real order-book pricing, instant M-Pesa settlement.
             </p>
 
             {/* Settlement currencies */}
@@ -149,8 +152,8 @@ export function SiteFooter() {
           <p className="text-[12.5px] leading-relaxed flex-1" style={{ color: 'var(--text-2)' }}>
             <strong style={{ color: 'var(--text-2)' }}>Trade responsibly.</strong>{' '}
             Prediction markets involve financial risk and you may lose the amount you commit.
-            MarketPips is intended for users aged 18+. Set deposit and loss limits, take cooldowns,
-            or self-exclude at any time.
+            MarketPips is intended for users aged 18+. Request deposit or loss limits, a
+            cooling-off period, or self-exclusion at any time.
           </p>
           <Link
             href="/legal/responsible-play"

@@ -63,6 +63,24 @@ async function getData() {
   const categoryCounts: Record<string, number> = { all: allActive.length }
   for (const m of allActive) categoryCounts[m.category] = (categoryCounts[m.category] ?? 0) + 1
 
+  // ---- Live, DB-backed figures for the marketing/stats blocks ----
+  // KES-native display of aggregate volume: pull the live KES->USD rate from the
+  // public `exchange_rates` table and invert it. Falls back to a sane rate only
+  // if the table read comes back empty.
+  const { data: kesRateRows } = await supabase
+    .from('exchange_rates').select('rate')
+    .eq('from_currency', 'KES').eq('to_currency', 'USD').limit(1)
+  const kesRate = Number(kesRateRows?.[0]?.rate ?? 0)
+  const kesPerUsd = kesRate > 0 ? 1 / kesRate : 129
+  // Real platform fee, read straight off live market rows (every market carries
+  // `platform_fee_rate`; the whole catalogue is on one rate). No hardcoded %.
+  const feeRate = Number((allActive[0] as unknown as { platform_fee_rate?: number } | undefined)?.platform_fee_rate ?? 0.02)
+  const platformFeePct = Number.isFinite(feeRate) && feeRate > 0
+    ? +(feeRate * 100).toFixed((feeRate * 100) % 1 === 0 ? 0 : 2)
+    : 2
+  // Breadth: how many distinct categories the live catalogue spans.
+  const categoryCount = Object.keys(categoryCounts).filter((k) => k !== 'all').length
+
   // One batched lookup of leading options across everything we'll render
   // (including the full Explore set), so multiple_choice cards show their
   // front-runner instead of a YES/NO bar.
@@ -136,6 +154,9 @@ async function getData() {
     recent: recentList,
     activeCount: active.count ?? 0,
     totalVolume,
+    kesPerUsd,
+    platformFeePct,
+    categoryCount,
     topByMarket,
     countByMarket,
     seriesByMarket,
@@ -153,13 +174,14 @@ async function getData() {
 }
 
 function fmtCompact(n: number) {
+  if (n >= 1_000_000_000) return `${(n / 1_000_000_000).toFixed(1)}B`
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`
   if (n >= 1_000) return `${(n / 1_000).toFixed(1)}K`
-  return `${n}`
+  return `${Math.round(n)}`
 }
 
 export default async function HomePage() {
-  const { featured, trending, recent, activeCount, totalVolume, topByMarket, countByMarket, seriesByMarket, movers, hotTopics, breaking, allActive, categoryCounts, heroMarkets, heroSeries, heroComments, heroActivity, optionSeries } =
+  const { featured, trending, recent, activeCount, totalVolume, kesPerUsd, platformFeePct, categoryCount, topByMarket, countByMarket, seriesByMarket, movers, hotTopics, breaking, allActive, categoryCounts, heroMarkets, heroSeries, heroComments, heroActivity, optionSeries } =
     await getData()
 
   // Build the hero carousel items, pairing each market with its per-option
@@ -200,11 +222,15 @@ export default async function HomePage() {
     .filter((m, i, arr) => arr.findIndex(x => x.id === m.id) === i)
     .slice(0, 8)
 
+  // All four figures are live from the database (no hardcoded marketing numbers):
+  // active-market count, aggregate volume converted to KES via the live FX rate,
+  // the number of categories the catalogue spans, and the real platform fee.
+  const totalVolumeKes = totalVolume * kesPerUsd
   const stats = [
     { n: activeCount > 0 ? `${activeCount}` : '—', l: 'Active markets' },
-    { n: totalVolume > 0 ? `$${fmtCompact(totalVolume)}` : '—', l: 'Total volume traded' },
-    { n: '7', l: 'Countries served' },
-    { n: '<1%', l: 'Platform fee' },
+    { n: totalVolumeKes > 0 ? `KSh ${fmtCompact(totalVolumeKes)}` : '—', l: 'Total volume traded' },
+    { n: categoryCount > 0 ? `${categoryCount}` : '—', l: 'Market categories' },
+    { n: `${platformFeePct}%`, l: 'Flat platform fee' },
   ]
 
   // Structured data (SEO): Organization + WebSite with a sitelinks search box.
@@ -220,7 +246,7 @@ export default async function HomePage() {
         url: siteUrl,
         logo: `${siteUrl}/icon.png`,
         description:
-          "East Africa's premier prediction market. Trade on real-world outcomes and pay with M-Pesa, MTN MoMo, and Airtel Money.",
+          'A prediction market for East Africa. Trade on real-world outcomes and pay with M-Pesa.',
         areaServed: ['KE', 'UG', 'TZ', 'RW', 'ZM', 'ET', 'BI'],
       },
       {
@@ -334,8 +360,8 @@ export default async function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               { n: '01', h: 'Read the probability', p: 'Every market shows a live price between 0 and 100% — the market’s best estimate that an event happens. Higher price, higher implied chance.' },
-              { n: '02', h: 'Take a position', p: 'Buy Yes if you think the chance is underpriced, No if it’s overpriced. Fund instantly with M-Pesa, MTN MoMo or Airtel Money.' },
-              { n: '03', h: 'Get paid on resolution', p: 'When the outcome is known and verified against a public source, each winning share settles at KES 100. Withdraw straight back to your phone.' },
+              { n: '02', h: 'Take a position', p: 'Buy Yes if you think the chance is underpriced, No if it’s overpriced. Fund instantly with M-Pesa.' },
+              { n: '03', h: 'Get paid on resolution', p: 'When the outcome is known and checked against the market’s stated criteria, each winning share settles at KSh 100. Withdraw straight back to M-Pesa.' },
             ].map(s => (
               <div key={s.n} className="card p-6">
                 <div className="w-10 h-10 rounded-lg grid place-items-center font-mono font-semibold"
@@ -349,21 +375,21 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* Plain-language LMSR pricing */}
+        {/* Plain-language order-book pricing */}
         <section className="py-16 sm:py-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <SectionHead eyebrow="Fair pricing" title="Prices set by a market maker, not a bookie" align="left" />
+              <SectionHead eyebrow="Fair pricing" title="Prices set by real orders, not a bookie" align="left" />
               <p className="text-[1.02rem] leading-relaxed" style={{ color: 'var(--text-2)' }}>
-                MarketPips uses an <strong style={{ color: 'var(--text)' }}>LMSR</strong> automated market maker.
-                There’s always instant liquidity, the price moves smoothly with demand, and the
-                platform never trades against you. What you see is the crowd’s real, live estimate.
+                MarketPips runs a live <strong style={{ color: 'var(--text)' }}>order book</strong>.
+                Every price comes from real buy and sell orders between people — the platform
+                never takes the other side of your trade. What you see is the crowd’s real, live estimate.
               </p>
               <div className="mt-8 card p-2">
                 {[
-                  { icon: <IconPercent size={18} />, t: 'Price = probability', s: 'A share at 62¢ means the market implies a 62% chance.' },
-                  { icon: <IconTrendUp size={18} />, t: 'Always liquid', s: 'Buy or sell any size at a fair, continuous price.' },
-                  { icon: <IconShield size={18} />, t: 'No house edge', s: 'The maker is neutral. Only a small, visible fee applies.' },
+                  { icon: <IconPercent size={18} />, t: 'Price = probability', s: 'A Yes share at KSh 62 means the market implies a 62% chance.' },
+                  { icon: <IconTrendUp size={18} />, t: 'A real order book', s: 'Match an existing order instantly, or set your own price and wait.' },
+                  { icon: <IconShield size={18} />, t: 'No house edge', s: `We never trade against you. One flat ${platformFeePct}% fee, shown before you trade.` },
                 ].map((r, i, a) => (
                   <div key={r.t} className="flex items-center gap-4 p-4"
                     style={i < a.length - 1 ? { borderBottom: '1px solid var(--hairline)' } : undefined}>
@@ -376,7 +402,7 @@ export default async function HomePage() {
                 ))}
               </div>
             </div>
-            <LmsrVisual />
+            <PriceCurveVisual />
           </div>
         </section>
 
@@ -385,10 +411,10 @@ export default async function HomePage() {
           <SectionHead eyebrow="Trust" title="Built to institutional standards" />
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {[
-              { icon: <IconShield size={20} />, h: 'Regulated & KYC-protected', p: 'Tiered identity verification and responsible-play controls — limits, cooldowns and self-exclusion — are first-class, not afterthoughts.' },
-              { icon: <IconEye size={20} />, h: 'Transparent resolution', p: 'Every market states its resolution source and criteria up front. Outcomes are verified against public data and fully auditable.' },
-              { icon: <IconMpesa size={20} />, h: 'Your money, your control', p: 'Funds are segregated. Deposit and withdraw instantly with M-Pesa, MTN MoMo and Airtel Money in your local currency.' },
-              { icon: <IconWallet size={20} />, h: 'Clear, honest fees', p: 'A single small platform fee, shown before you trade. No spreads hidden against you, no surprise charges.' },
+              { icon: <IconShield size={20} />, h: 'Identity-verified & 18+', p: 'Tiered KYC identity checks and an 18+ policy. Request deposit or loss limits, a cooling-off period, or self-exclusion at any time.' },
+              { icon: <IconEye size={20} />, h: 'Transparent resolution', p: 'Every market states its resolution criteria up front, so you know exactly how the outcome will be decided before you trade.' },
+              { icon: <IconMpesa size={20} />, h: 'Your money, your control', p: 'Deposit and withdraw in seconds with M-Pesa, in your local currency. Your balance stays yours.' },
+              { icon: <IconWallet size={20} />, h: 'Clear, honest fees', p: `One flat ${platformFeePct}% platform fee, shown before you trade. No hidden spreads, no surprise charges.` },
             ].map(t => (
               <div key={t.h} className="card p-6">
                 <span className="w-11 h-11 rounded-lg grid place-items-center mb-4" style={{ background: 'var(--pip-100)', color: 'var(--pip-text)' }}>{t.icon}</span>
@@ -468,7 +494,7 @@ function SectionHead({ eyebrow, title, align = 'center' }: { eyebrow: string; ti
   )
 }
 
-function LmsrVisual() {
+function PriceCurveVisual() {
   // A calm, static illustration of a smooth probability curve — brand blue, no fake labels.
   const pts = [8, 18, 14, 28, 34, 30, 46, 52, 48, 62, 70, 66]
   const w = 320, h = 200
