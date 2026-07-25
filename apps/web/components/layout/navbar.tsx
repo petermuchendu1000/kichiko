@@ -8,6 +8,7 @@ import { useWallets } from '@/hooks/use-wallets'
 import { createClient } from '@/lib/supabase/client'
 import { CURRENCIES, type CurrencyCode } from '@/types'
 import { depositPresets, phonePlaceholder, phonePrefill, normalizePhone, isValidPhone } from '@/lib/payments/deposit-ux'
+import { readJson } from '@/lib/http/client'
 import { openAuthDialog } from '@/components/auth/auth-dialog'
 import { StkPushLoader } from '@/components/payments/stk-push-loader'
 import {
@@ -432,7 +433,7 @@ function DepositSheet({ onClose, initialAmount, resumeOrder = false }: { onClose
       tries += 1
       try {
         const res = await fetch(`/api/payments/deposit?id=${encodeURIComponent(depositId)}`)
-        const body = await res.json()
+        const body = await readJson<{ data?: { status?: string; failure_reason?: string } }>(res)
         const status: string | undefined = body?.data?.status
         if (!active) return
         if (status === 'completed') {
@@ -488,7 +489,13 @@ function DepositSheet({ onClose, initialAmount, resumeOrder = false }: { onClose
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ amount: parseFloat(amount), currency: preferredCurrency, phone_number: normalizePhone(phone, preferredCurrency), provider: 'mpesa' }),
       })
-      const data = await res.json()
+      const data = await readJson<{
+        success?: boolean
+        deposit_id?: string
+        checkout_request_id?: string
+        redirect_url?: string
+        error?: string
+      }>(res)
       if (res.ok && (data.success || data.deposit_id || data.checkout_request_id)) {
         // A redirect-based provider (e.g. PesaPal) hands back a hosted-payment
         // URL — send the user there rather than showing the STK screen.
@@ -687,10 +694,23 @@ function WithdrawSheet({ onClose, balance, currency }: { onClose: () => void; ba
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ amount: amt, currency, phone_number: phone, provider: 'mpesa' }),
       })
-      const data = await res.json()
+      // Read defensively: an empty / non-JSON body (e.g. a session that lapsed
+      // at the edge) must not crash the modal with "Unexpected end of JSON input".
+      const data = await readJson<{
+        success?: boolean
+        withdrawal?: unknown
+        withdrawal_id?: string
+        kyc_required?: boolean
+        error?: string
+      }>(res)
       if (res.ok && (data.success || data.withdrawal || data.withdrawal_id)) {
         setStep('success')
         await refreshWallets()
+      } else if (res.status === 401) {
+        // Session lapsed — send them through auth-first, then back to withdraw.
+        setStep('form')
+        onClose()
+        openAuthDialog({ reason: 'Sign in again to withdraw your funds' })
       } else {
         // Never dead-end: route to KYC when required, otherwise show the exact
         // reason (minimum, insufficient, suspended, provider) and let them fix it.

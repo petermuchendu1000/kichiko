@@ -94,6 +94,21 @@ export async function middleware(request: NextRequest) {
   const needsAuth = requiresAuth(pathname, request.method)
 
   if ((needsAuth || isAdmin) && !user) {
+    // API routes must NEVER be answered with an HTML redirect. A fetch() caller
+    // follows the 3xx to the login page and then chokes parsing that HTML (or an
+    // empty body) as JSON — the "Unexpected end of JSON input" that broke the
+    // withdraw modal. Same regression the order-book reads hit (see
+    // lib/security/route-protection.ts history). Return a machine-readable 401
+    // so the client can surface a real message / re-auth instead of crashing.
+    if (pathname.startsWith('/api/')) {
+      return applySecurityHeaders(
+        NextResponse.json(
+          { error: 'Authentication required', code: 'unauthenticated', request_id: requestId },
+          { status: 401 },
+        ),
+        requestId,
+      )
+    }
     const loginUrl = new URL('/auth/login', request.url)
     loginUrl.searchParams.set('next', pathname)
     return NextResponse.redirect(loginUrl)
@@ -109,6 +124,18 @@ export async function middleware(request: NextRequest) {
       .eq('id', user.id)
       .single()
     if (!profile || !ADMIN_PORTAL_ROLE_SET.has(profile.role)) {
+      // As above: never hand an HTML redirect to an /api caller — return a
+      // parseable 403 so admin fetch() calls fail cleanly instead of crashing
+      // on the redirected home-page body.
+      if (pathname.startsWith('/api/')) {
+        return applySecurityHeaders(
+          NextResponse.json(
+            { error: 'Forbidden', code: 'forbidden', request_id: requestId },
+            { status: 403 },
+          ),
+          requestId,
+        )
+      }
       return NextResponse.redirect(new URL('/', request.url))
     }
   }
