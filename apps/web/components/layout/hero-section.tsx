@@ -204,12 +204,12 @@ function Spotlight({ market, series, comments, activity }: HeroMarket & { commen
 
   return (
     <div
-      // Height is only capped on desktop (lg), where the two-column layout fits
-      // within 480–500px. On mobile the card stacks vertically (chart, outcomes,
-      // activity, footer) and MUST grow to fit its content — a fixed max-height
-      // + overflow-hidden previously clipped the footer volume/CTA and the
-      // trailing outcome rows.
-      className="group relative flex h-full flex-col overflow-hidden lg:min-h-[560px] lg:max-h-[560px]"
+      // Desktop height is driven by the CHART (right column), not the looping
+      // activity feed — the feed is absolutely positioned so its duplicated rows
+      // never inflate the card. The card grows to fit its content with a gentle
+      // floor. On mobile it stacks vertically (chart, outcomes, footer; activity
+      // hidden) and grows freely to fit content.
+      className="group relative flex h-full flex-col overflow-hidden lg:min-h-[440px]"
       style={{
         background: 'var(--surface)',
         // Polymarket parity (live-measured): blue-tinted hairline + blue-500/7 shadow.
@@ -346,10 +346,15 @@ function Spotlight({ market, series, comments, activity }: HeroMarket & { commen
               </div>
             )}
 
-            {/* Trader activity — DESKTOP only. Removed on mobile to keep the card
-                compact and every key detail (Yes/No CTA, chart) visible. */}
-            <div className="hidden min-h-0 flex-1 flex-col lg:flex">
-              <TraderActivity items={feed} max={series.binary ? 6 : 4} />
+            {/* Trader activity — DESKTOP only. Absolutely positioned inside a
+                flex-1 slot so the looping (duplicated) feed fills the remaining
+                left-column height WITHOUT dictating the card height; the chart on
+                the right is the height driver, keeping both columns balanced with
+                no dead space. Removed on mobile to keep the card compact. */}
+            <div className="relative hidden min-h-0 flex-1 lg:block">
+              <div className="absolute inset-0 flex flex-col">
+                <TraderActivity items={feed} max={series.binary ? 7 : 6} />
+              </div>
             </div>
           </div>
 
@@ -378,7 +383,7 @@ function Spotlight({ market, series, comments, activity }: HeroMarket & { commen
               lines={series.lines}
               binary={series.binary}
               width={496}
-              height={276}
+              height={330}
               grid
               autoDomain
               axis="right"
