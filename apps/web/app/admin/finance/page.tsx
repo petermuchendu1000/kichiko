@@ -65,7 +65,7 @@ export default async function FinancePage() {
     <div>
       <PageHeader
         title="Finance"
-        description="Treasury operations — money in, money out, and the reconciled ledger of record."
+        description="Treasury operations: money in, money out, and the reconciled ledger of record."
         meta={
           <span className="inline-flex items-center gap-1.5">
             <IconWallet size={13} />

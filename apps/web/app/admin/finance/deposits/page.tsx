@@ -51,7 +51,7 @@ export default async function DepositsPage({
     <div>
       <PageHeader
         title="Deposits"
-        description="Inbound payments across every rail — inspect receipts and reconcile."
+        description="Inbound payments across every rail. Inspect receipts and reconcile."
         crumbs={[{ label: 'Finance', href: '/admin/finance' }, { label: 'Deposits' }]}
         meta={<span>{total.toLocaleString()} deposit{total === 1 ? '' : 's'}</span>}
       />

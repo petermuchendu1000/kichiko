@@ -1,10 +1,10 @@
 {
   "common": {
     "appName": "MarketPips",
-    "browseMarkets": "Browse Markets",
+    "browseMarkets": "Browse Events",
     "startPredicting": "Start Predicting",
     "viewAll": "View all",
-    "createMarket": "Create Market",
+    "createMarket": "Create an event",
     "loading": "Loading…",
     "cancel": "Cancel",
     "confirm": "Confirm",
@@ -14,7 +14,7 @@
     "signOut": "Sign out"
   },
   "nav": {
-    "markets": "Markets",
+    "markets": "Events",
     "leaderboard": "Leaderboard",
     "portfolio": "Portfolio",
     "search": "Search",
@@ -28,15 +28,15 @@
     "nonCustodial": "Non-custodial · KYC protected",
     "fairPricing": "LMSR-powered fair pricing",
     "countries": "{count} East African countries",
-    "activeMarkets": "Active Markets",
+    "activeMarkets": "Active Events",
     "totalVolume": "Total Volume",
     "tradersSupported": "Traders Supported",
     "payWith": "Pay with",
     "trendingNow": "Trending Now",
     "mostVolume24h": "Most volume in 24h",
-    "noMarketsYet": "No markets yet",
-    "beTheFirst": "Be the first to create a prediction market",
-    "browseAllMarkets": "Browse all markets"
+    "noMarketsYet": "No events yet",
+    "beTheFirst": "Be the first to create a prediction event",
+    "browseAllMarkets": "Browse all events"
   },
   "wallet": {
     "deposit": "Deposit",

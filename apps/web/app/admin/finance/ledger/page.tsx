@@ -68,7 +68,7 @@ export default async function LedgerPage({
     <div>
       <PageHeader
         title="Ledger"
-        description="Every balance-affecting transaction, reconciled and exportable — the platform's book of record."
+        description="Every balance-affecting transaction, reconciled and exportable: the platform's book of record."
         crumbs={[{ label: 'Finance', href: '/admin/finance' }, { label: 'Ledger' }]}
         meta={<span>{total.toLocaleString()} transaction{total === 1 ? '' : 's'}</span>}
         actions={

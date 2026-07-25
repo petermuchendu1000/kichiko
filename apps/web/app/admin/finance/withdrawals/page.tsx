@@ -50,7 +50,7 @@ export default async function WithdrawalsPage({
     <div>
       <PageHeader
         title="Withdrawals"
-        description="Outbound payouts — approve, reject, retry and complete, with reserved-balance safety."
+        description="Outbound payouts: approve, reject, retry and complete, with reserved-balance safety."
         crumbs={[{ label: 'Finance', href: '/admin/finance' }, { label: 'Withdrawals' }]}
         meta={<span>{total.toLocaleString()} withdrawal{total === 1 ? '' : 's'}</span>}
       />

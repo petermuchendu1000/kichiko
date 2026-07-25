@@ -63,8 +63,8 @@ export default async function CreatorDetail({ params }: { params: Promise<{ id: 
       )}
 
       <div className="card-grid grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Stat label="Markets authored" value={stats.marketsAuthored.toLocaleString()} />
-        <Stat label="Open markets" value={`${stats.openMarkets} / ${effMax}`} />
+        <Stat label="Events authored" value={stats.marketsAuthored.toLocaleString()} />
+        <Stat label="Open events" value={`${stats.openMarkets} / ${effMax}`} />
         <Stat label="Effective reward" value={formatRewardPct(effReward)} />
         <Stat label="Lifetime reward" value={`$${stats.lifetimeRewardUsd.toLocaleString(undefined, { maximumFractionDigits: 2 })}`} />
       </div>

@@ -75,7 +75,7 @@ export default async function UserDetailPage({ params }: { params: Promise<{ id:
         description={
           <span className="font-mono text-xs">{id}</span>
         }
-        meta={targetImmutable ? <Pill tone="amber">Immutable — cannot be demoted or removed</Pill> : undefined}
+        meta={targetImmutable ? <Pill tone="amber">Immutable: cannot be demoted or removed</Pill> : undefined}
       />
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
@@ -194,7 +194,7 @@ export default async function UserDetailPage({ params }: { params: Promise<{ id:
             <PanelHead title="Effective capabilities" />
             <PanelBody>
               {effectiveCaps ? (
-                <p className="text-sm font-medium text-amber-600 dark:text-amber-400">Superadmin — all capabilities</p>
+                <p className="text-sm font-medium text-amber-600 dark:text-amber-400">Superadmin: all capabilities</p>
               ) : (
                 <CapList role={targetRole} />
               )}

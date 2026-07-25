@@ -1,10 +1,10 @@
 {
   "common": {
     "appName": "MarketPips",
-    "browseMarkets": "Vinjari Masoko",
+    "browseMarkets": "Vinjari Matukio",
     "startPredicting": "Anza Kutabiri",
     "viewAll": "Ona zote",
-    "createMarket": "Tengeneza Soko",
+    "createMarket": "Tengeneza Tukio",
     "loading": "Inapakia…",
     "cancel": "Ghairi",
     "confirm": "Thibitisha",
@@ -14,7 +14,7 @@
     "signOut": "Toka"
   },
   "nav": {
-    "markets": "Masoko",
+    "markets": "Matukio",
     "leaderboard": "Ubao wa Viongozi",
     "portfolio": "Portfolio",
     "search": "Tafuta",

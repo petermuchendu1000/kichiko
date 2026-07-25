@@ -58,7 +58,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
                     ? 'border-amber-500/30 bg-amber-500/10 text-amber-600 dark:text-amber-400'
                     : 'border-emerald-500/25 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400')
                 }
-                title={superadmin ? 'Superadmin — holds every capability' : undefined}
+                title={superadmin ? 'Superadmin: holds every capability' : undefined}
               >
                 {superadmin && (
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
