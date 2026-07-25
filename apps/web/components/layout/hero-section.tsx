@@ -295,14 +295,14 @@ function Spotlight({ market, series, comments, activity }: HeroMarket & { commen
                   <Link
                     href={`/markets/${market.slug}?side=yes`}
                     className="btn btn-yes pointer-events-auto relative z-10 justify-center gap-1.5 py-2 text-[13px]"
-                    aria-label={`Buy Yes — ${yesPct}%`}
+                    aria-label={`Buy Yes, ${yesPct}%`}
                   >
                     Yes <span className="font-mono font-bold tabular-nums">{yesPct}%</span>
                   </Link>
                   <Link
                     href={`/markets/${market.slug}?side=no`}
                     className="btn btn-no pointer-events-auto relative z-10 justify-center gap-1.5 py-2 text-[13px]"
-                    aria-label={`Buy No — ${100 - yesPct}%`}
+                    aria-label={`Buy No, ${100 - yesPct}%`}
                   >
                     No <span className="font-mono font-bold tabular-nums">{100 - yesPct}%</span>
                   </Link>
@@ -320,7 +320,7 @@ function Spotlight({ market, series, comments, activity }: HeroMarket & { commen
                     href={o.id ? `/markets/${market.slug}?option=${o.id}` : `/markets/${market.slug}`}
                     className="pointer-events-auto relative z-10 flex min-h-0 items-center justify-between gap-2 rounded-md pb-1 transition-colors hover:bg-[var(--surface-2)] lg:min-h-10 lg:gap-3 lg:pb-2"
                     style={{ borderBottom: '1px solid var(--hairline-soft)' }}
-                    aria-label={`Trade ${o.label} — ${Math.round(o.price * 100)}%`}
+                    aria-label={`Trade ${o.label}, ${Math.round(o.price * 100)}%`}
                   >
                     <div className="flex min-w-0 flex-1 items-center gap-1.5">
                       {o.imageUrl && (
@@ -444,7 +444,7 @@ function BinaryRows({ yesPct, slug }: { yesPct: number; slug: string }) {
           href={`/markets/${slug}?side=${r.side}`}
           className="pointer-events-auto relative z-10 flex min-h-10 items-center justify-between gap-3 rounded-md pb-2 transition-colors hover:bg-[var(--surface-2)]"
           style={{ borderBottom: '1px solid var(--hairline-soft)' }}
-          aria-label={`Buy ${r.label} — ${r.pct}%`}
+          aria-label={`Buy ${r.label}, ${r.pct}%`}
         >
           <div className="flex min-w-0 flex-1 items-center gap-1.5">
             <span className="h-[18px] w-[18px] flex-none rounded-[5px]" style={{ background: r.color }} aria-hidden />

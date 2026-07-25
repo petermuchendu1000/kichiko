@@ -227,9 +227,9 @@ export default async function HomePage() {
   // the number of categories the catalogue spans, and the real platform fee.
   const totalVolumeKes = totalVolume * kesPerUsd
   const stats = [
-    { n: activeCount > 0 ? `${activeCount}` : '—', l: 'Events open now' },
-    { n: totalVolumeKes > 0 ? `KSh ${fmtCompact(totalVolumeKes)}` : '—', l: 'Money traded so far' },
-    { n: categoryCount > 0 ? `${categoryCount}` : '—', l: 'Topics' },
+    { n: activeCount > 0 ? `${activeCount}` : '-', l: 'Events open now' },
+    { n: totalVolumeKes > 0 ? `KSh ${fmtCompact(totalVolumeKes)}` : '-', l: 'Money traded so far' },
+    { n: categoryCount > 0 ? `${categoryCount}` : '-', l: 'Topics' },
     { n: `${platformFeePct}%`, l: 'Our fee' },
   ]
 
@@ -359,9 +359,9 @@ export default async function HomePage() {
           <SectionHead eyebrow="How it works" title="Three easy steps" />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { n: '01', h: 'See the chance', p: 'Every event has a price for Yes and a price for No, from KSh 0 to KSh 100. The two prices add up to KSh 100. A higher price means people think it is more likely.' },
+              { n: '01', h: 'See the chance', p: 'Every event shows a chance from 0% to 100%. It is how likely people think “Yes” is. The price matches the chance, so a 65% chance means a Yes costs KSh 65.' },
               { n: '02', h: 'Choose Yes or No', p: 'Buy Yes if you think it will happen. Buy No if you think it will not. Deposit in seconds with M-Pesa.' },
-              { n: '03', h: 'Get paid if you are right', p: 'When the event ends, each winning Yes or No you bought pays out KSh 100. If you are wrong, it pays nothing. Withdraw straight to M-Pesa.' },
+              { n: '03', h: 'Get paid if you are right', p: 'When the event ends, every correct Yes or No pays KSh 100. A Yes you bought at KSh 65 pays back KSh 100, so you make KSh 35. If you are wrong, it pays nothing. Withdraw to M-Pesa.' },
             ].map(s => (
               <div key={s.n} className="card p-6">
                 <div className="w-10 h-10 rounded-lg grid place-items-center font-mono font-semibold"
@@ -375,20 +375,37 @@ export default async function HomePage() {
           </div>
         </section>
 
+        {/* Buy or sell any time */}
+        <section className="py-16 sm:py-24">
+          <SectionHead eyebrow="Your choice" title="Buy or sell any time" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="card p-6">
+              <span className="w-11 h-11 rounded-lg grid place-items-center mb-4" style={{ background: 'var(--pip-100)', color: 'var(--pip-text)' }}><IconTrendUp size={20} /></span>
+              <h3 className="text-[1.05rem] font-semibold tracking-[-0.01em]" style={{ color: 'var(--text)' }}>Take your profit early</h3>
+              <p className="mt-2 text-[0.92rem] leading-relaxed" style={{ color: 'var(--text-2)' }}>You do not have to wait for the event to end. If the price moves your way, sell your Yes or No any time and keep the profit.</p>
+            </div>
+            <div className="card p-6">
+              <span className="w-11 h-11 rounded-lg grid place-items-center mb-4" style={{ background: 'var(--pip-100)', color: 'var(--pip-text)' }}><IconCheck size={20} /></span>
+              <h3 className="text-[1.05rem] font-semibold tracking-[-0.01em]" style={{ color: 'var(--text)' }}>Or wait for the result</h3>
+              <p className="mt-2 text-[0.92rem] leading-relaxed" style={{ color: 'var(--text-2)' }}>Prefer to wait? Hold your Yes or No until the event is decided. If you are right, it pays KSh 100.</p>
+            </div>
+          </div>
+        </section>
+
         {/* Plain-language order-book pricing */}
         <section className="py-16 sm:py-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <SectionHead eyebrow="Fair prices" title="People set the price, not us" align="left" />
               <p className="text-[1.02rem] leading-relaxed" style={{ color: 'var(--text-2)' }}>
-                The price comes from people <strong style={{ color: 'var(--text)' }}>buying and selling</strong> —
+                The price comes from people <strong style={{ color: 'var(--text)' }}>buying and selling</strong>,
                 like a real market. You buy and sell with other people, not us. The price simply shows what
                 people think will happen right now.
               </p>
               <div className="mt-8 card p-2">
                 {[
-                  { icon: <IconPercent size={18} />, t: 'The price is the chance', s: 'A “Yes” at KSh 62 means about a 62% chance.' },
-                  { icon: <IconTrendUp size={18} />, t: 'Buy or sell any time', s: 'Buy from someone now, or set your own price and wait.' },
+                  { icon: <IconPercent size={18} />, t: 'The price is the chance', s: 'A “Yes” at KSh 65 means about a 65% chance.' },
+                  { icon: <IconTrendUp size={18} />, t: 'Set your own price', s: 'Buy from someone now, or place your own price and wait.' },
                   { icon: <IconShield size={18} />, t: 'The other side is a person', s: `You buy from and sell to other people, not us. We only take one small fee of ${platformFeePct}%.` },
                 ].map((r, i, a) => (
                   <div key={r.t} className="flex items-center gap-4 p-4"
@@ -447,7 +464,7 @@ export default async function HomePage() {
               Ready to try?
             </h2>
             <p className="relative mt-4 mx-auto max-w-[46ch]" style={{ color: 'var(--ink-300)' }}>
-              Look at all the events for free — no account needed. Sign up in a minute to make your first prediction.
+              Look at all the events for free. No account needed. Sign up in a minute to make your first prediction.
             </p>
             <div className="relative mt-8 flex flex-wrap gap-3 justify-center">
               <Link href="/markets" className="btn btn-primary btn-lg">See the events <IconArrowRight size={16} /></Link>

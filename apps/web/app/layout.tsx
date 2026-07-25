@@ -31,7 +31,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'),
   title: {
-    default: 'MarketPips — East Africa Prediction Markets',
+    default: 'MarketPips: East Africa Prediction Markets',
     template: '%s · MarketPips',
   },
   description: 'Predict what will happen next in real events. Pay with M-Pesa. Made for East Africa.',
@@ -57,14 +57,14 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000',
     siteName: 'MarketPips',
-    title: 'MarketPips — The clearest view of what happens next',
-    description: 'A simple, honest way to predict real events — elections, the economy, sports and more. Made for East Africa, pay with M-Pesa.',
+    title: 'MarketPips: The clearest view of what happens next',
+    description: 'A simple, honest way to predict real events like elections, the economy, sports and more. Made for East Africa, pay with M-Pesa.',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'MarketPips' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'MarketPips',
-    description: 'A simple way to predict what happens next — made for East Africa',
+    description: 'A simple way to predict what happens next, made for East Africa',
     images: ['/og-image.png'],
   },
   manifest: '/manifest.json',

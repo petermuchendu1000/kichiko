@@ -79,7 +79,7 @@ export function SiteFooter() {
 
             <p className="mt-4 text-[0.95rem] leading-relaxed max-w-[38ch]" style={{ color: 'var(--text-2)' }}>
               See what people think will happen next. A simple, honest way to predict
-              real events — made for East Africa. Deposit and withdraw with M-Pesa.
+              real events, made for East Africa. Deposit and withdraw with M-Pesa.
             </p>
 
             {/* Settlement currencies */}
