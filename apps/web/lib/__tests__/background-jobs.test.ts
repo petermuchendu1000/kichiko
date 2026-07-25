@@ -4,6 +4,7 @@ import {
   invertUsdRates,
   mergeWithFallback,
   toUpsertRows,
+  PEGGED_CURRENCIES,
 } from '@/lib/integrations/fx'
 import { SUPPORTED_CURRENCIES, FALLBACK_USD_RATES } from '@/lib/currency'
 
@@ -89,21 +90,29 @@ describe('fx: mergeWithFallback', () => {
 })
 
 describe('fx: toUpsertRows', () => {
-  it('emits one row per non-USD supported currency', () => {
+  it('emits one row per non-USD, non-pegged supported currency', () => {
     const { rates } = mergeWithFallback({})
     const rows = toUpsertRows(rates)
-    expect(rows.length).toBe(SUPPORTED_CURRENCIES.length - 1) // USD excluded
+    // USD (self-rate) and pegged currencies (KES) are both excluded.
+    expect(rows.length).toBe(SUPPORTED_CURRENCIES.length - 1 - PEGGED_CURRENCIES.length)
     expect(rows.some((r) => r.from_currency === 'USD')).toBe(false)
     for (const r of rows) {
       expect(r.rate).toBeGreaterThan(0)
     }
   })
 
-  it('round-trips USD-base -> stored rate end to end', () => {
-    const inverted = invertUsdRates({ KES: 129 })
+  it('never upserts a pegged currency (KES settlement peg is protected)', () => {
+    const inverted = invertUsdRates({ KES: 129, UGX: 3740 })
     const { rates } = mergeWithFallback(inverted)
     const rows = toUpsertRows(rates)
-    const kes = rows.find((r) => r.from_currency === 'KES')
-    expect(kes?.rate).toBeCloseTo(1 / 129, 10)
+    expect(rows.some((r) => r.from_currency === 'KES')).toBe(false)
+  })
+
+  it('round-trips USD-base -> stored rate end to end (non-pegged)', () => {
+    const inverted = invertUsdRates({ UGX: 3740 })
+    const { rates } = mergeWithFallback(inverted)
+    const rows = toUpsertRows(rates)
+    const ugx = rows.find((r) => r.from_currency === 'UGX')
+    expect(ugx?.rate).toBeCloseTo(1 / 3740, 10)
   })
 })

@@ -10,6 +10,18 @@
 import type { CurrencyCode } from '@/types'
 import { SUPPORTED_CURRENCIES, FALLBACK_USD_RATES } from '@/lib/currency'
 
+/**
+ * Currencies whose local->USD rate is a fixed PRODUCT PEG, not an FX market
+ * quote, and must therefore NEVER be overwritten by the live FX job.
+ *
+ * KES is the pilot settlement currency: one share settles at KSh 100, so the
+ * platform pegs KES->USD = 0.01 (1 USD == KSh 100). That is a denomination
+ * decision, not an exchange rate. The live USD/KES *market* rate is still
+ * fetched (see fetchUsdKesReference) and exposed for reference/other-currency
+ * conversion, but the settlement peg row in `exchange_rates` stays put.
+ */
+export const PEGGED_CURRENCIES: readonly CurrencyCode[] = ['KES'] as const
+
 /** How many units of a currency equal 1 USD (provider "USD-base" quote). */
 export type UsdBaseRates = Partial<Record<string, number>>
 
@@ -23,6 +35,10 @@ export interface FxFetchResult {
 }
 
 const OER_LATEST_URL = 'https://openexchangerates.org/api/latest.json'
+// Free, no-API-key, reputable provider (ExchangeRate-API "open" endpoint).
+// Returns { result:'success', rates:{ KES: 129.4, ... } } USD-base, refreshed
+// daily. Used as the DEFAULT source so a live rate needs no secret to work.
+const ERAPI_LATEST_URL = 'https://open.er-api.com/v6/latest/USD'
 const DEFAULT_TIMEOUT_MS = 8000
 
 /**
@@ -70,12 +86,16 @@ export function mergeWithFallback(
 
 /**
  * Shape the merged rates into the row array `upsert_exchange_rates(jsonb)`
- * expects: one { from_currency, rate } per non-USD supported currency. Pure.
+ * expects: one { from_currency, rate } per non-USD supported currency, EXCLUDING
+ * pegged currencies (KES) whose rate is a product decision, not a market quote.
+ * Pure.
  */
 export function toUpsertRows(
   rates: Record<CurrencyCode, number>,
 ): Array<{ from_currency: CurrencyCode; rate: number }> {
-  return SUPPORTED_CURRENCIES.filter((c) => c !== 'USD').map((c) => ({
+  return SUPPORTED_CURRENCIES.filter(
+    (c) => c !== 'USD' && !PEGGED_CURRENCIES.includes(c),
+  ).map((c) => ({
     from_currency: c,
     rate: rates[c],
   }))
@@ -93,10 +113,33 @@ async function fetchJson(url: string, timeoutMs: number): Promise<unknown> {
   }
 }
 
+/** Fetch USD-base quotes from the free, no-key ExchangeRate-API open endpoint. */
+async function fetchErApiUsdBase(timeoutMs: number): Promise<UsdBaseRates | null> {
+  const json = (await fetchJson(ERAPI_LATEST_URL, timeoutMs)) as {
+    result?: string
+    rates?: Record<string, number>
+  }
+  if (json?.result !== 'success' || !json?.rates) return null
+  return json.rates
+}
+
+/** Fetch USD-base quotes from OpenExchangeRates (requires an app id). */
+async function fetchOerUsdBase(appId: string, timeoutMs: number): Promise<UsdBaseRates | null> {
+  const url = `${OER_LATEST_URL}?app_id=${encodeURIComponent(appId)}&base=USD`
+  const json = (await fetchJson(url, timeoutMs)) as { rates?: Record<string, number> }
+  return json?.rates ?? null
+}
+
 /**
- * Fetch live local->USD rates from OpenExchangeRates. Never throws: on missing
- * key or any provider error it returns the fallback map with `live: []`, so the
- * caller can still upsert a sane, currency-correct set and self-heal next run.
+ * Fetch live local->USD rates. DEFAULT provider is the free, no-key
+ * ExchangeRate-API so live FX works out of the box (no secret required). If an
+ * OpenExchangeRates app id is configured it is preferred (higher plan / SLA),
+ * with ExchangeRate-API as an automatic fallback. Never throws: on total
+ * provider failure it returns the last-known-good fallback map with `live: []`
+ * so the cron can skip the upsert and keep good rows intact.
+ *
+ * Pegged currencies (KES) are always excluded from `live` so the settlement peg
+ * is never overwritten by a market quote.
  */
 export async function fetchUsdRates(
   opts?: { appId?: string; timeoutMs?: number },
@@ -104,24 +147,70 @@ export async function fetchUsdRates(
   const appId = opts?.appId ?? process.env.OPENEXCHANGERATES_APP_ID
   const timeoutMs = opts?.timeoutMs ?? DEFAULT_TIMEOUT_MS
 
-  if (!appId) {
+  let usdBase: UsdBaseRates | null = null
+  let source = 'fallback'
+
+  // 1) Preferred: OpenExchangeRates when a key is present.
+  if (appId) {
+    try {
+      usdBase = await fetchOerUsdBase(appId, timeoutMs)
+      if (usdBase) source = 'openexchangerates'
+    } catch {
+      usdBase = null
+    }
+  }
+  // 2) Default / fallback: free ExchangeRate-API (no key needed).
+  if (!usdBase) {
+    try {
+      usdBase = await fetchErApiUsdBase(timeoutMs)
+      if (usdBase) source = 'exchangerate-api'
+    } catch {
+      usdBase = null
+    }
+  }
+
+  if (!usdBase) {
     const merged = mergeWithFallback({})
     return { rates: merged.rates, live: merged.live, source: 'fallback' }
   }
 
+  const inverted = invertUsdRates(usdBase)
+  const merged = mergeWithFallback(inverted)
+  // Never treat a pegged currency as "live" — its row must not be upserted.
+  const live = merged.live.filter((c) => !PEGGED_CURRENCIES.includes(c))
+  return {
+    rates: merged.rates,
+    live,
+    source: live.length > 0 ? source : 'fallback',
+  }
+}
+
+/**
+ * Live USD->KES *market* reference (how many KES per 1 USD), from the free
+ * ExchangeRate-API. This is informational only (reference / other-currency
+ * conversion); it deliberately does NOT touch the KES settlement peg. Returns
+ * null on any provider error so callers can fall back gracefully.
+ */
+export async function fetchUsdKesReference(
+  opts?: { timeoutMs?: number },
+): Promise<{ usdToKes: number; source: string; asOf: string } | null> {
+  const timeoutMs = opts?.timeoutMs ?? DEFAULT_TIMEOUT_MS
   try {
-    const url = `${OER_LATEST_URL}?app_id=${encodeURIComponent(appId)}&base=USD`
-    const json = (await fetchJson(url, timeoutMs)) as { rates?: Record<string, number> }
-    const usdBase: UsdBaseRates = json?.rates ?? {}
-    const inverted = invertUsdRates(usdBase)
-    const merged = mergeWithFallback(inverted)
+    const json = (await fetchJson(ERAPI_LATEST_URL, timeoutMs)) as {
+      result?: string
+      rates?: Record<string, number>
+      time_last_update_utc?: string
+    }
+    const kes = json?.rates?.KES
+    if (json?.result !== 'success' || typeof kes !== 'number' || !Number.isFinite(kes) || kes <= 0) {
+      return null
+    }
     return {
-      rates: merged.rates,
-      live: merged.live,
-      source: merged.live.length > 0 ? 'openexchangerates' : 'fallback',
+      usdToKes: kes,
+      source: 'exchangerate-api',
+      asOf: json.time_last_update_utc ?? new Date().toISOString(),
     }
   } catch {
-    const merged = mergeWithFallback({})
-    return { rates: merged.rates, live: merged.live, source: 'fallback' }
+    return null
   }
 }

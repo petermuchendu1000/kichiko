@@ -10,7 +10,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/server'
 import { isAuthorizedCron } from '@/lib/cron-auth'
 import { withJobRun } from '@/lib/jobs/runner'
-import { fetchUsdRates, toUpsertRows } from '@/lib/integrations/fx'
+import { fetchUsdRates, toUpsertRows, fetchUsdKesReference } from '@/lib/integrations/fx'
 import { logger } from '@/lib/observability/logger'
 import { resolveRequestId } from '@/lib/observability/request-id'
 
@@ -32,6 +32,22 @@ async function handle(req: NextRequest) {
   try {
     const outcome = await withJobRun(sb, JOB_NAME, requestId, async () => {
       const fx = await fetchUsdRates()
+
+      // Record the live USD/KES *market* reference (informational only; never
+      // touches the KES settlement peg row in exchange_rates).
+      const ref = await fetchUsdKesReference()
+      if (ref) {
+        await sb
+          .from('platform_settings')
+          .upsert(
+            {
+              key: 'fx.usd_kes_reference',
+              value: { usd_to_kes: ref.usdToKes, source: ref.source, as_of: ref.asOf },
+              is_public: true,
+            } as never,
+            { onConflict: 'key' } as never,
+          )
+      }
 
       // No live rates -> skip the upsert entirely (don't overwrite good data).
       if (fx.live.length === 0) {
