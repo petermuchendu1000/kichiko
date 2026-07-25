@@ -397,6 +397,22 @@
   }
   .input:focus { border-color:var(--pip-500); box-shadow:0 0 0 3px var(--pip-100); }
   .input::placeholder { color:var(--text-3); }
+
+  /* Google Material-style focus for ALL form controls: exactly ONE indicator —
+     a primary-colored border plus a soft halo — never a second stacked outline
+     ring (that "double border" appeared because the global :focus-visible rule
+     below drew a hard 2px outline on top of a field that already styled its own
+     focus). This covers both .input-classed fields and raw Tailwind-bordered
+     inputs/selects. The global :focus-visible outline still applies to buttons,
+     links and other focusables for accessibility. */
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):focus-visible,
+  textarea:focus-visible,
+  select:focus-visible,
+  .input:focus-visible {
+    outline:none;
+    border-color:var(--pip-500);
+    box-shadow:0 0 0 3px var(--pip-100);
+  }
   .input-lg { padding:13px 16px; font-size:22px; font-weight:600; border-radius:var(--r-md); font-family:var(--font-mono); font-variant-numeric:tabular-nums; }
 
   /* Native <select>/<option> must follow the theme. Otherwise a dark-mode
