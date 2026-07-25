@@ -227,10 +227,10 @@ export default async function HomePage() {
   // the number of categories the catalogue spans, and the real platform fee.
   const totalVolumeKes = totalVolume * kesPerUsd
   const stats = [
-    { n: activeCount > 0 ? `${activeCount}` : '—', l: 'Active markets' },
-    { n: totalVolumeKes > 0 ? `KSh ${fmtCompact(totalVolumeKes)}` : '—', l: 'Total volume traded' },
-    { n: categoryCount > 0 ? `${categoryCount}` : '—', l: 'Market categories' },
-    { n: `${platformFeePct}%`, l: 'Flat platform fee' },
+    { n: activeCount > 0 ? `${activeCount}` : '—', l: 'Markets open now' },
+    { n: totalVolumeKes > 0 ? `KSh ${fmtCompact(totalVolumeKes)}` : '—', l: 'Money traded so far' },
+    { n: categoryCount > 0 ? `${categoryCount}` : '—', l: 'Topics' },
+    { n: `${platformFeePct}%`, l: 'Our fee' },
   ]
 
   // Structured data (SEO): Organization + WebSite with a sitelinks search box.
@@ -279,7 +279,7 @@ export default async function HomePage() {
       <div className="max-w-[1350px] mx-auto px-4 lg:px-6">
 
         {/* Category browse */}
-        <Section eyebrow="Browse" title="Markets across every domain">
+        <Section eyebrow="Browse" title="Markets on every topic">
           <div className="flex flex-wrap gap-2.5">
             {BROWSE_CATEGORIES.map(c => (
               <Link
@@ -356,12 +356,12 @@ export default async function HomePage() {
         <div className="mx-auto max-w-6xl">
         {/* How it works */}
         <section id="how-it-works" className="py-16 sm:py-24 scroll-mt-20">
-          <SectionHead eyebrow="How it works" title="From question to payout in three steps" />
+          <SectionHead eyebrow="How it works" title="Three easy steps" />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { n: '01', h: 'Read the probability', p: 'Every market shows a live price between 0 and 100% — the market’s best estimate that an event happens. Higher price, higher implied chance.' },
-              { n: '02', h: 'Take a position', p: 'Buy Yes if you think the chance is underpriced, No if it’s overpriced. Fund instantly with M-Pesa.' },
-              { n: '03', h: 'Get paid on resolution', p: 'When the outcome is known and checked against the market’s stated criteria, each winning share settles at KSh 100. Withdraw straight back to M-Pesa.' },
+              { n: '01', h: 'See the chance', p: 'Each question has a price from 0 to 100. It shows how likely people think “Yes” is. A higher price means a bigger chance.' },
+              { n: '02', h: 'Choose Yes or No', p: 'Buy Yes if you think it will happen. Buy No if you think it will not. Add money fast with M-Pesa.' },
+              { n: '03', h: 'Get paid if you are right', p: 'When the answer is known, each winning Yes or No pays you KSh 100. Take your money out to M-Pesa.' },
             ].map(s => (
               <div key={s.n} className="card p-6">
                 <div className="w-10 h-10 rounded-lg grid place-items-center font-mono font-semibold"
@@ -379,17 +379,17 @@ export default async function HomePage() {
         <section className="py-16 sm:py-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <SectionHead eyebrow="Fair pricing" title="Prices set by real orders, not a bookie" align="left" />
+              <SectionHead eyebrow="Fair prices" title="People set the price, not us" align="left" />
               <p className="text-[1.02rem] leading-relaxed" style={{ color: 'var(--text-2)' }}>
-                MarketPips runs a live <strong style={{ color: 'var(--text)' }}>order book</strong>.
-                Every price comes from real buy and sell orders between people — the platform
-                never takes the other side of your trade. What you see is the crowd’s real, live estimate.
+                The price comes from people <strong style={{ color: 'var(--text)' }}>buying and selling</strong> —
+                like a real market. We never bet against you. The price simply shows what
+                people think will happen right now.
               </p>
               <div className="mt-8 card p-2">
                 {[
-                  { icon: <IconPercent size={18} />, t: 'Price = probability', s: 'A Yes share at KSh 62 means the market implies a 62% chance.' },
-                  { icon: <IconTrendUp size={18} />, t: 'A real order book', s: 'Match an existing order instantly, or set your own price and wait.' },
-                  { icon: <IconShield size={18} />, t: 'No house edge', s: `We never trade against you. One flat ${platformFeePct}% fee, shown before you trade.` },
+                  { icon: <IconPercent size={18} />, t: 'The price is the chance', s: 'A “Yes” at KSh 62 means about a 62% chance.' },
+                  { icon: <IconTrendUp size={18} />, t: 'Buy or sell any time', s: 'Buy from someone now, or set your own price and wait.' },
+                  { icon: <IconShield size={18} />, t: 'We do not bet against you', s: `We only take one small fee of ${platformFeePct}%. You see it before you buy.` },
                 ].map((r, i, a) => (
                   <div key={r.t} className="flex items-center gap-4 p-4"
                     style={i < a.length - 1 ? { borderBottom: '1px solid var(--hairline)' } : undefined}>
@@ -408,13 +408,13 @@ export default async function HomePage() {
 
         {/* Trust & transparency */}
         <section className="py-16 sm:py-24">
-          <SectionHead eyebrow="Trust" title="Built to institutional standards" />
+          <SectionHead eyebrow="Trust" title="Safe, clear, and fair" />
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {[
-              { icon: <IconShield size={20} />, h: 'Identity-verified & 18+', p: 'Tiered KYC identity checks and an 18+ policy. Request deposit or loss limits, a cooling-off period, or self-exclusion at any time.' },
-              { icon: <IconEye size={20} />, h: 'Transparent resolution', p: 'Every market states its resolution criteria up front, so you know exactly how the outcome will be decided before you trade.' },
-              { icon: <IconMpesa size={20} />, h: 'Your money, your control', p: 'Deposit and withdraw in seconds with M-Pesa, in your local currency. Your balance stays yours.' },
-              { icon: <IconWallet size={20} />, h: 'Clear, honest fees', p: `One flat ${platformFeePct}% platform fee, shown before you trade. No hidden spreads, no surprise charges.` },
+              { icon: <IconShield size={20} />, h: 'Safe and 18+', p: 'We check who you are, and you must be 18 or older. Ask us any time to set a limit, take a break, or close your account.' },
+              { icon: <IconEye size={20} />, h: 'Clear rules', p: 'Every question tells you how the answer will be decided, before you buy. No surprises.' },
+              { icon: <IconMpesa size={20} />, h: 'Your money is yours', p: 'Add money and take it out fast with M-Pesa, in Kenyan Shillings.' },
+              { icon: <IconWallet size={20} />, h: 'One small fee', p: `Just one fee of ${platformFeePct}%. You see it before you buy. Nothing is hidden.` },
             ].map(t => (
               <div key={t.h} className="card p-6">
                 <span className="w-11 h-11 rounded-lg grid place-items-center mb-4" style={{ background: 'var(--pip-100)', color: 'var(--pip-text)' }}>{t.icon}</span>
@@ -444,15 +444,15 @@ export default async function HomePage() {
             <div aria-hidden className="pointer-events-none absolute inset-0"
               style={{ background: 'radial-gradient(700px 300px at 50% 0, rgba(43,80,228,.35), transparent 65%)' }} />
             <h2 className="relative font-display font-bold tracking-[-0.02em]" style={{ fontSize: 'clamp(1.8rem, 4.5vw, 2.6rem)' }}>
-              Start reading the market.
+              Ready to try?
             </h2>
             <p className="relative mt-4 mx-auto max-w-[46ch]" style={{ color: 'var(--ink-300)' }}>
-              Explore live markets free — no account needed. Create one in a minute to take your first position.
+              Look at all the questions for free — no account needed. Sign up in a minute to make your first pick.
             </p>
             <div className="relative mt-8 flex flex-wrap gap-3 justify-center">
-              <Link href="/markets" className="btn btn-primary btn-lg">Explore markets <IconArrowRight size={16} /></Link>
+              <Link href="/markets" className="btn btn-primary btn-lg">See the questions <IconArrowRight size={16} /></Link>
               <Link href="/auth/register" className="btn btn-lg" style={{ background: 'transparent', color: '#fff', boxShadow: 'inset 0 0 0 1px rgba(255,255,255,.25)' }}>
-                Create free account
+                Create a free account
               </Link>
             </div>
           </div>
@@ -505,7 +505,7 @@ function PriceCurveVisual() {
   return (
     <div className="card p-6">
       <div className="flex items-center justify-between mb-4">
-        <span className="text-sm font-medium" style={{ color: 'var(--text-2)' }}>Implied probability over time</span>
+        <span className="text-sm font-medium" style={{ color: 'var(--text-2)' }}>The chance over time</span>
         <span className="font-mono text-sm font-semibold" style={{ color: 'var(--pip-text)' }}>66%</span>
       </div>
       <svg viewBox={`0 0 ${w} ${h}`} className="w-full" style={{ height: 'auto' }} aria-hidden="true">
@@ -526,9 +526,9 @@ function EmptyState() {
       <div className="w-12 h-12 rounded-lg grid place-items-center mx-auto mb-4" style={{ background: 'var(--pip-100)', color: 'var(--pip-text)' }}>
         <IconTrendUp size={22} />
       </div>
-      <h3 className="font-semibold mb-1" style={{ color: 'var(--text)' }}>No live markets yet</h3>
-      <p className="text-sm mb-6" style={{ color: 'var(--text-2)' }}>New markets are being prepared. Check back shortly.</p>
-      <Link href="/markets" className="btn btn-secondary">Browse all markets</Link>
+      <h3 className="font-semibold mb-1" style={{ color: 'var(--text)' }}>No questions yet</h3>
+      <p className="text-sm mb-6" style={{ color: 'var(--text-2)' }}>New questions are coming soon. Check back later.</p>
+      <Link href="/markets" className="btn btn-secondary">See all markets</Link>
     </div>
   )
 }

@@ -32,7 +32,7 @@ const COLUMNS: FooterColumn[] = [
     links: [
       { href: '/markets', label: 'All markets' },
       { href: '/leaderboard', label: 'Leaderboard' },
-      { href: '/markets/create', label: 'Create a market' },
+      { href: '/markets/create', label: 'Make a market' },
       { href: '/search', label: 'Search' },
     ],
   },
@@ -41,17 +41,17 @@ const COLUMNS: FooterColumn[] = [
     links: [
       { href: '/auth/register', label: 'Get started' },
       { href: '/auth/login', label: 'Sign in' },
-      { href: '/portfolio', label: 'Portfolio' },
+      { href: '/portfolio', label: 'My picks' },
       { href: '/kyc', label: 'Verify identity' },
     ],
   },
   {
-    heading: 'Legal & compliance',
+    heading: 'Help & legal',
     links: [
-      { href: '/legal/terms', label: 'Terms of service' },
-      { href: '/legal/privacy', label: 'Privacy policy' },
+      { href: '/legal/terms', label: 'Terms' },
+      { href: '/legal/privacy', label: 'Privacy' },
       { href: '/legal/responsible-play', label: 'Responsible play' },
-      { href: '/help', label: 'Help & support' },
+      { href: '/help', label: 'Help' },
     ],
   },
 ]
@@ -78,14 +78,14 @@ export function SiteFooter() {
             </Link>
 
             <p className="mt-4 text-[0.95rem] leading-relaxed max-w-[38ch]" style={{ color: 'var(--text-2)' }}>
-              The clearest view of what happens next — a transparent prediction
-              market built for East Africa. Live probabilities, real order-book pricing, instant M-Pesa settlement.
+              See what people think will happen next. A simple, honest way to guess
+              real events — made for East Africa. Add and cash out with M-Pesa.
             </p>
 
             {/* Settlement currencies */}
             <div className="mt-7">
               <span className="text-[11px] font-semibold uppercase tracking-[0.12em]" style={{ color: 'var(--text-3)' }}>
-                Settles in
+                You get paid in
               </span>
               <div className="mt-2.5 flex flex-wrap gap-1.5">
                 {CURRENCIES.map((c) => (
@@ -103,7 +103,7 @@ export function SiteFooter() {
             {/* Payment rails */}
             <div className="mt-5">
               <span className="text-[11px] font-semibold uppercase tracking-[0.12em]" style={{ color: 'var(--text-3)' }}>
-                Fund with
+                Add money with
               </span>
               <div className="mt-2.5 flex flex-wrap gap-1.5">
                 {PAYMENTS.map((p) => (
@@ -150,17 +150,16 @@ export function SiteFooter() {
           style={{ background: 'var(--surface-2)', border: '1px solid var(--hairline)' }}
         >
           <p className="text-[12.5px] leading-relaxed flex-1" style={{ color: 'var(--text-2)' }}>
-            <strong style={{ color: 'var(--text-2)' }}>Trade responsibly.</strong>{' '}
-            Prediction markets involve financial risk and you may lose the amount you commit.
-            MarketPips is intended for users aged 18+. Request deposit or loss limits, a
-            cooling-off period, or self-exclusion at any time.
+            <strong style={{ color: 'var(--text-2)' }}>Play with care.</strong>{' '}
+            This is real money and you can lose what you put in. You must be 18 or older.
+            Ask us any time to set a limit, take a break, or close your account.
           </p>
           <Link
             href="/legal/responsible-play"
             className="footer-link flex-none inline-flex items-center gap-1.5 text-[12.5px] font-semibold"
             style={{ color: 'var(--pip-text)' }}
           >
-            Responsible-play tools <IconArrowRight size={13} />
+            Ways to stay safe <IconArrowRight size={13} />
           </Link>
         </div>
 
@@ -170,7 +169,7 @@ export function SiteFooter() {
           style={{ borderColor: 'var(--hairline)' }}
         >
           <p className="text-[13px]" style={{ color: 'var(--text-3)' }}>
-            © {YEAR} MarketPips · Prediction markets for East Africa
+            © {YEAR} MarketPips · Made for East Africa
           </p>
           <LocaleSwitcher />
         </div>

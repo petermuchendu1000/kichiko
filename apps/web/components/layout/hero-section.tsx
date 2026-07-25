@@ -567,15 +567,15 @@ function HeroRail({ hotTopics, breaking }: { hotTopics: Market[]; breaking: Brea
       <PromoCard
         tint="pip"
         icon={<IconMpesa size={20} />}
-        title="Fund in seconds"
-        body="Deposit and cash out instantly with M-Pesa, MTN MoMo and Airtel Money."
-        cta="How it works"
+        title="Add money fast"
+        body="Add money and take it out any time with M-Pesa."
+        cta="See how it works"
         href="/#how-it-works"
       />
       <BreakingNews items={breaking} />
       <HotTopics topics={hotTopics} />
       <Link href="/markets" className="btn btn-secondary w-full justify-center gap-1.5" style={{ borderRadius: 'var(--r-pill)' }}>
-        Explore all markets <IconArrowRight size={15} />
+        See all markets <IconArrowRight size={15} />
       </Link>
     </aside>
   )
