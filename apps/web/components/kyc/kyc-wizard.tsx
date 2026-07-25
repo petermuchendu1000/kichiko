@@ -59,9 +59,11 @@ interface KycWizardProps {
   user: User
   initialPhone: string
   initialCountry: string
+  /** Where to send the user after submitting, to resume what they were doing (#15). */
+  returnTo?: string
 }
 
-export function KycWizard({ user, initialPhone, initialCountry }: KycWizardProps) {
+export function KycWizard({ user, initialPhone, initialCountry, returnTo = '/portfolio' }: KycWizardProps) {
   const supabase = useMemo(() => createClient(), [])
 
   const [started, setStarted] = useState(false)
@@ -208,8 +210,9 @@ export function KycWizard({ user, initialPhone, initialCountry }: KycWizardProps
             <IconShield size={13} className="text-pip-500" /> Your documents are encrypted and
             private.
           </div>
-          <Link href="/portfolio" className="btn btn-secondary mt-6">
-            Back to portfolio
+          {/* Resume where they were, not a dead confirmation (#15). */}
+          <Link href={returnTo} className="btn btn-primary mt-6">
+            Continue
           </Link>
         </div>
       </KycConsole>

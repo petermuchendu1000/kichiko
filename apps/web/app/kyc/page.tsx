@@ -14,11 +14,21 @@ import { KycConsole } from '@/components/kyc/kyc-console'
 import { VerificationMeter } from '@/components/kyc/verification-meter'
 import { LevelBadge } from '@/components/kyc/level-badge'
 import { IconCheck, IconClock, IconShield, IconArrowRight } from '@/components/ui/icons'
+import { safeRedirectPath } from '@/lib/security/sanitize'
 
 export default function KYCPage() {
   const { user, profile, loading } = useAuth()
   const router = useRouter()
   const supabase = useMemo(() => createClient(), [])
+
+  // Where to return the user after verifying, so they resume what they were
+  // doing instead of dead-ending on a confirmation (#15). Sanitized against
+  // open redirects; defaults to the portfolio.
+  const [returnTo] = useState(() =>
+    typeof window !== 'undefined'
+      ? safeRedirectPath(new URLSearchParams(window.location.search).get('next') || '/portfolio')
+      : '/portfolio',
+  )
 
   const [status, setStatus] = useState<string | null>(null)
   const [ready, setReady] = useState(false)
@@ -67,8 +77,8 @@ export default function KYCPage() {
           <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-text-secondary">
             You&apos;re fully verified — all deposit, withdrawal and trading features are unlocked.
           </p>
-          <Link href="/portfolio" className="btn btn-primary mt-6">
-            Go to portfolio <IconArrowRight size={15} />
+          <Link href={returnTo} className="btn btn-primary mt-6">
+            Continue <IconArrowRight size={15} />
           </Link>
         </div>
       </KycConsole>
@@ -94,8 +104,8 @@ export default function KYCPage() {
           <div className="mx-auto mt-6 flex max-w-xs items-center justify-center gap-1.5 rounded-md border border-hairline bg-surface-2 px-3 py-2 text-xs text-text-muted">
             <IconShield size={13} className="text-pip-500" /> Your documents are encrypted and private.
           </div>
-          <Link href="/portfolio" className="btn btn-secondary mt-6">
-            Back to portfolio
+          <Link href={returnTo} className="btn btn-secondary mt-6">
+            Continue
           </Link>
         </div>
       </KycConsole>
@@ -108,6 +118,7 @@ export default function KYCPage() {
       user={user}
       initialPhone={profile?.phone_number ?? ''}
       initialCountry={profile?.country_code ?? 'KE'}
+      returnTo={returnTo}
     />
   )
 }

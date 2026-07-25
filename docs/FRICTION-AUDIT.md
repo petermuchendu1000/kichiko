@@ -58,11 +58,15 @@ _Last updated: 2026-07-25._
     funding sheet automatically** once the user is signed in — no more filling
     the sheet only to hit a 401 on submit. Deferred intent (incl. prefilled
     stake shortfall) is preserved across the auth round-trip.
-14. ⬜ **[P2] Full-page `/auth/login`** offers only password; the dialog also
-    offers an email code. Align surfaces so neither is a lesser path.
-15. ⬜ **[P2] KYC** — after submitting (status `pending`) the wizard should
-    route the user back to what they were doing (resume the pending action),
-    not leave them on a confirmation.
+14. ✅ **[P2] Full-page `/auth/login`** now offers the passwordless email code
+    too — an "Email me a sign-in code" action opens the in-context dialog's OTP
+    flow (single implementation), preserving the `next` destination. Surfaces
+    are aligned.
+15. ✅ **[P2] KYC resume-after-submit.** The wizard and the pending/verified
+    terminal screens now honor a sanitized `?next=` return path and show a
+    **Continue** CTA that sends the user back to what they were doing (the
+    WithdrawSheet passes the current page as `next`) instead of a dead
+    confirmation.
 16. ✅ **[P1] Withdraw KYC gate is now config-driven** (was deferred/commented).
     Enforced behind the `flags.withdraw_kyc_gate` feature flag: withdrawals whose
     USD value exceeds `limits.kyc_required_usd` (default $100) require a verified

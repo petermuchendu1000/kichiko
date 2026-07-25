@@ -754,7 +754,7 @@ function WithdrawSheet({ onClose, balance, currency }: { onClose: () => void; ba
               <div role="alert" aria-live="assertive" className="mb-3 rounded-lg border border-[var(--red)]/25 bg-[var(--red)]/10 px-3 py-2 text-sm text-[var(--red)]">
                 <p>{error}</p>
                 {needsKyc && (
-                  <button type="button" onClick={() => { onClose(); router.push('/kyc') }} className="mt-1 font-semibold underline">
+                  <button type="button" onClick={() => { onClose(); const back = typeof window !== 'undefined' ? window.location.pathname + window.location.search : '/portfolio'; router.push(`/kyc?next=${encodeURIComponent(back)}`) }} className="mt-1 font-semibold underline">
                     Verify your identity to continue
                   </button>
                 )}

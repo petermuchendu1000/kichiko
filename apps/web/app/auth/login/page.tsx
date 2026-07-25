@@ -11,6 +11,7 @@ import { LogoMark, IconShield, IconArrowRight } from '@/components/ui/icons'
 import { safeRedirectPath } from '@/lib/security/sanitize'
 import { withNext } from '@/lib/auth-redirect'
 import { canSubmitLogin, normalizeAuthError } from '@/lib/auth-form'
+import { openAuthDialog } from '@/components/auth/auth-dialog'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -121,6 +122,23 @@ export default function LoginPage() {
           )}
         </button>
       </form>
+
+      {/* Surface parity (#14): the full page offered password only while the
+          in-context dialog also offers a passwordless email code. Offer the
+          same here by opening the dialog's OTP flow (single implementation),
+          preserving the post-auth destination. */}
+      <div className="mt-5 flex items-center gap-3">
+        <span className="h-px flex-1 bg-hairline" />
+        <span className="text-xs font-medium text-text-muted">or</span>
+        <span className="h-px flex-1 bg-hairline" />
+      </div>
+      <button
+        type="button"
+        onClick={() => openAuthDialog({ mode: 'login', next, reason: 'Get a 6-digit sign-in code by email' })}
+        className="btn btn-ghost btn-lg mt-4 w-full"
+      >
+        Email me a sign-in code
+      </button>
 
       <p className="mt-6 text-center text-sm text-text-muted">
         No account?{' '}
