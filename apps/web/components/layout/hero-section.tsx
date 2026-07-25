@@ -28,6 +28,7 @@ import type { HeroActivityItem } from '@/lib/markets/spotlight-activity'
 import { EntityAvatar } from '@/components/ui/entity-avatar'
 import { HeroCarousel } from '@/components/layout/hero-carousel'
 import { MarketCardActions } from '@/components/markets/market-card-actions'
+import { formatVolume } from '@/lib/utils'
 import {
   IconArrowRight, IconFire, IconChevronRight, IconArrowUp, IconArrowDown,
   IconMpesa,
@@ -55,11 +56,10 @@ export interface HeroComment {
 
 /* ----------------------------- helpers ----------------------------- */
 
+// Volume/money always renders as KES (KSh) via the canonical peg-aware
+// formatter; never emit a raw "$".
 function fmtVol(n: number) {
-  if (n >= 1_000_000_000) return `$${(n / 1_000_000_000).toFixed(1)}B`
-  if (n >= 1_000_000) return `$${(n / 1_000_000).toFixed(1)}M`
-  if (n >= 1_000) return `$${(n / 1_000).toFixed(0)}K`
-  return `$${Math.round(n)}`
+  return formatVolume(n)
 }
 
 /** Title-case a raw tag into a breadcrumb sub-label. */

@@ -23,6 +23,10 @@ const opt = (values: string[], any: string) =>
 const fmtDate = (v: string | null) =>
   v ? new Date(v).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—'
 
+// Withdrawal amounts are stored natively in KES; render as KSh directly.
+const kes = (n: number | string | null | undefined) =>
+  'KSh ' + Math.round(Number(n ?? 0)).toLocaleString('en-KE')
+
 function qs(p: PaymentListParams, o: Partial<PaymentListParams>): string {
   const m = { ...p, ...o }
   const sp = new URLSearchParams()
@@ -88,10 +92,9 @@ export default async function WithdrawalsPage({
                 </Td>
                 <Td><ProviderBadge provider={w.provider} /></Td>
                 <Td num>
-                  <span className="font-medium tabular-nums text-[var(--text-primary)]">{Number(w.amount ?? 0).toLocaleString()}</span>
-                  <span className="ml-1 text-xs text-[var(--text-muted)]">{w.currency}</span>
+                  <span className="font-medium tabular-nums text-[var(--text-primary)]">{kes(w.amount)}</span>
                 </Td>
-                <Td num><span className="tabular-nums text-[var(--text-secondary)]">{Number(w.net_amount ?? 0).toLocaleString()}</span></Td>
+                <Td num><span className="tabular-nums text-[var(--text-secondary)]">{kes(w.net_amount)}</span></Td>
                 <Td><TxnStatusBadge status={w.status} /></Td>
                 <Td num><WithdrawalActions id={w.id} status={w.status} /></Td>
               </tr>

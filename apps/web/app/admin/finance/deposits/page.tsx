@@ -23,6 +23,11 @@ const opt = (values: string[], any: string) =>
 const fmtDate = (v: string | null) =>
   v ? new Date(v).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—'
 
+// Deposit/withdrawal amounts are stored natively in KES; render as KSh directly
+// (no peg multiply — these are not USD-normalised columns).
+const kes = (n: number | string | null | undefined) =>
+  'KSh ' + Math.round(Number(n ?? 0)).toLocaleString('en-KE')
+
 function qs(p: PaymentListParams, o: Partial<PaymentListParams>): string {
   const m = { ...p, ...o }
   const sp = new URLSearchParams()
@@ -83,8 +88,7 @@ export default async function DepositsPage({
                 </Td>
                 <Td><ProviderBadge provider={d.provider} /></Td>
                 <Td num>
-                  <span className="font-medium tabular-nums text-[var(--text-primary)]">{Number(d.amount ?? 0).toLocaleString()}</span>
-                  <span className="ml-1 text-xs text-[var(--text-muted)]">{d.currency}</span>
+                  <span className="font-medium tabular-nums text-[var(--text-primary)]">{kes(d.amount)}</span>
                 </Td>
                 <Td><TxnStatusBadge status={d.status} /></Td>
                 <Td>

@@ -15,6 +15,7 @@ import { format } from 'date-fns'
 import { IconTrophy, IconClock } from '@/components/ui/icons'
 import { niceProbScale, CHART_GRID_DASH } from '@/lib/markets/chart-scale'
 import { SERIES_PALETTE as PALETTE } from '@/lib/markets/series-color'
+import { formatVolume } from '@/lib/utils'
 
 export interface OutcomeSeriesOption {
   id: string
@@ -316,7 +317,7 @@ export function OutcomesChart({ options, data, volumeUsd, closesAt, colorMap, sh
         <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1 text-[13px] font-medium">
           {typeof volumeUsd === 'number' && (
             <span className="inline-flex items-center gap-1 whitespace-nowrap text-text-primary">
-              <IconTrophy size={13} />${Math.round(volumeUsd).toLocaleString('en-US')} Vol.
+              <IconTrophy size={13} />{formatVolume(volumeUsd)} Vol.
             </span>
           )}
           {closesAt && (

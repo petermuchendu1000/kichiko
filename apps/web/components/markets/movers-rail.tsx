@@ -14,6 +14,7 @@ import { ProbSparkline } from '@/components/markets/prob-sparkline'
 import { ProbLines } from '@/components/markets/prob-lines'
 import type { PriceSeries } from '@/lib/markets/price-history'
 import type { MarketSeries } from '@/lib/markets/option-series'
+import { formatVolume } from '@/lib/utils'
 
 interface Mover { market: Market; change: number }
 
@@ -40,10 +41,9 @@ function MiniTrend({ option, series }: { option?: MarketSeries; series?: PriceSe
   return null
 }
 
+// Volume renders as KES (KSh) via the canonical peg-aware formatter.
 function fmtVol(n: number) {
-  if (n >= 1_000_000) return `$${(n / 1_000_000).toFixed(1)}M`
-  if (n >= 1_000) return `$${(n / 1_000).toFixed(1)}K`
-  return `$${Math.round(n)}`
+  return formatVolume(n)
 }
 
 function PanelHead({ icon, title, sub }: { icon: React.ReactNode; title: string; sub: string }) {

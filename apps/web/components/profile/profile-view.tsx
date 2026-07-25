@@ -10,6 +10,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { format } from 'date-fns'
 import { createClient } from '@/lib/supabase/client'
+import { formatUSD } from '@/lib/utils'
 import { useAuth } from '@/hooks/use-auth'
 import type { Position, Wallet, Market, CurrencyCode, KycStatus } from '@/types'
 import { CURRENCIES } from '@/types'
@@ -35,9 +36,10 @@ function initials(name: string) {
   return parts.map((p) => p[0]?.toUpperCase() ?? '').join('') || 'A'
 }
 
+// Money renders as KES (KSh) via the canonical peg-aware formatter.
 function fmtUsd(n: number, signed = false) {
   const v = n ?? 0
-  const body = `$${Math.abs(v).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+  const body = formatUSD(Math.abs(v))
   if (!signed) return body
   return `${v >= 0 ? '+' : '-'}${body}`
 }

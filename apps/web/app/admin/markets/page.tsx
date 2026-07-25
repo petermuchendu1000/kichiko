@@ -8,6 +8,7 @@ import {
   type MarketListParams,
 } from '@/lib/admin/markets'
 import { MarketStatusBadge, OutcomeBadge } from '@/components/admin/markets/MarketBadges'
+import { usdToLocal } from '@/lib/currency'
 import {
   PageHeader, FilterBar, SearchField, SelectField, ApplyButton,
   TableCard, Table, Th, Td, Pagination, EmptyRow, Pill,
@@ -35,7 +36,8 @@ function qs(params: MarketListParams, overrides: Partial<MarketListParams>): str
   return sp.toString()
 }
 
-const money = (v: number | null) => '$' + Number(v ?? 0).toLocaleString(undefined, { maximumFractionDigits: 0 })
+const money = (v: number | null) =>
+  'KSh ' + Math.round(usdToLocal(Number(v ?? 0), 'KES')).toLocaleString('en-KE')
 const opt = (values: string[], any: string) => values.map((v) => ({ value: v, label: v === '' ? any : v }))
 
 export default async function MarketsPage({

@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { requirePageCapability } from '@/lib/admin/page-guard'
 import { roleHasCapability } from '@/lib/admin/rbac'
 import { availableMarketActions, type MarketStatus } from '@/lib/admin/markets'
+import { usdToLocal } from '@/lib/currency'
 import { MarketStatusBadge, OutcomeBadge } from '@/components/admin/markets/MarketBadges'
 import { MarketActions, type AllowedAction } from '@/components/admin/markets/MarketActions'
 import { PageHeader, Panel, PanelHead, PanelBody, Kpi, KpiGrid, Pill } from '@/components/admin/ui'
@@ -11,7 +12,8 @@ import { IconDollar, IconWallet, IconActivity, IconUsers } from '@/components/ui
 export const dynamic = 'force-dynamic'
 export const metadata = { title: 'Admin · Market detail' }
 
-const money = (v: number | null | undefined) => '$' + Number(v ?? 0).toLocaleString(undefined, { maximumFractionDigits: 2 })
+const money = (v: number | null | undefined) =>
+  'KSh ' + Math.round(usdToLocal(Number(v ?? 0), 'KES')).toLocaleString('en-KE')
 const dt = (v: string | null | undefined) => (v ? new Date(v).toLocaleString() : '—')
 
 export default async function MarketDetailPage({ params }: { params: Promise<{ id: string }> }) {
