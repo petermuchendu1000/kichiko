@@ -428,6 +428,34 @@ export function LeaderboardView() {
   )
 }
 
+// Sortable columns in the standings table.
+type SortCol = 'rank' | 'trader' | 'volume' | 'bets' | 'winrate' | 'pnl'
+
+/** Sort direction caret: a chevron for the active column, a faint ⇅ hint on
+ *  hover for sortable-but-inactive columns. */
+function SortCaret({ state }: { state: 'asc' | 'desc' | 'none' }) {
+  if (state === 'none') {
+    return (
+      <svg
+        className="opacity-0 transition-opacity group-hover/sort:opacity-40"
+        width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
+      >
+        <path d="M8 9l4-4 4 4M8 15l4 4 4-4" />
+      </svg>
+    )
+  }
+  return (
+    <svg
+      width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
+      style={{ transform: state === 'asc' ? 'rotate(180deg)' : undefined }}
+    >
+      <path d="M6 9l6 6 6-6" />
+    </svg>
+  )
+}
+
 function StandingsTable({
   rows,
   metric,
@@ -439,9 +467,98 @@ function StandingsTable({
   selfId: string | null
   onRowActivate: (id: string) => void
 }) {
+  // Client-side table sort. Default (sort === null) preserves the API ranking
+  // for the selected metric/period. The rank (#) column always shows each
+  // trader's TRUE rank even when the view is re-sorted by another column.
+  const [sort, setSort] = useState<{ col: SortCol; dir: 'asc' | 'desc' } | null>(null)
+  // Reset to the ranked order whenever the data changes (a metric/period switch
+  // refetches and hands down a new rows array).
+  useEffect(() => {
+    setSort(null)
+  }, [rows])
+
+  // Stable map of id -> true rank, taken from the API order (independent of the
+  // current table sort) so the # column never lies after re-sorting.
+  const rankOf = useMemo(
+    () => new Map(rows.map((r, i) => [r.id, r.rank ?? i + 1])),
+    [rows],
+  )
+
+  const sortValue = (p: LeaderboardEntry, col: SortCol): number | string => {
+    switch (col) {
+      case 'rank': return rankOf.get(p.id) ?? 0
+      case 'trader': return displayName(p).toLowerCase()
+      case 'bets': return p.total_bets ?? 0
+      case 'winrate': return p.win_rate ?? 0
+      case 'pnl': return p.profit_loss_usd ?? 0
+      default: return p.total_volume_usd ?? 0
+    }
+  }
+
+  const sorted = useMemo(() => {
+    if (!sort) return rows
+    const arr = [...rows]
+    arr.sort((a, b) => {
+      const va = sortValue(a, sort.col)
+      const vb = sortValue(b, sort.col)
+      const cmp =
+        typeof va === 'string' ? va.localeCompare(vb as string) : (va as number) - (vb as number)
+      return sort.dir === 'asc' ? cmp : -cmp
+    })
+    return arr
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rows, sort, rankOf])
+
+  const toggleSort = (col: SortCol) =>
+    setSort((cur) =>
+      cur?.col === col
+        ? { col, dir: cur.dir === 'asc' ? 'desc' : 'asc' }
+        : { col, dir: col === 'trader' || col === 'rank' ? 'asc' : 'desc' },
+    )
+
+  const ariaSort = (col: SortCol): 'ascending' | 'descending' | 'none' =>
+    sort?.col === col ? (sort.dir === 'asc' ? 'ascending' : 'descending') : 'none'
+
   const emphasize = (m: LeaderboardMetric) =>
     metric === m ? { color: 'var(--text-primary)', fontWeight: 700 } : undefined
-  const th = (m: LeaderboardMetric) => (metric === m ? { color: 'var(--text-primary)' } : undefined)
+
+  /** A sortable header cell (full clickable button + caret). The active sort or
+   *  the active ranking metric tints the label. */
+  function SortHeader({
+    col,
+    label,
+    align = 'right',
+    className = '',
+  }: {
+    col: SortCol
+    label: React.ReactNode
+    align?: 'left' | 'right'
+    className?: string
+  }) {
+    const active = sort?.col === col
+    const metricActive =
+      (col === 'volume' && metric === 'volume') ||
+      (col === 'winrate' && metric === 'winrate') ||
+      (col === 'pnl' && metric === 'pnl')
+    return (
+      <th
+        className={`px-4 py-3 text-xs font-semibold ${align === 'right' ? 'text-right' : 'text-left'} ${className}`}
+        aria-sort={ariaSort(col)}
+      >
+        <button
+          type="button"
+          onClick={() => toggleSort(col)}
+          aria-label={`Sort by ${typeof label === 'string' ? label : col}`}
+          className="group/sort inline-flex items-center gap-1 whitespace-nowrap transition-colors hover:text-text-primary"
+          style={{ color: active || metricActive ? 'var(--text-primary)' : undefined }}
+        >
+          <span>{label}</span>
+          <SortCaret state={active ? sort!.dir : 'none'} />
+        </button>
+      </th>
+    )
+  }
+
   return (
     <div className="card table-wrapper overflow-x-auto p-0">
       <table className="w-full border-collapse text-sm">
@@ -450,17 +567,28 @@ function StandingsTable({
             className="text-left"
             style={{ color: 'var(--text-muted)', background: 'var(--surface-2)' }}
           >
-            <th className="w-14 px-4 py-3 text-xs font-semibold">#</th>
-            <th className="px-4 py-3 text-xs font-semibold">Trader</th>
-            <th className="px-4 py-3 text-right text-xs font-semibold" style={th('volume')}>Volume</th>
-            <th className="hidden px-4 py-3 text-right text-xs font-semibold sm:table-cell">Bets</th>
-            <th className="px-4 py-3 text-right text-xs font-semibold" style={th('winrate')}>Win&nbsp;%</th>
-            <th className="px-4 py-3 text-right text-xs font-semibold" style={th('pnl')}>P&amp;L</th>
+            <th className="w-14 px-4 py-3 text-left text-xs font-semibold" aria-sort={ariaSort('rank')}>
+              <button
+                type="button"
+                onClick={() => toggleSort('rank')}
+                aria-label="Sort by rank"
+                className="group/sort inline-flex items-center gap-1 transition-colors hover:text-text-primary"
+                style={{ color: sort?.col === 'rank' ? 'var(--text-primary)' : undefined }}
+              >
+                <span>#</span>
+                <SortCaret state={sort?.col === 'rank' ? sort.dir : 'none'} />
+              </button>
+            </th>
+            <SortHeader col="trader" label="Trader" align="left" />
+            <SortHeader col="volume" label="Volume" />
+            <SortHeader col="bets" label="Bets" className="hidden sm:table-cell" />
+            <SortHeader col="winrate" label={<>Win&nbsp;%</>} />
+            <SortHeader col="pnl" label={<>P&amp;L</>} />
           </tr>
         </thead>
         <tbody>
-          {rows.map((p, i) => {
-            const rank = p.rank ?? i + 1
+          {sorted.map((p, i) => {
+            const rank = rankOf.get(p.id) ?? i + 1
             const pnlPositive = (p.profit_loss_usd || 0) >= 0
             const winGood = (p.win_rate || 0) >= 0.5
             const isSelf = p.id === selfId
