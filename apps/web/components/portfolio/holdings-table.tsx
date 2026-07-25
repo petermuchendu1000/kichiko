@@ -72,14 +72,21 @@ export function HoldingsTable({ holdings }: HoldingsTableProps) {
           <tbody>
             {holdings.map((h) => {
               const isOpen = expanded === h.id
+              // Show the option chip only when it carries information the title
+              // doesn't already. For binary-style markets the option label IS
+              // the title, so rendering both duplicated the market name in the
+              // Position cell. Yes/No positions always keep their colored badge.
+              const optLabel = h.optionLabel?.trim()
+              const showOptionChip =
+                h.side === 'option' && !!optLabel && optLabel.toLowerCase() !== h.title.trim().toLowerCase()
               return (
                 <Fragment key={h.id}>
                   <tr
                     className="cursor-pointer border-b border-hairline transition-colors hover:bg-surface-2"
                     onClick={() => setExpanded(isOpen ? null : h.id)}
                   >
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-2">
+                    <td className="max-w-[220px] px-4 py-3 sm:max-w-[340px] md:max-w-[440px]">
+                      <div className="flex min-w-0 items-center gap-2">
                         <button
                           type="button"
                           aria-expanded={isOpen}
@@ -94,12 +101,14 @@ export function HoldingsTable({ holdings }: HoldingsTableProps) {
                           <IconChevronDown size={15} />
                         </button>
                         {h.side === 'option' ? (
-                          <span
-                            className="badge badge-muted flex-none max-w-[9rem] truncate"
-                            title={h.optionLabel}
-                          >
-                            {h.optionLabel ?? 'Pick'}
-                          </span>
+                          showOptionChip && (
+                            <span
+                              className="badge badge-muted flex-none max-w-[9rem] truncate"
+                              title={optLabel}
+                            >
+                              {optLabel}
+                            </span>
+                          )
                         ) : (
                           <span
                             className={`badge ${h.side === 'yes' ? 'badge-green' : 'badge-red'} flex-none`}
@@ -107,7 +116,7 @@ export function HoldingsTable({ holdings }: HoldingsTableProps) {
                             {h.side.toUpperCase()}
                           </span>
                         )}
-                        <span className="min-w-0 truncate font-medium text-text-primary">
+                        <span className="min-w-0 flex-1 truncate font-medium text-text-primary" title={h.title}>
                           {h.title}
                         </span>
                       </div>
