@@ -11,6 +11,7 @@ import { SummaryCards } from '@/components/portfolio/summary-cards'
 import { AllocationDonut, type AllocationSlice } from '@/components/portfolio/allocation-donut'
 import { HoldingsTable, type HoldingRow } from '@/components/portfolio/holdings-table'
 import { TransactionHistory } from '@/components/portfolio/transaction-history'
+import { PortfolioFundingActions } from '@/components/portfolio/funding-actions'
 
 // Personal data — render dynamically per request, never prerender or index.
 export const dynamic = 'force-dynamic'
@@ -257,7 +258,10 @@ async function PortfolioData() {
 export default function PortfolioPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-6">
-      <h1 className="mb-6 font-display text-2xl text-text-primary">My Portfolio</h1>
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+        <h1 className="font-display text-2xl text-text-primary">My Portfolio</h1>
+        <PortfolioFundingActions />
+      </div>
       <PortfolioData />
     </div>
   )

@@ -45,8 +45,10 @@ _Last updated: 2026-07-25._
     text, validates the national length inline (no more silent gateway 400s),
     and submits a canonical E.164 number. Pure `normalizePhone`/`isValidPhone`
     helpers are unit-tested across all input variants (0…, …, +254…, 00254…).
-11. ⬜ **[P3] Portfolio has no deposit/withdraw buttons** — funding is only
-    reachable from the navbar. Add primary actions on `/portfolio`.
+11. ✅ **[P3] Portfolio now has Deposit/Withdraw buttons** in the header
+    (`PortfolioFundingActions`), dispatching the same global events as the
+    navbar (so the logged-out → auth-first flow applies). Funding is no longer
+    navbar-only.
 
 ## Auth / identity
 12. ✅ **Sell tab — "Log in to view positions"** was dead text; now a button
@@ -95,8 +97,8 @@ _Last updated: 2026-07-25._
     fetch doesn't read as an empty dead-end.
 24. ⬜ **[P3] Success confirmations** should offer the obvious next step (after a
     trade: "View in portfolio"; after deposit: "Place your order").
-25. ⬜ **[P3] Dead import cleanup** (`IconWithdraw` in navbar) once the withdraw
-    UI lands.
+25. ✅ **[P3] Dead import cleanup** — `IconWithdraw` in the navbar is now used
+    by the Withdraw dropdown item (resolved when the withdraw UI landed).
 
 ## Notes
 Many empty states already guide well (markets, home, holdings, profile, search,
