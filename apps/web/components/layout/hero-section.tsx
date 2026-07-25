@@ -191,7 +191,7 @@ function TraderActivity({ items, max }: { items?: HeroActivityItem[]; max: numbe
 
 
 function Spotlight({ market, series, comments, activity }: HeroMarket & { comments?: HeroComment[]; activity?: HeroActivityItem[] }) {
-  const cat = CATEGORY_LABELS[market.category] ?? { label: 'Market', emoji: '🔮' }
+  const cat = CATEGORY_LABELS[market.category] ?? { label: 'Event', emoji: '🔮' }
   const sub = prettyTag(market.tags?.[0])
   const ranked = [...series.lines].sort((a, b) => b.price - a.price)
   const yesPct = Math.round((market.yes_price ?? 0) * 100)
@@ -567,15 +567,15 @@ function HeroRail({ hotTopics, breaking }: { hotTopics: Market[]; breaking: Brea
       <PromoCard
         tint="pip"
         icon={<IconMpesa size={20} />}
-        title="Add money fast"
-        body="Add money and take it out any time with M-Pesa."
+        title="Deposit in seconds"
+        body="Deposit money and withdraw it any time with M-Pesa."
         cta="See how it works"
         href="/#how-it-works"
       />
       <BreakingNews items={breaking} />
       <HotTopics topics={hotTopics} />
       <Link href="/markets" className="btn btn-secondary w-full justify-center gap-1.5" style={{ borderRadius: 'var(--r-pill)' }}>
-        See all markets <IconArrowRight size={15} />
+        See all events <IconArrowRight size={15} />
       </Link>
     </aside>
   )

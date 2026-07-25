@@ -28,11 +28,11 @@ type FooterColumn = { heading: string; links: FooterLink[] }
 // Every href below resolves to a real route in `app/`.
 const COLUMNS: FooterColumn[] = [
   {
-    heading: 'Markets',
+    heading: 'Events',
     links: [
-      { href: '/markets', label: 'All markets' },
+      { href: '/markets', label: 'All events' },
       { href: '/leaderboard', label: 'Leaderboard' },
-      { href: '/markets/create', label: 'Make a market' },
+      { href: '/markets/create', label: 'Create an event' },
       { href: '/search', label: 'Search' },
     ],
   },
@@ -41,7 +41,7 @@ const COLUMNS: FooterColumn[] = [
     links: [
       { href: '/auth/register', label: 'Get started' },
       { href: '/auth/login', label: 'Sign in' },
-      { href: '/portfolio', label: 'My picks' },
+      { href: '/portfolio', label: 'My predictions' },
       { href: '/kyc', label: 'Verify identity' },
     ],
   },
@@ -78,8 +78,8 @@ export function SiteFooter() {
             </Link>
 
             <p className="mt-4 text-[0.95rem] leading-relaxed max-w-[38ch]" style={{ color: 'var(--text-2)' }}>
-              See what people think will happen next. A simple, honest way to guess
-              real events — made for East Africa. Add and cash out with M-Pesa.
+              See what people think will happen next. A simple, honest way to predict
+              real events — made for East Africa. Deposit and withdraw with M-Pesa.
             </p>
 
             {/* Settlement currencies */}
@@ -103,7 +103,7 @@ export function SiteFooter() {
             {/* Payment rails */}
             <div className="mt-5">
               <span className="text-[11px] font-semibold uppercase tracking-[0.12em]" style={{ color: 'var(--text-3)' }}>
-                Add money with
+                Deposit with
               </span>
               <div className="mt-2.5 flex flex-wrap gap-1.5">
                 {PAYMENTS.map((p) => (

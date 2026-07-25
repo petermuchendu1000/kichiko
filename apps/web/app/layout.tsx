@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     default: 'MarketPips — East Africa Prediction Markets',
     template: '%s · MarketPips',
   },
-  description: 'Guess what will happen next in real events. Pay with M-Pesa. Made for East Africa.',
+  description: 'Predict what will happen next in real events. Pay with M-Pesa. Made for East Africa.',
   keywords: ['prediction market', 'M-Pesa', 'Kenya', 'East Africa', 'sports betting', 'elections', 'crypto'],
   // Locale-aware SEO (Module 17.4). We use cookie/profile-based locale selection
   // (no per-locale URL segment), so every language is served from the same
@@ -58,13 +58,13 @@ export const metadata: Metadata = {
     url: process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000',
     siteName: 'MarketPips',
     title: 'MarketPips — The clearest view of what happens next',
-    description: 'A simple, honest way to guess real events — elections, the economy, sports and more. Made for East Africa, pay with M-Pesa.',
+    description: 'A simple, honest way to predict real events — elections, the economy, sports and more. Made for East Africa, pay with M-Pesa.',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'MarketPips' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'MarketPips',
-    description: 'A simple way to guess what happens next — made for East Africa',
+    description: 'A simple way to predict what happens next — made for East Africa',
     images: ['/og-image.png'],
   },
   manifest: '/manifest.json',

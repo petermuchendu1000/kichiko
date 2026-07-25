@@ -227,7 +227,7 @@ export default async function HomePage() {
   // the number of categories the catalogue spans, and the real platform fee.
   const totalVolumeKes = totalVolume * kesPerUsd
   const stats = [
-    { n: activeCount > 0 ? `${activeCount}` : '—', l: 'Markets open now' },
+    { n: activeCount > 0 ? `${activeCount}` : '—', l: 'Events open now' },
     { n: totalVolumeKes > 0 ? `KSh ${fmtCompact(totalVolumeKes)}` : '—', l: 'Money traded so far' },
     { n: categoryCount > 0 ? `${categoryCount}` : '—', l: 'Topics' },
     { n: `${platformFeePct}%`, l: 'Our fee' },
@@ -279,7 +279,7 @@ export default async function HomePage() {
       <div className="max-w-[1350px] mx-auto px-4 lg:px-6">
 
         {/* Category browse */}
-        <Section eyebrow="Browse" title="Markets on every topic">
+        <Section eyebrow="Browse" title="Events on every topic">
           <div className="flex flex-wrap gap-2.5">
             {BROWSE_CATEGORIES.map(c => (
               <Link
@@ -295,9 +295,9 @@ export default async function HomePage() {
           </div>
         </Section>
 
-        {/* Featured markets */}
+        {/* Featured events */}
         {carouselMarkets.length > 0 && (
-          <Section eyebrow="Editor's picks" title="Featured markets" href="/markets?sort=featured">
+          <Section eyebrow="Editor's picks" title="Featured events" href="/markets?sort=featured">
             <FeaturedCarousel>
               {carouselMarkets.map(m => (
                 <div
@@ -321,7 +321,7 @@ export default async function HomePage() {
 
         {/* Explore — in-place category-filtered feed */}
         {allActive.length > 0 && (
-          <Section eyebrow="Explore" title="All markets" href="/markets">
+          <Section eyebrow="Explore" title="All events" href="/markets">
             <HomeExplore
               markets={allActive}
               options={exploreOptions}
@@ -359,9 +359,9 @@ export default async function HomePage() {
           <SectionHead eyebrow="How it works" title="Three easy steps" />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { n: '01', h: 'See the chance', p: 'Each question has a price from 0 to 100. It shows how likely people think “Yes” is. A higher price means a bigger chance.' },
-              { n: '02', h: 'Choose Yes or No', p: 'Buy Yes if you think it will happen. Buy No if you think it will not. Add money fast with M-Pesa.' },
-              { n: '03', h: 'Get paid if you are right', p: 'When the answer is known, each winning Yes or No pays you KSh 100. Take your money out to M-Pesa.' },
+              { n: '01', h: 'See the chance', p: 'Every event has a price for Yes and a price for No, from KSh 0 to KSh 100. The two prices add up to KSh 100. A higher price means people think it is more likely.' },
+              { n: '02', h: 'Choose Yes or No', p: 'Buy Yes if you think it will happen. Buy No if you think it will not. Deposit in seconds with M-Pesa.' },
+              { n: '03', h: 'Get paid if you are right', p: 'When the event ends, each winning Yes or No you bought pays out KSh 100. If you are wrong, it pays nothing. Withdraw straight to M-Pesa.' },
             ].map(s => (
               <div key={s.n} className="card p-6">
                 <div className="w-10 h-10 rounded-lg grid place-items-center font-mono font-semibold"
@@ -382,14 +382,14 @@ export default async function HomePage() {
               <SectionHead eyebrow="Fair prices" title="People set the price, not us" align="left" />
               <p className="text-[1.02rem] leading-relaxed" style={{ color: 'var(--text-2)' }}>
                 The price comes from people <strong style={{ color: 'var(--text)' }}>buying and selling</strong> —
-                like a real market. We never bet against you. The price simply shows what
+                like a real market. You buy and sell with other people, not us. The price simply shows what
                 people think will happen right now.
               </p>
               <div className="mt-8 card p-2">
                 {[
                   { icon: <IconPercent size={18} />, t: 'The price is the chance', s: 'A “Yes” at KSh 62 means about a 62% chance.' },
                   { icon: <IconTrendUp size={18} />, t: 'Buy or sell any time', s: 'Buy from someone now, or set your own price and wait.' },
-                  { icon: <IconShield size={18} />, t: 'We do not bet against you', s: `We only take one small fee of ${platformFeePct}%. You see it before you buy.` },
+                  { icon: <IconShield size={18} />, t: 'The other side is a person', s: `You buy from and sell to other people, not us. We only take one small fee of ${platformFeePct}%.` },
                 ].map((r, i, a) => (
                   <div key={r.t} className="flex items-center gap-4 p-4"
                     style={i < a.length - 1 ? { borderBottom: '1px solid var(--hairline)' } : undefined}>
@@ -412,8 +412,8 @@ export default async function HomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {[
               { icon: <IconShield size={20} />, h: 'Safe and 18+', p: 'We check who you are, and you must be 18 or older. Ask us any time to set a limit, take a break, or close your account.' },
-              { icon: <IconEye size={20} />, h: 'Clear rules', p: 'Every question tells you how the answer will be decided, before you buy. No surprises.' },
-              { icon: <IconMpesa size={20} />, h: 'Your money is yours', p: 'Add money and take it out fast with M-Pesa, in Kenyan Shillings.' },
+              { icon: <IconEye size={20} />, h: 'Clear rules', p: 'Every event tells you how the answer will be decided, before you buy. No surprises.' },
+              { icon: <IconMpesa size={20} />, h: 'Your money is yours', p: 'Deposit and withdraw fast with M-Pesa, in Kenyan Shillings.' },
               { icon: <IconWallet size={20} />, h: 'One small fee', p: `Just one fee of ${platformFeePct}%. You see it before you buy. Nothing is hidden.` },
             ].map(t => (
               <div key={t.h} className="card p-6">
@@ -447,10 +447,10 @@ export default async function HomePage() {
               Ready to try?
             </h2>
             <p className="relative mt-4 mx-auto max-w-[46ch]" style={{ color: 'var(--ink-300)' }}>
-              Look at all the questions for free — no account needed. Sign up in a minute to make your first pick.
+              Look at all the events for free — no account needed. Sign up in a minute to make your first prediction.
             </p>
             <div className="relative mt-8 flex flex-wrap gap-3 justify-center">
-              <Link href="/markets" className="btn btn-primary btn-lg">See the questions <IconArrowRight size={16} /></Link>
+              <Link href="/markets" className="btn btn-primary btn-lg">See the events <IconArrowRight size={16} /></Link>
               <Link href="/auth/register" className="btn btn-lg" style={{ background: 'transparent', color: '#fff', boxShadow: 'inset 0 0 0 1px rgba(255,255,255,.25)' }}>
                 Create a free account
               </Link>
@@ -526,9 +526,9 @@ function EmptyState() {
       <div className="w-12 h-12 rounded-lg grid place-items-center mx-auto mb-4" style={{ background: 'var(--pip-100)', color: 'var(--pip-text)' }}>
         <IconTrendUp size={22} />
       </div>
-      <h3 className="font-semibold mb-1" style={{ color: 'var(--text)' }}>No questions yet</h3>
-      <p className="text-sm mb-6" style={{ color: 'var(--text-2)' }}>New questions are coming soon. Check back later.</p>
-      <Link href="/markets" className="btn btn-secondary">See all markets</Link>
+      <h3 className="font-semibold mb-1" style={{ color: 'var(--text)' }}>No events yet</h3>
+      <p className="text-sm mb-6" style={{ color: 'var(--text-2)' }}>New events are coming soon. Check back later.</p>
+      <Link href="/markets" className="btn btn-secondary">See all events</Link>
     </div>
   )
 }
