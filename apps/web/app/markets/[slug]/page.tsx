@@ -299,6 +299,7 @@ export default async function MarketPage({
             description={market.description}
             resolutionSource={market.resolution_source}
             createdBy={market.creator?.display_name || market.creator?.username || null}
+            createdById={market.creator?.id ?? null}
             closesAt={market.closes_at}
             resolvedAt={market.resolved_at}
             isResolved={market.status === 'resolved'}
@@ -314,6 +315,7 @@ export default async function MarketPage({
             openedAt={market.created_at}
             resolutionSource={market.resolution_source}
             createdBy={market.creator?.display_name || market.creator?.username || null}
+            createdById={market.creator?.id ?? null}
           />
 
           {/* Market Context news feed (PM parity): dated article cards with an

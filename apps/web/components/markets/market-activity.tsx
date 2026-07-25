@@ -4,6 +4,7 @@
 import { formatDistanceToNow } from 'date-fns'
 import { cn } from '@/lib/utils'
 import { IconTrendUp, IconTrendDown } from '@/components/ui/icons'
+import { TraderNameLink } from '@/components/ui/trader-link'
 
 interface ActivityItem {
   id: string
@@ -50,7 +51,7 @@ export function MarketActivity({ activity }: MarketActivityProps) {
                   <IconTrendDown size={14} className="flex-none text-no" />
                 ))}
               <span className="truncate text-text-muted">
-                <span className="font-medium text-text-primary">{displayName}</span>{' '}
+                <TraderNameLink id={item.user_id} name={displayName} className="inline max-w-none" />{' '}
                 {isBuy
                   ? `bet ${isYes ? 'YES' : 'NO'} at ${item.price ? Math.round(item.price * 100) : '?'}\u00A2`
                   : item.action.replace(/_/g, ' ')}

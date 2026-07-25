@@ -12,6 +12,8 @@ import { formatDistanceToNow } from 'date-fns'
 import { createClient } from '@/lib/supabase/client'
 import { useAuth } from '@/hooks/use-auth'
 import { TraderAvatar } from '@/components/ui/trader-avatar'
+import { TraderNameLink, traderHref } from '@/components/ui/trader-link'
+import Link from 'next/link'
 import { MarketActivity } from '@/components/markets/market-activity'
 import { TopHolders } from '@/components/markets/top-holders'
 import { MarketPositions } from '@/components/markets/market-positions'
@@ -264,12 +266,16 @@ export function MarketComments({ marketId, options, resolutionType }: MarketComm
               <div className="space-y-4">
               {sortedComments.map((comment) => (
                 <div key={comment.id} className="flex gap-3">
-                  <Avatar id={comment.user_id} u={comment.user} />
+                  <Link href={traderHref(comment.user_id)} className="flex-none rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[var(--pip-400)]" aria-label={`${comment.user?.display_name || comment.user?.username || 'trader'} profile`}>
+                    <Avatar id={comment.user_id} u={comment.user} />
+                  </Link>
                   <div className="min-w-0 flex-1">
                     <div className="mb-0.5 flex items-center gap-2">
-                      <span className="truncate text-sm font-medium text-text-primary">
-                        {comment.user?.display_name || comment.user?.username || 'Anonymous'}
-                      </span>
+                      <TraderNameLink
+                        id={comment.user_id}
+                        name={comment.user?.display_name || comment.user?.username || 'Anonymous'}
+                        className="text-sm"
+                      />
                       <span className="flex-none text-xs text-text-muted">
                         {formatDistanceToNow(new Date(comment.created_at), { addSuffix: true })}
                       </span>

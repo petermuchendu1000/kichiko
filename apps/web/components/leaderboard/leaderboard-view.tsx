@@ -1,9 +1,19 @@
 'use client'
 
-// Leaderboard — Pip system. Institutional league table: metric segmented
-// control + period pills, a restrained top-3 podium (brass accent on #1, no
-// casino gloss), and a monospaced standings table. Backed by GET /api/leaderboard.
-import { useEffect, useRef, useState } from 'react'
+// components/leaderboard/leaderboard-view.tsx
+// ---------------------------------------------------------------------------
+// Leaderboard — institutional league table (Pip system). Metric segmented
+// control + period pills, a restrained top-3 podium and a monospaced standings
+// table. Every trader is a link to their public profile (/traders/{id}); the
+// current user's row is highlighted and their rank is surfaced. Backed by
+// GET /api/leaderboard. No hardcoded rows — all figures come from the API.
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { createClient } from '@/lib/supabase/client'
+import { TraderAvatar } from '@/components/ui/trader-avatar'
+import { TraderLink, traderHref } from '@/components/ui/trader-link'
+import { tierForVolume } from '@/lib/tier'
 import {
   LEADERBOARD_METRICS,
   LEADERBOARD_PERIODS,
@@ -16,18 +26,12 @@ import {
   type LeaderboardPeriod,
   type LeaderboardEntry,
 } from '@/lib/leaderboard'
-import Link from 'next/link'
 import { IconTrophy, IconTrendUp } from '@/components/ui/icons'
 
 const PERIOD_LABEL: Record<LeaderboardPeriod, string> = {
   all: 'All-time',
   month: 'This month',
   week: 'This week',
-}
-
-function initials(name: string) {
-  const parts = name.trim().split(/\s+/).slice(0, 2)
-  return parts.map((p) => p[0]?.toUpperCase() ?? '').join('') || 'A'
 }
 
 /** Primary metric value for the active metric (podium + emphasized column). */
@@ -37,33 +41,14 @@ function primaryValue(e: LeaderboardEntry, metric: LeaderboardMetric): string {
   return formatUsd(e.total_volume_usd)
 }
 
-function Avatar({ entry, size = 40 }: { entry: LeaderboardEntry; size?: number }) {
-  const name = displayName(entry)
-  if (entry.avatar_url) {
-    return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
-        src={entry.avatar_url}
-        alt=""
-        width={size}
-        height={size}
-        className="rounded-full object-cover"
-        style={{ width: size, height: size, border: '1px solid var(--hairline)' }}
-      />
-    )
-  }
-  return (
-    <span
-      className="avatar shrink-0"
-      style={{ width: size, height: size, fontSize: size * 0.36 }}
-      aria-hidden="true"
-    >
-      {initials(name)}
-    </span>
-  )
+/** Secondary supporting stat shown under the podium value. */
+function secondaryLine(e: LeaderboardEntry, metric: LeaderboardMetric): string {
+  if (metric === 'winrate') return `${(e.total_bets || 0).toLocaleString()} bets`
+  if (metric === 'pnl') return `${formatUsd(e.total_volume_usd)} vol`
+  return `${formatPct(e.win_rate)} win`
 }
 
-/** Segmented control (metric) — roving-focus tablist on the Pip pill track. */
+/** Segmented control (metric / period) — roving-focus tablist on the Pip track. */
 function Segmented({
   value,
   onChange,
@@ -133,69 +118,104 @@ function RankMedallion({ rank, size = 30 }: { rank: number; size?: number }) {
   )
 }
 
-function Podium({ rows, metric }: { rows: LeaderboardEntry[]; metric: LeaderboardMetric }) {
+/** Clickable top-3 podium card. */
+function PodiumCard({
+  entry,
+  rank,
+  metric,
+  isSelf,
+}: {
+  entry: LeaderboardEntry
+  rank: number
+  metric: LeaderboardMetric
+  isSelf: boolean
+}) {
+  const isFirst = rank === 1
+  const tier = tierForVolume(entry.total_volume_usd)
+  return (
+    <Link
+      href={traderHref(entry.id)}
+      className="group flex flex-col items-center text-center outline-none"
+      aria-label={`${displayName(entry)} — rank ${rank}`}
+    >
+      <div className="relative mb-3">
+        <span
+          className="block rounded-full ring-2 ring-transparent transition group-hover:ring-[var(--pip-300)] group-focus-visible:ring-[var(--pip-400)]"
+          style={isFirst ? { boxShadow: '0 0 0 3px color-mix(in srgb, var(--brass-500) 30%, transparent)' } : undefined}
+        >
+          <TraderAvatar id={entry.id} name={displayName(entry)} imageUrl={entry.avatar_url} size={isFirst ? 66 : 54} tier={tier.key} />
+        </span>
+        <span className="absolute -bottom-1 -right-1">
+          <RankMedallion rank={rank} size={isFirst ? 26 : 22} />
+        </span>
+      </div>
+      <div className="flex max-w-[9.5rem] items-center gap-1.5">
+        <p
+          className="truncate text-sm font-semibold text-text-primary underline-offset-2 group-hover:text-pip-text group-hover:underline"
+          title={displayName(entry)}
+        >
+          {displayName(entry)}
+        </p>
+        {isSelf && <span className="flex-none rounded-pill bg-pip-100 px-1.5 py-px text-[10px] font-semibold text-pip-text">You</span>}
+      </div>
+      <p className="mono mt-1 text-base font-bold" style={{ color: isFirst ? 'var(--brass-600)' : 'var(--text-primary)' }}>
+        {primaryValue(entry, metric)}
+      </p>
+      <p className="mono mt-0.5 text-xs" style={{ color: 'var(--text-muted)' }}>
+        {secondaryLine(entry, metric)}
+      </p>
+      <div
+        className={`card mt-3 flex w-full items-center justify-center transition group-hover:border-[var(--pip-300)] ${isFirst ? 'h-16' : rank === 2 ? 'h-12' : 'h-9'}`}
+        style={
+          isFirst
+            ? { borderColor: 'color-mix(in srgb, var(--brass-500) 45%, transparent)', background: 'color-mix(in srgb, var(--brass-500) 6%, var(--surface))' }
+            : undefined
+        }
+      >
+        <span className="mono text-lg font-bold" style={{ color: isFirst ? 'var(--brass-600)' : 'var(--text-3)' }}>
+          {rank}
+        </span>
+      </div>
+    </Link>
+  )
+}
+
+function Podium({ rows, metric, selfId }: { rows: LeaderboardEntry[]; metric: LeaderboardMetric; selfId: string | null }) {
   // Visual order: #2 (left), #1 (center, tallest), #3 (right).
   const order = [1, 0, 2]
-  const plinth = ['h-14', 'h-20', 'h-10']
   return (
     <div className="mb-8 grid grid-cols-3 items-end gap-3 sm:gap-5">
       {order.map((idx, col) => {
         const p = rows[idx]
         if (!p) return <div key={col} />
-        const rank = idx + 1
-        const isFirst = rank === 1
-        return (
-          <div key={p.id} className="flex flex-col items-center text-center">
-            <div className="relative mb-3">
-              <Avatar entry={p} size={isFirst ? 64 : 52} />
-              <span className="absolute -bottom-1 -right-1">
-                <RankMedallion rank={rank} size={isFirst ? 26 : 22} />
-              </span>
-            </div>
-            <p
-              className="max-w-[9rem] truncate text-sm font-semibold"
-              style={{ color: 'var(--text-primary)' }}
-              title={displayName(p)}
-            >
-              {displayName(p)}
-            </p>
-            <p className="mono mt-0.5 text-xs" style={{ color: 'var(--text-muted)' }}>
-              {primaryValue(p, metric)}
-            </p>
-            <div
-              className={`card mt-3 flex w-full ${plinth[col]} items-start justify-center pt-2`}
-              style={
-                isFirst
-                  ? { borderColor: 'color-mix(in srgb, var(--brass-500) 45%, transparent)', background: 'color-mix(in srgb, var(--brass-500) 6%, var(--surface))' }
-                  : undefined
-              }
-            >
-              <span className="mono text-lg font-bold" style={{ color: isFirst ? 'var(--brass-600)' : 'var(--text-3)' }}>
-                {rank}
-              </span>
-            </div>
-          </div>
-        )
+        return <PodiumCard key={p.id} entry={p} rank={idx + 1} metric={metric} isSelf={p.id === selfId} />
       })}
     </div>
   )
 }
 
 export function LeaderboardView() {
+  const router = useRouter()
   const [metric, setMetric] = useState<LeaderboardMetric>('volume')
   const [period, setPeriod] = useState<LeaderboardPeriod>('all')
   const [rows, setRows] = useState<LeaderboardEntry[]>([])
   const [loading, setLoading] = useState(true)
   const [errored, setErrored] = useState(false)
+  const [selfId, setSelfId] = useState<string | null>(null)
 
+  // Current user (for the "You" highlight + "your rank") — real, not hardcoded.
   useEffect(() => {
-    const controller = new AbortController()
-    const run = async () => {
+    const supabase = createClient()
+    supabase.auth.getUser().then(({ data }) => setSelfId(data.user?.id ?? null))
+  }, [])
+
+  const load = useCallback(
+    async (signal?: AbortSignal) => {
       setLoading(true)
       setErrored(false)
       try {
-        const params = new URLSearchParams({ metric, period, limit: '50' })
-        const res = await fetch(`/api/leaderboard?${params}`, { signal: controller.signal })
+        const params = new URLSearchParams({ metric, period, limit: '100' })
+        const res = await fetch(`/api/leaderboard?${params}`, { signal })
         const json = await res.json()
         setRows(Array.isArray(json.data) ? json.data : [])
       } catch (e) {
@@ -206,15 +226,26 @@ export function LeaderboardView() {
       } finally {
         setLoading(false)
       }
-    }
-    run()
+    },
+    [metric, period],
+  )
+
+  useEffect(() => {
+    const controller = new AbortController()
+    load(controller.signal)
     return () => controller.abort()
-  }, [metric, period])
+  }, [load])
+
+  const selfEntry = useMemo(
+    () => (selfId ? rows.find((r) => r.id === selfId) ?? null : null),
+    [rows, selfId],
+  )
+  const selfRank = selfEntry?.rank ?? (selfEntry ? rows.indexOf(selfEntry) + 1 : null)
 
   return (
     <div className="animate-fade-in">
       {/* Controls */}
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <Segmented
           ariaLabel="Ranking metric"
           value={metric}
@@ -228,6 +259,26 @@ export function LeaderboardView() {
           options={LEADERBOARD_PERIODS.map((p) => ({ value: p, label: PERIOD_LABEL[p] }))}
         />
       </div>
+
+      {/* Context bar: real ranked count + period, and the viewer's own rank. */}
+      {!loading && !errored && rows.length > 0 && (
+        <div className="mb-5 flex flex-wrap items-center justify-between gap-2 text-sm">
+          <p style={{ color: 'var(--text-muted)' }}>
+            <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>{rows.length.toLocaleString()}</span>{' '}
+            ranked {rows.length === 1 ? 'trader' : 'traders'} · ranked by {METRIC_META[metric].label.toLowerCase()} · {PERIOD_LABEL[period].toLowerCase()}
+          </p>
+          {selfEntry && selfRank != null && (
+            <Link
+              href={traderHref(selfEntry.id)}
+              className="inline-flex items-center gap-1.5 rounded-pill border border-hairline px-3 py-1 font-medium transition-colors hover:border-[var(--pip-300)] hover:text-pip-text"
+              style={{ background: 'var(--surface-2)', color: 'var(--text-secondary)' }}
+            >
+              Your rank <span className="mono font-bold" style={{ color: 'var(--text-primary)' }}>#{selfRank}</span>
+              <span style={{ color: 'var(--text-muted)' }}>· {primaryValue(selfEntry, metric)}</span>
+            </Link>
+          )}
+        </div>
+      )}
 
       {loading ? (
         <div className="space-y-3">
@@ -248,22 +299,34 @@ export function LeaderboardView() {
         <div className="card flex flex-col items-center gap-2 px-6 py-16 text-center">
           <p className="font-semibold" style={{ color: 'var(--text-primary)' }}>Couldn&apos;t load the leaderboard</p>
           <p className="text-sm" style={{ color: 'var(--text-muted)' }}>Please try again in a moment.</p>
-          <button className="btn btn-secondary btn-sm mt-2" onClick={() => setPeriod((p) => p)}>Retry</button>
+          <button className="btn btn-secondary btn-sm mt-2" onClick={() => load()}>Retry</button>
         </div>
       ) : rows.length === 0 ? (
         <EmptyState />
       ) : (
         <>
-          {rows.length >= 3 && <Podium rows={rows} metric={metric} />}
-          <StandingsTable rows={rows} metric={metric} />
+          {rows.length >= 3 && <Podium rows={rows} metric={metric} selfId={selfId} />}
+          <StandingsTable rows={rows} metric={metric} selfId={selfId} onRowActivate={(id) => router.push(traderHref(id))} />
         </>
       )}
     </div>
   )
 }
 
-function StandingsTable({ rows, metric }: { rows: LeaderboardEntry[]; metric: LeaderboardMetric }) {
-  const col = (m: LeaderboardMetric) => (metric === m ? { color: 'var(--text-primary)', fontWeight: 700 } : undefined)
+function StandingsTable({
+  rows,
+  metric,
+  selfId,
+  onRowActivate,
+}: {
+  rows: LeaderboardEntry[]
+  metric: LeaderboardMetric
+  selfId: string | null
+  onRowActivate: (id: string) => void
+}) {
+  const emphasize = (m: LeaderboardMetric) =>
+    metric === m ? { color: 'var(--text-primary)', fontWeight: 700 } : undefined
+  const th = (m: LeaderboardMetric) => (metric === m ? { color: 'var(--text-primary)' } : undefined)
   return (
     <div className="card table-wrapper overflow-x-auto p-0">
       <table className="w-full border-collapse text-sm">
@@ -271,10 +334,10 @@ function StandingsTable({ rows, metric }: { rows: LeaderboardEntry[]; metric: Le
           <tr className="text-left" style={{ color: 'var(--text-muted)' }}>
             <th className="w-14 px-4 py-3 text-xs font-semibold">#</th>
             <th className="px-4 py-3 text-xs font-semibold">Trader</th>
-            <th className="px-4 py-3 text-right text-xs font-semibold">Volume</th>
+            <th className="px-4 py-3 text-right text-xs font-semibold" style={th('volume')}>Volume</th>
             <th className="hidden px-4 py-3 text-right text-xs font-semibold sm:table-cell">Bets</th>
-            <th className="px-4 py-3 text-right text-xs font-semibold">Win&nbsp;%</th>
-            <th className="px-4 py-3 text-right text-xs font-semibold">P&amp;L</th>
+            <th className="px-4 py-3 text-right text-xs font-semibold" style={th('winrate')}>Win&nbsp;%</th>
+            <th className="px-4 py-3 text-right text-xs font-semibold" style={th('pnl')}>P&amp;L</th>
           </tr>
         </thead>
         <tbody>
@@ -282,32 +345,43 @@ function StandingsTable({ rows, metric }: { rows: LeaderboardEntry[]; metric: Le
             const rank = p.rank ?? i + 1
             const pnlPositive = (p.profit_loss_usd || 0) >= 0
             const winGood = (p.win_rate || 0) >= 0.5
+            const isSelf = p.id === selfId
+            const tier = tierForVolume(p.total_volume_usd)
             return (
               <tr
                 key={p.id}
-                className="border-t transition-colors hover:bg-[var(--surface-2)]"
-                style={{ borderColor: 'var(--hairline)' }}
+                className="cursor-pointer border-t transition-colors hover:bg-[var(--surface-2)]"
+                style={{
+                  borderColor: 'var(--hairline)',
+                  background: isSelf ? 'color-mix(in srgb, var(--pip-500) 6%, transparent)' : undefined,
+                }}
+                onClick={() => onRowActivate(p.id)}
               >
                 <td className="px-4 py-3 align-middle">
                   {rank <= 3 ? <RankMedallion rank={rank} size={26} /> : <span className="mono pl-1.5 font-semibold" style={{ color: 'var(--text-3)' }}>{rank}</span>}
                 </td>
                 <td className="px-4 py-3 align-middle">
-                  <div className="flex items-center gap-2.5">
-                    <Avatar entry={p} size={32} />
-                    <div className="min-w-0">
-                      <p className="truncate font-semibold" style={{ color: 'var(--text-primary)' }}>{displayName(p)}</p>
-                      {p.username && <p className="truncate text-xs" style={{ color: 'var(--text-muted)' }}>@{p.username}</p>}
-                    </div>
-                  </div>
+                  {/* Real link for a11y/SEO; stop the row's onClick from double-firing. */}
+                  <TraderLink
+                    id={p.id}
+                    name={displayName(p)}
+                    username={p.username}
+                    avatarUrl={p.avatar_url}
+                    size={32}
+                    tier={tier.key}
+                    showUsername={!!p.username}
+                    isSelf={isSelf}
+                    onClick={() => { /* Link handles navigation */ }}
+                  />
                 </td>
-                <td className="mono px-4 py-3 text-right align-middle" style={col('volume')}>{formatUsd(p.total_volume_usd)}</td>
+                <td className="mono px-4 py-3 text-right align-middle" style={emphasize('volume')}>{formatUsd(p.total_volume_usd)}</td>
                 <td className="mono hidden px-4 py-3 text-right align-middle sm:table-cell" style={{ color: 'var(--text-2)' }}>{(p.total_bets || 0).toLocaleString()}</td>
                 <td className="px-4 py-3 text-right align-middle">
-                  <span className={`badge ${winGood ? 'badge-green' : 'badge-muted'}`} style={col('winrate')}>{formatPct(p.win_rate)}</span>
+                  <span className={`badge ${winGood ? 'badge-green' : 'badge-muted'}`} style={emphasize('winrate')}>{formatPct(p.win_rate)}</span>
                 </td>
                 <td
                   className="mono px-4 py-3 text-right align-middle font-semibold"
-                  style={{ ...(col('pnl') ?? {}), color: pnlPositive ? 'var(--yes-700)' : 'var(--no-700)' }}
+                  style={{ ...(emphasize('pnl') ?? {}), color: pnlPositive ? 'var(--yes-700)' : 'var(--no-700)' }}
                 >
                   {formatSignedUsd(p.profit_loss_usd)}
                 </td>

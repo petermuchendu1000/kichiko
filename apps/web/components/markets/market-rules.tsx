@@ -14,6 +14,7 @@
 import { useId, useState } from 'react'
 import { formatDistanceToNow, format } from 'date-fns'
 import { IconShield, IconInfo, IconExternalLink } from '@/components/ui/icons'
+import { TraderNameLink } from '@/components/ui/trader-link'
 
 type TabKey = 'rules' | 'context'
 
@@ -56,6 +57,7 @@ export function MarketRules({
   description,
   resolutionSource,
   createdBy,
+  createdById,
   closesAt,
   resolvedAt,
   isResolved = false,
@@ -64,6 +66,7 @@ export function MarketRules({
   description: string
   resolutionSource?: string | null
   createdBy?: string | null
+  createdById?: string | null
   closesAt: string
   resolvedAt?: string | null
   isResolved?: boolean
@@ -140,7 +143,12 @@ export function MarketRules({
             {createdBy && (
               <>
                 <span>
-                  by <span className="font-medium text-text-secondary">{createdBy}</span>
+                  by{' '}
+                  {createdById ? (
+                    <TraderNameLink id={createdById} name={createdBy} className="inline font-medium text-text-secondary" />
+                  ) : (
+                    <span className="font-medium text-text-secondary">{createdBy}</span>
+                  )}
                 </span>
                 <span aria-hidden>&middot;</span>
               </>

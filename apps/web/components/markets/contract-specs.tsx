@@ -8,6 +8,7 @@
 import { format } from 'date-fns'
 import { formatUSD } from '@/lib/utils'
 import { IconInfo, IconExternalLink } from '@/components/ui/icons'
+import { TraderNameLink } from '@/components/ui/trader-link'
 
 /** Safely derive a display host from a URL, falling back to a generic label. */
 function resolverHost(url: string): string {
@@ -31,9 +32,10 @@ export function ContractSpecs(props: {
   openedAt?: string | null // ISO created_at
   resolutionSource?: string | null // URL
   createdBy?: string | null // author display name
+  createdById?: string | null // author user id (makes the name clickable)
   className?: string
 }) {
-  const { volumeUsd, endDate, openedAt, resolutionSource, createdBy, className } = props
+  const { volumeUsd, endDate, openedAt, resolutionSource, createdBy, createdById, className } = props
 
   const endLabel = safeFormat(endDate, 'MMM d, yyyy') ?? endDate
   const openedLabel = openedAt ? safeFormat(openedAt, 'MMM d, yyyy, h:mm a') : null
@@ -87,7 +89,11 @@ export function ContractSpecs(props: {
                 <IconExternalLink size={14} className="shrink-0" />
               </a>
             ) : createdBy && createdBy.trim().length > 0 ? (
-              <span className="truncate">{createdBy}</span>
+              createdById ? (
+                <TraderNameLink id={createdById} name={createdBy} className="max-w-full" />
+              ) : (
+                <span className="truncate">{createdBy}</span>
+              )
             ) : (
               <span className="truncate">MarketPips oracle</span>
             )}
