@@ -41,6 +41,19 @@ export function formatVolume(usd: number): string {
   return `KSh ${Math.round(kes)}`
 }
 
+// Compact KES money for space-constrained numerics (portfolio KPI cards,
+// holding rows). Full precision below 100K; abbreviated K/M/B above so large
+// balances can never overflow a narrow card. Returns the MAGNITUDE only — the
+// caller owns the +/- sign so it stays consistent with signed displays. Pair
+// with a title={formatUSD(value)} tooltip when exactness matters.
+export function formatMoneyCompact(amount: number): string {
+  const kes = Math.abs(usdToLocal(amount || 0, 'KES'))
+  if (kes >= 1_000_000_000) return `KSh ${(kes / 1_000_000_000).toFixed(2)}B`
+  if (kes >= 1_000_000) return `KSh ${(kes / 1_000_000).toFixed(2)}M`
+  if (kes >= 100_000) return `KSh ${(kes / 1_000).toFixed(1)}K`
+  return `KSh ${Math.round(kes).toLocaleString('en-KE')}`
+}
+
 export function formatPercent(value: number, decimals: number = 0): string {
   return `${(value * 100).toFixed(decimals)}%`
 }

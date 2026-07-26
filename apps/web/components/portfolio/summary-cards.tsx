@@ -2,7 +2,7 @@
 // KPI band for the portfolio: total value · unrealized P&L · today's P&L · cash.
 // Signed figures are color-coded via --yes/--no and never rely on color alone
 // (an explicit +/- sign carries the meaning too). Monospace numerics, Pip cards.
-import { formatUSD } from '@/lib/utils'
+import { formatUSD, formatMoneyCompact } from '@/lib/utils'
 import { IconWallet, IconPortfolio, IconTrendUp, IconTrendDown } from '@/components/ui/icons'
 
 interface SummaryCardsProps {
@@ -19,8 +19,10 @@ function signClass(n: number) {
   return 'text-text-primary'
 }
 
+// Compact magnitude keeps large KES balances inside the narrow KPI card; the
+// full value is exposed via title on the element.
 function signed(n: number) {
-  return `${n >= 0 ? '+' : ''}${formatUSD(n)}`
+  return `${n >= 0 ? '+' : '-'}${formatMoneyCompact(n)}`
 }
 
 export function SummaryCards({
@@ -37,7 +39,7 @@ export function SummaryCards({
         <div className="mb-2 flex items-center gap-1.5 text-xs font-medium text-text-muted">
           <IconPortfolio size={13} /> Total value
         </div>
-        <p className="font-mono text-2xl font-bold text-text-primary">{formatUSD(totalValue)}</p>
+        <p className="truncate font-mono text-2xl font-bold text-text-primary" title={formatUSD(totalValue)}>{formatMoneyCompact(totalValue)}</p>
         <p className="mt-1 text-xs text-text-muted">Holdings + cash</p>
       </div>
 
@@ -47,7 +49,7 @@ export function SummaryCards({
           {unrealizedPnl >= 0 ? <IconTrendUp size={13} /> : <IconTrendDown size={13} />}
           Unrealized P&amp;L
         </div>
-        <p className={`font-mono text-2xl font-bold ${signClass(unrealizedPnl)}`}>
+        <p className={`truncate font-mono text-2xl font-bold ${signClass(unrealizedPnl)}`} title={formatUSD(unrealizedPnl)}>
           {signed(unrealizedPnl)}
         </p>
         <p className={`mt-1 text-xs font-medium ${signClass(unrealizedPnl)}`}>
@@ -62,7 +64,7 @@ export function SummaryCards({
           {todayPnl >= 0 ? <IconTrendUp size={13} /> : <IconTrendDown size={13} />}
           Today&apos;s P&amp;L
         </div>
-        <p className={`font-mono text-2xl font-bold ${signClass(todayPnl)}`}>{signed(todayPnl)}</p>
+        <p className={`truncate font-mono text-2xl font-bold ${signClass(todayPnl)}`} title={formatUSD(todayPnl)}>{signed(todayPnl)}</p>
         <p className="mt-1 text-xs text-text-muted">Since 00:00 UTC</p>
       </div>
 
@@ -71,7 +73,7 @@ export function SummaryCards({
         <div className="mb-2 flex items-center gap-1.5 text-xs font-medium text-text-muted">
           <IconWallet size={13} /> Cash
         </div>
-        <p className="font-mono text-2xl font-bold text-text-primary">{formatUSD(cashUsd)}</p>
+        <p className="truncate font-mono text-2xl font-bold text-text-primary" title={formatUSD(cashUsd)}>{formatMoneyCompact(cashUsd)}</p>
         <p className="mt-1 text-xs text-text-muted">Available balance</p>
       </div>
     </div>
