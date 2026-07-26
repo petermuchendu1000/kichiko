@@ -28,6 +28,13 @@
     /* ---- Market semantics (desaturated — never neon) ---- */
     --yes:#30A159; --yes-700:#1F7A44; --yes-tint:#ECF9F1;
     --no:#E23939;  --no-700:#C61D1D;  --no-tint:#FCEBEB;
+    /* Accessible SOLID buy fills — the single source of truth for a filled
+       green/red control with WHITE text. White on base --yes/--no fails WCAG
+       AA (3.3:1 / 4.3:1); these darker shades clear it (Yes 5.35:1, No 5.84:1)
+       and are theme-INDEPENDENT (contrast is intrinsic to fill+white), so they
+       hold in both light and dark. Use for armed pills and selected Yes/No
+       toggles instead of the base fills. */
+    --yes-solid:#1F7A44; --no-solid:#C61D1D;
     --warn:#C98A1E;
     /* a11y semantic TEXT colors (WCAG 2.1 AA >=4.5:1 as small text on every
        themed surface). Base --yes/--no stay for FILLS/lines/dots (graphics,
@@ -324,11 +331,11 @@
      fill failed (3.3:1 / 4.3:1), so armed pins the -700 hexes directly. This
      also aligns the pills with the platform's other buy buttons. */
   .pill-yes { color:var(--yes-700); background:rgba(48,161,89,0.15); }
-  .pill-yes:hover:not(:disabled) { color:#fff; background:#1F7A44; }
-  .pill-yes.armed { color:#fff; background:#1F7A44; }
+  .pill-yes:hover:not(:disabled) { color:#fff; background:var(--yes-solid); }
+  .pill-yes.armed { color:#fff; background:var(--yes-solid); }
   .pill-no  { color:var(--no-700); background:rgba(226,57,57,0.09); }
-  .pill-no:hover:not(:disabled) { color:#fff; background:#C61D1D; }
-  .pill-no.armed  { color:#fff; background:#C61D1D; }
+  .pill-no:hover:not(:disabled) { color:#fff; background:var(--no-solid); }
+  .pill-no.armed  { color:#fff; background:var(--no-solid); }
   .pill-side:disabled { opacity:0.55; cursor:not-allowed; }
 
   /* ---- Badges ---- */
@@ -391,8 +398,11 @@
   }
   .cta-yes:active, .cta-no:active { transform:scale(0.99); }
   .cta-yes:hover:not(:disabled), .cta-no:hover:not(:disabled) { filter:brightness(0.96); }
-  .cta-yes { background:var(--yes); }
-  .cta-no  { background:var(--no); }
+  /* a11y: white text on base --yes/--no fails AA (3.3:1 / 4.3:1). Use the
+     accessible solid fills (5.35:1 / 5.84:1) — the :hover brightness(0.96) then
+     only deepens them further. */
+  .cta-yes { background:var(--yes-solid); }
+  .cta-no  { background:var(--no-solid); }
   .cta-yes:disabled, .cta-no:disabled { opacity:0.5; cursor:not-allowed; }
   .btn-sm { font-size:13px; min-height:34px; padding:0 14px; }
   /* Square icon-only button (header action cluster, chart controls). */

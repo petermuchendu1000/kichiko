@@ -343,7 +343,7 @@ export function OutcomesChart({ options, data, volumeUsd, closesAt, colorMap, sh
                 aria-selected={active}
                 onClick={() => setTimeframe(tf.key)}
                 className={`flex-none whitespace-nowrap rounded-[3px] px-2 py-1 text-xs font-semibold transition-colors ${
-                  active ? 'bg-pip-100 text-pip-500' : 'text-text-muted hover:text-text-secondary'
+                  active ? 'bg-pip-100 text-pip-600' : 'text-text-muted hover:text-text-secondary'
                 }`}
               >
                 {tf.label}
