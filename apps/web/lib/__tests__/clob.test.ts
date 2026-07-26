@@ -124,6 +124,12 @@ describe('clobErrorFor (SQLSTATE → HTTP)', () => {
     expect(clobErrorFor('P0111')?.status).toBe(403)
     expect(clobErrorFor('P0112')?.status).toBe(409)
   })
+  it('maps abuse-prevention guards to 429', () => {
+    expect(clobErrorFor('P0130')?.status).toBe(429)
+    expect(clobErrorFor('P0131')?.status).toBe(429)
+    expect(clobErrorFor('P0132')?.status).toBe(429)
+    expect(clobErrorFor({ code: 'P0132', message: 'slow down' })?.status).toBe(429)
+  })
   it('returns null for unknown codes', () => {
     expect(clobErrorFor('P9999 nope')).toBeNull()
   })

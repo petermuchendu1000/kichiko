@@ -104,9 +104,15 @@ all held across every fuzzed operation, before and after the fixes.
    throughput. If a single hot market becomes a bottleneck, narrow the lock to
    the `(market_option_id)` book row and move the `markets` volume/stat rollups
    to a deferred aggregate, so independent candidate books trade in parallel.
-2. **Abuse prevention** — a per‑user max‑open‑orders cap and an order‑rate limit
-   (the architecture doc's Phase‑2 item) are still open; add them at the API
-   layer or as an in‑RPC count check when order‑spam becomes a concern.
+2. **Abuse prevention** — ✅ **SHIPPED (migration 046, PR #59).** In‑RPC guards
+   inside `clob_place_order`: per‑user open‑order caps (250 global / 60 per
+   market) and a placement rate limit (100 new orders / rolling 10s), raising
+   `P0130` / `P0131` / `P0132` (HTTP 429). Thresholds carry generous headroom
+   over the observed legitimate ceiling (74 open globally, 10 per market, ~49
+   placements/10s during seeding) so no genuine market‑maker is rejected, while
+   book‑flood and RPC‑spam DoS vectors are bounded. A partial index
+   (`idx_clob_orders_user_open`) keeps the open‑order counts cheap. Validated by
+   `scripts/ops/clob/test_046.py` (rolled‑back) and a no‑regression fuzz.
 3. **Server‑side FX staleness** — orders trust `exchange_rates`; ensure the FX
    refresh cron alerts on staleness so a frozen rate can't mis‑price escrow.
 

@@ -175,6 +175,12 @@ export const CLOB_ERRORS: Record<string, { status: number; error: string }> = {
   // itself. Should never surface via the service_role API path, but mapped for
   // defense in depth.
   P0121: { status: 403, error: 'Not authorized to act on behalf of another user' },
+  // Abuse prevention (migration 046): per-user open-order caps + placement rate
+  // limit. Surfaced as HTTP 429 so clients back off. Thresholds sit well above
+  // legitimate market-maker usage.
+  P0130: { status: 429, error: 'Too many open orders (max 250); cancel some before placing more' },
+  P0131: { status: 429, error: 'Too many open orders on this market (max 60)' },
+  P0132: { status: 429, error: 'Order placement rate limit exceeded (max 100 per 10s); please slow down' },
 }
 
 /**
