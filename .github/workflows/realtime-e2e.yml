@@ -1,0 +1,41 @@
+# Authoritative, scheduled END-TO-END test of every Supabase Realtime event the
+# frontend subscribes to (notifications, comments) plus a negative control that
+# the removed price_history firehose no longer delivers. Runs over a REAL
+# websocket against the live project: proves delivery, RLS isolation, filter
+# isolation, and measures end-to-end latency. See scripts/realtime/README.md.
+#
+# No-ops (green) until SUPABASE_SERVICE_ROLE_KEY is provided, mirroring the
+# security-audit workflow -- so it is safe to wire before the secret exists.
+name: Realtime E2E (live)
+
+on:
+  schedule:
+    - cron: '20 3 * * *' # 03:20 UTC = 06:20 Africa/Nairobi, daily
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  realtime-e2e:
+    name: Realtime E2E (live project)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run realtime E2E scenarios
+        env:
+          SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          RT_LATENCY_BUDGET_MS: '3000'
+        run: |
+          if [ -z "${SUPABASE_SERVICE_ROLE_KEY:-}" ]; then
+            echo "::notice::SUPABASE_SERVICE_ROLE_KEY not set; skipping live realtime E2E."
+            echo "::notice::Add SUPABASE_SERVICE_ROLE_KEY (and confirm NEXT_PUBLIC_SUPABASE_URL/ANON_KEY) to enable."
+            exit 0
+          fi
+          pip install "websockets>=12"
+          python scripts/realtime/e2e_realtime.py
