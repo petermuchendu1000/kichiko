@@ -70,7 +70,7 @@ export async function initiateDeposit(req: PaymentRequest): Promise<PaymentResul
           phone: req.phone,
           amount: req.amount,
           accountReference: `FB${req.depositId.slice(0, 10)}`,
-          transactionDesc: 'MarketPips Deposit',
+          transactionDesc: 'Kichiko Deposit',
           depositId: req.depositId,
           country: req.country,
         })
@@ -94,7 +94,7 @@ export async function initiateDeposit(req: PaymentRequest): Promise<PaymentResul
           amount: req.amount,
           currency: req.currency,
           externalId: req.depositId,
-          payerMessage: 'MarketPips Deposit',
+          payerMessage: 'Kichiko Deposit',
           payeeNote: `Deposit for ${req.userId.slice(0, 8)}`,
           country: countryMap[req.country] || 'UG',
         })
@@ -131,7 +131,7 @@ export async function initiateDeposit(req: PaymentRequest): Promise<PaymentResul
           depositId: req.depositId,
           amount: req.amount,
           currency: req.currency,
-          description: req.description || 'MarketPips Deposit',
+          description: req.description || 'Kichiko Deposit',
           phone: req.phone,
         })
         return {
@@ -209,7 +209,7 @@ export async function processWithdrawal(
         const consumerKey = process.env.MPESA_CONSUMER_KEY
         const consumerSecret = process.env.MPESA_CONSUMER_SECRET
         const shortcode = process.env.MPESA_B2C_SHORTCODE || process.env.MPESA_SHORTCODE
-        const initiatorName = process.env.MPESA_INITIATOR_NAME || 'marketpips'
+        const initiatorName = process.env.MPESA_INITIATOR_NAME || 'kichiko'
         const securityCredential = process.env.MPESA_SECURITY_CREDENTIAL
         const baseUrl = process.env.MPESA_BASE_URL || 'https://sandbox.safaricom.co.ke'
 
@@ -239,7 +239,7 @@ export async function processWithdrawal(
             Amount: Math.floor(req.amount),
             PartyA: shortcode,
             PartyB: phone,
-            Remarks: `MarketPips withdrawal ${req.reference}`,
+            Remarks: `Kichiko withdrawal ${req.reference}`,
             QueueTimeOutURL: `${process.env.NEXT_PUBLIC_APP_URL}/api/webhooks/mpesa-b2c`,
             ResultURL: `${process.env.NEXT_PUBLIC_APP_URL}/api/webhooks/mpesa-b2c`,
             Occasion: req.reference.slice(0, 20),
@@ -295,7 +295,7 @@ export async function processWithdrawal(
               partyIdType: 'MSISDN',
               partyId: req.phone.replace('+', ''),
             },
-            payerMessage: 'MarketPips withdrawal',
+            payerMessage: 'Kichiko withdrawal',
             payeeNote: `Withdrawal ${req.reference}`,
           }),
         })

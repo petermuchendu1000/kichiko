@@ -2,7 +2,7 @@
 """
 scripts/sim/seed_intensive.py — intensive, real-time-flavoured simulation seeder.
 
-Drives the quant models in sim/quant.py to populate MarketPips with a large,
+Drives the quant models in sim/quant.py to populate Kichiko with a large,
 internally-consistent, reproducible dataset for aggressive end-to-end testing —
 while staying comfortably inside the Supabase FREE-TIER 500 MB database budget.
 
@@ -150,7 +150,7 @@ def seed_price(conn, cfg, rng, dry: bool) -> dict:
 def _ensure_usd_wallets(cur, n_users: int) -> list[tuple[str, str]]:
     """Return (user_id, usd_wallet_id) for up to n_users demo traders, creating
     USD wallets where missing. Falls back to any users if no demo traders."""
-    cur.execute("""select u.id from auth.users u where u.email like '%%@demo.marketpips'
+    cur.execute("""select u.id from auth.users u where u.email like '%%@demo.kichiko'
                    order by u.created_at limit %s""", (n_users,))
     users = [r[0] for r in cur.fetchall()]
     if not users:
@@ -299,7 +299,7 @@ def seed_traders(conn, cfg, rng, dry: bool) -> dict:
     cur = conn.cursor()
     cur.execute("""select u.id, w.id from auth.users u
                    join wallets w on w.user_id=u.id and w.currency='KES'
-                   where u.email like '%%@demo.marketpips' order by u.created_at""")
+                   where u.email like '%%@demo.kichiko' order by u.created_at""")
     pairs = cur.fetchall()
     if not pairs:
         cur.execute("""select u.id, w.id from auth.users u

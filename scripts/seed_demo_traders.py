@@ -8,7 +8,7 @@ renders like the Polymarket reference — no empty states anywhere.
 
 WHAT IT CREATES
 ---------------
-* ~60 demo traders (deterministic uuid5 ids, @demo.marketpips emails). The
+* ~60 demo traders (deterministic uuid5 ids, @demo.kichiko emails). The
   handle_new_user trigger auto-creates each profile + wallets on insert.
 * Yes AND No holders on:
     - featured BINARY markets (both columns full, whale-to-minnow ranking), and
@@ -24,7 +24,7 @@ WHAT IT CREATES
 SAFETY / IDEMPOTENCY
 --------------------
 * Reads the DB URL from SUPABASE_DB_URL. No secrets are committed.
-* Demo rows are keyed by @demo.marketpips + deterministic uuid5, so re-runs
+* Demo rows are keyed by @demo.kichiko + deterministic uuid5, so re-runs
   update in place. Each run first removes demo-owned positions/activity and the
   price ticks for the seeded markets, then re-inserts a clean snapshot. It never
   touches real user data.
@@ -45,7 +45,7 @@ from datetime import datetime, timedelta, timezone
 import psycopg2
 import psycopg2.extras
 
-DEMO_DOMAIN = "demo.marketpips"
+DEMO_DOMAIN = "demo.kichiko"
 NS = uuid.uuid5(uuid.NAMESPACE_DNS, DEMO_DOMAIN)
 NOW = datetime.now(timezone.utc)
 RNG = random.Random(2027)  # deterministic distribution across runs

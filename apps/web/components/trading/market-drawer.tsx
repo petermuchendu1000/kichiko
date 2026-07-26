@@ -15,7 +15,7 @@
 // the option header (avatar · label · % chance · delta), THAT option's price
 // chart (single line in the option's persistent series colour, PM timeframes),
 // an Order Book section, and the market Rules. The bottom bar hands off to the
-// Trade drawer (MobileTradeBar) via marketpips:select-option so there is ONE
+// Trade drawer (MobileTradeBar) via kichiko:select-option so there is ONE
 // trade surface / one source of truth.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { normalizeOutcomes } from '@/lib/markets/outcomes'
@@ -68,8 +68,8 @@ export function MarketDrawer({
       if (d.marketId && d.marketId !== market.id) return
       if (d.optionId) setOpenId(d.optionId as string)
     }
-    window.addEventListener('marketpips:open-market', onOpen as EventListener)
-    return () => window.removeEventListener('marketpips:open-market', onOpen as EventListener)
+    window.addEventListener('kichiko:open-market', onOpen as EventListener)
+    return () => window.removeEventListener('kichiko:open-market', onOpen as EventListener)
   }, [market.id])
 
   // Lazily fetch THIS option's probability history the first time it opens. One
@@ -136,7 +136,7 @@ export function MarketDrawer({
   // Hand off to the Trade drawer for this option + side (single trade surface).
   const trade = (side: 'yes' | 'no') => {
     window.dispatchEvent(
-      new CustomEvent('marketpips:select-option', {
+      new CustomEvent('kichiko:select-option', {
         detail: { marketId: market.id, optionId: o.id, openSheet: true, side },
       }),
     )

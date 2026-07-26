@@ -8,7 +8,7 @@
 //   green "Yes ¢" buy affordance.
 //
 // This is the primary selector for multi-outcome markets. Selecting a row (or
-// its Yes pill) is broadcast on the `marketpips:select-option` window event,
+// its Yes pill) is broadcast on the `kichiko:select-option` window event,
 // which the sticky order ticket (desktop) and the mobile trade sheet both
 // listen for — one source of truth, no duplicated trading logic. The engine is
 // unchanged (pick-one LMSR): the row price IS the option's implied probability.
@@ -43,7 +43,7 @@ function emitSelect(
   side?: 'yes' | 'no',
 ) {
   window.dispatchEvent(
-    new CustomEvent('marketpips:select-option', {
+    new CustomEvent('kichiko:select-option', {
       detail: { marketId, optionId, openSheet, ...(side ? { side } : {}) },
     }),
   )
@@ -137,7 +137,7 @@ export function CandidateList({
   }
 
   // PM: tapping the option NAME / card body opens that option's MARKET view.
-  // On mobile that is a bottom Market drawer (marketpips:open-market); on desktop
+  // On mobile that is a bottom Market drawer (kichiko:open-market); on desktop
   // there is no drawer, so we just arm the sidebar ticket. The Buy Yes / Buy No
   // pills bypass this and go straight to the Trade drawer.
   const openMarketView = (o: Outcome) => {
@@ -151,7 +151,7 @@ export function CandidateList({
     }
     if (typeof window !== 'undefined' && window.matchMedia('(max-width: 1023.98px)').matches) {
       window.dispatchEvent(
-        new CustomEvent('marketpips:open-market', {
+        new CustomEvent('kichiko:open-market', {
           detail: { marketId: market.id, optionId: o.id },
         }),
       )

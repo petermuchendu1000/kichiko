@@ -1,7 +1,7 @@
 # Realtime E2E tests
 
 `e2e_realtime.py` is the authoritative end-to-end test for **every Supabase
-Realtime event the MarketPips frontend subscribes to**. It runs over a real
+Realtime event the Kichiko frontend subscribes to**. It runs over a real
 websocket against a live project and asserts three things per event: **delivery**
 (the subscriber actually receives the change), **isolation** (RLS / channel
 filters prevent leakage to the wrong subscriber), and **latency** (end-to-end,

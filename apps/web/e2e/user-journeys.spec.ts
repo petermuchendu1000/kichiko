@@ -10,7 +10,7 @@ async function text(page: Page): Promise<string> {
 test.describe('Public journeys', () => {
   test('home renders hero + navigation chrome', async ({ page }) => {
     await page.goto('/', { waitUntil: 'domcontentloaded' })
-    await expect(page).toHaveTitle(/MarketPips/i)
+    await expect(page).toHaveTitle(/Kichiko/i)
     // "Events" terminology in the chrome (not "Markets").
     const nav = page.getByRole('navigation').first()
     await expect(nav).toBeVisible()

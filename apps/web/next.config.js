@@ -32,7 +32,7 @@ const nextConfig = {
   },
   env: {
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
-    NEXT_PUBLIC_APP_NAME: 'MarketPips',
+    NEXT_PUBLIC_APP_NAME: 'Kichiko',
   },
   async headers() {
     // Same-origin API: reflect only the app origin (never '*' with credentials,

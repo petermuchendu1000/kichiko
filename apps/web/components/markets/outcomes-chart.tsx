@@ -254,7 +254,7 @@ export function OutcomesChart({ options, data, volumeUsd, closesAt, colorMap, sh
           aria-hidden
           className="pointer-events-none absolute inset-0 z-0 flex select-none items-center justify-center font-display text-2xl font-bold uppercase tracking-wide text-text-primary opacity-[0.05]"
         >
-          MarketPips
+          Kichiko
         </span>
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={chartData} margin={{ top: 5, right: 2, left: 0, bottom: 0 }}>

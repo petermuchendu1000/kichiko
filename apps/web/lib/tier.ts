@@ -8,7 +8,7 @@
 // Silver/Platinum use palette-consistent metallic ramps for the tiers that
 // don't appear on the public leaderboard).
 //
-// The BADGE ARTWORK itself is MarketPips' own medal design (components/ui/
+// The BADGE ARTWORK itself is Kichiko' own medal design (components/ui/
 // tier-badge.tsx) — only the factual ladder + tint system live here.
 
 export type TierKey =

@@ -52,7 +52,7 @@ SEED = 20260724      # deterministic, reproducible
 
 def ensure_usd_wallets(cur, n_users: int) -> list[tuple[str, str]]:
     cur.execute(
-        "select u.id from auth.users u where u.email like '%%@demo.marketpips' "
+        "select u.id from auth.users u where u.email like '%%@demo.kichiko' "
         "order by u.created_at limit %s",
         (n_users,),
     )

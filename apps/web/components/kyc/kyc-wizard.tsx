@@ -231,7 +231,7 @@ export function KycWizard({ user, initialPhone, initialCountry, returnTo = '/por
             Verify your identity
           </h1>
           <p className="mt-2 max-w-md text-sm leading-relaxed text-text-secondary">
-            A quick, one-time check that keeps MarketPips safe and unlocks higher deposit and
+            A quick, one-time check that keeps Kichiko safe and unlocks higher deposit and
             withdrawal limits. Most people finish in about{' '}
             <span className="inline-flex items-center gap-1 font-semibold text-text-primary">
               <IconClock size={13} /> 3 minutes

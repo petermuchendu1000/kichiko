@@ -70,10 +70,10 @@ export function SiteFooter() {
 
           {/* Brand column */}
           <div>
-            <Link href="/" className="inline-flex items-center gap-2.5" aria-label="MarketPips home">
+            <Link href="/" className="inline-flex items-center gap-2.5" aria-label="Kichiko home">
               <LogoMark size={30} />
               <span className="font-display text-[17px] font-bold tracking-tight" style={{ color: 'var(--text)' }}>
-                MarketPips
+                Kichiko
               </span>
             </Link>
 
@@ -169,7 +169,7 @@ export function SiteFooter() {
           style={{ borderColor: 'var(--hairline)' }}
         >
           <p className="text-[13px]" style={{ color: 'var(--text-3)' }}>
-            © {YEAR} MarketPips · Made for East Africa
+            © {YEAR} Kichiko · Made for East Africa
           </p>
           <LocaleSwitcher />
         </div>

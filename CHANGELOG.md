@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to MarketPips are documented here. The format follows
+All notable changes to Kichiko are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/) and the project adheres to
 [Semantic Versioning](https://semver.org/). Production releases are cut as
 `vMAJOR.MINOR.PATCH` git tags; per-release notes are auto-generated from

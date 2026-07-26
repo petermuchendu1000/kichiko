@@ -3,14 +3,14 @@ import { LegalPage } from '@/components/content/legal-page'
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
-  description: 'How MarketPips collects, uses, and protects your data.',
+  description: 'How Kichiko collects, uses, and protects your data.',
 }
 
 export default function PrivacyPage() {
   return (
     <LegalPage title="Privacy Policy" updated="July 2026">
       <p>
-        This policy explains what personal data MarketPips collects, why, and your
+        This policy explains what personal data Kichiko collects, why, and your
         rights over it. <strong>This is a launch template pending final review by
         legal counsel and alignment with applicable East-African data-protection
         laws (e.g. Kenya&rsquo;s Data Protection Act, 2019).</strong>

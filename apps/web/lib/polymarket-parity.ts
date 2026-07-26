@@ -20,7 +20,7 @@ import type { MarketCategory } from '@/types'
 export const POLYMARKET_FEE_MIN_USD = 0.00001 // smallest chargeable fee; below → 0
 export const POLYMARKET_FEE_DECIMALS = 5
 
-/** Taker fee rate by MarketPips category (maps PM's schedule onto our enum). */
+/** Taker fee rate by Kichiko category (maps PM's schedule onto our enum). */
 export const POLYMARKET_TAKER_FEE_RATE: Record<MarketCategory, number> = {
   crypto: 0.07,
   sports: 0.05,

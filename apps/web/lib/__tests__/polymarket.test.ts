@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { normalizeMarket, mapCategory } from '@/lib/integrations/polymarket'
 
 describe('mapCategory', () => {
-  it('maps known keywords to MarketPips categories', () => {
+  it('maps known keywords to Kichiko categories', () => {
     expect(mapCategory('US Election 2024')).toBe('politics')
     expect(mapCategory('NBA Finals')).toBe('sports')
     expect(mapCategory('Bitcoin price')).toBe('crypto')

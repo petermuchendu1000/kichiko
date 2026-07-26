@@ -51,7 +51,7 @@ def main():
         return cur.fetchall()
 
     print("=" * 70)
-    print("MARKETPIPS DATA CONSISTENCY & CURRENCY AUDIT")
+    print("KICHIKO DATA CONSISTENCY & CURRENCY AUDIT")
     print("=" * 70)
 
     # ---------------- A. WALLET / CURRENCY HYGIENE ----------------

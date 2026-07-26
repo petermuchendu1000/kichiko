@@ -17,7 +17,7 @@ permissions:
   contents: read
 
 env:
-  FLY_APP: marketpips-staging
+  FLY_APP: kichiko-staging
   FLY_REGION: jnb
 
 jobs:
@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: staging
-      url: https://staging.marketpips.example
+      url: https://staging.kichiko.example
     outputs:
       image: ${{ steps.publish.outputs.image }}
     steps:

@@ -1,7 +1,7 @@
 'use client'
 
 // components/admin/AdminNav.tsx — control-plane sidebar.
-// Uses the bespoke MarketPips icon language (zero external icon libraries) to
+// Uses the bespoke Kichiko icon language (zero external icon libraries) to
 // stay consistent with the rest of the product.
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
@@ -48,7 +48,7 @@ function BrandMark() {
         </svg>
       </span>
       <span className="flex flex-col leading-none">
-        <span className="font-display text-[0.95rem] text-[var(--text-primary)]">MarketPips</span>
+        <span className="font-display text-[0.95rem] text-[var(--text-primary)]">Kichiko</span>
         <span className="mt-0.5 text-[0.62rem] font-medium uppercase tracking-[0.18em] text-[var(--text-muted)]">Control Plane</span>
       </span>
     </Link>

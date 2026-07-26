@@ -15,7 +15,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       {children}
-      {/* Global in-context auth dialog — opened via the marketpips:open-auth
+      {/* Global in-context auth dialog — opened via the kichiko:open-auth
           event so any surface (e.g. the order ticket's gate) can summon it
           without prop-drilling or a page navigation. */}
       <AuthDialog />

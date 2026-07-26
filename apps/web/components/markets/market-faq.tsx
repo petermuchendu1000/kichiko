@@ -2,7 +2,7 @@
 
 // Auto-generated FAQ accordion — improves comprehension for first-time traders
 // and adds crawlable long-tail SEO surface. Questions/answers are derived from
-// this market's own data (title, category, close date, fee) with MarketPips
+// this market's own data (title, category, close date, fee) with Kichiko
 // original copy. A matching FAQPage JSON-LD block is emitted server-side on the
 // market page so search engines can index the same Q&A.
 

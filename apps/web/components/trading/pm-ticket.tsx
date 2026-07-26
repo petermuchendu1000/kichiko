@@ -18,7 +18,7 @@
 // Every number is produced by the SAME pricing functions the RPC mirrors
 // (previewBet / previewOptionBet / previewOptionBinaryBet) so the preview equals
 // execution, and orders post to /api/orders with orderTarget() — one source of
-// truth shared with the pro panel. Original MarketPips copy + tokens throughout.
+// truth shared with the pro panel. Original Kichiko copy + tokens throughout.
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/use-auth'
@@ -360,7 +360,7 @@ export function PmTicket({
   // "Deposit → then place the order" continuity. When a trade can't be funded we
   // open the deposit sheet tagged with intent:'order' and mark that we're
   // awaiting funds; when the sheet confirms the credit it broadcasts
-  // `marketpips:deposit-credited`, and we refresh this ticket's balance and
+  // `kichiko:deposit-credited`, and we refresh this ticket's balance and
   // resume the exact order the user was placing.
   const awaitingFundsRef = useRef(false)
   const handleTradeRef = useRef<() => void>(() => {})
@@ -373,8 +373,8 @@ export function PmTicket({
       // Pull the new balance into this ticket, then resume on the next tick.
       void refreshWallets().finally(() => setResumeFunded(true))
     }
-    window.addEventListener('marketpips:deposit-credited', onCredited)
-    return () => window.removeEventListener('marketpips:deposit-credited', onCredited)
+    window.addEventListener('kichiko:deposit-credited', onCredited)
+    return () => window.removeEventListener('kichiko:deposit-credited', onCredited)
   }, [refreshWallets])
 
   useEffect(() => {
@@ -635,7 +635,7 @@ export function PmTicket({
       }
       if (amountNum > 0 && balance < amountNum) {
         window.dispatchEvent(
-          new CustomEvent('marketpips:open-deposit', {
+          new CustomEvent('kichiko:open-deposit', {
             detail: { amountLocal: planFunding(balance, amountNum).shortfall, currency: preferredCurrency },
           }),
         )
@@ -657,7 +657,7 @@ export function PmTicket({
     const plan = planFunding(balance, amountNum)
     if (!plan.funded) {
       window.dispatchEvent(
-        new CustomEvent('marketpips:open-deposit', {
+        new CustomEvent('kichiko:open-deposit', {
           detail: { amountLocal: plan.shortfall, currency: preferredCurrency },
         }),
       )
@@ -679,8 +679,8 @@ export function PmTicket({
         setError('')
       }
     }
-    window.addEventListener('marketpips:select-option', onSelect as EventListener)
-    return () => window.removeEventListener('marketpips:select-option', onSelect as EventListener)
+    window.addEventListener('kichiko:select-option', onSelect as EventListener)
+    return () => window.removeEventListener('kichiko:select-option', onSelect as EventListener)
   }, [isMulti, market.id, outcomes])
 
   // Load the user's active holding when they open the Sell tab (once).
@@ -819,7 +819,7 @@ export function PmTicket({
           const shortfall = planFunding(balance, buyLimitCostLocal).shortfall
           awaitingFundsRef.current = true
           window.dispatchEvent(
-            new CustomEvent('marketpips:open-deposit', {
+            new CustomEvent('kichiko:open-deposit', {
               detail: { amountLocal: shortfall, currency: preferredCurrency, intent: 'order' },
             }),
           )
@@ -846,7 +846,7 @@ export function PmTicket({
           const shortfall = planFunding(balance, amountNum).shortfall
           awaitingFundsRef.current = true
           window.dispatchEvent(
-            new CustomEvent('marketpips:open-deposit', {
+            new CustomEvent('kichiko:open-deposit', {
               detail: { amountLocal: shortfall, currency: preferredCurrency, intent: 'order' },
             }),
           )
@@ -916,7 +916,7 @@ export function PmTicket({
           kind: action,
           headlineLocal: amountNum,
         })
-        window.dispatchEvent(new CustomEvent('marketpips:bet-placed', { detail: { marketId: market.id } }))
+        window.dispatchEvent(new CustomEvent('kichiko:bet-placed', { detail: { marketId: market.id } }))
         setSellSize('')
         setAmount('')
         setClobRefresh((n) => n + 1)
@@ -930,7 +930,7 @@ export function PmTicket({
           const shortfall = planFunding(balance, amountNum).shortfall
           awaitingFundsRef.current = true
           window.dispatchEvent(
-            new CustomEvent('marketpips:open-deposit', {
+            new CustomEvent('kichiko:open-deposit', {
               detail: { amountLocal: shortfall > 0 ? shortfall : amountNum, currency: preferredCurrency, intent: 'order' },
             }),
           )
@@ -1273,7 +1273,7 @@ export function PmTicket({
             <span className="inline-flex items-center gap-1">
               <IconWallet size={13} /> {formatCurrency(balance, preferredCurrency)} available
             </span>
-            <button type="button" onClick={() => window.dispatchEvent(new CustomEvent('marketpips:open-deposit'))} className="font-semibold text-pip-500 hover:underline">
+            <button type="button" onClick={() => window.dispatchEvent(new CustomEvent('kichiko:open-deposit'))} className="font-semibold text-pip-500 hover:underline">
               Add funds
             </button>
           </div>
@@ -1838,7 +1838,7 @@ export function PmTicket({
                 </span>
                 <button
                   type="button"
-                  onClick={() => window.dispatchEvent(new CustomEvent('marketpips:open-deposit'))}
+                  onClick={() => window.dispatchEvent(new CustomEvent('kichiko:open-deposit'))}
                   className="font-semibold text-pip-500 hover:underline"
                 >
                   Add funds

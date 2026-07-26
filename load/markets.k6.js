@@ -4,7 +4,7 @@
 // a single market, and the leaderboard. Asserts p95 latency budgets and a near-
 // zero error rate (Module 15 §2). Run against a staging/preview URL:
 //
-//   BASE_URL=https://staging.marketpips.co.ke k6 run load/markets.k6.js
+//   BASE_URL=https://staging.kichiko.co.ke k6 run load/markets.k6.js
 //
 // Tune load with VUS / DURATION env vars. This is a smoke profile by default so
 // it is safe to run in CI against a preview deploy.

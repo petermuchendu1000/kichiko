@@ -21,7 +21,7 @@ interface ATResponse {
 export async function sendSMS(to: string, message: string): Promise<boolean> {
   const apiKey = process.env.AFRICASTALKING_API_KEY
   const username = process.env.AFRICASTALKING_USERNAME || 'sandbox'
-  const from = process.env.AFRICASTALKING_SENDER_ID || 'MarketPips'
+  const from = process.env.AFRICASTALKING_SENDER_ID || 'Kichiko'
 
   if (!apiKey) {
     console.warn('[SMS] AFRICASTALKING_API_KEY not set — skipping SMS')
@@ -80,23 +80,23 @@ export async function sendBulkSMS(messages: SMSMessage[]): Promise<number> {
 // Templated notification helpers
 export const SMS_TEMPLATES = {
   deposit_success: (amount: string, currency: string, balance: string) =>
-    `MarketPips: Deposit of ${amount} ${currency} confirmed. New balance: ${balance} ${currency}. Trade at marketpips.co.ke`,
+    `Kichiko: Deposit of ${amount} ${currency} confirmed. New balance: ${balance} ${currency}. Trade at kichiko.co.ke`,
 
   withdrawal_success: (amount: string, currency: string, phone: string) =>
-    `MarketPips: ${amount} ${currency} sent to ${phone}. You should receive it shortly.`,
+    `Kichiko: ${amount} ${currency} sent to ${phone}. You should receive it shortly.`,
 
   bet_won: (amount: string, market: string) =>
-    `🎉 MarketPips: You won! Your prediction on "${market}" was correct. +${amount} credited.`,
+    `🎉 Kichiko: You won! Your prediction on "${market}" was correct. +${amount} credited.`,
 
   market_closing: (market: string, closes: string) =>
-    `MarketPips: Market "${market}" closes ${closes}. Place your prediction now at marketpips.co.ke`,
+    `Kichiko: Market "${market}" closes ${closes}. Place your prediction now at kichiko.co.ke`,
 
   kyc_approved: () =>
-    `MarketPips: Your identity has been verified. You now have full access. Happy predicting!`,
+    `Kichiko: Your identity has been verified. You now have full access. Happy predicting!`,
 
   kyc_rejected: (reason: string) =>
-    `MarketPips: KYC rejected: ${reason}. Please resubmit at marketpips.co.ke/kyc`,
+    `Kichiko: KYC rejected: ${reason}. Please resubmit at kichiko.co.ke/kyc`,
 
   otp: (code: string) =>
-    `MarketPips OTP: ${code}. Valid for 10 minutes. Do not share this code.`,
+    `Kichiko OTP: ${code}. Valid for 10 minutes. Do not share this code.`,
 }

@@ -8,7 +8,7 @@ import { IconSearch } from '@/components/ui/icons'
 
 export const metadata: Metadata = {
   title: 'Search',
-  description: 'Search events on MarketPips by word, topic and status.',
+  description: 'Search events on Kichiko by word, topic and status.',
   robots: { index: false, follow: true },
 }
 

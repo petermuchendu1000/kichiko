@@ -52,7 +52,7 @@ export const SETTINGS_SCHEMA: SettingDef[] = [
   { key: 'maintenance.enabled', label: 'Maintenance mode', group: 'Maintenance', type: 'boolean', default: false, isPublic: true, help: 'Puts the platform into read-only / freeze mode.' },
   { key: 'maintenance.message', label: 'Maintenance banner message', group: 'Maintenance', type: 'text', default: '', isPublic: true },
   // Branding
-  { key: 'branding.support_email', label: 'Support email', group: 'Branding', type: 'string', default: 'support@marketpips.co.ke', isPublic: true },
+  { key: 'branding.support_email', label: 'Support email', group: 'Branding', type: 'string', default: 'support@kichiko.co.ke', isPublic: true },
   { key: 'branding.terms_url', label: 'Terms URL', group: 'Branding', type: 'string', default: '/legal/terms', isPublic: true },
   { key: 'branding.privacy_url', label: 'Privacy URL', group: 'Branding', type: 'string', default: '/legal/privacy', isPublic: true },
 ]

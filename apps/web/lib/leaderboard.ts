@@ -1,5 +1,5 @@
 // ============================================================
-// MarketPips - Module 10: Leaderboard (pure logic)
+// Kichiko - Module 10: Leaderboard (pure logic)
 // Metric/period validation, deterministic competition ranking with
 // tie-breaks, medal mapping, and display formatters. Side-effect free
 // and unit-testable (mirrors the SQL RANK() semantics in migration 007).

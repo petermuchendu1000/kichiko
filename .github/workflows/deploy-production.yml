@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
     inputs:
       image_ref:
-        description: 'Fully-qualified image (registry.fly.io/marketpips-staging@sha256:... or :tag) to promote'
+        description: 'Fully-qualified image (registry.fly.io/kichiko-staging@sha256:... or :tag) to promote'
         required: true
         type: string
 
@@ -24,8 +24,8 @@ permissions:
   contents: read
 
 env:
-  FLY_APP: marketpips-prod
-  STAGING_APP: marketpips-staging
+  FLY_APP: kichiko-prod
+  STAGING_APP: kichiko-staging
 
 jobs:
   deploy-production:
@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: production          # <-- required reviewers configured in repo settings
-      url: https://app.marketpips.example
+      url: https://app.kichiko.example
     steps:
       - uses: actions/checkout@v4
 

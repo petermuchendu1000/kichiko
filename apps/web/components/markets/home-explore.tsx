@@ -6,7 +6,7 @@
 // filters it by category CLIENT-SIDE (no server round-trip) so tapping a
 // category — either the pills here or the sticky under-nav rail — instantly
 // narrows the grid and scrolls it into view. It stays in sync with the sticky
-// rail via a decoupled window event ('marketpips:home-category'), mirroring the
+// rail via a decoupled window event ('kichiko:home-category'), mirroring the
 // app's existing global-event convention, and reflects the choice in the URL
 // query (history.replaceState) for shareable links without a navigation.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
@@ -58,7 +58,7 @@ export function HomeExplore({ markets, options, optionCount, counts }: HomeExplo
       const cat = (e as CustomEvent<{ category?: string }>).detail?.category
       if (cat) select(cat, true)
     }
-    window.addEventListener('marketpips:home-category', onCat as EventListener)
+    window.addEventListener('kichiko:home-category', onCat as EventListener)
     try {
       const c = new URL(window.location.href).searchParams.get('category')
       if (c && CATS.some((x) => x.key === c)) {
@@ -67,7 +67,7 @@ export function HomeExplore({ markets, options, optionCount, counts }: HomeExplo
     } catch {
       /* no-op */
     }
-    return () => window.removeEventListener('marketpips:home-category', onCat as EventListener)
+    return () => window.removeEventListener('kichiko:home-category', onCat as EventListener)
   }, [select])
 
   const filtered = useMemo(

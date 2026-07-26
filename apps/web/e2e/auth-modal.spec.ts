@@ -2,7 +2,7 @@
 // ---------------------------------------------------------------------------
 // In-context auth dialog (Milestone 3). Verifies the DIALOG CONTRACT and the
 // market ticket WIRING without ever creating a real account (no DB writes):
-//   • opens on the decoupled marketpips:open-auth event
+//   • opens on the decoupled kichiko:open-auth event
 //   • correct roles / labelling / initial focus (a11y)
 //   • tab toggle reveals the right fields per mode
 //   • submit gating (disabled until the form is valid)
@@ -27,7 +27,7 @@ async function openAuth(page: Page, detail: Record<string, unknown> = { mode: 'l
   const openTimeout = process.env.CI ? 30_000 : 15_000
   await expect(async () => {
     await page.evaluate((d) => {
-      window.dispatchEvent(new CustomEvent('marketpips:open-auth', { detail: d }))
+      window.dispatchEvent(new CustomEvent('kichiko:open-auth', { detail: d }))
     }, detail)
     await expect(page.getByRole('dialog')).toBeVisible({ timeout: 1000 })
   }).toPass({ timeout: openTimeout })
@@ -106,7 +106,7 @@ test.describe('Auth dialog — contract', () => {
     // Two rapid opens should still yield exactly one dialog (idempotent open).
     await openAuth(page)
     await page.evaluate(() =>
-      window.dispatchEvent(new CustomEvent('marketpips:open-auth', { detail: { mode: 'login' } })),
+      window.dispatchEvent(new CustomEvent('kichiko:open-auth', { detail: { mode: 'login' } })),
     )
     await expect(page.getByRole('dialog')).toHaveCount(1)
   })
@@ -160,7 +160,7 @@ test.describe('Guest funding — deposit intent routes to auth first', () => {
     await expect(async () => {
       await page.evaluate(() =>
         window.dispatchEvent(
-          new CustomEvent('marketpips:open-deposit', { detail: { amountLocal: 300 } }),
+          new CustomEvent('kichiko:open-deposit', { detail: { amountLocal: 300 } }),
         ),
       )
       await expect(page.getByRole('dialog')).toBeVisible({ timeout: 1000 })
@@ -175,7 +175,7 @@ test.describe('Guest funding — deposit intent routes to auth first', () => {
     await page.goto('/help')
     await expect(async () => {
       await page.evaluate(() =>
-        window.dispatchEvent(new CustomEvent('marketpips:open-deposit', { detail: {} })),
+        window.dispatchEvent(new CustomEvent('kichiko:open-deposit', { detail: {} })),
       )
       await expect(page.getByRole('dialog')).toBeVisible({ timeout: 1000 })
     }).toPass({ timeout: 15000 })

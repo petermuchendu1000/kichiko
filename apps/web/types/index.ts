@@ -1,5 +1,5 @@
 // ============================================================
-// MarketPips - Complete TypeScript Types
+// Kichiko - Complete TypeScript Types
 // ============================================================
 
 export type Json =

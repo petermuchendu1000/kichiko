@@ -1,5 +1,5 @@
 // ============================================================
-// MarketPips — Funding math (pure, framework-free, unit-tested)
+// Kichiko — Funding math (pure, framework-free, unit-tested)
 // ------------------------------------------------------------
 // After a guest authenticates on a staged bet we "auto-advance" them to the
 // action: place it if their wallet covers the stake, otherwise fund exactly the

@@ -1,7 +1,7 @@
 // app/api/cron/btc-windows/route.ts — recurring BTC "Up or Down" engine tick.
 //
 // Scheduled every minute (pg_cron -> this endpoint with the CRON_SECRET header;
-// see schedule_marketpips_btc_jobs in migration 024). Each run:
+// see schedule_kichiko_btc_jobs in migration 024). Each run:
 //   1) fetches BTC/USD spot (Coinbase -> Kraken -> CoinGecko fallback),
 //   2) records it as an oracle tick (record_btc_tick),
 //   3) auto-resolves any due windows against the recorded ticks

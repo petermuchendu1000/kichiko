@@ -15,7 +15,7 @@
 //         <span text-text font-medium text-base lg:text-lg leading-normal>{pct}%</span>
 //         <div text-xs text-text-secondary>{leading outcome}</div>
 //
-// Token map (PM → MarketPips): text-text→text-text-primary,
+// Token map (PM → Kichiko): text-text→text-text-primary,
 // text-text-secondary→text-text-secondary, button-ghost hover→hover:bg-surface-2,
 // icon rounded-md (6px) via EntityAvatar radius={6}. Heading is
 // `text-text font-medium mb-4` (PM), NOT the old text-base font-semibold box.

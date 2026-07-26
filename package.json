@@ -1,8 +1,8 @@
 {
-  "name": "marketpips",
+  "name": "kichiko",
   "version": "1.0.0",
   "private": true,
-  "description": "MarketPips - East Africa's Premier Prediction Market Platform",
+  "description": "Kichiko - East Africa's Premier Prediction Market Platform",
   "workspaces": [
     "apps/*"
   ],

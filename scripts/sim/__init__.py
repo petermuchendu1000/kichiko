@@ -1,1 +1,1 @@
-"""MarketPips simulation seeding package."""
+"""Kichiko simulation seeding package."""

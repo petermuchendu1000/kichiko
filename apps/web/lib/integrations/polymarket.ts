@@ -5,7 +5,7 @@
 //   • CLOB   (prices/order book):         https://clob.polymarket.com
 //
 // Used by the Markets module to optionally seed/mirror real-world markets
-// (e.g. elections, crypto, sports) into MarketPips. We never place orders on
+// (e.g. elections, crypto, sports) into Kichiko. We never place orders on
 // Polymarket — this is read-only ingestion of market metadata + prices.
 //
 // Docs: https://docs.polymarket.com/
@@ -73,7 +73,7 @@ function parseJsonArray(s?: string): unknown[] {
   }
 }
 
-/** Map Polymarket Gamma categories onto MarketPips market_category enum. */
+/** Map Polymarket Gamma categories onto Kichiko market_category enum. */
 export function mapCategory(c?: string): string {
   const k = (c || '').toLowerCase()
   if (/elect|politic|gov/.test(k)) return 'politics'

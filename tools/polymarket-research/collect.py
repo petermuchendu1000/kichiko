@@ -29,7 +29,7 @@ CLOB = "https://clob.polymarket.com"
 DATA = "https://data-api.polymarket.com"
 
 SESSION = requests.Session()
-SESSION.headers.update({"User-Agent": "marketpips-research/1.0 (+ground-truth-collector)"})
+SESSION.headers.update({"User-Agent": "kichiko-research/1.0 (+ground-truth-collector)"})
 
 
 def _get(url: str, params: Optional[Dict[str, Any]] = None, retries: int = 4,
@@ -189,7 +189,7 @@ def main() -> int:
         json.dump(books, f)
 
     manifest = {
-        "collector": "marketpips/tools/polymarket-research/collect.py",
+        "collector": "kichiko/tools/polymarket-research/collect.py",
         "started_utc": started, "finished_utc": now_iso(),
         "endpoints": {"gamma": GAMMA, "clob": CLOB, "data": DATA},
         "counts": {"markets": len(markets), "events": len(events), "books": len(books)},

@@ -54,7 +54,7 @@ export function HomeCategoryBar() {
   // scrolls it into view without a server round-trip.
   const filterInPlace = (category: string) => {
     setActiveKey(category)
-    window.dispatchEvent(new CustomEvent('marketpips:home-category', { detail: { category } }))
+    window.dispatchEvent(new CustomEvent('kichiko:home-category', { detail: { category } }))
   }
 
   return (

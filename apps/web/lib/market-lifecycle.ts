@@ -1,5 +1,5 @@
 // ============================================================
-// MarketPips — Market lifecycle state machine
+// Kichiko — Market lifecycle state machine
 // ------------------------------------------------------------
 // Mirrors the `market_status` enum and centralizes the rules for which status
 // transitions are legal. Routes/admin actions MUST validate through this module
