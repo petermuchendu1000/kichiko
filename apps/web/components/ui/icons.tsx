@@ -101,14 +101,26 @@ export const IconSell = icon(<><circle cx="12" cy="12" r="9"/><path d="M9 15l6-6
 // Logo mark
 // Pip brand mark — a rising probability line on a baseline reference with
 // square "pip" terminals. Pip Blue by default; pass a solid className/fill to recolor.
+// Kichiko brand mark — the navy "K" (public/logo-mark.png used as a CSS mask so
+// the glyph is theme-adaptive: brand navy #1A2734 in light, white in dark, always
+// contrasting the surface). Mark aspect ratio is ~0.795 (w/h); `size` sets height.
 export const LogoMark = ({ size = 28, className = '' }: { size?: number; className?: string }) => (
-  <svg width={size} height={size} viewBox="0 0 32 32" fill="none" className={className} aria-hidden="true">
-    <rect width="32" height="32" rx="7" fill="#2B50E4"/>
-    <path d="M6 24h20" stroke="#fff" strokeOpacity="0.32" strokeWidth="1.5" strokeLinecap="round"/>
-    <path d="M8 21l5-4 4 2 6-8" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-    <rect x="6.4" y="19.4" width="3.2" height="3.2" rx="0.7" fill="#fff"/>
-    <rect x="21.4" y="9.4" width="3.2" height="3.2" rx="0.7" fill="#fff"/>
-  </svg>
+  <span
+    aria-hidden="true"
+    className={`inline-block shrink-0 bg-[#1A2734] dark:bg-white ${className}`}
+    style={{
+      width: `${Math.round(size * 0.795)}px`,
+      height: `${size}px`,
+      WebkitMaskImage: 'url(/logo-mark.png)',
+      maskImage: 'url(/logo-mark.png)',
+      WebkitMaskRepeat: 'no-repeat',
+      maskRepeat: 'no-repeat',
+      WebkitMaskSize: 'contain',
+      maskSize: 'contain',
+      WebkitMaskPosition: 'center',
+      maskPosition: 'center',
+    }}
+  />
 )
 
 // Category → custom icon mapping (replaces emoji as the category language)
