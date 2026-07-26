@@ -130,8 +130,8 @@ export function MarketDrawer({
     histLoaded && history.length >= 2
       ? Math.round((history[history.length - 1].price - history[0].price) * 100)
       : undefined
-  const yesCents = `${((o.yesPrice ?? o.price) * 100).toFixed(1)}\u00A2`
-  const noCents = `${((o.noPrice ?? 1 - o.price) * 100).toFixed(1)}\u00A2`
+  const yesCents = `${((o.yesPrice ?? o.price) * 100).toFixed(1)}%`
+  const noCents = `${((o.noPrice ?? 1 - o.price) * 100).toFixed(1)}%`
 
   // Hand off to the Trade drawer for this option + side (single trade surface).
   const trade = (side: 'yes' | 'no') => {

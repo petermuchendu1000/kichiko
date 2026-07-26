@@ -18,6 +18,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { EntityAvatar } from '@/components/ui/entity-avatar'
 import { OrderBookDrawer } from '@/components/trading/order-book-drawer'
 import { normalizeOutcomes, type Outcome } from '@/lib/markets/outcomes'
+import { formatVolume } from '@/lib/utils'
 import type { Market, MarketOption } from '@/types'
 import {
   IconSort,
@@ -315,7 +316,7 @@ export function CandidateList({
                   </p>
                   {o.volumeUsd > 0 && (
                     <span className="whitespace-nowrap text-xs font-normal text-text-muted">
-                      ${Math.round(o.volumeUsd).toLocaleString('en-US')} Vol.
+                      {formatVolume(o.volumeUsd)} Vol.
                     </span>
                   )}
                 </div>

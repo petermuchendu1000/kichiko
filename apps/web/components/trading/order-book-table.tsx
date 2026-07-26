@@ -12,6 +12,7 @@
 // /api/markets/[id]/book (public, cached ~2s), polled while visible.
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { dualPriceLabel, formatCents, type BookLevel, type ClobBook } from '@/lib/clob'
+import { formatVolume } from '@/lib/utils'
 import { IconRefresh } from '@/components/ui/icons'
 
 const num = (n: number, d = 2) =>
@@ -208,7 +209,7 @@ function BookRow({ level, tone, pill }: { level: BookLevel; tone: 'yes' | 'no'; 
           <span className={priceColor}>{price.percent}</span>
         </span>
         <span className="w-20 text-right text-sm text-text-primary">{num(level.size)}</span>
-        <span className="w-24 text-right text-sm text-text-primary">${num(level.totalUsd)}</span>
+        <span className="w-24 text-right text-sm text-text-primary">{formatVolume(level.totalUsd)}</span>
       </div>
     </div>
   )

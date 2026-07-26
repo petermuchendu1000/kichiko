@@ -78,7 +78,7 @@ export function MobileTradeBar({
   // §3). Until the user taps a candidate, the sticky CTA stays neutral ("Trade")
   // and opens the selection sheet with nothing pre-selected.
   const selected = outcomes.find((o) => o.id === pendingOptionId)
-  const cents = (p: number) => `${(p * 100).toFixed(1)}\u00A2`
+  const cents = (p: number) => `${(p * 100).toFixed(1)}%`
 
   const close = useCallback(() => {
     setOpen(false)

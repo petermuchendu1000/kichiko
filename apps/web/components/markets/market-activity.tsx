@@ -53,7 +53,7 @@ export function MarketActivity({ activity }: MarketActivityProps) {
               <span className="truncate text-text-muted">
                 <TraderNameLink id={item.user_id} name={displayName} className="inline max-w-none" />{' '}
                 {isBuy
-                  ? `bet ${isYes ? 'YES' : 'NO'} at ${item.price ? Math.round(item.price * 100) : '?'}\u00A2`
+                  ? `bet ${isYes ? 'YES' : 'NO'} at ${item.price ? Math.round(item.price * 100) : '?'}%`
                   : item.action.replace(/_/g, ' ')}
               </span>
             </div>
