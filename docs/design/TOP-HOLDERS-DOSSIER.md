@@ -174,7 +174,7 @@ Market detail ──▶ Top Holders tab
 
 Captured by inspecting Polymarket's live DOM + computed styles
 (`/event/world-cup-winner`, `/profile/0x…`) — not guesswork. This section is the
-authoritative mapping the MarketPips surfaces are built to.
+authoritative mapping the Kichiko surfaces are built to.
 
 ## 1. Identity avatar (the big correction)
 
@@ -208,7 +208,7 @@ never washes out. `TraderAvatar` renders the orb with no letter + optional pip.
 
 ## 2. Top Holders board
 
-| Element | Polymarket | MarketPips |
+| Element | Polymarket | Kichiko |
 |---|---|---|
 | Layout | Two mirrored columns: **Yes holders** \| **No holders** | ✅ `grid-cols-1 sm:grid-cols-2` (mobile stacks Yes→No) |
 | Column header | Title left, `SHARES` right (uppercase, muted) | ✅ |
@@ -228,7 +228,7 @@ also opens on keyboard focus and closes on Escape.
 
 ## 4. Public trader profile (`/traders/[id]`)
 
-| Block | Polymarket | MarketPips |
+| Block | Polymarket | Kichiko |
 |---|---|---|
 | Identity | orb (+pip) · name · `@handle` · "Joined … · N views" · bio | ✅ |
 | Stat strip | Positions value · Biggest win · Predictions | ✅ `trader_public_profile` |
@@ -250,4 +250,4 @@ books on featured binary markets and on **every option** of multi-outcome
 markets, cross-market positions, closed (won/lost) positions, aligned 45-day
 price history (smooth P&L curves), an activity feed, and recomputed market +
 option aggregates ($Vol / bets / unique traders). Idempotent by
-`@demo.marketpips`.
+`@demo.kichiko`.

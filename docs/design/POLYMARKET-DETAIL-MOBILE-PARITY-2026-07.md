@@ -1,4 +1,4 @@
-# Polymarket → MarketPips — Market Detail **Mobile** Parity Spec (2026-07)
+# Polymarket → Kichiko — Market Detail **Mobile** Parity Spec (2026-07)
 
 > Companion to `POLYMARKET-DETAIL-PARITY-2026-07.md` (desktop @1440px). This document
 > is grounded in the **live Polymarket mobile DOM + compiled CSS** captured for the

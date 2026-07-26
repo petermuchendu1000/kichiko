@@ -1,6 +1,6 @@
 # Deposits & withdrawals (mobile money)
 
-> How to add money to MarketPips and cash out, using the mobile money wallets
+> How to add money to Kichiko and cash out, using the mobile money wallets
 > available in your country.
 
 ## Supported payment methods by country
@@ -21,12 +21,12 @@
 2. Pick your provider and enter the **amount** and the **phone number** linked to
    your wallet.
 3. Approve the prompt on your phone (e.g. the M-Pesa STK push / enter your PIN).
-4. Your MarketPips balance updates automatically once the provider confirms —
+4. Your Kichiko balance updates automatically once the provider confirms —
    usually within seconds. If it's pending, give it a moment; confirmations
    arrive asynchronously.
 
 Deposits are credited in your account currency. If you fund in a different
-currency, MarketPips converts using the current exchange rate.
+currency, Kichiko converts using the current exchange rate.
 
 ## Withdrawing
 
@@ -57,6 +57,6 @@ Requirements & notes:
   transactions**.
 - **Withdrawal failed?** Ensure your KYC is complete and the receiving number is
   correct and registered. Failed disbursements are automatically reversed to your
-  MarketPips balance.
+  Kichiko balance.
 - Still stuck? Use the in-app **Help** page to contact support with your
   transaction reference.

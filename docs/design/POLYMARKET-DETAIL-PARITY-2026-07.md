@@ -1,4 +1,4 @@
-# Polymarket → MarketPips — Market Detail Parity Dossier (2026-07)
+# Polymarket → Kichiko — Market Detail Parity Dossier (2026-07)
 
 ### Research → element-by-element teardown → gap analysis → build plan
 **Reference captured live (2026-07-09):** Polymarket market-detail pages rendered at 1440px in headless Chromium and studied pixel-by-pixel:

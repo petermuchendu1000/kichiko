@@ -51,11 +51,11 @@ endpoint below returned HTTP 200 without credentials).
 **Data** — `GET /positions?user=`, `GET /closed-positions?user=`, `GET /activity?user=`,
 `GET /value?user=`, `GET /oi`, `GET /holders`, `GET /trades`.
 
-> **Design implication for MarketPips:** the read/trade split is a clean seam. A parity
+> **Design implication for Kichiko:** the read/trade split is a clean seam. A parity
 > backend can expose an identical read surface (discovery + book + history + holders) as a
 > thin, cache-friendly layer, and gate the write surface (orders) behind auth. Our Supabase
 > schema already mirrors this: `markets`/`market_options` (discovery), `clob_orders`/`clob_fills`
-> (book + trades), `positions` (Data-API analog). See [06-MARKETPIPS mapping](./06-MARKETPIPS-GROUND-TRUTH-MAPPING.md).
+> (book + trades), `positions` (Data-API analog). See [06-KICHIKO mapping](./06-KICHIKO-GROUND-TRUTH-MAPPING.md).
 
 ---
 
@@ -104,7 +104,7 @@ Per-market trading constraints are exposed on both Gamma (`orderPriceMinTickSize
 
 > Tick size is not cosmetic — it defines the price lattice, the minimum spread, and the
 > rounding rules for every downstream P&L and depth calculation. Parity systems **must**
-> store tick size per market and enforce it server-side. MarketPips migration `030_clob_foundation.sql`
+> store tick size per market and enforce it server-side. Kichiko migration `030_clob_foundation.sql`
 > is the correct home for these constraints.
 
 ### 3.3 Rewards / liquidity mining
@@ -115,7 +115,7 @@ Per-market trading constraints are exposed on both Gamma (`orderPriceMinTickSize
 Gamma also exposes `rewardsMinSize`, `rewardsMaxSpread`, `holdingRewardsEnabled`, and a
 documented **~4% annualized holding reward** on eligible position value (sampled hourly, paid
 daily). This is a core liquidity-bootstrapping mechanism a parity system must model as a
-background job (MarketPips: `job_runs` + `commission_plans`/`campaigns`).
+background job (Kichiko: `job_runs` + `commission_plans`/`campaigns`).
 
 ---
 

@@ -1,12 +1,12 @@
-# MarketPips — User Guide
+# Kichiko — User Guide
 
-> Module 17.5. Plain-language help for people using MarketPips. Trade on
+> Module 17.5. Plain-language help for people using Kichiko. Trade on
 > real-world outcomes and pay with the mobile money you already use — M-Pesa,
 > MTN MoMo, Airtel Money, or PesaPal.
 
-## What is MarketPips?
+## What is Kichiko?
 
-MarketPips is a **prediction market**. Each market asks a yes/no question about a
+Kichiko is a **prediction market**. Each market asks a yes/no question about a
 future event — an election result, a match, a crypto price, an economic figure.
 You buy **YES** or **NO** shares. If you're right when the market resolves, each
 winning share pays out a fixed amount; if you're wrong, it's worth nothing. The
@@ -19,7 +19,7 @@ is** right now.
    preferred currency (KES, UGX, TZS, RWF, ZMW, ETB, BIF). See the language
    switcher in the footer to change the interface language.
 2. **Add money.** Go to **Deposit** and pay with your mobile money wallet. Funds
-   appear in your MarketPips balance once the provider confirms (usually
+   appear in your Kichiko balance once the provider confirms (usually
    seconds). → [Deposits & withdrawals](./deposits-withdrawals.md)
 3. **Find a market.** Browse the home page, categories, the leaderboard, or use
    search. Open a market to see the current YES/NO prices and the price history.

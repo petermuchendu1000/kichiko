@@ -22,7 +22,7 @@ handful of flagship markets carry most of the flow — the classic prediction-ma
 not the median.
 
 > **Parity implication:** a naive "cache everything equally" strategy wastes memory on the
-> long tail and under-serves the head. Tier caching by 24h volume (hot/warm/cold). MarketPips
+> long tail and under-serves the head. Tier caching by 24h volume (hot/warm/cold). Kichiko
 > `015-PERFORMANCE-CACHING` should key TTLs off `volume24hr` buckets.
 
 ---
@@ -50,7 +50,7 @@ Computed from live top-of-book across 218 outcome tokens:
    comparable price band.
 
 > **Parity implication:** never surface "spread %" as a headline liquidity score without
-> conditioning on price. MarketPips should display absolute spread + depth, and reserve bps
+> conditioning on price. Kichiko should display absolute spread + depth, and reserve bps
 > for internal ranking within price deciles.
 
 ---

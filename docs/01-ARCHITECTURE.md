@@ -1,4 +1,4 @@
-# MarketPips — System Architecture
+# Kichiko — System Architecture
 
 ## 1. High-level topology
 

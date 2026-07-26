@@ -1,6 +1,6 @@
 # Contributing
 
-> Module 17.5. How to make changes to MarketPips safely.
+> Module 17.5. How to make changes to Kichiko safely.
 
 ## Workflow
 

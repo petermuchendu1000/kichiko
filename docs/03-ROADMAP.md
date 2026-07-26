@@ -1,4 +1,4 @@
-# MarketPips — Execution Roadmap (module-by-module, e2e-gated)
+# Kichiko — Execution Roadmap (module-by-module, e2e-gated)
 
 Each module has: scope → implementation → **e2e/test gate** that must pass before
 moving on. "DB-live" gates require Supabase access (see 00-ASSESSMENT §4).
@@ -204,7 +204,7 @@ Legend: ☐ todo · ◐ in progress · ☑ done
 - `job_runs` observability table + `withJobRun` wrapper (start/finish, derived
   status, structured result, request_id; admins read via `audit:read` RLS). ✓
 - Consolidated: removed the redundant Deno edge functions; scheduling via
-  pg_cron + pg_net (`schedule_marketpips_jobs()` operator helper, idempotent,
+  pg_cron + pg_net (`schedule_kichiko_jobs()` operator helper, idempotent,
   no-ops without the extensions). Docs: `docs/12-BACKGROUND-JOBS.md`. ✓
 - **Gate:** ✓ 13 unit tests (FX inversion/merge/round-trip + job status
   derivation) · CRON_SECRET auth (incl. fail-closed) · 383/383 total · tsc clean

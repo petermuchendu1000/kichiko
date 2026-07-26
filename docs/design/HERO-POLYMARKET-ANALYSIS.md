@@ -1,9 +1,9 @@
-# Hero Section — Polymarket Teardown & MarketPips Implementation Spec
+# Hero Section — Polymarket Teardown & Kichiko Implementation Spec
 
 > Ground-truth analysis of Polymarket's homepage "Featured markets" hero,
 > captured live (Chromium, 1440×900, DSF 2) + computed-style extraction from the
 > live DOM on 2026-07-13, cross-checked against a full-resolution reference
-> screenshot. This is the spec the MarketPips hero is built to.
+> screenshot. This is the spec the Kichiko hero is built to.
 
 ## 1. What the hero *is*
 
@@ -76,7 +76,7 @@ Hairline/border color: **#E6E8EA**. Page bg: **#FFFFFF** (light theme).
    `$XXXk today` + 🔥 + chevron.
 4. `Explore all` — full-width rounded-pill outline button.
 
-## 8. MarketPips adaptation (on-brand, not a clone)
+## 8. Kichiko adaptation (on-brand, not a clone)
 
 We replicate the **structure, sizing, spacing, behavior, and polish** exactly,
 themed to the existing **Pip** design system (do NOT hard-code Polymarket blue
@@ -91,7 +91,7 @@ or copy their product promos):
   (additive props; existing callers unchanged).
 - Data: real featured/trending KE markets (candidate photos = flag analog),
   real per-option price history (May–Jul window), real 24h "Hot topics".
-- Rail promos map to real MarketPips features: instant **M-Pesa / MoMo / Airtel**
+- Rail promos map to real Kichiko features: instant **M-Pesa / MoMo / Airtel**
   funding ("How it works"), and "Create a free account" ("Get started").
 - Carousel: pre-rendered server slides (0 chart JS) wrapped in a thin client
   controller — dots, prev/next title pills, autoplay w/ pause-on-hover, swipe,

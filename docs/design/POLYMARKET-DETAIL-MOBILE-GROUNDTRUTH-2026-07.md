@@ -1,4 +1,4 @@
-# Polymarket → MarketPips — Market Detail **Mobile** GROUND-TRUTH Teardown (2026-07, refresh)
+# Polymarket → Kichiko — Market Detail **Mobile** GROUND-TRUTH Teardown (2026-07, refresh)
 
 > Authoritative, element-by-element teardown of the **live Polymarket mobile** market-detail
 > page, captured this session for the multi-outcome event _Presidential Election Winner 2028_

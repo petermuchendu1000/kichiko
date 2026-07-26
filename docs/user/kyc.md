@@ -1,10 +1,10 @@
 # Identity verification (KYC)
 
-> Why MarketPips verifies identity, what you need, and how the process works.
+> Why Kichiko verifies identity, what you need, and how the process works.
 
 ## Why verify?
 
-KYC ("Know Your Customer") verification helps keep MarketPips safe and compliant
+KYC ("Know Your Customer") verification helps keep Kichiko safe and compliant
 with East-African financial regulations. It protects your account, prevents
 fraud and money laundering, and unlocks higher withdrawal limits.
 

@@ -1,6 +1,6 @@
 # Developer Setup — clone → running locally
 
-> Module 17.5. Get MarketPips running on your machine from a fresh clone. If you
+> Module 17.5. Get Kichiko running on your machine from a fresh clone. If you
 > follow this top-to-bottom you'll have the app, database, and tests working.
 
 ## Prerequisites
@@ -13,8 +13,8 @@
 ## 1. Clone & install
 
 ```bash
-git clone https://github.com/petermuchendu1000/marketpips.git
-cd marketpips
+git clone https://github.com/petermuchendu1000/kichiko.git
+cd kichiko
 npm ci            # installs the workspace (apps/web)
 ```
 

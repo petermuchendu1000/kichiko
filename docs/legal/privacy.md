@@ -7,7 +7,7 @@
 _Last updated: July 2026_
 
 ## 1. Who we are
-MarketPips ("we") operates the prediction-market platform. We are the data
+Kichiko ("we") operates the prediction-market platform. We are the data
 controller for the personal data described here. Contact: see [Help](/help).
 
 ## 2. Data we collect

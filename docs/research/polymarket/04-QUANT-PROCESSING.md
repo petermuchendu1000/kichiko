@@ -101,7 +101,7 @@ slippage(Q)        = effective_price(Q) − mid
 Given median 5¢-depth of **$38,813** and p95 of **$5.9M**, execution cost is trivial for retail
 size on flagship markets but material on tail markets. A parity order-preview must compute
 `effective_price(Q)` from the live book, **not** quote the touch. Depth-aware previews are the
-difference between a toy and a credible trading surface (MarketPips `clob_orders` + a preview RPC).
+difference between a toy and a credible trading surface (Kichiko `clob_orders` + a preview RPC).
 
 ---
 
@@ -144,7 +144,7 @@ persist → price_history, market_options.price, depth cache, alerts
 
 Every stage above is implemented or stubbed in
 [`analyze.py`](../../../tools/polymarket-research/analyze.py) and is directly portable to the
-MarketPips ingestion path.
+Kichiko ingestion path.
 
 ---
 

@@ -4,7 +4,7 @@
 > (computed styles, pixel geometry, font stacks, gradients, hover states) at
 > **desktop 1280px** and **mobile 390px** viewports, cross-checked against
 > supplied reference screenshots. These are functional design measurements used
-> to build MarketPips' own equivalent components — no PM source/assets copied.
+> to build Kichiko' own equivalent components — no PM source/assets copied.
 
 ## Global tokens
 | Token | Value |

@@ -1,4 +1,4 @@
-# MarketPips — Market Detail + Trading (`/markets/[slug]`) Design Dossier
+# Kichiko — Market Detail + Trading (`/markets/[slug]`) Design Dossier
 ### Research → Requirements → IA → Flow → Wireframe → Component spec → Review gates
 **Prepared by:** Product Design Org (Principal PD · UX · Design Systems · Frontend Arch · Visual · Brand · A11y · SEO · Perf · Sr. Eng)
 **Status:** Phase 1 — spec complete, implemented against the "Pip" system (`docs/design/LANDING-PAGE-DOSSIER.md`).

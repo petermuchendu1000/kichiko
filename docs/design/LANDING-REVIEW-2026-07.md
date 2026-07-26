@@ -1,4 +1,4 @@
-# MarketPips — Landing Page Design Review & Elevation Pass
+# Kichiko — Landing Page Design Review & Elevation Pass
 ### Review loop against the world-class bar (Apple · Stripe · Linear · Bloomberg)
 **Reviewer:** Product Design Org (Principal PD · UX · Design Systems · Frontend Arch · Visual · Brand · A11y · SEO · Perf · Sr. Eng)
 **Scope:** Landing page (`/`) and its shared chrome (navbar, footer). Backend/data contracts are read-only for this pass — no schema or query changes.

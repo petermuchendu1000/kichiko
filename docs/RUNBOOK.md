@@ -1,4 +1,4 @@
-# MarketPips — Operations Runbook
+# Kichiko — Operations Runbook
 
 > On-call, deploy, promote, rollback, incident, secret-rotation, and
 > money-path-freeze procedures (Module 16.5). Companion to `docs/DEPLOYMENT.md`
@@ -51,9 +51,9 @@ the current DB — no DB change needed for a code rollback.
 
 Manual equivalent (break-glass):
 ```bash
-flyctl releases --app marketpips-prod            # find the good version/digest
-flyctl releases rollback --app marketpips-prod --yes
-# or: flyctl deploy --app marketpips-prod --image <registry.fly.io/...@sha256:...> --strategy immediate
+flyctl releases --app kichiko-prod            # find the good version/digest
+flyctl releases rollback --app kichiko-prod --yes
+# or: flyctl deploy --app kichiko-prod --image <registry.fly.io/...@sha256:...> --strategy immediate
 ```
 
 ### 3.2 Database rollback
@@ -81,10 +81,10 @@ apply` a known-good commit locally against the shared state (last resort).
 Rehearse on **staging** and record it here.
 
 Procedure:
-1. Note current staging release: `flyctl releases --app marketpips-staging`.
+1. Note current staging release: `flyctl releases --app kichiko-staging`.
 2. Deploy a trivial, obviously-different change to staging.
 3. Run *Rollback Production* pointed at the staging app (or `flyctl releases
-   rollback --app marketpips-staging`).
+   rollback --app kichiko-staging`).
 4. Confirm the previous version serves and `scripts/smoke.sh` passes.
 5. Record: date, operator, start/verify timestamps, elapsed, notes.
 
@@ -116,7 +116,7 @@ Procedure:
 Secrets live in Fly (runtime), Supabase (DB), and GitHub (CI) — never in git.
 ```bash
 # App/runtime secret (triggers a rolling restart with the new value):
-flyctl secrets set SENTRY_DSN=... CRON_SECRET=... --app marketpips-prod
+flyctl secrets set SENTRY_DSN=... CRON_SECRET=... --app kichiko-prod
 # CI secret: update in GitHub → Settings → Secrets (repo/Environment).
 # Supabase service-role/DB password: rotate in Supabase dashboard, then update
 #   the corresponding Fly + GitHub secrets and redeploy.

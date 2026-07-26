@@ -61,9 +61,9 @@ reversible** process:
 
 | Environment | Trigger | App (Fly) | Database (Supabase) | URL |
 |---|---|---|---|---|
-| **Preview** | per PR | ephemeral Fly app or PR-scoped machine | Supabase **branch** (or shared staging, read-guarded) | `pr-<n>.preview.marketpips…` |
-| **Staging** | merge to `main` (auto) | `marketpips-staging` | staging project | `staging.marketpips…` |
-| **Production** | manual promotion / tag `v*` | `marketpips-prod` | prod project | `app.marketpips…` |
+| **Preview** | per PR | ephemeral Fly app or PR-scoped machine | Supabase **branch** (or shared staging, read-guarded) | `pr-<n>.preview.kichiko…` |
+| **Staging** | merge to `main` (auto) | `kichiko-staging` | staging project | `staging.kichiko…` |
+| **Production** | manual promotion / tag `v*` | `kichiko-prod` | prod project | `app.kichiko…` |
 
 Promotion is **image-based**: the exact artifact validated in staging is the one
 promoted to production (no rebuild), guaranteeing parity. Production deploy
@@ -129,7 +129,7 @@ stopped using them.
 - State stored remotely (e.g. Terraform Cloud or an R2/S3 backend) with locking;
   `plan` on PR (comment the diff), `apply` gated behind approval on `main`.
 - Keep **Supabase** schema as the migration files (source of truth) + a checked-in
-  `config.toml`; document project linking and the `schedule_marketpips_jobs()`
+  `config.toml`; document project linking and the `schedule_kichiko_jobs()`
   one-time setup (from M12) per environment.
 - **Gate:** `terraform validate` + `plan` clean in CI; a trivial DNS/cache-rule
   change round-trips through plan→apply on staging.

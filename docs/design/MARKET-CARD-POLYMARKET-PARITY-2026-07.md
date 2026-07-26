@@ -1,4 +1,4 @@
-# MarketPips — Market Card ⇄ Polymarket Parity Teardown (2026‑07)
+# Kichiko — Market Card ⇄ Polymarket Parity Teardown (2026‑07)
 
 > **Scope:** the *feed* market card — the atomic unit rendered in every grid/shelf
 > (`/markets`, homepage "Trending / Just added / Explore", search, category pages).
@@ -38,7 +38,7 @@ renders those as ordinary binary cards; we keep the LIVE affordance as a superse
 
 ## 1. Card container (shared chrome)
 
-| Property | Polymarket (measured) | MarketPips token mapping |
+| Property | Polymarket (measured) | Kichiko token mapping |
 |---|---|---|
 | background | `#fff` (surface‑1) | `--surface` |
 | border | `1px solid #e6e8ea` (neutral‑100) | `1px solid var(--hairline)` |
@@ -198,7 +198,7 @@ Card gap rhythm: `gap-3` (12px) between header / body / footer; row padding `py-
 
 ## 9. Feature‑by‑feature parity matrix
 
-| # | Polymarket feature | Status in MarketPips |
+| # | Polymarket feature | Status in Kichiko |
 |---|---|---|
 | 1 | Full‑bleed card‑as‑link | ✅ overlay `<Link>` |
 | 2 | 40px rounded thumbnail | ✅ EntityAvatar/img |

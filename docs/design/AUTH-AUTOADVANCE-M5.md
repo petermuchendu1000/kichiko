@@ -19,7 +19,7 @@ On the guest→authenticated transition (set when `goToAuth` runs, consumed once
   real-money order — the final confirmation always stays with the user (blast
   radius / reversibility).
 - **Underfunded** → open the deposit sheet **prefilled with the exact shortfall**
-  (`marketpips:open-deposit` with `{ amountLocal }`), so the user tops up precisely
+  (`kichiko:open-deposit` with `{ amountLocal }`), so the user tops up precisely
   what the stake needs and nothing more.
 
 This runs for both auth paths:
@@ -36,7 +36,7 @@ This runs for both auth paths:
   false "funded".
 
 ## Deposit prefill (`navbar` DepositSheet)
-`marketpips:open-deposit` now accepts an optional `{ amountLocal }`. The navbar
+`kichiko:open-deposit` now accepts an optional `{ amountLocal }`. The navbar
 reads it, `ceil`s it, and seeds the sheet's amount (Pay button reflects it, e.g.
 "Pay KES 300"). No detail → empty sheet (unchanged behaviour for the header
 "Deposit" button).

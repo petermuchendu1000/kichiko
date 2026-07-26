@@ -1,4 +1,4 @@
-# MarketPips — Admin Module (Control Plane)
+# Kichiko — Admin Module (Control Plane)
 
 > **Status:** Specification / rewrite. Supersedes the placeholder admin page
 > (`apps/web/app/admin/page.tsx`) and the one-line Module 11 entry in
@@ -656,7 +656,7 @@ the immutability guards still hold):
 -- Run once, after the owner has signed up via normal auth.
 UPDATE public.profiles
 SET role = 'superadmin'
-WHERE id = (SELECT id FROM auth.users WHERE email = 'owner@marketpips.co.ke');
+WHERE id = (SELECT id FROM auth.users WHERE email = 'owner@kichiko.co.ke');
 ```
 
 Thereafter, that superadmin can grant every other staff role from the UI, and

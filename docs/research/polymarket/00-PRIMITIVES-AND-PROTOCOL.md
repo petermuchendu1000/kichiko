@@ -249,15 +249,15 @@ returns `400` with the correct ID to retry.
 
 ---
 
-## 6. Why this matters for MarketPips (first-principles parity)
+## 6. Why this matters for Kichiko (first-principles parity)
 
-1. **You cannot fake identity.** If MarketPips ever mirrors or reconciles against Polymarket,
+1. **You cannot fake identity.** If Kichiko ever mirrors or reconciles against Polymarket,
    store `condition_id` + `clob_token_id` as external keys and **validate them with the
    derivation above** — a cheap integrity gate that catches ingestion corruption instantly.
 2. **The MINT/MERGE insight drives the matching engine.** A credible internal CLOB must be able
    to fill BUY-YES against BUY-NO by minting a set (and the reverse by merging) — not just
    COMPLEMENTARY token↔token matches. This is the mechanism that keeps `Σ price = 1` true and
-   liquidity efficient. MarketPips `clob_fills.match_kind` should encode `complementary | mint |
+   liquidity efficient. Kichiko `clob_fills.match_kind` should encode `complementary | mint |
    merge`.
 3. **Fees are a smooth `p(1−p)` curve, not a flat %.** Port the exact formula (taker-only,
    symmetric, 5-dp rounding, per-category rate, geopolitics free) into fill accounting

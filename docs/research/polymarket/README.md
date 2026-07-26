@@ -2,7 +2,7 @@
 
 **Purpose.** A rigorous, empirical, reproducible technical analysis of Polymarket's markets,
 data model, market microstructure, quantitative processing, and resolution mechanics — to serve
-as the **ground truth** for building and calibrating MarketPips.
+as the **ground truth** for building and calibrating Kichiko.
 
 **Method.** Every empirical claim is backed by a **live snapshot** of Polymarket's four public
 APIs, collected and analyzed by the toolkit in
@@ -21,11 +21,11 @@ responses. Numbers trace to `tools/polymarket-research/data/stats.json`.
 |---|-----|--------|
 | 00 | [Protocol Primitives (First Principles)](./00-PRIMITIVES-AND-PROTOCOL.md) | **Byte-level ground truth**: conditionId/collectionId/positionId cryptography (verified 100%), contracts, EIP-712 Order struct, MINT/MERGE matching, fee formula (verified), L1/L2 auth |
 | 01 | [System Architecture](./01-SYSTEM-ARCHITECTURE.md) | Hybrid-decentralized CLOB, 4 public APIs, on-chain substrate (Polygon/CTF/UMA), trading params, parity lessons |
-| 02 | [Data Model](./02-DATA-MODEL.md) | Event→market→token hierarchy, identifier graph, full 89-field Gamma enumeration, book/history/holders schemas, MarketPips mapping |
+| 02 | [Data Model](./02-DATA-MODEL.md) | Event→market→token hierarchy, identifier graph, full 89-field Gamma enumeration, book/history/holders schemas, Kichiko mapping |
 | 03 | [Market Microstructure](./03-MARKET-MICROSTRUCTURE.md) | Spreads, depth, book shape, tick lattice, volume↔liquidity — empirical |
 | 04 | [Quantitative Processing](./04-QUANT-PROCESSING.md) | Price=probability pipeline, favorite-longshot structure, no-arbitrage, walk-the-book, volatility |
 | 05 | [Resolution, CTF & Neg-Risk](./05-RESOLUTION-CTF-NEGRISK.md) | UMA optimistic oracle, split/merge/redeem, negative-risk conversion, fees/incentives |
-| 06 | [MarketPips Mapping & Gaps](./06-MARKETPIPS-GROUND-TRUTH-MAPPING.md) | Live schema alignment, prioritized parity gaps, numeric targets, proposed migrations |
+| 06 | [Kichiko Mapping & Gaps](./06-KICHIKO-GROUND-TRUTH-MAPPING.md) | Live schema alignment, prioritized parity gaps, numeric targets, proposed migrations |
 
 ---
 
@@ -52,9 +52,9 @@ responses. Numbers trace to `tools/polymarket-research/data/stats.json`.
    capital-efficient NO→YES-of-others conversion; the binary duality generalizes to `Σp=1`.
 6. **Tick matters.** 64.7% of markets quote to **0.001** (0.1¢); cents-only math corrupts the
    majority of the universe.
-7. **Parity is about data fidelity, not protocol.** MarketPips is a centralized fiat clone; the
+7. **Parity is about data fidelity, not protocol.** Kichiko is a centralized fiat clone; the
    actionable gaps are sub-cent precision, per-market tick/min-size, `Σp=1` invariants,
-   neg-risk economics, and depth-aware order preview (see [06](./06-MARKETPIPS-GROUND-TRUTH-MAPPING.md)).
+   neg-risk economics, and depth-aware order preview (see [06](./06-KICHIKO-GROUND-TRUTH-MAPPING.md)).
 
 ---
 

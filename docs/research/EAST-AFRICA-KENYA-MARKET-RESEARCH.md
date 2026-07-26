@@ -1,4 +1,4 @@
-# MarketPips — East Africa / Kenya Pilot Market Research
+# Kichiko — East Africa / Kenya Pilot Market Research
 
 **Scope:** Deep market research to ground the landing page (and, by extension, the whole
 product's language, currency, and framing) in the reality of the target populace.
@@ -121,11 +121,11 @@ betting"** — *you decide based on what you know about the real world.*
 - Digital-economy taxation broadened to online betting/gaming/advertising, residents and
   non-residents.
 
-> **Product implication.** If MarketPips is regulated as betting/gaming, **users are taxed on
+> **Product implication.** If Kichiko is regulated as betting/gaming, **users are taxed on
 > deposit (5%) and on withdrawal (5%)**. This *must* be surfaced honestly and simply
 > ("A 5% government tax applies when you deposit and when you withdraw — set by law, not by
 > us"). Hidden tax = the #1 trust-breaker for this audience. **Open question for legal: is
-> MarketPips classified under the Gambling Control Act, or as something else?** The answer
+> Kichiko classified under the Gambling Control Act, or as something else?** The answer
 > changes the entire copy and disclosure set (see §12).
 
 ### 3.3 Advertising ban & BCLB marketing rules (2025) — **directly shapes the landing page**
@@ -158,7 +158,7 @@ public marketing surface) must:
   **scam-associated** (avoid crypto framing on the pilot landing page).
 - **UX expectations set by M-Pesa** (the trust benchmark we are measured against):
   - **STK Push** — a prompt pops on the phone, user enters M-Pesa PIN, done. Instant.
-  - **Hakikisha** — name verification before sending ("you are paying MARKETPIPS — correct?").
+  - **Hakikisha** — name verification before sending ("you are paying KICHIKO — correct?").
     *This is a core Kenyan trust ritual; replicating a "confirm who you're paying" moment
     builds instant credibility.*
   - **Paybill / Till** numbers are a recognized, trusted merchant pattern.
@@ -356,7 +356,7 @@ with a plain-English, KES-native, real-world phrasing, and reserve Swahili/Sheng
 
 ## 12. Risks, open questions & things to confirm before copy is finalized
 
-1. **Legal classification (BLOCKER for final copy).** Is MarketPips licensed/regulated under
+1. **Legal classification (BLOCKER for final copy).** Is Kichiko licensed/regulated under
    the **Gambling Control Act 2025** (→ full BCLB ad rules + 5%/5% taxes + gambling
    disclosures apply), or positioned as a different regulated instrument? Every disclosure,
    the use of the word "bet", and the tax messaging depend on this answer. **Confirm with

@@ -1,10 +1,10 @@
-# MarketPips — Codebase Assessment & Gap Analysis
+# Kichiko — Codebase Assessment & Gap Analysis
 
 _Last updated: 2026-06-30 · Author: build agent_
 
 ## 1. What this repository actually is
 
-`marketpips` is a **Polymarket-style binary prediction market** tailored for East
+`kichiko` is a **Polymarket-style binary prediction market** tailored for East
 Africa. Users trade YES/NO shares on real-world outcomes and fund accounts with
 mobile money (M-Pesa, MTN MoMo, Airtel Money, PesaPal). Pricing uses an **LMSR**
 (Logarithmic Market Scoring Rule) automated market maker implemented in Postgres.

@@ -1,6 +1,6 @@
-# MarketPips — Launch Readiness & Go-Live
+# Kichiko — Launch Readiness & Go-Live
 
-> Module 17.7. The go/no-go gate that flips MarketPips to production: the launch
+> Module 17.7. The go/no-go gate that flips Kichiko to production: the launch
 > checklist, the staged (Kenya-first) rollout plan behind feature flags, the
 > launch-day runbook, post-launch monitoring/alerts + on-call, and the ongoing
 > maintenance cadence for long-term evolution. Operational procedures live in
@@ -26,7 +26,7 @@ Launch is **go** only when every item is ✅ or an accepted 🟩 with a named ow
 - ✅ Lighthouse CI + **first-load JS bundle budget** (blocking) in CI.
 - ✅ Health-gated canary deploy + one-click rollback (proven via the quarterly
   rollback drill, RUNBOOK §4); staging↔prod parity (same image by digest).
-- 🟩 **Multi-instance app**: set `min_machines_running ≥ 2` on `marketpips-prod`
+- 🟩 **Multi-instance app**: set `min_machines_running ≥ 2` on `kichiko-prod`
   (staging ships 1). _Owner: infra._
 
 ### Accessibility & i18n (M17)

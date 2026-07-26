@@ -1,4 +1,4 @@
-# Kalshi Order Ticket — Analysis & MarketPips Implementation
+# Kalshi Order Ticket — Analysis & Kichiko Implementation
 
 Reference market studied: `https://kalshi.com/markets/kxipo/ipos/kxipo-26`
 ("Which companies will officially announce an IPO this year?" — a grouped /
@@ -39,7 +39,7 @@ plus Kalshi Help Center research on order types.
 
 ## 2. What we adopted (and why)
 
-| Kalshi behaviour | MarketPips implementation | Notes |
+| Kalshi behaviour | Kichiko implementation | Notes |
 |------------------|---------------------------|-------|
 | BUY / SELL tabs | Header tabs with accent underline | **SELL is honestly gated** (disabled, "coming soon") — we have no sell endpoint yet (`/api/orders` is buy-only). No fake affordance. |
 | Dollars / Contracts | `DOLLARS ⌄` menu → `{CURRENCY} amount` vs `Contracts` | Contracts mode uses a −/+ stepper; stake ≈ `contracts × price`, converted to local via `usdToLocal`. The LMSR preview then recomputes the true slippage-aware fill. |
