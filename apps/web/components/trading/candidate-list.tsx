@@ -166,7 +166,17 @@ export function CandidateList({
     const idx = view.findIndex((o) => o.id === selected)
     const next = dir === 1 ? Math.min(view.length - 1, idx + 1) : Math.max(0, idx - 1)
     const o = view[next]
-    if (o) choose(o, false)
+    if (o) {
+      choose(o, false)
+      // Roving tabindex: move DOM focus to the newly selected radio so keyboard
+      // users stay on the active option (only that radio has tabIndex 0). The
+      // radios are the identity cells; focus after paint so the new tabIndex has
+      // committed.
+      requestAnimationFrame(() => {
+        const radios = listRef.current?.querySelectorAll<HTMLElement>('[role="radio"]')
+        radios?.[next]?.focus()
+      })
+    }
   }
 
   // PM parity: cents carry ONE decimal (e.g. 19.9¢ / 80.2¢) and a Yes/No pair
@@ -272,28 +282,12 @@ export function CandidateList({
             // (no persistent selected-row tint, no left accent bar). gap-4 py-4,
             // full-width border between rows via the list's divide-y.
             <div key={o.id}>
+            {/* Row CONTAINER — non-interactive. It only lays out the option
+                selector (a role=radio) and the Buy pills as SIBLINGS, so no
+                interactive control is nested inside another (axe:
+                nested-interactive). `group` drives the press-feedback tint. */}
             <div
-              role="radio"
-              aria-checked={active}
-              tabIndex={active ? 0 : -1}
-              // PM parity (verified live): tapping the card body/name opens the
-              // MARKET view for this option — it does NOT place a trade. On mobile
-              // that is the Market drawer; on desktop it arms the sidebar ticket.
-              // Only the Buy Yes / Buy No pills open the Trade drawer.
-              onClick={() => openMarketView(o)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault()
-                  choose(o, false)
-                } else if (e.key === 'ArrowDown') {
-                  e.preventDefault()
-                  moveSelection(1)
-                } else if (e.key === 'ArrowUp') {
-                  e.preventDefault()
-                  moveSelection(-1)
-                }
-              }}
-              className={`group relative flex cursor-pointer flex-col gap-3 px-4 py-4 lg:flex-row lg:items-center lg:gap-4 ${isLoser ? 'opacity-55' : ''}`}
+              className={`group relative flex flex-col gap-3 px-4 py-4 lg:flex-row lg:items-center lg:gap-4 ${isLoser ? 'opacity-55' : ''}`}
             >
               {/* Press-feedback highlight — group-active only, matching PM. */}
               <span
@@ -302,8 +296,32 @@ export function CandidateList({
               />
 
               {/* Identity + price — one row on mobile, grows to fill on desktop
-                  so the buy pills sit inline on the right (PM single-line row). */}
-              <div className="relative z-[1] flex min-w-0 flex-1 items-center gap-3">
+                  so the buy pills sit inline on the right (PM single-line row).
+                  This IS the radio: tapping the card body/name opens the MARKET
+                  view for this option (PM parity, verified live) — it does NOT
+                  place a trade. On mobile that is the Market drawer; on desktop
+                  it arms the sidebar ticket. Only the Buy Yes / Buy No pills
+                  (siblings, below) open the Trade drawer. */}
+              <div
+                role="radio"
+                aria-checked={active}
+                aria-label={`${o.label}, ${pctLabel} chance`}
+                tabIndex={active ? 0 : -1}
+                onClick={() => openMarketView(o)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    choose(o, false)
+                  } else if (e.key === 'ArrowDown') {
+                    e.preventDefault()
+                    moveSelection(1)
+                  } else if (e.key === 'ArrowUp') {
+                    e.preventDefault()
+                    moveSelection(-1)
+                  }
+                }}
+                className="relative z-[1] flex min-w-0 flex-1 cursor-pointer items-center gap-3 rounded-md outline-none focus-visible:ring-2 focus-visible:ring-pip-500"
+              >
                 <EntityAvatar
                   name={o.label}
                   imageUrl={o.imageUrl}
