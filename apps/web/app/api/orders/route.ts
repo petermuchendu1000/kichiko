@@ -97,8 +97,11 @@ async function handleClobOrder({
     return NextResponse.json({ error: 'This market is not an order-book market' }, { status: 409 })
   }
 
-  // Resolve order size (shares).
+  // Resolve order size (shares). For dollar-denominated market buys we also
+  // pass an explicit USD budget so the RPC can cost-cap the walk down the book
+  // and never overspend past the user's amount (audit #2).
   let size = o.size ?? null
+  let maxSpendUsd: number | null = null
   if (o.order_type === 'market' && size == null && o.amount_local != null) {
     // Convert $ → shares via the best ask (best-effort, single-level estimate).
     const { data: book } = await adminClient.rpc('clob_get_book', {
@@ -122,7 +125,11 @@ async function handleClobOrder({
     const rate = (fx as { rate: number } | null)?.rate
     if (!rate) return NextResponse.json({ error: 'Unsupported currency' }, { status: 400 })
     const amountUsd = o.amount_local * rate
+    // Upper bound on shares (at the best ask); the RPC's budget cap trims the
+    // actual fill so total spend never exceeds this budget when the walk hits
+    // deeper, pricier levels.
     size = Math.floor((amountUsd / (bestAsk / 100)) * 1e6) / 1e6
+    maxSpendUsd = amountUsd
     if (size <= 0) {
       return NextResponse.json({ error: 'Amount too small to buy any shares' }, { status: 400 })
     }
@@ -146,6 +153,7 @@ async function handleClobOrder({
     p_currency: o.currency,
     p_client_order_id: clientOrderId,
     p_expires_at: o.expires_at ?? null,
+    p_max_spend_usd: maxSpendUsd,
   })
 
   if (rpcError) {
