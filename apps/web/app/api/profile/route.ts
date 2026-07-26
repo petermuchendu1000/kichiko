@@ -34,6 +34,17 @@ const schema = z
       .or(z.literal('')),
     country_code: z.string().trim().length(2).toUpperCase().optional().or(z.literal('')),
     preferred_currency: z.enum(CURRENCIES).optional(),
+    // Avatar URL must be a public object from our own `avatars` storage bucket
+    // (the client uploads there and passes back the returned public URL). Empty
+    // string clears the avatar.
+    avatar_url: z
+      .string()
+      .trim()
+      .url()
+      .max(2048)
+      .refine((u) => u.includes('/storage/v1/object/public/avatars/'), 'Invalid avatar URL')
+      .optional()
+      .or(z.literal('')),
   })
   .refine((o) => Object.keys(o).length > 0, { message: 'No fields provided' })
 
@@ -77,6 +88,7 @@ export async function PATCH(req: NextRequest) {
     ...(d.phone_number !== undefined && { phone_number: nn(d.phone_number) }),
     ...(d.country_code !== undefined && { country_code: nn(d.country_code) }),
     ...(d.preferred_currency !== undefined && { preferred_currency: d.preferred_currency }),
+    ...(d.avatar_url !== undefined && { avatar_url: nn(d.avatar_url) }),
   }
 
   const { data, error } = await guard.ctx.supabase
