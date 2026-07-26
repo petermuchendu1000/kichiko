@@ -101,14 +101,22 @@ export const IconSell = icon(<><circle cx="12" cy="12" r="9"/><path d="M9 15l6-6
 // Logo mark
 // Pip brand mark — a rising probability line on a baseline reference with
 // square "pip" terminals. Pip Blue by default; pass a solid className/fill to recolor.
+// Kichiko brand mark — a Pip-Blue (#1452F0) rounded tile with a white "K"
+// (public/logo-tile.svg). A solid colored tile reads clearly on any surface —
+// light app chrome, dark app chrome, and the browser tab bar alike — so the mark
+// stays crisp and recognizable everywhere (the navy mask-based mark vanished on
+// dark browser bars). The tile is square (1:1); `size` sets both width and height.
 export const LogoMark = ({ size = 28, className = '' }: { size?: number; className?: string }) => (
-  <svg width={size} height={size} viewBox="0 0 32 32" fill="none" className={className} aria-hidden="true">
-    <rect width="32" height="32" rx="7" fill="#2B50E4"/>
-    <path d="M6 24h20" stroke="#fff" strokeOpacity="0.32" strokeWidth="1.5" strokeLinecap="round"/>
-    <path d="M8 21l5-4 4 2 6-8" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-    <rect x="6.4" y="19.4" width="3.2" height="3.2" rx="0.7" fill="#fff"/>
-    <rect x="21.4" y="9.4" width="3.2" height="3.2" rx="0.7" fill="#fff"/>
-  </svg>
+  <span
+    role="img"
+    aria-label="Kichiko"
+    className={`inline-block shrink-0 bg-center bg-no-repeat bg-contain ${className}`}
+    style={{
+      width: `${size}px`,
+      height: `${size}px`,
+      backgroundImage: 'url(/logo-tile.svg)',
+    }}
+  />
 )
 
 // Category → custom icon mapping (replaces emoji as the category language)
