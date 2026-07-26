@@ -1,7 +1,7 @@
 # How betting & pricing works
 
 > A plain-language explanation of prices, shares, payouts, and the LMSR pricing
-> engine behind MarketPips.
+> engine behind Kichiko.
 
 ## Shares, prices, and payouts
 
@@ -23,7 +23,7 @@ staked — because you're betting on the less-expected outcome.
 
 ## Why prices move (the LMSR)
 
-MarketPips uses an automated market maker called **LMSR** (Logarithmic Market
+Kichiko uses an automated market maker called **LMSR** (Logarithmic Market
 Scoring Rule). You don't need another person to take the other side of your bet —
 the market maker is always available to buy and sell.
 

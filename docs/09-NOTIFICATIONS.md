@@ -1,6 +1,6 @@
 # Module 9 — Notifications
 
-MarketPips delivers notifications over three channels: **in-app** (always),
+Kichiko delivers notifications over three channels: **in-app** (always),
 **email** (Resend) and **SMS** (Africa's Talking). Delivery is decoupled from the
 request path via a durable **outbox** so provider outages never block users and
 transient failures are retried.

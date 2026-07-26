@@ -61,7 +61,7 @@ Measured px tracking ≈ **-0.006em → -0.015em**, tightening as size grows:
 20px → -0.2px · 24px → -0.36px · 28px → -0.42px. The base 16px/400 body is
 `normal`. Encode tracking per token (px), never as one global value.
 
-## Corrections applied to MarketPips (this milestone)
+## Corrections applied to Kichiko (this milestone)
 1. Removed the incorrect global `body { letter-spacing:-0.011em }` → `normal`
    (PM's base body is untracked; the global value tightened all text).
 2. Added PM's exact `font-feature-settings` to `body` (was previously absent).

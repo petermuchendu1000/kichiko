@@ -31,7 +31,7 @@ _Last updated: 2026-07-25._
    submitting the user's preferredCurrency. Now labelled with the real currency.
 6. ✅ **Trade — "no ask liquidity"** message softened to actionable copy.
 7. ✅ **No user-facing withdraw UI.** Added a WithdrawSheet (navbar dropdown +
-   `marketpips:open-withdraw` event): shows available balance + Max, validates
+   `kichiko:open-withdraw` event): shows available balance + Max, validates
    amount ≤ balance, surfaces every rejection reason (min, insufficient,
    suspended, review hold), routes to `/kyc` when `kyc_required`, and offers
    "Deposit first" at zero balance. DB reserve path verified E2E (funded
@@ -45,7 +45,7 @@ _Last updated: 2026-07-25._
    (green "Funds added" + wallet refreshed), **failed** (reason + "Try again"),
    or a reassuring **still-processing** timeout (never a dead-end). When the
    deposit was opened to fund a trade (`intent:'order'`), on credit it
-   broadcasts `marketpips:deposit-credited` and the ticket **auto-places the
+   broadcasts `kichiko:deposit-credited` and the ticket **auto-places the
    order** the user was making. Redirect providers (PesaPal) still hand off to
    their hosted URL. Verified E2E against the live DB.
 9. ✅ **[P2] Deposit quick-amounts are now currency-aware.** `depositPresets()`

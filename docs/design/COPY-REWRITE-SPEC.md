@@ -1,4 +1,4 @@
-# MarketPips — Whole-System Copy & Terminology Spec (for one-time approval)
+# Kichiko — Whole-System Copy & Terminology Spec (for one-time approval)
 
 **Purpose:** One document covering every page so you can approve once, then I implement it all.
 **Decisions applied** (from your answers):
@@ -100,11 +100,11 @@ slugs, code) to keep the change low-risk — only the user-visible route and UI 
 - All money in `KSh`; "positions" → "predictions".
 
 ### D8. Leaderboard (`leaderboard/page.tsx`)
-- Description: "The top traders on MarketPips — ranked by volume, win rate and profit & loss…" →
-  "**The top players on MarketPips, ranked by how much they have traded, their win rate, and profit or loss (all-time, this month, this week).**" (em dash removed; plain).
+- Description: "The top traders on Kichiko — ranked by volume, win rate and profit & loss…" →
+  "**The top players on Kichiko, ranked by how much they have traded, their win rate, and profit or loss (all-time, this month, this week).**" (em dash removed; plain).
 
 ### D9. Search (`search/page.tsx`)
-- "Search prediction markets on MarketPips by keyword, category and status." → "**Search events on MarketPips by word, topic and status.**"
+- "Search prediction markets on Kichiko by keyword, category and status." → "**Search events on Kichiko by word, topic and status.**"
 
 ### D10. Help (`help/page.tsx`)
 | Current | New |
@@ -114,7 +114,7 @@ slugs, code) to keep the change low-risk — only the user-visible route and UI 
 | "Track positions and P&L." | "**See what you hold and your profit or loss.**" |
 | "Trading involves real risk — only stake what you can afford to lose." | "**This is real money and real risk. Only stake what you can afford to lose.**" |
 | Money / Contact support / Play responsibly / Policies / Terms / Privacy | keep |
-| support@marketpips.app | **support@marketpips.co.ke** *(matches DB `branding.support_email` — see F)* |
+| support@kichiko.app | **support@kichiko.co.ke** *(matches DB `branding.support_email` — see F)* |
 
 ### D11. Verify identity (`kyc/page.tsx`)
 - Keep: "Identity verified", "Under review", "Your documents are encrypted and private." (already plain).
@@ -136,7 +136,7 @@ slugs, code) to keep the change low-risk — only the user-visible route and UI 
 | "Tools we offer" (request via Help) | keep (accurate: request-based) |
 
 ### D15. Auth — Login (`auth/login/page.tsx`)
-- "Welcome back" / "Sign in to your MarketPips account" keep. "Get a 6-digit sign-in code by email" keep. "End-to-end encrypted · No credit card needed" → "**Safe and private · No credit card needed.**"
+- "Welcome back" / "Sign in to your Kichiko account" keep. "Get a 6-digit sign-in code by email" keep. "End-to-end encrypted · No credit card needed" → "**Safe and private · No credit card needed.**"
 
 ### D16. Auth — Register (`auth/register/page.tsx`)
 - "Create your account" / "Free to join · No credit card needed" / "Check your email" / "Your data is encrypted and never shared" keep (plain). Placeholder "John Kamau" keep (localised name — good).
@@ -176,7 +176,7 @@ labels stay as-is** (e.g. "Ledger", "Disputes", "Gateways", "KYC", "Payouts", "A
    **"stake / play"** (see D14). Confirm that reading is OK.
 3. **Payment methods** — the deposit/withdraw modals say "M-Pesa · MTN · Airtel", but only **M-Pesa** is a
    live gateway. **Default: show M-Pesa only** (accurate). Say if MTN/Airtel are coming and should stay.
-4. **support email** — code says `support@marketpips.app`; DB says `support@marketpips.co.ke`.
+4. **support email** — code says `support@kichiko.app`; DB says `support@kichiko.co.ke`.
    **Default: use `…co.ke`** (matches the DB and the `.co.ke` domain used elsewhere).
 5. **"Trader" vs "Player"** — leaderboard/trader pages. **Default: "player"** on user pages (less jargon);
    keep "trader" in admin. Or keep "trader" everywhere — your call.

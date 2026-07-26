@@ -1,6 +1,6 @@
 # Design — Phase 0 Foundations
 
-This folder holds the MarketPips product-design foundations that precede UI implementation.
+This folder holds the Kichiko product-design foundations that precede UI implementation.
 
 ## Contents
 - **[LANDING-PAGE-DOSSIER.md](./LANDING-PAGE-DOSSIER.md)** — the single source of truth for the visual + interaction language ("Pip" design system): competitive research (Polymarket, Kalshi, PremiumBlock), differentiated positioning, full design tokens (color, type, spacing, grid, elevation, motion, iconography), accessibility (WCAG AA+), SEO & performance strategy, the landing-page specification (IA, wireframe, component specs, review gates), and the implementation roadmap.

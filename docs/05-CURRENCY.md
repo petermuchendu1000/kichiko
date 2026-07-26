@@ -1,6 +1,6 @@
 # Module 2 — Wallets & Currency (FX)
 
-Single source of truth for money conversion across MarketPips.
+Single source of truth for money conversion across Kichiko.
 
 ## FX model
 

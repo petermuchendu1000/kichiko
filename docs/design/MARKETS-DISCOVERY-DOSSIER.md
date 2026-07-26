@@ -1,4 +1,4 @@
-# MarketPips — Markets Discovery Page (`/markets`) Design Dossier
+# Kichiko — Markets Discovery Page (`/markets`) Design Dossier
 ### Research → Requirements → IA → Flow → Wireframe → Component spec → Review gates
 **Prepared by:** Product Design Org (Principal PD · UX · Design Systems · Frontend Arch · Visual · Brand · A11y · SEO · Perf · Sr. Eng)
 **Status:** Phase 1 — spec complete, implemented against the "Pip" system (`docs/design/LANDING-PAGE-DOSSIER.md`).
@@ -21,7 +21,7 @@ The shipped `/markets` was never ported to the Pip system. Audit findings:
 - **Kalshi — broker grid.** Category-driven browse, visible contract specs, status filters, professional density; regulation cues build trust. Can feel dense for newcomers.
 - **Aggregators (Kalshi+Polymarket unified grids).** Confirm the winning filter taxonomy: **Status** (Open/Closed/Resolved/All), **Category**, **Sort** (price/volume/liquidity/expiry), keyword search, and **responsive 1-col → 2-col → dense grid**. (Sources: avark.agency prediction-market patterns; previa unified grid; alphascope research UX.)
 
-**Where MarketPips improves on all three**
+**Where Kichiko improves on all three**
 1. **Content-first server render.** Competitors are client SPAs; our grid is server-rendered through the same `search_markets` RPC — instant FCP, fully crawlable, no client fetch waterfall.
 2. **URL-as-state.** Every filter combination is a shareable, bookmarkable, back-button-correct URL. Filters compose (never reset each other) — directly fixing the old `SortDropdown` bug.
 3. **One calm system.** Custom `CategoryIcon` (no emoji), tokenized YES/NO semantics, restrained motion, skeleton streaming — reads Bloomberg×Stripe, not casino.

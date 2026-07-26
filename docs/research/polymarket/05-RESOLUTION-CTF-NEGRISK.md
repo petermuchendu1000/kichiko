@@ -58,7 +58,7 @@ returns pUSD); losing tokens are worthless. `umaResolutionStatuses` tracks the l
 
 > **Parity lesson:** resolution is an **external, adversarial, time-boxed, appealable** process.
 > Even a centralized clone should model it as a *state machine with an audit trail and a
-> dispute window*, not a single admin boolean. MarketPips centralizes resolution
+> dispute window*, not a single admin boolean. Kichiko centralizes resolution
 > (`markets.status`, `resolved_outcome`, `resolver_id`, `resolution_notes`, `audit_log`,
 > `resolution_flagged_at`) — the right primitives exist; the discipline is to enforce the
 > window + dual-control + immutable audit.
@@ -91,12 +91,12 @@ Requires both `negRisk` **and** `enableNegRisk`. Supports:
 Separate contracts are used: **Neg Risk Adapter** + **Neg Risk CTF Exchange**;
 `negRiskRequestID` ties a market to its neg-risk group.
 
-> **Parity lesson & gap:** MarketPips models multi-outcome markets (`market_options`,
+> **Parity lesson & gap:** Kichiko models multi-outcome markets (`market_options`,
 > migrations `020`, `023`) but has **no neg-risk conversion economics** (NO→YES-of-others) and
 > no explicit mutual-exclusivity constraint enforcing `Σ price = 1` across options. For true
 > parity on multi-candidate events, add (a) a group-level `Σ price = 1` invariant, (b) an
 > "Other" bucket option, and (c) — if AMM-priced — a shared-liquidity coupling so option
-> prices move coherently. Tracked in [06](./06-MARKETPIPS-GROUND-TRUTH-MAPPING.md).
+> prices move coherently. Tracked in [06](./06-KICHIKO-GROUND-TRUTH-MAPPING.md).
 
 ---
 
@@ -108,4 +108,4 @@ Separate contracts are used: **Neg Risk Adapter** + **Neg Risk CTF Exchange**;
   near-decided markets (recall the 0.9985-mid market holding **$7.73M** within 5¢).
 - Per-market fee config: `feesEnabled`, `feeType`, `feeSchedule`, `makerBaseFee`, `takerBaseFee`.
   A parity build must store fee config per market and apply it in fill accounting
-  (MarketPips: `commission_plans`, `platform_fee_rate`, `orders.fee_usd`).
+  (Kichiko: `commission_plans`, `platform_fee_rate`, `orders.fee_usd`).

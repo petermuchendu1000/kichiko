@@ -1,4 +1,4 @@
-# Accessibility Audit (WCAG 2.1 AA) — MarketPips (Module 17.2)
+# Accessibility Audit (WCAG 2.1 AA) — Kichiko (Module 17.2)
 
 > Companion to `docs/a11y/BASELINE.md` (automated gates). This is the **manual**
 > audit: methodology, per-journey checklist, code remediations shipped, and the

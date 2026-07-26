@@ -1,4 +1,4 @@
-# MarketPips — Security Audit & Remediation (2026-07)
+# Kichiko — Security Audit & Remediation (2026-07)
 
 Scope: database/authorization security posture of the Supabase/Postgres backend
 (PostgREST-exposed `public` schema, RLS, SECURITY DEFINER functions, role grants,
@@ -88,7 +88,7 @@ BEGIN
 END $$;
 ```
 Legitimate callers are the SECURITY DEFINER functions `btc_tick_cron`,
-`schedule_marketpips_jobs`, `schedule_marketpips_btc_jobs` (owned by `postgres`),
+`schedule_kichiko_jobs`, `schedule_kichiko_btc_jobs` (owned by `postgres`),
 so re-granting to `postgres` keeps them working. Longer term: move all outbound
 HTTP to Edge Functions / the backend and **drop the `http` extension**.
 

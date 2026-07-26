@@ -1,6 +1,6 @@
 # Testing Strategy
 
-> Module 17.5. How MarketPips is tested at every level, and how those tests are
+> Module 17.5. How Kichiko is tested at every level, and how those tests are
 > enforced in CI so quality is durable, not a one-time event.
 
 ## Test pyramid

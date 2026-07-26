@@ -23,7 +23,7 @@ Event  (top-level question / grouping)
   each an independent Yes/No, often linked by **negRisk**.
 
 > **Critical modeling note:** "the most fundamental element is always markets — events simply
-> provide additional organization." Do **not** model events as the tradable unit. MarketPips
+> provide additional organization." Do **not** model events as the tradable unit. Kichiko
 > already gets this right: `markets` + `market_options` with `020_multi_outcome_markets.sql`.
 
 ---
@@ -167,15 +167,15 @@ Companion endpoints (all keyed on `token_id`):
 ```
 
 - Grouped by **token** (outcome side); `amount` is shares held; `outcomeIndex` maps to
-  `outcomes[i]`. This is the "Top Holders" surface (MarketPips migration
+  `outcomes[i]`. This is the "Top Holders" surface (Kichiko migration
   `026_top_holders_and_trader_profile.sql`).
 - Open interest per market via `GET /oi`.
 
 ---
 
-## 8. Canonical mapping to MarketPips schema
+## 8. Canonical mapping to Kichiko schema
 
-| Polymarket concept        | Gamma/CLOB field(s)                        | MarketPips today                     | Status |
+| Polymarket concept        | Gamma/CLOB field(s)                        | Kichiko today                     | Status |
 |---------------------------|--------------------------------------------|--------------------------------------|--------|
 | Event                     | `event.id`, `event.slug`, `title`          | discovery layer (no `events` table)  | grouping only |
 | Market                    | `market.id`, `conditionId`, `question`     | `markets` (`id`, `slug`, `title`)    | ✅ core; ❌ no `condition_id` |
@@ -188,9 +188,9 @@ Companion endpoints (all keyed on `token_id`):
 | negRisk grouping          | `negRisk`, `negRiskRequestID`              | multi-outcome via `market_options` (`020_…`, `023_…`) | ⚠️ no neg-risk conversion |
 | Resolution                | `umaResolutionStatuses`, `resolvedBy`      | `markets.status/resolved_outcome`, `audit_log` | ✅ centralized |
 
-> The actual MarketPips schema was introspected live (Supabase, `information_schema`). Columns
+> The actual Kichiko schema was introspected live (Supabase, `information_schema`). Columns
 > like `condition_id`, `clob_token_id`, `tick_size` **do not currently exist** — they are
 > recommended additions tracked in
-> [06-MARKETPIPS-GROUND-TRUTH-MAPPING](./06-MARKETPIPS-GROUND-TRUTH-MAPPING.md).
+> [06-KICHIKO-GROUND-TRUTH-MAPPING](./06-KICHIKO-GROUND-TRUTH-MAPPING.md).
 
-Full gap analysis in [06-MARKETPIPS-GROUND-TRUTH-MAPPING](./06-MARKETPIPS-GROUND-TRUTH-MAPPING.md).
+Full gap analysis in [06-KICHIKO-GROUND-TRUTH-MAPPING](./06-KICHIKO-GROUND-TRUTH-MAPPING.md).

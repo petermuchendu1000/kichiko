@@ -6,7 +6,7 @@
 > readiness module: a WCAG 2.1 AA accessibility pass, East-Africa localization &
 > internationalization scaffolding, complete product/ops documentation, a
 > disaster-recovery + backup program with a rehearsed restore drill, and the
-> go-live checklist that flips MarketPips to production. It builds on M13
+> go-live checklist that flips Kichiko to production. It builds on M13
 > (observability), M14 (security), M15 (performance) and M16 (CI/CD & IaC).
 
 ---

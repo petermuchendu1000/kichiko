@@ -1,4 +1,4 @@
-# MarketPips — Key Flows
+# Kichiko — Key Flows
 
 ## 1. Authentication & RBAC (Module 1)
 

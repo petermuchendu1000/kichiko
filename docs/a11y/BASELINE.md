@@ -1,4 +1,4 @@
-# Accessibility Baseline — MarketPips (Module 17.1)
+# Accessibility Baseline — Kichiko (Module 17.1)
 
 > Target: **WCAG 2.1 Level AA**, zero axe `critical`/`serious` violations on key
 > pages. This file records the automated-gate baseline; the manual AA sign-off
@@ -27,7 +27,7 @@ Tags asserted: `wcag2a, wcag2aa, wcag21a, wcag21aa`; the test fails on any
 - **Reduced motion:** `@media (prefers-reduced-motion: reduce)` disables
   animations/transitions (WCAG 2.3.3).
 - **Page titles:** per-route `<title>` via the Next metadata `template`
-  (`%s · MarketPips`) — already in place.
+  (`%s · Kichiko`) — already in place.
 - **`.sr-only`** utility added for screen-reader-only text.
 
 ## Known warnings tracked to 17.2 (not blocking)

@@ -1,6 +1,6 @@
 # Database Migrations — Conventions
 
-> Module 17.5. How schema change is done in MarketPips. Enforced by
+> Module 17.5. How schema change is done in Kichiko. Enforced by
 > `scripts/lint_migrations.py` (CI `migration-lint` job).
 
 ## Where & how

@@ -1,7 +1,7 @@
-# MarketPips — Product Design Dossier
+# Kichiko — Product Design Dossier
 ### Landing Page · Research, Analysis, Design System, Specification & Roadmap
 **Prepared by:** Product Design Org (Principal PD · UX · Design Systems · Frontend Arch · Visual · Brand · A11y · SEO · Perf · Sr. Eng)
-**Product:** MarketPips — an institutional-grade, Kenya-first prediction market for real-world event contracts.
+**Product:** Kichiko — an institutional-grade, Kenya-first prediction market for real-world event contracts.
 **Status:** Phase 0 — Design foundations complete. Landing page implemented against this spec.
 
 ---
@@ -10,7 +10,7 @@
 
 > **"The clearest view of what happens next."**
 
-MarketPips is a regulated, transparent prediction market built for East Africa first (KES-native, M-Pesa-ready, Swahili/English), engineered to institutional standards. The interface must read as **Bloomberg × Stripe × Linear** — a precision instrument for reading probability — and never as a casino.
+Kichiko is a regulated, transparent prediction market built for East Africa first (KES-native, M-Pesa-ready, Swahili/English), engineered to institutional standards. The interface must read as **Bloomberg × Stripe × Linear** — a precision instrument for reading probability — and never as a casino.
 
 **The one job of the interface:** make *probability* intuitive, trustworthy, and fast to act on.
 
@@ -50,7 +50,7 @@ Primary sources: polymarket.com, kalshi.com, premiumblock.org, and the Avark 202
 
 **Why it works (for its audience):** Maximal self-sovereignty and speed for crypto-natives; permissionless creation deepens the long tail of markets.
 
-**Weaknesses / what MarketPips deliberately rejects:**
+**Weaknesses / what Kichiko deliberately rejects:**
 - No-KYC + leverage + poker reads as **casino** and carries regulatory and responsible-gaming risk — the opposite of our trust-first, regulated posture.
 - Wallet-native onboarding excludes the mainstream East-African user we serve (M-Pesa, KES, mobile-first).
 - Bundling gambling products dilutes the "credible information instrument" positioning.
@@ -64,8 +64,8 @@ Primary sources: polymarket.com, kalshi.com, premiumblock.org, and the Avark 202
 6. **Dual-format probability** — percentage + cent price together; multi-outcome markets use a proportional color-coded bar with hover-revealed exact values.
 7. **Cards must degrade gracefully** — desktop card (thumbnail + sparkline + trade) collapses to event + probability + one action on mobile.
 
-### 1.5 MarketPips' differentiated position
-| Axis | Polymarket | Kalshi | PremiumBlock | **MarketPips** |
+### 1.5 Kichiko' differentiated position
+| Axis | Polymarket | Kalshi | PremiumBlock | **Kichiko** |
 |---|---|---|---|---|
 | Trust model | Crypto/oracle | CFTC regulated | Non-custodial | **Regulated + transparent LMSR, resolution above the fold** |
 | Audience | Crypto-native, global | US retail/pro | Crypto-native | **East-Africa mainstream, mobile-first, KES/M-Pesa** |
@@ -83,9 +83,9 @@ Primary sources: polymarket.com, kalshi.com, premiumblock.org, and the Avark 202
 A complete design language precedes implementation. Everything below is tokenized and implemented as CSS custom properties in the landing page build.
 
 ### 2.1 Brand identity
-- **Name:** MarketPips. A *pip* is the smallest price increment in FX — precise, technical, credible. Doubly meaningful as a single data point on a probability line.
+- **Name:** Kichiko. A *pip* is the smallest price increment in FX — precise, technical, credible. Doubly meaningful as a single data point on a probability line.
 - **Logo mark:** the **Pip** — a precise square tick sitting on a baseline, with a short rising stem, evoking both a tick mark and a rising probability point. Constructed on an 8px grid, single weight, optically centered. Never stretched, rotated, or gradient-filled.
-- **Wordmark:** "MarketPips" — grotesque, tight tracking (-0.02em), "Pips" is not colored differently (restraint over gimmick); an optional single accent pip may replace the dot of the mark.
+- **Wordmark:** "Kichiko" — grotesque, tight tracking (-0.02em), "Pips" is not colored differently (restraint over gimmick); an optional single accent pip may replace the dot of the mark.
 - **Voice:** precise, plain, confident. Numbers do the talking. Never hype ("moon", "win big"); never fear.
 - **Clear space:** ≥ height of the mark on all sides. **Min size:** 20px mark / 96px lockup.
 
@@ -193,7 +193,7 @@ Targets: **LCP < 2.0s, INP < 200ms, CLS < 0.05** on a mid-range Android over 3G-
 
 ### 3.1 Requirements & user goals
 Primary visitor = curious, mobile-first East-African newcomer, skeptical about fairness/legality.
-- **G1** Understand *what MarketPips is* in <5 seconds.
+- **G1** Understand *what Kichiko is* in <5 seconds.
 - **G2** See real markets and live probability immediately (proof it's alive).
 - **G3** Trust it: how markets resolve, who regulates, that funds/withdrawals are safe (M-Pesa), responsible-play is first-class.
 - **G4** Understand pricing (LMSR) in plain language.
@@ -217,7 +217,7 @@ Business: maximize explore-rate; qualified sign-ups; communicate compliance to r
 ### 3.3 Wireframe (desktop, ASCII)
 ```
 ┌───────────────────────────────────────────────────────────┐
-│ [◪ MarketPips]  Markets  How it works  Trust  About   [Sign in] [Get started] │
+│ [◪ Kichiko]  Markets  How it works  Trust  About   [Sign in] [Get started] │
 ├───────────────────────────────────────────────────────────┤
 │  The clearest view of what          ┌───────────────────┐  │
 │  happens next.                       │ Will CBK cut rates│  │
@@ -274,4 +274,4 @@ Business: maximize explore-rate; qualified sign-ups; communicate compliance to r
 **Definition of done (every page):** passes Design/A11y/SEO/Perf gates; tokens-only styling (no magic values); reusable components (no duplicated logic); dark+light; keyboard + screen-reader verified; CWV within budget.
 
 ---
-*This document is the single source of truth for MarketPips visual + interaction language. The landing page in `/marketpips-landing/` is implemented directly against these tokens and specs.*
+*This document is the single source of truth for Kichiko visual + interaction language. The landing page in `/kichiko-landing/` is implemented directly against these tokens and specs.*

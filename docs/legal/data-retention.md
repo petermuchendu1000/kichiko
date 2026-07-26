@@ -1,6 +1,6 @@
 # Data Retention Policy
 
-> **Launch template — pending legal review.** Defines how long MarketPips keeps
+> **Launch template — pending legal review.** Defines how long Kichiko keeps
 > each category of data and when it is deleted or anonymised.
 
 _Last updated: July 2026_

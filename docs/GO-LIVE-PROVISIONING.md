@@ -17,16 +17,16 @@ Applied via the Management API (`PATCH /v1/projects/{ref}/config/auth`):
 |---|---|---|
 | `mailer_otp_length` | `6` | Was `8`. The in-app dialog accepts exactly 6 digits, so 8-digit codes could never be entered. Now matched. |
 | `mailer_otp_exp` | `3600` | 60-minute single-use code. |
-| `site_url` | `https://marketpips.co.ke` | Was `http://localhost:3000` (broke every link email + OAuth redirect). |
-| `uri_allow_list` | `https://marketpips.co.ke/**, https://www.marketpips.co.ke/**` | Redirect allow-list. |
+| `site_url` | `https://kichiko.co.ke` | Was `http://localhost:3000` (broke every link email + OAuth redirect). |
+| `uri_allow_list` | `https://kichiko.co.ke/**, https://www.kichiko.co.ke/**` | Redirect allow-list. |
 | Email templates (all 6) | branded, from `supabase/templates/*.html` | `magic_link` + `reauthentication` render a CODE; `confirmation`, `recovery`, `email_change`, `invite` are links. |
-| Custom SMTP | Resend (`smtp.resend.com:465`, user `resend`, sender `noreply@marketpips.co.ke`) | Required on the free tier to use custom templates at all. |
+| Custom SMTP | Resend (`smtp.resend.com:465`, user `resend`, sender `noreply@kichiko.co.ke`) | Required on the free tier to use custom templates at all. |
 
 ### PENDING before emails deliver (test after go-live)
 - **Verify the sending domain in Resend.** The Resend account (`cosialm22@gmail.com`)
-  has **no verified domain**, so sends from `noreply@marketpips.co.ke` are rejected
+  has **no verified domain**, so sends from `noreply@kichiko.co.ke` are rejected
   (`403 domain not verified`) and the key can currently only send to the account
-  owner's own address. In Resend > Domains, add `marketpips.co.ke`, publish the
+  owner's own address. In Resend > Domains, add `kichiko.co.ke`, publish the
   SPF + DKIM (and optional MX) DNS records it shows, and click Verify. Until then
   **no auth emails (or app notification emails) will be delivered.**
 - After the domain is verified, send a real sign-in code to confirm the branded
@@ -48,8 +48,8 @@ which is how the app resolves gateway config (`lib/payments/mpesa.ts` ->
 | Business shortcode (paybill) | `4326383` |
 | Base URL | `https://api.safaricom.co.ke` |
 | Transaction type | `CustomerPayBillOnline` |
-| STK callback | `https://marketpips.co.ke/api/webhooks/mpesa` |
-| B2C result URL | `https://marketpips.co.ke/api/webhooks/mpesa-b2c` |
+| STK callback | `https://kichiko.co.ke/api/webhooks/mpesa` |
+| B2C result URL | `https://kichiko.co.ke/api/webhooks/mpesa-b2c` |
 | Consumer key | set (`...bAGE6Nl2C`) |
 | Consumer secret | encrypted (`...mYXv`) |
 | Passkey | encrypted (`...8ea7`) |
@@ -64,7 +64,7 @@ returned).
   gateway above. Real money will not move until this is set.
 - **Register the callback URLs with Safaricom** (C2B Register URL) so STK
   confirmations reach `/api/webhooks/mpesa`. Requires the app to be live at
-  `https://marketpips.co.ke` first.
+  `https://kichiko.co.ke` first.
 - **B2C withdrawals** additionally need `initiator_name` and an encrypted
   `security_credential` (the initiator password encrypted with Safaricom's
   production public cert). These are not yet set; deposits (STK) work without

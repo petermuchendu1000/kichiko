@@ -1,4 +1,4 @@
-# MarketPips — Deployment & Environments
+# Kichiko — Deployment & Environments
 
 > Companion to `docs/16-CICD-IAC.md` (design) and `docs/RUNBOOK.md` (operations).
 > This document is the authoritative reference for **how code becomes a running
@@ -36,8 +36,8 @@ npm run dev                                            # back to App Router @ ne
 ### Correct first-time setup
 
 ```bash
-git clone https://github.com/petermuchendu1000/marketpips
-cd marketpips
+git clone https://github.com/petermuchendu1000/kichiko
+cd kichiko
 cp apps/web/.env.local.template apps/web/.env.local    # then fill in values
 npm ci                                                 # NOT `npm install` for reproducibility
 npm run dev
@@ -52,9 +52,9 @@ setups so everyone builds the same dependency graph.
 
 | Environment | Trigger | App host (Fly) | Database (Supabase) | URL |
 |---|---|---|---|---|
-| **Preview** | per PR (optional) | ephemeral PR machine | staging branch (read-guarded) | `pr-<n>.preview.marketpips.…` |
-| **Staging** | merge to `main` (auto) | `marketpips-staging` | staging project | `staging.marketpips.…` |
-| **Production** | tag `v*` / manual dispatch (approval-gated) | `marketpips-prod` | prod project | `app.marketpips.…` |
+| **Preview** | per PR (optional) | ephemeral PR machine | staging branch (read-guarded) | `pr-<n>.preview.kichiko.…` |
+| **Staging** | merge to `main` (auto) | `kichiko-staging` | staging project | `staging.kichiko.…` |
+| **Production** | tag `v*` / manual dispatch (approval-gated) | `kichiko-prod` | prod project | `app.kichiko.…` |
 
 **Image-based promotion.** The exact image validated on staging is the one
 promoted to production — **promote by digest, never rebuild**. This guarantees

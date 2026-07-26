@@ -27,14 +27,14 @@ guest returns to the exact moment they left — in the fewest possible steps.
   completion. We render the actual intent: *"Sign in to place KSh 500 on Yes."*
 
 We deliberately did **not** copy competitor chrome; the dialog is 1:1 with the existing
-MarketPips design language (AuthShell tokens, `tab-pill`, custom icons).
+Kichiko design language (AuthShell tokens, `tab-pill`, custom icons).
 
 ## 3. Architecture decisions
 
 | Decision | Rationale |
 |---|---|
 | Single `AuthDialog` mounted once in `Providers` | Always available on every route without prop-drilling; mirrors the existing global deposit sheet. |
-| Opened via `window` CustomEvent `marketpips:open-auth` (helper `openAuthDialog`) | Same decoupled idiom the app already uses (`marketpips:open-deposit`, `:select-option`). Any surface can summon it. |
+| Opened via `window` CustomEvent `kichiko:open-auth` (helper `openAuthDialog`) | Same decoupled idiom the app already uses (`kichiko:open-deposit`, `:select-option`). Any surface can summon it. |
 | No navigation on the password path | `useAuth` subscribes to `onAuthStateChange`, so a successful in-modal sign-in reactively re-enables every ticket on the page. The guest's bet is still in React state — nothing to restore. |
 | Pending-bet still persisted before opening | The **only** path that leaves the page is email confirmation. localStorage + the `?pb=` URL token (M1) rebuild the ticket on return, even cross-device. |
 | Shared pure logic in `lib/auth-form.ts` | One source of truth for validation, password strength, country→currency, and error normalization — consumed by the dialog **and** the `/auth` pages (no duplicated logic). |

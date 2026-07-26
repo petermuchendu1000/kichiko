@@ -41,5 +41,5 @@ node scripts/check-bundle-budget.mjs build.log 130
 npm --workspace apps/web run start & npx wait-on http://localhost:3000
 npx @lhci/cli autorun --config=./lighthouserc.json
 # Load smoke (against a staging URL):
-BASE_URL=https://staging.marketpips.co.ke k6 run load/markets.k6.js
+BASE_URL=https://staging.kichiko.co.ke k6 run load/markets.k6.js
 ```

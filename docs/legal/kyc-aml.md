@@ -1,6 +1,6 @@
 # KYC / AML Posture
 
-> **Launch template — pending legal & compliance review.** Summarises MarketPips'
+> **Launch template — pending legal & compliance review.** Summarises Kichiko'
 > Know-Your-Customer and Anti-Money-Laundering approach.
 
 _Last updated: July 2026_

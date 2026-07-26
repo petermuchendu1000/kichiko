@@ -1,14 +1,14 @@
 openapi: 3.1.0
 info:
-  title: MarketPips API (public + user)
+  title: Kichiko API (public + user)
   version: 1.0.0
   description: >
     Machine-readable contract for the public and authenticated-user endpoints of
-    MarketPips. Admin (RBAC), cron (CRON_SECRET) and provider webhook endpoints
+    Kichiko. Admin (RBAC), cron (CRON_SECRET) and provider webhook endpoints
     are internal/provider-facing and documented in docs/api/README.md rather than
     here. See that file for auth models, rate limiting and cache policy.
 servers:
-  - url: https://marketpips.app
+  - url: https://kichiko.app
     description: Production
   - url: http://localhost:3000
     description: Local

@@ -13,7 +13,7 @@ stake. A few principles:
   likely outcomes sometimes don't happen.
 - **Set your own limits** and take breaks. Chasing losses usually makes them
   worse.
-- **18+ only.** MarketPips is for adults of legal age in your country.
+- **18+ only.** Kichiko is for adults of legal age in your country.
 
 ### Getting help
 
@@ -24,7 +24,7 @@ organisation.
 
 ## Fees
 
-MarketPips keeps fees transparent — you always see them **before you confirm**.
+Kichiko keeps fees transparent — you always see them **before you confirm**.
 
 - **Platform fee.** A small percentage may apply to trades and/or winnings
   (configured per the platform fee rate). The exact amount is shown on the bet
@@ -40,7 +40,7 @@ confirmation screen.
 ## Fairness
 
 Market prices are set by the automated LMSR market maker based on real trading —
-not by MarketPips picking winners. See
+not by Kichiko picking winners. See
 [How betting works](./how-betting-works.md). Markets resolve to the **real,
 verified outcome**; disputes are handled through the platform's moderation and
 resolution process.

@@ -2,7 +2,7 @@
 
 Status: **Design approved for phased implementation** · Owner: Platform Eng · Module: 3.x (Markets Engine)
 
-This dossier evolves the MarketPips prediction engine from **binary (YES/NO)** to
+This dossier evolves the Kichiko prediction engine from **binary (YES/NO)** to
 **true multi-outcome** markets (N mutually-exclusive options), without breaking the
 live binary path. It is the source of truth for the data model, business logic,
 API, migration, rollout, and the cross-cutting engineering concerns below.

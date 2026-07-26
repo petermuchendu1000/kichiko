@@ -19,7 +19,7 @@ Polymarket models a multi‑outcome event as **N independent binary lines** — 
 `Yes`/`No` pair where `No = 100¢ − Yes`. A user may hold *Yes France* **and** *No England* at once. Per‑row
 Yes prices need **not** sum to 100% (they’re independent books linked by neg‑risk arbitrage).
 
-MarketPips ships **two** engines, both real and tested:
+Kichiko ships **two** engines, both real and tested:
 
 | | Simplex (`options_pricing_mode = 'simplex'`) | Independent (`= 'independent'`) |
 |---|---|---|
@@ -45,7 +45,7 @@ but would **never pay** No holders at settlement (silent fund mis‑settlement).
 
 ## 1. Desktop event page — element‑by‑element (Screenshot 1)
 
-| # | Polymarket element | MarketPips today | Status | Target |
+| # | Polymarket element | Kichiko today | Status | Target |
 |---|---|---|---|---|
 | 1.1 | Global top nav: logo · search · “How it works” · Log In · Sign Up · menu | header + search present | ✅ | keep |
 | 1.2 | Horizontally‑scrolling category rail (Trending, World Cup, Combos, Breaking, Politics…) | `markets-controls` category filter (grid, not a scroll rail on detail) | 🟡 | add sticky scroll rail on detail |
@@ -67,7 +67,7 @@ a `dualPills()` block — but only when `independent` is true. Target: show Yes+
 
 ## 2. Mobile event page + sheets (Screenshots 2, 3, 4, 6)
 
-| # | Polymarket element | MarketPips today | Status | Target |
+| # | Polymarket element | Kichiko today | Status | Target |
 |---|---|---|---|---|
 | 2.1 | Stacked single‑column layout, sticky bottom nav | responsive detail + `mobile-trade-bar` | ✅ | keep |
 | 2.2 | Candidate row → **Buy Yes / Buy No** full‑width pair on mobile | `candidate-list` stacks `dualPills('stack')` **only when independent** | 🟡→🎯 | stack Yes+No on every row |
@@ -84,7 +84,7 @@ a `dualPills()` block — but only when `independent` is true. Target: show Yes+
 
 Reference selection context: **France · Yes**, Buy, Limit, Yes 38.4¢ / No 61.7¢.
 
-| # | Polymarket element | MarketPips (`pm-ticket.tsx`) | Status | Target |
+| # | Polymarket element | Kichiko (`pm-ticket.tsx`) | Status | Target |
 |---|---|---|---|---|
 | 3.1 | Context header: outcome avatar + market title + `Candidate · Side` | present (`indepMulti` shows side) | 🟡 | show side for **all** multi |
 | 3.2 | **Buy / Sell** tabs | Buy present; **Sell disabled** (no sell endpoint) | 🟡 | Sell = separate roadmap |
@@ -97,7 +97,7 @@ Reference selection context: **France · Yes**, Buy, Limit, Yes 38.4¢ / No 61.7
 | 3.9 | Primary **Trade** CTA + Terms line | present | ✅ | keep |
 | 3.10 | Unauth → auth modal on Trade (Screenshot 5) | auth gate present | ✅ | keep |
 
-The `pm-ticket` already syncs from the `marketpips:select-option` window event carrying `{ optionId, side }`.
+The `pm-ticket` already syncs from the `kichiko:select-option` window event carrying `{ optionId, side }`.
 When simplex rows begin emitting a `side`, the ticket needs a **complement‑priced No path for simplex**
 (see §4) rather than routing to `place_bet_option_binary`.
 

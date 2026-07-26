@@ -111,7 +111,7 @@ preset is highlighted.
 the action itself (checkout best practice: total always visible).
 
 **D. Insufficient balance → deposit.** Over-balance flips the CTA to
-"Add funds to trade", which dispatches a global `marketpips:open-deposit` event
+"Add funds to trade", which dispatches a global `kichiko:open-deposit` event
 the navbar listens for, opening the existing deposit sheet. The objection becomes
 a funded wallet instead of a dead end.
 

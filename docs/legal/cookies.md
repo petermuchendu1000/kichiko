@@ -1,7 +1,7 @@
 # Cookie Disclosure
 
 > **Launch template — pending legal review.** What cookies/local storage
-> MarketPips uses and how to control them.
+> Kichiko uses and how to control them.
 
 _Last updated: July 2026_
 

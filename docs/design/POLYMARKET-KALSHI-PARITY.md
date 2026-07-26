@@ -14,13 +14,13 @@ This dossier is the source of truth for reaching visual + functional parity with
 - **Image 1 — ranked option list with avatars.** A vertical, numbered ranking (1..N) where every row leads with a small square/circle avatar (a person's photo, a split-colour placeholder for the not-yet-imaged). A sticky `All / …` filter chip sits on top. Takeaway: **avatars are mandatory per option**, and there is a **deterministic placeholder** (the split colour block) when no photo exists — exactly our monogram slot.
 - **Image 2 — Kalshi multi-candidate market.** Each candidate is a **self-contained row**: portrait avatar · name · one-line subtitle (role) · a bold **standalone probability %** on the right · and **two price buttons underneath — `Yes 48¢` (green) and `No 54¢` (red)**. Rows are separated by hairlines; a header carries sort / search / filter controls. Critically, **each candidate is an independent Yes/No line** — the percentages do NOT sum to 100% across rows, because each row is its own binary market.
 
-The gap between Image 2 and MarketPips today is architectural, not cosmetic — see §2.
+The gap between Image 2 and Kichiko today is architectural, not cosmetic — see §2.
 
 ---
 
 ## 1. How Polymarket & Kalshi actually model these markets
 
-| Concept | Polymarket | Kalshi | MarketPips today |
+| Concept | Polymarket | Kalshi | Kichiko today |
 |---|---|---|---|
 | Grouping | **Event** = group of related **markets** | **Event/Series** groups **markets** | Single `markets` row |
 | A "candidate" | Its **own binary market** (Yes/No ERC1155 pair) | Its **own binary contract** | A `market_options` row (mutually exclusive) |
@@ -29,7 +29,7 @@ The gap between Image 2 and MarketPips today is architectural, not cosmetic — 
 | Resolution | Each sub-market resolves Yes/No; event may be "one winner" | Same | Exactly one winning option |
 | Liquidity | CLOB order book per market | CLOB per market | LMSR per market / per option pool |
 
-**The decisive difference:** on Polymarket/Kalshi a multi-candidate market is a **collection of independent binary lines**, so a user can hold `Yes Trump` *and* `No Biden` simultaneously, and each line has a full Yes/No two-sided book. MarketPips models it as one probability simplex where you pick a single winner. Both are valid market designs, but **only the event→binary-lines model reproduces Image 2**.
+**The decisive difference:** on Polymarket/Kalshi a multi-candidate market is a **collection of independent binary lines**, so a user can hold `Yes Trump` *and* `No Biden` simultaneously, and each line has a full Yes/No two-sided book. Kichiko models it as one probability simplex where you pick a single winner. Both are valid market designs, but **only the event→binary-lines model reproduces Image 2**.
 
 ---
 

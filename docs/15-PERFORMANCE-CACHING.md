@@ -1,7 +1,7 @@
 # Module 15 — Performance & Caching
 
 > Status: ☐ planned. This document is the authoritative, build-ready
-> specification for Module 15. It is scoped to the **actual** MarketPips stack —
+> specification for Module 15. It is scoped to the **actual** Kichiko stack —
 > Next.js 15 (App Router) on Fly.io behind Cloudflare, Supabase Postgres, and
 > (introduced here) Upstash Redis — and it builds directly on the primitives
 > already shipped in earlier modules (69 DB indexes, the `leaderboard`
@@ -12,7 +12,7 @@
 
 ## 1. Objective & scope
 
-Make MarketPips fast and cheap under East-African mobile-network conditions
+Make Kichiko fast and cheap under East-African mobile-network conditions
 (high latency, intermittent 3G, low-end Android devices) **without weakening the
 correctness guarantees** established in earlier modules: money still moves only
 inside the database, RLS is never bypassed for speed, and no user ever sees
