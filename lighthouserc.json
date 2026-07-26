@@ -10,8 +10,7 @@
       "numberOfRuns": 3,
       "settings": {
         "preset": "desktop",
-        "emulatedFormFactor": "mobile",
-        "throttlingMethod": "simulate"
+        "chromeFlags": "--no-sandbox --disable-gpu --headless=new"
       }
     },
     "assert": {
