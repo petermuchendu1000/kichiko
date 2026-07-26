@@ -1,9 +1,16 @@
 'use client'
 
 // components/portfolio/allocation-donut.tsx
-// Allocation of holdings by live market value. A single, calm visualization
-// (Tremor-style) rather than a wall of charts. Color is decorative only —
-// the legend carries the label + weight %, so meaning never depends on hue.
+// Portfolio allocation panel. A calm donut for the visual split, paired with a
+// concentration read-out — the way a desk actually judges a book: how many
+// positions, how big the largest is, and how diversified the whole is.
+//
+// Deliberately TITLE-FREE in the layout. Prediction-market positions have long
+// event titles (e.g. "Kenyan wins the 2026 Berlin Marathon?") that overflow a
+// narrow card and merely duplicate the holdings table beside it. So the legend
+// is replaced by concentration statistics; the market behind each slice is
+// available on hover (donut tooltip) and, in full, in the holdings table. This
+// makes the card robust to ANY title length.
 import { useMemo } from 'react'
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
 import { formatUSD } from '@/lib/utils'
@@ -52,15 +59,36 @@ function DonutTooltip({ active, payload }: TooltipProps) {
   )
 }
 
+/** One right-aligned statistic row. Labels are short + fixed, values are
+ *  tabular-nums, so the block can never overflow regardless of holdings. */
+function Stat({ label, value, hint }: { label: string; value: string; hint?: string }) {
+  return (
+    <div className="flex items-baseline justify-between gap-3">
+      <dt className="text-text-muted" title={hint}>
+        {label}
+      </dt>
+      <dd className="font-mono font-semibold tabular-nums text-text-primary">{value}</dd>
+    </div>
+  )
+}
+
 export function AllocationDonut({ slices }: AllocationDonutProps) {
-  const { data, total } = useMemo(() => {
+  const { data, total, hhi, effectiveN, largest } = useMemo(() => {
     const t = slices.reduce((s, x) => s + x.value, 0)
+    const d = slices
+      .filter((s) => s.value > 0)
+      .map((s) => ({ ...s, pct: t > 0 ? s.value / t : 0 }))
+      .sort((a, b) => b.value - a.value)
+    // Herfindahl-Hirschman index = Σ(weightᵢ²); 1 = a single holding, →0 as the
+    // book spreads out. Its reciprocal is the "effective number of holdings"
+    // (inverse-Simpson): the equally-weighted count with the same concentration.
+    const h = d.reduce((s, x) => s + x.pct * x.pct, 0)
     return {
+      data: d,
       total: t,
-      data: slices
-        .filter((s) => s.value > 0)
-        .map((s) => ({ ...s, pct: t > 0 ? s.value / t : 0 }))
-        .sort((a, b) => b.value - a.value),
+      hhi: h,
+      effectiveN: h > 0 ? 1 / h : 0,
+      largest: d.length ? d[0].pct : 0,
     }
   }, [slices])
 
@@ -73,12 +101,19 @@ export function AllocationDonut({ slices }: AllocationDonutProps) {
     )
   }
 
-  const summary = `Allocation by market value across ${data.length} positions totalling ${formatUSD(total)}.`
+  // Concentration read: single-name or HHI-heavy books are "Concentrated".
+  // Meaning is carried by the word (not hue), matching this card's philosophy.
+  const level =
+    data.length === 1 || hhi >= 0.5 ? 'Concentrated' : hhi >= 0.25 ? 'Moderate' : 'Diversified'
+
+  const summary = `Allocation by market value across ${data.length} position${
+    data.length === 1 ? '' : 's'
+  } totalling ${formatUSD(total)}. Largest ${(largest * 100).toFixed(1)}%, effective holdings ${effectiveN.toFixed(1)}.`
 
   return (
     <div className="card p-4">
       <h2 className="mb-3 text-sm font-semibold text-text-secondary">Allocation</h2>
-      <div className="flex flex-col items-center gap-4 sm:flex-row">
+      <div className="flex flex-col items-center gap-5 sm:flex-row sm:items-center">
         <div className="relative h-[176px] w-[176px] flex-none" role="img" aria-label={summary}>
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
@@ -107,21 +142,26 @@ export function AllocationDonut({ slices }: AllocationDonutProps) {
           </div>
         </div>
 
-        <ul className="w-full flex-1 space-y-1.5">
-          {data.slice(0, 6).map((s, i) => (
-            <li key={i} className="flex items-center gap-2 text-xs">
-              <span
-                className="h-2.5 w-2.5 flex-none rounded-[2px]"
-                style={{ background: PALETTE[i % PALETTE.length] }}
-                aria-hidden
-              />
-              <span className="min-w-0 flex-1 truncate text-text-secondary">{s.label}</span>
-              <span className="font-mono font-medium text-text-primary">
-                {(s.pct * 100).toFixed(1)}%
-              </span>
-            </li>
-          ))}
-        </ul>
+        {/* Concentration read-out — title-free, so it can't overflow. */}
+        <dl className="w-full min-w-0 flex-1 space-y-2.5 text-sm">
+          <Stat label="Positions" value={String(data.length)} />
+          <Stat
+            label="Largest holding"
+            value={`${(largest * 100).toFixed(1)}%`}
+            hint="Weight of the single biggest position by market value."
+          />
+          <Stat
+            label="Effective holdings"
+            value={effectiveN.toFixed(1)}
+            hint="1 / Σ(weightᵢ²) — the equally-weighted position count with the same concentration (inverse-Simpson / 1/HHI)."
+          />
+          <div className="flex items-baseline justify-between gap-3 border-t border-hairline pt-2.5">
+            <dt className="text-text-muted" title={`Herfindahl-Hirschman index ${hhi.toFixed(2)} (Σ of squared weights).`}>
+              Concentration
+            </dt>
+            <dd className="font-semibold text-text-primary">{level}</dd>
+          </div>
+        </dl>
       </div>
     </div>
   )
