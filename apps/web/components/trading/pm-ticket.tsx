@@ -1050,7 +1050,7 @@ export function PmTicket({
   // Measured ground truth: docs/design/PM-BUY-SHEET-MOBILE-MEASURED-2026-07.md
   if (isSheet) {
     const showToggle = !isMulti || indepMulti
-    const sym = currencyInfo?.symbol ?? '$'
+    const sym = currencyInfo?.symbol ?? 'KSh' // KES-pegged app; never fall back to $
     const chipLabel = (c: number) =>
       `+${sym}${c >= 1000 ? `${(c / 1000).toFixed(c % 1000 ? 1 : 0)}k` : c}`
     return (
