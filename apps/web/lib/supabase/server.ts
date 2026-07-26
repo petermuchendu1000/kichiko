@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import type { Database } from './database'
+import { resolveServiceRoleKey } from './service-key'
 
 export async function createClient() {
   const cookieStore = await cookies()
@@ -33,7 +34,7 @@ export async function createAdminClient() {
 
   return createServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    resolveServiceRoleKey(),
     {
       cookies: {
         getAll() {
