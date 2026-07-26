@@ -4,6 +4,7 @@
 // /api/admin/campaigns and /api/admin/campaigns/[id]/action.
 import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
+import { SHARE_PAYOUT_KES } from '@/lib/currency'
 
 const btn = 'rounded-lg px-2.5 py-1 text-xs font-semibold disabled:opacity-50'
 
@@ -27,8 +28,10 @@ export function CampaignCreate() {
           label: f.label,
           kind: f.kind,
           value_pct: Number(f.value_pct) || 0,
-          budget_usd: f.budget_usd.trim() === '' ? null : Number(f.budget_usd),
-          max_value_usd: f.max_value_usd.trim() === '' ? null : Number(f.max_value_usd),
+          // Admin enters KES; stored *_usd columns are peg units (1 unit = KSh
+          // SHARE_PAYOUT_KES), so convert KES -> peg on the way in.
+          budget_usd: f.budget_usd.trim() === '' ? null : Number(f.budget_usd) / SHARE_PAYOUT_KES,
+          max_value_usd: f.max_value_usd.trim() === '' ? null : Number(f.max_value_usd) / SHARE_PAYOUT_KES,
           max_redemptions: f.max_redemptions.trim() === '' ? null : Number(f.max_redemptions),
           per_user_limit: Number(f.per_user_limit) || 1,
         }),
@@ -66,9 +69,9 @@ export function CampaignCreate() {
         </select>
         <label className="flex flex-col gap-1 text-xs"><span className="text-muted-foreground">Value %</span>
           <input value={f.value_pct} onChange={(e) => set('value_pct', e.target.value)} className="rounded-lg border bg-background px-2 py-1.5 text-sm" /></label>
-        <label className="flex flex-col gap-1 text-xs"><span className="text-muted-foreground">Per-redemption cap USD</span>
+        <label className="flex flex-col gap-1 text-xs"><span className="text-muted-foreground">Per-redemption cap KES</span>
           <input value={f.max_value_usd} onChange={(e) => set('max_value_usd', e.target.value)} placeholder="blank = uncapped" className="rounded-lg border bg-background px-2 py-1.5 text-sm" /></label>
-        <label className="flex flex-col gap-1 text-xs"><span className="text-muted-foreground">Total budget USD</span>
+        <label className="flex flex-col gap-1 text-xs"><span className="text-muted-foreground">Total budget KES</span>
           <input value={f.budget_usd} onChange={(e) => set('budget_usd', e.target.value)} placeholder="blank = uncapped" className="rounded-lg border bg-background px-2 py-1.5 text-sm" /></label>
         <label className="flex flex-col gap-1 text-xs"><span className="text-muted-foreground">Max redemptions</span>
           <input value={f.max_redemptions} onChange={(e) => set('max_redemptions', e.target.value)} placeholder="blank = unlimited" className="rounded-lg border bg-background px-2 py-1.5 text-sm" /></label>

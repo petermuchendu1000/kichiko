@@ -1,5 +1,6 @@
 // app/admin/marketers/campaigns/page.tsx — Promo campaign management.
 import Link from 'next/link'
+import { kes } from '@/lib/admin/money'
 import { requirePageCapability } from '@/lib/admin/page-guard'
 import { budgetUtilisation, campaignEligibility, type CampaignLike } from '@/lib/admin/campaigns'
 import { describePlan } from '@/lib/admin/marketers'
@@ -47,8 +48,8 @@ export default async function CampaignsPage() {
                 <tr key={c.id} className="border-t hover:bg-muted/30">
                   <td className="px-3 py-2"><span className="font-mono font-semibold">{c.code}</span><div className="text-xs text-muted-foreground">{c.label}</div></td>
                   <td className="px-3 py-2"><KindBadge kind={c.kind} /></td>
-                  <td className="px-3 py-2 text-right tabular-nums">{c.value_pct}%{c.max_value_usd != null ? <div className="text-xs text-muted-foreground">≤ ${c.max_value_usd}</div> : null}</td>
-                  <td className="px-3 py-2 text-right tabular-nums">{c.budget_usd == null ? <span className="text-muted-foreground">∞</span> : <>${Number(c.spent_usd).toLocaleString()} / ${Number(c.budget_usd).toLocaleString()}<div className="mt-1 h-1 w-20 overflow-hidden rounded bg-muted"><div className="h-full bg-primary" style={{ width: `${Math.round(util * 100)}%` }} /></div></>}</td>
+                  <td className="px-3 py-2 text-right tabular-nums">{c.value_pct}%{c.max_value_usd != null ? <div className="text-xs text-muted-foreground">≤ {kes(c.max_value_usd)}</div> : null}</td>
+                  <td className="px-3 py-2 text-right tabular-nums">{c.budget_usd == null ? <span className="text-muted-foreground">∞</span> : <>{kes(c.spent_usd)} / {kes(c.budget_usd)}<div className="mt-1 h-1 w-20 overflow-hidden rounded bg-muted"><div className="h-full bg-primary" style={{ width: `${Math.round(util * 100)}%` }} /></div></>}</td>
                   <td className="px-3 py-2 text-right tabular-nums">{c.redemption_count}{c.max_redemptions != null ? ` / ${c.max_redemptions}` : ''}</td>
                   <td className="px-3 py-2 text-xs text-muted-foreground">{c.starts_at ? new Date(c.starts_at).toLocaleDateString() : '—'} → {c.ends_at ? new Date(c.ends_at).toLocaleDateString() : '—'}</td>
                   <td className="px-3 py-2"><CampaignStatusBadge status={c.status} />{!elig.eligible && c.status === 'active' && <div className="text-xs text-amber-600 dark:text-amber-400">{elig.reason}</div>}</td>

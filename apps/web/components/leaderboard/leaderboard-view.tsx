@@ -156,13 +156,11 @@ function StatChip({
   label,
   value,
   emphasise,
-  accent,
   tone,
 }: {
   label: string
   value: string
   emphasise: boolean
-  accent: string
   tone?: 'pos' | 'neg'
 }) {
   const valueColor = tone === 'pos' ? 'var(--yes-700)' : tone === 'neg' ? 'var(--no-700)' : 'var(--text-primary)'
@@ -173,7 +171,7 @@ function StatChip({
     >
       <span
         className="text-[10px] font-semibold uppercase tracking-wide"
-        style={{ color: emphasise ? accent : 'var(--text-muted)' }}
+        style={{ color: emphasise ? 'var(--text-primary)' : 'var(--text-secondary)' }}
       >
         {label}
       </span>
@@ -222,7 +220,7 @@ function PodiumCard({
       {/* Medal ribbon */}
       <span
         className="absolute -top-3 left-1/2 inline-flex -translate-x-1/2 items-center gap-1 rounded-pill px-2.5 py-0.5 text-xs font-bold shadow-sm"
-        style={{ background: medal.tint, color: medal.accent, border: `1px solid ${medal.ring}` }}
+        style={{ background: medal.tint, color: 'var(--text-primary)', border: `1px solid ${medal.ring}` }}
       >
         {isFirst && <Crown size={13} color={medal.accent} />}
         {medal.label}
@@ -288,13 +286,12 @@ function PodiumCard({
         className="mt-3 grid w-full grid-cols-3 gap-1 border-t pt-3"
         style={{ borderColor: 'var(--hairline)' }}
       >
-        <StatChip label="Vol" value={formatUsd(entry.total_volume_usd)} emphasise={metric === 'volume'} accent={medal.accent} />
-        <StatChip label="Win" value={formatPct(entry.win_rate)} emphasise={metric === 'winrate'} accent={medal.accent} />
+        <StatChip label="Vol" value={formatUsd(entry.total_volume_usd)} emphasise={metric === 'volume'} />
+        <StatChip label="Win" value={formatPct(entry.win_rate)} emphasise={metric === 'winrate'} />
         <StatChip
           label="P&L"
           value={formatSignedUsd(entry.profit_loss_usd)}
           emphasise={metric === 'pnl'}
-          accent={medal.accent}
           tone={pnlPositive ? 'pos' : 'neg'}
         />
       </div>

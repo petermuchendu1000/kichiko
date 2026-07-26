@@ -140,8 +140,12 @@ test.describe('Auth dialog — contract', () => {
   })
 })
 
-test.describe('Post-auth funding — exact-stake deposit prefill', () => {
-  test('open-deposit event prefills the sheet with the exact amount', async ({ page }) => {
+test.describe('Guest funding — deposit intent routes to auth first', () => {
+  // A logged-out user who triggers a deposit must be sent to auth first (no
+  // dead-end where they fill the sheet only to hit a 401). The amount is stashed
+  // (pendingDeposit) and the deposit sheet resumes after they sign in. These run
+  // guest, so we assert the AUTH dialog opens and the deposit input is absent.
+  test('open-deposit with an amount routes a guest to the auth dialog', async ({ page }) => {
     await page.goto('/help')
     await expect(async () => {
       await page.evaluate(() =>
@@ -151,11 +155,13 @@ test.describe('Post-auth funding — exact-stake deposit prefill', () => {
       )
       await expect(page.getByRole('dialog')).toBeVisible({ timeout: 1000 })
     }).toPass({ timeout: 15000 })
-    await expect(page.locator('#amount-kes')).toHaveValue('300')
-    await expect(page.getByRole('button', { name: /pay kes 300/i })).toBeVisible()
+    // The deposit sheet (with #amount-kes) must NOT appear for a guest.
+    await expect(page.locator('#amount-kes')).toHaveCount(0)
+    // The dialog is the auth dialog: it must present a sign-in affordance.
+    await expect(page.getByRole('dialog')).toContainText(/sign in|log in|deposit|continue|email|phone/i)
   })
 
-  test('open-deposit without an amount opens an empty sheet', async ({ page }) => {
+  test('open-deposit without an amount also routes a guest to auth', async ({ page }) => {
     await page.goto('/help')
     await expect(async () => {
       await page.evaluate(() =>
@@ -163,7 +169,7 @@ test.describe('Post-auth funding — exact-stake deposit prefill', () => {
       )
       await expect(page.getByRole('dialog')).toBeVisible({ timeout: 1000 })
     }).toPass({ timeout: 15000 })
-    await expect(page.locator('#amount-kes')).toHaveValue('')
+    await expect(page.locator('#amount-kes')).toHaveCount(0)
   })
 })
 

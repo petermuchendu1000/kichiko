@@ -1,5 +1,6 @@
 // app/admin/marketers/[id]/page.tsx — Marketer detail with live commission preview.
 import Link from 'next/link'
+import { kes2 } from '@/lib/admin/money'
 import { notFound } from 'next/navigation'
 import { requirePageCapability } from '@/lib/admin/page-guard'
 import { fetchMarketerAttribution, commissionUsd, normalizePlan, describePlan } from '@/lib/admin/marketers'
@@ -68,15 +69,15 @@ export default async function MarketerDetail({ params }: { params: Promise<{ id:
       <div className="card-grid grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <Stat label="Referred users" value={lifetimeAttr.referredUsers.toLocaleString()} hint={`${p?.referral_count ?? 0} on profile`} />
         <Stat label="Activations (lifetime)" value={lifetimeAttr.activations.toLocaleString()} hint="referred users with a deposit" />
-        <Stat label="Revenue base (lifetime)" value={`$${lifetimeAttr.revenueBaseUsd.toLocaleString(undefined, { maximumFractionDigits: 2 })}`} hint="platform fees from referred bets" />
+        <Stat label="Revenue base (lifetime)" value={kes2(lifetimeAttr.revenueBaseUsd)} hint="platform fees from referred bets" />
       </div>
 
       <section className="rounded-xl border border-primary/30 bg-primary/5 p-4">
         <h3 className="text-sm font-semibold">Commission preview</h3>
         <p className="text-xs text-muted-foreground">Estimated from current plan &amp; attribution. Actual accrual is computed at payout time.</p>
         <div className="card-grid mt-3 grid gap-4 sm:grid-cols-2">
-          <Stat label={`Previous month (${period.start} → ${period.end})`} value={`$${periodCommission.toLocaleString(undefined, { maximumFractionDigits: 2 })}`} hint={`${periodAttr.activations} activations · $${periodAttr.revenueBaseUsd.toFixed(2)} base`} />
-          <Stat label="Lifetime estimate" value={`$${lifetimeCommission.toLocaleString(undefined, { maximumFractionDigits: 2 })}`} />
+          <Stat label={`Previous month (${period.start} → ${period.end})`} value={kes2(periodCommission)} hint={`${periodAttr.activations} activations · ${kes2(periodAttr.revenueBaseUsd)} base`} />
+          <Stat label="Lifetime estimate" value={kes2(lifetimeCommission)} />
         </div>
       </section>
 

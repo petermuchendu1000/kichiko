@@ -109,7 +109,7 @@ export default async function LedgerPage({
               <Th>Type</Th>
               <Th>Status</Th>
               <Th num>Amount</Th>
-              <Th num>USD</Th>
+              <Th num>KES</Th>
               <Th>Provider</Th>
               <Th>Reference</Th>
             </tr>

@@ -1,5 +1,6 @@
 // app/admin/creators/[id]/page.tsx — Creator detail: profile, tier, stats, controls.
 import Link from 'next/link'
+import { kes2 } from '@/lib/admin/money'
 import { notFound } from 'next/navigation'
 import { requirePageCapability } from '@/lib/admin/page-guard'
 import { fetchCreatorStats, effectiveRewardPct, effectiveMaxOpenMarkets, formatRewardPct } from '@/lib/admin/creators'
@@ -66,7 +67,7 @@ export default async function CreatorDetail({ params }: { params: Promise<{ id: 
         <Stat label="Events authored" value={stats.marketsAuthored.toLocaleString()} />
         <Stat label="Open events" value={`${stats.openMarkets} / ${effMax}`} />
         <Stat label="Effective reward" value={formatRewardPct(effReward)} />
-        <Stat label="Lifetime reward" value={`$${stats.lifetimeRewardUsd.toLocaleString(undefined, { maximumFractionDigits: 2 })}`} />
+        <Stat label="Lifetime reward" value={kes2(stats.lifetimeRewardUsd)} />
       </div>
 
       <div className="flex items-center justify-end">

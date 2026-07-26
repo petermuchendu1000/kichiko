@@ -1,6 +1,7 @@
 // app/admin/users/[id]/page.tsx — User detail: profile, wallet, KYC, activity,
 // roles, notes, and audited operator actions (all capability-scoped).
 import { notFound } from 'next/navigation'
+import { kes } from '@/lib/admin/money'
 import { requirePageCapability } from '@/lib/admin/page-guard'
 import {
   roleHasCapability,
@@ -95,8 +96,8 @@ export default async function UserDetailPage({ params }: { params: Promise<{ id:
                 </DefinitionList>
                 <DefinitionList>
                   <Def label="Total bets">{String(profile.total_bets ?? 0)}</Def>
-                  <Def label="Volume USD">{num(profile.total_volume_usd)}</Def>
-                  <Def label="P/L USD"><span className={Number(profile.profit_loss_usd ?? 0) >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'}>{num(profile.profit_loss_usd)}</span></Def>
+                  <Def label="Volume">{kes(profile.total_volume_usd)}</Def>
+                  <Def label="P/L"><span className={Number(profile.profit_loss_usd ?? 0) >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'}>{kes(profile.profit_loss_usd)}</span></Def>
                   <Def label="Open positions">{String(positionsCount.count ?? 0)}</Def>
                   <Def label="Joined">{profile.created_at ? new Date(profile.created_at).toLocaleDateString() : '—'}</Def>
                   <Def label="Last login">{profile.last_login_at ? new Date(profile.last_login_at).toLocaleString() : '—'}</Def>

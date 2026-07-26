@@ -1,5 +1,6 @@
 // app/admin/users/page.tsx — User directory: search / filter / segment / export.
 import Link from 'next/link'
+import { kes } from '@/lib/admin/money'
 import { requirePageCapability } from '@/lib/admin/page-guard'
 import {
   parseUserListParams,
@@ -94,7 +95,7 @@ export default async function UsersPage({
               <Th>Status</Th>
               <Th>KYC</Th>
               <Th>Country</Th>
-              <Th num sortHref={sortHref('total_volume_usd')} active={params.sort === 'total_volume_usd'}>Volume USD</Th>
+              <Th num sortHref={sortHref('total_volume_usd')} active={params.sort === 'total_volume_usd'}>Volume KES</Th>
               <Th sortHref={sortHref('created_at')} active={params.sort === 'created_at'}>Joined</Th>
             </tr>
           </thead>
@@ -113,7 +114,7 @@ export default async function UsersPage({
                 <Td><StatusBadge status={u.account_status} /></Td>
                 <Td><KycBadge status={u.kyc_status} /></Td>
                 <Td><span className="text-[var(--text-secondary)]">{u.country_code ?? '—'}</span></Td>
-                <Td num>{(u.total_volume_usd ?? 0).toLocaleString(undefined, { maximumFractionDigits: 2 })}</Td>
+                <Td num>{kes(u.total_volume_usd)}</Td>
                 <Td><span className="text-xs text-[var(--text-muted)]">{u.created_at ? new Date(u.created_at).toLocaleDateString() : '—'}</span></Td>
               </tr>
             ))}

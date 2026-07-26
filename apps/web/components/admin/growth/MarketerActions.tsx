@@ -5,6 +5,7 @@
 // /api/admin/marketers/[id]/action.
 import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
+import { SHARE_PAYOUT_KES } from '@/lib/currency'
 
 const btn = 'rounded-lg px-2.5 py-1 text-xs font-semibold disabled:opacity-50'
 
@@ -102,7 +103,8 @@ export function MarketerPlanForm({
 }) {
   const { post, busy, err } = useAction(userId)
   const [model, setModel] = useState(current.model)
-  const [cpa, setCpa] = useState(String(current.cpa_usd))
+  // CPA is stored as a peg unit (*_usd); show/edit it in KES.
+  const [cpa, setCpa] = useState(String(current.cpa_usd * SHARE_PAYOUT_KES))
   const [rev, setRev] = useState(String(current.revshare_pct))
   const [hold, setHold] = useState(String(current.hold_days))
 
@@ -123,7 +125,7 @@ export function MarketerPlanForm({
           <input value={hold} onChange={(e) => setHold(e.target.value)} className="rounded-lg border bg-background px-2 py-1.5 text-sm" />
         </label>
         <label className="flex flex-col gap-1 text-xs">
-          <span className="text-muted-foreground">CPA per activation (USD)</span>
+          <span className="text-muted-foreground">CPA per activation (KES)</span>
           <input value={cpa} onChange={(e) => setCpa(e.target.value)} disabled={model === 'revshare'} className="rounded-lg border bg-background px-2 py-1.5 text-sm disabled:opacity-50" />
         </label>
         <label className="flex flex-col gap-1 text-xs">
@@ -137,7 +139,7 @@ export function MarketerPlanForm({
           onClick={() =>
             post({
               action: 'update_plan',
-              plan: { model, cpa_usd: Number(cpa) || 0, revshare_pct: Number(rev) || 0, hold_days: Number(hold) || 0 },
+              plan: { model, cpa_usd: (Number(cpa) || 0) / SHARE_PAYOUT_KES, revshare_pct: Number(rev) || 0, hold_days: Number(hold) || 0 },
               hold_days: Number(hold) || 0,
             })
           }

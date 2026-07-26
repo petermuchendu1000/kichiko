@@ -1,5 +1,6 @@
 // app/admin/marketers/payouts/[id]/page.tsx — Payout run detail & item ledger.
 import Link from 'next/link'
+import { kes2 } from '@/lib/admin/money'
 import { notFound } from 'next/navigation'
 import { requirePageCapability } from '@/lib/admin/page-guard'
 import { runActions, summariseRun, type ItemLike, type RunStatus } from '@/lib/admin/payouts'
@@ -38,7 +39,7 @@ export default async function PayoutRunDetail({ params }: { params: Promise<{ id
 
   const summary = summariseRun((items ?? []) as unknown as ItemLike[])
   const actions = runActions(run.status as RunStatus)
-  const usd = (n: number | string) => `$${Number(n).toLocaleString(undefined, { maximumFractionDigits: 2 })}`
+  const usd = (n: number | string) => kes2(n)
 
   return (
     <div className="flex flex-col gap-6">
