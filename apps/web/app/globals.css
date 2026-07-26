@@ -313,12 +313,22 @@
     background:transparent; white-space:nowrap; cursor:pointer;
     transition:background-color .15s cubic-bezier(.4,0,.2,1), color .15s cubic-bezier(.4,0,.2,1);
   }
-  .pill-yes { color:#30A159; background:rgba(48,161,89,0.15); }
-  .pill-yes:hover:not(:disabled) { background:rgba(48,161,89,0.25); }
-  .pill-yes.armed { color:#fff; background:#30A159; }
-  .pill-no  { color:#E23939; background:rgba(226,57,57,0.09); }
-  .pill-no:hover:not(:disabled) { background:rgba(226,57,57,0.13); }
-  .pill-no.armed  { color:#fff; background:#E23939; }
+  /* a11y (WCAG 2.1 AA) — the resting pill TEXT was the base --yes/--no on the
+     tint, which failed small-text contrast (measured 2.81:1 Yes / 3.79:1 No on
+     the tint over a white card). Switch the resting text to the theme-aware
+     --yes-700/--no-700 tokens, which the .dark block re-points to lightened
+     shades, so the label clears 4.5:1 on the tint in BOTH themes (light 4.56/
+     5.14, dark 5.94/6.17). The resting TINT backgrounds keep PM's exact values.
+     Hover + armed flip to a solid dark shade with white text — a fixed,
+     theme-independent 5.35:1 (Yes) / 5.84:1 (No). Base --yes/--no as the armed
+     fill failed (3.3:1 / 4.3:1), so armed pins the -700 hexes directly. This
+     also aligns the pills with the platform's other buy buttons. */
+  .pill-yes { color:var(--yes-700); background:rgba(48,161,89,0.15); }
+  .pill-yes:hover:not(:disabled) { color:#fff; background:#1F7A44; }
+  .pill-yes.armed { color:#fff; background:#1F7A44; }
+  .pill-no  { color:var(--no-700); background:rgba(226,57,57,0.09); }
+  .pill-no:hover:not(:disabled) { color:#fff; background:#C61D1D; }
+  .pill-no.armed  { color:#fff; background:#C61D1D; }
   .pill-side:disabled { opacity:0.55; cursor:not-allowed; }
 
   /* ---- Badges ---- */
