@@ -7,9 +7,21 @@ import { test, expect } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 
 // Key public journeys every release must keep accessible.
+//
+// The market DETAIL page is included because it hosts the revenue-critical
+// trading UI (the multiple-choice candidate board + Buy Yes/No pills). That
+// component previously carried real violations (a nested role="radio" wrapping
+// the Buy buttons, and sub-AA pill contrast) that shipped precisely because no
+// gate scanned this route. We pin a live multi-outcome CLOB market so the board
+// actually renders; the slug is env-overridable and, like the other DB-backed
+// pages below, the test skips (not fails) if the row can't SSR in this
+// environment — a missing DB is an environment problem, not an a11y defect.
+const A11Y_MARKET_SLUG = process.env.E2E_A11Y_MARKET_SLUG || 'ke-2027-president'
+
 const KEY_PAGES: { name: string; path: string }[] = [
   { name: 'Home', path: '/' },
   { name: 'Markets', path: '/markets' },
+  { name: 'Market detail (multi-outcome trading)', path: `/markets/${A11Y_MARKET_SLUG}` },
   { name: 'Leaderboard', path: '/leaderboard' },
   { name: 'Search', path: '/search' },
   { name: 'Sign in', path: '/auth/login' },

@@ -1413,7 +1413,7 @@ export function PmTicket({
                     className="rounded-lg py-2 text-sm font-semibold transition-colors"
                     style={
                       side === s
-                        ? { background: s === 'yes' ? 'var(--yes)' : 'var(--no)', color: '#fff' }
+                        ? { background: s === 'yes' ? 'var(--yes-solid)' : 'var(--no-solid)', color: '#fff' }
                         : { background: 'var(--surface-2)', color: 'var(--text-3)' }
                     }
                   >
@@ -1596,7 +1596,7 @@ export function PmTicket({
                     onClick={handleTrade}
                     disabled={!canSubmit}
                     className="btn mt-4 h-[43px] w-full rounded-md text-sm font-semibold text-white transition-colors disabled:opacity-50"
-                    style={{ background: 'var(--no)' }}
+                    style={{ background: 'var(--no-solid)' }}
                   >
                     {loading ? 'Placing…' : 'Sell'}
                   </button>
@@ -1674,7 +1674,7 @@ export function PmTicket({
                   className="flex items-center justify-center gap-1.5 rounded-lg py-3 text-[15px] font-semibold transition-colors"
                   style={
                     side === 'yes'
-                      ? { background: 'var(--yes)', color: '#fff' }
+                      ? { background: 'var(--yes-solid)', color: '#fff' }
                       : { background: 'var(--surface-2)', color: 'var(--text-3)' }
                   }
                 >
@@ -1688,7 +1688,7 @@ export function PmTicket({
                   className="flex items-center justify-center gap-1.5 rounded-lg py-3 text-[15px] font-semibold transition-colors"
                   style={
                     side === 'no'
-                      ? { background: 'var(--no)', color: '#fff' }
+                      ? { background: 'var(--no-solid)', color: '#fff' }
                       : { background: 'var(--surface-2)', color: 'var(--text-3)' }
                   }
                 >

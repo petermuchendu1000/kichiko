@@ -190,7 +190,8 @@ function BookRow({ level, tone, pill }: { level: BookLevel; tone: 'yes' | 'no'; 
   const price = dualPriceLabel(level.price)
   const barColor = tone === 'yes' ? 'var(--yes-tint)' : 'var(--no-tint)'
   const priceColor = tone === 'yes' ? 'text-yes' : 'text-no'
-  const pillBg = tone === 'yes' ? 'bg-yes' : 'bg-no'
+  // a11y: white text on base yes/no fails AA; use the accessible solid fills.
+  const pillBg = tone === 'yes' ? 'bg-[color:var(--yes-solid)]' : 'bg-[color:var(--no-solid)]'
   return (
     <div className="relative flex h-9 items-center justify-between overflow-hidden px-1">
       {/* depth bar */}

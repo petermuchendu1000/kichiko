@@ -18,13 +18,23 @@ const A_MARKET_SLUG = process.env.E2E_MARKET_SLUG || 'ke-ruto-reelection-2027'
 
 async function openAuth(page: Page, detail: Record<string, unknown> = { mode: 'login' }) {
   // Retry the dispatch until the dialog appears — the listener attaches in a
-  // useEffect after hydration, so a single early dispatch can be missed.
+  // useEffect after hydration, so a single early dispatch can be missed. Under
+  // CI the suite runs fullyParallel across an emulated mobile device, so
+  // /help hydration (and thus the listener attach) can be delayed by CPU
+  // contention. Give the retry loop a CI-aware budget — well within the 120s
+  // test timeout — so the open lands on the FIRST attempt instead of leaning on
+  // the config's retries:1 to self-heal.
+  const openTimeout = process.env.CI ? 30_000 : 15_000
   await expect(async () => {
     await page.evaluate((d) => {
       window.dispatchEvent(new CustomEvent('marketpips:open-auth', { detail: d }))
     }, detail)
     await expect(page.getByRole('dialog')).toBeVisible({ timeout: 1000 })
-  }).toPass({ timeout: 15000 })
+  }).toPass({ timeout: openTimeout })
+  // The dialog is open; wait until its interactive content (the mode tablist)
+  // has mounted so callers never race a half-hydrated dialog — the source of the
+  // mobile parallel-load flake at the "Create account" tab switch.
+  await expect(page.getByRole('tablist', { name: /authentication mode/i })).toBeVisible()
 }
 
 test.describe('Auth dialog — contract', () => {

@@ -28,6 +28,13 @@
     /* ---- Market semantics (desaturated — never neon) ---- */
     --yes:#30A159; --yes-700:#1F7A44; --yes-tint:#ECF9F1;
     --no:#E23939;  --no-700:#C61D1D;  --no-tint:#FCEBEB;
+    /* Accessible SOLID buy fills — the single source of truth for a filled
+       green/red control with WHITE text. White on base --yes/--no fails WCAG
+       AA (3.3:1 / 4.3:1); these darker shades clear it (Yes 5.35:1, No 5.84:1)
+       and are theme-INDEPENDENT (contrast is intrinsic to fill+white), so they
+       hold in both light and dark. Use for armed pills and selected Yes/No
+       toggles instead of the base fills. */
+    --yes-solid:#1F7A44; --no-solid:#C61D1D;
     --warn:#C98A1E;
     /* a11y semantic TEXT colors (WCAG 2.1 AA >=4.5:1 as small text on every
        themed surface). Base --yes/--no stay for FILLS/lines/dots (graphics,
@@ -313,12 +320,22 @@
     background:transparent; white-space:nowrap; cursor:pointer;
     transition:background-color .15s cubic-bezier(.4,0,.2,1), color .15s cubic-bezier(.4,0,.2,1);
   }
-  .pill-yes { color:#30A159; background:rgba(48,161,89,0.15); }
-  .pill-yes:hover:not(:disabled) { background:rgba(48,161,89,0.25); }
-  .pill-yes.armed { color:#fff; background:#30A159; }
-  .pill-no  { color:#E23939; background:rgba(226,57,57,0.09); }
-  .pill-no:hover:not(:disabled) { background:rgba(226,57,57,0.13); }
-  .pill-no.armed  { color:#fff; background:#E23939; }
+  /* a11y (WCAG 2.1 AA) — the resting pill TEXT was the base --yes/--no on the
+     tint, which failed small-text contrast (measured 2.81:1 Yes / 3.79:1 No on
+     the tint over a white card). Switch the resting text to the theme-aware
+     --yes-700/--no-700 tokens, which the .dark block re-points to lightened
+     shades, so the label clears 4.5:1 on the tint in BOTH themes (light 4.56/
+     5.14, dark 5.94/6.17). The resting TINT backgrounds keep PM's exact values.
+     Hover + armed flip to a solid dark shade with white text — a fixed,
+     theme-independent 5.35:1 (Yes) / 5.84:1 (No). Base --yes/--no as the armed
+     fill failed (3.3:1 / 4.3:1), so armed pins the -700 hexes directly. This
+     also aligns the pills with the platform's other buy buttons. */
+  .pill-yes { color:var(--yes-700); background:rgba(48,161,89,0.15); }
+  .pill-yes:hover:not(:disabled) { color:#fff; background:var(--yes-solid); }
+  .pill-yes.armed { color:#fff; background:var(--yes-solid); }
+  .pill-no  { color:var(--no-700); background:rgba(226,57,57,0.09); }
+  .pill-no:hover:not(:disabled) { color:#fff; background:var(--no-solid); }
+  .pill-no.armed  { color:#fff; background:var(--no-solid); }
   .pill-side:disabled { opacity:0.55; cursor:not-allowed; }
 
   /* ---- Badges ---- */
@@ -381,8 +398,11 @@
   }
   .cta-yes:active, .cta-no:active { transform:scale(0.99); }
   .cta-yes:hover:not(:disabled), .cta-no:hover:not(:disabled) { filter:brightness(0.96); }
-  .cta-yes { background:var(--yes); }
-  .cta-no  { background:var(--no); }
+  /* a11y: white text on base --yes/--no fails AA (3.3:1 / 4.3:1). Use the
+     accessible solid fills (5.35:1 / 5.84:1) — the :hover brightness(0.96) then
+     only deepens them further. */
+  .cta-yes { background:var(--yes-solid); }
+  .cta-no  { background:var(--no-solid); }
   .cta-yes:disabled, .cta-no:disabled { opacity:0.5; cursor:not-allowed; }
   .btn-sm { font-size:13px; min-height:34px; padding:0 14px; }
   /* Square icon-only button (header action cluster, chart controls). */
