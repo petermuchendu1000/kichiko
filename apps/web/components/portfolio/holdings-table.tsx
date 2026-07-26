@@ -157,7 +157,7 @@ export function HoldingsTable({ holdings }: HoldingsTableProps) {
                         </div>
                         <Link
                           href={`/markets/${h.slug}`}
-                          className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-pip-500 hover:underline"
+                          className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-pip-text hover:underline"
                         >
                           Open market <IconArrowRight size={13} />
                         </Link>

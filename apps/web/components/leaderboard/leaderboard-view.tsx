@@ -217,10 +217,15 @@ function PodiumCard({
         boxShadow: isFirst ? 'var(--e2)' : 'var(--e1)',
       }}
     >
-      {/* Medal ribbon */}
+      {/* Medal ribbon. Sits on the card's top edge, so it must read as a
+          distinct chip ON TOP of the border — not blend into it. It previously
+          used medal.tint, the SAME colour as the #1 card's tinted top gradient,
+          so the gold top border appeared to run straight through the "1st"
+          label. Give it an opaque surface fill + z-10 so the card border stops
+          cleanly at the chip's rounded edges. */}
       <span
-        className="absolute -top-3 left-1/2 inline-flex -translate-x-1/2 items-center gap-1 rounded-pill px-2.5 py-0.5 text-xs font-bold shadow-sm"
-        style={{ background: medal.tint, color: 'var(--text-primary)', border: `1px solid ${medal.ring}` }}
+        className="absolute -top-3 left-1/2 z-10 inline-flex -translate-x-1/2 items-center gap-1 rounded-pill px-2.5 py-0.5 text-xs font-bold shadow-sm"
+        style={{ background: 'var(--surface)', color: 'var(--text-primary)', border: `1px solid ${medal.ring}` }}
       >
         {isFirst && <Crown size={13} color={medal.accent} />}
         {medal.label}

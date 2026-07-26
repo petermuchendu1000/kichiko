@@ -61,6 +61,19 @@ test.describe('KES currency system (no $ money / ¢ price leaks)', () => {
     expect(text, 'detail shows probability %').toMatch(/\d+%/)
   })
 
+  test('leaderboard renders no $ money / ¢ price leaks', async ({ page }) => {
+    // Standings are money-bearing (volume, P&L). Leaderboard shows trader names
+    // + metrics only (no event titles that legitimately quote USD), so here we
+    // can flag ANY comma-grouped/compact "$" amount, not just "$… Vol". Assert
+    // negatives only so an empty board in a data-less CI env can't false-fail.
+    await page.goto('/leaderboard', { waitUntil: 'domcontentloaded' })
+    const text = await visibleText(page)
+    expect(text, 'leaderboard must not render a "$" money amount (KSh only)').not.toMatch(
+      /\$\s?\d[\d.,]*\s?[MBK]?/
+    )
+    expect(text, 'leaderboard must not render cent (¢) prices').not.toMatch(CENT_PRICE)
+  })
+
   test('KES figures are realistic (no billion-shilling poisoning)', async ({ page }) => {
     await page.goto('/', { waitUntil: 'domcontentloaded' })
     const home = await visibleText(page)

@@ -149,6 +149,9 @@ export function SettingsView() {
   const [currency, setCurrency] = useState('')
   const [savingAccount, setSavingAccount] = useState(false)
   const [accountBanner, setAccountBanner] = useState<Banner>(null)
+  const [avatarUrl, setAvatarUrl] = useState('')
+  const [userId, setUserId] = useState('')
+  const [uploadingAvatar, setUploadingAvatar] = useState(false)
 
   // Security form state
   const [pw, setPw] = useState('')
@@ -176,6 +179,9 @@ export function SettingsView() {
           setPhone(p.phone_number ?? '')
           setCountry(p.country_code ?? '')
           setCurrency(p.preferred_currency ?? '')
+          setAvatarUrl(p.avatar_url ?? '')
+          const { data: u } = await supabase.auth.getUser()
+          if (active && u?.user) setUserId(u.user.id)
         }
       } finally {
         if (active) setLoading(false)
@@ -184,6 +190,8 @@ export function SettingsView() {
     return () => {
       active = false
     }
+    // supabase client is stable across renders; intentionally run once on mount.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const saveAccount = async (e: React.FormEvent) => {
@@ -211,9 +219,73 @@ export function SettingsView() {
         setAccountBanner({ kind: 'err', text: json.error ?? 'Could not save your profile.' })
       }
     } catch {
-      setAccountBanner({ kind: 'err', text: 'Network error — please try again.' })
+      setAccountBanner({ kind: 'err', text: 'Network error. Please try again.' })
     } finally {
       setSavingAccount(false)
+    }
+  }
+
+  // Upload a new profile photo to the owner-scoped `avatars` bucket, then
+  // persist its public URL on the profile. Path is prefixed with the user id so
+  // the storage RLS policy authorises the write.
+  const uploadAvatar = async (file: File) => {
+    setAccountBanner(null)
+    if (!userId) {
+      setAccountBanner({ kind: 'err', text: 'Still loading your account. Please try again in a moment.' })
+      return
+    }
+    if (!/^image\/(jpeg|png|webp)$/.test(file.type)) {
+      setAccountBanner({ kind: 'err', text: 'Use a JPEG, PNG or WebP image.' })
+      return
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      setAccountBanner({ kind: 'err', text: 'Image must be 2MB or smaller.' })
+      return
+    }
+    setUploadingAvatar(true)
+    try {
+      const ext = file.type === 'image/png' ? 'png' : file.type === 'image/webp' ? 'webp' : 'jpg'
+      const path = `${userId}/avatar-${Date.now()}.${ext}`
+      const { error: upErr } = await supabase.storage
+        .from('avatars')
+        .upload(path, file, { upsert: true, cacheControl: '3600', contentType: file.type })
+      if (upErr) throw new Error(upErr.message)
+      const publicUrl = supabase.storage.from('avatars').getPublicUrl(path).data.publicUrl
+      const res = await fetch('/api/profile', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ avatar_url: publicUrl }),
+      })
+      const json = await res.json()
+      if (!res.ok) throw new Error(json.error ?? 'Could not save your photo.')
+      setProfile(json.profile)
+      setAvatarUrl(publicUrl)
+      setAccountBanner({ kind: 'ok', text: 'Profile photo updated.' })
+    } catch (err) {
+      setAccountBanner({ kind: 'err', text: err instanceof Error ? err.message : 'Upload failed. Please try again.' })
+    } finally {
+      setUploadingAvatar(false)
+    }
+  }
+
+  const removeAvatar = async () => {
+    setAccountBanner(null)
+    setUploadingAvatar(true)
+    try {
+      const res = await fetch('/api/profile', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ avatar_url: '' }),
+      })
+      const json = await res.json()
+      if (!res.ok) throw new Error(json.error ?? 'Could not remove your photo.')
+      setProfile(json.profile)
+      setAvatarUrl('')
+      setAccountBanner({ kind: 'ok', text: 'Profile photo removed.' })
+    } catch (err) {
+      setAccountBanner({ kind: 'err', text: err instanceof Error ? err.message : 'Could not remove your photo.' })
+    } finally {
+      setUploadingAvatar(false)
     }
   }
 
@@ -286,6 +358,53 @@ export function SettingsView() {
       {/* ACCOUNT */}
       <SectionCard icon={<IconUser size={17} />} title="Account" desc="Your public identity and contact details.">
         <form onSubmit={saveAccount} className="space-y-4">
+          {/* Profile photo — upload / replace / remove. */}
+          <div className="flex items-center gap-4">
+            <span className="relative inline-flex h-16 w-16 flex-none overflow-hidden rounded-full border border-hairline bg-surface-2">
+              {avatarUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={avatarUrl} alt="Your avatar" className="h-full w-full object-cover" />
+              ) : (
+                <span className="flex h-full w-full items-center justify-center text-text-muted">
+                  <IconUser size={26} />
+                </span>
+              )}
+            </span>
+            <div className="flex min-w-0 flex-col gap-1.5">
+              <div className="flex flex-wrap items-center gap-2">
+                <label
+                  className={`btn btn-ghost btn-sm inline-flex cursor-pointer items-center gap-1.5 ${
+                    uploadingAvatar ? 'pointer-events-none opacity-60' : ''
+                  }`}
+                >
+                  {uploadingAvatar ? 'Uploading…' : avatarUrl ? 'Change photo' : 'Upload photo'}
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    className="sr-only"
+                    disabled={uploadingAvatar}
+                    onChange={(e) => {
+                      const f = e.target.files?.[0]
+                      if (f) uploadAvatar(f)
+                      e.target.value = ''
+                    }}
+                  />
+                </label>
+                {avatarUrl && (
+                  <button
+                    type="button"
+                    onClick={removeAvatar}
+                    disabled={uploadingAvatar}
+                    className="btn btn-ghost btn-sm text-text-secondary"
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+              <p className="text-xs text-text-muted">JPEG, PNG or WebP, up to 2MB.</p>
+            </div>
+          </div>
+
           <div className="grid gap-4 sm:grid-cols-2">
             <Field label="Display name" htmlFor="display_name">
               <input
