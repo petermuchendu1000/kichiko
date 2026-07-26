@@ -139,6 +139,12 @@ export const clobOrderSchema = z
     message: 'market orders need size or amount_local',
     path: ['size'],
   })
+  // Reject a past/instant expiry up front so it never rests with locked escrow
+  // waiting for the sweeper (audit #5). Future expiries are swept on lapse.
+  .refine((d) => d.expires_at == null || Date.parse(d.expires_at) > Date.now(), {
+    message: 'expires_at must be in the future',
+    path: ['expires_at'],
+  })
 
 export type ClobOrderInput = z.infer<typeof clobOrderSchema>
 
