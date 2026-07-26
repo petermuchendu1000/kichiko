@@ -8,7 +8,7 @@ import { IconLeaderboard } from '@/components/ui/icons'
 export const metadata: Metadata = {
   title: 'Leaderboard',
   description:
-    'The top players on MarketPips, ranked by how much they have traded, their win rate, and profit or loss (all-time, this month and this week).',
+    'The top players on Kichiko, ranked by how much they have traded, their win rate, and profit or loss (all-time, this month and this week).',
   alternates: { canonical: '/leaderboard' },
 }
 
@@ -28,7 +28,7 @@ export default function LeaderboardPage() {
             Leaderboard
           </h1>
           <p className="mt-0.5 text-sm" style={{ color: 'var(--text-muted)' }}>
-            The sharpest traders on MarketPips, ranked by the numbers.
+            The sharpest traders on Kichiko, ranked by the numbers.
           </p>
         </div>
       </header>

@@ -176,7 +176,7 @@ export function ShareChartModal({ open, onClose, userName, userId, profitLoss, r
             {/* Brand mark + wordmark */}
             <g transform="translate(48,44)">
               <path d="M0 6 L20 0 L20 26 L0 32 Z M24 0 L44 6 L44 32 L24 26 Z" fill="#8FB0FA" opacity="0.95" />
-              <text x="58" y="24" fill="#E7EAEE" fontFamily="Inter, sans-serif" fontSize="26" fontWeight="700">MarketPips</text>
+              <text x="58" y="24" fill="#E7EAEE" fontFamily="Inter, sans-serif" fontSize="26" fontWeight="700">Kichiko</text>
             </g>
             {/* Range label top-right */}
             <text x={CARD_W - 48} y="66" textAnchor="end" fill="#8A93A0" fontFamily="Inter, sans-serif" fontSize="24" fontWeight="500">{rangeLabel}</text>

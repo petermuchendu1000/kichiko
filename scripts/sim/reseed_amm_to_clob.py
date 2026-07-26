@@ -311,7 +311,7 @@ def _catalog_markets(cur) -> list[tuple]:
 def _usd_makers(cur, n=40):
     cur.execute("""select u.id, w.id from auth.users u
                    join wallets w on w.user_id=u.id and w.currency='KES'
-                   where u.email like '%%@demo.marketpips' order by u.created_at limit %s""", (n,))
+                   where u.email like '%%@demo.kichiko' order by u.created_at limit %s""", (n,))
     rows = cur.fetchall()
     if not rows:
         cur.execute("""select u.id, w.id from auth.users u
@@ -324,7 +324,7 @@ def _usd_makers(cur, n=40):
 def _kes_traders(cur, n=60):
     cur.execute("""select u.id, w.id from auth.users u
                    join wallets w on w.user_id=u.id and w.currency='KES'
-                   where u.email like '%%@demo.marketpips' order by u.created_at limit %s""", (n,))
+                   where u.email like '%%@demo.kichiko' order by u.created_at limit %s""", (n,))
     return cur.fetchall()
 
 

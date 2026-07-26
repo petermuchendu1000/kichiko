@@ -195,7 +195,7 @@ export function PriceChart({ data, currentYes = 0.5, volumeUsd = 0, resolutionDa
             aria-hidden
             className="pointer-events-none absolute right-3 top-2 select-none font-display text-sm font-semibold text-text-muted opacity-30"
           >
-            MarketPips
+            Kichiko
           </span>
         )}
         <ResponsiveContainer width="100%" height="100%">

@@ -1,5 +1,5 @@
 // ============================================================
-// MarketPips — Canonical currency & FX module (single source of truth)
+// Kichiko — Canonical currency & FX module (single source of truth)
 // ------------------------------------------------------------
 // FX MODEL
 //   `exchange_rates` stores rows of (from_currency -> USD) where

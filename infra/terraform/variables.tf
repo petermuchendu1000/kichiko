@@ -1,4 +1,4 @@
-# variables.tf — inputs for the MarketPips edge + host IaC (Module 16.4).
+# variables.tf — inputs for the Kichiko edge + host IaC (Module 16.4).
 # Secret values are supplied via TF_VAR_* env in CI (never committed).
 
 variable "cloudflare_api_token" {
@@ -13,12 +13,12 @@ variable "cloudflare_account_id" {
 }
 
 variable "cloudflare_zone_id" {
-  description = "Cloudflare zone ID for the MarketPips domain."
+  description = "Cloudflare zone ID for the Kichiko domain."
   type        = string
 }
 
 variable "domain" {
-  description = "Apex domain (e.g. marketpips.co.ke)."
+  description = "Apex domain (e.g. kichiko.co.ke)."
   type        = string
 }
 
@@ -43,11 +43,11 @@ variable "staging_hostname" {
 variable "fly_prod_app" {
   description = "Fly production app name (deploy target of the CNAME)."
   type        = string
-  default     = "marketpips-prod"
+  default     = "kichiko-prod"
 }
 
 variable "fly_staging_app" {
   description = "Fly staging app name."
   type        = string
-  default     = "marketpips-staging"
+  default     = "kichiko-staging"
 }

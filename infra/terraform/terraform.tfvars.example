@@ -1,9 +1,9 @@
 # Copy to terraform.tfvars for LOCAL non-secret overrides. Never commit secrets.
 # Secrets (cloudflare_api_token, fly_api_token) come from TF_VAR_* env in CI.
-domain                = "marketpips.co.ke"
+domain                = "kichiko.co.ke"
 cloudflare_account_id = "your-account-id"
 cloudflare_zone_id    = "your-zone-id"
 app_hostname          = "app"
 staging_hostname      = "staging"
-fly_prod_app          = "marketpips-prod"
-fly_staging_app       = "marketpips-staging"
+fly_prod_app          = "kichiko-prod"
+fly_staging_app       = "kichiko-staging"

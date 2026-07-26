@@ -26,7 +26,7 @@ resource "cloudflare_record" "staging" {
 # ---------------------------------------------------------------------------
 # TLS + compression + performance zone settings.
 # ---------------------------------------------------------------------------
-resource "cloudflare_zone_settings_override" "marketpips" {
+resource "cloudflare_zone_settings_override" "kichiko" {
   zone_id = var.cloudflare_zone_id
 
   settings {
@@ -48,7 +48,7 @@ resource "cloudflare_zone_settings_override" "marketpips" {
 }
 
 # Tiered Cache (Argo smart topology) — fewer origin hits for public reads.
-resource "cloudflare_tiered_cache" "marketpips" {
+resource "cloudflare_tiered_cache" "kichiko" {
   zone_id    = var.cloudflare_zone_id
   cache_type = "smart"
 }
@@ -60,7 +60,7 @@ resource "cloudflare_tiered_cache" "marketpips" {
 # ---------------------------------------------------------------------------
 resource "cloudflare_ruleset" "cache_rules" {
   zone_id = var.cloudflare_zone_id
-  name    = "MarketPips cache policy"
+  name    = "Kichiko cache policy"
   kind    = "zone"
   phase   = "http_request_cache_settings"
 
@@ -95,7 +95,7 @@ resource "cloudflare_ruleset" "cache_rules" {
 # ---------------------------------------------------------------------------
 resource "cloudflare_ruleset" "rate_limit" {
   zone_id = var.cloudflare_zone_id
-  name    = "MarketPips edge rate limits"
+  name    = "Kichiko edge rate limits"
   kind    = "zone"
   phase   = "http_ratelimit"
 

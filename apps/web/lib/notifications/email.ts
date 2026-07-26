@@ -16,7 +16,7 @@ export async function sendEmail(opts: EmailOptions): Promise<boolean> {
     return false
   }
 
-  const from = opts.from || process.env.RESEND_FROM_EMAIL || 'MarketPips <noreply@marketpips.co.ke>'
+  const from = opts.from || process.env.RESEND_FROM_EMAIL || 'Kichiko <noreply@kichiko.co.ke>'
 
   try {
     const res = await fetch('https://api.resend.com/emails', {
@@ -72,12 +72,12 @@ function baseTemplate(content: string) {
 <div style="padding:20px">
 <div class="container">
   <div class="header">
-    <h1>🎯 MarketPips</h1>
+    <h1>🎯 Kichiko</h1>
     <p>East Africa's Prediction Market</p>
   </div>
   <div class="body">${content}</div>
   <div class="footer">
-    &copy; 2025 MarketPips &bull; <a href="https://marketpips.co.ke/unsubscribe">Unsubscribe</a>
+    &copy; 2025 Kichiko &bull; <a href="https://kichiko.co.ke/unsubscribe">Unsubscribe</a>
   </div>
 </div>
 </div>
@@ -96,7 +96,7 @@ export const EMAIL_TEMPLATES = {
         <p style="margin:4px 0 0; color:#64748b; font-size:14px">New balance: ${balance} ${currency}</p>
       </div>
       <p>You're ready to trade. Browse open markets and make your predictions.</p>
-      <a href="https://marketpips.co.ke/markets" class="btn">Browse Markets →</a>
+      <a href="https://kichiko.co.ke/markets" class="btn">Browse Markets →</a>
     `),
   }),
 
@@ -110,7 +110,7 @@ export const EMAIL_TEMPLATES = {
         <div class="amount">+${payout}</div>
       </div>
       <p>Your winnings have been credited to your wallet.</p>
-      <a href="https://marketpips.co.ke/portfolio" class="btn">View Portfolio →</a>
+      <a href="https://kichiko.co.ke/portfolio" class="btn">View Portfolio →</a>
     `),
   }),
 
@@ -124,17 +124,17 @@ export const EMAIL_TEMPLATES = {
         <p>Outcome: <strong>${outcome.toUpperCase()}</strong></p>
         <p style="color:${won ? '#10b981' : '#ef4444'};font-weight:600">${won ? '🎉 You predicted correctly!' : '📉 Your prediction was incorrect this time.'}</p>
       </div>
-      <a href="https://marketpips.co.ke/portfolio" class="btn">View Results →</a>
+      <a href="https://kichiko.co.ke/portfolio" class="btn">View Results →</a>
     `),
   }),
 
   kyc_approved: (name: string) => ({
-    subject: '✅ Identity Verified — MarketPips',
+    subject: '✅ Identity Verified — Kichiko',
     html: baseTemplate(`
       <h2>Hi ${name},</h2>
       <p>Your identity has been verified! 🎉</p>
-      <p>You now have full access to MarketPips, including higher deposit and withdrawal limits.</p>
-      <a href="https://marketpips.co.ke/markets" class="btn">Start Predicting →</a>
+      <p>You now have full access to Kichiko, including higher deposit and withdrawal limits.</p>
+      <a href="https://kichiko.co.ke/markets" class="btn">Start Predicting →</a>
     `),
   }),
 
@@ -147,12 +147,12 @@ export const EMAIL_TEMPLATES = {
         <p style="color:#ef4444;margin:0">${reason}</p>
       </div>
       <p>Please resubmit your documents with clear, legible photos.</p>
-      <a href="https://marketpips.co.ke/kyc" class="btn">Resubmit Documents →</a>
+      <a href="https://kichiko.co.ke/kyc" class="btn">Resubmit Documents →</a>
     `),
   }),
 
   welcome: (name: string, referralCode: string) => ({
-    subject: '🎯 Welcome to MarketPips!',
+    subject: '🎯 Welcome to Kichiko!',
     html: baseTemplate(`
       <h2>Welcome, ${name}!</h2>
       <p>You've joined East Africa's leading prediction market. Trade on real-world outcomes using M-Pesa, MTN MoMo, and Airtel Money.</p>
@@ -168,7 +168,7 @@ export const EMAIL_TEMPLATES = {
         <p style="font-size:20px;font-weight:bold;margin:4px 0">${referralCode}</p>
         <p style="margin:0;font-size:12px;color:#64748b">Share it and earn bonuses</p>
       </div>
-      <a href="https://marketpips.co.ke/markets" class="btn">Browse Markets →</a>
+      <a href="https://kichiko.co.ke/markets" class="btn">Browse Markets →</a>
     `),
   }),
 }

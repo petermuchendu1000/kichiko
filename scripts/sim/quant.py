@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-scripts/sim/quant.py — quantitative-finance model library for MarketPips seeding.
+scripts/sim/quant.py — quantitative-finance model library for Kichiko seeding.
 
 Pure, dependency-light (numpy only) generators used by seed_intensive.py to
 produce lifelike, internally-consistent simulated market data. Every function

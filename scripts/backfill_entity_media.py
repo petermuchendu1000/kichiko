@@ -30,7 +30,7 @@ import os, io, sys, json, time, hashlib, argparse
 import requests
 from PIL import Image
 
-UA = {"User-Agent": "MarketPipsBot/1.0 (+https://marketpips.dev; media-ingest)"}
+UA = {"User-Agent": "KichikoBot/1.0 (+https://kichiko.dev; media-ingest)"}
 BUCKET = "entity-media"
 SIZE = 256
 

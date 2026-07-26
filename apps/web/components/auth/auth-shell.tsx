@@ -31,7 +31,7 @@ export function AuthShell({ bridgeHeading, bridgeSub, children }: AuthShellProps
         <div className="flex items-center gap-2">
           <LogoMark size={28} />
           <span className="font-display text-[15px] font-bold tracking-tight text-text-primary">
-            MarketPips
+            Kichiko
           </span>
         </div>
 

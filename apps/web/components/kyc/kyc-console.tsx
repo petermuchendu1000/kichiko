@@ -25,7 +25,7 @@ export function KycConsole({ bridge, children }: KycConsoleProps) {
           <div className="flex items-center gap-2">
             <LogoMark size={26} />
             <span className="font-display text-[15px] font-bold tracking-tight text-text-primary">
-              MarketPips
+              Kichiko
             </span>
           </div>
 

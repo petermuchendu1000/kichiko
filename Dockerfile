@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-# MarketPips production image (Module 16.2)
+# Kichiko production image (Module 16.2)
 # Multi-stage: deps -> build -> minimal non-root runtime serving Next standalone.
 # The app lives in apps/web inside an npm-workspaces monorepo; next.config.js
 # sets `output: 'standalone'` + `outputFileTracingRoot` (repo root) so the

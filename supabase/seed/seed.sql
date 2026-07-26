@@ -1,5 +1,5 @@
 -- ============================================================
--- MarketPips - Seed Data
+-- Kichiko - Seed Data
 -- East Africa-focused prediction markets
 -- ============================================================
 
@@ -7,7 +7,7 @@
 -- Run this AFTER creating your first user via auth:
 --
 -- UPDATE public.profiles SET role = 'admin'
--- WHERE id = (SELECT id FROM auth.users WHERE email = 'admin@marketpips.co.ke');
+-- WHERE id = (SELECT id FROM auth.users WHERE email = 'admin@kichiko.co.ke');
 
 -- ============================================================
 -- INITIAL EXCHANGE RATES (approximate)

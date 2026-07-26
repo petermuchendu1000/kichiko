@@ -52,7 +52,7 @@ export default function LoginPage() {
       <div className="mb-8 flex flex-col items-center text-center lg:items-start lg:text-left">
         <LogoMark size={40} className="mb-3 lg:hidden" />
         <h1 className="font-display text-2xl text-text-primary">Welcome back</h1>
-        <p className="mt-1 text-sm text-text-muted">Sign in to your MarketPips account</p>
+        <p className="mt-1 text-sm text-text-muted">Sign in to your Kichiko account</p>
       </div>
 
       <form onSubmit={handleLogin} className="space-y-4">

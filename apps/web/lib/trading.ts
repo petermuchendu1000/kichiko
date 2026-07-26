@@ -1,5 +1,5 @@
 // ============================================================
-// MarketPips — Trading helpers (CLOB order routing + settlement)
+// Kichiko — Trading helpers (CLOB order routing + settlement)
 // ------------------------------------------------------------
 // Pure, unit-tested helpers shared by the order ticket and the resolve routes.
 // The platform is CLOB-only: order sizing/fees are computed authoritatively by

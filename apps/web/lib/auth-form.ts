@@ -1,5 +1,5 @@
 // ============================================================
-// MarketPips — Auth form logic (pure, framework-free, unit-tested)
+// Kichiko — Auth form logic (pure, framework-free, unit-tested)
 // ------------------------------------------------------------
 // ONE source of truth for the decisions shared by every auth surface —
 // the full-page /auth/login & /auth/register routes AND the in-context

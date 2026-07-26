@@ -12,7 +12,7 @@ export default function OfflinePage() {
     <main className="mx-auto flex min-h-[60vh] w-full max-w-md flex-col items-center justify-center gap-4 px-6 text-center">
       <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">You’re offline</h1>
       <p className="text-gray-600 dark:text-gray-400">
-        MarketPips can’t reach the network right now. Check your connection and try again — your data is safe.
+        Kichiko can’t reach the network right now. Check your connection and try again — your data is safe.
       </p>
       <Link
         href="/"

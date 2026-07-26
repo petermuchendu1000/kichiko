@@ -1,7 +1,7 @@
 /**
  * MarketContextNews
  * -----------------
- * Presentational news feed for a MarketPips prediction market (PM parity).
+ * Presentational news feed for a Kichiko prediction market (PM parity).
  * Renders a dated list of "Market Context" article cards. Each card shows a
  * date, headline, summary, source row (optional logo), and an optional
  * probability-move chip (e.g. "JD Vance jumps to 28%  +9%"). The list starts

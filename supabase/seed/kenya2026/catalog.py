@@ -1,5 +1,5 @@
 """
-MarketPips — Kenya 2026 researched market catalog (single source of truth).
+Kichiko — Kenya 2026 researched market catalog (single source of truth).
 
 All content is grounded in live July-2026 reporting (Gachagua impeachment + DCP,
 Finance Bill 2026 / Tax Amendments Bill, AFCON 2027 co-hosting, Arbantone music

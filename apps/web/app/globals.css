@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* ============================================================
-   MarketPips — "Pip" Design System (source of truth)
+   Kichiko — "Pip" Design System (source of truth)
    Institutional fintech. Bloomberg × Stripe × Linear. Never casino.
    Fonts (Inter variable / Geist Mono) are injected by next/font
    as --font-inter / --font-geist-mono in layout.tsx (Polymarket parity).

@@ -68,8 +68,8 @@ export function Navbar() {
       setDepositAmount(amtStr)
       setDepositOpen(true)
     }
-    window.addEventListener('marketpips:open-deposit', openDeposit)
-    return () => window.removeEventListener('marketpips:open-deposit', openDeposit)
+    window.addEventListener('kichiko:open-deposit', openDeposit)
+    return () => window.removeEventListener('kichiko:open-deposit', openDeposit)
   }, [])
 
   // Symmetric global opener for the withdraw sheet (e.g. from the portfolio).
@@ -82,8 +82,8 @@ export function Navbar() {
       }
       setWithdrawOpen(true)
     }
-    window.addEventListener('marketpips:open-withdraw', openWithdraw)
-    return () => window.removeEventListener('marketpips:open-withdraw', openWithdraw)
+    window.addEventListener('kichiko:open-withdraw', openWithdraw)
+    return () => window.removeEventListener('kichiko:open-withdraw', openWithdraw)
   }, [])
 
   // Resume a deferred funding intent once the user is authenticated (#13).
@@ -136,10 +136,10 @@ export function Navbar() {
 
           {/* Logo + company name — the name now sits next to the mark on every
               breakpoint (previously hidden on the smallest screens). */}
-          <Link href="/" className="flex items-center gap-2 mr-1 sm:mr-2 flex-shrink-0" aria-label="MarketPips home">
+          <Link href="/" className="flex items-center gap-2 mr-1 sm:mr-2 flex-shrink-0" aria-label="Kichiko home">
             <LogoMark size={28} />
             <span className="font-display text-[15px] font-bold tracking-tight" style={{ color: 'var(--text)' }}>
-              MarketPips
+              Kichiko
             </span>
           </Link>
 
@@ -371,7 +371,7 @@ function DepositSheet({ onClose, initialAmount, resumeOrder = false }: { onClose
   // close the sheet after a short beat (the "…then place the order" step).
   useEffect(() => {
     if (confirm !== 'credited' || !resumeOrder) return
-    window.dispatchEvent(new CustomEvent('marketpips:deposit-credited'))
+    window.dispatchEvent(new CustomEvent('kichiko:deposit-credited'))
     const t = setTimeout(() => onClose(), 1400)
     return () => clearTimeout(t)
   }, [confirm, resumeOrder, onClose])
@@ -696,7 +696,7 @@ function WithdrawSheet({ onClose, balance, currency }: { onClose: () => void; ba
             {balance <= 0 && (
               <p className="mt-3 text-center text-xs" style={{ color: 'var(--text-muted)' }}>
                 No funds to withdraw yet.{' '}
-                <button type="button" onClick={() => { onClose(); window.dispatchEvent(new CustomEvent('marketpips:open-deposit')) }} className="font-semibold text-[var(--pip-500)] hover:underline">
+                <button type="button" onClick={() => { onClose(); window.dispatchEvent(new CustomEvent('kichiko:open-deposit')) }} className="font-semibold text-[var(--pip-500)] hover:underline">
                   Deposit first
                 </button>
               </p>

@@ -1,4 +1,4 @@
-project_id = "marketpips"
+project_id = "kichiko"
 
 [api]
 enabled = true
@@ -85,27 +85,27 @@ otp_expiry = 3600
 # for "a link is sent instead of a code" / "no code arrives on sign-in".
 # Apply to a linked project with `supabase config push`.
 [auth.email.template.magic_link]
-subject = "Your MarketPips sign-in code"
+subject = "Your Kichiko sign-in code"
 content_path = "./supabase/templates/magic_link.html"
 
 # Signup email confirmation (link -> /auth/callback activates the account).
 [auth.email.template.confirmation]
-subject = "Confirm your MarketPips email"
+subject = "Confirm your Kichiko email"
 content_path = "./supabase/templates/confirmation.html"
 
 # Password reset (link -> /auth/reset-password).
 [auth.email.template.recovery]
-subject = "Reset your MarketPips password"
+subject = "Reset your Kichiko password"
 content_path = "./supabase/templates/recovery.html"
 
 # Email address change (link confirms the new address; double_confirm_changes on).
 [auth.email.template.email_change]
-subject = "Confirm your new MarketPips email"
+subject = "Confirm your new Kichiko email"
 content_path = "./supabase/templates/email_change.html"
 
 # Admin invite (link -> account setup).
 [auth.email.template.invite]
-subject = "You are invited to MarketPips"
+subject = "You are invited to Kichiko"
 content_path = "./supabase/templates/invite.html"
 
 # Reauthentication before a sensitive change (numeric code).
@@ -144,7 +144,7 @@ backend = "postgres"
 # the pg_cron and pg_net extensions (Dashboard > Database > Extensions), then run
 # ONCE per environment from the SQL editor (secret never lives in a migration):
 #
-#   SELECT public.schedule_marketpips_jobs('https://<app-domain>', '<CRON_SECRET>');
+#   SELECT public.schedule_kichiko_jobs('https://<app-domain>', '<CRON_SECRET>');
 #
 # Cadence (see docs/12-BACKGROUND-JOBS.md):
 #   close-markets:          */5 * * * *   (every 5 minutes)

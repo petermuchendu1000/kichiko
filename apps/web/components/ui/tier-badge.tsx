@@ -2,7 +2,7 @@
 
 // components/ui/tier-badge.tsx
 // ------------------------------------------------------------
-// MarketPips trader-tier medal. Original medal artwork (rounded shield with a
+// Kichiko trader-tier medal. Original medal artwork (rounded shield with a
 // beveled highlight + chevron emblem) tinted per tier via lib/tier.ts. Used as
 // the corner badge on trader avatars and as an inline chip next to a name.
 // The badge encodes the tier in its accessible label (e.g. "Gold tier").
@@ -43,7 +43,7 @@ export function TierBadge({ tier, size = 20, className = '', ring }: TierBadgePr
         </defs>
         {/* Optional contrast ring */}
         {ring && <circle cx="20" cy="20" r="19.2" fill={ring} />}
-        {/* Rounded-shield medal (MarketPips original shape) */}
+        {/* Rounded-shield medal (Kichiko original shape) */}
         <path
           d="M20 2.5c1.2 0 2.36.29 3.4.83l9.1 4.7A5.5 5.5 0 0 1 35.5 12.9v8.7c0 5.9-3.3 11.3-8.6 14.1l-5.3 2.8a3.5 3.5 0 0 1-3.2 0l-5.3-2.8A16 16 0 0 1 4.5 21.6v-8.7c0-2.06 1.15-3.95 2.98-4.9l9.12-4.7A7.5 7.5 0 0 1 20 2.5Z"
           fill={`url(#tb-${uid})`}

@@ -7,10 +7,10 @@ terraform {
   # Remote backend (token via TF_API_TOKEN in CI). Swap the org/workspace to
   # match your Terraform Cloud setup, or replace with an S3/R2 backend block.
   cloud {
-    organization = "marketpips"
+    organization = "kichiko"
 
     workspaces {
-      name = "marketpips-infra"
+      name = "kichiko-infra"
     }
   }
 

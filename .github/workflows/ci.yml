@@ -1,7 +1,7 @@
-# MarketPips CI — quality gates (Module 16.1)
+# Kichiko CI — quality gates (Module 16.1)
 # lint / type-check / unit run in parallel, then build (+ bundle budget),
 # migration-lint, and security scans. Docs-only PRs skip the heavy jobs.
-name: MarketPips CI
+name: Kichiko CI
 
 on:
   push:

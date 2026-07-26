@@ -1,4 +1,4 @@
-/* MarketPips service worker — app-shell & static asset caching.
+/* Kichiko service worker — app-shell & static asset caching.
  *
  * Strategy (mobile-first, low-bandwidth EA networks):
  *   - Static build assets (/_next/static, fonts, icons): cache-first (immutable,

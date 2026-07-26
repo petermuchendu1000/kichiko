@@ -72,7 +72,7 @@ export function MobileTradeBar({
   const isMulti = isMultiOutcome(market, options)
   const outcomes = normalizeOutcomes(market, options)
   // The candidate currently loaded in the ticket, driven ONLY by an explicit
-  // board row / Buy-pill tap (marketpips:select-option). We intentionally do
+  // board row / Buy-pill tap (kichiko:select-option). We intentionally do
   // NOT fall back to the front-runner: PM mobile never pre-arms a leader, and
   // auto-selecting biases the user's decision (see docs/design/PM-PARITY-SPEC.md
   // §3). Until the user taps a candidate, the sticky CTA stays neutral ("Trade")
@@ -111,8 +111,8 @@ export function MobileTradeBar({
       if (detail.side) setPendingSide(detail.side)
       if (detail.openSheet) setOpen(true)
     }
-    window.addEventListener('marketpips:select-option', onSelect as EventListener)
-    return () => window.removeEventListener('marketpips:select-option', onSelect as EventListener)
+    window.addEventListener('kichiko:select-option', onSelect as EventListener)
+    return () => window.removeEventListener('kichiko:select-option', onSelect as EventListener)
   }, [market.id])
 
   // On return from the auth gate, rehydrate the stashed bet and auto-open the

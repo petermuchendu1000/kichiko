@@ -1,7 +1,7 @@
-# MarketPips Infrastructure as Code (Terraform)
+# Kichiko Infrastructure as Code (Terraform)
 
 Declarative edge + host infra (Module 16.4). State lives in Terraform Cloud
-(`marketpips/marketpips-infra`), locked and versioned. **No console-only
+(`kichiko/kichiko-infra`), locked and versioned. **No console-only
 config** — all changes go through a PR (`plan` posted as a comment) and a gated
 `apply` on `main` (see `.github/workflows/terraform.yml`).
 
@@ -18,7 +18,7 @@ config** — all changes go through a PR (`plan` posted as a comment) and a gate
 ```bash
 cd infra/terraform
 export TF_VAR_cloudflare_api_token=...   TF_VAR_cloudflare_account_id=...
-export TF_VAR_cloudflare_zone_id=...     TF_VAR_domain=marketpips.co.ke
+export TF_VAR_cloudflare_zone_id=...     TF_VAR_domain=kichiko.co.ke
 export TF_VAR_fly_api_token=...
 terraform init
 terraform plan      # review

@@ -11,7 +11,7 @@ export function PortfolioFundingActions() {
     <div className="flex items-center gap-2">
       <button
         type="button"
-        onClick={() => window.dispatchEvent(new CustomEvent('marketpips:open-deposit'))}
+        onClick={() => window.dispatchEvent(new CustomEvent('kichiko:open-deposit'))}
         className="btn btn-primary inline-flex items-center gap-1.5"
       >
         <IconDeposit size={16} />
@@ -19,7 +19,7 @@ export function PortfolioFundingActions() {
       </button>
       <button
         type="button"
-        onClick={() => window.dispatchEvent(new CustomEvent('marketpips:open-withdraw'))}
+        onClick={() => window.dispatchEvent(new CustomEvent('kichiko:open-withdraw'))}
         className="btn btn-ghost inline-flex items-center gap-1.5"
       >
         <IconWithdraw size={16} />

@@ -47,7 +47,7 @@ import {
   type AuthMode,
 } from '@/lib/auth-form'
 
-export const OPEN_AUTH_EVENT = 'marketpips:open-auth'
+export const OPEN_AUTH_EVENT = 'kichiko:open-auth'
 
 export interface OpenAuthDetail {
   /** Which tab to open on. Defaults to 'login'. */
@@ -369,7 +369,7 @@ export function AuthDialog() {
             <div className="flex items-center gap-2">
               <LogoMark size={30} />
               <span className="font-display text-[15px] font-bold tracking-tight text-text-primary">
-                MarketPips
+                Kichiko
               </span>
             </div>
             <button

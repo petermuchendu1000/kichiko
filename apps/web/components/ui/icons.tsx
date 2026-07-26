@@ -1,5 +1,5 @@
 // Hand-crafted SVG icon system — zero external icon libraries
-// Every icon is purpose-built for MarketPips
+// Every icon is purpose-built for Kichiko
 
 import React from 'react'
 

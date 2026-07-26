@@ -4,7 +4,7 @@ import { LegalPage } from '@/components/content/legal-page'
 
 export const metadata: Metadata = {
   title: 'Help & Support',
-  description: 'Guides and support for using MarketPips.',
+  description: 'Guides and support for using Kichiko.',
 }
 
 const GUIDES: { href: string; label: string; desc: string }[] = [
@@ -18,7 +18,7 @@ export default function HelpPage() {
   return (
     <LegalPage title="Help & Support">
       <p>
-        New to MarketPips? Start with the basics below, or jump straight into the
+        New to Kichiko? Start with the basics below, or jump straight into the
         app. For anything else, contact our support team and we&rsquo;ll help.
       </p>
 
@@ -55,7 +55,7 @@ export default function HelpPage() {
       <h2>Contact support</h2>
       <p>
         Reach us by email at{' '}
-        <a href="mailto:support@marketpips.app">support@marketpips.app</a> with
+        <a href="mailto:support@kichiko.app">support@kichiko.app</a> with
         your account email and any transaction reference. We aim to respond
         quickly during business hours (East Africa Time).
       </p>

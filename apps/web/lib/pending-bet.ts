@@ -1,5 +1,5 @@
 // ============================================================
-// MarketPips — Pending bet (auth round-trip continuity) · pure logic
+// Kichiko — Pending bet (auth round-trip continuity) · pure logic
 // ------------------------------------------------------------
 // A logged-out user can build an entire bet on the market ticket (pm-ticket)
 // before being asked to authenticate. The moment they tap "Log in to trade" we
@@ -27,7 +27,7 @@
 // ============================================================
 
 /** localStorage key the ticket reads/writes for a deferred-auth bet. */
-export const PENDING_BET_KEY = 'marketpips:pending-bet'
+export const PENDING_BET_KEY = 'kichiko:pending-bet'
 
 /** URL query param that carries the pending bet across the auth round-trip. */
 export const PENDING_BET_PARAM = 'pb'

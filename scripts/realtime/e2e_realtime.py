@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 e2e_realtime.py -- authoritative end-to-end tests for EVERY Supabase Realtime
-event the MarketPips frontend subscribes to, run against a LIVE project.
+event the Kichiko frontend subscribes to, run against a LIVE project.
 
 It proves, over a real websocket, that each realtime feature actually delivers,
 that Row-Level Security correctly ISOLATES subscribers, and that we are not
@@ -65,7 +65,7 @@ SERVICE = os.environ.get("SUPABASE_SERVICE_ROLE_KEY", "")
 DELIVERY_TIMEOUT_S = float(os.environ.get("RT_DELIVERY_TIMEOUT_S", "8"))
 LATENCY_BUDGET_MS = float(os.environ.get("RT_LATENCY_BUDGET_MS", "3000"))
 
-TEST_EMAIL_DOMAIN = "marketpips-e2e.dev"  # disposable, never real
+TEST_EMAIL_DOMAIN = "kichiko-e2e.dev"  # disposable, never real
 
 
 # --------------------------------------------------------------------------- #

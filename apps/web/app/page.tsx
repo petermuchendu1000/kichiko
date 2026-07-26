@@ -238,14 +238,14 @@ export default async function HomePage() {
 
   // Structured data (SEO): Organization + WebSite with a sitelinks search box.
   // Fully additive, no visual cost \u2014 improves rich-result eligibility.
-  const siteUrl = (process.env.NEXT_PUBLIC_APP_URL ?? 'https://marketpips.co.ke').replace(/\/$/, '')
+  const siteUrl = (process.env.NEXT_PUBLIC_APP_URL ?? 'https://kichiko.co.ke').replace(/\/$/, '')
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
       {
         '@type': 'Organization',
         '@id': `${siteUrl}/#organization`,
-        name: 'MarketPips',
+        name: 'Kichiko',
         url: siteUrl,
         logo: `${siteUrl}/icon.png`,
         description:
@@ -256,7 +256,7 @@ export default async function HomePage() {
         '@type': 'WebSite',
         '@id': `${siteUrl}/#website`,
         url: siteUrl,
-        name: 'MarketPips',
+        name: 'Kichiko',
         publisher: { '@id': `${siteUrl}/#organization` },
         potentialAction: {
           '@type': 'SearchAction',

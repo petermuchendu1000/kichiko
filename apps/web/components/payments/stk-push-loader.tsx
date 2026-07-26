@@ -6,7 +6,7 @@
 // Daraja pattern (Rizwan's `STKPushQueryLoading`, mpesa-nextjs-docs.vercel.app):
 // a processing indicator shown while the STK push is sent and the user enters
 // their M-Pesa PIN, paired with short-poll status querying. Restyled here to
-// MarketPips design tokens with a circular ring animation (the reference used a
+// Kichiko design tokens with a circular ring animation (the reference used a
 // plain pulsing text block).
 //
 // Two phases:

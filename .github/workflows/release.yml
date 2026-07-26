@@ -26,7 +26,7 @@ jobs:
         run: |
           # Auto-generate notes from commits since the previous tag.
           gh release create "${GITHUB_REF_NAME}" \
-            --title "MarketPips ${GITHUB_REF_NAME}" \
+            --title "Kichiko ${GITHUB_REF_NAME}" \
             --generate-notes \
             --verify-tag
 

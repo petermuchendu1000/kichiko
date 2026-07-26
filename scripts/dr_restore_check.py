@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""dr_restore_check.py — MarketPips restore-drill integrity verifier (Module 17.6).
+"""dr_restore_check.py — Kichiko restore-drill integrity verifier (Module 17.6).
 
 Run this against a database restored from a backup / PITR into a SCRATCH project
 to assert the restore is complete and internally consistent. It performs
@@ -53,7 +53,7 @@ def check(cond: bool, ok_msg: str, fail_msg: str) -> None:
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description="MarketPips DR restore integrity check")
+    ap = argparse.ArgumentParser(description="Kichiko DR restore integrity check")
     ap.add_argument("--smoke", action="store_true", help="also run rolled-back money-path sanity")
     args = ap.parse_args()
 
@@ -67,7 +67,7 @@ def main() -> int:
     conn.autocommit = False
     cur = conn.cursor()
 
-    print("== MarketPips restore-drill integrity check ==")
+    print("== Kichiko restore-drill integrity check ==")
 
     # 1. Core tables exist and are populated.
     print("\n[1] Core tables present & populated")

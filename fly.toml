@@ -1,11 +1,11 @@
-# fly.toml — MarketPips app host (Module 16.2)
+# fly.toml — Kichiko app host (Module 16.2)
 # Declarative Fly.io config. This file describes the STAGING app; production
-# uses the same schema with app = "marketpips-prod" (see deploy-production.yml,
+# uses the same schema with app = "kichiko-prod" (see deploy-production.yml,
 # which promotes the same image by digest — no rebuild). Validate with
 # `fly config validate`. Secrets are set out-of-band via `fly secrets set`
 # (never in this file) — see docs/DEPLOYMENT.md §4.
 
-app = "marketpips-staging"
+app = "kichiko-staging"
 primary_region = "jnb"           # Johannesburg — nearest Fly region to East Africa
 
 [build]

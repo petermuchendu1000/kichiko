@@ -25,7 +25,7 @@ OUT = os.path.join(os.path.dirname(__file__), "..", "..", "apps", "web", "lib", 
 
 
 def main() -> int:
-    req = urllib.request.Request(ERAPI, headers={"User-Agent": "marketpips-fx/1.0"})
+    req = urllib.request.Request(ERAPI, headers={"User-Agent": "kichiko-fx/1.0"})
     with urllib.request.urlopen(req, timeout=15) as r:
         d = json.load(r)
     if d.get("result") != "success" or "rates" not in d:

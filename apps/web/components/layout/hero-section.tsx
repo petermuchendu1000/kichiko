@@ -1,6 +1,6 @@
 // components/layout/hero-section.tsx
 // ------------------------------------------------------------
-// MarketPips homepage HERO — a faithful reproduction of Polymarket's "Featured
+// Kichiko homepage HERO — a faithful reproduction of Polymarket's "Featured
 // markets" carousel, measured live and specced in
 // docs/design/HERO-POLYMARKET-GROUNDTRUTH.md. Element-by-element parity:
 //
@@ -13,7 +13,7 @@
 //   │  │ …up to 4 rows             │  │ │  right % axis, dated x  │ │ │
 //   │  │ comment peek              │  │ └─────────────────────────┘ │ │
 //   │  └───────────────────────────┘  └─────────────────────────────┘ │
-//   │  ── $X Vol ───────────────────── Ends <date> · MarketPips ──────│
+//   │  ── $X Vol ───────────────────── Ends <date> · Kichiko ──────│
 //   └───────────────────────────────────────────────────────────────┘
 //
 // Beside the carousel sits a static rail (promo · Breaking News · Hot topics).
@@ -393,14 +393,14 @@ function Spotlight({ market, series, comments, activity }: HeroMarket & { commen
               xLabels={ticks}
               strokeWidth={1.75}
               fadeHistory
-              watermark="MarketPips"
+              watermark="Kichiko"
               idSalt={market.id}
               className="w-full"
             />
           </div>
         </div>
 
-        {/* footer: volume + primary CTA. The close date and the "· MarketPips"
+        {/* footer: volume + primary CTA. The close date and the "· Kichiko"
             byline were removed for a cleaner strip — branding now lives as a
             watermark inside the chart (parity with pro charting tools). */}
         <div
