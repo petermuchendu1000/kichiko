@@ -164,6 +164,10 @@ export const CLOB_ERRORS: Record<string, { status: number; error: string }> = {
   P0110: { status: 404, error: 'Order not found' },
   P0111: { status: 403, error: 'You can only cancel your own orders' },
   P0112: { status: 409, error: 'Order is no longer cancellable' },
+  // Authorization guard (migration 042): an end-user session may only act as
+  // itself. Should never surface via the service_role API path, but mapped for
+  // defense in depth.
+  P0121: { status: 403, error: 'Not authorized to act on behalf of another user' },
 }
 
 /**
