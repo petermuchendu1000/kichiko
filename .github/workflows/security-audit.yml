@@ -1,0 +1,37 @@
+# Authoritative, scheduled security audit against the LIVE database.
+# Complements the static PR gate in ci.yml (which bans blanket function grants)
+# by checking the real pg_proc state: every SECURITY DEFINER function executable
+# by anon/authenticated must be in scripts/security/definer_exposure_allowlist.json,
+# still guarded (if listed guarded), and still read-only (if listed read_only).
+# This catches drift from ANY source -- migrations, the Supabase dashboard, or a
+# manual grant -- not just code changes.
+name: Security audit (definer exposure)
+
+on:
+  schedule:
+    - cron: '0 3 * * *' # 03:00 UTC = 06:00 Africa/Nairobi, daily
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  definer-exposure:
+    name: Definer exposure (live DB)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run authoritative definer-exposure audit
+        env:
+          SECURITY_AUDIT_DATABASE_URL: ${{ secrets.SECURITY_AUDIT_DATABASE_URL }}
+        run: |
+          if [ -z "${SECURITY_AUDIT_DATABASE_URL:-}" ]; then
+            echo "::notice::SECURITY_AUDIT_DATABASE_URL secret not set; skipping runtime audit."
+            echo "::notice::Add a READ-ONLY Postgres URL secret to enable continuous enforcement."
+            exit 0
+          fi
+          pip install "psycopg2-binary>=2.9"
+          python scripts/security/audit_definer_exposure.py --db "$SECURITY_AUDIT_DATABASE_URL"

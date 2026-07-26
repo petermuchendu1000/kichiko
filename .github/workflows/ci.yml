@@ -47,6 +47,8 @@ jobs:
             migrations:
               - 'supabase/migrations/**'
               - 'scripts/lint_migrations.py'
+              - 'scripts/security/audit_definer_exposure.py'
+              - 'scripts/security/definer_exposure_allowlist.json'
 
   # ------------------------------------------------------------------
   # Parallel quality gates.
@@ -162,6 +164,11 @@ jobs:
           python-version: '3.12'
       - run: pip install "pglast>=6,<8"
       - run: python scripts/lint_migrations.py supabase/migrations
+      # Seals the "unguarded SECURITY DEFINER exposed to client roles" class:
+      # bans blanket 'GRANT EXECUTE ON ALL FUNCTIONS ... TO anon/authenticated'.
+      # (Authoritative live check runs in security-audit.yml against the DB.)
+      - name: Definer-exposure static gate
+        run: python scripts/security/audit_definer_exposure.py --migrations supabase/migrations
 
   # ------------------------------------------------------------------
   # Security scans. npm audit + dependency review are non-blocking for
