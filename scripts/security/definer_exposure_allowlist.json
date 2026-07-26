@@ -1,0 +1,375 @@
+{
+  "_README": "Registry of SECURITY DEFINER functions in schema public that are intentionally EXECUTE-able by the anon/authenticated client roles. Every entry is a REVIEWED decision. The security auditor (scripts/security/audit_definer_exposure.py) FAILS if: a client-exposed definer function is NOT listed here; a listed function loses its guard (guarded true->false); or a listed read_only function becomes volatile. To expose a new one, add it here with a reason in the same PR (forces human review).",
+  "functions": {
+    "_actor_is_superadmin": {
+      "guarded": true,
+      "kind": "read_only",
+      "reason": "read-only (STABLE/IMMUTABLE) public/self-scoped data"
+    },
+    "admin_add_user_note": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_adjust_balance": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_approve_creator": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_approve_market": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_approve_marketer": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_approve_payout_run": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_approve_withdrawal": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_cancel_market": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_cancel_payout_run": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_clawback_payout_item": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_clear_gateway_secret": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_close_market": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_complete_withdrawal": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_compute_payout_run": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_create_payout_run": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_delete_gateway": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_disburse_payout_run": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_dispute_market": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_fail_deposit": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_get_gateway_secret": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_moderate_content": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_record_gateway_health": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_regenerate_tracking_code": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_reject_application": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_reject_market": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_reject_withdrawal": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_resolve_market": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_resolve_market_options": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_resolve_market_options_binary": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_resolve_report": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_retry_withdrawal": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_rotate_gateway_secret": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_send_announcement": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_set_account_status": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_set_announcement_status": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_set_campaign_status": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_set_creator_status": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_set_gateway_enabled": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_set_market_featured": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_set_marketer_status": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_set_user_role": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_update_creator": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_update_marketer_plan": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_upsert_announcement": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_upsert_campaign": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_upsert_commission_plan": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_upsert_creator_tier": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_upsert_exchange_rate": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_upsert_gateway": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "admin_upsert_setting": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check"
+    },
+    "announcement_audience_count": {
+      "guarded": false,
+      "kind": "read_only",
+      "reason": "read-only (STABLE/IMMUTABLE) public/self-scoped data"
+    },
+    "announcement_recipients": {
+      "guarded": false,
+      "kind": "read_only",
+      "reason": "read-only (STABLE/IMMUTABLE) public/self-scoped data"
+    },
+    "clob_get_book": {
+      "guarded": false,
+      "kind": "read_only",
+      "reason": "read-only (STABLE/IMMUTABLE) public/self-scoped data"
+    },
+    "get_leaderboard": {
+      "guarded": false,
+      "kind": "read_only",
+      "reason": "read-only (STABLE/IMMUTABLE) public/self-scoped data"
+    },
+    "guard_profile_delete": {
+      "guarded": false,
+      "kind": "trigger",
+      "reason": "trigger function (not invokable as a PostgREST RPC)"
+    },
+    "guard_profile_role_change": {
+      "guarded": true,
+      "kind": "trigger",
+      "reason": "trigger function (not invokable as a PostgREST RPC)"
+    },
+    "handle_new_user": {
+      "guarded": false,
+      "kind": "trigger",
+      "reason": "trigger function (not invokable as a PostgREST RPC)"
+    },
+    "has_capability": {
+      "guarded": true,
+      "kind": "read_only",
+      "reason": "read-only (STABLE/IMMUTABLE) public/self-scoped data"
+    },
+    "increment_profile_views": {
+      "guarded": false,
+      "kind": "volatile",
+      "reason": "increment-only vanity view counter; non-financial; low risk (reviewed & accepted)"
+    },
+    "is_admin": {
+      "guarded": true,
+      "kind": "read_only",
+      "reason": "read-only (STABLE/IMMUTABLE) public/self-scoped data"
+    },
+    "is_staff": {
+      "guarded": true,
+      "kind": "read_only",
+      "reason": "read-only (STABLE/IMMUTABLE) public/self-scoped data"
+    },
+    "is_superadmin": {
+      "guarded": true,
+      "kind": "read_only",
+      "reason": "read-only (STABLE/IMMUTABLE) public/self-scoped data"
+    },
+    "latest_btc_price": {
+      "guarded": false,
+      "kind": "read_only",
+      "reason": "read-only (STABLE/IMMUTABLE) public/self-scoped data"
+    },
+    "market_positions": {
+      "guarded": false,
+      "kind": "read_only",
+      "reason": "read-only (STABLE/IMMUTABLE) public/self-scoped data"
+    },
+    "market_top_holders": {
+      "guarded": false,
+      "kind": "read_only",
+      "reason": "read-only (STABLE/IMMUTABLE) public/self-scoped data"
+    },
+    "search_markets": {
+      "guarded": false,
+      "kind": "read_only",
+      "reason": "read-only (STABLE/IMMUTABLE) public/self-scoped data"
+    },
+    "sync_comment_like_count": {
+      "guarded": false,
+      "kind": "trigger",
+      "reason": "trigger function (not invokable as a PostgREST RPC)"
+    },
+    "trader_card_stats": {
+      "guarded": false,
+      "kind": "read_only",
+      "reason": "read-only (STABLE/IMMUTABLE) public/self-scoped data"
+    },
+    "trader_pnl_series": {
+      "guarded": false,
+      "kind": "read_only",
+      "reason": "read-only (STABLE/IMMUTABLE) public/self-scoped data"
+    },
+    "trader_positions": {
+      "guarded": false,
+      "kind": "read_only",
+      "reason": "read-only (STABLE/IMMUTABLE) public/self-scoped data"
+    },
+    "trader_public_profile": {
+      "guarded": false,
+      "kind": "read_only",
+      "reason": "read-only (STABLE/IMMUTABLE) public/self-scoped data"
+    },
+    "update_profile_stats": {
+      "guarded": false,
+      "kind": "trigger",
+      "reason": "trigger function (not invokable as a PostgREST RPC)"
+    },
+    "update_unique_bettors": {
+      "guarded": false,
+      "kind": "trigger",
+      "reason": "trigger function (not invokable as a PostgREST RPC)"
+    }
+  }
+}
