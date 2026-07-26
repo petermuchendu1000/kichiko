@@ -101,24 +101,20 @@ export const IconSell = icon(<><circle cx="12" cy="12" r="9"/><path d="M9 15l6-6
 // Logo mark
 // Pip brand mark — a rising probability line on a baseline reference with
 // square "pip" terminals. Pip Blue by default; pass a solid className/fill to recolor.
-// Kichiko brand mark — the navy "K" (public/logo-mark.png used as a CSS mask so
-// the glyph is theme-adaptive: brand navy #1A2734 in light, white in dark, always
-// contrasting the surface). Mark aspect ratio is ~0.795 (w/h); `size` sets height.
+// Kichiko brand mark — a Pip-Blue (#1452F0) rounded tile with a white "K"
+// (public/logo-tile.svg). A solid colored tile reads clearly on any surface —
+// light app chrome, dark app chrome, and the browser tab bar alike — so the mark
+// stays crisp and recognizable everywhere (the navy mask-based mark vanished on
+// dark browser bars). The tile is square (1:1); `size` sets both width and height.
 export const LogoMark = ({ size = 28, className = '' }: { size?: number; className?: string }) => (
   <span
-    aria-hidden="true"
-    className={`inline-block shrink-0 bg-[#1A2734] dark:bg-white ${className}`}
+    role="img"
+    aria-label="Kichiko"
+    className={`inline-block shrink-0 bg-center bg-no-repeat bg-contain ${className}`}
     style={{
-      width: `${Math.round(size * 0.795)}px`,
+      width: `${size}px`,
       height: `${size}px`,
-      WebkitMaskImage: 'url(/logo-mark.png)',
-      maskImage: 'url(/logo-mark.png)',
-      WebkitMaskRepeat: 'no-repeat',
-      maskRepeat: 'no-repeat',
-      WebkitMaskSize: 'contain',
-      maskSize: 'contain',
-      WebkitMaskPosition: 'center',
-      maskPosition: 'center',
+      backgroundImage: 'url(/logo-tile.svg)',
     }}
   />
 )
