@@ -468,7 +468,11 @@
   .cat-tab {
     display:inline-flex; align-items:center; padding:12px 2px;
     font-size:14px; font-weight:500; line-height:20px; letter-spacing:-0.1px;
-    color:var(--text-3); background:transparent; border:0;
+    /* a11y: the sticky category rail uses a translucent backdrop-blur fill that
+       composites LIGHTER than --surface-2 (axe measured ~#393a3c in dark), where
+       --text-3 only reached 4.36:1. --text-2 clears WCAG AA there (5.45:1) while
+       keeping the inactive/active hierarchy (active goes to --text). */
+    color:var(--text-2); background:transparent; border:0;
     white-space:nowrap; cursor:pointer; text-decoration:none;
     box-shadow:inset 0 -2px 0 transparent; /* reserve underline slot */
     transition:color var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out);
