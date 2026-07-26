@@ -7,8 +7,16 @@ accrues from staging/production. `—` = not yet measured on a deployed env.
 ## Bundle budgets (lab, deterministic)
 | Metric | Budget | Ceiling | Before | After | Status |
 |---|---:|---:|---:|---:|:--:|
-| Shared first-load JS | 110 kB | 130 kB | 103 kB | 103 kB | ✅ within ceiling |
-| `/markets/[slug]` first load | 180 kB | 250 kB | 314 kB | — | ⚠️ over — chart split pending |
+| Shared first-load JS | 110 kB | 130 kB | 103 kB | 102 kB | ✅ within ceiling |
+| `/markets/[slug]` first load | 180 kB | 250 kB | 370 kB¹ | **253 kB** | ⚠️ within ceiling (−117 kB / −32% after Recharts split) |
+| `/portfolio` first load | 180 kB | 250 kB | 226 kB¹ | **124 kB** | ✅ (−102 kB / −45% after Recharts split) |
+
+¹ "Before" re-measured on `main` immediately prior to the code-split change
+(2026-07; the codebase had grown past the original Module-15 314 kB baseline).
+Recharts (`price-chart`, `outcomes-chart`, `btc-live-chart`, `allocation-donut`)
+is now `next/dynamic({ ssr:false })` behind CLS-safe skeletons, so the recharts
+vendor chunk loads on demand instead of in first-load JS. All consumers
+(detail page, market/order-book drawers, portfolio) import the `.lazy` wrappers.
 
 ## Web Vitals (field / RUM — from /api/telemetry/vitals)
 | Metric | Target | Ceiling | Before | After |

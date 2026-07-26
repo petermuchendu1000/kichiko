@@ -12,7 +12,7 @@
 //   • Graph: the candidate's YES-probability history via PriceChart.
 //   • Resolution: Propose-resolution CTA + View-details link (criteria).
 import { useEffect, useState } from 'react'
-import { PriceChart } from '@/components/markets/price-chart'
+import { PriceChart } from '@/components/markets/price-chart.lazy'
 import { BookTable, useClobBook } from '@/components/trading/order-book-table'
 import { IconRefresh } from '@/components/ui/icons'
 
