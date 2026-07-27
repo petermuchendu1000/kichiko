@@ -9,6 +9,15 @@ export interface CspOptions {
   supabaseUrl?: string | null
   /** Allow 'unsafe-eval' (dev only — Next needs it for React refresh). */
   allowUnsafeEval?: boolean
+  /**
+   * Emit `upgrade-insecure-requests` (production/HTTPS only). Over plain http
+   * (local dev/preview) this directive upgrades same-origin fetches — including
+   * Next.js RSC prefetches to http://localhost — to https://localhost, which has
+   * no TLS, yielding `net::ERR_SSL_PROTOCOL_ERROR` and "Failed to fetch RSC
+   * payload" console spam plus dead prefetch. Only meaningful when actually
+   * served over https.
+   */
+  upgradeInsecure?: boolean
 }
 
 /** Extract the https origin from a URL string, or null if invalid. */
@@ -67,8 +76,10 @@ export function buildCsp(opts: CspOptions = {}): string {
     'connect-src': connect,
     'frame-src': ["'self'"],
     'worker-src': ["'self'", 'blob:'],
-    'upgrade-insecure-requests': [],
   }
+  // Only over https (prod). On http://localhost it upgrades RSC prefetches to
+  // https://localhost → ERR_SSL_PROTOCOL_ERROR. See CspOptions.upgradeInsecure.
+  if (opts.upgradeInsecure) directives['upgrade-insecure-requests'] = []
 
   return Object.entries(directives)
     .map(([k, v]) => (v.length ? `${k} ${v.join(' ')}` : k))
