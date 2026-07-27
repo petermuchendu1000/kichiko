@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import { kes } from '@/lib/admin/money'
 import { requirePageCapability } from '@/lib/admin/page-guard'
+import { createAdminClient } from '@/lib/supabase/server'
 import {
   parseUserListParams,
   fetchUsers,
@@ -49,8 +50,9 @@ export default async function UsersPage({
 }) {
   const sp = await searchParams
   const params = parseUserListParams(sp)
-  const ctx = await requirePageCapability('users:read')
-  const { rows, total } = await fetchUsers(ctx.supabase, params)
+  await requirePageCapability('users:read')
+  // User directory exposes private columns; read via the service-role client.
+  const { rows, total } = await fetchUsers(await createAdminClient(), params)
 
   // Sortable header href: toggle direction when the column is already active.
   const sortHref = (col: UserSort) => {

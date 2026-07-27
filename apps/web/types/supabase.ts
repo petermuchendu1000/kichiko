@@ -2489,6 +2489,10 @@ export type Database = {
         }
         Returns: Json
       }
+      get_my_profile: {
+        Args: Record<PropertyKey, never>
+        Returns: Database["public"]["Tables"]["profiles"]["Row"][]
+      }
       get_leaderboard: {
         Args: {
           p_metric?: string | null

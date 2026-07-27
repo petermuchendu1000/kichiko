@@ -24,12 +24,10 @@ export function useAuth(): UseAuthReturn {
 
   const supabase = createClient()
 
-  const fetchProfile = useCallback(async (userId: string) => {
-    const { data } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', userId)
-      .single()
+  const fetchProfile = useCallback(async (_userId: string) => {
+    // get_my_profile() returns only the caller's own row (WHERE id = auth.uid());
+    // the authenticated role can no longer read other users' private columns.
+    const { data } = await supabase.rpc('get_my_profile').maybeSingle()
     setProfile(data as Profile | null)
   }, [supabase])
 

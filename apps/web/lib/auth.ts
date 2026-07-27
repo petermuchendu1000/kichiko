@@ -51,11 +51,8 @@ export async function getAuthContext(): Promise<AuthContext | null> {
   } = await supabase.auth.getUser()
   if (error || !user) return null
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('role, account_status, kyc_status')
-    .eq('id', user.id)
-    .single()
+  // Self-scoped read: get_my_profile() returns only the caller's own row.
+  const { data: profile } = await supabase.rpc('get_my_profile').maybeSingle()
 
   return {
     user,

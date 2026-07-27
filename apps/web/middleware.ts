@@ -121,11 +121,8 @@ export async function middleware(request: NextRequest) {
   // Individual pages & admin APIs additionally check per-capability; this blocks
   // non-portal users earlier. superadmin is included via ADMIN_PORTAL_ROLES.
   if (isAdmin && user) {
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', user.id)
-      .single()
+    const { data } = await supabase.rpc('get_my_profile').maybeSingle()
+    const profile = data as { role: string } | null
     if (!profile || !ADMIN_PORTAL_ROLE_SET.has(profile.role)) {
       // As above: never hand an HTML redirect to an /api caller — return a
       // parseable 403 so admin fetch() calls fail cleanly instead of crashing

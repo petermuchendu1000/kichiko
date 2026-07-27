@@ -22,12 +22,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Check account status
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('account_status, kyc_status')
-      .eq('id', user.id)
-      .single()
+    // Check account status (self-scoped read)
+    const { data: profile } = await supabase.rpc('get_my_profile').maybeSingle()
 
     if (profile?.account_status !== 'active') {
       return NextResponse.json({ error: 'Account is not active' }, { status: 403 })
