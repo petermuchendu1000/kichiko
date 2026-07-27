@@ -28,7 +28,36 @@ npm run dev
 
 One-shot equivalent: `npm run dev:clean`.
 
-Windows PowerShell (if you prefer manual):
+### If it persists (or points at a *different* component each time)
+
+`npm run clean` only clears `.next`. If the error survives it, appears on a new
+component after a `git pull`, or showed up right after a **Next.js version bump**
+or an **interrupted `npm install`**, then `node_modules` itself is corrupted —
+classically a half-swapped SWC compiler. On Windows this is often signalled by:
+
+```
+npm warn cleanup Failed to remove ... @next\.swc-win32-x64-msvc ...
+  [Error: EPERM: operation not permitted, unlink '...next-swc.win32-x64-msvc.node']
+```
+
+That EPERM means a running process (a dev server or your editor) **locked the
+compiler binary**, so npm couldn't replace it — leaving a broken toolchain that
+emits corrupt client chunks. Do a full, lock-free reinstall:
+
+```powershell
+# 1) close EVERYTHING holding the files (dev server + extra terminals)
+taskkill /F /IM node.exe          # Windows  (macOS/Linux: pkill -f next)
+# 2) nuke node_modules + .next and reinstall from the lockfile
+npm run reinstall                 # removes node_modules + apps/web/.next, then npm install
+# 3) start fresh
+npm run dev
+```
+
+> Verified: a clean `next build` compiles every route (incl. the Recharts-backed
+> `outcomes-chart` chunk) with 0 errors, and `next dev` renders the market page.
+> So a `reading 'call'` error is a stale/corrupt local artifact, not a code bug.
+
+Windows PowerShell (manual `.next`-only clean, when that's all you need):
 
 ```powershell
 Remove-Item -Recurse -Force apps\web\.next
