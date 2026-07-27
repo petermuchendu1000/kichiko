@@ -42,7 +42,7 @@ export default function () {
     'markets list has data': (r) => {
       try {
         return Array.isArray(JSON.parse(r.body).data)
-      } catch {
+      } catch (_e) {
         return false
       }
     },
@@ -54,7 +54,7 @@ export default function () {
   try {
     const rows = JSON.parse(list.body).data
     if (rows && rows.length) slug = rows[0].slug
-  } catch {
+  } catch (_e) {
     // ignore parse errors — counted via errorRate above
   }
   if (slug) {
