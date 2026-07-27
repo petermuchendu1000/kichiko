@@ -1,12 +1,7 @@
-# Kichiko Vercel Deployment Configuration
-# Deploy to: https://vercel.com/new
-
-framework: nextjs
-buildCommand: cd apps/web && npm run build
-outputDirectory: apps/web/.next
-installCommand: cd apps/web && npm install
-devCommand: cd apps/web && npm run dev
-rootDirectory: .
-
-# Environment variables to set in Vercel dashboard:
-# (copy from apps/web/.env.example)
+{
+  "framework": "nextjs",
+  "buildCommand": "cd apps/web && npm run build",
+  "outputDirectory": "apps/web/.next",
+  "installCommand": "cd apps/web && npm install",
+  "devCommand": "cd apps/web && npm run dev"
+}

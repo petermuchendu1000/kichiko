@@ -58,7 +58,15 @@ jobs:
             echo "configured=true" >> "$GITHUB_OUTPUT"
           else
             echo "configured=false" >> "$GITHUB_OUTPUT"
-            echo "::notice title=Terraform::TF_API_TOKEN not set — skipping init/validate/plan (fmt still enforced). Add the secret to enable full IaC checks."
+            # IAC-01: real enforcement on push to the default branch. A missing
+            # token there is a misconfiguration and must FAIL loudly instead of
+            # skipping green. Fork PRs (which cannot read repo secrets) still
+            # skip safely so they aren't blocked by an unavailable token.
+            if [ "${{ github.event_name }}" = "push" ] && [ "${{ github.ref }}" = "refs/heads/main" ]; then
+              echo "::error title=Terraform::TF_API_TOKEN is required on push to main but is not set — cannot run init/validate/plan. Add the repo secret to enable IaC enforcement."
+              exit 1
+            fi
+            echo "::notice title=Terraform::TF_API_TOKEN not set — skipping init/validate/plan on this event (fmt still enforced). Add the secret to enable full IaC checks."
           fi
       - if: steps.creds.outputs.configured == 'true'
         run: terraform init -input=false
@@ -96,11 +104,14 @@ jobs:
       - name: Check backend credentials
         id: creds
         run: |
+          # IAC-01: this job only runs on push to main (see the job `if:`), so a
+          # missing token here is always a real misconfiguration — fail rather
+          # than skip the apply green.
           if [ -n "${{ secrets.TF_API_TOKEN }}" ]; then
             echo "configured=true" >> "$GITHUB_OUTPUT"
           else
-            echo "configured=false" >> "$GITHUB_OUTPUT"
-            echo "::notice title=Terraform::TF_API_TOKEN not set — skipping apply. Add the secret to enable gated applies."
+            echo "::error title=Terraform::TF_API_TOKEN is required to apply on main but is not set. Add the repo secret to enable gated applies."
+            exit 1
           fi
       - if: steps.creds.outputs.configured == 'true'
         run: terraform init -input=false
