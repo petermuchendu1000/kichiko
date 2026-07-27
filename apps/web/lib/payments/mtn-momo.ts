@@ -195,6 +195,37 @@ export async function mtnTransfer({
   return { referenceId }
 }
 
+// Check disbursement/transfer status (for withdrawals). Mirrors
+// getMoMoPaymentStatus but hits the disbursement product's authoritative
+// GET /transfer/{referenceId} endpoint (and uses the disbursement token/key),
+// so a money-OUT callback can be confirmed rather than trusted.
+export async function getMoMoTransferStatus(referenceId: string): Promise<{
+  status: 'PENDING' | 'SUCCESSFUL' | 'FAILED'
+  financialTransactionId?: string
+  reason?: string
+}> {
+  const token = await getDisburseToken()
+  const disbKey = process.env.MTN_MOMO_DISBURSE_KEY || SUBSCRIPTION_KEY
+
+  const response = await axios.get(
+    `${BASE_URL}/disbursement/v1_0/transfer/${referenceId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'X-Target-Environment': ENVIRONMENT,
+        'Ocp-Apim-Subscription-Key': disbKey,
+      },
+      timeout: 10000,
+    }
+  )
+
+  return {
+    status: response.data.status,
+    financialTransactionId: response.data.financialTransactionId,
+    reason: response.data.reason,
+  }
+}
+
 async function getDisburseToken(): Promise<string> {
   const disbKey = process.env.MTN_MOMO_DISBURSE_KEY || SUBSCRIPTION_KEY
   const credentials = Buffer.from(
