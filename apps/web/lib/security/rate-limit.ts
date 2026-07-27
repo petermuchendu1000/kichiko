@@ -125,7 +125,14 @@ export type RateBucket = keyof typeof RATE_RULES
 /** Map a request path to its rate bucket (null = not rate-limited here). */
 export function bucketForPath(pathname: string): RateBucket | null {
   if (pathname.startsWith('/api/webhooks')) return 'webhooks'
-  if (pathname.startsWith('/auth/login') || pathname.startsWith('/auth/register')) return 'auth'
+  // Do NOT rate-limit the /auth/login & /auth/register *pages*. Auth runs
+  // client-side against Supabase GoTrue, which enforces its own per-IP
+  // sign-in / sign-up / OTP limits server-side — these Next routes carry no
+  // auth logic to protect. They ARE prefetched by the navbar <Link>s on every
+  // page view, so bucketing them (auth: 10/min/IP) throttled ordinary
+  // navigation + RSC prefetch and returned spurious 429s ("Too many attempts")
+  // to users who never even submitted the form. The `auth` rule is retained for
+  // a future *server-side* auth endpoint — map it there, never to a page route.
   if (pathname.startsWith('/api/orders')) return 'orders'
   if (pathname.startsWith('/api/payments')) return 'payments'
   if (pathname.startsWith('/api/')) return 'api'

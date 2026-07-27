@@ -87,7 +87,10 @@ describe('rate-limit: enforce + store', () => {
 describe('rate-limit: routing & headers', () => {
   it('maps paths to buckets', () => {
     expect(bucketForPath('/api/webhooks/mpesa')).toBe('webhooks')
-    expect(bucketForPath('/auth/login')).toBe('auth')
+    // Auth PAGES are not rate-limited (auth is client-side to Supabase; these
+    // routes are prefetched by navbar links and must not 429 on navigation).
+    expect(bucketForPath('/auth/login')).toBeNull()
+    expect(bucketForPath('/auth/register')).toBeNull()
     expect(bucketForPath('/api/orders')).toBe('orders')
     expect(bucketForPath('/api/payments/deposit')).toBe('payments')
     expect(bucketForPath('/api/markets')).toBe('api')
@@ -173,8 +176,19 @@ describe('security headers & CSP', () => {
     expect(csp).toContain("object-src 'none'")
     expect(csp).toContain('https://proj.supabase.co')
     expect(csp).toContain('wss://proj.supabase.co')
-    expect(csp).toContain('upgrade-insecure-requests')
     expect(csp).not.toContain("'unsafe-eval'")
+  })
+
+  it('emits upgrade-insecure-requests only over https (prod), never on http/localhost', () => {
+    // Default (dev/http): must NOT upgrade — it breaks RSC prefetch to
+    // http://localhost with ERR_SSL_PROTOCOL_ERROR.
+    expect(buildCsp({ supabaseUrl: 'https://proj.supabase.co' })).not.toContain(
+      'upgrade-insecure-requests',
+    )
+    // Production/https: directive present.
+    expect(
+      buildCsp({ supabaseUrl: 'https://proj.supabase.co', upgradeInsecure: true }),
+    ).toContain('upgrade-insecure-requests')
   })
 
   it('whitelists the live BTC price feeds in connect-src (chart would break otherwise)', () => {
