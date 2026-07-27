@@ -89,3 +89,40 @@ root layout takes the trade panel down with it.
 This is Supabase Auth rate-limiting repeated sign-up/sign-in attempts from the
 same IP. It is transient — wait ~30–60s and retry. It does not indicate a code
 fault. For heavy local testing, use distinct test emails and avoid rapid retries.
+
+---
+
+## 5. "Could not create your account. Please try again." (signup)
+
+**Root cause (isolated 2026-07):** signup requires a confirmation email
+(`mailer_autoconfirm=false`), and Supabase/GoTrue could not send it — it
+returned `500 unexpected_failure "Error sending confirmation email"`. The DB
+side is healthy (the `handle_new_user` trigger creates the profile + wallets;
+an admin-API user create succeeds). The failure is purely **email delivery**:
+
+- **Custom SMTP (Resend) sender was the stale pre-rebrand identity** —
+  `smtp_admin_email=noreply@marketpips.co.ke`, `smtp_sender_name=MarketPips`,
+  `site_url=https://marketpips.co.ke`. If that sender domain is no longer
+  verified in Resend, or the SMTP key was rotated, every send fails.
+- **`rate_limit_email_sent` was 2/hour** — a second attempt returned `429
+  "email rate limit exceeded"` (which surfaces as "Too many attempts").
+
+`normalizeAuthError` now maps email-send failures to a dedicated message
+instead of the generic one, so this is diagnosable from the UI.
+
+**Proper production fix (do this):**
+1. In **Resend**, verify the sending domain you intend to use and mint a fresh
+   SMTP/API key.
+2. In **Supabase → Auth → SMTP settings**, set `smtp_admin_email`,
+   `smtp_sender_name`, and the SMTP password to the verified Kichiko sender;
+   set **Auth → URL Configuration → Site URL** to the current app domain so
+   confirmation/reset links resolve.
+3. Keep `rate_limit_email_sent` at a sane value (≥ ~30/hour).
+
+**Interim unblock (already applied):** `mailer_autoconfirm=true`, so signups
+succeed immediately without an email round-trip (verified end-to-end: signup →
+session → profile + wallets → password login). ⚠️ Revert to `false` once SMTP is
+healthy if you require verified emails before first login. Note OTP login and
+password reset still depend on working email, so fixing SMTP is required
+regardless.
+

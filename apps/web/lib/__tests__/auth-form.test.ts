@@ -89,6 +89,16 @@ describe('normalizeAuthError — human, non-leaky copy', () => {
   it('maps rate limiting', () => {
     expect(normalizeAuthError('Email rate limit exceeded', 'register')).toMatch(/too many/i)
   })
+  it('maps server-side email-send failure to its own (non-generic) copy', () => {
+    // Real GoTrue 500 when the mailer can't deliver (e.g. unverified sender
+    // domain / bad SMTP key). Must NOT fall through to the generic message.
+    const out = normalizeAuthError('Error sending confirmation email', 'register')
+    expect(out).toMatch(/couldn't send your email/i)
+    expect(out).not.toMatch(/could not create your account/i)
+    expect(normalizeAuthError('unexpected_failure', 'register')).toMatch(
+      /wrong on our end/i,
+    )
+  })
   it('maps network errors', () => {
     expect(normalizeAuthError(new Error('Failed to fetch'), 'login')).toMatch(/network/i)
   })

@@ -114,6 +114,18 @@ export function normalizeAuthError(raw: unknown, mode: AuthMode): string {
   if (msg.includes('network') || msg.includes('fetch') || msg.includes('timeout')) {
     return 'Network error — check your connection and try again.'
   }
+  // Server-side email delivery failure (SMTP/provider). GoTrue returns
+  // "Error sending confirmation email" / "Error sending recovery email" (often
+  // error_code=unexpected_failure) when the mailer can't deliver — e.g. an
+  // unverified sender domain, an invalid/rotated SMTP key, or a provider
+  // outage. This is NOT the user's fault and is distinct from a rate limit, so
+  // give it its own actionable, non-leaky copy instead of the generic fallback.
+  if (msg.includes('sending') && (msg.includes('email') || msg.includes('confirmation') || msg.includes('recovery') || msg.includes('magic'))) {
+    return "We couldn't send your email just now. Please try again in a moment — if it keeps happening, contact support."
+  }
+  if (msg.includes('unexpected_failure') || msg.includes('unexpected failure')) {
+    return 'Something went wrong on our end. Please try again in a moment.'
+  }
   if (msg.includes('email') && msg.includes('invalid')) {
     return 'Please enter a valid email address.'
   }
