@@ -46,7 +46,9 @@ jobs:
       - name: Build image
         run: docker build -t kichiko:${{ github.sha }} .
       - name: Trivy vulnerability scan (HIGH,CRITICAL)
-        uses: aquasecurity/trivy-action@0.28.0
+        # Pinned to 0.35.0 — the patched release for GHSA-69fq-xp46-6x23
+        # (Trivy Action supply-chain compromise; vulnerable range < 0.35.0).
+        uses: aquasecurity/trivy-action@0.35.0
         with:
           image-ref: kichiko:${{ github.sha }}
           format: table
