@@ -49,7 +49,7 @@ Create a market. Auth: **user** (creator-gated). Body (zod): `title`, `descripti
 Single market by id or slug. Auth: public. Cache: public (edge, SWR). Returns `{ market }`.
 
 ### `GET /api/markets/[id]/price-history`
-LMSR price history series. Auth: public. Query: `interval`, `from`, `to`.
+Market price-history series (last-fill prices from the order book). Auth: public. Query: `interval`, `from`, `to`.
 Cache: public (edge, SWR). Returns `{ points: { t, yes, no }[] }`.
 
 ### `GET /api/leaderboard`
@@ -76,10 +76,15 @@ Live mark-to-market portfolio. Query: `tx_limit` (1–100). Returns
 
 ### `GET /api/orders` · `POST /api/orders`
 - `GET` — the caller's orders/positions history.
-- `POST` — **place a bet** (LMSR). Body (zod): `market_id`, `side` (`yes`|`no`),
-  `stake` (currency-minor), `currency`, `idempotency_key`. Atomic `place_bet` RPC
-  (debits wallet, mints shares, updates price). Returns `{ order, position, wallet }`.
-  Errors: `400` (validation / insufficient balance), `409` (market closed / dup key).
+- `POST` — **place a CLOB order**. Body (zod, `clobOrderSchema`): `engine:'clob'`,
+  `market_id`, `market_option_id`, `outcome_side` (`yes`|`no`), `action`
+  (`buy`|`sell`), `order_type` (`market`|`limit`), `price_cents` (limit orders),
+  `size` and/or `amount_local`, `currency`, optional `client_order_id`/`expires_at`.
+  Atomic `clob_place_order` RPC (matches against the book by price-time priority,
+  mints/burns or transfers shares, debits/credits the wallet, records fills +
+  price). Returns `{ order, position, wallet }`. `DELETE` cancels via
+  `clob_cancel_order`. Errors: `400` (validation), `402` (insufficient balance),
+  `409` (market closed / not cancellable), `429` (open-order/rate caps).
 
 ### `GET /api/payments/deposit` · `POST /api/payments/deposit`
 - `GET` — deposit history / available providers for the user's country.

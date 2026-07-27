@@ -36,8 +36,9 @@ export default function TermsPage() {
       <ul>
         <li>Predictions involve real money and a real risk of loss.</li>
         <li>
-          Prices are set by an automated market maker (LMSR) based on trading
-          activity; markets resolve to the real, verified outcome.
+          Prices are set by a central limit order book: your orders are matched
+          against other participants&rsquo; orders by price-time priority, and
+          markets resolve to the real, verified outcome.
         </li>
         <li>All predictions are final once confirmed, until the event is decided.</li>
       </ul>

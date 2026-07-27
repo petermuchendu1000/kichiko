@@ -39,8 +39,8 @@ confirmation screen.
 
 ## Fairness
 
-Market prices are set by the automated LMSR market maker based on real trading —
-not by Kichiko picking winners. See
+Market prices are set by a central limit order book — your orders match against
+other traders' orders based on real trading, not by Kichiko picking winners. See
 [How betting works](./how-betting-works.md). Markets resolve to the **real,
 verified outcome**; disputes are handled through the platform's moderation and
 resolution process.

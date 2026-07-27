@@ -18,7 +18,7 @@ const VALUE_PROPS = [
   'Trade elections, sports, crypto and more',
   'Deposit with M-Pesa, MTN MoMo & Airtel Money',
   'Multi-currency wallets across East Africa',
-  'Transparent LMSR pricing — see fills before you commit',
+  'Transparent order-book pricing — see fills before you commit',
 ]
 
 const RAILS = ['M-Pesa', 'MTN MoMo', 'Airtel Money', 'Bank']

@@ -21,6 +21,9 @@
     "notifications": "Arifa",
     "menu": "Menyu"
   },
+  "home": {
+    "fairPricing": "Bei ya haki ya daftari la oda"
+  },
   "wallet": {
     "deposit": "Weka Pesa",
     "withdraw": "Toa Pesa",

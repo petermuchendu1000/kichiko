@@ -26,7 +26,7 @@
   `requireCapability('<cap>')` (never ad-hoc role string checks).
 - **Money is decimal-precise** — use the currency module (`lib/currency.ts`);
   never float-math money. Balance mutations go through atomic RPCs (e.g.
-  `place_bet`), never multi-step client writes.
+  `clob_place_order`), never multi-step client writes.
 
 ## Formatting & i18n
 

@@ -106,7 +106,7 @@ Five workstreams:
 
 ### 17.5 — Documentation consolidation
 - **User docs** (`docs/user/` or an in-app Help): getting started, deposit/
-  withdraw (mobile money), how betting/LMSR pricing works in plain language,
+  withdraw (mobile money), how betting/order-book pricing works in plain language,
   portfolio & P&L, KYC, notifications, responsible-play & fees.
 - **Developer docs:** consolidated architecture (link `01`), local setup, env
   matrix, testing, contribution guide, coding standards, migration conventions.
