@@ -45,8 +45,6 @@ export const metadata: Metadata = {
     languages: {
       en: '/',
       sw: '/',
-      fr: '/',
-      am: '/',
       'x-default': '/',
     },
   },

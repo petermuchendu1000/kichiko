@@ -15,6 +15,7 @@ import { useId, useState } from 'react'
 import { formatDistanceToNow, format } from 'date-fns'
 import { IconShield, IconInfo, IconExternalLink } from '@/components/ui/icons'
 import { TraderNameLink } from '@/components/ui/trader-link'
+import { safeHttpUrl } from '@/lib/security/sanitize'
 
 type TabKey = 'rules' | 'context'
 
@@ -74,6 +75,9 @@ export function MarketRules({
   const [tab, setTab] = useState<TabKey>('rules')
   const baseId = useId()
   const hasDescription = Boolean(description && description.trim().length > 0)
+  // Only treat the resolution source as a clickable link when it is a valid
+  // http/https URL — blocks javascript:/data: and other XSS-prone schemes.
+  const safeResolutionSource = safeHttpUrl(resolutionSource)
   const tabs: { key: TabKey; label: string; icon: React.ReactNode }[] = [
     { key: 'rules', label: 'Rules', icon: <IconShield size={13} /> },
     { key: 'context', label: 'Market Context', icon: <IconInfo size={13} /> },
@@ -114,16 +118,20 @@ export function MarketRules({
           aria-labelledby={`${baseId}-tab-rules`}
         >
           <Expandable text={resolutionCriteria} />
-          {resolutionSource && (
+          {safeResolutionSource ? (
             <a
-              href={resolutionSource}
+              href={safeResolutionSource}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-pip-500 hover:underline"
             >
               <IconExternalLink size={13} /> Resolution source
             </a>
-          )}
+          ) : resolutionSource ? (
+            <span className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-text-muted">
+              <IconExternalLink size={13} /> Resolution source
+            </span>
+          ) : null}
         </div>
       )}
       {tab === 'context' && (
@@ -158,11 +166,11 @@ export function MarketRules({
                 ? `Resolved ${formatDistanceToNow(new Date(resolvedAt), { addSuffix: true })}`
                 : `Closes ${format(new Date(closesAt), 'MMM d, yyyy')}`}
             </span>
-            {resolutionSource && (
+            {safeResolutionSource ? (
               <>
                 <span aria-hidden>&middot;</span>
                 <a
-                  href={resolutionSource}
+                  href={safeResolutionSource}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 font-medium text-pip-500 hover:underline"
@@ -170,7 +178,14 @@ export function MarketRules({
                   <IconExternalLink size={13} /> Source
                 </a>
               </>
-            )}
+            ) : resolutionSource ? (
+              <>
+                <span aria-hidden>&middot;</span>
+                <span className="inline-flex items-center gap-1.5 font-medium text-text-muted">
+                  <IconExternalLink size={13} /> Source
+                </span>
+              </>
+            ) : null}
           </div>
         </div>
       )}

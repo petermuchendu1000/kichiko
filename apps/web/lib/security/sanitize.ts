@@ -70,6 +70,26 @@ export function safeRedirectPath(target: unknown, fallback = '/'): string {
   return target
 }
 
+/**
+ * Return `url` iff it is a well-formed absolute URL whose scheme is on the
+ * http/https allowlist; otherwise return null. Blocks dangerous schemes such
+ * as `javascript:`, `data:`, `vbscript:`, and `file:` from being rendered as
+ * clickable `href` targets (XSS / phishing defence). Callers should fall back
+ * to rendering plain text when this returns null.
+ */
+export function safeHttpUrl(input: unknown): string | null {
+  if (typeof input !== 'string') return null
+  const trimmed = input.trim()
+  if (trimmed.length === 0) return null
+  let parsed: URL
+  try {
+    parsed = new URL(trimmed)
+  } catch {
+    return null
+  }
+  return parsed.protocol === 'http:' || parsed.protocol === 'https:' ? trimmed : null
+}
+
 /** Normalise an ISO alpha-2 country code (uppercase, exactly two letters) or null. */
 export function normalizeCountryCode(input: unknown): string | null {
   const s = String(input ?? '').trim().toUpperCase()

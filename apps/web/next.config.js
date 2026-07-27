@@ -9,18 +9,17 @@ const nextConfig = {
   outputFileTracingRoot: require('path').join(__dirname, '../../'),
   serverExternalPackages: ['sharp'],
   images: {
-    domains: [
-      'localhost',
-      'supabase.co',
-      '*.supabase.co',
-      'avatars.githubusercontent.com',
-      'lh3.googleusercontent.com',
-    ],
+    // The legacy `images.domains` key is deprecated and does NOT support
+    // wildcards (the previous '*.supabase.co' entry never matched). All hosts
+    // are declared via `remotePatterns`, which supports wildcard subdomains
+    // (F-06/F-07).
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**.supabase.co',
-      },
+      { protocol: 'https', hostname: '**.supabase.co' },
+      // OAuth avatar providers (Supabase Auth — GitHub / Google). Previously
+      // declared via the deprecated `domains` list; kept here so avatars keep
+      // loading through next/image (matches the CSP img-src allowlist).
+      { protocol: 'https', hostname: 'avatars.githubusercontent.com' },
+      { protocol: 'https', hostname: 'lh3.googleusercontent.com' },
       // Entity-image upgrade path (ingestion sources — normalised & stored):
       { protocol: 'https', hostname: 'www.google.com' },
       { protocol: 'https', hostname: 'cdn.brandfetch.io' },
