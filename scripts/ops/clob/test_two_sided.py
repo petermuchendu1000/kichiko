@@ -157,3 +157,6 @@ finally:
     conn.rollback()   # <<< nothing persists
     print("\n(transaction rolled back - no data persisted)")
     print(f"SUMMARY: {len(passed)} PASS / {len(fails)} FAIL", "-> FAILURES: "+", ".join(fails) if fails else "-> ALL GREEN")
+
+# Exit non-zero when any invariant check failed so this is usable as a CI gate.
+sys.exit(1 if fails else 0)

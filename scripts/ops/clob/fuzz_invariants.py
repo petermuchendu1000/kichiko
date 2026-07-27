@@ -104,7 +104,8 @@ BEGIN
 
   INSERT INTO _viol
     SELECT 0,'COSTBASIS',format('%s active positions where |shares*avg - invested|>0.10 (worst=%s)',count(*),coalesce(max(d),0))
-    FROM (SELECT abs(shares*avg_entry_price-total_invested_usd) d FROM positions WHERE market_id=v_mkt AND shares>0) q WHERE d>0.10;
+    FROM (SELECT abs(shares*avg_entry_price-total_invested_usd) d FROM positions WHERE market_id=v_mkt AND shares>0) q WHERE d>0.10
+    HAVING count(*) > 0;   -- only record a COSTBASIS row when there is an ACTUAL drift (else a clean run wrongly failed)
 END $fuzz$;
 """
 
