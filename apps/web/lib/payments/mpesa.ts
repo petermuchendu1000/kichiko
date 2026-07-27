@@ -6,6 +6,7 @@
 import axios from 'axios'
 import { createAdminClient } from '@/lib/supabase/server'
 import { getGatewayConfig, envFallbackConfig, type GatewayEnv } from '@/lib/admin/gateways'
+import { appendWebhookToken } from '@/lib/payments/mpesa-webhook-verify'
 
 // ------------------------------------------------------------
 // Runtime configuration (DB-first with env fallback — §4.7)
@@ -177,7 +178,7 @@ export async function initiateMpesaSTKPush({
     PartyA: formattedPhone,
     PartyB: cfg.partyB,
     PhoneNumber: formattedPhone,
-    CallBackURL: `${cfg.callbackUrl}?deposit_id=${depositId}`,
+    CallBackURL: appendWebhookToken(`${cfg.callbackUrl}?deposit_id=${depositId}`),
     AccountReference: accountReference.slice(0, 12), // max 12 chars
     TransactionDesc: transactionDesc.slice(0, 13), // max 13 chars
   }
@@ -349,7 +350,7 @@ export async function initiateMpesaB2C({
       PartyB: formattedPhone,
       Remarks: remarks.slice(0, 100),
       QueueTimeOutURL: `${cfg.callbackUrl}/timeout`,
-      ResultURL: `${cfg.callbackUrl}/b2c-result`,
+      ResultURL: appendWebhookToken(`${cfg.callbackUrl}/b2c-result`),
       Occasion: occasion.slice(0, 100),
     },
     {
