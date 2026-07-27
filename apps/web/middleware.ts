@@ -6,8 +6,10 @@ import {
   RATE_RULES,
   bucketForPath,
   clientKey,
-  enforce,
+  enforceEdge,
+  isSensitiveBucket,
   rateLimitHeaders,
+  upstashConfigFromEnv,
 } from '@/lib/security/rate-limit'
 import { securityHeaders } from '@/lib/security/headers'
 import { safeRedirectPath } from '@/lib/security/sanitize'
@@ -24,6 +26,11 @@ const SECURITY_HEADERS = securityHeaders({
   // breaks RSC prefetch with ERR_SSL_PROTOCOL_ERROR. See lib/security/headers.ts.
   upgradeInsecure: process.env.NODE_ENV === 'production',
 })
+
+// Distributed rate-limit store config resolved once per isolate. When Upstash
+// is configured (UPSTASH_REDIS_REST_URL + UPSTASH_REDIS_REST_TOKEN) the limiter
+// uses a shared, durable counter; otherwise it falls back to per-isolate memory.
+const UPSTASH_CONFIG = upstashConfigFromEnv()
 
 function applySecurityHeaders(res: NextResponse, requestId?: string): NextResponse {
   for (const [k, v] of Object.entries(SECURITY_HEADERS)) res.headers.set(k, v)
@@ -50,7 +57,12 @@ export async function middleware(request: NextRequest) {
   if (bucket) {
     const rule = RATE_RULES[bucket]
     const key = `${bucket}:${clientKey(request.headers)}`
-    const decision = enforce(key, rule)
+    // Sensitive (auth/OTP) buckets fail CLOSED if the distributed store errors;
+    // non-sensitive buckets fall back to the in-memory store (fail open).
+    const decision = await enforceEdge(key, rule, {
+      upstash: UPSTASH_CONFIG,
+      sensitive: isSensitiveBucket(bucket),
+    })
     if (!decision.allowed) {
       return applySecurityHeaders(
         NextResponse.json(

@@ -49,7 +49,13 @@ describe('route-protection: admin + method helpers', () => {
   it('flags admin console + admin APIs', () => {
     expect(isAdminRoute('/admin')).toBe(true)
     expect(isAdminRoute('/admin/users')).toBe(true)
-    expect(isAdminRoute('/api/admin/markets')).toBe(false) // /api/admin != /admin prefix
+    // H3: admin APIs live under /api/admin (which does NOT start with /admin) and
+    // MUST be edge-gated too — the portal role check + 401/403 JSON path apply.
+    expect(isAdminRoute('/api/admin')).toBe(true)
+    expect(isAdminRoute('/api/admin/markets')).toBe(true)
+    expect(isAdminRoute('/api/admin/applications/123/reject')).toBe(true)
+    // Non-admin API + public pages remain unaffected.
+    expect(isAdminRoute('/api/markets')).toBe(false)
     expect(isAdminRoute('/markets')).toBe(false)
   })
 

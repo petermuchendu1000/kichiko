@@ -26,8 +26,14 @@ export const FULLY_PROTECTED_ROUTES = [
 /** Prefixes whose READS are public but whose WRITES require auth. */
 export const WRITE_PROTECTED_PREFIXES = ['/api/markets'] as const
 
-/** Admin console + admin APIs (also role-checked deeper in). */
-export const ADMIN_ROUTES = ['/admin'] as const
+/** Admin console + admin APIs (also role-checked deeper in).
+ *  H3: '/api/admin/*' MUST be listed here too. The admin APIs live under
+ *  '/api/admin', which does NOT start with '/admin', so without this entry the
+ *  edge gate skipped them entirely — the portal role check + 401/403 JSON path
+ *  never ran and admin APIs were reachable by any authenticated (or, for the
+ *  auth gate, unauthenticated) caller. Both prefixes are role-checked here and
+ *  again per-capability inside each handler (defence in depth). */
+export const ADMIN_ROUTES = ['/admin', '/api/admin'] as const
 
 /** Safe/idempotent HTTP methods treated as public reads on the prefixes above. */
 const READ_METHODS = new Set(['GET', 'HEAD', 'OPTIONS'])

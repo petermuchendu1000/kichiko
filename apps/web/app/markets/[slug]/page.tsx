@@ -13,6 +13,7 @@ import { MobileTradeBar } from '@/components/trading/mobile-trade-bar'
 import { MarketDrawer } from '@/components/trading/market-drawer'
 import { PositionSummary } from '@/components/trading/position-summary'
 import { MarketComments } from '@/components/markets/market-comments'
+import { safeJsonLd } from '@/lib/seo/jsonld'
 import { MarketRules } from '@/components/markets/market-rules'
 import { MarketFaq } from '@/components/markets/market-faq'
 import { buildMarketFaq } from '@/lib/markets/faq'
@@ -240,8 +241,8 @@ export default async function MarketPage({
 
   return (
     <div className={`mx-auto max-w-7xl px-4 pt-6 ${market.status === 'active' ? 'pb-28 lg:pb-6' : 'pb-6'}`}>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(faqJsonLd) }} />
 
       {/* NOTE: Polymarket's market-detail page has NO "back / All markets"
           breadcrumb — navigation is via the global chrome only. Removed for
