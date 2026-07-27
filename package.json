@@ -22,7 +22,8 @@
     "i18n:pseudo:check": "node scripts/gen-pseudo-locale.mjs --check",
     "i18n:check": "node scripts/check-i18n-keys.mjs",
     "clean": "node -e \"const{rmSync}=require('fs');['apps/web/.next','apps/web/node_modules/.cache','node_modules/.cache'].forEach(x=>rmSync(x,{recursive:true,force:true}));console.log('cleaned .next + build caches')\"",
-    "dev:clean": "npm run clean && npm run dev"
+    "dev:clean": "npm run clean && npm run dev",
+    "reinstall": "node -e \"const{rmSync}=require('fs');['node_modules','apps/web/node_modules','apps/web/.next','node_modules/.cache'].forEach(p=>rmSync(p,{recursive:true,force:true}));console.log('removed node_modules + .next (run npm install next)')\" && npm install"
   },
   "engines": {
     "node": ">=20.0.0",
