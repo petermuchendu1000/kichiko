@@ -1,0 +1,82 @@
+# load-test.yml — scheduled k6 perf-regression smoke against the hot public read
+# paths (markets list / single market / leaderboard). NOT a PR merge gate: it
+# runs on a schedule (and on demand) against a DEPLOYED target so the p95<300ms
+# server budget (docs/15-PERFORMANCE-CACHING.md §2) is measured co-located with
+# the DB. k6 exits non-zero when a threshold is crossed, so a regression turns
+# this scheduled run red.
+#
+# Target resolution: workflow_dispatch `base_url` input, else the
+# LOAD_TEST_BASE_URL secret (set it to your STAGING URL). If neither is set the
+# job skips cleanly (never load-tests an unintended/prod host by default).
+name: Load test (k6)
+
+on:
+  schedule:
+    - cron: '0 3 * * 1'   # Mondays 03:00 UTC — weekly perf-regression smoke
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: 'Target base URL (overrides the LOAD_TEST_BASE_URL secret)'
+        required: false
+        type: string
+      vus:
+        description: 'Virtual users'
+        required: false
+        default: '10'
+      duration:
+        description: 'Duration (e.g. 30s, 2m)'
+        required: false
+        default: '30s'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: load-test
+  cancel-in-progress: false
+
+jobs:
+  k6:
+    name: k6 smoke (hot public reads)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Resolve target URL
+        id: target
+        env:
+          INPUT_URL: ${{ inputs.base_url }}
+          SECRET_URL: ${{ secrets.LOAD_TEST_BASE_URL }}
+        run: |
+          URL="${INPUT_URL:-$SECRET_URL}"
+          if [ -z "$URL" ]; then
+            echo "::notice title=Load test skipped::No target URL. Set the LOAD_TEST_BASE_URL secret (a staging URL) or dispatch with base_url."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+            echo "url=$URL" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install k6
+        if: steps.target.outputs.skip == 'false'
+        run: |
+          curl -fsSL https://github.com/grafana/k6/releases/download/v0.52.0/k6-v0.52.0-linux-amd64.tar.gz -o /tmp/k6.tgz
+          tar -xzf /tmp/k6.tgz -C /tmp
+          sudo install /tmp/k6-v0.52.0-linux-amd64/k6 /usr/local/bin/k6
+          k6 version
+
+      - name: Run k6 smoke
+        if: steps.target.outputs.skip == 'false'
+        env:
+          BASE_URL: ${{ steps.target.outputs.url }}
+          VUS: ${{ inputs.vus || '10' }}
+          DURATION: ${{ inputs.duration || '30s' }}
+        run: k6 run --summary-export=k6-summary.json load/markets.k6.js
+
+      - name: Upload k6 summary
+        if: ${{ steps.target.outputs.skip == 'false' && !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: k6-summary
+          path: k6-summary.json
+          retention-days: 30
