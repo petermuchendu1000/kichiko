@@ -39,15 +39,44 @@ reversible** process:
 5. **Rollback:** any release can be reverted in minutes (app image + DB) with a
    written, drilled runbook.
 
-### Current baseline
-- `ci.yml` has three jobs: `quality` (npm ci → type-check → lint → unit tests),
+### Starting baseline (pre-Module 16, historical)
+> The list below describes the pipeline **as it stood before Module 16 landed**.
+> It is retained for historical context only and no longer reflects the repo.
+> For the current state see **"Current state"** immediately below.
+
+- `ci.yml` had three jobs: `quality` (npm ci → type-check → lint → unit tests),
   `build` (needs quality; builds with public env), and `migrate-db` (needs build;
   `main` only; `supabase link` + `supabase db push`).
-- A `Dockerfile` and `docker-compose.yml` exist; **no `fly.toml`**, no Cloudflare
+- A `Dockerfile` and `docker-compose.yml` existed; **no `fly.toml`**, no Cloudflare
   IaC, no staging environment, no deploy job, no rollback automation.
-- Migrations are forward-only SQL under `supabase/migrations/` (016 latest),
-  validated locally with `pglast`.
+- Migrations were forward-only SQL under `supabase/migrations/` (016 latest at the
+  time), validated locally with `pglast`.
 - Vercel deploy was intentionally dropped earlier; Fly.io is the app host.
+
+### Current state
+As of this writing the pipeline has been fully hardened and the IaC/CD surface is
+in place. Verified against the tracked files:
+
+- **CI (`.github/workflows/ci.yml`)** now runs 14 jobs, gated by a `changes`
+  path-filter and aggregated by a required `CI green` (`ci-required`) job:
+  `Detect changes`, `Lint`, `Type check`, `Unit tests`, `i18n check`, `Build`
+  (with a first-load JS bundle-size budget), `Migration lint` (with a
+  definer-exposure static gate), `Security scan` (npm audit + gitleaks secret
+  scan), `Dependency review`, `Accessibility (axe)`, `Lighthouse CI`,
+  `E2E (Playwright)`, `CLOB invariants (ephemeral PG)`, and `CI green`.
+- **Delivery / ops workflows** exist as separate files under
+  `.github/workflows/`: `deploy-staging.yml` (Deploy Staging),
+  `deploy-production.yml` (Deploy Production), `rollback.yml`
+  (Rollback Production), `terraform.yml` (Terraform), `image-scan.yml`
+  (Image scan), `security-audit.yml` (Security audit — definer exposure),
+  `load-test.yml` (Load test — k6), `release.yml` (Release), and
+  `realtime-e2e.yml` (Realtime E2E — live).
+- **`fly.toml` exists** at the repo root (Fly.io app host).
+- **Cloudflare + Fly IaC** lives under `infra/terraform/` (`cloudflare.tf`,
+  `fly.tf`, `main.tf`, `backend.tf`, `variables.tf`, `terraform.tfvars.example`,
+  plus a README).
+- Migrations remain forward-only SQL under `supabase/migrations/`; the latest is
+  059 (`059_clob_lockdown_client_writes.sql`).
 
 ### Out of scope
 - Application-level cache/CDN *behavior* → Module 15 (this module provisions the
