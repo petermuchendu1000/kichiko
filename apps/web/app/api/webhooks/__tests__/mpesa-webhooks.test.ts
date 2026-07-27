@@ -182,43 +182,69 @@ describe('POST /api/webhooks/mpesa (deposit)', () => {
 describe('POST /api/webhooks/mpesa-b2c (payout)', () => {
   const URL = 'https://x/api/webhooks/mpesa-b2c'
 
-  it('completes the withdrawal on a success result (no source control configured)', async () => {
+  // C2/F1 — this money-OUT endpoint FAILS CLOSED. It settles ONLY when the
+  // source is verified; an unconfigured secret, a missing/wrong token, or a
+  // disallowed IP is REJECTED (401/403) and NEVER settles.
+  it('SECURITY: REJECTS and does NOT settle when NO source control is configured (fail closed)', async () => {
     stubAdmin({ withdrawals: WITHDRAWAL })
     const res = await b2cPOST(post(URL, b2cBody(0)))
+    expect(res.status).toBe(401)
+    expect(complete).not.toHaveBeenCalled()
+    expect(failWd).not.toHaveBeenCalled()
+  })
+
+  it('SECURITY: REJECTS and does NOT settle a non-zero (fail) result when unconfigured', async () => {
+    stubAdmin({ withdrawals: WITHDRAWAL })
+    const res = await b2cPOST(post(URL, b2cBody(1)))
+    expect(res.status).toBe(401)
+    expect(failWd).not.toHaveBeenCalled()
+    expect(complete).not.toHaveBeenCalled()
+  })
+
+  it('SECURITY: a forged result is REJECTED (no complete, no fail) when a secret is configured but the token is wrong', async () => {
+    process.env.MPESA_WEBHOOK_SECRET = 'real-secret'
+    stubAdmin({ withdrawals: WITHDRAWAL })
+
+    const res = await b2cPOST(post(`${URL}?token=WRONG`, b2cBody(0)))
+    expect(res.status).toBe(401)
+    expect(complete).not.toHaveBeenCalled()
+    expect(failWd).not.toHaveBeenCalled()
+  })
+
+  it('SECURITY: a caller whose IP is not on the allowlist is REJECTED with 403 and does NOT settle', async () => {
+    process.env.MPESA_WEBHOOK_IP_ALLOWLIST = '196.201.214.200'
+    stubAdmin({ withdrawals: WITHDRAWAL })
+
+    const res = await b2cPOST(post(URL, b2cBody(0), { 'x-forwarded-for': '13.13.13.13' }))
+    expect(res.status).toBe(403)
+    expect(complete).not.toHaveBeenCalled()
+    expect(failWd).not.toHaveBeenCalled()
+  })
+
+  it('processes a genuine SUCCESS result carrying the correct token (happy path preserved)', async () => {
+    process.env.MPESA_WEBHOOK_SECRET = 'real-secret'
+    stubAdmin({ withdrawals: WITHDRAWAL })
+
+    const res = await b2cPOST(post(`${URL}?token=real-secret`, b2cBody(0)))
     expect((await jsonOf(res)).ResultCode).toBe(0)
     expect(complete).toHaveBeenCalledTimes(1)
     expect(complete.mock.calls[0][1]).toMatchObject({ withdrawalId: 'wd-1' })
     expect(failWd).not.toHaveBeenCalled()
   })
 
-  it('refunds (fails) the withdrawal on a non-zero result', async () => {
+  it('refunds (fails) the withdrawal on a non-zero result when correctly authenticated', async () => {
+    process.env.MPESA_WEBHOOK_SECRET = 'real-secret'
     stubAdmin({ withdrawals: WITHDRAWAL })
-    await b2cPOST(post(URL, b2cBody(1)))
+
+    await b2cPOST(post(`${URL}?token=real-secret`, b2cBody(1)))
     expect(failWd).toHaveBeenCalledTimes(1)
     expect(complete).not.toHaveBeenCalled()
   })
 
-  it('SECURITY: a forged result is dropped (no complete, no fail) when a secret is configured but the token is wrong', async () => {
+  it('is a no-op when the withdrawal cannot be found (authenticated caller)', async () => {
     process.env.MPESA_WEBHOOK_SECRET = 'real-secret'
-    stubAdmin({ withdrawals: WITHDRAWAL })
-
-    const res = await b2cPOST(post(`${URL}?token=WRONG`, b2cBody(0)))
-    expect((await jsonOf(res)).ResultCode).toBe(0)
-    expect(complete).not.toHaveBeenCalled()
-    expect(failWd).not.toHaveBeenCalled()
-  })
-
-  it('processes a genuine result carrying the correct token', async () => {
-    process.env.MPESA_WEBHOOK_SECRET = 'real-secret'
-    stubAdmin({ withdrawals: WITHDRAWAL })
-
-    await b2cPOST(post(`${URL}?token=real-secret`, b2cBody(0)))
-    expect(complete).toHaveBeenCalledTimes(1)
-  })
-
-  it('is a no-op when the withdrawal cannot be found', async () => {
     stubAdmin({ withdrawals: null })
-    await b2cPOST(post(URL, b2cBody(0)))
+    await b2cPOST(post(`${URL}?token=real-secret`, b2cBody(0)))
     expect(complete).not.toHaveBeenCalled()
     expect(failWd).not.toHaveBeenCalled()
   })

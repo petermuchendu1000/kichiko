@@ -25,19 +25,24 @@ const ACCEPTED = { ResultCode: 0, ResultDesc: 'Accepted' }
 
 export async function POST(req: NextRequest) {
   try {
-    // Money-OUT: enforce source verification when configured; fail closed.
+    // Money-OUT: source verification is MANDATORY and FAILS CLOSED. Safaricom
+    // offers no synchronous B2C status re-query, so a verified source is the
+    // ONLY control we have. We settle a withdrawal (release/refund a reserve)
+    // solely on this callback, so we refuse to act on any caller we cannot
+    // authenticate: if no control is configured (secret/allowlist unset), the
+    // token is missing/wrong, or the source IP is not allowed, we REJECT with
+    // 401/403 and never settle. This closes the previous fail-open gap where an
+    // unauthenticated body could complete/fail a payout.
     const source = verifyMpesaWebhookSource(req)
-    if (!source.ok) {
-      console.warn('M-Pesa B2C result rejected: source verification failed', {
-        reason: source.reason,
+    if (!source.ok || !source.enforced) {
+      console.warn('M-Pesa B2C result REJECTED: source not verified — refusing to settle', {
+        reason: source.reason ?? 'not_configured',
+        enforced: source.enforced,
       })
-      return NextResponse.json(ACCEPTED)
-    }
-    if (!source.enforced) {
-      // Not a blocker (would halt all live payouts), but a real security gap.
-      console.warn(
-        'SECURITY: M-Pesa B2C result endpoint is UNVERIFIED — set MPESA_WEBHOOK_SECRET ' +
-          '(and optionally MPESA_WEBHOOK_IP_ALLOWLIST) before relying on it in production.',
+      const status = source.reason === 'ip_not_allowed' ? 403 : 401
+      return NextResponse.json(
+        { ResultCode: 1, ResultDesc: 'Rejected: source verification failed' },
+        { status },
       )
     }
 
