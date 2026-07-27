@@ -10,6 +10,7 @@ import { getPriceSeries, type PriceSeries } from '@/lib/markets/price-history'
 import { getOptionSeries, type MarketSeries } from '@/lib/markets/option-series'
 import { getSpotlightComments } from '@/lib/markets/spotlight-comments'
 import { getSpotlightActivity } from '@/lib/markets/spotlight-activity'
+import { safeJsonLd } from '@/lib/seo/jsonld'
 import { hideSettling } from '@/lib/markets/settling'
 import type { Market, MarketCategory } from '@/types'
 import {
@@ -274,7 +275,7 @@ export default async function HomePage() {
     <div style={{ background: 'var(--bg)' }}>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
       />
       {/* Category rail is now mounted globally in the root layout (SubNav). */}
       <HeroSection items={heroItems} hotTopics={hotTopics} breaking={breaking} comments={heroComments} activity={heroActivity} />

@@ -10,6 +10,7 @@ import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import { safeJsonLd } from '@/lib/seo/jsonld'
 import { MarketCard } from '@/components/markets/market-card'
 import { MarketCardSkeleton } from '@/components/markets/market-card-skeleton'
 import { CategoryFilter } from '@/components/markets/category-filter'
@@ -338,7 +339,7 @@ function ItemListJsonLd({ markets }: { markets: Market[] }) {
     <script
       type="application/ld+json"
       // eslint-disable-next-line react/no-danger
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(json) }}
+      dangerouslySetInnerHTML={{ __html: safeJsonLd(json) }}
     />
   )
 }

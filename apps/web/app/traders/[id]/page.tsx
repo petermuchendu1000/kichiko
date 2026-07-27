@@ -10,6 +10,7 @@ import { traderName as resolveName, joinedMonthYear } from '@/lib/trader'
 import { TraderAvatar } from '@/components/ui/trader-avatar'
 import { tierForVolume } from '@/lib/tier'
 import { TraderPnlCard } from '@/components/profile/trader-pnl-card'
+import { safeJsonLd } from '@/lib/seo/jsonld'
 import { TraderPortfolio } from '@/components/profile/trader-portfolio'
 import { ProfileViewPing } from '@/components/profile/profile-view-ping'
 
@@ -97,7 +98,7 @@ export default async function TraderProfilePage({
   return (
     <div className="mx-auto max-w-5xl px-4 py-8">
       <ProfileViewPing userId={t.user_id} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
 
       {/* Identity + P&L — mirrored two-up like the reference. */}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">

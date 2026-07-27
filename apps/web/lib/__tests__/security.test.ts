@@ -2,12 +2,17 @@ import { describe, it, expect } from 'vitest'
 import {
   decide,
   enforce,
+  enforceEdge,
+  enforceDistributed,
+  upstashConfigFromEnv,
+  isSensitiveBucket,
   MemoryRateStore,
   bucketForPath,
   clientKey,
   rateLimitHeaders,
   RATE_RULES,
   type Counter,
+  type UpstashConfig,
 } from '@/lib/security/rate-limit'
 import {
   stripControlChars,
@@ -103,6 +108,34 @@ describe('rate-limit: routing & headers', () => {
     expect(clientKey(new Headers())).toBe('anon')
   })
 
+  it('prefers cf-connecting-ip over x-real-ip and x-forwarded-for (H4)', () => {
+    // Cloudflare's edge-injected header wins even when spoofable XFF/real-ip
+    // are also present.
+    expect(
+      clientKey(
+        new Headers({
+          'cf-connecting-ip': '10.0.0.1',
+          'x-real-ip': '9.9.9.9',
+          'x-forwarded-for': '1.2.3.4, 5.6.7.8',
+        })
+      )
+    ).toBe('10.0.0.1')
+  })
+
+  it('prefers x-real-ip over x-forwarded-for when cf-connecting-ip is absent (H4)', () => {
+    expect(
+      clientKey(new Headers({ 'x-real-ip': '9.9.9.9', 'x-forwarded-for': '1.2.3.4' }))
+    ).toBe('9.9.9.9')
+  })
+
+  it('trims whitespace and ignores blank precedence headers (H4)', () => {
+    expect(clientKey(new Headers({ 'cf-connecting-ip': '  10.0.0.2  ' }))).toBe('10.0.0.2')
+    // A blank cf header must not shadow a usable x-forwarded-for entry.
+    expect(
+      clientKey(new Headers({ 'cf-connecting-ip': '', 'x-forwarded-for': '1.2.3.4' }))
+    ).toBe('1.2.3.4')
+  })
+
   it('emits standard rate-limit headers', () => {
     const h = rateLimitHeaders({ allowed: false, limit: 5, remaining: 0, resetAt: 10000, retryAfter: 7 })
     expect(h['X-RateLimit-Limit']).toBe('5')
@@ -115,6 +148,82 @@ describe('rate-limit: routing & headers', () => {
       expect(rule.limit).toBeGreaterThan(0)
       expect(rule.windowMs).toBeGreaterThan(0)
     }
+  })
+})
+
+describe('rate-limit: distributed store + fail modes (H4)', () => {
+  const rule = { limit: 3, windowMs: 60_000 }
+  const cfg: UpstashConfig = { url: 'https://example.upstash.io', token: 't0ken' }
+
+  const okFetch = (count: number): typeof fetch =>
+    (async () =>
+      new Response(JSON.stringify([{ result: count }, { result: 1 }]), {
+        status: 200,
+        headers: { 'content-type': 'application/json' },
+      })) as unknown as typeof fetch
+
+  const errFetch: typeof fetch = (async () =>
+    new Response('nope', { status: 500 })) as unknown as typeof fetch
+
+  it('upstashConfigFromEnv reads env and strips trailing slashes', () => {
+    expect(upstashConfigFromEnv({})).toBeNull()
+    expect(upstashConfigFromEnv({ UPSTASH_REDIS_REST_URL: 'https://x/' })).toBeNull()
+    expect(
+      upstashConfigFromEnv({
+        UPSTASH_REDIS_REST_URL: 'https://x//',
+        UPSTASH_REDIS_REST_TOKEN: 'tok',
+      })
+    ).toEqual({ url: 'https://x', token: 'tok' })
+  })
+
+  it('marks the auth bucket as sensitive and others as not', () => {
+    expect(isSensitiveBucket('auth')).toBe(true)
+    expect(isSensitiveBucket('api')).toBe(false)
+  })
+
+  it('enforceDistributed allows under the limit and blocks over it', async () => {
+    const allowed = await enforceDistributed('k', rule, cfg, 0, okFetch(2))
+    expect(allowed.allowed).toBe(true)
+    expect(allowed.remaining).toBe(1)
+
+    const blocked = await enforceDistributed('k', rule, cfg, 0, okFetch(4))
+    expect(blocked.allowed).toBe(false)
+    expect(blocked.remaining).toBe(0)
+    expect(blocked.retryAfter).toBeGreaterThan(0)
+  })
+
+  it('enforceEdge uses the distributed store when configured', async () => {
+    const d = await enforceEdge('k', rule, { upstash: cfg, fetchImpl: okFetch(1) })
+    expect(d.allowed).toBe(true)
+    expect(d.remaining).toBe(2)
+  })
+
+  it('sensitive rules FAIL CLOSED when the distributed store errors', async () => {
+    const d = await enforceEdge('auth:1.2.3.4', rule, {
+      upstash: cfg,
+      sensitive: true,
+      fetchImpl: errFetch,
+    })
+    expect(d.allowed).toBe(false)
+    expect(d.retryAfter).toBeGreaterThan(0)
+  })
+
+  it('non-sensitive rules FAIL OPEN (fall back to memory) on store error', async () => {
+    const store = new MemoryRateStore()
+    const d = await enforceEdge('api:1.2.3.4', rule, {
+      upstash: cfg,
+      sensitive: false,
+      store,
+      fetchImpl: errFetch,
+    })
+    expect(d.allowed).toBe(true)
+  })
+
+  it('enforceEdge uses in-memory store when no distributed store is configured', async () => {
+    const store = new MemoryRateStore()
+    const first = await enforceEdge('api:9', rule, { upstash: null, store })
+    expect(first.allowed).toBe(true)
+    expect(first.remaining).toBe(2)
   })
 })
 
