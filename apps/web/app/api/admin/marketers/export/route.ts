@@ -1,6 +1,7 @@
 // GET /api/admin/marketers/export — CSV of the marketer directory.
 import { NextRequest, NextResponse } from 'next/server'
 import { requireCapability } from '@/lib/auth'
+import { createAdminClient } from '@/lib/supabase/server'
 import { toCsv } from '@/lib/admin/csv'
 import { describePlan } from '@/lib/admin/marketers'
 
@@ -8,7 +9,8 @@ export async function GET(_req: NextRequest) {
   const guard = await requireCapability('marketers:manage')
   if (!guard.ok) return guard.response
 
-  const { data } = await guard.ctx.supabase
+  const admin = await createAdminClient()
+  const { data } = await admin
     .from('marketer_profiles')
     .select(
       'user_id, tracking_code, plan_key, commission_plan, hold_days, status, created_at, profiles!marketer_profiles_user_id_fkey(username, display_name, country_code, referral_count)'

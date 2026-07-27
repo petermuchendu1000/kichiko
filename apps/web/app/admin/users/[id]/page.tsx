@@ -3,6 +3,7 @@
 import { notFound } from 'next/navigation'
 import { kes } from '@/lib/admin/money'
 import { requirePageCapability } from '@/lib/admin/page-guard'
+import { createAdminClient } from '@/lib/supabase/server'
 import {
   roleHasCapability,
   canGrantRole,
@@ -31,7 +32,10 @@ export default async function UserDetailPage({ params }: { params: Promise<{ id:
   const supabase = ctx.supabase
   const actorRole = ctx.role
 
-  const { data: profile } = await supabase.from('profiles').select('*').eq('id', id).single()
+  // Another user's full profile includes private columns → service-role client
+  // (already gated by requirePageCapability('users:read')).
+  const admin = await createAdminClient()
+  const { data: profile } = await admin.from('profiles').select('*').eq('id', id).single()
   if (!profile) notFound()
 
   const [wallets, txs, kycDocs, notes, positionsCount] = await Promise.all([

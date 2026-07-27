@@ -27,8 +27,10 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     return NextResponse.json({ error: 'Invalid request', details: parsed.error.flatten() }, { status: 400 })
   }
 
-  // Resolve the target and enforce impersonation guardrails.
-  const { data: target } = await guard.ctx.supabase
+  // Resolve the target and enforce impersonation guardrails. role is a private
+  // column, so read the target via the service-role client.
+  const admin = await createAdminClient()
+  const { data: target } = await admin
     .from('profiles')
     .select('id, role')
     .eq('id', id)
@@ -40,8 +42,6 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   if (isStaffRole(target.role) && !isSuperadmin(actorRole)) {
     return NextResponse.json({ error: 'Only a superadmin can impersonate a staff member.' }, { status: 403 })
   }
-
-  const admin = await createAdminClient()
 
   // Need the target's email to mint a magic link.
   const { data: authUser, error: getErr } = await admin.auth.admin.getUserById(id)

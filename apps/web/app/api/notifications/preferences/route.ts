@@ -16,18 +16,19 @@ const schema = z
   })
   .refine((o) => Object.keys(o).length > 0, { message: 'No preferences provided' })
 
-const COLUMNS = 'email_notifications, sms_notifications, push_notifications'
-
 export async function GET() {
   const guard = await requireUser()
   if (!guard.ok) return guard.response
-  const { data, error } = await guard.ctx.supabase
-    .from('profiles')
-    .select(COLUMNS)
-    .eq('id', guard.ctx.user.id)
-    .single()
+  const { data, error } = await guard.ctx.supabase.rpc('get_my_profile').maybeSingle()
   if (error) return NextResponse.json({ error: error.message }, { status: 400 })
-  return NextResponse.json({ preferences: data })
+  const preferences = data
+    ? {
+        email_notifications: data.email_notifications,
+        sms_notifications: data.sms_notifications,
+        push_notifications: data.push_notifications,
+      }
+    : null
+  return NextResponse.json({ preferences })
 }
 
 export async function PATCH(req: NextRequest) {
@@ -39,12 +40,18 @@ export async function PATCH(req: NextRequest) {
   const guard = await requireUser()
   if (!guard.ok) return guard.response
 
-  const { data, error } = await guard.ctx.supabase
+  const { error } = await guard.ctx.supabase
     .from('profiles')
     .update(parsed.data)
     .eq('id', guard.ctx.user.id)
-    .select(COLUMNS)
-    .single()
   if (error) return NextResponse.json({ error: error.message }, { status: 400 })
-  return NextResponse.json({ success: true, preferences: data })
+  const { data: fresh } = await guard.ctx.supabase.rpc('get_my_profile').maybeSingle()
+  const preferences = fresh
+    ? {
+        email_notifications: fresh.email_notifications,
+        sms_notifications: fresh.sms_notifications,
+        push_notifications: fresh.push_notifications,
+      }
+    : null
+  return NextResponse.json({ success: true, preferences })
 }

@@ -1,6 +1,7 @@
 // GET /api/admin/users/export — CSV export of the current user filter set.
 import { NextRequest, NextResponse } from 'next/server'
 import { requireCapability } from '@/lib/auth'
+import { createAdminClient } from '@/lib/supabase/server'
 import { parseUserListParams, fetchUsers, MAX_PAGE_SIZE, type UserRow } from '@/lib/admin/users'
 import { toCsv } from '@/lib/admin/csv'
 
@@ -10,7 +11,7 @@ export async function GET(req: NextRequest) {
 
   const params = parseUserListParams(req.nextUrl.searchParams)
   // Export up to MAX_PAGE_SIZE rows of the current filter (first page window).
-  const { rows } = await fetchUsers(guard.ctx.supabase, { ...params, page: 1, pageSize: MAX_PAGE_SIZE })
+  const { rows } = await fetchUsers(await createAdminClient(), { ...params, page: 1, pageSize: MAX_PAGE_SIZE })
 
   const csv = toCsv<UserRow>(rows, [
     { key: 'id', header: 'ID' },

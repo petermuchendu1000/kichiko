@@ -281,6 +281,11 @@
       "kind": "read_only",
       "reason": "read-only (STABLE/IMMUTABLE) public/self-scoped data"
     },
+    "get_my_profile": {
+      "guarded": true,
+      "kind": "read_only",
+      "reason": "self-scoped: returns only the caller's own profile row (WHERE id = auth.uid()); definer so a user can read their own private columns after migration 058 narrowed the authenticated table-SELECT grant to public columns only"
+    },
     "guard_profile_delete": {
       "guarded": false,
       "kind": "trigger",

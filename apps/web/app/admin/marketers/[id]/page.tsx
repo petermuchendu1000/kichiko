@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { kes2 } from '@/lib/admin/money'
 import { notFound } from 'next/navigation'
 import { requirePageCapability } from '@/lib/admin/page-guard'
+import { createAdminClient } from '@/lib/supabase/server'
 import { fetchMarketerAttribution, commissionUsd, normalizePlan, describePlan } from '@/lib/admin/marketers'
 import { defaultPeriod } from '@/lib/admin/payouts'
 import { ProfileStatusBadge } from '@/components/admin/growth/Badges'
@@ -23,8 +24,8 @@ function Stat({ label, value, hint }: { label: string; value: string; hint?: str
 
 export default async function MarketerDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const ctx = await requirePageCapability('marketers:manage')
-  const sb = ctx.supabase
+  await requirePageCapability('marketers:manage')
+  const sb = await createAdminClient()
 
   const { data: marketer } = await sb
     .from('marketer_profiles')

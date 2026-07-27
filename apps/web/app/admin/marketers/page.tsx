@@ -1,6 +1,7 @@
 // app/admin/marketers/page.tsx — Marketer directory, applications & quick links.
 import Link from 'next/link'
 import { requirePageCapability } from '@/lib/admin/page-guard'
+import { createAdminClient } from '@/lib/supabase/server'
 import { parseMarketerListParams, describePlan, type MarketerListParams } from '@/lib/admin/marketers'
 import { ProfileStatusBadge } from '@/components/admin/growth/Badges'
 import { ApplicationActions } from '@/components/admin/growth/ApplicationActions'
@@ -30,9 +31,9 @@ export default async function MarketersPage({
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>
 }) {
-  const ctx = await requirePageCapability('marketers:manage')
+  await requirePageCapability('marketers:manage')
   const params = parseMarketerListParams(await searchParams)
-  const sb = ctx.supabase
+  const sb = await createAdminClient()
 
   const from = (params.page - 1) * params.pageSize
   let dirQ = sb

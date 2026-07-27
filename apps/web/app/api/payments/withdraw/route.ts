@@ -64,12 +64,8 @@ export async function POST(req: NextRequest) {
     const cur = currency as CurrencyCode
     const prov = provider as PaymentProvider
 
-    // Account-status gate.
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('account_status, kyc_status')
-      .eq('id', user.id)
-      .single()
+    // Account-status gate (self-scoped read).
+    const { data: profile } = await supabase.rpc('get_my_profile').maybeSingle()
 
     if (!profile) {
       return NextResponse.json({ error: 'Profile not found' }, { status: 400 })

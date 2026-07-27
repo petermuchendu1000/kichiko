@@ -6,6 +6,7 @@
 import { Fragment } from 'react'
 import Link from 'next/link'
 import { requirePageCapability } from '@/lib/admin/page-guard'
+import { createAdminClient } from '@/lib/supabase/server'
 import {
   STAFF_ROLES,
   ALL_CAPABILITIES,
@@ -64,7 +65,11 @@ export default async function StaffPage() {
   const actorRole = ctx.role as Role
   const canGrant = roleHasCapability(actorRole, 'users:role_grant')
 
-  const { data } = await ctx.supabase
+  // Staff directory reads other users' private columns (role/status/last_login),
+  // so it goes through the service-role capability-holder client; the caller is
+  // already gated by requirePageCapability('staff:read').
+  const admin = await createAdminClient()
+  const { data } = await admin
     .from('profiles')
     .select('id, username, display_name, role, account_status, last_login_at, created_at')
     .in('role', [...STAFF_ROLES])

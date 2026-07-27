@@ -48,18 +48,11 @@ const schema = z
   })
   .refine((o) => Object.keys(o).length > 0, { message: 'No fields provided' })
 
-const COLUMNS =
-  'display_name, username, bio, phone_number, country_code, preferred_currency, avatar_url, kyc_status, account_status, referral_code'
-
 export async function GET() {
   const guard = await requireUser()
   if (!guard.ok) return guard.response
 
-  const { data, error } = await guard.ctx.supabase
-    .from('profiles')
-    .select(COLUMNS)
-    .eq('id', guard.ctx.user.id)
-    .single()
+  const { data, error } = await guard.ctx.supabase.rpc('get_my_profile').maybeSingle()
 
   if (error) return NextResponse.json({ error: error.message }, { status: 400 })
   return NextResponse.json({ profile: data, email: guard.ctx.user.email })
@@ -91,12 +84,10 @@ export async function PATCH(req: NextRequest) {
     ...(d.avatar_url !== undefined && { avatar_url: nn(d.avatar_url) }),
   }
 
-  const { data, error } = await guard.ctx.supabase
+  const { error } = await guard.ctx.supabase
     .from('profiles')
     .update(updates)
     .eq('id', guard.ctx.user.id)
-    .select(COLUMNS)
-    .single()
 
   if (error) {
     // 23505 = unique_violation (username taken).
@@ -109,5 +100,7 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 400 })
   }
 
+  // Return the caller's own updated row via the self-scoped RPC.
+  const { data } = await guard.ctx.supabase.rpc('get_my_profile').maybeSingle()
   return NextResponse.json({ success: true, profile: data })
 }
