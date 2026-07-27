@@ -60,7 +60,7 @@ jobs:
 
       # --- Ordered prod DB migration BEFORE cutover ---
       - name: Setup Supabase CLI
-        uses: supabase/setup-cli@v1
+        uses: supabase/setup-cli@v3
         with:
           version: latest
       - name: Push migrations (production)
