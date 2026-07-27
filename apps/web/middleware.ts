@@ -20,6 +20,9 @@ const ADMIN_PORTAL_ROLE_SET = new Set<string>(ADMIN_PORTAL_ROLES)
 const SECURITY_HEADERS = securityHeaders({
   supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
   allowUnsafeEval: process.env.NODE_ENV !== 'production',
+  // upgrade-insecure-requests only over https (prod); on http://localhost it
+  // breaks RSC prefetch with ERR_SSL_PROTOCOL_ERROR. See lib/security/headers.ts.
+  upgradeInsecure: process.env.NODE_ENV === 'production',
 })
 
 function applySecurityHeaders(res: NextResponse, requestId?: string): NextResponse {
