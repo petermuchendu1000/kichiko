@@ -313,6 +313,52 @@ jobs:
           lhci autorun --config=./lighthouserc.json || true
 
   # ------------------------------------------------------------------
+  # INF-06 — End-to-end user journeys (Playwright) as a BLOCKING gate.
+  # Mirrors the (proven) a11y job setup: build with runtime Supabase config,
+  # then Playwright's webServer runs `next start`. Runs the FULL e2e suite and
+  # is REQUIRED — it is included in the "CI green" aggregate below. Specs are
+  # read-only public journeys (home/markets/detail/search/leaderboard/legal/
+  # auth-modal/currency); retries=1 + generous CI timeouts (playwright.config.ts)
+  # absorb transient SSR latency from the remote eu-west-1 DB.
+  # ------------------------------------------------------------------
+  e2e:
+    name: E2E (Playwright)
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+      - run: npm ci
+      - name: Install Playwright browser
+        run: npx --workspace apps/web playwright install --with-deps chromium
+      - name: Build
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_APP_URL: ${{ secrets.NEXT_PUBLIC_APP_URL }}
+        run: npm run build
+      - name: Run Playwright E2E suite
+        # Playwright's webServer runs `next start`; give it the same runtime
+        # Supabase config the Build got, else DB-backed pages (Home, Markets)
+        # hang and page.goto times out.
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_APP_URL: ${{ secrets.NEXT_PUBLIC_APP_URL }}
+        run: npm --workspace apps/web run test:e2e
+      - name: Upload Playwright report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: apps/web/playwright-report/
+          retention-days: 7
+
+  # ------------------------------------------------------------------
   # CICD-01 — Aggregate required check.
   # A single, stable status branch protection can require regardless of
   # which paths changed. It `needs:` every gating job and runs `always()`.
@@ -333,6 +379,7 @@ jobs:
       - migration-lint
       - security
       - dependency-review
+      - e2e
     steps:
       - name: Verify required jobs passed or were skipped-by-design
         env:
