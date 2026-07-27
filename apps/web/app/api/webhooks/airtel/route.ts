@@ -32,9 +32,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ received: true })
     }
 
-    // Confirm with the provider rather than trusting the callback body.
-    let success = parsed.success
-    let failed = parsed.failed
+    // Confirm with the provider rather than trusting the callback body. The
+    // authoritative status re-query drives the credit/fail decision — the raw
+    // callback body is NEVER trusted to move money.
+    let success: boolean
+    let failed: boolean
     let airtelMoneyId = parsed.airtelMoneyId
     try {
       const live = await airtelTransactionStatus(reference)
@@ -42,7 +44,13 @@ export async function POST(req: NextRequest) {
       failed = live.status === 'TF'
       airtelMoneyId = live.airtelMoneyId ?? airtelMoneyId
     } catch {
-      // Fall back to parsed callback if the status query is unavailable.
+      // F4: the authoritative status re-query failed/threw. Do NOT fall back to
+      // trusting the spoofable callback body (that could credit a wallet off a
+      // forged payload). Leave the deposit PENDING (no-op), ack the provider so
+      // it retries, and let the reconciliation sweep settle it later. Mirrors
+      // the M-Pesa deposit handler.
+      console.warn('Airtel callback: status query unavailable; leaving pending', deposit.id)
+      return NextResponse.json({ received: true })
     }
 
     if (success) {

@@ -66,9 +66,10 @@ export async function POST(req: NextRequest) {
       .eq('currency', currency)
       .single()
 
+    let newWallet: { id: string } | null = null
     if (!wallet) {
       // Create wallet on-demand
-      const { data: newWallet, error: walletError } = await adminClient
+      const { data: created, error: walletError } = await adminClient
         .from('wallets')
         .insert({ user_id: user.id, currency })
         .select('id')
@@ -77,9 +78,19 @@ export async function POST(req: NextRequest) {
       if (walletError) {
         return NextResponse.json({ error: 'Failed to create wallet' }, { status: 500 })
       }
+      newWallet = created
     }
 
-    const walletId = wallet?.id || ''
+    // F5: use the existing wallet, else the one just created on-demand. The old
+    // `wallet?.id || ''` referenced only the original (null) `wallet`, so the
+    // first deposit in a brand-new currency inserted deposits.wallet_id='' —
+    // silently mis-linking the deposit. Hard-fail rather than persist an empty
+    // wallet_id if neither resolves.
+    const walletId = wallet?.id ?? newWallet?.id
+    if (!walletId) {
+      console.error('Deposit: failed to resolve wallet id', { userId: user.id, currency })
+      return NextResponse.json({ error: 'Failed to resolve wallet' }, { status: 500 })
+    }
 
     // Get exchange rate
     const { data: rateData } = await adminClient
