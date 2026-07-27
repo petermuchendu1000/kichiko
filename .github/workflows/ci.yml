@@ -311,3 +311,43 @@ jobs:
           npm --workspace apps/web run start &
           npx --yes wait-on http-get://localhost:3000/ -t 180000
           lhci autorun --config=./lighthouserc.json || true
+
+  # ------------------------------------------------------------------
+  # CICD-01 — Aggregate required check.
+  # A single, stable status branch protection can require regardless of
+  # which paths changed. It `needs:` every gating job and runs `always()`.
+  # It FAILS if any needed job failed or was cancelled, and PASSES when the
+  # jobs succeeded OR were skipped-by-design by change-detection.
+  # Configure branch protection to require ONLY this "CI green" check.
+  # ------------------------------------------------------------------
+  ci-required:
+    name: CI green
+    runs-on: ubuntu-latest
+    if: always()
+    needs:
+      - lint
+      - type-check
+      - unit
+      - i18n
+      - build
+      - migration-lint
+      - security
+      - dependency-review
+    steps:
+      - name: Verify required jobs passed or were skipped-by-design
+        env:
+          RESULTS: ${{ toJSON(needs) }}
+        run: |
+          echo "Needed job results:"
+          echo "$RESULTS" | jq .
+          # 'success' and 'skipped' (change-detection) are acceptable.
+          # 'failure' and 'cancelled' must fail the aggregate check.
+          failed=$(echo "$RESULTS" | jq -r '
+            to_entries
+            | map(select(.value.result == "failure" or .value.result == "cancelled"))
+            | .[].key')
+          if [ -n "$failed" ]; then
+            echo "::error title=CI green::Required jobs did not pass (failure/cancelled): $failed"
+            exit 1
+          fi
+          echo "All required jobs succeeded or were skipped by design — CI is green."

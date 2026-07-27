@@ -1,0 +1,57 @@
+# CONTAINER-01 — Container image vulnerability scan (Trivy).
+# Builds the app Docker image and scans it for HIGH/CRITICAL OS + library
+# vulnerabilities. It is gated behind a code/Dockerfile paths filter so it
+# only runs when the image could actually change (keeps it cheap), and it is
+# NON-BLOCKING for now while we triage the baseline.
+#
+# TODO(CONTAINER-01): once the initial HIGH/CRITICAL findings are triaged and
+# any accepted risks are allowlisted (.trivyignore), remove the job-level
+# `continue-on-error: true` below to turn this into a hard, blocking gate.
+name: Image scan
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'apps/**'
+      - 'Dockerfile'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/image-scan.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'apps/**'
+      - 'Dockerfile'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/image-scan.yml'
+
+concurrency:
+  group: image-scan-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  trivy:
+    name: Trivy image scan (HIGH,CRITICAL)
+    runs-on: ubuntu-latest
+    # NON-BLOCKING baseline — see the TODO at the top of this file before
+    # flipping this to a blocking gate.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image
+        run: docker build -t kichiko:${{ github.sha }} .
+      - name: Trivy vulnerability scan (HIGH,CRITICAL)
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: kichiko:${{ github.sha }}
+          format: table
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true
+          # Non-zero exit surfaces findings; the job-level continue-on-error
+          # keeps the overall run green until we promote this to blocking.
+          exit-code: '1'
