@@ -161,6 +161,11 @@
       "kind": "volatile",
       "reason": "self-guards via authz check"
     },
+    "admin_review_kyc": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via has_capability('kyc:review'); intentionally granted to authenticated (migration 056) because the admin KYC-review route calls it via the authenticated admin session, exactly like its 26 admin_* siblings"
+    },
     "admin_rotate_gateway_secret": {
       "guarded": true,
       "kind": "volatile",
