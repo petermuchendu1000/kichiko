@@ -359,6 +359,41 @@ jobs:
           retention-days: 7
 
   # ------------------------------------------------------------------
+  # INF-03 — CLOB matching-engine invariant harnesses against an EPHEMERAL
+  # Postgres, as a BLOCKING gate. Spins up a throwaway PG17 (real `http`
+  # extension; pg_cron shimmed), applies the Supabase bootstrap + ALL
+  # migrations, seeds 6 users, then runs the fuzz + two-sided + abuse-cap
+  # harnesses (each rolls back — nothing persists). Guards the money path:
+  # value-conservation, share-conservation (YES==NO), no-oversell, self-trade
+  # prevention, price-time priority, escrow exactness, cost-basis, and the
+  # P0130/P0131/P0132 order caps. Gated to migration/script changes; required
+  # via the CI green aggregate below.
+  # ------------------------------------------------------------------
+  clob-invariants:
+    name: CLOB invariants (ephemeral PG)
+    runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.migrations == 'true' || needs.changes.outputs.code == 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install psycopg2
+        run: pip install psycopg2-binary
+      - name: Install PostgreSQL 17 + http extension (PGDG)
+        run: |
+          sudo sh -c 'echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+          curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/pgdg.gpg
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends postgresql-17 postgresql-17-http
+      - name: Run CLOB invariant harnesses (ephemeral Postgres, rolled back)
+        env:
+          PG_BINDIR: /usr/lib/postgresql/17/bin
+          FUZZ_N: '5000'
+        run: bash scripts/ci/run_clob_invariants.sh
+
+  # ------------------------------------------------------------------
   # CICD-01 — Aggregate required check.
   # A single, stable status branch protection can require regardless of
   # which paths changed. It `needs:` every gating job and runs `always()`.
@@ -380,6 +415,7 @@ jobs:
       - security
       - dependency-review
       - e2e
+      - clob-invariants
     steps:
       - name: Verify required jobs passed or were skipped-by-design
         env:
