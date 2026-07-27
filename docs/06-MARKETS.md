@@ -1,40 +1,42 @@
-# Module 3 — Markets & LMSR Pricing
+# Module 3 — Markets & CLOB Pricing
 
-## LMSR (Logarithmic Market Scoring Rule)
+## CLOB (central limit order book)
 
-For a binary market with inventory `qYes` / `qNo` and liquidity `b > 0`:
+Prices are **not** set by an automated market maker. Each market runs a central
+limit order book: participants post limit orders that rest on the book, and
+incoming orders match against the best available price by **price-time
+priority**. The last fill sets the displayed market price, and the best bid/ask
+quotes bound it. There is no LMSR cost function — the legacy AMM/LMSR engine
+(`place_bet`, `lmsr_price`, `lmsr_cost_to_buy`, `lmsr_price_multi`) was dropped
+in migration `035_drop_amm_lmsr_functions.sql`; the platform is now CLOB-only
+(`pricing_engine = 'clob'`).
 
-```
-Cost function:   C(q) = b · ln( e^(qYes/b) + e^(qNo/b) )
-Marginal price:  p_i  = e^(qi/b) / Σ_j e^(qj/b)          (p_yes + p_no = 1)
-Cost to buy Δ:   C(q + Δ) − C(q)
-```
+Prices are quoted in **cents** on a fixed tick grid (`CLOB_TICK = 0.1`, bounded
+`0.1c – 99.9c`); a YES price of `c` implies a NO price of `100 − c`.
 
 ### Authority & parity
 
-`public.lmsr_price` / `public.lmsr_cost_to_buy` (Postgres, `IMMUTABLE`) are
-**authoritative** — `place_bet` runs them server-side, atomically. `lib/lmsr.ts`
-is the matching TypeScript reference used for UI previews (price impact, est.
-shares, slippage). It is **numerically stable** via the log-sum-exp trick, so it
-matches the DB wherever the DB doesn't overflow and stays finite where naive
-`EXP()` would blow up. Parity is asserted in `lib/__tests__/lmsr.test.ts` against
-values captured directly from the DB functions.
+The order-book RPCs are **authoritative** and run server-side, atomically:
 
-| Input | DB | `lib/lmsr.ts` |
-| --- | --- | --- |
-| `price(0,0,100)` | 0.500000 / 0.500000 | ✓ |
-| `price(100,0,100)` yes | 0.731059 | ✓ |
-| `price(200,50,100)` yes | 0.817574 | ✓ |
-| `price(30,10,50)` yes | 0.598688 | ✓ |
-| `cost(0,0,100)` | 69.314718 | ✓ |
-| `costToBuy(100,50,25,0,100)` | 16.279402 | ✓ |
+| RPC | Purpose |
+| --- | --- |
+| `clob_place_order` | Place a limit/market order; match against the book, mint/burn or transfer shares, debit/credit the wallet, record fills |
+| `clob_cancel_order` | Cancel a resting order and release its reserved funds/shares |
+| `clob_get_book` | Read the current two-sided (bids/asks) book with depth |
+| `clob_expire_orders` | Sweep expired resting orders (background job) |
 
-`b` mirrors `place_bet`: `b = max(liquidity_pool_usd / 2, 50)` (`bFromLiquidity`).
+`lib/clob.ts` is the matching TypeScript reference used for UI previews and
+validation: price clamping/ticks (`clampPriceCents`, `complementCents`), book
+shaping (`shapeBook`, `withCumulativeTotals`), buy/sell estimates
+(`estimateClobBuyShares`, `estimateClobSellProceedsUsd`), the Zod order schema
+(`clobOrderSchema`), and the canonical error map (`CLOB_ERRORS` / `clobErrorFor`).
+Behaviour is asserted in `lib/__tests__/clob.test.ts`.
 
-> Tech-debt note (Module 4): `place_bet` currently allocates shares with the
-> simplified `net_usd / price` and uses USD volume as the quantity proxy, rather
-> than the exact LMSR inverse (`sharesForBudget`). Reconciling execution with the
-> exact inversion is tracked for the Trading module.
+> Note: order matching, settlement, rounding conservation, and the expiry
+> sweeper live in the CLOB migration set (`030`–`046`, e.g.
+> `033_clob_two_sided`, `043_clob_settlement_correctness`,
+> `044_clob_expire_orders_sweeper`, `045_clob_rounding_conservation`). The order
+> ticket and API route exclusively through `clob_place_order` / `clob_cancel_order`.
 
 ## Market lifecycle (`lib/market-lifecycle.ts`)
 
@@ -72,11 +74,12 @@ window, and `resolves_at ≥ closes_at`. Regular users land in `pending` for
 review; admins/moderators activate directly.
 
 ## Tests & gate
-- `lib/__tests__/lmsr.test.ts` — 18 tests: DB parity, price-sum=1, monotonicity,
-  convex cost-to-buy, log-sum-exp stability at extreme quantities, `bFromLiquidity`,
-  `spreadFromPrices` round-trip, `sharesForBudget` slippage + closed-form match.
+- `lib/__tests__/clob.test.ts` — order-book unit tests: price clamping/ticks,
+  complement pricing, book shaping + cumulative depth totals, buy/sell estimates,
+  `clobOrderSchema` validation, and the `CLOB_ERRORS` / `clobErrorFor` mapping.
 - `lib/__tests__/market-lifecycle.test.ts` — 10 tests: legal/illegal transitions,
   terminal guards, structured `validateTransition` errors.
 
-Gate: 70/70 tests · `tsc --noEmit` clean · `next build` · DB-live LMSR parity +
-rolled-back create-market verifying defaults (`draft`, 0.50/0.50).
+Gate: `tsc --noEmit` clean · `next build` · DB-live CLOB checks (`clob_get_book`
+returns an uncrossed two-sided book) + rolled-back create-market verifying
+defaults (`draft`).

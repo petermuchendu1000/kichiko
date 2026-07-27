@@ -46,11 +46,11 @@ k6 run load/smoke.js     # smoke; see load/ for scenarios
 
 ## What to test where
 
-- **Pure logic** (LMSR pricing, currency/FX math, formatters, RBAC capability
+- **Pure logic** (CLOB order-book pricing, currency/FX math, formatters, RBAC capability
   resolution, cache-header/rate-limit builders) → **unit tests**. These are the
   backbone; keep them fast and deterministic. Timezone-sensitive tests must pin a
   timezone (see `lib/__tests__/format.test.ts`).
-- **Database invariants** (atomic `place_bet`, wallet balances, resolution
+- **Database invariants** (atomic `clob_place_order`, wallet balances, resolution
   payouts) → RPC/integration tests + assertions after `db:reset`.
 - **User journeys** (browse → bet → portfolio; deposit; auth) → Playwright E2E.
 - **Accessibility** → axe on key pages must report **zero critical/serious**

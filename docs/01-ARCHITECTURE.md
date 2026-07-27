@@ -17,7 +17,7 @@
                                      │ supabase-js (anon + service role)
                 ┌────────────────────▼─────────────────────┐
                 │  Supabase                                  │
-                │  • Postgres (RLS, LMSR fns, place_bet RPC) │
+                │  • Postgres (RLS, CLOB order-book fns/RPCs)│
                 │  • Auth (email/OAuth, JWT)                 │
                 │  • Storage (kyc-documents, market-covers)  │
                 │  • Edge Functions (cron jobs)              │
@@ -38,7 +38,7 @@
 | State / data | TanStack Query, Zustand, SWR; react-hook-form + Zod |
 | Charts | Recharts |
 | Backend | Next.js route handlers + Supabase Postgres functions |
-| AMM pricing | LMSR implemented in SQL (`lmsr_price`, `lmsr_cost_to_buy`) |
+| Pricing | CLOB order book in SQL (`clob_place_order`, `clob_cancel_order`, `clob_get_book`) |
 | Auth | Supabase Auth (JWT), RBAC via `profiles.role` enum + RLS |
 | Storage | Supabase Storage (private KYC bucket, public covers) |
 | Background jobs | Supabase Edge Functions on cron schedules |
@@ -51,7 +51,7 @@
 
 ## 3. Key design principles
 
-1. **Money is moved only inside the database.** `place_bet`, `resolve_market`,
+1. **Money is moved only inside the database.** `clob_place_order`, `resolve_market`,
    deposit/withdraw balance updates are atomic Postgres functions/transactions.
    The API never computes balances client-side.
 2. **RLS everywhere.** Every table enforces row-level security; the service-role
@@ -72,7 +72,7 @@
 
 ## 5. Module map (→ see 03-ROADMAP.md for sequencing)
 
-Foundation/types · Auth & RBAC · Wallets & currency · Markets & LMSR · Trading
+Foundation/types · Auth & RBAC · Wallets & currency · Markets & CLOB · Trading
 (orders/positions) · Portfolio · Payments (deposit/withdraw) · KYC · Notifications
 · Search · Leaderboard · Admin · Background jobs · Observability · CI/CD ·
 Hardening (security, rate-limit, caching) · Deployment.

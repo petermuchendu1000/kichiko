@@ -41,8 +41,9 @@ export default function HelpPage() {
       <p>
         You buy YES or NO shares on a question about the future. The price (0–100%)
         is the market&rsquo;s estimate of how likely the outcome is. Winning shares
-        pay out; losing shares expire. Prices move as people trade (via an
-        automated market maker), and you can never lose more than you stake.
+        pay out; losing shares expire. Prices move as people trade (your orders
+        are matched on a live order book), and you can never lose more than you
+        stake.
       </p>
 
       <h2>Money</h2>

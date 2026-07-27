@@ -1,6 +1,6 @@
 # How betting & pricing works
 
-> A plain-language explanation of prices, shares, payouts, and the LMSR pricing
+> A plain-language explanation of prices, shares, payouts, and the order-book
 > engine behind Kichiko.
 
 ## Shares, prices, and payouts
@@ -21,20 +21,24 @@ wins, you receive nothing.
 The lower the price when you buy, the bigger your potential payout per unit
 staked — because you're betting on the less-expected outcome.
 
-## Why prices move (the LMSR)
+## Why prices move (the order book)
 
-Kichiko uses an automated market maker called **LMSR** (Logarithmic Market
-Scoring Rule). You don't need another person to take the other side of your bet —
-the market maker is always available to buy and sell.
+Kichiko runs an **order book**: your order is matched against other traders'
+orders, and the price is set by where buyers and sellers actually meet. Orders
+match by **price-time priority** — the best price fills first, and ties go to
+whoever was there first.
 
 What you need to know as a trader:
 
 - **Buying YES pushes the YES price up** (and NO down); buying NO does the
-  opposite. Big bets move the price more than small bets.
+  opposite. Big orders move the price more than small ones.
+- You can place a **market order** (fill right now at the best available prices)
+  or a **limit order** (rest on the book at a price you choose until someone
+  trades with you).
 - Prices reflect **all the buying and selling so far** — think of the price as a
   live crowd estimate that updates with every trade.
-- Because a large order moves the price as it fills, you pay a slightly higher
-  average price on bigger bets. The confirmation screen always shows the **shares
+- Because a large order eats into the book as it fills, you pay a slightly higher
+  average price on bigger orders. The confirmation screen always shows the **shares
   you'll receive and the payout if you win** before you commit — check it.
 
 You never pay more than your stake, and you can never lose more than you put in.

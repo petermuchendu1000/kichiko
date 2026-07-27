@@ -49,12 +49,14 @@ against production — restore into an isolated **scratch project**.
    export DR_DB_URL='postgresql://…scratch…'
    pip install psycopg2-binary   # if needed
    python3 scripts/dr_restore_check.py          # read-only invariants
-   python3 scripts/dr_restore_check.py --smoke  # + money-path RPC sanity (rolled back)
+   python3 scripts/dr_restore_check.py --smoke  # + CLOB money-path RPC sanity (rolled back)
    ```
    The checker asserts: core tables present & populated; **no negative wallet
    balances**; **no orphaned** positions/orders/wallets; schema is current
-   (migration 018 column present); and (smoke) `place_bet` / `resolve_market`
-   RPCs exist for a rolled-back sanity exercise.
+   (latest applied migration **>= 058**, the current head); and (smoke) the live
+   CLOB RPCs `clob_place_order` / `clob_cancel_order` / `resolve_market` exist for
+   a rolled-back sanity exercise. (The legacy AMM/LMSR `place_bet` RPC was dropped
+   in migration 035, so it is intentionally **not** asserted.)
 4. **Spot-check** a known market/user, and `/api/health` when the scratch app is
    pointed at the restored DB.
 5. **Record timings** vs targets (start → restore complete → checks green) and
@@ -99,7 +101,7 @@ threshold on list/detail reads. Re-run before each capacity decision.
 | --- | --- | --- |
 | Concurrent users | hundreds → low thousands | Fly machines scale horizontally |
 | Requests | reads dominate; served by edge + Redis cache | raise cache TTL/SWR; add region |
-| Bets/day | thousands | atomic `place_bet` RPC; DB pooler connections |
+| Orders/day | thousands | atomic `clob_place_order` RPC; DB pooler connections |
 | Storage growth | KYC media dominant | Supabase Storage; monitor & tier |
 | DB connections | bounded by pooler budget | tune pooler; add read replicas if added |
 

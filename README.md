@@ -20,7 +20,7 @@ Built specifically for East Africa:
 ```
 kichiko/
 ├── apps/
-│   └── web/                        # Next.js 14 App Router (TypeScript)
+│   └── web/                        # Next.js 15 App Router (TypeScript)
 │       ├── app/
 │       │   ├── page.tsx            # Home — featured + trending markets
 │       │   ├── markets/            # Market list, detail, create
@@ -32,7 +32,7 @@ kichiko/
 │       │   ├── kyc/                # Identity verification upload
 │       │   ├── admin/              # Admin control plane (spec: docs/08-ADMIN.md)
 │       │   └── api/
-│       │       ├── orders/         # Place bets (LMSR pricing)
+│       │       ├── orders/         # Place/cancel CLOB order-book orders
 │       │       ├── markets/        # CRUD markets + resolve
 │       │       ├── payments/
 │       │       │   ├── deposit/    # Initiate mobile money deposit
@@ -53,7 +53,7 @@ kichiko/
 │       └── hooks/                  # useAuth, useWallets
 ├── supabase/
 │   ├── migrations/
-│   │   ├── 001_initial_schema.sql  # Full schema + RLS + LMSR functions
+│   │   ├── 001_initial_schema.sql  # Full schema + RLS + CLOB order-book functions
 │   │   └── 002_search_leaderboard_kyc.sql  # Search, leaderboard, KYC
 │   ├── functions/
 │   │   ├── resolve-market/         # Admin market resolution
@@ -68,20 +68,24 @@ kichiko/
 
 ---
 
-## 🧠 Pricing Model (LMSR)
+## 🧠 Pricing Model (CLOB order book)
 
-Uses a **Logarithmic Market Scoring Rule (LMSR)** automated market maker:
+Prices come from a **central limit order book (CLOB)**, not an automated market
+maker. Orders match against resting orders by **price-time priority**; the last
+fill sets the market price. The legacy LMSR/AMM engine was retired in migration
+035 (`place_bet` and the LMSR SQL functions were dropped).
 
-```
-yes_price = e^(q_yes/b) / (e^(q_yes/b) + e^(q_no/b))
-```
+Orders are placed and cancelled via the `clob_place_order` / `clob_cancel_order`
+RPCs; the live book is read with `clob_get_book`, and matches are recorded as
+`clob_fills`.
 
 | Concept | Explanation |
 |---------|-------------|
-| **Shares** | Each bet buys YES or NO shares; 1 share pays $1 if correct |
-| **Price** | Current probability of YES (0–100%) |
-| **b parameter** | Liquidity sensitivity; auto-derived from pool size |
-| **Platform fee** | 2% per bet; 0.25% goes to market creator |
+| **Shares** | Each order buys/sells YES or NO shares; 1 share pays $1 if correct |
+| **Price** | Current probability of YES (0–100%), set by the last fill / best quotes |
+| **Order types** | Limit and market orders; makers rest on the book, takers cross the spread |
+| **Matching** | Price-time priority; partial fills supported |
+| **Platform fee** | 2% per fill; 0.25% goes to market creator |
 
 ---
 
@@ -197,7 +201,7 @@ RESEND_FROM_EMAIL=Kichiko <noreply@kichiko.co.ke>
 |-------|---------|
 | `profiles` | User accounts + stats |
 | `wallets` | Multi-currency wallets (KES, UGX, TZS, RWF, ZMW) |
-| `markets` | Prediction markets with LMSR pricing |
+| `markets` | Prediction markets with CLOB order-book pricing |
 | `price_history` | Time-series for charts |
 | `orders` | Individual bet records |
 | `positions` | Aggregated holdings per user per market |
@@ -218,7 +222,7 @@ RESEND_FROM_EMAIL=Kichiko <noreply@kichiko.co.ke>
 ## 🔒 Security
 
 - **RLS**: every table has row-level security policies
-- **Atomic bets**: `place_bet()` is a single Postgres transaction
+- **Atomic order matching**: `clob_place_order()` matches and settles in a single Postgres transaction
 - **Idempotency keys**: all payments are idempotent
 - **Auth middleware**: protected routes validated at the edge
 - **KYC gate**: withdrawals over $100 require verified identity
@@ -283,7 +287,7 @@ $100K/month volume → ~$1,750/month platform revenue.
 
 ### v1.0 ✅ (Complete)
 - [x] Binary prediction markets (YES/NO)
-- [x] LMSR automated market maker
+- [x] CLOB central limit order book (price-time priority)
 - [x] M-Pesa deposits (Kenya/Tanzania)
 - [x] MTN MoMo deposits (Uganda/Rwanda)
 - [x] Airtel Money deposits (multi-country)
@@ -327,7 +331,7 @@ $100K/month volume → ~$1,750/month platform revenue.
 | [`docs/03-ROADMAP.md`](docs/03-ROADMAP.md) | Module-by-module build roadmap |
 | [`docs/04-FLOWS.md`](docs/04-FLOWS.md) | Core user & payment flows |
 | [`docs/05-CURRENCY.md`](docs/05-CURRENCY.md) | Multi-currency & FX model |
-| [`docs/06-MARKETS.md`](docs/06-MARKETS.md) | Markets & LMSR lifecycle |
+| [`docs/06-MARKETS.md`](docs/06-MARKETS.md) | Markets & CLOB lifecycle |
 | [`docs/07-TRADING.md`](docs/07-TRADING.md) | Orders, positions & fee economics |
 | [`docs/08-ADMIN.md`](docs/08-ADMIN.md) | **Admin control plane** — users, creators, marketers, payment gateway settings, finance, system settings, moderation & audit |
 

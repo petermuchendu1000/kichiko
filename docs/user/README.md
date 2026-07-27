@@ -32,7 +32,7 @@ is** right now.
 
 ## Guides
 
-- [How betting & pricing works (LMSR, in plain language)](./how-betting-works.md)
+- [How betting & pricing works (the order book, in plain language)](./how-betting-works.md)
 - [Deposits & withdrawals (mobile money)](./deposits-withdrawals.md)
 - [Portfolio & profit/loss](./portfolio-and-pnl.md)
 - [Identity verification (KYC)](./kyc.md)

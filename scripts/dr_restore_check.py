@@ -4,8 +4,12 @@
 Run this against a database restored from a backup / PITR into a SCRATCH project
 to assert the restore is complete and internally consistent. It performs
 read-only integrity checks by default; with --smoke it additionally exercises the
-money path (place_bet + resolve_market) inside a transaction that is ALWAYS
-rolled back, so it is safe against any target.
+CLOB money path (clob_place_order + clob_cancel_order + resolve_market) inside a
+transaction that is ALWAYS rolled back, so it is safe against any target.
+
+Note: the legacy AMM/LMSR `place_bet` RPC was dropped in migration 035; the live
+money path is now the central limit order book (`clob_place_order` /
+`clob_cancel_order`), so the smoke check asserts those RPCs exist.
 
 Usage:
   export DR_DB_URL='postgresql://...restored-scratch-db...'   # or SUPABASE_DB_URL
@@ -21,6 +25,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import re
 import sys
 import time
 
@@ -117,17 +122,24 @@ def main() -> int:
             conn.rollback()
             notes.append(f"{label} check skipped: {e}")
 
-    # 4. Schema currency: migration 018 column present (proves latest schema restored).
+    # 4. Schema currency: assert the restore reached the current migration head.
+    # Head is migration 058 (the AMM/LMSR engine was dropped at 035 and the CLOB
+    # engine + hardening land across 030–058). We read the Supabase migration
+    # ledger and require the latest applied version to be >= 058.
+    HEAD_MIGRATION = 58
     print("\n[4] Schema freshness")
     try:
         cur.execute(
-            "SELECT 1 FROM information_schema.columns "
-            "WHERE table_schema='public' AND table_name='profiles' "
-            "AND column_name='preferred_locale'"
+            "SELECT version FROM supabase_migrations.schema_migrations "
+            "ORDER BY version DESC LIMIT 1"
         )
-        check(cur.fetchone() is not None,
-              "profiles.preferred_locale present (>= migration 018)",
-              "profiles.preferred_locale MISSING — restore predates migration 018")
+        row = cur.fetchone()
+        head = row[0] if row else None
+        m = re.match(r"0*(\d+)", head or "")
+        head_num = int(m.group(1)) if m else -1
+        check(head_num >= HEAD_MIGRATION,
+              f"latest applied migration {head} (>= {HEAD_MIGRATION:03d})",
+              f"latest applied migration {head} predates head {HEAD_MIGRATION:03d} — stale restore")
     except Exception as e:  # noqa: BLE001
         conn.rollback()
         notes.append(f"schema-freshness check skipped: {e}")
@@ -136,15 +148,21 @@ def main() -> int:
     if args.smoke:
         print("\n[5] Money-path smoke (rolled back)")
         try:
+            # The live money path is the CLOB order book. The legacy AMM/LMSR
+            # place_bet RPC was dropped in migration 035, so assert the CLOB
+            # RPCs exist instead (asserting place_bet here would always FAIL).
             cur.execute(
-                "SELECT proname FROM pg_proc WHERE proname IN ('place_bet','resolve_market')"
+                "SELECT proname FROM pg_proc "
+                "WHERE proname IN ('clob_place_order','clob_cancel_order','resolve_market')"
             )
             procs = {r[0] for r in cur.fetchall()}
-            check("place_bet" in procs, "place_bet RPC exists", "place_bet RPC MISSING")
+            check("clob_place_order" in procs, "clob_place_order RPC exists", "clob_place_order RPC MISSING")
+            check("clob_cancel_order" in procs, "clob_cancel_order RPC exists", "clob_cancel_order RPC MISSING")
             check("resolve_market" in procs, "resolve_market RPC exists", "resolve_market RPC MISSING")
             notes.append(
-                "smoke: RPC existence verified. Execute a full place_bet+resolve_market "
-                "against seeded scratch rows here, then ROLLBACK (never commit)."
+                "smoke: RPC existence verified. Execute a full clob_place_order "
+                "(+ clob_cancel_order / resolve_market) against seeded scratch rows "
+                "here, then ROLLBACK (never commit)."
             )
         finally:
             conn.rollback()

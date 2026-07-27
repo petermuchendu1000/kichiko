@@ -16,8 +16,9 @@ regulatory reasons.
 
 ## 3. Trading & risk
 - Trades involve real money and real risk of loss.
-- Prices are set by an automated market maker (LMSR) from trading activity;
-  markets resolve to the real, verified outcome.
+- Prices are set by a central limit order book — your orders are matched against
+  other participants' orders by price-time priority; markets resolve to the real,
+  verified outcome.
 - Confirmed trades are final, subject to market resolution.
 
 ## 4. Deposits, withdrawals & fees

@@ -6,7 +6,7 @@
 
 ## 👤 For users
 - [User guide (start here)](./user/README.md)
-- [How betting & pricing works (LMSR)](./user/how-betting-works.md)
+- [How betting & pricing works (order book)](./user/how-betting-works.md)
 - [Deposits & withdrawals (mobile money)](./user/deposits-withdrawals.md)
 - [Portfolio & profit/loss](./user/portfolio-and-pnl.md)
 - [Identity verification (KYC)](./user/kyc.md)
