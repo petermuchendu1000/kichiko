@@ -20,6 +20,19 @@ Conventional-Commit messages by `.github/workflows/release.yml`.
   changelog.
 
 ### Fixed
+- **Currency — KES converts at the real-time market rate, not a "1 USD = 100 KES"
+  peg.** The platform hardcoded `KES→USD = 0.01` (via `SHARE_PAYOUT_KES` /
+  `KES_SETTLEMENT_RATE`), excluded KES from the live FX cron
+  (`PEGGED_CURRENCIES`), and seeded a `pilot-peg-ksh100` `exchange_rates` row —
+  mispricing every KES↔USD conversion by ~29% vs the real market (~129 KES/USD).
+  KES is now a first-class market currency: fetched, inverted and upserted live
+  on every `update-exchange-rates` cycle exactly like UGX/TZS/etc.; the fallback
+  bootstrap (`fx-fallback.json`) and all call sites (`page.tsx`, admin money,
+  campaign/marketer forms) convert via `localToUsd`/`usdToLocal` at the live
+  rate. The internal unit stays true USD (one share settles at $1); the local
+  per-share payout is derived at the live rate (~KSh 129) instead of a hardcoded
+  KSh 100, and the landing-page explainer copy interpolates it dynamically.
+  DB reversal: migration `067_kes_realtime_fx` (reverses `038_kes_peg_ksh100`).
 - **Auth — email sign-in delivers a 6-digit code, not a magic link.** Added a
   branded `magic_link` email template rendering `{{ .Token }}` and wired it in
   `supabase/config.toml` (`otp_length=6`, `otp_expiry=3600`); the in-dialog
