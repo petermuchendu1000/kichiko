@@ -373,7 +373,7 @@ function Spotlight({ market, series, comments, activity }: HeroMarket & { commen
                   <span style={{ fontSize: 13, lineHeight: '16px', color: 'var(--text-3)' }}>
                     {series.binary ? 'Yes' : o.label}
                     <span className="ml-0.5 tabular-nums font-semibold" style={{ color: 'var(--text-2)' }}>
-                      {(o.price * 100).toFixed(1)}%
+                      {Math.round(o.price * 100)}%
                     </span>
                   </span>
                 </span>

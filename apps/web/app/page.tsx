@@ -130,19 +130,24 @@ async function getData() {
 
   // Biggest movers: markets whose implied probability shifted the most (either
   // direction) over the recorded window, ranked by absolute change.
+  // Source movers from the PER-OPTION series (the same source the hero chart and
+  // card option rows use), NOT the binary yes-price series. For a multiple_choice
+  // market the binary yes-price helper lumps every option's history into one list
+  // and yields a meaningless probability/change; MarketSeries.changePct is the
+  // leading option's signed delta and stays consistent across every surface.
   const movers = moversPoolList
-    .map((m) => ({ market: m, change: seriesByMarket.get(m.id)?.changePct ?? 0 }))
+    .map((m) => ({ market: m, change: optionSeries.get(m.id)?.changePct ?? 0 }))
     .filter((x) => Math.abs(x.change) >= 1)
     .sort((a, b) => Math.abs(b.change) - Math.abs(a.change))
     .slice(0, 6)
 
   // Breaking News: the biggest movers with their current leading probability,
-  // for the rail's ranked list (question + % + signed delta).
+  // for the rail's ranked list (question + % + signed delta). The leading
+  // probability is the top-ranked option's current price (lines are ordered
+  // highest-first), matching the hero chart legend + card rows exactly.
   const breaking = movers.map(({ market, change }) => {
-    const s = seriesByMarket.get(market.id)
-    // PriceSeries exposes a chronological `points` array (Yes-price in [0,1]);
-    // the leading probability is the most recent point.
-    const lead = s?.points?.[s.points.length - 1] ?? market.yes_price ?? 0
+    const s = optionSeries.get(market.id)
+    const lead = s?.lines?.[0]?.price ?? market.yes_price ?? 0
     return { market, change, pct: Math.round(lead * 100) }
   })
 
