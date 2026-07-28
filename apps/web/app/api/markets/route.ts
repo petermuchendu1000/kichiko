@@ -192,27 +192,28 @@ export async function POST(req: NextRequest) {
     const noPrice = Math.round((1 - yesPrice) * 1e6) / 1e6
 
     const adminClient = await createAdminClient()
-    const insertData = {
-      ...marketData,
-      slug,
-      creator_id: user.id,
-      status,
-      resolver_id: isAdmin ? user.id : null,
-      // yes_price/no_price are retained only as the display/mark seed; the CLOB
-      // re-prices them from the first fill.
-      yes_price: yesPrice,
-      no_price: noPrice,
-      metadata: (metadata ?? null) as Json,
-    }
     const { data: market, error: createError } = await adminClient
       .from('markets')
-      // BE-HIGH-1: the markets.pricing_engine column defaults to 'amm', but the
-      // platform is CLOB-only — every order path (POST /api/orders,
-      // /markets/[id]/book, clob_place_order P0103) rejects non-'clob' markets, so
-      // API-created markets would be untradeable (dead book). Force 'clob'. The
-      // generated Supabase types predate this column (migration 030), so it is
-      // attached via a cast that preserves the runtime value.
-      .insert({ ...insertData, pricing_engine: 'clob' } as typeof insertData)
+      .insert({
+        ...marketData,
+        slug,
+        creator_id: user.id,
+        status,
+        resolver_id: isAdmin ? user.id : null,
+        // BE-HIGH-1: the markets.pricing_engine column defaults to 'amm', but the
+        // platform is CLOB-only — every order path (POST /api/orders,
+        // /markets/[id]/book, clob_place_order P0103) rejects non-'clob' markets,
+        // so API-created markets would be untradeable (dead book). Force 'clob'.
+        // The generated Supabase types type this column as `never` (the DB enum
+        // was not captured at generation time), so the literal is cast to satisfy
+        // tsc; the runtime value is a valid 'clob'.
+        pricing_engine: 'clob' as never,
+        // yes_price/no_price are retained only as the display/mark seed; the CLOB
+        // re-prices them from the first fill.
+        yes_price: yesPrice,
+        no_price: noPrice,
+        metadata: (metadata ?? null) as Json,
+      })
       .select()
       .single()
 
