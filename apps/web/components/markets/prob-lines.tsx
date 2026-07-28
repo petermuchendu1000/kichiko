@@ -22,26 +22,19 @@
 // AND text stay crisp at every container width, exactly like the live site.
 import type { OptionLine } from '@/lib/markets/option-series'
 import { niceDomain } from '@/lib/markets/chart-domain'
+import { SERIES_PALETTE } from '@/lib/markets/series-color'
 
-// Categorical palette — measured from Polymarket's live hero chart, then
-// extended with harmonious hues for markets with >4 outcomes.
-// First four are Polymarket's EXACT hero line colors, assigned by rank
-// (highest current probability first): light-blue, blue, gold, orange.
-// The remainder are harmonious extensions for events with >4 outcomes.
-export const LINE_PALETTE = [
-  '#87BFFF', // light blue  (rank 0 / highest)
-  '#4378FF', // blue        (rank 1)
-  '#FDC503', // gold        (rank 2)
-  '#FF7F0E', // orange      (rank 3)
-  '#7C4DFF', // violet
-  '#12A150', // green
-  '#E5484D', // red
-  '#00B8D9', // teal
-  '#C2557A', // magenta
-  '#9A8C5C', // brass
-  '#5B8DEF', // periwinkle
-  '#D06A4A', // terracotta
-]
+// Per-option series palette. SINGLE SOURCE OF TRUTH is SERIES_PALETTE in
+// lib/markets/series-color.ts — the SAME rank-indexed palette used by the
+// market-detail chart (OutcomesChart), its legend, the allocation donut, and
+// the Market drawer. Previously ProbLines carried its own divergent hex
+// palette, so the same option showed one colour on the hero/movers/cards and a
+// DIFFERENT colour on the detail page (audit finding GVO-1). Re-exporting the
+// shared palette here guarantees an option keeps ONE colour across every
+// surface. The CSS custom-property tokens resolve correctly as SVG stroke/fill
+// attributes (verified live), so inline SVG rendering is unaffected.
+// `LINE_PALETTE` is kept as a backward-compatible alias for existing importers.
+export const LINE_PALETTE = SERIES_PALETTE
 
 interface ProbLinesProps {
   lines: OptionLine[]
