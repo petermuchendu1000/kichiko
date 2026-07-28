@@ -9,9 +9,9 @@ bootstrap used if both the live provider and the DB are unreachable.
 
 To keep it from becoming a stale, hand-maintained set of magic numbers, this
 script regenerates it from the SAME live provider. Run it periodically (or in
-CI) so the bootstrap tracks reality. KES is intentionally omitted: its
-local->USD value is a SETTLEMENT PEG derived from settlement.share_payout_kes,
-not a market quote, and is injected in code from a single constant.
+CI) so the bootstrap tracks reality. KES is included like every other currency:
+it is a real market FX quote (~129 KES/USD), NOT a fixed peg, so its last-known-
+good value must track the live provider too.
 
     python3 scripts/ops/refresh_fx_fallback.py
 """
@@ -19,8 +19,8 @@ from __future__ import annotations
 import json, os, sys, urllib.request, datetime as dt
 
 ERAPI = os.environ.get("FX_PROVIDER_URL", "https://open.er-api.com/v6/latest/USD")
-# Non-KES, non-USD supported currencies (KES = settlement peg, USD = base = 1).
-SUPPORTED = ["UGX", "TZS", "RWF", "ZMW", "ETB", "BIF"]
+# Every supported currency except USD (base = 1). KES is a real market quote.
+SUPPORTED = ["KES", "UGX", "TZS", "RWF", "ZMW", "ETB", "BIF"]
 OUT = os.path.join(os.path.dirname(__file__), "..", "..", "apps", "web", "lib", "generated", "fx-fallback.json")
 
 

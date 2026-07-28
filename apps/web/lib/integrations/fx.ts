@@ -11,16 +11,15 @@ import type { CurrencyCode } from '@/types'
 import { SUPPORTED_CURRENCIES, FALLBACK_USD_RATES } from '@/lib/currency'
 
 /**
- * Currencies whose local->USD rate is a fixed PRODUCT PEG, not an FX market
- * quote, and must therefore NEVER be overwritten by the live FX job.
+ * Currencies whose local->USD rate is a fixed PRODUCT PEG and must NOT be
+ * overwritten by the live FX job.
  *
- * KES is the pilot settlement currency: one share settles at KSh 100, so the
- * platform pegs KES->USD = 0.01 (1 USD == KSh 100). That is a denomination
- * decision, not an exchange rate. The live USD/KES *market* rate is still
- * fetched (see fetchUsdKesReference) and exposed for reference/other-currency
- * conversion, but the settlement peg row in `exchange_rates` stays put.
+ * NONE. Every supported currency — KES included — is a real market FX quote
+ * refreshed live from the provider. There is no "1 USD == 100 KES" peg: KES is
+ * fetched, inverted and upserted on every cron cycle exactly like UGX/TZS/etc.
+ * The constant is retained (empty) so any external reference resolves cleanly.
  */
-export const PEGGED_CURRENCIES: readonly CurrencyCode[] = ['KES'] as const
+export const PEGGED_CURRENCIES: readonly CurrencyCode[] = [] as const
 
 /** How many units of a currency equal 1 USD (provider "USD-base" quote). */
 export type UsdBaseRates = Partial<Record<string, number>>
@@ -85,8 +84,8 @@ export function mergeWithFallback(
 
 /**
  * Shape the merged rates into the row array `upsert_exchange_rates(jsonb)`
- * expects: one { from_currency, rate } per non-USD supported currency, EXCLUDING
- * pegged currencies (KES) whose rate is a product decision, not a market quote.
+ * expects: one { from_currency, rate } per non-USD supported currency. KES is
+ * included — it is a real market quote, upserted live like every other currency.
  * Pure.
  */
 export function toUpsertRows(
@@ -175,7 +174,7 @@ export async function fetchUsdRates(
 
   const inverted = invertUsdRates(usdBase)
   const merged = mergeWithFallback(inverted)
-  // Never treat a pegged currency as "live" — its row must not be upserted.
+  // No currency is pegged: every live quote (KES included) is eligible to upsert.
   const live = merged.live.filter((c) => !PEGGED_CURRENCIES.includes(c))
   return {
     rates: merged.rates,
@@ -186,8 +185,9 @@ export async function fetchUsdRates(
 
 /**
  * Live USD->KES *market* reference (how many KES per 1 USD), from the free
- * ExchangeRate-API. This is informational only (reference / other-currency
- * conversion); it deliberately does NOT touch the KES settlement peg. Returns
+ * ExchangeRate-API. Convenience mirror of the KES row for surfaces that want a
+ * human "1 USD = X KES" figure (e.g. platform_settings.fx.usd_kes_reference);
+ * the authoritative conversion rate is the KES row in `exchange_rates`. Returns
  * null on any provider error so callers can fall back gracefully.
  */
 export async function fetchUsdKesReference(

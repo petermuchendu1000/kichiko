@@ -125,8 +125,10 @@ mutating routes; lifecycle machine correct except `/resolve` doesn't consult it.
 | PAY-6..11 | Low/Med | webhook.ts, deposit/withdraw routes | Replay/HMAC primitives dead code; no amount caps/minor-unit validation; no request-level withdrawal idempotency; webhooks swallow credit errors & ack (retry lost); completed withdrawals show `fee_amount=0`; fragile Airtel idempotency key. |
 
 **Verified correct (live DB):** 0 negative balances, 0 duplicate idempotency keys, 1468/1468
-deposits reconciled 1:1; `big.js` decimal math; FX fallback never `|| 1`; KES peg excluded from
-live FX; payments/auth rate-limit buckets fail closed; B2C money-out fails closed.
+deposits reconciled 1:1; `big.js` decimal math; FX fallback never `|| 1`; KES is a real-time
+market rate refreshed live like every other currency (the old 1-USD-=-100-KES pilot peg was
+removed in `067_kes_realtime_fx`); payments/auth rate-limit buckets fail closed; B2C money-out
+fails closed.
 
 ---
 

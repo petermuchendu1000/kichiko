@@ -33,8 +33,9 @@ async function handle(req: NextRequest) {
     const outcome = await withJobRun(sb, JOB_NAME, requestId, async () => {
       const fx = await fetchUsdRates()
 
-      // Record the live USD/KES *market* reference (informational only; never
-      // touches the KES settlement peg row in exchange_rates).
+      // Record the live USD/KES *market* reference as a human-readable mirror.
+      // The authoritative KES conversion rate is the KES row in exchange_rates,
+      // which fetchUsdRates now refreshes live like every other currency.
       const ref = await fetchUsdKesReference()
       if (ref) {
         await sb

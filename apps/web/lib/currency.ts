@@ -7,6 +7,14 @@
 //     localToUsd:  usd   = local * rate
 //     usdToLocal:  local = usd  / rate
 //
+//   EVERY supported currency — KES included — is a real, market FX quote sourced
+//   live from the FX provider (see lib/integrations/fx.ts) and refreshed into
+//   `exchange_rates` by the update-exchange-rates cron. There is NO fixed
+//   "1 USD = 100 KES" peg anywhere: KES converts at the same real-time rate as
+//   every other currency (~1 USD ≈ 129 KES). The internal "USD unit" is genuine
+//   US Dollars; one share settles at $1 (Polymarket-style), which is displayed
+//   to a local user as `usdToLocal(1, currency, rates)` at the LIVE rate.
+//
 // PRECISION
 //   All conversion math uses big.js (arbitrary-precision decimal) to avoid
 //   IEEE-754 float drift on money. Results are rounded to the minor-unit
@@ -21,23 +29,6 @@
 import Big from 'big.js'
 import type { CurrencyCode } from '@/types'
 import fxBootstrap from '@/lib/generated/fx-fallback.json'
-
-/**
- * SETTLEMENT PEG — single source of truth.
- * One share settles at KSh `SHARE_PAYOUT_KES`. This is a contract denomination
- * (like Polymarket's $1/share), NOT an FX market quote. Every internal
- * "USD unit" therefore equals 1/SHARE_PAYOUT_KES USD, i.e. KES->USD = 0.01 when
- * the payout is 100. Derive the peg from here; never hardcode 0.01 / 100 / 129
- * anywhere else. The runtime value can be overridden per-environment via
- * NEXT_PUBLIC_SHARE_PAYOUT_KES without code changes.
- */
-export const SHARE_PAYOUT_KES: number = (() => {
-  const raw = Number(process.env.NEXT_PUBLIC_SHARE_PAYOUT_KES)
-  return Number.isFinite(raw) && raw > 0 ? raw : 100
-})()
-
-/** KES->USD settlement peg, derived from the share payout (never a literal). */
-export const KES_SETTLEMENT_RATE = 1 / SHARE_PAYOUT_KES
 
 export const SUPPORTED_CURRENCIES = [
   'KES', 'UGX', 'TZS', 'RWF', 'ZMW', 'ETB', 'BIF', 'USD',
@@ -67,17 +58,18 @@ export const CURRENCY_META: Record<CurrencyCode, CurrencyMeta> = {
 }
 
 // Last-known-good local->USD rates. Used ONLY as a graceful fallback when a
-// live rate is unavailable. Assembled from three non-hardcoded sources:
-//   - non-KES market rates: lib/generated/fx-fallback.json (auto-generated from
-//     the live provider by scripts/ops/refresh_fx_fallback.py; never hand-edited)
-//   - KES: the settlement peg, derived from SHARE_PAYOUT_KES
+// live rate is unavailable. Assembled from two non-hardcoded sources:
+//   - market rates (KES + all other currencies): lib/generated/fx-fallback.json
+//     (auto-generated from the live provider by scripts/ops/refresh_fx_fallback.py;
+//     never hand-edited)
 //   - USD: the base (1 by definition)
-// A transient DB/provider hiccup thus degrades to a fresh, currency-correct
-// estimate instead of a dangerous constant.
+// KES is a first-class market quote here — NOT a fixed peg — so a transient
+// DB/provider hiccup degrades to a fresh, currency-correct KES estimate
+// (~0.00775 USD, i.e. ~129 KES/USD) instead of the old 1-USD-=-100-KES constant.
 const BOOTSTRAP_RATES = (fxBootstrap as { rates?: Partial<Record<CurrencyCode, number>> }).rates ?? {}
 
 export const FALLBACK_USD_RATES: Record<CurrencyCode, number> = {
-  KES: KES_SETTLEMENT_RATE,
+  KES: BOOTSTRAP_RATES.KES ?? 0,
   UGX: BOOTSTRAP_RATES.UGX ?? 0,
   TZS: BOOTSTRAP_RATES.TZS ?? 0,
   RWF: BOOTSTRAP_RATES.RWF ?? 0,

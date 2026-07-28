@@ -3,8 +3,6 @@ import {
   SUPPORTED_CURRENCIES,
   CURRENCY_META,
   FALLBACK_USD_RATES,
-  SHARE_PAYOUT_KES,
-  KES_SETTLEMENT_RATE,
   isSupportedCurrency,
   getUsdRate,
   localToUsd,
@@ -15,18 +13,23 @@ import {
   fetchRatesMap,
 } from '@/lib/currency'
 
-describe('settlement peg: single source of truth (no hardcoded 0.01/100/129)', () => {
-  it('derives the KES peg from SHARE_PAYOUT_KES', () => {
-    expect(SHARE_PAYOUT_KES).toBeGreaterThan(0)
-    expect(KES_SETTLEMENT_RATE).toBeCloseTo(1 / SHARE_PAYOUT_KES, 12)
-    expect(FALLBACK_USD_RATES.KES).toBe(KES_SETTLEMENT_RATE)
+describe('KES is a real market rate, NOT a 1-USD-=-100-KES peg', () => {
+  it('sources the KES fallback from the live bootstrap (~129 KES/USD, never 0.01)', () => {
+    // A genuine market quote sits near 0.00775 (129 KES/USD), emphatically not
+    // the old 0.01 peg. Guard a sane band so a regression to the peg fails here.
+    expect(FALLBACK_USD_RATES.KES).toBeGreaterThan(0.005)
+    expect(FALLBACK_USD_RATES.KES).toBeLessThan(0.02)
+    expect(FALLBACK_USD_RATES.KES).not.toBe(0.01)
   })
-  it('keeps display consistent: 1 share pays exactly SHARE_PAYOUT_KES', () => {
-    // usdToLocal(1 internal unit -> KES) must equal the per-share payout.
-    expect(usdToLocal(1, 'KES')).toBeCloseTo(SHARE_PAYOUT_KES, 6)
+  it('values $1 in KES at the live market rate (~129), not the 100 peg', () => {
+    // 1 USD converts to KES-per-USD = 1 / rate, which must be ~129, not 100.
+    const kesPerUsd = usdToLocal(1, 'KES')
+    expect(kesPerUsd).toBeGreaterThan(110)
+    expect(kesPerUsd).toBeLessThan(180)
+    expect(kesPerUsd).not.toBeCloseTo(100, 0)
   })
-  it('non-KES fallbacks are populated from the generated bootstrap (positive)', () => {
-    for (const c of ['UGX', 'TZS', 'RWF', 'ZMW', 'ETB', 'BIF'] as const) {
+  it('every currency fallback (KES included) is populated from the bootstrap', () => {
+    for (const c of ['KES', 'UGX', 'TZS', 'RWF', 'ZMW', 'ETB', 'BIF'] as const) {
       expect(FALLBACK_USD_RATES[c]).toBeGreaterThan(0)
     }
   })
@@ -98,7 +101,9 @@ describe('localToUsd', () => {
   })
 
   it('uses fallback rate when no live rate supplied', () => {
-    expect(localToUsd(1000, 'KES')).toBe(1000 * FALLBACK_USD_RATES.KES)
+    // localToUsd rounds to cents; the fallback is a full-precision market rate.
+    const expected = Math.round(1000 * FALLBACK_USD_RATES.KES * 100) / 100
+    expect(localToUsd(1000, 'KES')).toBe(expected)
   })
 
   it('rejects non-finite amounts', () => {

@@ -7,6 +7,17 @@ Single source of truth for money conversion across Kichiko.
 `exchange_rates` stores rows of **`from_currency → USD`** where
 **1 unit of `from_currency` == `rate` USD**.
 
+> **KES is a real-time market rate, not a peg.** Every supported currency —
+> **KES included** — is a genuine market quote sourced live from the FX provider
+> and refreshed into `exchange_rates` by the `update-exchange-rates` cron
+> (~1 USD ≈ 129 KES). There is **no** fixed "1 USD = 100 KES" peg anywhere.
+> The old pilot peg (migration `038_kes_peg_ksh100`, `SHARE_PAYOUT_KES`,
+> `KES_SETTLEMENT_RATE`, `PEGGED_CURRENCIES`) was removed in
+> `067_kes_realtime_fx`. The internal unit of account is true USD and one share
+> settles at $1 (Polymarket-style); the local per-share payout is derived at the
+> **live** rate via `usdToLocal(1, currency, rates)`, so it tracks reality
+> (~KSh 129/share today) rather than a hardcoded KSh 100.
+
 ```
 localToUsd:  usd   = local * rate
 usdToLocal:  local = usd   / rate

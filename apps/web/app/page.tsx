@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
-import { SHARE_PAYOUT_KES } from '@/lib/currency'
+import { FALLBACK_USD_RATES } from '@/lib/currency'
 import { HeroSection } from '@/components/layout/hero-section'
 import { MarketCard } from '@/components/markets/market-card'
 import { FeaturedCarousel } from '@/components/markets/featured-carousel'
@@ -73,9 +73,9 @@ async function getData() {
     .from('exchange_rates').select('rate')
     .eq('from_currency', 'KES').eq('to_currency', 'USD').limit(1)
   const kesRate = Number(kesRateRows?.[0]?.rate ?? 0)
-  // KES->USD is the settlement peg; invert to KES-per-USD. If the row is somehow
-  // missing, derive from the single settlement source of truth (never a literal).
-  const kesPerUsd = kesRate > 0 ? 1 / kesRate : SHARE_PAYOUT_KES
+  // KES->USD is a live market rate; invert to KES-per-USD (~129). If the row is
+  // somehow missing, fall back to the last-known-good KES rate (never a literal).
+  const kesPerUsd = kesRate > 0 ? 1 / kesRate : 1 / FALLBACK_USD_RATES.KES
   // Real platform fee, read straight off live market rows (every market carries
   // `platform_fee_rate`; the whole catalogue is on one rate). No hardcoded %.
   const feeRate = Number((allActive[0] as unknown as { platform_fee_rate?: number } | undefined)?.platform_fee_rate ?? 0.02)
@@ -235,6 +235,12 @@ export default async function HomePage() {
   // active-market count, aggregate volume converted to KES via the live FX rate,
   // the number of categories the catalogue spans, and the real platform fee.
   const totalVolumeKes = totalVolume * kesPerUsd
+  // Per-share settlement in KES, derived at the LIVE FX rate (one share = $1).
+  // Explainer copy interpolates these so the numbers always match reality
+  // (~KSh 129/share today) instead of a hardcoded, now-inaccurate "KSh 100".
+  const sharePayoutKes = Math.round(kesPerUsd)
+  const exampleBuyKes = Math.round(0.65 * kesPerUsd) // a Yes bought at 65%
+  const exampleProfitKes = sharePayoutKes - exampleBuyKes
   const stats = [
     { n: activeCount > 0 ? `${activeCount}` : '-', l: 'Events open now' },
     { n: totalVolumeKes > 0 ? `KSh ${fmtCompact(totalVolumeKes)}` : '-', l: 'Money traded so far' },
@@ -368,9 +374,9 @@ export default async function HomePage() {
           <SectionHead eyebrow="How it works" title="Three easy steps" />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { n: '01', h: 'See the chance', p: 'Every event shows a chance from 0% to 100%. It is how likely people think “Yes” is. The price matches the chance, so a 65% chance means a Yes costs KSh 65.' },
+              { n: '01', h: 'See the chance', p: `Every event shows a chance from 0% to 100%. It is how likely people think “Yes” is. The price tracks the chance, so a Yes at 65% costs about KSh ${exampleBuyKes}.` },
               { n: '02', h: 'Choose Yes or No', p: 'Buy Yes if you think it will happen. Buy No if you think it will not. Deposit in seconds with M-Pesa.' },
-              { n: '03', h: 'Get paid if you are right', p: 'When the event ends, every correct Yes or No pays KSh 100. A Yes you bought at KSh 65 pays back KSh 100, so you make KSh 35. If you are wrong, it pays nothing. Withdraw to M-Pesa.' },
+              { n: '03', h: 'Get paid if you are right', p: `When the event ends, every correct Yes or No pays KSh ${sharePayoutKes}. A Yes you bought at 65% (about KSh ${exampleBuyKes}) pays KSh ${sharePayoutKes}, so you make about KSh ${exampleProfitKes}. If you are wrong, it pays nothing. Withdraw to M-Pesa.` },
             ].map(s => (
               <div key={s.n} className="card p-6">
                 <div className="w-10 h-10 rounded-lg grid place-items-center font-mono font-semibold"
@@ -396,7 +402,7 @@ export default async function HomePage() {
             <div className="card p-6">
               <span className="w-11 h-11 rounded-lg grid place-items-center mb-4" style={{ background: 'var(--pip-100)', color: 'var(--pip-text)' }}><IconCheck size={20} /></span>
               <h3 className="text-[1.05rem] font-semibold tracking-[-0.01em]" style={{ color: 'var(--text)' }}>Or wait for the result</h3>
-              <p className="mt-2 text-[0.92rem] leading-relaxed" style={{ color: 'var(--text-2)' }}>Prefer to wait? Hold your Yes or No until the event is decided. If you are right, it pays KSh 100.</p>
+              <p className="mt-2 text-[0.92rem] leading-relaxed" style={{ color: 'var(--text-2)' }}>Prefer to wait? Hold your Yes or No until the event is decided. If you are right, it pays KSh {sharePayoutKes}.</p>
             </div>
           </div>
         </section>
