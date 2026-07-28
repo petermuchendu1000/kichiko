@@ -205,6 +205,15 @@ export interface MarketOption {
   description: string | null
   /** Current probability in [0,1]. */
   price: number
+  /**
+   * Independent per-candidate binary prices (migration 023). For independent
+   * multiple_choice options the canonical probability is `yes_price`; simplex
+   * options leave these null and use `price`. Present on every market_options
+   * row in the DB — declared here so charts/cards read one canonical value
+   * instead of casting ad-hoc (audit GVO-3/GVO-7).
+   */
+  yes_price?: number | null
+  no_price?: number | null
   volume_usd: number
   /** LMSR inventory (net USD staked on this option). */
   q_shares: number | null

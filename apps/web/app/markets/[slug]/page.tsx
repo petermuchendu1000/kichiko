@@ -103,7 +103,16 @@ async function MarketPriceHistory({
       .limit(1000)
     return (
       <OutcomesChart
-        options={options.map((o) => ({ id: o.id, label: o.label, price: o.price }))}
+        options={options.map((o) => ({
+          id: o.id,
+          label: o.label,
+          // Canonical outcome value: independent options are priced on their Yes
+          // price; fall back to the shared-simplex `price`. MUST match
+          // normalizeOutcomes()/CandidateList so the chart's current-price seed,
+          // axis max and legend never contradict the "NN%" on the option board
+          // next to it (audit GVO-3).
+          price: o.yes_price ?? o.price ?? 0,
+        }))}
         data={(history || []).map((h) => ({
           optionId: h.market_option_id as string,
           price: h.price ?? 0,
