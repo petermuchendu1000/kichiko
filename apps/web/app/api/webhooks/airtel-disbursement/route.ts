@@ -35,27 +35,33 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ received: true })
     }
 
-    // Confirm with the provider rather than trusting the callback body.
-    let success = parsed.success
-    let failed = parsed.failed
-    let airtelMoneyId = parsed.airtelMoneyId
+    // H1 (money-OUT): NEVER settle from the raw callback body — it is
+    // unauthenticated, so a forged { status_code:'TF' } would refund a reserve
+    // while Airtel already paid out (double-spend), and a forged 'TS' would
+    // finalize prematurely. Re-query Airtel's authoritative status and drive
+    // complete/fail off THAT only. If the re-query is unavailable, leave the
+    // withdrawal pending (no-op) — Airtel will call again — rather than trusting
+    // the body. Mirrors the mtn-disbursement handler.
+    let live: { status: string; airtelMoneyId?: string }
     try {
-      const live = await airtelTransactionStatus(reference)
-      success = live.status === 'TS'
-      failed = live.status === 'TF'
-      airtelMoneyId = live.airtelMoneyId ?? airtelMoneyId
-    } catch {
-      // Fall back to the parsed callback if the status query is unavailable.
+      live = await airtelTransactionStatus(reference)
+    } catch (err) {
+      console.error(
+        'Airtel disbursement result: status re-query unavailable, staying pending for',
+        reference,
+        err,
+      )
+      return NextResponse.json({ received: true })
     }
 
-    if (success) {
+    if (live.status === 'TS') {
       await completeWithdrawal(admin, {
         withdrawalId: withdrawal.id,
         providerReference: reference,
-        providerReceipt: airtelMoneyId ?? null,
+        providerReceipt: live.airtelMoneyId ?? parsed.airtelMoneyId ?? null,
         rawResponse: body,
       })
-    } else if (failed) {
+    } else if (live.status === 'TF') {
       await failWithdrawal(
         admin,
         withdrawal.id,
@@ -63,6 +69,7 @@ export async function POST(req: NextRequest) {
         body,
       )
     }
+    // else still pending → no-op.
 
     return NextResponse.json({ received: true })
   } catch (error) {
