@@ -192,25 +192,27 @@ export async function POST(req: NextRequest) {
     const noPrice = Math.round((1 - yesPrice) * 1e6) / 1e6
 
     const adminClient = await createAdminClient()
+    const insertData = {
+      ...marketData,
+      slug,
+      creator_id: user.id,
+      status,
+      resolver_id: isAdmin ? user.id : null,
+      // yes_price/no_price are retained only as the display/mark seed; the CLOB
+      // re-prices them from the first fill.
+      yes_price: yesPrice,
+      no_price: noPrice,
+      metadata: (metadata ?? null) as Json,
+    }
     const { data: market, error: createError } = await adminClient
       .from('markets')
-      .insert({
-        ...marketData,
-        slug,
-        creator_id: user.id,
-        status,
-        resolver_id: isAdmin ? user.id : null,
-        // BE-HIGH-1: the markets.pricing_engine column defaults to 'amm', but the
-        // platform is CLOB-only — every order path (POST /api/orders,
-        // /markets/[id]/book, clob_place_order P0103) rejects non-'clob' markets.
-        // Without this, markets created via the API are untradeable (dead book).
-        pricing_engine: 'clob',
-        // yes_price/no_price are retained only as the display/mark seed; the CLOB
-        // re-prices them from the first fill.
-        yes_price: yesPrice,
-        no_price: noPrice,
-        metadata: (metadata ?? null) as Json,
-      })
+      // BE-HIGH-1: the markets.pricing_engine column defaults to 'amm', but the
+      // platform is CLOB-only — every order path (POST /api/orders,
+      // /markets/[id]/book, clob_place_order P0103) rejects non-'clob' markets, so
+      // API-created markets would be untradeable (dead book). Force 'clob'. The
+      // generated Supabase types predate this column (migration 030), so it is
+      // attached via a cast that preserves the runtime value.
+      .insert({ ...insertData, pricing_engine: 'clob' } as typeof insertData)
       .select()
       .single()
 
