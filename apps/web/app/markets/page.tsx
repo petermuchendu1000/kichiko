@@ -153,6 +153,31 @@ async function Results({ parsed }: { parsed: ReturnType<typeof parseSearchParams
     }
   }
 
+  // The search_markets RPC does not return resolution_type, so every card would
+  // fall back to a binary meter and multiple_choice markets would render a
+  // MEANINGLESS "50% Yes / No 50%" (their markets.yes_price is the stale 0.5
+  // creation default) — inconsistent with the landing and detail pages which
+  // read the markets table directly. Backfill resolution_type from the markets
+  // table in ONE batched query so each card renders its true shape (audit
+  // BE-1/BE-3/DB-2). BTC windows pinned above already carry resolution_type.
+  const needsType = markets.filter((m) => m.resolution_type == null).map((m) => m.id)
+  if (needsType.length > 0) {
+    const { data: typeRows } = await supabase
+      .from('markets')
+      .select('id, resolution_type')
+      .in('id', needsType)
+    const typeById = new Map(
+      ((typeRows as { id: string; resolution_type: Market['resolution_type'] }[]) ?? []).map(
+        (r) => [r.id, r.resolution_type],
+      ),
+    )
+    markets = markets.map((m) =>
+      m.resolution_type == null && typeById.has(m.id)
+        ? { ...m, resolution_type: typeById.get(m.id)! }
+        : m,
+    )
+  }
+
   // For multiple_choice markets on this page, fetch their options in one batched
   // query so each card can show its front-runner (Polymarket card pattern)
   // instead of a meaningless YES/NO bar.
