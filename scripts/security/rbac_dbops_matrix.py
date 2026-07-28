@@ -130,11 +130,25 @@ def spare_users(cur, n=2):
 
 
 def impersonate(cur, uid):
-    cur.execute("select set_config('request.jwt.claims', %s, true)", (json.dumps({"sub": uid, "role": "authenticated"}),))
+    # Set BOTH the JSON claims (live Supabase reads request.jwt.claims->>'sub')
+    # and the singular claim GUCs (the CI auth stub reads request.jwt.claim.sub /
+    # request.jwt.claim.role). Keeps the harness portable across both.
+    claims = json.dumps({"sub": uid, "role": "authenticated"})
+    cur.execute(
+        "select set_config('request.jwt.claims', %s, true),"
+        "       set_config('request.jwt.claim.sub', %s, true),"
+        "       set_config('request.jwt.claim.role', 'authenticated', true)",
+        (claims, uid),
+    )
 
 
 def as_service(cur):
-    cur.execute("select set_config('request.jwt.claims', '', true)")
+    # Clear all auth GUCs -> auth.uid() IS NULL (trusted server path).
+    cur.execute(
+        "select set_config('request.jwt.claims', '', true),"
+        "       set_config('request.jwt.claim.sub', '', true),"
+        "       set_config('request.jwt.claim.role', '', true)"
+    )
 
 
 def phase_capability_gates(cur, catalog, rcaps, spare, applicant):
