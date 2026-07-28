@@ -2,6 +2,8 @@
 // Kichiko - Complete TypeScript Types
 // ============================================================
 
+import type { Enums } from './supabase'
+
 export type Json =
   | string
   | number
@@ -14,7 +16,10 @@ export type Json =
 // ENUMS
 // ============================================================
 
-export type UserRole = 'user' | 'admin' | 'moderator' | 'resolver'
+// Single source of truth: alias the generated DB enum so this can never drift
+// from the `user_role` Postgres enum again (was stale: missing creator,
+// marketer, support, finance, superadmin).
+export type UserRole = Enums<'user_role'>
 export type KycStatus = 'unverified' | 'pending' | 'verified' | 'rejected'
 export type AccountStatus = 'active' | 'suspended' | 'closed'
 
