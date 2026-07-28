@@ -117,7 +117,10 @@ export async function getOptionSeries(
     if (!range) timeRange.set(r.market_id, { start: r.recorded_at, end: r.recorded_at })
     else range.end = r.recorded_at
     if (r.market_option_id) {
-      const v = r.price ?? r.yes_price
+      // Canonical column order MUST match the endpoint/legend value below
+      // (yes_price ?? price) and getCardOptions, so the line body, its anchored
+      // endpoint dot, and the "% chance" legend are one series by construction.
+      const v = r.yes_price ?? r.price
       if (v == null) continue
       const list = optionPoints.get(r.market_option_id) ?? []
       list.push(Number(v))

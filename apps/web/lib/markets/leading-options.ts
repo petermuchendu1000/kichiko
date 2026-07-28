@@ -32,12 +32,16 @@ export async function getLeadingOptions(
 
   const { data } = await supabase
     .from('market_options')
-    .select('market_id, label, price')
+    .select('market_id, label, price, yes_price')
     .in('market_id', marketIds)
 
-  for (const o of (data as { market_id: string; label: string; price: number | null }[]) ?? []) {
+  for (const o of (data as { market_id: string; label: string; price: number | null; yes_price: number | null }[]) ?? []) {
     countByMarket.set(o.market_id, (countByMarket.get(o.market_id) ?? 0) + 1)
-    const price = o.price ?? 0
+    // Canonical outcome value: for independent lines the candidate probability is
+    // its Yes price; fall back to the shared-simplex `price`. This MUST match the
+    // ordering used by getCardOptions/getOptionSeries so the "related markets"
+    // rail never names a different front-runner than the card/chart legend.
+    const price = o.yes_price ?? o.price ?? 0
     const cur = leadByMarket.get(o.market_id)
     if (!cur || price > cur.price) leadByMarket.set(o.market_id, { label: o.label, price })
   }
