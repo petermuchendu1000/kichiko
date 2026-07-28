@@ -24,6 +24,11 @@ export function Navbar() {
   const pathname = usePathname()
   const router = useRouter()
   const { user, profile, loading } = useAuth()
+  // Elevated roles get a link to their self-service console. `UserRole` now
+  // aliases the full DB user_role enum, so these compare against enum literals.
+  const role = profile?.role
+  const canCreatorConsole = role === 'creator' || role === 'admin' || role === 'superadmin'
+  const canMarketerConsole = role === 'marketer' || role === 'admin' || role === 'superadmin'
   const { wallets, preferredCurrency } = useWallets()
   const supabase = createClient()
 
@@ -254,12 +259,14 @@ export function Navbar() {
                             <Link href="/kyc" className="dropdown-item" onClick={() => setUserMenuOpen(false)}>
                               <IconShield size={15} /><span>Verify Identity</span>
                             </Link>
-                            {/* Marketer console is a user-facing elevated-role destination. The
-                                app-level UserRole type is narrower than the DB user_role enum, so
-                                we compare via a string allow-list rather than the enum literal. */}
-                            {(['marketer', 'admin', 'superadmin'] as string[]).includes(profile?.role ?? '') && (
+                            {canMarketerConsole && (
                               <Link href="/marketer" className="dropdown-item" onClick={() => setUserMenuOpen(false)}>
                                 <IconTrophy size={15} /><span>Marketer Console</span>
+                              </Link>
+                            )}
+                            {canCreatorConsole && (
+                              <Link href="/creator" className="dropdown-item" onClick={() => setUserMenuOpen(false)}>
+                                <IconMarkets size={15} /><span>Creator Console</span>
                               </Link>
                             )}
                             <Link href="/settings" className="dropdown-item" onClick={() => setUserMenuOpen(false)}>
