@@ -9,6 +9,7 @@ import { format } from 'date-fns'
 import { formatUSD } from '@/lib/utils'
 import { IconInfo, IconExternalLink } from '@/components/ui/icons'
 import { TraderNameLink } from '@/components/ui/trader-link'
+import { safeHttpUrl } from '@/lib/security/sanitize'
 
 /** Safely derive a display host from a URL, falling back to a generic label. */
 function resolverHost(url: string): string {
@@ -40,8 +41,10 @@ export function ContractSpecs(props: {
   const endLabel = safeFormat(endDate, 'MMM d, yyyy') ?? endDate
   const openedLabel = openedAt ? safeFormat(openedAt, 'MMM d, yyyy, h:mm a') : null
 
-  const hasResolverLink =
-    typeof resolutionSource === 'string' && resolutionSource.trim().length > 0
+  // Only render the resolver as a clickable link when it is a valid http/https
+  // URL — blocks javascript:/data: and other XSS-prone schemes from the href.
+  const safeResolverUrl = safeHttpUrl(resolutionSource)
+  const hasResolverLink = safeResolverUrl !== null
 
   return (
     <section
@@ -80,12 +83,12 @@ export function ContractSpecs(props: {
           <dd className="min-w-0 text-right font-medium text-text-primary">
             {hasResolverLink ? (
               <a
-                href={resolutionSource as string}
+                href={safeResolverUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex max-w-full items-center justify-end gap-1 truncate hover:underline"
               >
-                <span className="truncate">{resolverHost(resolutionSource as string)}</span>
+                <span className="truncate">{resolverHost(safeResolverUrl)}</span>
                 <IconExternalLink size={14} className="shrink-0" />
               </a>
             ) : createdBy && createdBy.trim().length > 0 ? (

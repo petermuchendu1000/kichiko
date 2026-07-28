@@ -22,7 +22,21 @@
     "menu": "Menyu"
   },
   "home": {
-    "fairPricing": "Bei ya haki ya daftari la oda"
+    "fairPricing": "Bei ya haki ya daftari la oda",
+    "heroTitle": "Tabiri wakati ujao.",
+    "heroHighlight": "Pata malipo.",
+    "heroSubtitle": "Fanya biashara kwenye matokeo halisi ya dunia — uchaguzi, michezo, uchumi, na crypto. Lipa kwa M-Pesa, MTN MoMo, au Airtel Money. Imejengwa kwa ajili ya Afrika Mashariki.",
+    "nonCustodial": "Fedha zako mkononi mwako · Imelindwa kwa KYC",
+    "countries": "Nchi {count} za Afrika Mashariki",
+    "activeMarkets": "Matukio Yanayoendelea",
+    "totalVolume": "Jumla ya Biashara",
+    "tradersSupported": "Wafanyabiashara Wanaohudumiwa",
+    "payWith": "Lipa kwa",
+    "trendingNow": "Zinazovuma Sasa",
+    "mostVolume24h": "Biashara nyingi zaidi kwa saa 24",
+    "noMarketsYet": "Hakuna matukio bado",
+    "beTheFirst": "Kuwa wa kwanza kuunda tukio la utabiri",
+    "browseAllMarkets": "Vinjari matukio yote"
   },
   "wallet": {
     "deposit": "Weka Pesa",
