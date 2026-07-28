@@ -200,6 +200,13 @@ export async function POST(req: NextRequest) {
         creator_id: user.id,
         status,
         resolver_id: isAdmin ? user.id : null,
+        // BE-HIGH-1: the markets.pricing_engine column defaults to 'amm', but the
+        // platform is CLOB-only — every order path (POST /api/orders,
+        // /markets/[id]/book, clob_place_order P0103) rejects non-'clob' markets.
+        // Without this, markets created via the API are untradeable (dead book).
+        pricing_engine: 'clob',
+        // yes_price/no_price are retained only as the display/mark seed; the CLOB
+        // re-prices them from the first fill.
         yes_price: yesPrice,
         no_price: noPrice,
         metadata: (metadata ?? null) as Json,
