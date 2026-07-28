@@ -23,7 +23,12 @@ import { ThemeToggle } from '@/components/ui/theme-toggle'
 export function Navbar() {
   const pathname = usePathname()
   const router = useRouter()
-  const { user, loading } = useAuth()
+  const { user, loading, profile } = useAuth()
+  // Creators (and admins/superadmins) get a link to their self-service console.
+  // profile.role is typed with the legacy narrow UserRole union, so compare as a
+  // string against the canonical creator-console roles.
+  const role = profile?.role as string | undefined
+  const canCreatorConsole = role === 'creator' || role === 'admin' || role === 'superadmin'
   const { wallets, preferredCurrency } = useWallets()
   const supabase = createClient()
 
@@ -254,6 +259,11 @@ export function Navbar() {
                             <Link href="/kyc" className="dropdown-item" onClick={() => setUserMenuOpen(false)}>
                               <IconShield size={15} /><span>Verify Identity</span>
                             </Link>
+                            {canCreatorConsole && (
+                              <Link href="/creator" className="dropdown-item" onClick={() => setUserMenuOpen(false)}>
+                                <IconMarkets size={15} /><span>Creator Console</span>
+                              </Link>
+                            )}
                             <Link href="/settings" className="dropdown-item" onClick={() => setUserMenuOpen(false)}>
                               <IconSettings size={15} /><span>Settings</span>
                             </Link>
