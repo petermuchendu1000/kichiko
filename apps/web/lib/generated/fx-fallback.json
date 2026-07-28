@@ -1,13 +1,14 @@
 {
-  "_generated_at": "2026-07-25T23:29:55.366376+00:00",
+  "_generated_at": "2026-07-28T14:08:00.871429+00:00",
   "_note": "Auto-generated emergency FX bootstrap. Do not hand-edit; run scripts/ops/refresh_fx_fallback.py.",
   "_source": "https://www.exchangerate-api.com",
   "rates": {
-    "BIF": 0.0003339634,
-    "ETB": 0.0062361312,
-    "RWF": 0.0006791756,
-    "TZS": 0.0003803343,
-    "UGX": 0.0002697855,
-    "ZMW": 0.0539254811
+    "BIF": 0.0003340326,
+    "ETB": 0.0062456935,
+    "KES": 0.0077226233,
+    "RWF": 0.0006787721,
+    "TZS": 0.0003801909,
+    "UGX": 0.0002705504,
+    "ZMW": 0.0534742058
   }
 }

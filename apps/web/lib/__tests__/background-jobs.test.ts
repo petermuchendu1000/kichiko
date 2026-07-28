@@ -90,22 +90,27 @@ describe('fx: mergeWithFallback', () => {
 })
 
 describe('fx: toUpsertRows', () => {
-  it('emits one row per non-USD, non-pegged supported currency', () => {
+  it('emits one row per non-USD supported currency (no currency is pegged)', () => {
     const { rates } = mergeWithFallback({})
     const rows = toUpsertRows(rates)
-    // USD (self-rate) and pegged currencies (KES) are both excluded.
-    expect(rows.length).toBe(SUPPORTED_CURRENCIES.length - 1 - PEGGED_CURRENCIES.length)
+    // Only USD (the self-rate) is excluded; PEGGED_CURRENCIES is empty.
+    expect(PEGGED_CURRENCIES.length).toBe(0)
+    expect(rows.length).toBe(SUPPORTED_CURRENCIES.length - 1)
     expect(rows.some((r) => r.from_currency === 'USD')).toBe(false)
     for (const r of rows) {
       expect(r.rate).toBeGreaterThan(0)
     }
   })
 
-  it('never upserts a pegged currency (KES settlement peg is protected)', () => {
+  it('upserts KES live like every other currency (no settlement peg)', () => {
     const inverted = invertUsdRates({ KES: 129, UGX: 3740 })
     const { rates } = mergeWithFallback(inverted)
     const rows = toUpsertRows(rates)
-    expect(rows.some((r) => r.from_currency === 'KES')).toBe(false)
+    const kes = rows.find((r) => r.from_currency === 'KES')
+    expect(kes).toBeDefined()
+    // 1 / 129 ≈ 0.007752 local->USD; emphatically not the old 0.01 peg.
+    expect(kes!.rate).toBeCloseTo(1 / 129, 6)
+    expect(kes!.rate).not.toBe(0.01)
   })
 
   it('round-trips USD-base -> stored rate end to end (non-pegged)', () => {

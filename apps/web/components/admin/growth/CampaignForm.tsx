@@ -4,12 +4,14 @@
 // /api/admin/campaigns and /api/admin/campaigns/[id]/action.
 import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
-import { SHARE_PAYOUT_KES } from '@/lib/currency'
+import { localToUsd } from '@/lib/currency'
+import { useRates } from '@/hooks/use-rates'
 
 const btn = 'rounded-lg px-2.5 py-1 text-xs font-semibold disabled:opacity-50'
 
 export function CampaignCreate() {
   const router = useRouter()
+  const { rates } = useRates()
   const [open, setOpen] = useState(false)
   const [busy, setBusy] = useState(false)
   const [err, setErr] = useState<string | null>(null)
@@ -28,10 +30,10 @@ export function CampaignCreate() {
           label: f.label,
           kind: f.kind,
           value_pct: Number(f.value_pct) || 0,
-          // Admin enters KES; stored *_usd columns are peg units (1 unit = KSh
-          // SHARE_PAYOUT_KES), so convert KES -> peg on the way in.
-          budget_usd: f.budget_usd.trim() === '' ? null : Number(f.budget_usd) / SHARE_PAYOUT_KES,
-          max_value_usd: f.max_value_usd.trim() === '' ? null : Number(f.max_value_usd) / SHARE_PAYOUT_KES,
+          // Admin enters KES; stored *_usd columns are true USD, so convert
+          // KES -> USD at the live FX rate on the way in.
+          budget_usd: f.budget_usd.trim() === '' ? null : localToUsd(Number(f.budget_usd), 'KES', rates),
+          max_value_usd: f.max_value_usd.trim() === '' ? null : localToUsd(Number(f.max_value_usd), 'KES', rates),
           max_redemptions: f.max_redemptions.trim() === '' ? null : Number(f.max_redemptions),
           per_user_limit: Number(f.per_user_limit) || 1,
         }),

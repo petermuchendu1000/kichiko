@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
-import { SHARE_PAYOUT_KES } from '@/lib/currency'
+import { FALLBACK_USD_RATES } from '@/lib/currency'
 import { HeroSection } from '@/components/layout/hero-section'
 import { MarketCard } from '@/components/markets/market-card'
 import { FeaturedCarousel } from '@/components/markets/featured-carousel'
@@ -73,9 +73,9 @@ async function getData() {
     .from('exchange_rates').select('rate')
     .eq('from_currency', 'KES').eq('to_currency', 'USD').limit(1)
   const kesRate = Number(kesRateRows?.[0]?.rate ?? 0)
-  // KES->USD is the settlement peg; invert to KES-per-USD. If the row is somehow
-  // missing, derive from the single settlement source of truth (never a literal).
-  const kesPerUsd = kesRate > 0 ? 1 / kesRate : SHARE_PAYOUT_KES
+  // KES->USD is a live market rate; invert to KES-per-USD (~129). If the row is
+  // somehow missing, fall back to the last-known-good KES rate (never a literal).
+  const kesPerUsd = kesRate > 0 ? 1 / kesRate : 1 / FALLBACK_USD_RATES.KES
   // Real platform fee, read straight off live market rows (every market carries
   // `platform_fee_rate`; the whole catalogue is on one rate). No hardcoded %.
   const feeRate = Number((allActive[0] as unknown as { platform_fee_rate?: number } | undefined)?.platform_fee_rate ?? 0.02)

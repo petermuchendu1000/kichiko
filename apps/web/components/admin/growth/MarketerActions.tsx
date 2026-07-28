@@ -5,7 +5,8 @@
 // /api/admin/marketers/[id]/action.
 import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
-import { SHARE_PAYOUT_KES } from '@/lib/currency'
+import { localToUsd, usdToLocal } from '@/lib/currency'
+import { useRates } from '@/hooks/use-rates'
 
 const btn = 'rounded-lg px-2.5 py-1 text-xs font-semibold disabled:opacity-50'
 
@@ -102,9 +103,10 @@ export function MarketerPlanForm({
   current: { model: string; cpa_usd: number; revshare_pct: number; hold_days: number }
 }) {
   const { post, busy, err } = useAction(userId)
+  const { rates } = useRates()
   const [model, setModel] = useState(current.model)
-  // CPA is stored as a peg unit (*_usd); show/edit it in KES.
-  const [cpa, setCpa] = useState(String(current.cpa_usd * SHARE_PAYOUT_KES))
+  // CPA is stored in true USD (*_usd); show/edit it in KES at the live FX rate.
+  const [cpa, setCpa] = useState(String(usdToLocal(current.cpa_usd, 'KES', rates)))
   const [rev, setRev] = useState(String(current.revshare_pct))
   const [hold, setHold] = useState(String(current.hold_days))
 
@@ -139,7 +141,7 @@ export function MarketerPlanForm({
           onClick={() =>
             post({
               action: 'update_plan',
-              plan: { model, cpa_usd: (Number(cpa) || 0) / SHARE_PAYOUT_KES, revshare_pct: Number(rev) || 0, hold_days: Number(hold) || 0 },
+              plan: { model, cpa_usd: localToUsd(Number(cpa) || 0, 'KES', rates), revshare_pct: Number(rev) || 0, hold_days: Number(hold) || 0 },
               hold_days: Number(hold) || 0,
             })
           }
