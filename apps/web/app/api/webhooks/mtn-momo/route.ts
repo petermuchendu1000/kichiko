@@ -33,7 +33,9 @@ export async function POST(req: NextRequest) {
     }
 
     // Trust the provider, not the payload: re-query the authoritative status.
-    let status = body.status as string | undefined
+    // The re-query result drives the credit/fail decision — the raw callback
+    // body is NEVER trusted to move money.
+    let status: string | undefined
     let financialTransactionId = body.financialTransactionId as string | undefined
     let reason = body.reason as string | undefined
     try {
@@ -42,7 +44,13 @@ export async function POST(req: NextRequest) {
       financialTransactionId = live.financialTransactionId ?? financialTransactionId
       reason = live.reason ?? reason
     } catch {
-      // Fall back to the callback payload if the status query is unavailable.
+      // F4: the authoritative status re-query failed/threw. Do NOT fall back to
+      // trusting the spoofable callback body (that could credit a wallet off a
+      // forged payload). Leave the deposit PENDING (no-op), ack MTN so it
+      // retries, and let the reconciliation sweep settle it later. Mirrors the
+      // M-Pesa deposit handler.
+      console.warn('MTN callback: status query unavailable; leaving pending', deposit.id)
+      return NextResponse.json({ received: true })
     }
 
     if (status === 'SUCCESSFUL') {

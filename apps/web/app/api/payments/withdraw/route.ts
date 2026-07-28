@@ -208,15 +208,23 @@ export async function POST(req: NextRequest) {
         provider_reference: result.reference ?? null,
       })
     } catch (e) {
-      // Network/exception during disbursement → refund the reserve.
-      console.error('Withdrawal disbursement error:', e)
-      await failWithdrawal(admin, withdrawalId, 'Disbursement request failed', {
-        error: e instanceof Error ? e.message : String(e),
+      // H3: a disbursement exception here is AMBIGUOUS — the provider may have
+      // already accepted and paid out before the network call timed out.
+      // Auto-refunding (fail_withdrawal) would double-pay: the user keeps the
+      // balance AND receives the mobile-money payout. Instead leave the
+      // withdrawal in 'processing' and let the provider result webhook /
+      // reconciliation sweep (scripts/ops/reconcile_ledger.py) settle it against
+      // the provider's authoritative status. Only a CONFIRMED synchronous
+      // rejection (result.success === false, above) refunds the reserve.
+      console.error('Withdrawal disbursement error (leaving in processing for reconciliation):', e)
+      return NextResponse.json({
+        success: true,
+        withdrawal_id: withdrawalId,
+        status: 'processing',
+        message: `Your withdrawal of ${netAmount.toLocaleString()} ${currency} is being processed. You'll be notified once it completes.`,
+        fee: feeAmount,
+        net_amount: netAmount,
       })
-      return NextResponse.json(
-        { error: 'Withdrawal could not be processed. You have not been charged.' },
-        { status: 502 },
-      )
     }
   } catch (error) {
     console.error('Withdraw route error:', error)

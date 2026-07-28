@@ -181,6 +181,38 @@ describe('rate-limit: distributed store + fail modes (H4)', () => {
     expect(isSensitiveBucket('api')).toBe(false)
   })
 
+  it('F3: marks the payments (money route) bucket as sensitive; other money-adjacent buckets stay non-sensitive', () => {
+    // A distributed-store outage must not lift the global limit on money routes.
+    expect(isSensitiveBucket('payments')).toBe(true)
+    // Non-money buckets keep their fail-open behavior unchanged.
+    expect(isSensitiveBucket('orders')).toBe(false)
+    expect(isSensitiveBucket('webhooks')).toBe(false)
+    expect(isSensitiveBucket('api')).toBe(false)
+  })
+
+  it('F3: a payments request is DENIED (fail closed) when the distributed store errors', async () => {
+    // Mirrors how the middleware calls enforceEdge for the payments bucket:
+    // sensitive === isSensitiveBucket('payments') === true.
+    const d = await enforceEdge('payments:1.2.3.4', RATE_RULES.payments, {
+      upstash: cfg,
+      sensitive: isSensitiveBucket('payments'),
+      fetchImpl: errFetch,
+    })
+    expect(d.allowed).toBe(false)
+    expect(d.retryAfter).toBeGreaterThan(0)
+  })
+
+  it('F3: a non-money bucket (orders) still FAILS OPEN on store error (unchanged)', async () => {
+    const store = new MemoryRateStore()
+    const d = await enforceEdge('orders:1.2.3.4', RATE_RULES.orders, {
+      upstash: cfg,
+      sensitive: isSensitiveBucket('orders'),
+      store,
+      fetchImpl: errFetch,
+    })
+    expect(d.allowed).toBe(true)
+  })
+
   it('enforceDistributed allows under the limit and blocks over it', async () => {
     const allowed = await enforceDistributed('k', rule, cfg, 0, okFetch(2))
     expect(allowed.allowed).toBe(true)

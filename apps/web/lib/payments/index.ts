@@ -9,6 +9,7 @@ import { initiateMpesaSTKPush, formatMpesaPhone } from './mpesa'
 import { mtnRequestToPay, formatMoMoPhone } from './mtn-momo'
 import { airtelCollect, formatAirtelPhone } from './airtel-money'
 import { submitPesaPalOrder } from './pesapal'
+import { appendWebhookToken } from './mpesa-webhook-verify'
 
 export interface PaymentRequest {
   provider: PaymentProvider
@@ -240,8 +241,13 @@ export async function processWithdrawal(
             PartyA: shortcode,
             PartyB: phone,
             Remarks: `Kichiko withdrawal ${req.reference}`,
-            QueueTimeOutURL: `${process.env.NEXT_PUBLIC_APP_URL}/api/webhooks/mpesa-b2c`,
-            ResultURL: `${process.env.NEXT_PUBLIC_APP_URL}/api/webhooks/mpesa-b2c`,
+            // C1: the /api/webhooks/mpesa-b2c route fails CLOSED when the
+            // shared-secret token is missing/incorrect. Without appending the
+            // token here, every real Safaricom B2C result is rejected 401 and
+            // the withdrawal is never settled (stuck 'processing', reserved
+            // funds never released or refunded even though cash left the till).
+            QueueTimeOutURL: appendWebhookToken(`${process.env.NEXT_PUBLIC_APP_URL}/api/webhooks/mpesa-b2c`),
+            ResultURL: appendWebhookToken(`${process.env.NEXT_PUBLIC_APP_URL}/api/webhooks/mpesa-b2c`),
             Occasion: req.reference.slice(0, 20),
           }),
         })

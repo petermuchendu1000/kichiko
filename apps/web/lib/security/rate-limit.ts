@@ -288,10 +288,22 @@ export async function enforceEdge(
   return enforce(key, rule, { store: opts.store, now })
 }
 
-/** Buckets whose limits must fail CLOSED when the distributed store errors. */
-export const SENSITIVE_BUCKETS = new Set<RateBucket>(['auth'])
+/**
+ * Buckets whose limits must fail CLOSED when the distributed store errors.
+ *
+ * `auth` (login/OTP throttling) and `payments` (deposit/withdraw initiation on
+ * money routes) are both security-critical: a distributed-store outage must not
+ * silently drop back to per-isolate memory (fail-OPEN) and thereby remove the
+ * global limit on these routes. F3: `payments` was previously fail-open, so a
+ * store outage lifted the rate limit on money endpoints — now it denies instead.
+ * Non-money buckets (orders/webhooks/api) intentionally keep failing open.
+ */
+export const SENSITIVE_BUCKETS = new Set<RateBucket>(['auth', 'payments'])
 
-/** Is `bucket` a sensitive (auth/OTP) rule that must fail closed on store error? */
+/**
+ * Is `bucket` a sensitive rule (auth/OTP or payments) that must fail closed on
+ * store error?
+ */
 export function isSensitiveBucket(bucket: RateBucket): boolean {
   return SENSITIVE_BUCKETS.has(bucket)
 }
