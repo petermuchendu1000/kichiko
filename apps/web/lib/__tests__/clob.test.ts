@@ -13,6 +13,7 @@ import {
   CLOB_MAX_CENTS,
   estimateClobBuyShares,
   estimateClobSellProceedsUsd,
+  receiptPayoutUsd,
   clobAvailableShares,
   buildClobOrderPayload,
 } from '@/lib/clob'
@@ -179,6 +180,15 @@ describe('CLOB ticket estimate helpers', () => {
     expect(clobAvailableShares(100, 0)).toBe(100)
     expect(clobAvailableShares(100, 200)).toBe(0) // over-reserved → clamp to 0
     expect(clobAvailableShares(0, 0)).toBe(0)
+  })
+  it('receiptPayoutUsd: BUY "To win" = share count ($1/share); SELL "Proceeds" = notional', () => {
+    // $10 stake @ 45.9¢ → 21.79 shares; win pays $21.79 (NOT the $10 stake).
+    expect(receiptPayoutUsd('buy', 21.79, 10)).toBeCloseTo(21.79, 10)
+    // Regression: a buy must never echo the stake as the payout.
+    expect(receiptPayoutUsd('buy', 21.79, 10)).not.toBe(10)
+    // Sell shows cash proceeds received, not the share count.
+    expect(receiptPayoutUsd('sell', 100, 22.6)).toBeCloseTo(22.6, 10)
+    expect(receiptPayoutUsd('buy', 0, 0)).toBe(0)
   })
 })
 
