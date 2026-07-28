@@ -234,6 +234,21 @@ export function clobAvailableShares(shares: number, reservedShares: number): num
   return Math.max(0, (shares || 0) - (reservedShares || 0))
 }
 
+/**
+ * Fill-receipt payout in USD. A share pays $1 (100¢) if the outcome wins, so a
+ * BUY's "To win" is the filled share count (potential winnings), matching the
+ * buy preview's usdToLocal(estShares). A SELL's "Proceeds" is the notional cash
+ * received. (Regression guard: the receipt previously showed notional_usd for
+ * buys too, so a 1,000 stake wrongly read "To win 1,000" instead of the win.)
+ */
+export function receiptPayoutUsd(
+  action: 'buy' | 'sell',
+  shares: number,
+  notionalUsd: number,
+): number {
+  return action === 'sell' ? notionalUsd : shares
+}
+
 export interface ClobTicketPayloadInput {
   marketId: string
   marketOptionId: string

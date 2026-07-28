@@ -41,7 +41,7 @@ import {
 import { openAuthDialog } from '@/components/auth/auth-dialog'
 import { planFunding } from '@/lib/funding'
 import { normalizeOutcomes, isMultiOutcome, type Outcome } from '@/lib/markets/outcomes'
-import { formatCurrency, usdToLocal, localToUsd } from '@/lib/currency'
+import { formatCurrency, usdToLocal, localToUsd, type RatesMap } from '@/lib/currency'
 import { useClobBook } from '@/components/trading/order-book-table'
 import {
   clampPriceCents,
@@ -49,6 +49,7 @@ import {
   estimateClobBuyShares,
   estimateClobSellProceedsUsd,
   clobAvailableShares,
+  receiptPayoutUsd,
   buildClobOrderPayload,
 } from '@/lib/clob'
 import { CURRENCIES } from '@/types'
@@ -183,6 +184,7 @@ function PmLimitBody({
   setShares,
   currentCents,
   preferredCurrency,
+  rates,
   onError,
 }: {
   limitCents: string
@@ -191,6 +193,7 @@ function PmLimitBody({
   setShares: (v: string) => void
   currentCents: number
   preferredCurrency: CurrencyCode
+  rates: RatesMap
   onError: () => void
 }) {
   // Seed the limit price with the live market price on first entry (PM default).
@@ -210,9 +213,12 @@ function PmLimitBody({
     setShares(String(Math.max(0, sharesNum + delta)))
     onError()
   }
-  // 1 share pays 1 currency unit if it wins; cost = shares × price(fraction).
-  const totalLocal = sharesNum * (centsVal / 100)
-  const toWinLocal = sharesNum * 1
+  // A share costs (price¢ / 100) USD and pays $1 (100¢) if it wins — the same
+  // unit model as the market body and the CLOB engine. Convert both USD figures
+  // to the display currency; rendering the raw USD amounts as local (the prior
+  // bug) understated cost and payout by the FX rate (~100× for KES).
+  const totalLocal = usdToLocal(sharesNum * (centsVal / 100), preferredCurrency, rates)
+  const toWinLocal = usdToLocal(sharesNum * 1, preferredCurrency, rates)
 
   const shareChip =
     'flex h-[30px] items-center justify-center rounded-[9px] border px-2.5 text-xs font-semibold tracking-[-0.1px] transition-colors'
@@ -524,7 +530,11 @@ export function PmTicket({
   // Buy-limit inputs (share-denominated with a price), from PmLimitBody.
   const buyLimitSharesNum = orderType === 'limit' ? Math.max(0, parseInt(shares || '0', 10) || 0) : 0
   const buyLimitPriceInvalid = orderType === 'limit' && (limitPrice <= 0 || limitPrice >= 1)
-  const buyLimitCostLocal = buyLimitSharesNum * limitPrice // shares × price-fraction
+  // shares × price(fraction) is the USD cost; convert to the display/balance
+  // currency so the balance gate and funding shortfall compare like-for-like
+  // (balance is local). Comparing the raw USD cost to a local balance let a
+  // non-USD account under-reserve by the FX rate.
+  const buyLimitCostLocal = usdToLocal(buyLimitSharesNum * limitPrice, preferredCurrency, rates)
   const buyLimitOverBalance = orderType === 'limit' && balance > 0 && buyLimitCostLocal > balance
 
   // CLOB submit gates. Market buy = amount/best-ask; LIMIT buy = shares + valid
@@ -907,12 +917,18 @@ export function PmTicket({
         const notionalUsd = Number(
           rpc.notional_usd ?? (action === 'sell' ? clobSellProceedsUsd : clobBuyUsd),
         )
+        const receiptShares = filled || resting || (action === 'sell' ? sellSizeNum : clobBuyEstShares)
         setReceipt({
           label: `${selectedOutcome.label} · ${side.toUpperCase()}`,
           tone: side,
-          shares: filled || resting || (action === 'sell' ? sellSizeNum : clobBuyEstShares),
+          shares: receiptShares,
           avgPrice: avgCents / 100,
-          payoutUsd: notionalUsd,
+          // BUY: "To win" is the payout if the outcome resolves YES — each share
+          // pays $1, so potential winnings (USD) = share count (matches the buy
+          // preview's usdToLocal(estShares)). Previously this used notional_usd
+          // (the stake), so a 1,000 stake wrongly read "To win 1,000".
+          // SELL: the row is "Proceeds" — cash received = notional_usd.
+          payoutUsd: receiptPayoutUsd(action, receiptShares, notionalUsd),
           kind: action,
           headlineLocal: amountNum,
         })
@@ -1155,6 +1171,7 @@ export function PmTicket({
             setShares={setShares}
             currentCents={Math.round(currentPrice * 100 * 10) / 10}
             preferredCurrency={preferredCurrency}
+            rates={rates}
             onError={() => setError('')}
           />
         ) : (
