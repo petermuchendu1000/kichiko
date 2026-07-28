@@ -3,7 +3,8 @@ import { notFound } from 'next/navigation'
 import { requirePageCapability } from '@/lib/admin/page-guard'
 import { roleHasCapability } from '@/lib/admin/rbac'
 import { availableMarketActions, type MarketStatus } from '@/lib/admin/markets'
-import { usdToLocal } from '@/lib/currency'
+import { buildRatesMap } from '@/lib/currency'
+import { kes } from '@/lib/admin/money'
 import { MarketStatusBadge, OutcomeBadge } from '@/components/admin/markets/MarketBadges'
 import { MarketActions, type AllowedAction } from '@/components/admin/markets/MarketActions'
 import { PageHeader, Panel, PanelHead, PanelBody, Kpi, KpiGrid, Pill } from '@/components/admin/ui'
@@ -12,8 +13,6 @@ import { IconDollar, IconWallet, IconActivity, IconUsers } from '@/components/ui
 export const dynamic = 'force-dynamic'
 export const metadata = { title: 'Admin · Market detail' }
 
-const money = (v: number | null | undefined) =>
-  'KSh ' + Math.round(usdToLocal(Number(v ?? 0), 'KES')).toLocaleString('en-KE')
 const dt = (v: string | null | undefined) => (v ? new Date(v).toLocaleString() : '—')
 
 export default async function MarketDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -30,6 +29,11 @@ export default async function MarketDetailPage({ params }: { params: Promise<{ i
 
   if (error) throw new Error(error.message)
   if (!m) notFound()
+
+  // Canonical money formatter using the LIVE FX rate from exchange_rates.
+  const { data: rateRows } = await ctx.supabase.from('exchange_rates').select('from_currency, rate').eq('to_currency', 'USD')
+  const rates = buildRatesMap((rateRows as Array<{ from_currency: string; rate: number | string | null }>) ?? [])
+  const money = (v: number | null | undefined) => kes(v, rates)
 
   const status = m.status as MarketStatus
   const creator = (m as { creator?: { username: string | null; display_name: string | null } | null }).creator

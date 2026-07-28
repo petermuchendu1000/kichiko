@@ -5,7 +5,8 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { getAuthContext } from '@/lib/auth'
 import { canAccessAdminPortal } from '@/lib/admin/rbac'
-import { usdToLocal } from '@/lib/currency'
+import { buildRatesMap } from '@/lib/currency'
+import { kes } from '@/lib/admin/money'
 import { PageHeader, Kpi, KpiGrid, Panel, PanelHead, Table, Th, Td, EmptyRow, Pill } from '@/components/admin/ui'
 import {
   IconUsers, IconMarkets, IconWallet, IconShield, IconFlag, IconGavel,
@@ -65,7 +66,11 @@ export default async function AdminDashboard() {
     slate: 'text-slate-600 dark:text-slate-300 bg-slate-500/10',
   }
 
-  const fmtMoney = (n: number) => `KSh ${Math.round(usdToLocal(n ?? 0, 'KES')).toLocaleString('en-KE')}`
+  // Single canonical money formatter, converting internal USD at the LIVE FX
+  // rate read from exchange_rates (no duplicated per-page conversion math).
+  const { data: rateRows } = await sb.from('exchange_rates').select('from_currency, rate').eq('to_currency', 'USD')
+  const rates = buildRatesMap((rateRows as Array<{ from_currency: string; rate: number | string | null }>) ?? [])
+  const fmtMoney = (n: number) => kes(n, rates)
 
   return (
     <div>

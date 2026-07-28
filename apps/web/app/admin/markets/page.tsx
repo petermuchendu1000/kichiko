@@ -8,7 +8,8 @@ import {
   type MarketListParams,
 } from '@/lib/admin/markets'
 import { MarketStatusBadge, OutcomeBadge } from '@/components/admin/markets/MarketBadges'
-import { usdToLocal } from '@/lib/currency'
+import { buildRatesMap } from '@/lib/currency'
+import { kes } from '@/lib/admin/money'
 import {
   PageHeader, FilterBar, SearchField, SelectField, ApplyButton,
   TableCard, Table, Th, Td, Pagination, EmptyRow, Pill,
@@ -36,8 +37,6 @@ function qs(params: MarketListParams, overrides: Partial<MarketListParams>): str
   return sp.toString()
 }
 
-const money = (v: number | null) =>
-  'KSh ' + Math.round(usdToLocal(Number(v ?? 0), 'KES')).toLocaleString('en-KE')
 const opt = (values: string[], any: string) => values.map((v) => ({ value: v, label: v === '' ? any : v }))
 
 export default async function MarketsPage({
@@ -48,6 +47,10 @@ export default async function MarketsPage({
   const ctx = await requirePageCapability(['markets:approve', 'markets:resolve', 'markets:cancel'])
   const params = parseMarketListParams(await searchParams)
   const { rows, total } = await fetchMarkets(ctx.supabase, params)
+  // Canonical money formatter using the LIVE FX rate from exchange_rates.
+  const { data: rateRows } = await ctx.supabase.from('exchange_rates').select('from_currency, rate').eq('to_currency', 'USD')
+  const rates = buildRatesMap((rateRows as Array<{ from_currency: string; rate: number | string | null }>) ?? [])
+  const money = (v: number | null) => kes(v, rates)
 
   const sortHref = (col: SortKey) => {
     const dir = params.sort === col && params.dir === 'desc' ? 'asc' : 'desc'

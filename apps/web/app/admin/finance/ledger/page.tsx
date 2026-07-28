@@ -1,7 +1,8 @@
 // app/admin/finance/ledger/page.tsx — Unified transaction ledger: reconciliation
 // summary, date-range filtering and CSV export on the shared admin UI kit.
 import { requirePageCapability } from '@/lib/admin/page-guard'
-import { usdToLocal } from '@/lib/currency'
+import { buildRatesMap } from '@/lib/currency'
+import { kes } from '@/lib/admin/money'
 import {
   parseLedgerParams,
   fetchLedger,
@@ -27,9 +28,6 @@ const STATUS_OPTIONS = ['', 'pending', 'processing', 'completed', 'failed', 'ref
 const opt = (values: string[], any: string) =>
   values.map((v) => ({ value: v, label: v === '' ? any : v.replace(/_/g, ' ') }))
 
-const usd = (v: number) =>
-  'KSh ' + Math.round(usdToLocal(v ?? 0, 'KES')).toLocaleString('en-KE')
-
 const fmtDate = (v: string | null) =>
   v ? new Date(v).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—'
 
@@ -54,6 +52,10 @@ export default async function LedgerPage({
   const params = parseLedgerParams(await searchParams)
   const { rows, total } = await fetchLedger(ctx.supabase, params)
   const summary = summariseLedger(rows as never)
+  // Canonical money formatter using the LIVE FX rate from exchange_rates.
+  const { data: rateRows } = await ctx.supabase.from('exchange_rates').select('from_currency, rate').eq('to_currency', 'USD')
+  const rates = buildRatesMap((rateRows as Array<{ from_currency: string; rate: number | string | null }>) ?? [])
+  const usd = (v: number) => kes(v, rates)
 
   const kpis = [
     { label: 'Deposits', value: usd(summary.deposits_usd), sub: 'completed inflow', icon: <IconDeposit size={15} /> },
