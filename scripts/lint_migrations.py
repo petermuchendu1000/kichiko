@@ -11,6 +11,12 @@ Promotes the previously-local migration check into a CI gate. It enforces:
                       carry an explicit ``-- migration:allow-destructive`` opt-in
                       on the preceding line, enforcing the expand/contract rule
                       documented in docs/DEPLOYMENT.md.
+  5. safeupdate     : from migration 077 on, an UPDATE or DELETE with no WHERE
+                      clause is an error (``INSERT ... ON CONFLICT DO UPDATE`` is
+                      fine). Supabase preloads pg-safeupdate for PostgREST
+                      sessions, which refuses such statements even inside
+                      functions (077 fixed one in upsert_fx_observations). Use
+                      ``WHERE true`` when a whole-table statement is intended.
 
 Exit code 0 = clean, 1 = one or more errors. Warnings never fail the build.
 
@@ -37,6 +43,9 @@ DESTRUCTIVE_RE = re.compile(
     r"\b(drop\s+table|drop\s+column|truncate\b|drop\s+schema)\b", re.IGNORECASE
 )
 ALLOW_MARKER = "migration:allow-destructive"
+SAFEUPDATE_FROM = 77  # earlier migrations predate the rule (checked by hand in 077)
+WRITE_STMT_RE = re.compile(r"\b(?<!DO\s)(UPDATE\s+[\w.\"]+\s+SET|DELETE\s+FROM\s+[\w.\"]+)\b(.*?);",
+                           re.IGNORECASE | re.DOTALL)
 
 
 def lint(directory: Path) -> tuple[list[str], list[str]]:
@@ -86,6 +95,20 @@ def lint(directory: Path) -> tuple[list[str], list[str]]:
                         f"`-- {ALLOW_MARKER}` opt-in (expand/contract rule)"
                     )
 
+        # pg-safeupdate: UPDATE/DELETE must carry a WHERE clause.
+        if num >= SAFEUPDATE_FROM:
+            code = re.sub(r"--[^\n]*", lambda m: " " * len(m.group(0)), sql)  # keep offsets
+            for m in WRITE_STMT_RE.finditer(code):
+                before = code[max(0, m.start() - 12): m.start()]
+                if re.search(r"\bDO\s+$", before, re.IGNORECASE):
+                    continue  # INSERT ... ON CONFLICT DO UPDATE SET
+                if not re.search(r"\bWHERE\b", m.group(0), re.IGNORECASE):
+                    line = code.count("\n", 0, m.start()) + 1
+                    errors.append(
+                        f"{name}:{line}: UPDATE/DELETE without WHERE (refused by "
+                        f"pg-safeupdate in PostgREST sessions; use `WHERE true`)"
+                    )
+
     return errors, warnings
 
 
@@ -108,7 +131,7 @@ def main() -> int:
               f"across {count} migration(s).")
         return 1
     print(f"migration-lint: OK — {count} migration(s) validated "
-          f"(naming, numbering, parse, destructive opt-in).")
+          f"(naming, numbering, parse, destructive opt-in, safeupdate).")
     return 0
 
 
