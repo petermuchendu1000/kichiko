@@ -5,11 +5,20 @@ import { platformGate } from '@/lib/platform-gate'
 import { z } from 'zod'
 import type { Enums, Json } from '@/types/supabase'
 import { presetHeaders } from '@/lib/http/cache-headers'
+import { clampInt, normalizeCategory, normalizeStatus } from '@/lib/search'
 import {
   validateOutcomeLabels,
   MAX_LABEL_LEN,
   MAX_OUTCOMES,
 } from '@/lib/markets/outcomes'
+
+// Sort options: the aliases in MarketFilters (types/index.ts) and the columns themselves.
+const SORT_COLUMNS = new Map<string, 'total_volume_usd' | 'created_at' | 'closes_at' | 'unique_bettors' | 'total_bets' | 'yes_price' | 'resolves_at'>([
+  ['volume', 'total_volume_usd'], ['total_volume_usd', 'total_volume_usd'],
+  ['bettors', 'unique_bettors'], ['unique_bettors', 'unique_bettors'],
+  ['created_at', 'created_at'], ['closes_at', 'closes_at'], ['resolves_at', 'resolves_at'],
+  ['total_bets', 'total_bets'], ['yes_price', 'yes_price'],
+])
 
 // GET - list markets with filters
 export async function GET(req: NextRequest) {
@@ -17,15 +26,17 @@ export async function GET(req: NextRequest) {
     const supabase = await createClient()
     const { searchParams } = new URL(req.url)
 
-    const category = searchParams.get('category')
-    const status = searchParams.get('status') || 'active'
+    // audit 6.35: every parameter is normalised to a known value (an unknown
+    // sort column or a NaN/negative page used to reach the query: a 500)
+    const category = normalizeCategory(searchParams.get('category'))
+    const status = normalizeStatus(searchParams.get('status'))
     const search = searchParams.get('search')
     const featured = searchParams.get('featured')
     const trending = searchParams.get('trending')
-    const sortBy = searchParams.get('sort_by') || 'total_volume_usd'
+    const sortBy = SORT_COLUMNS.get(searchParams.get('sort_by') ?? '') ?? 'total_volume_usd'
     const sortOrder = searchParams.get('sort_order') === 'asc'
-    const page = parseInt(searchParams.get('page') || '1')
-    const perPage = Math.min(parseInt(searchParams.get('per_page') || '20'), 100)
+    const page = clampInt(searchParams.get('page'), 1, 10_000, 1)
+    const perPage = clampInt(searchParams.get('per_page'), 1, 100, 20)
     const offset = (page - 1) * perPage
 
     let query = supabase
@@ -47,7 +58,7 @@ export async function GET(req: NextRequest) {
           : [status]) as Enums<'market_status'>[]
       )
 
-    if (category) query = query.eq('category', category as Enums<'market_category'>)
+    if (category) query = query.eq('category', category)
     if (featured === 'true') query = query.eq('is_featured', true)
     if (trending === 'true') query = query.eq('is_trending', true)
 
@@ -56,7 +67,7 @@ export async function GET(req: NextRequest) {
     }
 
     query = query
-      .order(sortBy as 'total_volume_usd', { ascending: sortOrder })
+      .order(sortBy, { ascending: sortOrder })
       .range(offset, offset + perPage - 1)
 
     const { data: markets, count, error } = await query
