@@ -122,6 +122,7 @@ export interface LedgerParams {
   q: string | null // reference / payment_reference substring
   page: number
   pageSize: number
+  offset?: number // exports: an explicit row offset (overrides page)
 }
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/
@@ -157,8 +158,9 @@ export function applyLedgerFilters(query: any, p: LedgerParams): any {
     const term = `%${p.q.replace(/[%_]/g, (m) => '\\' + m)}%`
     q = q.or(`payment_reference.ilike.${term},provider_reference.ilike.${term}`)
   }
-  q = q.order('created_at', { ascending: false })
-  const from = (p.page - 1) * p.pageSize
+  // id breaks created_at ties (one transaction writes several rows): stable pages
+  q = q.order('created_at', { ascending: false }).order('id', { ascending: false })
+  const from = p.offset ?? (p.page - 1) * p.pageSize
   q = q.range(from, from + p.pageSize - 1)
   return q
 }

@@ -22,6 +22,7 @@ export interface UserListParams {
   dir: 'asc' | 'desc'
   page: number
   pageSize: number
+  offset?: number // exports: an explicit row offset (overrides page)
 }
 
 export const DEFAULT_PAGE_SIZE = 25
@@ -90,8 +91,8 @@ export function applyUserFilters(query: any, p: UserListParams): any {
   if (p.status) q = q.eq('account_status', p.status)
   if (p.kyc) q = q.eq('kyc_status', p.kyc)
   if (p.country) q = q.eq('country_code', p.country)
-  q = q.order(p.sort, { ascending: p.dir === 'asc' })
-  const from = (p.page - 1) * p.pageSize
+  q = q.order(p.sort, { ascending: p.dir === 'asc' }).order('id') // id: stable pages
+  const from = p.offset ?? (p.page - 1) * p.pageSize
   q = q.range(from, from + p.pageSize - 1)
   return q
 }

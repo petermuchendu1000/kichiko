@@ -2,19 +2,35 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { requireCapability } from '@/lib/auth'
 import { toCsv } from '@/lib/admin/csv'
+import { collectExportRows, exportFailure } from '@/lib/admin/export-pages'
 
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const guard = await requireCapability('payouts:run')
   if (!guard.ok) return guard.response
 
-  const { data } = await guard.ctx.supabase
-    .from('payout_items')
-    .select(
-      'user_id, amount_usd, settlement, status, eligible_at, tx_count, created_at, profiles!payout_items_user_id_fkey(username, display_name)'
+  // audit 6.39: every item of the run (one response stops at PostgREST's max_rows)
+  let data
+  try {
+    data = await collectExportRows(
+      async (from, to) => {
+        const { data: rows, count, error } = await guard.ctx.supabase
+          .from('payout_items')
+          .select(
+            'id, user_id, amount_usd, settlement, status, eligible_at, tx_count, created_at, profiles!payout_items_user_id_fkey(username, display_name)',
+            { count: 'exact' }
+          )
+          .eq('run_id', id)
+          .order('amount_usd', { ascending: false })
+          .order('id')
+          .range(from, to)
+        return { rows: rows ?? [], total: count, error: error?.message }
+      },
+      (r) => r.id
     )
-    .eq('run_id', id)
-    .order('amount_usd', { ascending: false })
+  } catch (e) {
+    return exportFailure(e, 'payout statement')
+  }
 
   type Row = {
     user_id: string
