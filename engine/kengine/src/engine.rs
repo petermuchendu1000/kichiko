@@ -287,6 +287,8 @@ pub struct Coverage {
     pub budget_stops: u64,
     pub makers_filled: u64,
     pub market_sell_releases: u64,
+    /// [087] makers cancelled in a walk because they did not hold what they traded
+    pub unbacked_makers: u64,
 }
 
 const RL_N: usize = 100;
@@ -557,8 +559,16 @@ impl<L: Ladder> Engine<L> {
         let mut notional = Num::ZERO; // v_notional numeric := 0
         let mut cash_delta = Num::ZERO; // v_cash_delta numeric := 0
         self.fills.clear();
+        // [087] unbacked makers met in the walk: (index into fills at the time, order id);
+        // cancelled in phase 3, interleaved with the fills in walk order
+        let mut unbacked: Vec<(usize, OrderId)> = Vec::new();
+        // [087] what earlier steps of this walk took from a maker position
+        // (index, shares taken, reserved taken), as the SQL sees it mid-walk
+        let mut taken: Vec<(usize, i128, i128)> = Vec::new();
         {
             let orders = &self.orders;
+            let positions = &self.positions;
+            let nbooks = self.books.len();
             let fills = &mut self.fills;
             let cov = &mut self.cov;
             self.ladder.walk(r.book, side, yes_lim, |oid| {
@@ -608,6 +618,42 @@ impl<L: Ladder> Engine<L> {
                     fill = fill.min(aff);
                     if fill <= 0 {
                         return false;
+                    }
+                }
+                // [087] the maker must hold what it trades
+                let maker_sells = (buy && kind == MatchKind::Direct) || (!buy && kind == MatchKind::Burn);
+                let backed = if maker_sells {
+                    let pi = ((o.user as usize * nbooks) + o.book as usize) * 2 + (o.outcome == Outcome::No) as usize;
+                    let p = &positions[pi];
+                    let (ts, tr) = taken.iter().find(|t| t.0 == pi).map(|t| (t.1, t.2)).unwrap_or((0, 0));
+                    let _ = tr; // reserved_shares is bookkeeping; the shares must exist
+                    p.exists && p.shares - ts >= fill
+                } else {
+                    let need = n6(fill).mul(px(o.price)).div(N100_0).round(8).div(o.rate).round(6);
+                    let have = if fill >= avail {
+                        n6(o.reserved_local)
+                    } else {
+                        n6(o.reserved_local).mul(n6(fill)).div(n6(avail)).round(6)
+                    };
+                    !have.lt(need.mul(Num::new(99, 2)))
+                };
+                if !backed {
+                    cov.unbacked_makers += 1;
+                    if maker_sells {
+                        let pi = ((o.user as usize * nbooks) + o.book as usize) * 2 + (o.outcome == Outcome::No) as usize;
+                        match taken.iter_mut().find(|t| t.0 == pi) {
+                            Some(t) => t.2 += avail,
+                            None => taken.push((pi, 0, avail)),
+                        }
+                    }
+                    unbacked.push((fills.len(), oid));
+                    return true; // cancelled; the walk continues
+                }
+                if maker_sells {
+                    let pi = ((o.user as usize * nbooks) + o.book as usize) * 2 + (o.outcome == Outcome::No) as usize;
+                    match taken.iter_mut().find(|t| t.0 == pi) {
+                        Some(t) => { t.1 += fill; t.2 += fill; }
+                        None => taken.push((pi, fill, fill)),
                     }
                 }
                 // v_taker_usd := ROUND(v_fill * v_e / 100.0, 8)
@@ -670,7 +716,12 @@ impl<L: Ladder> Engine<L> {
         });
 
         let comp = r.outcome.comp();
+        let mut ub = 0usize;
         for i in 0..self.fills.len() {
+            while ub < unbacked.len() && unbacked[ub].0 == i {
+                self.cancel_unbacked(unbacked[ub].1);
+                ub += 1;
+            }
             let f = self.fills[i];
             let ms = Self::slot(f.maker);
             // advance maker order (L323-L327)
@@ -725,6 +776,11 @@ impl<L: Ladder> Engine<L> {
                 self.cov.makers_filled += 1;
                 self.retire(f.maker);
             }
+        }
+
+        while ub < unbacked.len() {
+            self.cancel_unbacked(unbacked[ub].1);
+            ub += 1;
         }
 
         // taker settlement (L467-L516)
@@ -851,6 +907,32 @@ impl<L: Ladder> Engine<L> {
         if !self.cfg.keep_history {
             self.free_order(id);
         }
+    }
+
+    /// [087] A maker that does not hold what it trades is cancelled mid-walk:
+    /// a sell releases its remaining reserved shares (clamped at 0), a buy
+    /// its escrow, never more than the wallet holds (the 'rel' wallet op).
+    fn cancel_unbacked(&mut self, id: OrderId) {
+        let s = Self::slot(id);
+        let o = self.orders[s];
+        let rest = o.size - o.filled;
+        if o.action == Action::Sell {
+            let pi = self.pidx(o.user, o.book, o.outcome);
+            let p = &mut self.positions[pi];
+            p.reserved_shares = Num::ZERO.greatest(n6(p.reserved_shares).sub(n6(rest))).n20_6();
+        } else if o.reserved_local > 0 {
+            let w = &mut self.wallets[o.user as usize];
+            let amt = n6(o.reserved_local).least(n6(w.reserved));
+            w.available = n6(w.available).add(amt).n20_6();
+            w.reserved = n6(w.reserved).sub(amt).n20_6();
+        }
+        {
+            let om = &mut self.orders[s];
+            om.status = Status::Cancelled;
+            om.reserved_usd = 0;
+            om.reserved_local = 0;
+        }
+        self.retire(id);
     }
 
     /// Release escrow of a live order (clob_cancel_order / clob_expire_orders body).
