@@ -146,5 +146,6 @@ pub fn run<L: Ladder>(st: &Stream) -> Value {
     json!({"results": results, "orders": orders, "positions": positions, "wallets": wallets,
            "coverage": {"self_trade_skips": c.self_trade_skips, "expired_skips": c.expired_skips,
                         "budget_trims": c.budget_trims, "budget_stops": c.budget_stops,
-                        "makers_filled": c.makers_filled, "market_sell_releases": c.market_sell_releases}})
+                        "makers_filled": c.makers_filled, "market_sell_releases": c.market_sell_releases,
+                        "unbacked_makers": c.unbacked_makers}})
 }
