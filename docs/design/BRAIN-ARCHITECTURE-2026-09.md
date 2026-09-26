@@ -251,6 +251,7 @@ The two code-audit reports contain step-by-step detail for open critical issues 
 | O1 | High (ops) | Exchange-rate cron not running; KES rate last fetched 2026-07-28 and used for settlement | V (read-only) | open: phase 1 |
 | F1 | High | `upsert_exchange_rates` accepted any positive rate: one bad datapoint (KES at 5/USD) or a single-source 8% jump replaced the rate used for escrow, deposits, withdrawals and settlement; no value date, no record of provider quotes | V (reproduced, `test_fx_gates.py`) | fixed 075 (bands, move and consensus gates, `fx_observations`) |
 | F2 | Medium | `exchange_rates.rate` is USD per unit at 8 decimals: UGX loses 1.9e-5 relative precision (BIF 7.4e-6, TZS 5.5e-6) in every conversion. 075 stores the exact published quote in `units_per_usd`; money paths still convert with `rate` | V (computed; seen in `test_fx_gates.py` fixtures) | open |
+| F3 | Medium | FX came from one commercial aggregator (ExchangeRate-API, attribution required, called twice per run), never from the central banks | V (code) | fixed: official sources CBK, BNR, NBE + independent cross-check, official preferred (076); live endpoints still need one check from production |
 | O2 | Low (DR) | `public.schema_migrations` is referenced (032) but created by no migration; a fresh rebuild fails | V | open |
 | A-P3 | Critical | PesaPal IPN can credit a different, unpaid deposit | A2 §6.3 | open: phase 1 |
 | A-W1 | High | Ambiguous disbursement exceptions auto-refunded, so a paid-out withdrawal can be refunded (double pay) | A2 §6.5 | open |
