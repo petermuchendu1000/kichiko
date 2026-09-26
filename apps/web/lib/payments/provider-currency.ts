@@ -28,6 +28,7 @@
 //     (processWithdrawal default branch throws)                       -> rejected
 // ---------------------------------------------------------------------------
 import type { CurrencyCode, PaymentProvider } from '@/types'
+import { formatMpesaPhone } from './mpesa'
 
 export const AIRTEL_COUNTRY_CURRENCY: Readonly<Record<string, CurrencyCode>> = {
   KE: 'KES', TZ: 'TZS', UG: 'UGX', RW: 'RWF', ZM: 'ZMW',
@@ -93,4 +94,29 @@ export function checkWithdrawalProviderCurrency(
   const want = WITHDRAWAL_PROVIDER_CURRENCY[provider]
   if (!want) return fail(`Withdrawals via ${provider} are not supported`)
   return currency === want ? { ok: true } : fail(`Withdrawals via ${provider} must be in ${want}`)
+}
+
+// Rails that move whole units only (audit 6.34): M-Pesa STK charged
+// Math.ceil(amount) and B2C paid Math.floor(amount), while the wallet was
+// credited / debited the fractional amount. Refuse such amounts instead, so
+// what moves is exactly what is booked.
+const WHOLE_UNIT_PROVIDERS: readonly PaymentProvider[] = ['mpesa']
+
+/** The payout destination must be valid for the rail, checked before funds are reserved. */
+export function checkProviderDestination(provider: PaymentProvider, phone: string): ProviderCurrencyCheck {
+  if (provider === 'mpesa') {
+    try {
+      formatMpesaPhone(phone)
+    } catch {
+      return { ok: false, error: 'Enter a Kenyan M-Pesa number, e.g. 0712 345 678.' }
+    }
+  }
+  return { ok: true }
+}
+
+export function checkProviderAmount(provider: PaymentProvider, amount: number): ProviderCurrencyCheck {
+  if (WHOLE_UNIT_PROVIDERS.includes(provider) && !Number.isInteger(amount)) {
+    return { ok: false, error: 'M-Pesa amounts must be whole shillings (no cents).' }
+  }
+  return { ok: true }
 }

@@ -83,6 +83,25 @@ describe('processWithdrawal: M-Pesa B2C', () => {
     stubFetch()
     expect((await processWithdrawal('mpesa', REQ)).outcome).toBe('rejected')
   })
+  // Audit 6.34: B2C paid Math.floor(amount) while the wallet was debited the
+  // full amount; and normalised the phone only for '+' and a leading 0.
+  it('a fractional amount is refused before anything is sent (never paid short)', async () => {
+    stubFetch()
+    const r = await processWithdrawal('mpesa', { ...REQ, amount: 990.6 })
+    expect(r.outcome).toBe('rejected')
+    expect(calls).toHaveLength(0)
+  })
+  it('sends the exact amount and a normalised MSISDN', async () => {
+    stubFetch(TOKEN, { status: 200, body: { ConversationID: 'AG_2', ResponseCode: '0' } })
+    await processWithdrawal('mpesa', { ...REQ, phone: '0712 345-678' })
+    expect(JSON.parse(calls[1].body!)).toMatchObject({ Amount: 990, PartyB: '254712345678' })
+  })
+  it('a phone that is not a Kenyan MSISDN is refused before anything is sent', async () => {
+    stubFetch()
+    const r = await processWithdrawal('mpesa', { ...REQ, phone: '+25671234567' })
+    expect(r.outcome).toBe('rejected')
+    expect(calls).toHaveLength(0)
+  })
 })
 
 describe('processWithdrawal: MTN MoMo', () => {

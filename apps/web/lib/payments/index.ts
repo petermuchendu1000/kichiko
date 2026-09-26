@@ -274,6 +274,14 @@ export async function processWithdrawal(
         const baseUrl = process.env.MPESA_BASE_URL || 'https://sandbox.safaricom.co.ke'
 
         if (!consumerKey || !consumerSecret) throw new NotSent('M-Pesa B2C not configured')
+        // audit 6.34: pay exactly what was debited (never Math.floor), to a valid MSISDN
+        if (!Number.isInteger(req.amount)) throw new NotSent('M-Pesa amounts must be whole shillings')
+        let phone: string
+        try {
+          phone = formatMpesaPhone(req.phone)
+        } catch {
+          throw new NotSent('Not a valid M-Pesa phone number')
+        }
 
         const token = await fetchToken(`${baseUrl}/oauth/v1/generate?grant_type=client_credentials`, {
           headers: {
@@ -281,7 +289,6 @@ export async function processWithdrawal(
           },
         }, 'M-Pesa')
 
-        const phone = req.phone.replace('+', '').replace(/^0/, '254')
         const sent = await sendPayout(`${baseUrl}/mpesa/b2c/v3/paymentrequest`, {
           method: 'POST',
           headers: {
@@ -295,7 +302,7 @@ export async function processWithdrawal(
             InitiatorName: initiatorName,
             SecurityCredential: securityCredential,
             CommandID: 'BusinessPayment',
-            Amount: Math.floor(req.amount),
+            Amount: req.amount,
             PartyA: shortcode,
             PartyB: phone,
             Remarks: `Kichiko withdrawal ${req.reference}`,

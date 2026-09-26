@@ -37,6 +37,7 @@ const TYPE_CONFIG: Record<NotificationType, { Icon: typeof IconBell; group: Grou
   bet_lost: { Icon: IconTrendDown, group: 'trades', tone: 'no' },
   deposit_completed: { Icon: IconDeposit, group: 'money', tone: 'yes' },
   withdrawal_completed: { Icon: IconWithdraw, group: 'money', tone: 'pip' },
+  withdrawal_under_review: { Icon: IconClock, group: 'money', tone: 'brass' },
   withdrawal_failed: { Icon: IconWarning, group: 'money', tone: 'no' },
   referral_bonus: { Icon: IconShare, group: 'money', tone: 'brass' },
   market_created: { Icon: IconMarkets, group: 'markets', tone: 'pip' },

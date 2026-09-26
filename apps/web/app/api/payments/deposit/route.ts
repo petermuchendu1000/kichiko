@@ -4,7 +4,7 @@ import { createClient, createAdminClient } from '@/lib/supabase/server'
 import { platformGate } from '@/lib/platform-gate'
 import { z } from 'zod'
 import { initiateDeposit } from '@/lib/payments'
-import { checkDepositProviderCurrency } from '@/lib/payments/provider-currency'
+import { checkDepositProviderCurrency, checkProviderAmount } from '@/lib/payments/provider-currency'
 import { getUsdRate } from '@/lib/currency'
 import { getSettlement, resolveMoneyCurrency } from '@/lib/settlement'
 import type { PaymentProvider, CurrencyCode } from '@/types'
@@ -70,6 +70,10 @@ export async function POST(req: NextRequest) {
     const provCheck = checkDepositProviderCurrency(provider as PaymentProvider, currency as CurrencyCode, country)
     if (!provCheck.ok) {
       return NextResponse.json({ error: provCheck.error }, { status: 400 })
+    }
+    const amountCheck = checkProviderAmount(provider as PaymentProvider, amount)
+    if (!amountCheck.ok) {
+      return NextResponse.json({ error: amountCheck.error }, { status: 400 })
     }
 
     // Validate minimum deposit

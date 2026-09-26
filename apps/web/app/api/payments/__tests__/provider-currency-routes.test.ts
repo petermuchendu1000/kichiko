@@ -118,3 +118,31 @@ describe('POST /api/payments/withdraw — provider/currency binding', () => {
     })
   }
 })
+
+// Audit 6.34: M-Pesa moves whole shillings. A fractional deposit was charged
+// Math.ceil(amount) but credited `amount`; a fractional withdrawal was debited
+// `amount` but paid Math.floor(amount). Either way what moved differed from
+// what was booked. Such amounts are refused before anything happens.
+describe('M-Pesa amounts are whole shillings', () => {
+  it('refuses a fractional M-Pesa deposit (400) and touches nothing', async () => {
+    settlement = { country: 'KE', currency: 'KES' }
+    const res = await depositPOST(req('https://x/api/payments/deposit', { amount: 100.4, phone: '254700000000', provider: 'mpesa' }))
+    expect(res.status).toBe(400)
+    expect(initiate).not.toHaveBeenCalled()
+    expect(touched).toEqual([])
+  })
+  it('refuses a fractional M-Pesa withdrawal (400) before reserving funds', async () => {
+    settlement = { country: 'KE', currency: 'KES' }
+    const res = await withdrawPOST(req('https://x/api/payments/withdraw', { amount: 500.7, phone_number: '254700000000', provider: 'mpesa' }))
+    expect(res.status).toBe(400)
+    expect(disburse).not.toHaveBeenCalled()
+    expect(touched).toEqual([])
+  })
+  it('refuses an M-Pesa withdrawal to a number that is not a Kenyan MSISDN (400) before reserving funds', async () => {
+    settlement = { country: 'KE', currency: 'KES' }
+    const res = await withdrawPOST(req('https://x/api/payments/withdraw', { amount: 500, phone_number: '+256712345678', provider: 'mpesa' }))
+    expect(res.status).toBe(400)
+    expect(disburse).not.toHaveBeenCalled()
+    expect(touched).toEqual([])
+  })
+})

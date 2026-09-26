@@ -2522,7 +2522,7 @@ export type Database = {
       market_category: "politics" | "sports" | "economics" | "crypto" | "technology" | "entertainment" | "weather" | "governance" | "elections" | "business" | "health" | "social" | "other"
       market_resolution_type: "binary" | "multiple_choice"
       market_status: "draft" | "pending" | "active" | "closed" | "resolved" | "disputed" | "cancelled"
-      notification_type: "market_created" | "market_resolved" | "bet_filled" | "bet_won" | "bet_lost" | "deposit_completed" | "withdrawal_completed" | "withdrawal_failed" | "price_alert" | "market_closing_soon" | "referral_bonus" | "kyc_approved" | "kyc_rejected" | "system_announcement"
+      notification_type: "market_created" | "market_resolved" | "bet_filled" | "bet_won" | "bet_lost" | "deposit_completed" | "withdrawal_completed" | "withdrawal_under_review" | "withdrawal_failed" | "price_alert" | "market_closing_soon" | "referral_bonus" | "kyc_approved" | "kyc_rejected" | "system_announcement"
       order_side: "yes" | "no"
       order_status: "open" | "filled" | "partially_filled" | "cancelled" | "expired"
       order_type: "market" | "limit"
