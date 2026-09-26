@@ -77,13 +77,13 @@ export async function GET(
           .select('price, volume_usd, recorded_at')
           .eq('market_id', marketId)
           .eq('market_option_id', optionId!)
-          .order('recorded_at', { ascending: true })
+          .order('recorded_at', { ascending: false })
           .limit(limit)
       : supabase
           .from('price_history')
           .select('yes_price, no_price, volume_usd, recorded_at')
           .eq('market_id', marketId)
-          .order('recorded_at', { ascending: true })
+          .order('recorded_at', { ascending: false })
           .limit(limit)
 
     if (from) query = query.gte('recorded_at', from)
@@ -95,8 +95,12 @@ export async function GET(
       return NextResponse.json({ error: 'Failed to load price history' }, { status: 500 })
     }
 
+    // The query takes the LATEST `limit` rows (newest first, audit 6.15: it
+    // used to take the oldest, so a busy market's chart ended long ago); the
+    // chart wants them oldest first.
+    const rows = [...(data || [])].reverse()
     let points: PricePoint[] = usingOption
-      ? ((data || []) as { price: number | null; volume_usd: number | null; recorded_at: string | null }[]).map(
+      ? (rows as { price: number | null; volume_usd: number | null; recorded_at: string | null }[]).map(
           (r) => ({
             yes_price: Number(r.price ?? 0),
             no_price: 1 - Number(r.price ?? 0),
@@ -104,7 +108,7 @@ export async function GET(
             recorded_at: r.recorded_at,
           }),
         )
-      : ((data || []) as PricePoint[])
+      : (rows as PricePoint[])
     const total = points.length
     if (maxPoints > 0) points = downsample(points, maxPoints)
 

@@ -64,9 +64,26 @@ resource "cloudflare_ruleset" "cache_rules" {
   kind    = "zone"
   phase   = "http_request_cache_settings"
 
+  # Order books and price history set their own short s-maxage (the book asks
+  # for 2 s); a 30 s edge override served stale books (audit 6.19).
+  rules {
+    description = "Live market data: respect the origin's cache headers"
+    expression  = "(http.request.method eq \"GET\" and starts_with(http.request.uri.path, \"/api/markets\") and (ends_with(http.request.uri.path, \"/book\") or ends_with(http.request.uri.path, \"/price-history\")))"
+    action      = "set_cache_settings"
+    action_parameters {
+      cache = true
+      edge_ttl {
+        mode = "respect_origin"
+      }
+      browser_ttl {
+        mode = "respect_origin"
+      }
+    }
+  }
+
   rules {
     description = "Cache public market & leaderboard reads"
-    expression  = "(http.request.method eq \"GET\" and (starts_with(http.request.uri.path, \"/api/markets\") or starts_with(http.request.uri.path, \"/api/leaderboard\")))"
+    expression  = "(http.request.method eq \"GET\" and (starts_with(http.request.uri.path, \"/api/markets\") or starts_with(http.request.uri.path, \"/api/leaderboard\")) and not (ends_with(http.request.uri.path, \"/book\") or ends_with(http.request.uri.path, \"/price-history\")))"
     action      = "set_cache_settings"
     action_parameters {
       cache = true
