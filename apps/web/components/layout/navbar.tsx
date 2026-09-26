@@ -7,7 +7,7 @@ import { useAuth } from '@/hooks/use-auth'
 import { useWallets } from '@/hooks/use-wallets'
 import { createClient } from '@/lib/supabase/client'
 import { CURRENCIES, type CurrencyCode } from '@/types'
-import { depositPresets, phonePlaceholder, phonePrefill, normalizePhone, isValidPhone } from '@/lib/payments/deposit-ux'
+import { depositPresets, phonePlaceholder, phonePrefill, isValidPhone, depositRequestBody, withdrawRequestBody } from '@/lib/payments/deposit-ux'
 import { readJson } from '@/lib/http/client'
 import { openAuthDialog } from '@/components/auth/auth-dialog'
 import { StkPushLoader } from '@/components/payments/stk-push-loader'
@@ -406,7 +406,7 @@ function DepositSheet({ onClose, initialAmount, resumeOrder = false }: { onClose
       const res = await fetch('/api/payments/deposit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: parseFloat(amount), currency: preferredCurrency, phone_number: normalizePhone(phone, preferredCurrency), provider: 'mpesa' }),
+        body: JSON.stringify(depositRequestBody(parseFloat(amount), preferredCurrency, phone)),
       })
       const data = await readJson<{
         success?: boolean
@@ -611,7 +611,7 @@ function WithdrawSheet({ onClose, balance, currency }: { onClose: () => void; ba
       const res = await fetch('/api/payments/withdraw', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: amt, currency, phone_number: phone, provider: 'mpesa' }),
+        body: JSON.stringify(withdrawRequestBody(amt, currency, phone)),
       })
       // Read defensively: an empty / non-JSON body (e.g. a session that lapsed
       // at the edge) must not crash the modal with "Unexpected end of JSON input".

@@ -231,6 +231,10 @@ The two code-audit reports contain step-by-step detail for open critical issues 
 | P1 | Critical | Deposit currency not bound to provider: "USD 100 via M-Pesa" charged KSh 100 and credited $100 | V | fixed 070 |
 | P2 | Critical | M-Pesa B2C paid any wallet currency's number as KES | V | fixed 070 |
 | P3 | Medium | Unimplemented payout providers accepted, failing only after funds were reserved | V | fixed 070 |
+| P4 | Critical (UX) | Every in-app deposit failed with 400: the deposit sheet sent `phone_number` (`navbar.tsx:409`) but the route requires `phone` (`deposit/route.ts:13`) | V (reproduced, `sheet-route-contract.test.ts`) | fixed (deposit field) |
+| P5 | High | Deposit and withdraw sheets hardcode M-Pesa and send no country, so only KES can be deposited or withdrawn; non-KES balances are stuck | currency-flow map (code) | open: settlement-currency work |
+| C1 | High | `preferred_currency` is user-editable at any time and every money route trusts the request's `currency`: buy in one currency, sell or settle in another, i.e. free FX conversion at a stale platform rate | currency-flow map (code) | open: settlement-currency work |
+| C2 | Low | Settlement adds USD amounts to `wallets.total_won` / `total_lost`, which are otherwise local-currency (069:284-285) | currency-flow map (code) | open |
 | E1 | High (perf) | O(book) ladder scan and sort under the market lock | V (measured) | fixed 071 |
 | E2 | Low (perf) | Position updates not HOT | V (measured) | fixed 071 |
 | D1 | Critical (data) | All 64 production option books unbacked: 2.22M YES vs 1.09M NO shares; 2,280 of 2,291 orders lack engine metadata (seeded directly) | V (read-only snapshot) | open: owner decision |

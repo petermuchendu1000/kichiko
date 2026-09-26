@@ -108,3 +108,18 @@ export function isValidPhone(raw: string, currency: CurrencyCode): boolean {
   const national = norm.slice(info.dialCode.length + 1)
   return national.length === info.nationalLen && /^\d+$/.test(national)
 }
+
+// ------------------------------------------------------------
+// Request bodies for POST /api/payments/deposit and /withdraw
+// ------------------------------------------------------------
+// Built here (not inline in the sheet) so a route-contract test can post the
+// exact body the UI sends through the real route handlers.
+
+export function depositRequestBody(amount: number, currency: CurrencyCode, rawPhone: string) {
+  // The deposit route's field is `phone` (the withdraw route's is `phone_number`).
+  return { amount, currency, phone: normalizePhone(rawPhone, currency), provider: 'mpesa' as const }
+}
+
+export function withdrawRequestBody(amount: number, currency: CurrencyCode, phone: string) {
+  return { amount, currency, phone_number: phone, provider: 'mpesa' as const }
+}
