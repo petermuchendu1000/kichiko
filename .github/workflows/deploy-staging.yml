@@ -33,10 +33,22 @@ jobs:
       - uses: actions/checkout@v4
 
       # --- Ordered DB migration BEFORE app cutover (expand/contract) ---
+      # setup-cli resolves 'latest' through the GitHub API, which rate-limits
+      # shared runners (run 36258199295 failed before any migration step).
+      # Fall back to the npm distribution of the same CLI.
       - name: Setup Supabase CLI
+        id: supabase_cli
+        continue-on-error: true
         uses: supabase/setup-cli@v1
         with:
           version: latest
+      - name: Setup Supabase CLI (npm fallback)
+        if: steps.supabase_cli.outcome == 'failure'
+        run: |
+          # the npm package does not support global installs: install it locally
+          npm install --no-save --prefix "$RUNNER_TEMP/supabase-cli" supabase
+          echo "$RUNNER_TEMP/supabase-cli/node_modules/.bin" >> "$GITHUB_PATH"
+          "$RUNNER_TEMP/supabase-cli/node_modules/.bin/supabase" --version
       # Migrations connect straight to the database through the Supabase session
       # pooler with SUPABASE_PROJECT_ID + SUPABASE_DB_PASSWORD. No Supabase
       # access token (management API) is needed: `supabase link` was the only

@@ -59,10 +59,22 @@ jobs:
           echo "Promoting: ${IMAGE}"
 
       # --- Ordered prod DB migration BEFORE cutover ---
+      # setup-cli resolves 'latest' through the GitHub API, which rate-limits
+      # shared runners (run 36258199295 failed before any migration step).
+      # Fall back to the npm distribution of the same CLI.
       - name: Setup Supabase CLI
+        id: supabase_cli
+        continue-on-error: true
         uses: supabase/setup-cli@v1
         with:
           version: latest
+      - name: Setup Supabase CLI (npm fallback)
+        if: steps.supabase_cli.outcome == 'failure'
+        run: |
+          # the npm package does not support global installs: install it locally
+          npm install --no-save --prefix "$RUNNER_TEMP/supabase-cli" supabase
+          echo "$RUNNER_TEMP/supabase-cli/node_modules/.bin" >> "$GITHUB_PATH"
+          "$RUNNER_TEMP/supabase-cli/node_modules/.bin/supabase" --version
       - name: Push migrations (production)
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
