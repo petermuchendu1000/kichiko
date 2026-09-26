@@ -221,13 +221,33 @@ describe('POST /api/webhooks/mpesa-b2c (payout)', () => {
   })
 
   it('SECURITY: a caller whose IP is not on the allowlist is REJECTED with 403 and does NOT settle', async () => {
+    process.env.MPESA_WEBHOOK_SECRET = 'real-secret'
     process.env.MPESA_WEBHOOK_IP_ALLOWLIST = '196.201.214.200'
     stubAdmin({ withdrawals: WITHDRAWAL })
 
-    const res = await b2cPOST(post(URL, b2cBody(0), { 'x-forwarded-for': '13.13.13.13' }))
+    const res = await b2cPOST(post(`${URL}?token=real-secret`, b2cBody(0), { 'fly-client-ip': '13.13.13.13' }))
     expect(res.status).toBe(403)
     expect(complete).not.toHaveBeenCalled()
     expect(failWd).not.toHaveBeenCalled()
+  })
+
+  // Audit 6.9: an allowlist alone is not proof of origin (the checked IP was a
+  // client-written header); a money-OUT result needs the shared secret.
+  it('SECURITY: with only an IP allowlist (no secret) a B2C result is REJECTED, even from an allowed IP', async () => {
+    process.env.MPESA_WEBHOOK_IP_ALLOWLIST = '196.201.214.200'
+    stubAdmin({ withdrawals: WITHDRAWAL })
+    const res = await b2cPOST(post(URL, b2cBody(1), { 'fly-client-ip': '196.201.214.200' }))
+    expect(res.status).toBe(401)
+    expect(failWd).not.toHaveBeenCalled()
+  })
+
+  it('SECURITY: a forged X-Forwarded-For claiming a Safaricom IP does not pass the allowlist', async () => {
+    process.env.MPESA_WEBHOOK_SECRET = 'real-secret'
+    process.env.MPESA_WEBHOOK_IP_ALLOWLIST = '196.201.214.200'
+    stubAdmin({ withdrawals: WITHDRAWAL })
+    const res = await b2cPOST(post(`${URL}?token=real-secret`, b2cBody(0), { 'fly-client-ip': '13.13.13.13', 'x-forwarded-for': '196.201.214.200' }))
+    expect(res.status).toBe(403)
+    expect(complete).not.toHaveBeenCalled()
   })
 
   it('processes a genuine SUCCESS result carrying the correct token (happy path preserved)', async () => {

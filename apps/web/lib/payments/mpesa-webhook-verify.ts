@@ -21,6 +21,7 @@
 // ============================================================
 
 import crypto from 'node:crypto'
+import { trustedClientIp } from '@/lib/security/client-ip'
 
 /** Minimal shape we need from a webhook request (Request/NextRequest satisfy it). */
 export interface WebhookSourceRequest {
@@ -34,7 +35,7 @@ export interface VerifyResult {
   /** True when at least one control is configured (and was therefore enforced). */
   enforced: boolean
   /** Why the request was rejected (only set when ok=false). */
-  reason?: 'no_token' | 'bad_token' | 'ip_not_allowed'
+  reason?: 'no_token' | 'bad_token' | 'ip_not_allowed' | 'no_secret_configured'
 }
 
 /** Constant-time string compare that never throws on length mismatch. */
@@ -47,11 +48,13 @@ export function timingSafeStrEqual(a: string, b: string): boolean {
   return crypto.timingSafeEqual(ha, hb) && ba.length === bb.length
 }
 
-/** Best-effort client IP from proxy headers (mirrors lib/security/rate-limit). */
+/**
+ * The caller's IP for the allowlist: the TRUSTED client IP (audit 6.9). The
+ * first x-forwarded-for entry used before is client-written: a forged callback
+ * passed the allowlist by sending `X-Forwarded-For: <Safaricom IP>`.
+ */
 export function webhookClientIp(headers: Headers): string | null {
-  const fwd = headers.get('x-forwarded-for')
-  const ip = fwd ? fwd.split(',')[0].trim() : headers.get('x-real-ip')
-  return ip || null
+  return trustedClientIp(headers)
 }
 
 function readSecret(): string {
@@ -70,9 +73,12 @@ function readAllowlist(): string[] {
  * Returns { ok:true, enforced:false } when nothing is configured (the caller
  * decides whether that is acceptable for the endpoint's risk level).
  */
-export function verifyMpesaWebhookSource(req: WebhookSourceRequest): VerifyResult {
+export function verifyMpesaWebhookSource(req: WebhookSourceRequest, opts: { requireToken?: boolean } = {}): VerifyResult {
   const secret = readSecret()
   const allowlist = readAllowlist()
+  // Money-OUT (B2C) requires the shared secret: an IP allowlist alone is not
+  // proof of origin (audit 6.9), and a B2C result settles on the callback.
+  if (opts.requireToken && secret.length === 0) return { ok: false, enforced: true, reason: 'no_secret_configured' }
   const enforced = secret.length > 0 || allowlist.length > 0
   if (!enforced) return { ok: true, enforced: false }
 

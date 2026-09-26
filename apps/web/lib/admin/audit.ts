@@ -4,6 +4,7 @@
 // to which entity, with before/after snapshots and request context (IP, UA).
 // Writes use the service-role client so the row is always recorded regardless
 // of the caller's RLS scope; reads are gated by the `audit:read` capability.
+import { trustedClientIp } from '@/lib/security/client-ip'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { Database } from '@/types/supabase'
 
@@ -20,7 +21,7 @@ export interface AuditEntry {
   oldData?: Record<string, unknown> | null
   /** State after the change (redact secrets before passing in). */
   newData?: Record<string, unknown> | null
-  /** Request IP (from x-forwarded-for). */
+  /** Request IP (the trusted client IP, lib/security/client-ip). */
   ipAddress?: string | null
   /** Request user-agent. */
   userAgent?: string | null
@@ -57,8 +58,8 @@ export function requestContext(headers: Headers): {
   ipAddress: string | null
   userAgent: string | null
 } {
-  const fwd = headers.get('x-forwarded-for')
-  const ipAddress = fwd ? fwd.split(',')[0].trim() : headers.get('x-real-ip')
+  // the trusted client IP (audit 6.9), not the client-written first XFF entry
+  const ipAddress = trustedClientIp(headers)
   return { ipAddress: ipAddress || null, userAgent: headers.get('user-agent') }
 }
 

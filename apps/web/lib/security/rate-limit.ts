@@ -1,3 +1,4 @@
+import { trustedClientIp } from './client-ip'
 // lib/security/rate-limit.ts — pluggable, edge-safe rate limiting.
 //
 // Pure sliding-window-counter algorithm with a small store abstraction. The
@@ -140,31 +141,14 @@ export function bucketForPath(pathname: string): RateBucket | null {
 }
 
 /**
- * Best-effort client identifier for keying (client IP from proxy headers).
- *
- * H4: `x-forwarded-for` is fully client-spoofable (any caller can send a header
- * of their choosing), so keying solely on its first entry let an attacker
- * rotate the value and sail past per-IP limits. Prefer edge-injected, harder to
- * forge headers first:
- *   1. `cf-connecting-ip`  — set by Cloudflare, stripped/overwritten at the edge
- *   2. `x-real-ip`         — set by the trusted reverse proxy
- *   3. first `x-forwarded-for` entry — last-resort, spoofable, but better than
- *      collapsing every anonymous caller onto the `anon` bucket
- * The remaining spoofability of XFF is an infrastructure concern (trust only
- * the proxy-appended entry); this ordering uses the most trustworthy source
- * available in the current deployment.
+ * Client identifier for keying rate limits: the TRUSTED client IP (audit 6.9;
+ * lib/security/client-ip.ts). Before, `cf-connecting-ip` and the first
+ * `x-forwarded-for` entry were taken at face value, and the Fly origin is
+ * reachable directly, so a caller rotating either header got unlimited
+ * requests.
  */
 export function clientKey(headers: Headers, fallback = 'anon'): string {
-  const cf = headers.get('cf-connecting-ip')
-  if (cf && cf.trim()) return cf.trim()
-  const real = headers.get('x-real-ip')
-  if (real && real.trim()) return real.trim()
-  const fwd = headers.get('x-forwarded-for')
-  if (fwd) {
-    const first = fwd.split(',')[0].trim()
-    if (first) return first
-  }
-  return fallback
+  return trustedClientIp(headers) ?? fallback
 }
 
 // ---- Distributed store (Upstash Redis REST) + edge enforcement --------------
