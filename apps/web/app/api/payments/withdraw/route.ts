@@ -22,8 +22,7 @@ import { createClient, createAdminClient } from '@/lib/supabase/server'
 import { z } from 'zod'
 import { claimPayout, dispatchPayout } from '@/lib/payments/payouts'
 import { checkWithdrawalProviderCurrency } from '@/lib/payments/provider-currency'
-import { isFeatureEnabled } from '@/lib/flags'
-import { getNumberSetting } from '@/lib/admin/settings'
+import { platformGate, booleanSetting, numberSetting } from '@/lib/platform-gate'
 import {
   computeWithdrawalFee,
   withdrawalNetAmount,
@@ -55,6 +54,12 @@ export async function POST(req: NextRequest) {
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
+
+    // Kill switch + maintenance, and the KYC gate settings: read with the
+    // service role (audit 6.7: the non-public gate flag was invisible to the
+    // user's client, so the gate could never turn on).
+    const gate = await platformGate('withdrawals', ['flags.withdraw_kyc_gate', 'limits.kyc_required_usd'])
+    if (!gate.ok) return NextResponse.json({ error: gate.error, code: gate.code }, { status: gate.status })
 
     const body = await req.json().catch(() => null)
     const parsed = WithdrawSchema.safeParse(body)
@@ -104,8 +109,8 @@ export async function POST(req: NextRequest) {
     // identity; otherwise we return a guided 403 that the UI turns into a
     // "verify to withdraw" → /kyc step rather than a bare rejection.
     // -----------------------------------------------------------------
-    if (await isFeatureEnabled(supabase, 'flags.withdraw_kyc_gate')) {
-      const kycThresholdUsd = await getNumberSetting(supabase, 'limits.kyc_required_usd')
+    if (booleanSetting('flags.withdraw_kyc_gate', gate.stored)) {
+      const kycThresholdUsd = numberSetting('limits.kyc_required_usd', gate.stored)
       if (requiresKycVerification(amountUSD, kycThresholdUsd, profile.kyc_status)) {
         return NextResponse.json(
           {

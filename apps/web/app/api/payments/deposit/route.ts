@@ -1,6 +1,7 @@
 // app/api/payments/deposit/route.ts - Initiate a deposit
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient, createAdminClient } from '@/lib/supabase/server'
+import { platformGate } from '@/lib/platform-gate'
 import { z } from 'zod'
 import { initiateDeposit } from '@/lib/payments'
 import { checkDepositProviderCurrency } from '@/lib/payments/provider-currency'
@@ -40,6 +41,9 @@ export async function POST(req: NextRequest) {
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
+
+    const gate = await platformGate('deposits')
+    if (!gate.ok) return NextResponse.json({ error: gate.error, code: gate.code }, { status: gate.status })
 
     const body = await req.json()
     const parsed = depositSchema.safeParse(body)

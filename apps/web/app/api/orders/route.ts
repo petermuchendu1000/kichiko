@@ -1,7 +1,7 @@
 // app/api/bets/route.ts - Place a bet
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient, createAdminClient } from '@/lib/supabase/server'
-import { isFeatureEnabled } from '@/lib/flags'
+import { platformGate, booleanSetting } from '@/lib/platform-gate'
 import { clobOrderSchema, clobErrorFor, clampPriceCents } from '@/lib/clob'
 import { nanoid } from 'nanoid'
 import { getSettlement, resolveMoneyCurrency } from '@/lib/settlement'
@@ -66,8 +66,11 @@ async function handleClobOrder({
   user: { id: string }
   body: unknown
 }) {
-  // Kill-switch: deploy ≠ release. Off by default; flip via env or settings.
-  if (!(await isFeatureEnabled(supabase, 'flags.clob'))) {
+  // Maintenance freezes trading; flags.clob is the order-book kill switch
+  // (deploy ≠ release; off by default). Both read with the service role.
+  const gate = await platformGate('trading', ['flags.clob'])
+  if (!gate.ok) return NextResponse.json({ error: gate.error, code: gate.code }, { status: gate.status })
+  if (!booleanSetting('flags.clob', gate.stored)) {
     return NextResponse.json(
       { error: 'Order-book trading is temporarily unavailable' },
       { status: 503 },

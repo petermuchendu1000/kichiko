@@ -8,12 +8,18 @@ import type { NextRequest } from 'next/server'
 // outcome with record_withdrawal_dispatch (which refunds a rejection itself).
 vi.mock('@/lib/supabase/server', () => ({ createClient: vi.fn(), createAdminClient: vi.fn() }))
 vi.mock('@/lib/payments', () => ({ initiateDeposit: vi.fn(), processWithdrawal: vi.fn() }))
-vi.mock('@/lib/flags', () => ({ isFeatureEnabled: vi.fn(async () => false) }))
 vi.mock('@/lib/payments/withdraw', async (importActual) => ({
   ...(await importActual<typeof import('@/lib/payments/withdraw')>()),
   withdrawalAmountUsd: vi.fn(async () => 10),
   requestWithdrawal: vi.fn(async () => ({ withdrawal_id: 'wd-1', status: 'processing' })),
   failWithdrawal: vi.fn(async () => ({ refunded: true })),
+}))
+
+// Kill switches / maintenance (lib/platform-gate.ts) are covered by
+// platform-gate.test.ts; here the platform is open and the order book on.
+vi.mock('@/lib/platform-gate', async (importActual) => ({
+  ...(await importActual<typeof import('@/lib/platform-gate')>()),
+  platformGate: vi.fn(async () => ({ ok: true, stored: new Map([['flags.clob', true]]) })),
 }))
 
 import { POST } from '@/app/api/payments/withdraw/route'

@@ -7,7 +7,13 @@ import type { NextRequest } from 'next/server'
 // move money (409 country_required).
 vi.mock('@/lib/supabase/server', () => ({ createClient: vi.fn(), createAdminClient: vi.fn() }))
 vi.mock('@/lib/payments', () => ({ initiateDeposit: vi.fn(), processWithdrawal: vi.fn() }))
-vi.mock('@/lib/flags', () => ({ isFeatureEnabled: vi.fn(async () => true) }))
+
+// Kill switches / maintenance (lib/platform-gate.ts) are covered by
+// platform-gate.test.ts; here the platform is open and the order book on.
+vi.mock('@/lib/platform-gate', async (importActual) => ({
+  ...(await importActual<typeof import('@/lib/platform-gate')>()),
+  platformGate: vi.fn(async () => ({ ok: true, stored: new Map([['flags.clob', true]]) })),
+}))
 
 import { POST as ordersPOST } from '@/app/api/orders/route'
 import { POST as depositPOST } from '@/app/api/payments/deposit/route'

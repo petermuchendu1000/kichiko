@@ -1,6 +1,7 @@
 // app/api/markets/route.ts - Markets CRUD
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient, createAdminClient } from '@/lib/supabase/server'
+import { platformGate } from '@/lib/platform-gate'
 import { z } from 'zod'
 import type { Enums, Json } from '@/types/supabase'
 import { presetHeaders } from '@/lib/http/cache-headers'
@@ -126,6 +127,9 @@ export async function POST(req: NextRequest) {
     if (profile?.account_status !== 'active') {
       return NextResponse.json({ error: 'Account not active' }, { status: 403 })
     }
+
+    const gate = await platformGate('market_creation')
+    if (!gate.ok) return NextResponse.json({ error: gate.error, code: gate.code }, { status: gate.status })
 
     const body = await req.json()
     const parsed = createMarketSchema.safeParse(body)
