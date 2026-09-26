@@ -70,22 +70,24 @@ echo "Schema ready: $(psql -tAq -d "$DB" -c "select count(*) from information_sc
 
 # ---- run the invariant harnesses (each rolls back) ----
 FAILED=0
-echo; echo "===== 1/8 fuzz_invariants.py (N=$FUZZ_N) ====="
+echo; echo "===== 1/9 fuzz_invariants.py (N=$FUZZ_N) ====="
 FUZZ_N="$FUZZ_N" python3 "$CLOB_DIR/fuzz_invariants.py" || { echo "::error::CLOB fuzz invariants FAILED"; FAILED=1; }
-echo; echo "===== 2/8 test_two_sided.py ====="
+echo; echo "===== 2/9 test_two_sided.py ====="
 python3 "$CLOB_DIR/test_two_sided.py" || { echo "::error::CLOB two-sided engine test FAILED"; FAILED=1; }
-echo; echo "===== 3/8 test_046.py (abuse-prevention caps) ====="
+echo; echo "===== 3/9 test_046.py (abuse-prevention caps) ====="
 APPLY_MIG="$MIG_DIR/046_clob_order_abuse_prevention.sql" python3 "$CLOB_DIR/test_046.py" || { echo "::error::CLOB abuse-prevention test FAILED"; FAILED=1; }
-echo; echo "===== 4/8 test_settlement.py (resolution / void / cancel) ====="
+echo; echo "===== 4/9 test_settlement.py (resolution / void / cancel) ====="
 python3 "$CLOB_DIR/test_settlement.py" || { echo "::error::CLOB settlement test FAILED"; FAILED=1; }
-echo; echo "===== 5/8 test_provider_currency_constraints.py (payments, migration 070) ====="
+echo; echo "===== 5/9 test_provider_currency_constraints.py (payments, migration 070) ====="
 python3 "$REPO_ROOT/scripts/ops/payments/test_provider_currency_constraints.py" || { echo "::error::payments provider/currency constraint test FAILED"; FAILED=1; }
-echo; echo "===== 6/8 test_min_size.py (minimum order size, migration 073) ====="
+echo; echo "===== 6/9 test_min_size.py (minimum order size, migration 073) ====="
 python3 "$CLOB_DIR/test_min_size.py" || { echo "::error::CLOB minimum-order-size test FAILED"; FAILED=1; }
-echo; echo "===== 7/8 test_order_inputs.py (price/size input validation, migration 074) ====="
+echo; echo "===== 7/9 test_order_inputs.py (price/size input validation, migration 074) ====="
 python3 "$CLOB_DIR/test_order_inputs.py" || { echo "::error::CLOB order-input validation test FAILED"; FAILED=1; }
-echo; echo "===== 8/8 test_fx_gates.py (FX rate validation gates, migration 075) ====="
+echo; echo "===== 8/9 test_fx_gates.py (FX rate validation gates, migration 075) ====="
 python3 "$REPO_ROOT/scripts/ops/fx/test_fx_gates.py" || { echo "::error::FX rate gate test FAILED"; FAILED=1; }
+echo; echo "===== 9/9 test_settlement_currency.py (country -> settlement currency, migration 079) ====="
+python3 "$REPO_ROOT/scripts/ops/settlement/test_settlement_currency.py" || { echo "::error::settlement currency test FAILED"; FAILED=1; }
 
 echo
 if [ "$FAILED" -eq 0 ]; then echo "ALL CLOB INVARIANT HARNESSES PASSED"; else echo "CLOB INVARIANT HARNESSES FAILED"; fi

@@ -1,8 +1,8 @@
 'use client'
 
 // Account settings hub. Sections:
-//   • Account  — display name, username, bio, phone, country, display currency
-//                (persisted via PATCH /api/profile)
+//   • Account  — display name, username, bio, phone (PATCH /api/profile);
+//                country, which sets the settlement currency (POST /api/profile/country)
 //   • Security — change password (Supabase updateUser) + email-link fallback
 //   • Notifications — reuses the shared delivery-preferences control
 //   • Language — reuses the shared locale switcher (cookie + profile persistence)
@@ -18,6 +18,7 @@ import { createClient } from '@/lib/supabase/client'
 import { NotificationPreferences } from '@/components/notifications/NotificationPreferences'
 import { LocaleSwitcher } from '@/components/layout/locale-switcher'
 import { PasswordInput } from '@/components/auth/password-input'
+import { SUPPORTED_COUNTRIES, countryByCode } from '@/lib/geo/countries'
 import {
   IconUser,
   IconKey,
@@ -31,7 +32,6 @@ import {
   IconChevronRight,
 } from '@/components/ui/icons'
 
-const CURRENCIES = ['KES', 'UGX', 'TZS', 'RWF', 'ZMW', 'ETB', 'BIF', 'USD'] as const
 
 type Profile = {
   display_name: string | null
@@ -40,6 +40,8 @@ type Profile = {
   phone_number: string | null
   country_code: string | null
   preferred_currency: string | null
+  settlement_currency: string | null
+  settlement_locked_at: string | null
   avatar_url: string | null
   kyc_status: string | null
   account_status: string | null
@@ -146,7 +148,6 @@ export function SettingsView() {
   const [bio, setBio] = useState('')
   const [phone, setPhone] = useState('')
   const [country, setCountry] = useState('')
-  const [currency, setCurrency] = useState('')
   const [savingAccount, setSavingAccount] = useState(false)
   const [accountBanner, setAccountBanner] = useState<Banner>(null)
   const [avatarUrl, setAvatarUrl] = useState('')
@@ -178,7 +179,6 @@ export function SettingsView() {
           setBio(p.bio ?? '')
           setPhone(p.phone_number ?? '')
           setCountry(p.country_code ?? '')
-          setCurrency(p.preferred_currency ?? '')
           setAvatarUrl(p.avatar_url ?? '')
           const { data: u } = await supabase.auth.getUser()
           if (active && u?.user) setUserId(u.user.id)
@@ -207,17 +207,33 @@ export function SettingsView() {
           username,
           bio,
           phone_number: phone,
-          country_code: country,
-          preferred_currency: currency || undefined,
         }),
       })
       const json = await res.json()
-      if (res.ok) {
-        setProfile(json.profile)
-        setAccountBanner({ kind: 'ok', text: 'Profile saved.' })
-      } else {
+      if (!res.ok) {
         setAccountBanner({ kind: 'err', text: json.error ?? 'Could not save your profile.' })
+        return
       }
+      let saved: Profile = json.profile
+      // The country (and with it the settlement currency) has its own endpoint.
+      if (country && country !== (profile?.country_code ?? '')) {
+        const cr = await fetch('/api/profile/country', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ country, source: 'manual' }),
+        })
+        const cj = await cr.json()
+        if (!cr.ok) {
+          setProfile(saved)
+          setCountry(saved?.country_code ?? '')
+          setAccountBanner({ kind: 'err', text: cj.error ?? 'Could not change your country.' })
+          return
+        }
+        const pr = await fetch('/api/profile', { cache: 'no-store' })
+        if (pr.ok) saved = (await pr.json()).profile
+      }
+      setProfile(saved)
+      setAccountBanner({ kind: 'ok', text: 'Profile saved.' })
     } catch {
       setAccountBanner({ kind: 'err', text: 'Network error. Please try again.' })
     } finally {
@@ -453,30 +469,34 @@ export function SettingsView() {
                 placeholder="+254…"
               />
             </Field>
-            <Field label="Country" htmlFor="country" hint="2-letter code">
-              <input
-                id="country"
-                className="input w-full uppercase"
-                value={country}
-                onChange={(e) => setCountry(e.target.value.toUpperCase().slice(0, 2))}
-                maxLength={2}
-                placeholder="KE"
-              />
-            </Field>
-            <Field label="Display currency" htmlFor="currency">
+            <Field
+              label="Country"
+              htmlFor="country"
+              hint={profile?.settlement_locked_at ? 'Locked after your first deposit, withdrawal or order.' : undefined}
+            >
               <select
-                id="currency"
+                id="country"
                 className="input w-full"
-                value={currency}
-                onChange={(e) => setCurrency(e.target.value)}
+                value={country}
+                onChange={(e) => setCountry(e.target.value)}
+                disabled={!!profile?.settlement_locked_at}
               >
-                <option value="">Auto</option>
-                {CURRENCIES.map((c) => (
-                  <option key={c} value={c}>
-                    {c}
+                {!countryByCode(country) && <option value="">Choose your country</option>}
+                {SUPPORTED_COUNTRIES.map((c) => (
+                  <option key={c.code} value={c.code}>
+                    {c.name}
                   </option>
                 ))}
               </select>
+            </Field>
+            <Field label="Settlement currency" htmlFor="settlement-currency" hint="Set by your country.">
+              <input
+                id="settlement-currency"
+                className="input w-full"
+                value={countryByCode(country)?.currency ?? ''}
+                readOnly
+                disabled
+              />
             </Field>
           </div>
 

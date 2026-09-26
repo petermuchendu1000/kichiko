@@ -108,6 +108,9 @@ export interface Profile {
   phone_number: string | null
   country_code: string
   preferred_currency: CurrencyCode
+  /** currency of the user's country (migration 079); null until a supported country is set */
+  settlement_currency?: CurrencyCode | null
+  settlement_locked_at?: string | null
   role: UserRole
   kyc_status: KycStatus
   kyc_completed_at: string | null
