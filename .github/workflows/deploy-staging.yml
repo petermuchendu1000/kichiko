@@ -37,42 +37,62 @@ jobs:
         uses: supabase/setup-cli@v1
         with:
           version: latest
-      # Only attempt migrations when the staging DB credentials are actually
-      # present. A missing secret means the staging DB isn't wired for this
-      # environment, so skip cleanly instead of hard-failing every push.
+      # Migrations connect straight to the database through the Supabase session
+      # pooler with SUPABASE_PROJECT_ID + SUPABASE_DB_PASSWORD. No Supabase
+      # access token (management API) is needed: `supabase link` was the only
+      # step that used it, and an expired token failed every deploy with
+      # "Unauthorized". Pooler host: vars.SUPABASE_POOLER_HOST, default
+      # eu-west-1 (the project's region). A missing secret skips cleanly.
       - name: Check staging DB credentials
         id: dbcheck
         env:
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
           SUPABASE_PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
         run: |
-          if [ -n "$SUPABASE_ACCESS_TOKEN" ] && [ -n "$SUPABASE_DB_PASSWORD" ] && [ -n "$SUPABASE_PROJECT_ID" ]; then
+          if [ -n "$SUPABASE_DB_PASSWORD" ] && [ -n "$SUPABASE_PROJECT_ID" ]; then
             echo "configured=true" >> "$GITHUB_OUTPUT"
           else
             echo "configured=false" >> "$GITHUB_OUTPUT"
-            echo "::warning title=Staging migration skipped::Supabase staging credentials are not fully configured; skipping db push."
+            echo "::warning title=Staging migration skipped::SUPABASE_PROJECT_ID / SUPABASE_DB_PASSWORD not configured; skipping db push."
           fi
       - name: Push migrations (staging)
         if: steps.dbcheck.outputs.configured == 'true'
         env:
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
           SUPABASE_PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
+          POOLER_HOST: ${{ vars.SUPABASE_POOLER_HOST || 'aws-0-eu-west-1.pooler.supabase.com' }}
         run: |
           set +e
-          out="$(supabase link --project-ref "$SUPABASE_PROJECT_ID" 2>&1 && supabase db push 2>&1)"
+          PW=$(python3 -c 'import os, urllib.parse; print(urllib.parse.quote(os.environ["SUPABASE_DB_PASSWORD"], safe=""))')
+          echo "::add-mask::$PW"
+          DB_URL="postgresql://postgres.${SUPABASE_PROJECT_ID}:${PW}@${POOLER_HOST}:5432/postgres"
+          echo "::add-mask::$DB_URL"
+
+          # 1. Dry run: list exactly what would be applied.
+          dry="$(supabase db push --db-url "$DB_URL" --dry-run 2>&1)"
           code=$?
-          echo "$out"
+          echo "$dry"
           if [ $code -ne 0 ]; then
-            # Distinguish an unreachable/misconfigured staging DB (infra) from a
-            # genuine migration error (our SQL). Connectivity problems must NOT
-            # red the pipeline on every push; real migration failures must.
-            if echo "$out" | grep -qiE "failed to connect|i/o timeout|SASL|connection refused|no such host|context deadline|dial tcp|timeout"; then
+            if echo "$dry" | grep -qiE "failed to connect|i/o timeout|connection refused|no such host|context deadline|dial tcp|timeout"; then
               echo "::warning title=Staging DB unreachable::Could not reach the staging database (connectivity); skipping migration for this run without failing the pipeline."
               exit 0
             fi
-            echo "::error title=Migration failed::supabase db push failed with a non-connectivity error."
+            echo "::error title=Migration dry run failed::supabase db push --dry-run failed (credentials or project id?)."
+            exit $code
+          fi
+          # 2. Guard: the database's migration history must already include the
+          #    base schema. If the dry run would apply 001, the history table does
+          #    not match this repo and pushing could replay old migrations.
+          if echo "$dry" | grep -q "001_initial_schema"; then
+            echo "::error title=Migration history mismatch::The dry run would re-apply 001_initial_schema. Repair the history (supabase migration repair --status applied <versions>) before pushing. Nothing was applied."
+            exit 1
+          fi
+          # 3. Apply.
+          out="$(supabase db push --db-url "$DB_URL" 2>&1)"
+          code=$?
+          echo "$out"
+          if [ $code -ne 0 ]; then
+            echo "::error title=Migration failed::supabase db push failed; see the output above."
             exit $code
           fi
 
