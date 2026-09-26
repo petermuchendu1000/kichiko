@@ -125,6 +125,14 @@ jobs:
           SELECT 'live withdrawals by payout state: ' || COALESCE(string_agg(k || '=' || n, ' ' ORDER BY k), 'none')
             FROM (SELECT COALESCE(payout_state, 'legacy') k, count(*) n FROM public.withdrawals
                    WHERE status IN ('pending','processing') GROUP BY 1) t;
+          SELECT 'trader P&L (092): profiles off their positions=' || count(*) FILTER (WHERE abs(coalesce(pr.profit_loss_usd,0) - coalesce(p.s,0)) > 0.000001)
+                 || ' of ' || count(*)
+            FROM public.profiles pr
+            LEFT JOIN (SELECT user_id, sum(coalesce(realized_pnl_usd,0)) s FROM public.positions GROUP BY 1) p ON p.user_id = pr.id;
+          SELECT 'P&L events (092): positions unaccounted=' || count(*)
+            FROM (SELECT p.id FROM public.positions p LEFT JOIN public.position_pnl_events e ON e.position_id = p.id
+                   GROUP BY p.id, p.realized_pnl_usd
+                  HAVING abs(coalesce(p.realized_pnl_usd,0) - coalesce(sum(e.delta_usd),0)) > 0.000001) x;
           ROLLBACK;
           SQL
           fi

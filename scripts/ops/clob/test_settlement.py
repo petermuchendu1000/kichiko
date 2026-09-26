@@ -111,6 +111,8 @@ def resolve_binary(mkt, win_opt):
     return cur.fetchone()[0]
 
 def pnl(uid):
+    # [092] profile P&L is synced from positions (refresh_leaderboard, every 2 min)
+    cur.execute("select sync_profile_trading_stats()"); cur.fetchone()
     return D(q1("select profit_loss_usd from profiles where id=%s", (uid,)))
 
 u1, u2, u3, u4, u5, u6 = USERS
