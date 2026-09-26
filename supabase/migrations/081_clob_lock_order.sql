@@ -437,10 +437,15 @@ BEGIN
   -- [081] deadlock-free: lock every wallet this order touches, then their owners'
   -- profiles, each in id order; then apply the recorded maker updates in their
   -- original order (identical statements, identical sequence)
-  v_lock_wallets := ARRAY(SELECT DISTINCT w FROM unnest(v_wops_wallet || v_wallet.id) AS w ORDER BY 1);
-  PERFORM 1 FROM public.wallets WHERE id = ANY(v_lock_wallets) ORDER BY id FOR NO KEY UPDATE;
-  v_lock_users := ARRAY(SELECT DISTINCT user_id FROM public.wallets WHERE id = ANY(v_lock_wallets) ORDER BY 1);
-  PERFORM 1 FROM public.profiles WHERE id = ANY(v_lock_users) ORDER BY id FOR NO KEY UPDATE;
+  IF COALESCE(array_length(v_wops_wallet, 1), 0) = 0 THEN
+    -- no maker touched: only the taker's own wallet is involved, nothing to order
+    PERFORM 1 FROM public.wallets WHERE id = v_wallet.id FOR NO KEY UPDATE;
+  ELSE
+    v_lock_wallets := ARRAY(SELECT DISTINCT w FROM unnest(v_wops_wallet || v_wallet.id) AS w ORDER BY 1);
+    PERFORM 1 FROM public.wallets WHERE id = ANY(v_lock_wallets) ORDER BY id FOR NO KEY UPDATE;
+    v_lock_users := ARRAY(SELECT DISTINCT user_id FROM public.wallets WHERE id = ANY(v_lock_wallets) ORDER BY 1);
+    PERFORM 1 FROM public.profiles WHERE id = ANY(v_lock_users) ORDER BY id FOR NO KEY UPDATE;
+  END IF;
   SELECT * INTO v_wallet FROM public.wallets WHERE id = v_wallet.id;   -- taker balance, now under the lock
   FOR v_i IN 1 .. COALESCE(array_length(v_wops_kind, 1), 0) LOOP
     IF v_wops_kind[v_i] = 'avail' THEN
