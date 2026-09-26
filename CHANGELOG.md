@@ -20,6 +20,15 @@ Conventional-Commit messages by `.github/workflows/release.yml`.
   changelog.
 
 ### Fixed
+- **Payments: deposits and withdrawals are bound to the currency the provider
+  actually settles in (migration 070).** The routes accepted any currency with
+  any provider, but M-Pesa charges and pays shillings: "deposit USD 100 via
+  M-Pesa" charged KSh 100 and credited $100, and a UGX balance was paid out as
+  the same number of KSh. One rules module (`lib/payments/provider-currency.ts`,
+  read off each integration) is enforced in both routes before any wallet,
+  deposit row, provider call or fund reservation; CHECK constraints on
+  `deposits` / `withdrawals` block every other path. Unimplemented payout
+  providers are rejected up front instead of after funds are reserved.
 - **Settlement: CLOB markets pay exactly $1 per winning share (migration 069).**
   The resolvers were AMM-era code: they paid `shares + cost basis`, cut cost
   basis out of `reserved_balance` (eating open-order escrow and withdrawal
