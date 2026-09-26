@@ -70,18 +70,20 @@ echo "Schema ready: $(psql -tAq -d "$DB" -c "select count(*) from information_sc
 
 # ---- run the invariant harnesses (each rolls back) ----
 FAILED=0
-echo; echo "===== 1/6 fuzz_invariants.py (N=$FUZZ_N) ====="
+echo; echo "===== 1/7 fuzz_invariants.py (N=$FUZZ_N) ====="
 FUZZ_N="$FUZZ_N" python3 "$CLOB_DIR/fuzz_invariants.py" || { echo "::error::CLOB fuzz invariants FAILED"; FAILED=1; }
-echo; echo "===== 2/6 test_two_sided.py ====="
+echo; echo "===== 2/7 test_two_sided.py ====="
 python3 "$CLOB_DIR/test_two_sided.py" || { echo "::error::CLOB two-sided engine test FAILED"; FAILED=1; }
-echo; echo "===== 3/6 test_046.py (abuse-prevention caps) ====="
+echo; echo "===== 3/7 test_046.py (abuse-prevention caps) ====="
 APPLY_MIG="$MIG_DIR/046_clob_order_abuse_prevention.sql" python3 "$CLOB_DIR/test_046.py" || { echo "::error::CLOB abuse-prevention test FAILED"; FAILED=1; }
-echo; echo "===== 4/6 test_settlement.py (resolution / void / cancel) ====="
+echo; echo "===== 4/7 test_settlement.py (resolution / void / cancel) ====="
 python3 "$CLOB_DIR/test_settlement.py" || { echo "::error::CLOB settlement test FAILED"; FAILED=1; }
-echo; echo "===== 5/6 test_provider_currency_constraints.py (payments, migration 070) ====="
+echo; echo "===== 5/7 test_provider_currency_constraints.py (payments, migration 070) ====="
 python3 "$REPO_ROOT/scripts/ops/payments/test_provider_currency_constraints.py" || { echo "::error::payments provider/currency constraint test FAILED"; FAILED=1; }
-echo; echo "===== 6/6 test_min_size.py (minimum order size, migration 073) ====="
+echo; echo "===== 6/7 test_min_size.py (minimum order size, migration 073) ====="
 python3 "$CLOB_DIR/test_min_size.py" || { echo "::error::CLOB minimum-order-size test FAILED"; FAILED=1; }
+echo; echo "===== 7/7 test_order_inputs.py (price/size input validation, migration 074) ====="
+python3 "$CLOB_DIR/test_order_inputs.py" || { echo "::error::CLOB order-input validation test FAILED"; FAILED=1; }
 
 echo
 if [ "$FAILED" -eq 0 ]; then echo "ALL CLOB INVARIANT HARNESSES PASSED"; else echo "CLOB INVARIANT HARNESSES FAILED"; fi

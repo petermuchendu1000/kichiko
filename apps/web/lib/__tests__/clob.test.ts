@@ -131,6 +131,11 @@ describe('clobErrorFor (SQLSTATE → HTTP)', () => {
     expect(clobErrorFor('P0132')?.status).toBe(429)
     expect(clobErrorFor({ code: 'P0132', message: 'slow down' })?.status).toBe(429)
   })
+  it('maps an out-of-range limit price (074) to 400', () => {
+    expect(clobErrorFor({ code: 'P0106', message: 'limit price must be between 0.1 and 99.9 cents' })).toEqual({
+      status: 400, error: 'Limit price must be between 0.1¢ and 99.9¢',
+    })
+  })
   it('returns null for unknown codes', () => {
     expect(clobErrorFor('P9999 nope')).toBeNull()
   })

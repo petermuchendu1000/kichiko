@@ -105,6 +105,7 @@ pub enum EngineError {
     InsufficientBalance,  // P0006
     OptionNotFound,       // P0007
     BadSize,              // P0102
+    PriceOutOfRange,      // P0106 (074)
     NeedPrice,            // P0104
     BelowMinSize,         // P0105
     OrderNotFound,        // P0110
@@ -126,6 +127,7 @@ impl EngineError {
             InsufficientBalance => "P0006",
             OptionNotFound => "P0007",
             BadSize => "P0102",
+            PriceOutOfRange => "P0106",
             NeedPrice => "P0104",
             BelowMinSize => "P0105",
             OrderNotFound => "P0110",
@@ -447,6 +449,8 @@ impl<L: Ladder> Engine<L> {
     // ---- clob_place_order -----------------------------------------------
 
     pub fn place_order(&mut self, r: &PlaceOrder) -> Result<PlaceResult, EngineError> {
+        // [074] p_size := ROUND(p_size, 6): every later use sees the share unit.
+        let r = &PlaceOrder { size: r.size.round(6), ..*r };
         let u = r.user as usize;
         let b = r.book as usize;
         if b >= self.books.len() {
@@ -487,6 +491,10 @@ impl<L: Ladder> Engine<L> {
         let limit_c: Num = match r.otype {
             OrderType::Limit => {
                 let p = r.price.ok_or(EngineError::NeedPrice)?;
+                // [074] reject a limit price outside [0.1, 99.9] cents
+                if p.lt(N0_1) || p.gt(N99_9) {
+                    return Err(EngineError::PriceOutOfRange);
+                }
                 let l = p.div(tick).round(0).mul(tick).round(1);
                 let l = l.typmod(4, 1).map_err(|_| EngineError::NumericOverflow)?;
                 N99_9.least(N0_1.greatest(l)).round(1)

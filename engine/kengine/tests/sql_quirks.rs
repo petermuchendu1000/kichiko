@@ -39,3 +39,23 @@ fn limit_sell_partly_crossing_small_bid_rests_remainder_073() {
     let mkt = PlaceOrder { otype: OrderType::Market, price: None, ..lim(2, Action::Sell, "50", "50") };
     assert_eq!(e.place_order(&mkt).unwrap_err(), EngineError::BelowMinSize);
 }
+
+#[test]
+fn out_of_range_limit_price_rejected_074() {
+    let mut e = setup();
+    for px in ["1500", "999.96", "100.5", "-5", "0.04"] {
+        assert_eq!(e.place_order(&lim(0, Action::Buy, px, "10")).unwrap_err(), EngineError::PriceOutOfRange, "price {px}");
+    }
+    assert!(e.place_order(&lim(0, Action::Buy, "99.9", "10")).is_ok());
+}
+
+#[test]
+fn sub_micro_size_rejected_and_size_normalised_074() {
+    let mut e = setup();
+    assert_eq!(e.place_order(&lim(0, Action::Buy, "50", "0.0000004")).unwrap_err(), EngineError::BadSize);
+    // user 0 mints 100 YES against user 1, then sells 100.0000004 (rounds to 100)
+    e.place_order(&PlaceOrder { outcome: Outcome::No, ..lim(1, Action::Buy, "40", "100") }).unwrap();
+    assert_eq!(e.place_order(&lim(0, Action::Buy, "60", "100")).unwrap().status, Status::Filled);
+    e.place_order(&lim(0, Action::Sell, "70", "100.0000004")).unwrap();
+    assert_eq!(e.position(0, 0, Outcome::Yes).reserved_shares, 100_000000);
+}
