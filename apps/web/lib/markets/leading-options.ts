@@ -4,6 +4,7 @@
 // so card surfaces can show the leading outcome instead of a binary YES/NO bar.
 // market_options is public-read (RLS), so the caller's session client is fine.
 import type { SupabaseClient } from '@supabase/supabase-js'
+import { fetchCardOptionRows } from '@/lib/markets/card-options'
 
 export interface LeadingOption {
   label: string
@@ -30,20 +31,13 @@ export async function getLeadingOptions(
   const countByMarket = new Map<string, number>()
   if (marketIds.length === 0) return { leadByMarket, countByMarket }
 
-  const { data } = await supabase
-    .from('market_options')
-    .select('market_id, label, price, yes_price')
-    .in('market_id', marketIds)
-
-  for (const o of (data as { market_id: string; label: string; price: number | null; yes_price: number | null }[]) ?? []) {
-    countByMarket.set(o.market_id, (countByMarket.get(o.market_id) ?? 0) + 1)
-    // Canonical outcome value: for independent lines the candidate probability is
-    // its Yes price; fall back to the shared-simplex `price`. This MUST match the
-    // ordering used by getCardOptions/getOptionSeries so the "related markets"
-    // rail never names a different front-runner than the card/chart legend.
-    const price = o.yes_price ?? o.price ?? 0
-    const cur = leadByMarket.get(o.market_id)
-    if (!cur || price > cur.price) leadByMarket.set(o.market_id, { label: o.label, price })
+  // The front-runner and count per market, ranked in the database (migration
+  // 097; audit 6.43) with the same ordering as the cards, so the rail never
+  // names a different front-runner. Reading every option was cut at PostgREST's
+  // max_rows (1,000).
+  for (const o of await fetchCardOptionRows(supabase, marketIds, 1)) {
+    countByMarket.set(o.market_id, o.option_count)
+    leadByMarket.set(o.market_id, { label: o.label, price: Number(o.price) })
   }
   return { leadByMarket, countByMarket }
 }
