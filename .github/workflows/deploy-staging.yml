@@ -133,6 +133,15 @@ jobs:
             FROM (SELECT p.id FROM public.positions p LEFT JOIN public.position_pnl_events e ON e.position_id = p.id
                    GROUP BY p.id, p.realized_pnl_usd
                   HAVING abs(coalesce(p.realized_pnl_usd,0) - coalesce(sum(e.delta_usd),0)) > 0.000001) x;
+          -- which config M-Pesa payouts could use (audit 6.38; booleans only, never values)
+          SELECT 'mpesa gateway rows: ' || COALESCE(string_agg(
+                   environment || '/' || COALESCE(country_code, '*') || ' enabled=' || is_enabled
+                   || ' consumer_key=' || (COALESCE(config->>'consumer_key', '') <> '')
+                   || ' b2c_shortcode=' || (COALESCE(config->>'b2c_shortcode', '') <> '')
+                   || ' initiator=' || (COALESCE(config->>'initiator_name', '') <> '')
+                   || ' security_credential=' || (secret_ref ? 'security_credential'),
+                   ' | ' ORDER BY environment, country_code), 'none')
+            FROM public.payment_gateways WHERE provider = 'mpesa';
           ROLLBACK;
           SQL
           fi
