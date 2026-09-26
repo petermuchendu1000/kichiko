@@ -151,6 +151,90 @@ export function clientKey(headers: Headers, fallback = 'anon'): string {
   return trustedClientIp(headers) ?? fallback
 }
 
+// ---- Per-user keys (audit 6.22) ---------------------------------------------
+// Per-IP limits alone punish carrier-grade NAT: thousands of mobile users can
+// share one exit IP. A request that carries a session is limited per USER at
+// the bucket's limit, and per IP at IP_CEILING_FACTOR times that limit (so a
+// shared carrier IP still works). The user id is read from the session WITHOUT
+// verifying it: it only chooses a counter. A forged id can rotate the per-user
+// counter, but the per-IP ceiling still bounds that caller. Anonymous requests
+// keep the plain per-IP limit.
+export const IP_CEILING_FACTOR = 20
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
+function b64urlDecode(s: string): string | null {
+  try {
+    const b = s.replace(/-/g, '+').replace(/_/g, '/')
+    return atob(b + '='.repeat((4 - (b.length % 4)) % 4))
+  } catch {
+    return null
+  }
+}
+
+/** `sub` of a JWT's payload (not verified), when it is a UUID. */
+export function jwtSubject(jwt: string | null | undefined): string | null {
+  const part = jwt?.split('.')[1]
+  if (!part) return null
+  const json = b64urlDecode(part)
+  if (!json) return null
+  try {
+    const sub = (JSON.parse(json) as { sub?: unknown }).sub
+    return typeof sub === 'string' && UUID_RE.test(sub) ? sub.toLowerCase() : null
+  } catch {
+    return null
+  }
+}
+
+/**
+ * The (unverified) user id of a request: a Bearer token, else the Supabase SSR
+ * session cookie `sb-<ref>-auth-token` (possibly chunked `.0`, `.1`, ...;
+ * value `base64-<base64url JSON>` or raw JSON) holding the access token.
+ */
+export function sessionUserId(headers: Headers, cookies: ReadonlyArray<{ name: string; value: string }>): string | null {
+  const auth = headers.get('authorization')
+  if (auth && /^bearer\s+/i.test(auth)) {
+    const sub = jwtSubject(auth.replace(/^bearer\s+/i, '').trim())
+    if (sub) return sub
+  }
+  const groups = new Map<string, { idx: number; value: string }[]>()
+  for (const c of cookies) {
+    const m = /^(sb-[a-z0-9]+-auth-token)(?:\.(\d+))?$/.exec(c.name)
+    if (!m) continue
+    const list = groups.get(m[1]) ?? []
+    list.push({ idx: m[2] === undefined ? -1 : Number(m[2]), value: c.value })
+    groups.set(m[1], list)
+  }
+  for (const list of groups.values()) {
+    const raw = list.sort((a, b) => a.idx - b.idx).map((x) => x.value).join('')
+    const text = raw.startsWith('base64-') ? b64urlDecode(raw.slice(7)) : raw
+    if (!text) continue
+    try {
+      const session = JSON.parse(text) as { access_token?: unknown } | [unknown]
+      const token = Array.isArray(session) ? session[0] : session.access_token
+      const sub = jwtSubject(typeof token === 'string' ? token : null)
+      if (sub) return sub
+    } catch {
+      /* not a session cookie we understand */
+    }
+  }
+  return null
+}
+
+/** The counters a request is charged to: [key, limit] pairs, all of which must allow it. */
+export function rateKeys(
+  bucket: RateBucket,
+  ip: string,
+  userId: string | null,
+): Array<{ key: string; rule: RateRule }> {
+  const rule = RATE_RULES[bucket]
+  if (!userId) return [{ key: `${bucket}:ip:${ip}`, rule }]
+  return [
+    { key: `${bucket}:user:${userId}`, rule },
+    { key: `${bucket}:ip:${ip}`, rule: { limit: rule.limit * IP_CEILING_FACTOR, windowMs: rule.windowMs } },
+  ]
+}
+
 // ---- Distributed store (Upstash Redis REST) + edge enforcement --------------
 // The in-memory MemoryRateStore is per-isolate: on a serverless/edge platform
 // each isolate keeps its own counters, so real limits are (isolates × limit)
@@ -282,6 +366,9 @@ export async function enforceEdge(
  * store outage lifted the rate limit on money endpoints — now it denies instead.
  * Non-money buckets (orders/webhooks/api) intentionally keep failing open.
  */
+// Audit 6.22 suggests payments fail open to the per-instance memory limit
+// (an outage currently denies every deposit and withdrawal); F3 chose fail
+// CLOSED on purpose. Kept closed pending an owner decision (register A-X2).
 export const SENSITIVE_BUCKETS = new Set<RateBucket>(['auth', 'payments'])
 
 /**
