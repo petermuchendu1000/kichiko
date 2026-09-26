@@ -5,14 +5,17 @@ import { z } from 'zod'
 import { initiateDeposit } from '@/lib/payments'
 import { checkDepositProviderCurrency } from '@/lib/payments/provider-currency'
 import { getUsdRate } from '@/lib/currency'
+import { getSettlement, resolveMoneyCurrency } from '@/lib/settlement'
 import type { PaymentProvider, CurrencyCode } from '@/types'
 
 const depositSchema = z.object({
   amount: z.number().positive(),
-  currency: z.enum(['KES', 'UGX', 'TZS', 'RWF', 'ZMW', 'ETB', 'BIF', 'USD']),
+  // optional assertions only: currency and country come from the user's
+  // settlement (their country, migration 079), never from the request
+  currency: z.enum(['KES', 'UGX', 'TZS', 'RWF', 'ZMW', 'ETB', 'BIF', 'USD']).optional(),
   phone: z.string().min(9).max(15),
   provider: z.enum(['mpesa', 'mtn_momo', 'airtel_money', 'pesapal']),
-  country: z.string().length(2).default('KE'),
+  country: z.string().length(2).optional(),
 })
 
 // Minimum deposit amounts per currency
@@ -48,7 +51,13 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const { amount, currency, phone, provider, country } = parsed.data
+    const { amount, phone, provider } = parsed.data
+    const money = resolveMoneyCurrency(await getSettlement(supabase, user.id), parsed.data.currency)
+    if (!money.ok) return NextResponse.json({ error: money.error, code: money.code }, { status: money.status })
+    if (parsed.data.country && parsed.data.country.toUpperCase() !== money.country) {
+      return NextResponse.json({ error: `Your account is registered in ${money.country}.`, code: 'country_mismatch' }, { status: 409 })
+    }
+    const { currency, country } = money
 
     // The integration charges in a currency fixed by the provider (and country).
     // The wallet is credited in `currency`, so they MUST agree, or the user is

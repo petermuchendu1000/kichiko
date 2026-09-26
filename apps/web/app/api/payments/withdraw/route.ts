@@ -37,10 +37,12 @@ import {
   INSUFFICIENT_BALANCE_CODE,
 } from '@/lib/payments/withdraw'
 import type { CurrencyCode, PaymentProvider } from '@/types'
+import { getSettlement, resolveMoneyCurrency } from '@/lib/settlement'
 
 const WithdrawSchema = z.object({
   amount: z.number().positive(),
-  currency: z.enum(['KES', 'UGX', 'TZS', 'RWF', 'ZMW', 'ETB', 'BIF', 'USD']),
+  // optional assertion only: withdrawals are in the user's settlement currency (migration 079)
+  currency: z.enum(['KES', 'UGX', 'TZS', 'RWF', 'ZMW', 'ETB', 'BIF', 'USD']).optional(),
   phone_number: z.string().min(10).max(20),
   provider: z.enum(['mpesa', 'mtn_momo', 'airtel_money', 'pesapal', 'bank_transfer', 'internal']),
 })
@@ -61,7 +63,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: parsed.error.errors[0].message }, { status: 400 })
     }
 
-    const { amount, currency, phone_number, provider } = parsed.data
+    const { amount, phone_number, provider } = parsed.data
+    const money = resolveMoneyCurrency(await getSettlement(supabase, user.id), parsed.data.currency)
+    if (!money.ok) return NextResponse.json({ error: money.error, code: money.code }, { status: money.status })
+    const currency = money.currency
     const cur = currency as CurrencyCode
     const prov = provider as PaymentProvider
 

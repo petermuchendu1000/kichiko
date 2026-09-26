@@ -10,25 +10,34 @@
 // the design system) and every branch is covered under vitest's `node` env.
 // ============================================================
 import { isPlausibleEmail } from '@/lib/security/sanitize'
+import { SUPPORTED_COUNTRIES, countryByCode, settlementCurrencyFor, type CountryCode as SupportedCountryCode } from '@/lib/geo/countries'
+import type { DetectResult } from '@/lib/geo/detect-country'
 
 export type AuthMode = 'login' | 'register'
 
-/** Supported markets at signup, each pinned to its local settlement currency. */
-export const AUTH_COUNTRIES = [
-  { code: 'KE', name: 'Kenya', currency: 'KES' },
-  { code: 'UG', name: 'Uganda', currency: 'UGX' },
-  { code: 'TZ', name: 'Tanzania', currency: 'TZS' },
-  { code: 'RW', name: 'Rwanda', currency: 'RWF' },
-  { code: 'ZM', name: 'Zambia', currency: 'ZMW' },
-  { code: 'ET', name: 'Ethiopia', currency: 'ETB' },
-  { code: 'BI', name: 'Burundi', currency: 'BIF' },
-] as const
+/** Supported markets at signup, each pinned to its local settlement currency (lib/geo/countries.ts). */
+export const AUTH_COUNTRIES = SUPPORTED_COUNTRIES
 
-export type CountryCode = (typeof AUTH_COUNTRIES)[number]['code']
+export type CountryCode = SupportedCountryCode
 
-/** Resolve a country's default wallet currency; falls back to KES (home market). */
-export function currencyForCountry(code: string): string {
-  return AUTH_COUNTRIES.find((c) => c.code === code)?.currency ?? 'KES'
+/** A country's settlement currency, or null when Kichiko does not serve it (never a silent KES default). */
+export function currencyForCountry(code: string): string | null {
+  return settlementCurrencyFor(code)
+}
+
+/**
+ * Signup metadata for the chosen country (read by handle_new_user, migration
+ * 079): the country, whether it is the browser's detection or a manual pick,
+ * and the detection evidence for later review. No currency: the database
+ * derives it from the country.
+ */
+export function signupCountryMetadata(country: string, detected: DetectResult | null) {
+  const code = countryByCode(country)?.code ?? null
+  return {
+    country_code: code,
+    country_source: code && detected?.country === code ? ('browser' as const) : ('manual' as const),
+    country_signals: detected ? { ...detected.signals, detected: detected.country, confidence: detected.confidence } : null,
+  }
 }
 
 /** Minimum password length accepted at signup (also enforced by Supabase). */

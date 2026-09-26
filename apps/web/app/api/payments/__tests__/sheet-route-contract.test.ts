@@ -36,7 +36,11 @@ function stubClients() {
   client.mockResolvedValue({
     auth: { getUser: async () => ({ data: { user: { id: 'user-1' } }, error: null }) },
     from: builder,
-    rpc: (name: string) => { touched.push(`rpc:${name}`); return { maybeSingle: async () => ({ data: { account_status: 'active' } }) } },
+    rpc: (name: string) => {
+      if (name === 'user_settlement')   // a KE/KES user (079)
+        return Promise.resolve({ data: [{ country: 'KE', currency: 'KES', wallet_id: 'w1', locked: false }], error: null })
+      touched.push(`rpc:${name}`); return { maybeSingle: async () => ({ data: { account_status: 'active' } }) }
+    },
   })
   admin.mockResolvedValue({
     from: builder,

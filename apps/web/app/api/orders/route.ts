@@ -4,6 +4,7 @@ import { createClient, createAdminClient } from '@/lib/supabase/server'
 import { isFeatureEnabled } from '@/lib/flags'
 import { clobOrderSchema, clobErrorFor, clampPriceCents } from '@/lib/clob'
 import { nanoid } from 'nanoid'
+import { getSettlement, resolveMoneyCurrency } from '@/lib/settlement'
 
 /**
  * Order placement. The platform is CLOB-only: every trade is an order-book
@@ -82,6 +83,12 @@ async function handleClobOrder({
   }
   const o = parsed.data
 
+  // The order settles in the user's settlement currency (their country's,
+  // migration 079); a client `currency` is only an assertion.
+  const money = resolveMoneyCurrency(await getSettlement(supabase, user.id), o.currency)
+  if (!money.ok) return NextResponse.json({ error: money.error, code: money.code }, { status: money.status })
+  const currency = money.currency
+
   // Authoritative engine check — never mis-route an AMM market into the CLOB.
   const { data: mkt } = await adminClient
     .from('markets')
@@ -115,7 +122,7 @@ async function handleClobOrder({
     const { data: fx } = await adminClient
       .from('exchange_rates')
       .select('rate')
-      .eq('from_currency', o.currency)
+      .eq('from_currency', currency)
       .eq('to_currency', 'USD')
       .maybeSingle()
     const rate = (fx as { rate: number } | null)?.rate
@@ -146,7 +153,7 @@ async function handleClobOrder({
     p_order_type: o.order_type,
     p_price_cents: priceCents,
     p_size: size,
-    p_currency: o.currency,
+    p_currency: currency,
     p_client_order_id: clientOrderId,
     p_expires_at: o.expires_at ?? null,
     p_max_spend_usd: maxSpendUsd,
