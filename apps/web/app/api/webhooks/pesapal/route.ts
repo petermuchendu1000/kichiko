@@ -17,6 +17,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/server'
 import { parsePesaPalIpn, getPesaPalStatus } from '@/lib/payments/pesapal'
 import { creditDeposit, failDeposit } from '@/lib/payments/credit'
+import { pesapalMismatch } from '@/lib/payments/deposit-settle'
 import type { CurrencyCode } from '@/types'
 
 async function handle(
@@ -50,14 +51,7 @@ async function handle(
 
   // Authoritative status check, bound to THIS deposit.
   const live = await getPesaPalStatus(orderTrackingId)
-  const mismatch =
-    live.merchantReference !== deposit.id
-      ? 'merchant_reference'
-      : typeof live.amount !== 'number' || Math.round(live.amount * 100) !== Math.round(Number(deposit.amount) * 100)
-        ? 'amount'
-        : live.currency && live.currency.toUpperCase() !== String(deposit.currency).toUpperCase()
-          ? 'currency'
-          : null
+  const mismatch = pesapalMismatch(live, deposit)
   if (mismatch) {
     console.error('PesaPal IPN: status does not match the deposit; not applied', {
       depositId: deposit.id, orderTrackingId, mismatch, merchantReference,
