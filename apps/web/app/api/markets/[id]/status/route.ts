@@ -29,7 +29,7 @@ export async function PATCH(
     if (!guard.ok) return guard.response
     const { user } = guard.ctx
 
-    const body = await req.json()
+    const body = await req.json().catch(() => null)
     const parsed = patchSchema.safeParse(body)
     if (!parsed.success) {
       return NextResponse.json(
@@ -69,7 +69,7 @@ export async function PATCH(
       if (cancelErr) {
         console.error('Cancel market error:', cancelErr)
         return NextResponse.json(
-          { error: 'Failed to cancel market', details: cancelErr.message },
+          { error: 'Failed to cancel market' },
           { status: 500 },
         )
       }

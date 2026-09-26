@@ -25,7 +25,8 @@ export async function GET(req: NextRequest) {
   })
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    console.error('leaderboard query failed:', error)
+    return NextResponse.json({ error: 'Failed to load the leaderboard' }, { status: 500 })
   }
 
   const payload = (data ?? {}) as { data?: LeaderboardEntry[] }

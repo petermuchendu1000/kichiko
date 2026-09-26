@@ -31,18 +31,20 @@ export async function GET(req: NextRequest) {
   try {
     const supabase = await createClient()
     const { error } = await supabase.from('exchange_rates').select('id').limit(1)
+    if (error) log.error('health: database check failed', { error: error.message })
     checks.push({
       name: 'database',
       status: error ? 'error' : 'ok',
       latency_ms: Date.now() - dbStart,
-      ...(error ? { error: error.message } : {}),
+      // public endpoint: the reason is logged, not returned (audit 6.25)
+      ...(error ? { error: 'unreachable' } : {}),
     })
   } catch (e) {
     checks.push({
       name: 'database',
       status: 'error',
       latency_ms: Date.now() - dbStart,
-      error: e instanceof Error ? e.message : 'connection failed',
+      error: 'connection failed',
     })
   }
 
