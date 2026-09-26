@@ -9,4 +9,14 @@ Real responses, trimmed only where noted, used to test the parsers in `lib/integ
 | `nbe-2026-05-18.json` | National Bank of Ethiopia, `GET https://api.nbe.gov.et/api/filter-exchange-rates?date=2026-05-18` | 2026-05-22 12:50 GMT | No |
 | `fawazahmed0-usd-2026-09-26.json` | npm `@fawazahmed0/currency-api@2026.9.26`, `v1/currencies/usd.json` (same file served by jsDelivr / `currency-api.pages.dev`) | published 2026-09-26 04:30 UTC | No |
 
-The first three were recorded by the Frankfurter project (`spec/vcr_cassettes/{cbk,bnrrw,nbe}.yml` in https://github.com/lineofflight/frankfurter, MIT licence, Copyright (c) Hakan Ensari) and extracted from those cassettes on 2026-09-26. The sandbox that wrote this code could not reach the central banks directly, so each live endpoint still needs one check from production (see `docs/research/engine-2026-09/14-FX-SOURCES.md` §1).
+The first three were recorded by the Frankfurter project (`spec/vcr_cassettes/{cbk,bnrrw,nbe}.yml` in https://github.com/lineofflight/frankfurter, MIT licence, Copyright (c) Hakan Ensari) and extracted from those cassettes on 2026-09-26. The sandbox that wrote this code could not reach the central banks directly, so the live endpoints were first exercised by a dry run of `.github/workflows/fx-rates.yml` on GitHub Actions (run 36249252824, 2026-09-26). All four answered, with value date 2026-09-25:
+
+| | official | fawazahmed0 |
+|---|---|---|
+| KES | CBK 129.62 | 129.53703223 |
+| UGX | CBK cross 3924.8936 | 3928.37270558 |
+| TZS | CBK cross 2644.248 | 2646.44915641 |
+| RWF | BNR 1473.65, CBK cross 1472.4832 | 1475.8688013 |
+| BIF | CBK cross 2995.5182 | 3007.23226135 |
+| ETB | NBE 160.7882 | 163.05170052 |
+| ZMW | none | 19.55012556 |
