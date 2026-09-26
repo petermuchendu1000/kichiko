@@ -23,6 +23,10 @@ After 075 every write goes through `upsert_fx_observations(p_obs jsonb)`
   G12 (076) when official quotes agree with the rest, the stored rate is the
       median of the OFFICIAL quotes, not of all quotes
   G13 (076) official and aggregator disagreeing by > 2% is still held
+  G14 (077) works under pg-safeupdate, which Supabase preloads for PostgREST
+      (authenticator) sessions: a DELETE/UPDATE without WHERE is refused
+      there. Needs a server that ships safeupdate (the Supabase image) and a
+      superuser URL to LOAD it (SUPABASE_ADMIN_URL); skipped otherwise.
 
 Usage: SEED_DB_URL="postgresql://...:5432/postgres" python3 test_fx_gates.py
 """
@@ -120,6 +124,27 @@ try:
                   {"currency": "XYZ", "units_per_usd": 5, "rate_date": "2026-09-25", "source": "x"},
                   {"currency": "ETB", "units_per_usd": -1, "rate_date": "2026-09-25", "source": "x"}])
     check("G11 USD/unknown/non-positive skipped", err is None and r is not None and r.get('accepted') == 0, f"r={r} err={err}")
+    print("Under pg-safeupdate (PostgREST sessions on Supabase):")
+    ADMIN = os.environ.get("SUPABASE_ADMIN_URL")
+    if not ADMIN:
+        print("  [SKIP] G14 - set SUPABASE_ADMIN_URL (superuser) to run it")
+    else:
+        c2 = psycopg2.connect(ADMIN, connect_timeout=40); c2.autocommit = False; k = c2.cursor()
+        try:
+            k.execute("load 'safeupdate'")
+            # BIF: a row the main transaction above never touches (no lock wait)
+            ok, detail = True, ""
+            try:
+                k.execute("select upsert_fx_observations(%s::jsonb)", (json.dumps(
+                    [{"currency": "BIF", "units_per_usd": 2997.49, "rate_date": "2026-09-26", "source": "cbk-cross", "official": True}]),))
+                k.execute("select upsert_exchange_rates('[{\"from_currency\":\"BIF\",\"rate\":0.000333}]'::jsonb)")
+            except psycopg2.Error as e:
+                ok, detail = False, f"{e.pgcode} {e.pgerror.splitlines()[0] if e.pgerror else ''}"
+            check("G14 gated upserts run under safeupdate", ok, detail)
+        except psycopg2.Error as e:
+            print(f"  [SKIP] G14 - safeupdate not available here ({e.pgcode})")
+        finally:
+            c2.rollback(); c2.close()
 except psycopg2.Error as e:
     check("harness completed", False, f"{e.pgcode} {e.pgerror}")
 finally:
