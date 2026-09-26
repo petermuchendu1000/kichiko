@@ -170,6 +170,7 @@ export const CLOB_ERRORS: Record<string, { status: number; error: string }> = {
   P0104: { status: 400, error: 'A limit price is required for limit orders' },
   P0105: { status: 400, error: 'Order is below the market minimum size' },
   P0106: { status: 400, error: 'Limit price must be between 0.1¢ and 99.9¢' },
+  P0107: { status: 409, error: 'This client_order_id was already used for a different order' },
   P0110: { status: 404, error: 'Order not found' },
   P0111: { status: 403, error: 'You can only cancel your own orders' },
   P0112: { status: 409, error: 'Order is no longer cancellable' },
