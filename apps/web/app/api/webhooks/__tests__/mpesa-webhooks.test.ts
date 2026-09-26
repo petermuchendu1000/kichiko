@@ -104,6 +104,15 @@ afterEach(() => {
 describe('POST /api/webhooks/mpesa (deposit)', () => {
   const URL = 'https://x/api/webhooks/mpesa?deposit_id=dep-1'
 
+  it('a query that says "still under processing" (ResultCode 4999) neither credits nor fails (audit 6.10)', async () => {
+    stubAdmin({ deposits: DEPOSIT })
+    q.mockResolvedValue({ ResultCode: '4999', ResultDesc: 'The transaction is still under processing' })
+
+    await depositPOST(post(URL, stkBody(0)))
+    expect(credit).not.toHaveBeenCalled()
+    expect(failDep).not.toHaveBeenCalled()
+  })
+
   it('credits ONLY after the authoritative status query confirms success', async () => {
     stubAdmin({ deposits: DEPOSIT })
     q.mockResolvedValue({ ResultCode: '0', ResultDesc: 'ok', CheckoutRequestID: 'ws_CO_1' })

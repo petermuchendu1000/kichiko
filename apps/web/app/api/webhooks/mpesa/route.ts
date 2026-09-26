@@ -15,6 +15,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/server'
 import { parseMpesaCallback, queryMpesaSTKStatus } from '@/lib/payments/mpesa'
 import { creditDeposit, failDeposit } from '@/lib/payments/credit'
+import { classifyStkResult } from '@/lib/payments/deposit-settle'
 import { verifyMpesaWebhookSource } from '@/lib/payments/mpesa-webhook-verify'
 import type { CurrencyCode } from '@/types'
 
@@ -101,9 +102,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(ACCEPTED)
     }
 
-    const resultCode = Number(query.ResultCode)
+    // 0 paid, 4999 still processing (no answer yet), anything else a terminal
+    // failure (lib/payments/deposit-settle.ts, shared with the deposit sweep)
+    const verdict = classifyStkResult(query.ResultCode)
 
-    if (resultCode === 0) {
+    if (verdict === 'pending') {
+      console.warn('M-Pesa callback: STK status still processing; leaving pending', deposit.id)
+      return NextResponse.json(ACCEPTED)
+    }
+    if (verdict === 'paid') {
       // Success confirmed by the provider → atomic, idempotent credit. The key
       // is the server-known CheckoutRequestID so duplicates collide.
       await creditDeposit(adminClient, {
