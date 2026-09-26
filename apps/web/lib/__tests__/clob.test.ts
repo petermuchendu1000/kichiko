@@ -136,6 +136,9 @@ describe('clobErrorFor (SQLSTATE → HTTP)', () => {
       status: 400, error: 'Limit price must be between 0.1¢ and 99.9¢',
     })
   })
+  it('maps a client_order_id reused for a different order (080) to 409', () => {
+    expect(clobErrorFor({ code: 'P0107', message: 'x' })?.status).toBe(409)
+  })
   it('returns null for unknown codes', () => {
     expect(clobErrorFor('P9999 nope')).toBeNull()
   })
