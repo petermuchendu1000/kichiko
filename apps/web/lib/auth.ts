@@ -58,7 +58,9 @@ export async function getAuthContext(): Promise<AuthContext | null> {
     user,
     supabase,
     role: (profile?.role ?? 'user') as Role,
-    accountStatus: (profile?.account_status ?? 'active') as Enums<'account_status'>,
+    // audit 6.31: a missing or failed profile read is NOT an active account
+    // (it used to default to 'active', so a suspended user passed requireUser)
+    accountStatus: (profile?.account_status ?? 'suspended') as Enums<'account_status'>,
     kycStatus: (profile?.kyc_status ?? 'unverified') as Enums<'kyc_status'>,
   }
 }

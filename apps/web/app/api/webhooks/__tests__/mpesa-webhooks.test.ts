@@ -113,6 +113,21 @@ describe('POST /api/webhooks/mpesa (deposit)', () => {
     expect(failDep).not.toHaveBeenCalled()
   })
 
+  // Audit 6.21: only the CheckoutRequestID stored at initiation is ever used.
+  it('a deposit without a stored CheckoutRequestID is not settled from the payload id', async () => {
+    stubAdmin({ deposits: { ...DEPOSIT, checkout_request_id: null } })
+    q.mockResolvedValue({ ResultCode: '0' })
+    await depositPOST(post(URL, stkBody(0)))
+    expect(q).not.toHaveBeenCalled()
+    expect(credit).not.toHaveBeenCalled()
+  })
+  it('a payload CheckoutRequestID that differs from the stored one is not settled', async () => {
+    stubAdmin({ deposits: { ...DEPOSIT, checkout_request_id: 'ws_CO_OTHER' } })
+    q.mockResolvedValue({ ResultCode: '0' })
+    await depositPOST(post(URL, stkBody(0)))
+    expect(credit).not.toHaveBeenCalled()
+  })
+
   it('credits ONLY after the authoritative status query confirms success', async () => {
     stubAdmin({ deposits: DEPOSIT })
     q.mockResolvedValue({ ResultCode: '0', ResultDesc: 'ok', CheckoutRequestID: 'ws_CO_1' })
