@@ -74,4 +74,25 @@ describe('csv', () => {
   it('emits just headers for empty input', () => {
     expect(toCsv([], [{ key: 'a', header: 'A' }])).toBe('A\n')
   })
+
+  // CSV injection (CWE-1236): user-controlled text (usernames, market titles in
+  // ledger descriptions, report details) must not run as a spreadsheet formula
+  // when an admin opens the export.
+  it('neutralises spreadsheet formulas in text', () => {
+    expect(csvCell('=HYPERLINK("http://x","c")')).toBe(`"'=HYPERLINK(""http://x"",""c"")"`)
+    expect(csvCell('+cmd|calc')).toBe("'+cmd|calc")
+    expect(csvCell('-2+3')).toBe("'-2+3")
+    expect(csvCell('@SUM(A1)')).toBe("'@SUM(A1)")
+    expect(csvCell('\t=1')).toBe("'\t=1")
+    expect(csvCell('\r=1')).toBe(`"'\r=1"`)
+    expect(csvCell('  =1')).toBe("'  =1")
+    expect(csvCell('Won YES: =1+1')).toBe('Won YES: =1+1')
+  })
+  it('leaves numbers and numeric text as numbers', () => {
+    expect(csvCell(-5)).toBe('-5')
+    expect(csvCell('-5.00')).toBe('-5.00')
+    expect(csvCell('+12.5')).toBe('+12.5')
+    expect(csvCell('-1e-3')).toBe('-1e-3')
+    expect(csvCell('2026-09-26T00:00:00Z')).toBe('2026-09-26T00:00:00Z')
+  })
 })
