@@ -124,6 +124,8 @@ echo; echo "===== +1 test_settlement_lock_order.py (first order does not lock it
 python3 "$CLOB_DIR/test_settlement_lock_order.py" || { echo "::error::settlement lock order test FAILED"; FAILED=1; }
 echo; echo "===== +1 test_remark_skip_locked.py (position re-mark never waits on a trade, migration 096; commits) ====="
 python3 "$CLOB_DIR/test_remark_skip_locked.py" || { echo "::error::remark skip-locked test FAILED"; FAILED=1; }
+echo; echo "===== +1 test_cap_race.py (per-user order caps hold under concurrency, migration 101; commits) ====="
+python3 "$CLOB_DIR/test_cap_race.py" || { echo "::error::order cap race test FAILED"; FAILED=1; }
 # last: this one COMMITS data (throwaway cluster) and runs concurrent takers
 echo; echo "===== 20/20 test_deadlock_free.py (concurrent takers, migration 081) ====="
 python3 "$CLOB_DIR/test_deadlock_free.py" || { echo "::error::deadlock-free test FAILED"; FAILED=1; }
