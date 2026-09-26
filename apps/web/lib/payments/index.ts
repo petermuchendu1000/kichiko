@@ -304,7 +304,8 @@ export async function processWithdrawal(
             // token here, every real Safaricom B2C result is rejected 401 and
             // the withdrawal is never settled (stuck 'processing', reserved
             // funds never released or refunded even though cash left the till).
-            QueueTimeOutURL: appendWebhookToken(`${process.env.NEXT_PUBLIC_APP_URL}/api/webhooks/mpesa-b2c`),
+            // a queue timeout is not a failure (audit 6.37): its own endpoint never settles
+            QueueTimeOutURL: appendWebhookToken(`${process.env.NEXT_PUBLIC_APP_URL}/api/webhooks/mpesa-b2c/timeout`),
             ResultURL: appendWebhookToken(`${process.env.NEXT_PUBLIC_APP_URL}/api/webhooks/mpesa-b2c`),
             Occasion: req.reference.slice(0, 20),
           }),
