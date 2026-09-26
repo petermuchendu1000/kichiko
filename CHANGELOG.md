@@ -8,6 +8,16 @@ Conventional-Commit messages by `.github/workflows/release.yml`.
 
 ## [Unreleased]
 
+### Changed
+- **Matching engine: index-ordered unified ladder (migration 071).** The maker
+  ladder sorted the whole live book of the option on every order (computed
+  `CASE` ordering, no index). Orders now carry a YES-perspective price and book
+  side with partial asks/bids indexes, and takers walk the book lazily in
+  price-time order: O(log n + fills). Fill-for-fill identical to 046 on 12,500
+  differential-test operations. One hot market, 3,000-deep book: 263 -> 485
+  orders/s, p50 3.11 -> 1.38 ms. Position updates are now HOT-eligible (6.6% ->
+  94.2%). New ops tools: `scripts/ops/clob/diff_engine.py`, `bench_engine.py`.
+
 ### Added
 - **CI/CD & IaC (Module 16).** Hardened pipeline (parallel lint/type-check/unit
   → build, concurrency, path filters, migration-lint, security scans);
@@ -20,6 +30,25 @@ Conventional-Commit messages by `.github/workflows/release.yml`.
   changelog.
 
 ### Fixed
+- **Payments: deposits and withdrawals are bound to the currency the provider
+  actually settles in (migration 070).** The routes accepted any currency with
+  any provider, but M-Pesa charges and pays shillings: "deposit USD 100 via
+  M-Pesa" charged KSh 100 and credited $100, and a UGX balance was paid out as
+  the same number of KSh. One rules module (`lib/payments/provider-currency.ts`,
+  read off each integration) is enforced in both routes before any wallet,
+  deposit row, provider call or fund reservation; CHECK constraints on
+  `deposits` / `withdrawals` block every other path. Unimplemented payout
+  providers are rejected up front instead of after funds are reserved.
+- **Settlement: CLOB markets pay exactly $1 per winning share (migration 069).**
+  The resolvers were AMM-era code: they paid `shares + cost basis`, cut cost
+  basis out of `reserved_balance` (eating open-order escrow and withdrawal
+  holds), left the market's resting orders live, blocked admin-console
+  resolution with P0121, and in simplex mode paid the wrong side. Every path now
+  goes through one settlement core with a collateral solvency guard (P0141),
+  per-position ledger keys, cumulative P&L and order release. `cancel_market`
+  refuses to pay unbacked cost-basis refunds (P0144); `void_market` settles at an
+  explicit YES price. New CI harness `scripts/ops/clob/test_settlement.py`.
+  Details: `docs/design/CLOB-SETTLEMENT-2026-09.md`.
 - **Currency — KES converts at the real-time market rate, not a "1 USD = 100 KES"
   peg.** The platform hardcoded `KES→USD = 0.01` (via `SHARE_PAYOUT_KES` /
   `KES_SETTLEMENT_RATE`), excluded KES from the live FX cron

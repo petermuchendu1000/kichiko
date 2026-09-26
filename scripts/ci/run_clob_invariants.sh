@@ -70,12 +70,16 @@ echo "Schema ready: $(psql -tAq -d "$DB" -c "select count(*) from information_sc
 
 # ---- run the invariant harnesses (each rolls back) ----
 FAILED=0
-echo; echo "===== 1/3 fuzz_invariants.py (N=$FUZZ_N) ====="
+echo; echo "===== 1/5 fuzz_invariants.py (N=$FUZZ_N) ====="
 FUZZ_N="$FUZZ_N" python3 "$CLOB_DIR/fuzz_invariants.py" || { echo "::error::CLOB fuzz invariants FAILED"; FAILED=1; }
-echo; echo "===== 2/3 test_two_sided.py ====="
+echo; echo "===== 2/5 test_two_sided.py ====="
 python3 "$CLOB_DIR/test_two_sided.py" || { echo "::error::CLOB two-sided engine test FAILED"; FAILED=1; }
-echo; echo "===== 3/3 test_046.py (abuse-prevention caps) ====="
+echo; echo "===== 3/5 test_046.py (abuse-prevention caps) ====="
 APPLY_MIG="$MIG_DIR/046_clob_order_abuse_prevention.sql" python3 "$CLOB_DIR/test_046.py" || { echo "::error::CLOB abuse-prevention test FAILED"; FAILED=1; }
+echo; echo "===== 4/5 test_settlement.py (resolution / void / cancel) ====="
+python3 "$CLOB_DIR/test_settlement.py" || { echo "::error::CLOB settlement test FAILED"; FAILED=1; }
+echo; echo "===== 5/5 test_provider_currency_constraints.py (payments, migration 070) ====="
+python3 "$REPO_ROOT/scripts/ops/payments/test_provider_currency_constraints.py" || { echo "::error::payments provider/currency constraint test FAILED"; FAILED=1; }
 
 echo
 if [ "$FAILED" -eq 0 ]; then echo "ALL CLOB INVARIANT HARNESSES PASSED"; else echo "CLOB INVARIANT HARNESSES FAILED"; fi

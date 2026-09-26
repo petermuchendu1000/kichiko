@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient, createAdminClient } from '@/lib/supabase/server'
 import { z } from 'zod'
 import { initiateDeposit } from '@/lib/payments'
+import { checkDepositProviderCurrency } from '@/lib/payments/provider-currency'
 import { getUsdRate } from '@/lib/currency'
 import type { PaymentProvider, CurrencyCode } from '@/types'
 
@@ -48,6 +49,15 @@ export async function POST(req: NextRequest) {
     }
 
     const { amount, currency, phone, provider, country } = parsed.data
+
+    // The integration charges in a currency fixed by the provider (and country).
+    // The wallet is credited in `currency`, so they MUST agree, or the user is
+    // credited in a different currency from the money received (e.g. "USD 100"
+    // via M-Pesa charges KSh 100 and would credit $100).
+    const provCheck = checkDepositProviderCurrency(provider as PaymentProvider, currency as CurrencyCode, country)
+    if (!provCheck.ok) {
+      return NextResponse.json({ error: provCheck.error }, { status: 400 })
+    }
 
     // Validate minimum deposit
     const minDeposit = MIN_DEPOSITS[currency] || 1

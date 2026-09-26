@@ -21,6 +21,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient, createAdminClient } from '@/lib/supabase/server'
 import { z } from 'zod'
 import { processWithdrawal } from '@/lib/payments'
+import { checkWithdrawalProviderCurrency } from '@/lib/payments/provider-currency'
 import { isFeatureEnabled } from '@/lib/flags'
 import { getNumberSetting } from '@/lib/admin/settings'
 import {
@@ -63,6 +64,14 @@ export async function POST(req: NextRequest) {
     const { amount, currency, phone_number, provider } = parsed.data
     const cur = currency as CurrencyCode
     const prov = provider as PaymentProvider
+
+    // The payout integration pays in a currency fixed by the provider. Reject any
+    // wallet currency it does not actually pay out in, BEFORE reserving funds
+    // (otherwise e.g. a UGX balance is paid out as the same number of KES).
+    const provCheck = checkWithdrawalProviderCurrency(prov, cur)
+    if (!provCheck.ok) {
+      return NextResponse.json({ error: provCheck.error }, { status: 400 })
+    }
 
     // Account-status gate (self-scoped read).
     const { data: profile } = await supabase.rpc('get_my_profile').maybeSingle()
