@@ -261,6 +261,11 @@
       "kind": "volatile",
       "reason": "self-guards via authz check"
     },
+    "admin_void_market": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via authz check (markets:cancel), reason >= 10 chars, audited (072)"
+    },
     "announcement_audience_count": {
       "guarded": false,
       "kind": "read_only",
@@ -346,6 +351,11 @@
       "kind": "read_only",
       "reason": "read-only (STABLE/IMMUTABLE) public/self-scoped data"
     },
+    "set_my_country": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-scoped to auth.uid(); refuses when locked, with money activity, or more than once per 24h (079)"
+    },
     "sync_comment_like_count": {
       "guarded": false,
       "kind": "trigger",
@@ -380,6 +390,11 @@
       "guarded": false,
       "kind": "trigger",
       "reason": "trigger function (not invokable as a PostgREST RPC)"
+    },
+    "user_settlement": {
+      "guarded": true,
+      "kind": "read_only",
+      "reason": "read-only; own row only (P0121 for another user) (079)"
     }
   }
 }

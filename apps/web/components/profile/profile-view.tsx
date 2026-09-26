@@ -70,6 +70,7 @@ export function ProfileView() {
   const [dataLoading, setDataLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [saveError, setSaveError] = useState('')
   const [copied, setCopied] = useState(false)
 
   const [form, setForm] = useState({
@@ -77,7 +78,6 @@ export function ProfileView() {
     username: '',
     bio: '',
     phone_number: '',
-    preferred_currency: 'KES' as CurrencyCode,
   })
 
   useEffect(() => {
@@ -91,7 +91,6 @@ export function ProfileView() {
         username: profile.username || '',
         bio: profile.bio || '',
         phone_number: profile.phone_number || '',
-        preferred_currency: profile.preferred_currency || 'KES',
       })
     }
   }, [profile])
@@ -123,6 +122,8 @@ export function ProfileView() {
   const handleSave = async () => {
     if (!user) return
     setSaving(true)
+    setSaveError('')
+    // Country and settlement currency are changed in Settings (POST /api/profile/country).
     const { error } = await supabase
       .from('profiles')
       .update({
@@ -130,10 +131,10 @@ export function ProfileView() {
         username: form.username || null,
         bio: form.bio,
         phone_number: form.phone_number || null,
-        preferred_currency: form.preferred_currency,
       })
       .eq('id', user.id)
     setSaving(false)
+    if (error) setSaveError(error.code === '23505' ? 'That username is already taken.' : 'Could not save your profile.')
     if (!error) {
       setSaved(true)
       await refreshProfile()
@@ -243,7 +244,7 @@ export function ProfileView() {
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="space-y-6 lg:col-span-2">
           <PositionsHistory positions={positions} loading={dataLoading} />
-          <EditForm form={form} setForm={setForm} onSave={handleSave} saving={saving} saved={saved} />
+          <EditForm form={form} setForm={setForm} onSave={handleSave} saving={saving} saved={saved} error={saveError} settlementCurrency={profile?.settlement_currency ?? null} />
         </div>
 
         <div className="space-y-6">
@@ -470,12 +471,16 @@ function EditForm({
   onSave,
   saving,
   saved,
+  error,
+  settlementCurrency,
 }: {
-  form: { display_name: string; username: string; bio: string; phone_number: string; preferred_currency: CurrencyCode }
+  form: { display_name: string; username: string; bio: string; phone_number: string }
   setForm: React.Dispatch<React.SetStateAction<typeof form>>
   onSave: () => void
   saving: boolean
   saved: boolean
+  error: string
+  settlementCurrency: CurrencyCode | null
 }) {
   return (
     <section>
@@ -519,19 +524,17 @@ function EditForm({
               onChange={(e) => setForm((f) => ({ ...f, phone_number: e.target.value }))}
             />
           </Field>
-          <Field label="Preferred currency" htmlFor="preferred_currency">
-            <select
-              id="preferred_currency"
-              className="input cursor-pointer"
-              value={form.preferred_currency}
-              onChange={(e) => setForm((f) => ({ ...f, preferred_currency: e.target.value as CurrencyCode }))}
-            >
-              {Object.values(CURRENCIES).map((c) => (
-                <option key={c.code} value={c.code}>
-                  {c.code} — {c.name}
-                </option>
-              ))}
-            </select>
+          <Field label="Settlement currency" htmlFor="settlement_currency">
+            <input
+              id="settlement_currency"
+              className="input"
+              value={settlementCurrency ? `${settlementCurrency} — ${CURRENCIES[settlementCurrency]?.name ?? ''}` : 'Choose your country in Settings'}
+              readOnly
+              disabled
+            />
+            <Link href="/settings" className="text-xs underline" style={{ color: 'var(--text-muted)' }}>
+              Set by your country (change it in Settings)
+            </Link>
           </Field>
         </div>
 
@@ -546,6 +549,11 @@ function EditForm({
               </span>
             )}
           </span>
+          {error && (
+            <span role="alert" className="text-sm" style={{ color: 'var(--no-700)' }}>
+              {error}
+            </span>
+          )}
         </div>
       </div>
     </section>

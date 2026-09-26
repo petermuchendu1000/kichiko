@@ -1,18 +1,18 @@
 // app/api/profile — read & update the signed-in user's editable profile.
 //
 // GET   -> current editable profile fields for the account settings surface.
-// PATCH -> partial update of display name / username / bio / phone / country /
-//          preferred display currency. RLS scopes every write to the caller's
-//          own row (the update is filtered by id === user.id defensively too).
+// PATCH -> partial update of display name / username / bio / phone / avatar.
+//          RLS scopes every write to the caller's own row (the update is
+//          filtered by id === user.id defensively too). Country and currency
+//          are NOT editable here: the settlement currency is the currency of
+//          the user's country and changes only through POST /api/profile/country
+//          (set_my_country, migration 079).
 //
 // Username uniqueness is enforced by a DB constraint; we translate the unique
 // violation into a friendly 409 so the settings UI can highlight the field.
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { requireUser } from '@/lib/auth'
-
-// East/central-African settlement currencies + USD (matches currency_code enum).
-const CURRENCIES = ['KES', 'UGX', 'TZS', 'RWF', 'ZMW', 'ETB', 'BIF', 'USD'] as const
 
 const usernameSchema = z
   .string()
@@ -32,8 +32,6 @@ const schema = z
       .regex(/^\+?[0-9\s-]{7,20}$/, 'Enter a valid phone number')
       .optional()
       .or(z.literal('')),
-    country_code: z.string().trim().length(2).toUpperCase().optional().or(z.literal('')),
-    preferred_currency: z.enum(CURRENCIES).optional(),
     // Avatar URL must be a public object from our own `avatars` storage bucket
     // (the client uploads there and passes back the returned public URL). Empty
     // string clears the avatar.
@@ -59,7 +57,14 @@ export async function GET() {
 }
 
 export async function PATCH(req: NextRequest) {
-  const parsed = schema.safeParse(await req.json().catch(() => ({})))
+  const body = await req.json().catch(() => ({}))
+  if (body && typeof body === 'object' && ('country_code' in body || 'preferred_currency' in body)) {
+    return NextResponse.json(
+      { error: 'Your country (and with it your settlement currency) is changed through /api/profile/country' },
+      { status: 400 }
+    )
+  }
+  const parsed = schema.safeParse(body)
   if (!parsed.success) {
     return NextResponse.json(
       { error: 'Invalid request', details: parsed.error.flatten() },
@@ -79,8 +84,6 @@ export async function PATCH(req: NextRequest) {
     ...(d.username !== undefined && { username: d.username }),
     ...(d.bio !== undefined && { bio: nn(d.bio) }),
     ...(d.phone_number !== undefined && { phone_number: nn(d.phone_number) }),
-    ...(d.country_code !== undefined && { country_code: nn(d.country_code) }),
-    ...(d.preferred_currency !== undefined && { preferred_currency: d.preferred_currency }),
     ...(d.avatar_url !== undefined && { avatar_url: nn(d.avatar_url) }),
   }
 
