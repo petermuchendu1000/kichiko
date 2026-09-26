@@ -50,8 +50,10 @@ recurring BTC up/down windows) alongside 7 CLOB markets. After: **0 AMM, 38 CLOB
 ## Run order
 
 ```bash
-SEED_DB_URL="postgresql://…:5432/postgres" \
-  python3 scripts/sim/reseed_amm_to_clob.py all        # backup→remove→seed→simulate→verify
+# writes: needs a non-production target (local, or its project ref listed in
+# NONPROD_PROJECT_REFS) and the explicit flag (scripts/ops/destructive_guard.py)
+SEED_DB_URL="postgresql://…:5432/postgres" NONPROD_PROJECT_REFS="<ref>" \
+  python3 scripts/sim/reseed_amm_to_clob.py --i-know-this-is-not-prod all   # backup→remove→seed→simulate→verify
 # or granular: backup | remove | seed | simulate | verify   (all idempotent)
 ```
 

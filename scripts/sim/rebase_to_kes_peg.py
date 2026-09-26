@@ -34,6 +34,8 @@ Verify with:  python3 scripts/sim/audit_consistency.py
 """
 from __future__ import annotations
 import argparse, datetime as dt, json, os, sys
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'ops'))
+from destructive_guard import require_nonprod_dsn, FLAG as NONPROD_FLAG  # audit 6.36
 import psycopg2
 from psycopg2.extras import RealDictCursor
 
@@ -42,10 +44,8 @@ PEG_KES_TO_USD = 0.01         # 1 KES = 0.01 USD  (1 USD = KSh 100 = 1 share)
 FLAG_KEY = 'data.kes_rebase_applied'
 
 def dsn() -> str:
-    d = os.environ.get("SEED_DB_URL") or os.environ.get("DATABASE_URL") or os.environ.get("SUPABASE_DB_URL")
-    if not d:
-        sys.exit("Set SEED_DB_URL to the Supabase Postgres URL.")
-    return d
+    # audit 6.36: SEED_DB_URL only, a non-production target, and an explicit flag
+    return require_nonprod_dsn()
 
 def backup(cur) -> str:
     tables = ["markets", "market_options", "positions", "clob_orders",
@@ -64,6 +64,7 @@ def backup(cur) -> str:
 
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument(NONPROD_FLAG, action='store_true', help='required to write: the target is not production (scripts/ops/destructive_guard.py)')
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
 

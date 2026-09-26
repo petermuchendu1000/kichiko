@@ -70,6 +70,8 @@ echo "Schema ready: $(psql -tAq -d "$DB" -c "select count(*) from information_sc
 
 # ---- run the invariant harnesses (each rolls back) ----
 FAILED=0
+echo; echo "===== 0 test_destructive_guard.py (data-rewriting scripts refuse production, audit 6.36) ====="
+python3 "$REPO_ROOT/scripts/ops/test_destructive_guard.py" || { echo "::error::destructive-script guard test FAILED"; FAILED=1; }
 echo; echo "===== 1/15 fuzz_invariants.py (N=$FUZZ_N) ====="
 FUZZ_N="$FUZZ_N" python3 "$CLOB_DIR/fuzz_invariants.py" || { echo "::error::CLOB fuzz invariants FAILED"; FAILED=1; }
 echo; echo "===== 2/15 test_two_sided.py ====="

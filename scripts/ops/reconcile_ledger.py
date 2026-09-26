@@ -22,6 +22,8 @@ Verify with:  python3 scripts/sim/audit_consistency.py  &&  the ledger checks be
 """
 from __future__ import annotations
 import argparse, datetime as dt, json, os, random, string, sys, uuid
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from destructive_guard import require_nonprod_dsn, FLAG as NONPROD_FLAG  # audit 6.36
 import psycopg2
 from psycopg2.extras import RealDictCursor, execute_values
 
@@ -32,10 +34,8 @@ FLAG_KEY = "data.ledger_reconciled_v1"
 rng = random.Random(2027)
 
 def dsn() -> str:
-    d = os.environ.get("SEED_DB_URL") or os.environ.get("DATABASE_URL") or os.environ.get("SUPABASE_DB_URL")
-    if not d:
-        sys.exit("Set SEED_DB_URL to the Supabase Postgres URL.")
-    return d
+    # audit 6.36: SEED_DB_URL only, a non-production target, and an explicit flag
+    return require_nonprod_dsn()
 
 def mpesa_receipt() -> str:
     # e.g. "SGR7H2K9QW" - 10-char uppercase alphanumeric, like a real M-Pesa code.
@@ -74,6 +74,7 @@ def split_into_deposits(total: float) -> list[float]:
 
 def main() -> None:
     ap = argparse.ArgumentParser(); ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument(NONPROD_FLAG, action='store_true', help='required to write: the target is not production (scripts/ops/destructive_guard.py)')
     args = ap.parse_args()
 
     conn = psycopg2.connect(dsn(), connect_timeout=30); conn.autocommit = False
