@@ -1,0 +1,8 @@
+{"batch": 1, "writers": 1, "sync": "on", "orders": 4000, "wall_s": 13.47, "orders_per_s": 297, "commits": 4000, "commit_ms_p50": 3.951, "commit_ms_p99": 10.801, "per_order_us": 3366.5}
+{"batch": 1, "writers": 1, "sync": "off", "orders": 4000, "wall_s": 4.47, "orders_per_s": 894, "commits": 4000, "commit_ms_p50": 0.966, "commit_ms_p99": 3.037, "per_order_us": 1118.6}
+{"batch": 10, "writers": 1, "sync": "on", "orders": 20000, "wall_s": 4.79, "orders_per_s": 4173, "commits": 2000, "commit_ms_p50": 2.085, "commit_ms_p99": 5.159, "per_order_us": 239.6}
+{"batch": 100, "writers": 1, "sync": "on", "orders": 100000, "wall_s": 11.57, "orders_per_s": 8640, "commits": 1000, "commit_ms_p50": 9.146, "commit_ms_p99": 114.066, "per_order_us": 115.7}
+{"batch": 1000, "writers": 1, "sync": "on", "orders": 200000, "wall_s": 16.37, "orders_per_s": 12217, "commits": 200, "commit_ms_p50": 63.952, "commit_ms_p99": 193.719, "per_order_us": 81.9}
+{"batch": 1000, "writers": 1, "sync": "off", "orders": 200000, "wall_s": 12.89, "orders_per_s": 15515, "commits": 200, "commit_ms_p50": 60.471, "commit_ms_p99": 93.085, "per_order_us": 64.5}
+{"batch": 1, "writers": 4, "sync": "on", "orders": 12000, "wall_s": 9.85, "orders_per_s": 1219, "commits": 12000, "commit_ms_p50": 2.891, "commit_ms_p99": 8.804, "per_order_us": 3281.8}
+{"batch": 100, "writers": 4, "sync": "on", "orders": 200000, "wall_s": 10.73, "orders_per_s": 18646, "commits": 2000, "commit_ms_p50": 19.644, "commit_ms_p99": 47.922, "per_order_us": 214.5}

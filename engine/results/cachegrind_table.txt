@@ -1,0 +1,17 @@
+scenario      ladder     Ir/op  Dr+Dw/op D1miss/op LLmiss/op     Br/op  Mispr/op  fills/op
+shallow       btree       3637       935      7.30     0.001       332     16.87      0.58
+shallow       tick        3433       879      6.09     0.001       303     15.02      0.58
+deep3000      btree       2611       676      8.49     0.001       266     16.46      0.24
+deep3000      tick        2232       596      7.02     0.001       200      9.08      0.24
+sweep         btree       5435      1437     17.89     0.008       524     18.02      1.00
+sweep         tick        4760      1244     16.45     0.008       417      8.86      1.00
+cancel_heavy  btree       1702       457      7.50     0.014       226      5.92      0.00
+cancel_heavy  tick        1361       389      5.54     0.016       127      3.68      0.00
+mixed         btree       3739       974     11.28     0.001       362     21.05      0.54
+mixed         tick        3267       840      8.90     0.001       288     14.11      0.54
+==24694== I1  misses:        343,722
+==24694== I1  miss rate:        0.23%
+==24694== D1  misses:        441,664  (   302,522 rd   +    139,142 wr)
+--24694-- warning: L3 cache found, using its data for the LL simulation.
+--24694-- warning: specified LL cache: line_size 64  assoc 11  total_size 34,603,008
+--24694-- warning: simulated LL cache: line_size 64  assoc 17  total_size 35,651,584

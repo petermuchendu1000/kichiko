@@ -1,0 +1,17 @@
+alter table clob_fills drop constraint clob_fills_maker_order_id_fkey;
+alter table clob_fills drop constraint clob_fills_market_id_fkey;
+alter table clob_fills drop constraint clob_fills_market_option_id_fkey;
+alter table clob_fills drop constraint clob_fills_taker_order_id_fkey;
+alter table clob_orders drop constraint clob_orders_market_id_fkey;
+alter table clob_orders drop constraint clob_orders_market_option_id_fkey;
+alter table clob_orders drop constraint clob_orders_user_id_fkey;
+alter table clob_orders drop constraint clob_orders_wallet_id_fkey;
+alter table positions drop constraint positions_market_id_fkey;
+alter table positions drop constraint positions_market_option_id_fkey;
+alter table positions drop constraint positions_user_id_fkey;
+alter table positions drop constraint positions_wallet_id_fkey;
+alter table transactions drop constraint transactions_market_id_fkey;
+alter table transactions drop constraint transactions_market_option_id_fkey;
+alter table transactions drop constraint transactions_order_id_fkey;
+alter table transactions drop constraint transactions_user_id_fkey;
+alter table transactions drop constraint transactions_wallet_id_fkey;

@@ -1,0 +1,72 @@
+== thin fast
+thin       fast_bitmap    ops=300000  512.3 ns/op  1.95 M ops/s  fills=93844 rej=871 hash=b6845a0a949fae2b
+==22349== I refs:        34,512,080
+==22349== D refs:        16,397,965  (9,067,492 rd   + 7,330,473 wr)
+==22349== D1  misses:       151,275  (  151,130 rd   +       145 wr)
+==22349== LLd misses:       150,350  (  150,263 rd   +        87 wr)
+== thin lin
+thin       fast_linscan   ops=300000  634.9 ns/op  1.58 M ops/s  fills=93844 rej=871 hash=b6845a0a949fae2b
+==22352== I refs:        34,226,476
+==22352== D refs:        16,230,084  (9,098,319 rd   + 7,131,765 wr)
+==22352== D1  misses:       151,274  (  151,129 rd   +       145 wr)
+==22352== LLd misses:       150,350  (  150,263 rd   +        87 wr)
+== thin map
+thin       std_map        ops=300000  3561.5 ns/op  0.28 M ops/s  fills=93844 rej=871 hash=b6845a0a949fae2b
+==22400== I refs:        136,373,135
+==22400== D refs:         60,596,960  (40,755,186 rd   + 19,841,774 wr)
+==22400== D1  misses:        154,389  (   153,746 rd   +        643 wr)
+==22400== LLd misses:        150,737  (   150,553 rd   +        184 wr)
+== normal fast
+normal     fast_bitmap    ops=300000  668.8 ns/op  1.50 M ops/s  fills=112578 rej=909 hash=bffca924adb9b01f
+==22446== I refs:        35,043,572
+==22446== D refs:        16,692,949  (9,178,484 rd   + 7,514,465 wr)
+==22446== D1  misses:       417,949  (  235,818 rd   +   182,131 wr)
+==22446== LLd misses:       152,705  (  150,859 rd   +     1,846 wr)
+== normal lin
+normal     fast_linscan   ops=300000  570.4 ns/op  1.75 M ops/s  fills=112578 rej=909 hash=bffca924adb9b01f
+==22491== I refs:        34,686,277
+==22491== D refs:        16,510,155  (9,201,738 rd   + 7,308,417 wr)
+==22491== D1  misses:       417,944  (  235,814 rd   +   182,130 wr)
+==22491== LLd misses:       152,705  (  150,859 rd   +     1,846 wr)
+== normal map
+normal     std_map        ops=300000  3524.2 ns/op  0.28 M ops/s  fills=112578 rej=909 hash=bffca924adb9b01f
+==22493== I refs:        138,906,464
+==22493== D refs:         61,377,898  (41,863,338 rd   + 19,514,560 wr)
+==22493== D1  misses:      1,342,496  ( 1,030,297 rd   +    312,199 wr)
+==22493== LLd misses:        157,371  (   155,361 rd   +      2,010 wr)
+== deep fast
+deep       fast_bitmap    ops=300000  641.2 ns/op  1.56 M ops/s  fills=72655 rej=391 hash=882282a631e5bfb2
+==22536== I refs:        30,574,979
+==22536== D refs:        14,882,079  (8,269,712 rd   + 6,612,367 wr)
+==22536== D1  misses:       667,220  (  312,470 rd   +   354,750 wr)
+==22536== LLd misses:       378,397  (  222,227 rd   +   156,170 wr)
+== deep lin
+deep       fast_linscan   ops=300000  631.8 ns/op  1.58 M ops/s  fills=72655 rej=391 hash=882282a631e5bfb2
+==22580== I refs:        30,188,422
+==22580== D refs:        14,723,134  (8,287,991 rd   + 6,435,143 wr)
+==22580== D1  misses:       667,080  (  312,320 rd   +   354,760 wr)
+==22580== LLd misses:       378,400  (  222,228 rd   +   156,172 wr)
+== deep map
+deep       std_map        ops=300000  3726.1 ns/op  0.27 M ops/s  fills=72655 rej=391 hash=882282a631e5bfb2
+==22623== I refs:        126,401,156
+==22623== D refs:         56,033,001  (39,007,271 rd   + 17,025,730 wr)
+==22623== D1  misses:      1,955,930  ( 1,512,116 rd   +    443,814 wr)
+==22623== LLd misses:      1,047,008  (   790,080 rd   +    256,928 wr)
+== sweep fast
+sweep      fast_bitmap    ops=300000  758.7 ns/op  1.32 M ops/s  fills=279366 rej=191 hash=890ab54a8435b071
+==22670== I refs:        53,769,663
+==22670== D refs:        23,665,133  (13,298,019 rd   + 10,367,114 wr)
+==22670== D1  misses:       195,342  (   166,755 rd   +     28,587 wr)
+==22670== LLd misses:       152,854  (   150,810 rd   +      2,044 wr)
+== sweep lin
+sweep      fast_linscan   ops=300000  759.6 ns/op  1.32 M ops/s  fills=279366 rej=191 hash=890ab54a8435b071
+==22672== I refs:        56,485,910
+==22672== D refs:        23,872,231  (13,806,147 rd   + 10,066,084 wr)
+==22672== D1  misses:       195,428  (   166,764 rd   +     28,664 wr)
+==22672== LLd misses:       153,172  (   151,128 rd   +      2,044 wr)
+== sweep map
+sweep      std_map        ops=300000  5085.4 ns/op  0.20 M ops/s  fills=279366 rej=191 hash=890ab54a8435b071
+==22719== I refs:        210,299,809
+==22719== D refs:         92,010,282  (60,957,142 rd   + 31,053,140 wr)
+==22719== D1  misses:        454,054  (   386,240 rd   +     67,814 wr)
+==22719== LLd misses:        157,492  (   155,395 rd   +      2,097 wr)

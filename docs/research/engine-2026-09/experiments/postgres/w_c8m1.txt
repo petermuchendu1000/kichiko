@@ -1,0 +1,12 @@
+samples 1712 backend-samples 12543
+  Lock:tuple                                71.9%
+  Lock:transactionid                        12.4%
+  CPU:-                                     12.1%
+  IO:WalSync                                 2.7%
+  LWLock:LockManager                         0.6%
+  IO:WalInitWrite                            0.1%
+  IO:DataFileExtend                          0.1%
+  LWLock:BufferContent                       0.0%
+  IO:WalWrite                                0.0%
+  IO:WalInitSync                             0.0%
+  Client:ClientRead                          0.0%
