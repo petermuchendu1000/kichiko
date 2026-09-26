@@ -531,20 +531,23 @@ impl<L: Ladder> Engine<L> {
             }
             _ => None,
         };
-        if min_usd.is_pos() {
-            if let Some(ou) = order_usd {
-                if ou.lt(min_usd) {
-                    return Err(EngineError::BelowMinSize);
-                }
-            }
-        }
-
         // SELL: available shares (L223-L236)
         let pi_taker = self.pidx(r.user, r.book, r.outcome);
+        let mut closing = false; // [102] this sell takes everything still available
         if r.action == Action::Sell {
             let p = &self.positions[pi_taker];
             if !p.exists || n6(p.shares - p.reserved_shares).lt(r.size) {
                 return Err(EngineError::NotEnoughShares);
+            }
+            closing = !n6(p.shares - p.reserved_shares).gt(r.size);
+        }
+        // [043 #4] min order size, checked after the sell block; [102] a sell of
+        // everything still held on this side is exempt
+        if min_usd.is_pos() && !closing {
+            if let Some(ou) = order_usd {
+                if ou.lt(min_usd) {
+                    return Err(EngineError::BelowMinSize);
+                }
             }
         }
         // INSERT clob_orders: size numeric(20,6) CHECK (size > 0) (L245)
@@ -695,7 +698,7 @@ impl<L: Ladder> Engine<L> {
         } else {
             let cash_local = cash_delta.div(rate).round(6);
             // 073: market sells only (limit orders are checked up front).
-            if r.otype == OrderType::Market && min_usd.is_pos() && filled > 0 && notional.lt(min_usd) {
+            if r.otype == OrderType::Market && min_usd.is_pos() && filled > 0 && notional.lt(min_usd) && !closing {
                 return Err(EngineError::BelowMinSize);
             }
             (cash_local, Num::ZERO, Num::ZERO)
