@@ -105,8 +105,12 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  // Refresh session
-  const { data: { user } } = await supabase.auth.getUser()
+  // Refresh the session and verify it locally (audit 6.42): getClaims checks the
+  // JWT's signature against the project's JWKS and its expiry, with no round trip
+  // to Supabase Auth (it falls back to getUser for symmetric keys). Routes that
+  // act on the user still call getUser, which also catches a revoked session.
+  const { data: claimsData } = await supabase.auth.getClaims()
+  const user = claimsData?.claims?.sub ? { id: claimsData.claims.sub } : null
 
   // Protect routes. Reads on public prefixes (e.g. GET /api/markets/[id]/book)
   // pass through; writes and fully-gated routes require a user. See
