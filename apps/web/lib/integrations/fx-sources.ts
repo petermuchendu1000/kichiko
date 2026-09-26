@@ -154,10 +154,13 @@ export function parseFawazahmed0(json: unknown): FxObservation[] {
 // timeout and never throws; a failed source just contributes nothing.
 // ---------------------------------------------------------------------------
 const TIMEOUT_MS = 15_000
+// CBK's table endpoint returns its whole history (11,000+ rows, ~0.5 MB): it
+// timed out at 15 s in production (run 36252161329), so it gets longer.
+const CBK_TIMEOUT_MS = 60_000
 
-async function getJson(url: string, init?: RequestInit): Promise<unknown> {
+async function getJson(url: string, init?: RequestInit, timeoutMs = TIMEOUT_MS): Promise<unknown> {
   const controller = new AbortController()
-  const timer = setTimeout(() => controller.abort(), TIMEOUT_MS)
+  const timer = setTimeout(() => controller.abort(), timeoutMs)
   try {
     const res = await fetch(url, { ...init, signal: controller.signal, cache: 'no-store' })
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
@@ -184,7 +187,7 @@ export function fetchCbk(): Promise<FxSourceResult> {
       method: 'POST',
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
       body: 'draw=1&start=0&length=-1',
-    })))
+    }, CBK_TIMEOUT_MS)))
 }
 
 export function fetchBnrRw(now = new Date()): Promise<FxSourceResult> {
