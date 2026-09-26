@@ -146,6 +146,10 @@ jobs:
                    || ' security_credential=' || (secret_ref ? 'security_credential'),
                    ' | ' ORDER BY environment, country_code), 'none')
             FROM public.payment_gateways WHERE provider = 'mpesa';
+          -- is the gateway-secret key configured, or is the repo's dev fallback in use? (A-K1; never the value)
+          SELECT 'gateway secret key: ' || CASE WHEN COALESCE(current_setting('app.gateway_encryption_key', true), '') = ''
+                   THEN 'NOT SET (the dev fallback from 012 is in use)' ELSE 'set' END
+                 || ', encrypted secrets stored=' || (SELECT count(*) FROM public.gateway_secrets);
           ROLLBACK;
           SQL
           fi
