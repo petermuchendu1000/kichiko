@@ -76,6 +76,11 @@ export function UserActions({
   const [ccy, setCcy] = useState(currencies[0] ?? 'KES')
   const [amount, setAmount] = useState('')
   const [adjReason, setAdjReason] = useState('')
+  // One idempotency key per distinct adjustment: a double click (or a retry
+  // after a network error) replays instead of adjusting twice. Any change to
+  // the form, or a completed adjustment, starts a new key (audit 6.8).
+  const newAdjKey = () => (typeof crypto !== 'undefined' && 'randomUUID' in crypto ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`)
+  const [adjKey, setAdjKey] = useState(newAdjKey)
   const [note, setNote] = useState('')
   const [impersonateLink, setImpersonateLink] = useState<string | null>(null)
 
@@ -146,19 +151,22 @@ export function UserActions({
         <div className="mb-4">
           <label htmlFor="adjust-balance" className="mb-1 block text-xs font-medium text-muted-foreground">Adjust balance</label>
           <div className="flex gap-2">
-            <select id="adjust-balance" value={ccy} onChange={(e) => setCcy(e.target.value)} className="rounded-lg border bg-background px-2 py-2 text-sm">
+            <select id="adjust-balance" value={ccy} onChange={(e) => { setCcy(e.target.value); setAdjKey(newAdjKey()) }} className="rounded-lg border bg-background px-2 py-2 text-sm">
               {currencies.map((c) => (
                 <option key={c} value={c}>{c}</option>
               ))}
             </select>
-            <input value={amount} onChange={(e) => setAmount(e.target.value)} type="number" placeholder="± amount" className="min-w-0 flex-1 rounded-lg border bg-background px-2 py-2 text-sm" />
+            <input value={amount} onChange={(e) => { setAmount(e.target.value); setAdjKey(newAdjKey()) }} type="number" placeholder="± amount" className="min-w-0 flex-1 rounded-lg border bg-background px-2 py-2 text-sm" />
           </div>
-          <input value={adjReason} onChange={(e) => setAdjReason(e.target.value)} placeholder="Reason (required)" className="mt-2 w-full rounded-lg border bg-background px-2 py-2 text-sm" />
+          <input value={adjReason} onChange={(e) => { setAdjReason(e.target.value); setAdjKey(newAdjKey()) }} placeholder="Reason (required)" className="mt-2 w-full rounded-lg border bg-background px-2 py-2 text-sm" />
           <button
             disabled={pending || !amount || adjReason.trim().length < 3}
             onClick={() =>
               run(
-                postJson(`/api/admin/users/${userId}/adjust-balance`, { currency: ccy, amount: Number(amount), reason: adjReason }),
+                postJson(`/api/admin/users/${userId}/adjust-balance`, { currency: ccy, amount: Number(amount), reason: adjReason, idempotency_key: adjKey }).then((r) => {
+                  if (r.ok) setAdjKey(newAdjKey())
+                  return r
+                }),
                 'Balance adjusted'
               )
             }
