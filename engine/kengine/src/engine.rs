@@ -209,6 +209,8 @@ pub struct Order {
     pub size: i128,
     pub filled: i128,
     pub reserved_usd: i128,
+    /// [082] escrow in the wallet's currency, numeric(20,6)
+    pub reserved_local: i128,
     pub rate: Num,
     pub expires_at: i64, // i64::MAX = NULL
 }
@@ -662,6 +664,7 @@ impl<L: Ladder> Engine<L> {
             size: size6,
             filled: 0,
             reserved_usd: 0,
+            reserved_local: 0,
             rate,
             expires_at: r.expires_at.unwrap_or(i64::MAX),
         });
@@ -689,11 +692,10 @@ impl<L: Ladder> Engine<L> {
                 } else {
                     // MINT: maker BUY C spends escrow (L351-L371)
                     let maker_usd = n6(f.size).mul(px(mk_price)).div(N100_0).round(8);
-                    let local = maker_usd.div(mk_rate).round(6);
-                    let mo = &mut self.orders[ms];
-                    mo.reserved_usd = Num::ZERO.greatest(n6(mo.reserved_usd).sub(maker_usd)).n20_6();
+                    let local = self.maker_escrow_fill(ms, f.size, maker_usd);
                     let w = &mut self.wallets[mk_user as usize];
-                    w.reserved = Num::ZERO.greatest(n6(w.reserved).sub(local)).n20_6();
+                    debug_assert!(n6(w.reserved).cmp_val(local) != std::cmp::Ordering::Less, "P0150 escrow drift");
+                    w.reserved = n6(w.reserved).sub(local).n20_6();
                     let pi = self.pidx(mk_user, r.book, comp);
                     maker_buy_upsert(&mut self.positions[pi], f.size, maker_usd, mk_price);
                 }
@@ -701,11 +703,10 @@ impl<L: Ladder> Engine<L> {
                 if f.kind == MatchKind::Direct {
                     // maker BUY S spends escrow, receives S (L380-L400)
                     let maker_usd = n6(f.size).mul(px(mk_price)).div(N100_0).round(8);
-                    let local = maker_usd.div(mk_rate).round(6);
-                    let mo = &mut self.orders[ms];
-                    mo.reserved_usd = Num::ZERO.greatest(n6(mo.reserved_usd).sub(maker_usd)).n20_6();
+                    let local = self.maker_escrow_fill(ms, f.size, maker_usd);
                     let w = &mut self.wallets[mk_user as usize];
-                    w.reserved = Num::ZERO.greatest(n6(w.reserved).sub(local)).n20_6();
+                    debug_assert!(n6(w.reserved).cmp_val(local) != std::cmp::Ordering::Less, "P0150 escrow drift");
+                    w.reserved = n6(w.reserved).sub(local).n20_6();
                     let pi = self.pidx(mk_user, r.book, r.outcome);
                     maker_buy_upsert(&mut self.positions[pi], f.size, maker_usd, mk_price);
                 } else {
@@ -782,6 +783,7 @@ impl<L: Ladder> Engine<L> {
             o.filled = filled;
             o.status = status;
             o.reserved_usd = if buy { reserve_usd.n20_6() } else { 0 };
+            o.reserved_local = if buy { reserve_loc.n20_6() } else { 0 }; // [082]
         }
         if self.cfg.rate_limit {
             let h = self.rl_head[u] as usize;
@@ -802,6 +804,23 @@ impl<L: Ladder> Engine<L> {
             self.free_order(tid);
         }
         Ok(PlaceResult { order: tid, status, filled, resting: rest, cash_local, notional, n_fills })
+    }
+
+    /// [082] maker BUY fill: release the pro-rata share of the order's escrow
+    /// (ROUND(reserved_local * fill / remaining, 6)); the fill that completes the
+    /// order releases all that remains. `mo.filled` already includes this fill.
+    #[inline(always)]
+    fn maker_escrow_fill(&mut self, ms: usize, fill: i128, maker_usd: Num) -> Num {
+        let mo = &mut self.orders[ms];
+        let remaining = mo.size - (mo.filled - fill);
+        let (local, last) = if fill >= remaining {
+            (n6(mo.reserved_local), true)
+        } else {
+            (n6(mo.reserved_local).mul(n6(fill)).div(n6(remaining)).round(6), false)
+        };
+        mo.reserved_usd = if last { 0 } else { Num::ZERO.greatest(n6(mo.reserved_usd).sub(maker_usd)).n20_6() };
+        mo.reserved_local = n6(mo.reserved_local).sub(local).n20_6();
+        local
     }
 
     #[inline(always)]
@@ -841,10 +860,11 @@ impl<L: Ladder> Engine<L> {
         let rest = o.size - o.filled; // v_rest numeric(20,6)
         let mut res = CancelResult { released_shares: Num::ZERO, released_local: Num::ZERO };
         if o.action == Action::Buy {
-            let loc = n6(o.reserved_usd).div(o.rate).round(6);
+            // [082] exactly the order's remaining escrow, never more than the wallet holds
             let w = &mut self.wallets[o.user as usize];
+            let loc = n6(o.reserved_local).least(n6(w.reserved));
             w.available = n6(w.available).add(loc).n20_6();
-            w.reserved = Num::ZERO.greatest(n6(w.reserved).sub(loc)).n20_6();
+            w.reserved = n6(w.reserved).sub(loc).n20_6();
             res.released_local = loc;
         } else {
             let pi = self.pidx(o.user, o.book, o.outcome);
@@ -858,6 +878,7 @@ impl<L: Ladder> Engine<L> {
             let om = &mut self.orders[s];
             om.status = to;
             om.reserved_usd = 0;
+            om.reserved_local = 0;
         }
         self.retire(id);
         res

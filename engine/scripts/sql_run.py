@@ -72,7 +72,7 @@ def run(a, k):
         k.execute("select rate from exchange_rates where from_currency=%s and to_currency='USD'", (cur,))
         rates[cur] = str(k.fetchone()[0])
     # identical starting state (test data only)
-    k.execute("update clob_orders set status='cancelled', reserved_usd=0 where status in ('open','partially_filled')")
+    k.execute("update clob_orders set status='cancelled', reserved_usd=0, reserved_local=0 where status in ('open','partially_filled')")
     for i, u in enumerate(U):
         cur, bal = USERS[i]
         k.execute("insert into wallets(user_id,currency,available_balance,is_active) values(%s,%s,0,true) on conflict (user_id,currency) do nothing", (u, cur))
@@ -203,7 +203,7 @@ def run(a, k):
     # final state
     orders = {}
     for s, oid in seq2oid.items():
-        k.execute("select status::text, filled::text, reserved_usd::text from clob_orders where id=%s", (oid,))
+        k.execute("select status::text, filled::text, reserved_usd::text, reserved_local::text from clob_orders where id=%s", (oid,))
         orders[str(s)] = list(k.fetchone())
     uidx = {u: i for i, u in enumerate(U)}; oidx = {o: i for i, o in enumerate(opts)}
     k.execute("""select user_id, market_option_id, side::text, shares::text, reserved_shares::text, total_invested_usd::text,

@@ -124,7 +124,7 @@ pub fn run<L: Ladder>(st: &Stream) -> Value {
     keys.sort();
     for s in keys {
         let o = e.order(id_of[&s]).unwrap();
-        orders.insert(s.to_string(), json!([o.status.as_str(), s6(o.filled), s6(o.reserved_usd)]));
+        orders.insert(s.to_string(), json!([o.status.as_str(), s6(o.filled), s6(o.reserved_usd), s6(o.reserved_local)]));
     }
     let mut positions = vec![];
     for u in 0..e.n_users() as u32 {
