@@ -64,6 +64,8 @@ import decimal
 import json
 import os
 import sys
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'ops'))
+from destructive_guard import require_nonprod_dsn, FLAG as NONPROD_FLAG  # audit 6.36
 import uuid
 from datetime import datetime, timedelta, timezone
 
@@ -91,10 +93,7 @@ HOLDERS_NO = 12
 
 
 def connect():
-    dsn = (os.environ.get("SEED_DB_URL") or os.environ.get("DATABASE_URL")
-           or os.environ.get("SUPABASE_DB_URL"))
-    if not dsn:
-        sys.exit("Set SEED_DB_URL (or DATABASE_URL) to the Supabase Postgres URL.")
+    dsn = require_nonprod_dsn()   # audit 6.36: SEED_DB_URL only, non-production, explicit flag
     conn = psycopg2.connect(dsn, connect_timeout=25)
     conn.autocommit = False
     cur = conn.cursor()
@@ -574,6 +573,7 @@ def verify(conn) -> dict:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
+    ap.add_argument(NONPROD_FLAG, action='store_true', help='required to write: the target is not production (scripts/ops/destructive_guard.py)')
     ap.add_argument("cmd", choices=["backup", "remove", "seed", "simulate", "verify", "all"])
     ap.add_argument("--seed", type=int, default=2027)
     ap.add_argument("--dry-run", action="store_true")

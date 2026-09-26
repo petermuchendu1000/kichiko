@@ -34,6 +34,8 @@ from __future__ import annotations
 import argparse
 import os
 import sys
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'ops'))
+from destructive_guard import require_nonprod_dsn, FLAG as NONPROD_FLAG  # audit 6.36
 import uuid
 from datetime import datetime, timedelta, timezone
 
@@ -65,10 +67,7 @@ BTC_ANCHOR_FALLBACK = 66_000.0   # used only if no prior tick exists
 
 
 def connect():
-    dsn = (os.environ.get("SEED_DB_URL") or os.environ.get("DATABASE_URL")
-           or os.environ.get("SUPABASE_DB_URL"))
-    if not dsn:
-        sys.exit("Set SEED_DB_URL (or DATABASE_URL) to the Supabase Postgres URL.")
+    dsn = require_nonprod_dsn()   # audit 6.36: SEED_DB_URL only, non-production, explicit flag
     return psycopg2.connect(dsn, connect_timeout=25)
 
 
@@ -494,6 +493,7 @@ def verify(conn) -> dict:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
+    ap.add_argument(NONPROD_FLAG, action='store_true', help='required to write: the target is not production (scripts/ops/destructive_guard.py)')
     ap.add_argument("cmd", choices=["price", "clob", "traders", "btc", "verify", "all"])
     ap.add_argument("--tier", choices=list(TIERS), default="intensive")
     ap.add_argument("--seed", type=int, default=2027)

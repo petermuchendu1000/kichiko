@@ -43,8 +43,10 @@ against these so the intensive tier lands ~50–90 MB total.
 Idempotent subcommands: `price`, `clob`, `btc`, `verify`, `all`.
 
 ```bash
-SEED_DB_URL="postgresql://…:5432/postgres" \
-  python3 scripts/sim/seed_intensive.py all --tier intensive
+# writes: needs a non-production target (local, or its project ref listed in
+# NONPROD_PROJECT_REFS) and the explicit flag (scripts/ops/destructive_guard.py)
+SEED_DB_URL="postgresql://…:5432/postgres" NONPROD_PROJECT_REFS="<ref>" \
+  python3 scripts/sim/seed_intensive.py --i-know-this-is-not-prod all --tier intensive
 ```
 
 - **price** — enhanced history for every active market (shared cross-market
