@@ -138,7 +138,7 @@ export async function fetchMarkets(
  * operator may do. Superadmin/role gating is applied on top via capabilities.
  */
 export interface MarketAction {
-  key: 'approve' | 'reject' | 'close' | 'dispute' | 'resolve' | 'cancel' | 'feature'
+  key: 'approve' | 'reject' | 'close' | 'dispute' | 'resolve' | 'cancel' | 'void' | 'feature'
   label: string
   capability: 'markets:approve' | 'markets:resolve' | 'markets:cancel'
   danger?: boolean
@@ -160,7 +160,12 @@ export function availableMarketActions(status: MarketStatus): MarketAction[] {
   // Feature toggles apply to any non-terminal market.
   if (status !== 'resolved' && status !== 'cancelled') {
     actions.push({ key: 'feature', label: 'Feature / trend', capability: 'markets:approve' })
-    actions.push({ key: 'cancel', label: 'Cancel & refund', capability: 'markets:cancel', danger: true })
+    // Cancel only succeeds while no positions exist (P0144 otherwise); a market
+    // with positions is voided instead (migration 072, conserving 50-50 default).
+    actions.push({ key: 'cancel', label: 'Cancel (no positions)', capability: 'markets:cancel', danger: true })
+  }
+  if (status === 'active' || status === 'closed' || status === 'disputed') {
+    actions.push({ key: 'void', label: 'Void (settle at a price)', capability: 'markets:cancel', danger: true })
   }
   return actions
 }

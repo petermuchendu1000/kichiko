@@ -8,7 +8,7 @@ import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 
 export type MarketActionKey =
-  | 'approve' | 'reject' | 'close' | 'dispute' | 'resolve' | 'cancel' | 'feature'
+  | 'approve' | 'reject' | 'close' | 'dispute' | 'resolve' | 'cancel' | 'void' | 'feature'
 
 export interface AllowedAction {
   key: MarketActionKey
@@ -37,6 +37,7 @@ export function MarketActions({
   const [reason, setReason] = useState('')
   const [outcome, setOutcome] = useState<'yes' | 'no'>('yes')
   const [notes, setNotes] = useState('')
+  const [voidPrice, setVoidPrice] = useState('0.50')
   const [feat, setFeat] = useState(isFeatured)
   const [trend, setTrend] = useState(isTrending)
   const [order, setOrder] = useState<string>(featuredOrder != null ? String(featuredOrder) : '')
@@ -97,6 +98,31 @@ export function MarketActions({
             <button className="btn btn-secondary btn-sm" onClick={() => setActive(null)}>Cancel</button>
             <button disabled={busy || reason.trim().length < 3} onClick={() => post({ action: active, reason })} className="btn btn-no btn-sm">
               Confirm {active}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Void: conserving settlement at one YES price (NO pays 1 - price). */}
+      {active === 'void' && (
+        <div className="flex flex-col gap-2 rounded-[10px] border bg-[var(--bg-secondary)] p-3">
+          <span className="text-sm font-medium text-[var(--text-secondary)]">
+            Void: every YES share settles at the price below, every NO share at 1 minus it. Open orders are cancelled and escrow returned.
+          </span>
+          <label htmlFor="void-price" className="flex items-center gap-2 text-sm text-[var(--text-secondary)]">
+            YES price (0 to 1)
+            <input id="void-price" type="number" min={0} max={1} step={0.01} value={voidPrice} onChange={(e) => setVoidPrice(e.target.value)} className="admin-field ml-1 w-24" />
+          </label>
+          <label htmlFor="void-reason" className="sr-only">Void reason</label>
+          <textarea id="void-reason" value={reason} onChange={(e) => setReason(e.target.value)} rows={2} className={AREA} placeholder="Why this market cannot be resolved (min 10 chars)" />
+          <div className="flex justify-end gap-2">
+            <button className="btn btn-secondary btn-sm" onClick={() => setActive(null)}>Cancel</button>
+            <button
+              disabled={busy || reason.trim().length < 10 || !(Number(voidPrice) >= 0 && Number(voidPrice) <= 1) || voidPrice.trim() === ''}
+              onClick={() => post({ action: 'void', reason, yes_price: Number(voidPrice) })}
+              className="btn btn-no btn-sm"
+            >
+              Void &amp; settle
             </button>
           </div>
         </div>

@@ -304,6 +304,54 @@ try:
     want = (D(10) / rate).quantize(D("0.000001"))
     check("L KES winner paid 10 USD at live rate (no cost basis)", abs((k1b - k1) - want) < D("0.00001"), f"got {k1b-k1} want {want}")
 
+    # ============================================================ admin void (072)
+    print("\n== Scenario M: admin_void_market (policy: conserving void, default 0.5) ==")
+    has_admin_void = q1("select count(*) from pg_proc where proname='admin_void_market'") > 0
+    if has_admin_void:
+        fund_all()
+        cur.execute("set local app.superadmin_override = 'on'")
+        cur.execute("update profiles set role='admin' where id=%s", (u3,))
+        cur.execute("update profiles set role='user' where id=%s", (u4,))
+        mkt, (A,) = new_market(1)
+        place(u2, mkt, A, 'no', 'buy', 40, 100)
+        place(u1, mkt, A, 'yes', 'buy', 60, 100)
+        place(u5, mkt, A, 'yes', 'buy', 20, 50)          # resting escrow 10
+        # plain user: denied
+        cur.execute("select set_config('request.jwt.claim.sub', %s, true)", (str(u4),))
+        code = expect_error("select admin_void_market(%s,%s)", (mkt, 'plain user tries to void'))
+        check("M non-capability user denied (42501)", code == '42501', f"pgcode={code}")
+        # admin: short reason and bad price rejected
+        cur.execute("select set_config('request.jwt.claim.sub', %s, true)", (str(u3),))
+        code = expect_error("select admin_void_market(%s,%s)", (mkt, 'short'))
+        check("M reason < 10 chars rejected (23514)", code == '23514', f"pgcode={code}")
+        code = expect_error("select admin_void_market(%s,%s,%s)", (mkt, 'event was cancelled by organiser', D('1.5')))
+        check("M price > 1 rejected (23514)", code == '23514', f"pgcode={code}")
+        # admin: default price 0.5
+        code = expect_error("select admin_void_market(%s,%s)", (mkt, 'event was cancelled by organiser'))
+        cur.execute("select set_config('request.jwt.claim.sub', '', true)")
+        check("M admin void with default price succeeds", code is None, f"pgcode={code}")
+        check("M default pays YES 0.5/share", abs(wallet(u1)[0] - (START - 60 + 50)) < TOL, f"{wallet(u1)[0]}")
+        check("M default pays NO 0.5/share", abs(wallet(u2)[0] - (START - 40 + 50)) < TOL, f"{wallet(u2)[0]}")
+        check("M resting escrow returned", wallet(u5) == (START, D(0)), f"{wallet(u5)}")
+        check("M zero-sum", abs(cash() - START * 6) < TOL, f"{cash()}")
+        check("M status cancelled, resolver recorded",
+              q1("select status::text||'/'||coalesce(resolver_id::text,'') from markets where id=%s", (mkt,)) == f"cancelled/{u3}")
+        check("M audit_log row with price 0.5",
+              q1("select count(*) from audit_log where action='market.void' and entity_id=%s and (new_data->>'yes_price')::numeric=0.5", (mkt,)) == 1)
+        # admin: custom price 0.3 on a fresh market
+        fund_all()
+        mkt, (A,) = new_market(1)
+        place(u2, mkt, A, 'no', 'buy', 40, 100)
+        place(u1, mkt, A, 'yes', 'buy', 60, 100)
+        cur.execute("select set_config('request.jwt.claim.sub', %s, true)", (str(u3),))
+        cur.execute("select admin_void_market(%s,%s,%s)", (mkt, 'resolution source discontinued', D('0.3')))
+        cur.execute("select set_config('request.jwt.claim.sub', '', true)")
+        check("M custom 0.3 pays YES 0.3/share", abs(wallet(u1)[0] - (START - 60 + 30)) < TOL, f"{wallet(u1)[0]}")
+        check("M custom 0.3 pays NO 0.7/share", abs(wallet(u2)[0] - (START - 40 + 70)) < TOL, f"{wallet(u2)[0]}")
+        check("M custom zero-sum", abs(cash() - START * 6) < TOL, f"{cash()}")
+    else:
+        print("  (admin_void_market not present in this schema: skipped)")
+
     # ============================================================ randomized
     print("\n== Scenario R: 40 randomized books, random resolution ==")
     rng = random.Random(4242)
