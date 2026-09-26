@@ -95,6 +95,21 @@ jobs:
             echo "::error title=Migration failed::supabase db push failed; see the output above."
             exit $code
           fi
+          # 4. Read-only post-migration report: escrow invariant (migration 082).
+          #    Aggregates only (no wallet or user ids in the log).
+          if command -v psql >/dev/null 2>&1; then
+            psql "$DB_URL" -X -A -t -v ON_ERROR_STOP=1 <<'SQL' || echo "::warning title=Post-migration report failed::could not run the read-only report"
+          BEGIN READ ONLY;
+          SELECT 'reservation drift: ' || count(*) || ' wallet(s), net ' || COALESCE(sum(drift), 0)
+            FROM public.wallet_reservation_drift();
+          SELECT 'last reconcile: ' || created_at || ' fixed=' || (new_data->>'wallets_fixed')
+                 || ' cancelled_unfunded=' || (new_data->>'orders_cancelled_unfunded')
+                 || ' unfunded_wallets=' || jsonb_array_length(new_data->'unfunded_wallets')
+            FROM public.audit_log WHERE action = 'reconcile_wallet_reservations'
+           ORDER BY created_at DESC LIMIT 1;
+          ROLLBACK;
+          SQL
+          fi
 
       # --- Preflight: only attempt the Fly deploy when credentials exist. ---
       # A missing FLY_API_TOKEN means the staging Fly app isn't provisioned for
