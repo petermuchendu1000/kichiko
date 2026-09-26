@@ -1,0 +1,52 @@
+# FX rates refresh (every 6 hours).
+#
+# Nothing scheduled the app's /api/cron/update-exchange-rates route (no Vercel
+# cron, no Fly process, no workflow; see docs/research/engine-2026-09/
+# 14-FX-SOURCES.md §7.3), so rates went stale. This job does not need an app
+# deployment: it runs the same fetchers (CBK, BNR, NBE official sources plus
+# the fawazahmed0 cross-check) and sends every quote to the gated,
+# service-role-only RPC upsert_fx_observations (migrations 075-078), which
+# decides what is accepted and records every quote in fx_observations.
+#
+# Requires secrets NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY (the
+# same ones realtime-e2e.yml uses); skips cleanly without them.
+name: FX rates refresh
+
+on:
+  schedule:
+    - cron: '41 */6 * * *'   # 00:41, 06:41, 12:41, 18:41 UTC
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Fetch and print quotes only (write nothing)'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fx-rates
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    name: Fetch official FX quotes and apply through the gates
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Refresh FX rates
+        env:
+          SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          DRY_RUN: ${{ inputs.dry_run && '--dry-run' || '' }}
+        run: |
+          if [ -z "${SUPABASE_URL:-}" ] || [ -z "${SUPABASE_SERVICE_ROLE_KEY:-}" ]; then
+            echo "::notice::NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY not set; skipping FX refresh."
+            exit 0
+          fi
+          node --experimental-strip-types scripts/ops/fx/refresh_fx.mjs $DRY_RUN
