@@ -315,6 +315,9 @@ pub struct Engine<L: Ladder> {
     /// wall clock in microseconds: now() of the current transaction
     pub now: i64,
     fills: Vec<Fill>,
+    // [087] per-walk scratch, reused across orders (no allocation on the hot path)
+    walk_unbacked: Vec<(usize, OrderId)>,
+    walk_taken: Vec<(usize, i128, i128)>,
     pub cov: Coverage,
 }
 
@@ -352,6 +355,8 @@ impl<L: Ladder> Engine<L> {
             expiry: BinaryHeap::with_capacity(order_capacity.min(1 << 20)),
             now: 0,
             fills: Vec::with_capacity(4096),
+            walk_unbacked: Vec::with_capacity(64),
+            walk_taken: Vec::with_capacity(64),
             cov: Coverage::default(),
         }
     }
@@ -499,7 +504,10 @@ impl<L: Ladder> Engine<L> {
                 if p.lt(N0_1) || p.gt(N99_9) {
                     return Err(EngineError::PriceOutOfRange);
                 }
-                let l = p.div(tick).round(0).mul(tick).round(1);
+                // [099] onto the lattice without crossing the limit: buys down, sells up
+                let q = p.div(tick);
+                let q = if r.action == Action::Buy { q.floor() } else { q.ceil() };
+                let l = q.mul(tick).round(1);
                 let l = l.typmod(4, 1).map_err(|_| EngineError::NumericOverflow)?;
                 N99_9.least(N0_1.greatest(l)).round(1)
             }
@@ -561,15 +569,17 @@ impl<L: Ladder> Engine<L> {
         self.fills.clear();
         // [087] unbacked makers met in the walk: (index into fills at the time, order id);
         // cancelled in phase 3, interleaved with the fills in walk order
-        let mut unbacked: Vec<(usize, OrderId)> = Vec::new();
+        self.walk_unbacked.clear();
         // [087] what earlier steps of this walk took from a maker position
         // (index, shares taken, reserved taken), as the SQL sees it mid-walk
-        let mut taken: Vec<(usize, i128, i128)> = Vec::new();
+        self.walk_taken.clear();
         {
             let orders = &self.orders;
             let positions = &self.positions;
             let nbooks = self.books.len();
             let fills = &mut self.fills;
+            let unbacked = &mut self.walk_unbacked;
+            let taken = &mut self.walk_taken;
             let cov = &mut self.cov;
             self.ladder.walk(r.book, side, yes_lim, |oid| {
                 if remaining <= 0 {
@@ -718,8 +728,9 @@ impl<L: Ladder> Engine<L> {
         let comp = r.outcome.comp();
         let mut ub = 0usize;
         for i in 0..self.fills.len() {
-            while ub < unbacked.len() && unbacked[ub].0 == i {
-                self.cancel_unbacked(unbacked[ub].1);
+            while ub < self.walk_unbacked.len() && self.walk_unbacked[ub].0 == i {
+                let id = self.walk_unbacked[ub].1;
+                self.cancel_unbacked(id);
                 ub += 1;
             }
             let f = self.fills[i];
@@ -778,8 +789,9 @@ impl<L: Ladder> Engine<L> {
             }
         }
 
-        while ub < unbacked.len() {
-            self.cancel_unbacked(unbacked[ub].1);
+        while ub < self.walk_unbacked.len() {
+            let id = self.walk_unbacked[ub].1;
+            self.cancel_unbacked(id);
             ub += 1;
         }
 

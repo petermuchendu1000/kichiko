@@ -135,3 +135,25 @@ describe('POST /api/payments/withdraw', () => {
     expect(res.status).toBe(409)
   })
 })
+
+// db-core audit #28/#30 (migration 099): the engine puts a limit price on the
+// tick lattice without crossing the limit; the route must not pre-round it to
+// the NEAREST 0.1c (45.67 -> 45.7 is above a buyer's limit). An order that has
+// already expired is refused.
+describe('POST /api/orders: the limit and the expiry are the user\'s', () => {
+  it('passes the limit price through unrounded', async () => {
+    await ordersPOST(req('https://x/api/orders', { ...ORDER, price_cents: 45.67 }))
+    const call = adminRpc.mock.calls.find((c) => c[0] === 'place_order_for')
+    expect(call?.[1]).toMatchObject({ p_price_cents: 45.67 })
+  })
+  it('refuses an expires_at in the past (400) without calling the engine', async () => {
+    const res = await ordersPOST(req('https://x/api/orders', { ...ORDER, expires_at: new Date(Date.now() - 60_000).toISOString() }))
+    expect(res.status).toBe(400)
+    expect(adminRpc.mock.calls.find((c) => c[0] === 'place_order_for')).toBeUndefined()
+  })
+  it('maps the engine\'s P0196 to 400', async () => {
+    adminRpc.mockImplementation(async () => ({ data: null, error: { code: 'P0196', message: 'expired' } }))
+    const res = await ordersPOST(req('https://x/api/orders', { ...ORDER, expires_at: new Date(Date.now() + 60_000).toISOString() }))
+    expect(res.status).toBe(400)
+  })
+})

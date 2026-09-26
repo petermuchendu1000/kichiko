@@ -114,6 +114,8 @@ echo; echo "===== +1 test_delivery_lease.py (notification delivery lease, migrat
 python3 "$REPO_ROOT/scripts/ops/notifications/test_delivery_lease.py" || { echo "::error::notification delivery lease test FAILED"; FAILED=1; }
 echo; echo "===== +1 test_leaderboard_pnl.py (trader P&L / win rate from realized P&L, migration 092) ====="
 python3 "$CLOB_DIR/test_leaderboard_pnl.py" || { echo "::error::leaderboard P&L test FAILED"; FAILED=1; }
+echo; echo "===== +1 test_limit_honoured.py (limit never crossed by tick rounding; expired orders refused, migration 099) ====="
+python3 "$CLOB_DIR/test_limit_honoured.py" || { echo "::error::limit honoured test FAILED"; FAILED=1; }
 echo; echo "===== +1 test_gateway_key_private.py (gateway-secret key not callable by clients, migration 098) ====="
 python3 "$REPO_ROOT/scripts/ops/test_gateway_key_private.py" || { echo "::error::gateway key privacy test FAILED"; FAILED=1; }
 echo; echo "===== +1 test_settlement_lock_order.py (first order does not lock its profile early, migration 095; commits) ====="
