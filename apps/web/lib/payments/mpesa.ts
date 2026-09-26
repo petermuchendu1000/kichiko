@@ -167,7 +167,10 @@ export async function initiateMpesaSTKPush({
   const timestamp = getTimestamp()
   const password = generatePassword(cfg, timestamp)
   const formattedPhone = formatMpesaPhone(phone)
-  const roundedAmount = Math.ceil(amount) // M-Pesa requires integer
+  // M-Pesa moves whole shillings; the routes refuse other amounts (audit 6.34).
+  // Charging Math.ceil(amount) while crediting `amount` overcharged the user.
+  if (!Number.isInteger(amount)) throw new Error('M-Pesa amounts must be whole shillings')
+  const roundedAmount = amount
 
   const payload = {
     BusinessShortCode: cfg.shortcode,

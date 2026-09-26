@@ -21,7 +21,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient, createAdminClient } from '@/lib/supabase/server'
 import { z } from 'zod'
 import { claimPayout, dispatchPayout } from '@/lib/payments/payouts'
-import { checkWithdrawalProviderCurrency } from '@/lib/payments/provider-currency'
+import { checkWithdrawalProviderCurrency, checkProviderAmount, checkProviderDestination } from '@/lib/payments/provider-currency'
 import { platformGate, booleanSetting, numberSetting } from '@/lib/platform-gate'
 import {
   computeWithdrawalFee,
@@ -80,6 +80,14 @@ export async function POST(req: NextRequest) {
     const provCheck = checkWithdrawalProviderCurrency(prov, cur)
     if (!provCheck.ok) {
       return NextResponse.json({ error: provCheck.error }, { status: 400 })
+    }
+    const amountCheck = checkProviderAmount(prov, amount)
+    if (!amountCheck.ok) {
+      return NextResponse.json({ error: amountCheck.error }, { status: 400 })
+    }
+    const destCheck = checkProviderDestination(prov, phone_number)
+    if (!destCheck.ok) {
+      return NextResponse.json({ error: destCheck.error }, { status: 400 })
     }
 
     // Account-status gate (self-scoped read).
@@ -175,7 +183,7 @@ export async function POST(req: NextRequest) {
     if (requiresReview) {
       await admin.from('notifications').insert({
         user_id: user.id,
-        type: 'withdrawal_completed',
+        type: 'withdrawal_under_review',   // [093] not 'withdrawal_completed' (audit 6.34)
         title: 'Withdrawal Under Review',
         body: `Your withdrawal of ${amount.toLocaleString()} ${currency} is under review. Funds will arrive within 24 hours.`,
         data: { withdrawal_id: withdrawalId },

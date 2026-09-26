@@ -87,6 +87,7 @@ export type NotificationType =
   | 'bet_lost'
   | 'deposit_completed'
   | 'withdrawal_completed'
+  | 'withdrawal_under_review'
   | 'withdrawal_failed'
   | 'price_alert'
   | 'market_closing_soon'
