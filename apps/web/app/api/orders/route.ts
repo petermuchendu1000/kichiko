@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { createClient, createAdminClient } from '@/lib/supabase/server'
 import { readFlagFromEnv } from '@/lib/flags'
-import { clobOrderSchema, clobErrorFor, clampPriceCents } from '@/lib/clob'
+import { clobOrderSchema, clobErrorFor } from '@/lib/clob'
 
 /**
  * Order placement: ONE database round trip (migration 090, finding L1).
@@ -57,7 +57,9 @@ export async function POST(req: NextRequest) {
       p_outcome_side: o.outcome_side,
       p_action: o.action,
       p_order_type: o.order_type,
-      p_price_cents: o.order_type === 'limit' ? clampPriceCents(o.price_cents!) : null,
+      // the engine puts it on the market's tick lattice without crossing the limit
+      // (099); rounding it here to the nearest 0.1c could (45.67 -> 45.7 for a buy)
+      p_price_cents: o.order_type === 'limit' ? o.price_cents! : null,
       p_size: o.size ?? null,
       p_amount_local: o.order_type === 'market' && o.size == null ? o.amount_local ?? null : null,
       p_currency: o.currency ?? null,

@@ -151,6 +151,11 @@ impl Num {
         Num { m: self.m.div_euclid(d), s: 0 }
     }
 
+    /// CEIL(x): dscale 0.
+    pub fn ceil(self) -> Num {
+        self.neg().floor().neg()
+    }
+
     /// Assignment / cast to numeric(prec, scale): round half away from zero to
     /// `scale`, then "numeric field overflow" if |x| >= 10^(prec-scale).
     #[inline(always)]
