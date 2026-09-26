@@ -118,6 +118,8 @@ echo; echo "===== +1 test_limit_honoured.py (limit never crossed by tick roundin
 python3 "$CLOB_DIR/test_limit_honoured.py" || { echo "::error::limit honoured test FAILED"; FAILED=1; }
 echo; echo "===== +1 test_gateway_key_private.py (gateway-secret key not callable by clients, migration 098) ====="
 python3 "$REPO_ROOT/scripts/ops/test_gateway_key_private.py" || { echo "::error::gateway key privacy test FAILED"; FAILED=1; }
+echo; echo "===== +1 test_gateway_reencrypt.py (move gateway secrets to a configured key, migration 100) ====="
+python3 "$REPO_ROOT/scripts/ops/test_gateway_reencrypt.py" || { echo "::error::gateway re-encryption test FAILED"; FAILED=1; }
 echo; echo "===== +1 test_settlement_lock_order.py (first order does not lock its profile early, migration 095; commits) ====="
 python3 "$CLOB_DIR/test_settlement_lock_order.py" || { echo "::error::settlement lock order test FAILED"; FAILED=1; }
 echo; echo "===== +1 test_remark_skip_locked.py (position re-mark never waits on a trade, migration 096; commits) ====="
