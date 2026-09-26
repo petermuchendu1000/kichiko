@@ -249,6 +249,8 @@ The two code-audit reports contain step-by-step detail for open critical issues 
 | E8 | Low | `clob_place_order` surfaced raw SQLSTATEs: limit price > 999.9 overflowed `numeric(4,1)` before the clamp (22003), prices in (99.9, 999.9] or < 0.1 were silently clamped, sizes < 0.0000005 hit the size CHECK (23514), and >6-decimal sizes were compared raw against holdings (P0113) | V (reproduced, `test_order_inputs.py`) | fixed 074 (P0106, size normalised) |
 | L1 | High (latency) | 5–7 sequential round trips per order from Johannesburg to Ireland (≈1 s) | V (code + RTT data) | open: phase 1 |
 | O1 | High (ops) | Exchange-rate cron not running; KES rate last fetched 2026-07-28 and used for settlement | V (read-only) | open: phase 1 |
+| F1 | High | `upsert_exchange_rates` accepted any positive rate: one bad datapoint (KES at 5/USD) or a single-source 8% jump replaced the rate used for escrow, deposits, withdrawals and settlement; no value date, no record of provider quotes | V (reproduced, `test_fx_gates.py`) | fixed 075 (bands, move and consensus gates, `fx_observations`) |
+| F2 | Medium | `exchange_rates.rate` is USD per unit at 8 decimals: UGX loses 1.9e-5 relative precision (BIF 7.4e-6, TZS 5.5e-6) in every conversion. 075 stores the exact published quote in `units_per_usd`; money paths still convert with `rate` | V (computed; seen in `test_fx_gates.py` fixtures) | open |
 | O2 | Low (DR) | `public.schema_migrations` is referenced (032) but created by no migration; a fresh rebuild fails | V | open |
 | A-P3 | Critical | PesaPal IPN can credit a different, unpaid deposit | A2 §6.3 | open: phase 1 |
 | A-W1 | High | Ambiguous disbursement exceptions auto-refunded, so a paid-out withdrawal can be refunded (double pay) | A2 §6.5 | open |

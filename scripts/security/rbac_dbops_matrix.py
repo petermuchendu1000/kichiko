@@ -52,11 +52,14 @@ TRIGGER_FUNCS = {'enqueue_notification_deliveries'}
 OWNER_TABLES = ['wallets', 'transactions', 'deposits', 'withdrawals', 'positions',
                 'clob_orders', 'kyc_documents', 'payout_items', 'notifications']
 LOCKED_TABLES = ['gateway_secrets', 'audit_log', 'role_permissions', 'payout_runs',
-                 'commission_plans', 'impersonation_sessions', 'admin_user_notes']
+                 'commission_plans', 'impersonation_sessions', 'admin_user_notes',
+                 'fx_observations', 'fx_bands']
 WRITE_LOCKED = {
     'wallets': "insert into wallets(user_id,currency,available_balance) values (%(me)s,'KES',999999)",
     'transactions': "insert into transactions(user_id,type,status,amount,currency) values (%(me)s,'deposit','completed',999999,'KES')",
     'exchange_rates': "update exchange_rates set rate=0.5 where from_currency='KES'",
+    'fx_bands': "update fx_bands set max_units_per_usd=1000000 where currency='KES'",
+    'fx_observations': "insert into fx_observations(batch_id,currency,units_per_usd,source,accepted,reason) values (gen_random_uuid(),'KES',5,'x',true,'x')",
     'audit_log': "insert into audit_log(actor_id,action,entity_type) values (%(me)s,'hack','x')",
     'role_permissions': "insert into role_permissions(role,capability) values ('user','users:role_grant')",
     'platform_settings': "update platform_settings set value='{}'::jsonb where true",
