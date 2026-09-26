@@ -111,6 +111,11 @@
       "kind": "volatile",
       "reason": "self-guards via authz check"
     },
+    "admin_queue_withdrawal_dispatch": {
+      "guarded": true,
+      "kind": "volatile",
+      "reason": "self-guards via has_capability('finance:withdrawals'); legacy rows only (083)"
+    },
     "admin_record_gateway_health": {
       "guarded": true,
       "kind": "volatile",

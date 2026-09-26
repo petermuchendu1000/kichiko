@@ -20,7 +20,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient, createAdminClient } from '@/lib/supabase/server'
 import { z } from 'zod'
-import { processWithdrawal } from '@/lib/payments'
+import { claimPayout, dispatchPayout } from '@/lib/payments/payouts'
 import { checkWithdrawalProviderCurrency } from '@/lib/payments/provider-currency'
 import { isFeatureEnabled } from '@/lib/flags'
 import { getNumberSetting } from '@/lib/admin/settings'
@@ -31,12 +31,11 @@ import {
   minWithdrawal,
   withdrawalAmountUsd,
   requestWithdrawal,
-  failWithdrawal,
   requiresKycVerification,
   REVIEW_THRESHOLD_USD,
   INSUFFICIENT_BALANCE_CODE,
 } from '@/lib/payments/withdraw'
-import type { CurrencyCode, Json, PaymentProvider } from '@/types'
+import type { CurrencyCode, PaymentProvider } from '@/types'
 import { getSettlement, resolveMoneyCurrency } from '@/lib/settlement'
 
 const WithdrawSchema = z.object({
@@ -187,39 +186,34 @@ export async function POST(req: NextRequest) {
       })
     }
 
-    // Initiate the disbursement. The net amount (after fee) is what leaves.
+    // Send it now. The payout is claimed first (migration 083): if the payout
+    // worker already claimed it, this request does not send it again.
     try {
-      const result = await processWithdrawal(prov, {
-        amount: netAmount,
-        currency: cur,
-        phone: phone_number,
-        reference: withdrawalId,
-      })
+      const claimed = await claimPayout(admin, withdrawalId)
+      if (!claimed) {
+        return NextResponse.json({
+          success: true,
+          withdrawal_id: withdrawalId,
+          status: 'processing',
+          message: `Your withdrawal of ${netAmount.toLocaleString()} ${currency} is being processed. You'll be notified once it completes.`,
+          fee: feeAmount,
+          net_amount: netAmount,
+        })
+      }
+      const sent = await dispatchPayout(admin, claimed)
 
-      if (result.outcome === 'rejected') {
-        // Refused by the provider, or never sent: no money left, refund the reserve.
-        await failWithdrawal(admin, withdrawalId, result.message || 'Disbursement rejected', result.raw)
+      if (sent.outcome === 'rejected') {
+        // Refused by the provider, or never sent: record_withdrawal_dispatch refunded the reserve.
         return NextResponse.json(
-          { error: result.message || 'Withdrawal could not be processed. You have not been charged.' },
+          { error: sent.message || 'Withdrawal could not be processed. You have not been charged.' },
           { status: 502 },
         )
       }
 
       // accepted, or unknown (timeout, unreadable reply, provider 5xx): money
       // may have left, so the withdrawal stays 'processing' with its reserve
-      // held until the provider's result callback or a status query settles
+      // held until the provider's result callback or the status sweep settles
       // it. Refunding an unknown outcome is what paid users twice (audit 6.5).
-      // Store whatever correlates the later result with this withdrawal.
-      const update: { provider_reference?: string; raw_response?: Json } = {}
-      if (result.reference) update.provider_reference = result.reference
-      if (result.outcome === 'unknown') {
-        update.raw_response = { initiation: { outcome: 'unknown', message: result.message ?? null, at: new Date().toISOString() } }
-        console.error('Withdrawal disbursement outcome unknown (left in processing):', withdrawalId, result.message)
-      }
-      if (Object.keys(update).length) {
-        await admin.from('withdrawals').update(update).eq('id', withdrawalId)
-      }
-
       return NextResponse.json({
         success: true,
         withdrawal_id: withdrawalId,
@@ -227,14 +221,14 @@ export async function POST(req: NextRequest) {
         message: `Processing ${netAmount.toLocaleString()} ${currency} to ${phone_number}. You'll be notified once it completes.`,
         fee: feeAmount,
         net_amount: netAmount,
-        provider_reference: result.reference ?? null,
+        provider_reference: sent.reference ?? null,
       })
     } catch (e) {
-      // H3: processWithdrawal does not throw, so this is an unexpected error
-      // around it. The provider may still have paid out, so never refund here:
-      // leave the withdrawal 'processing' for the result callback or a status
-      // query. Only an explicit refusal (outcome 'rejected', above) refunds.
-      console.error('Withdrawal disbursement error (leaving in processing for reconciliation):', e)
+      // An unexpected error around the send. The provider may still have paid
+      // out, so never refund here: the row is 'queued' (never sent; the worker
+      // sends it) or 'dispatching' (the sweep marks it unknown and settles it
+      // by status). Only an explicit refusal refunds.
+      console.error('Withdrawal dispatch error (left for the payout worker / status sweep):', e)
       return NextResponse.json({
         success: true,
         withdrawal_id: withdrawalId,

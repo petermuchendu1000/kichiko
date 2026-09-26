@@ -16,6 +16,7 @@ Kichiko runs four background workers. Each is a **Next.js route handler** under
 | resolve-market | `POST\|GET /api/cron/resolve-market` | `*/15 * * * *` | Flags `closed` markets past `resolves_at`, notifies the resolver/admin cohort. **Never pays out.** |
 | update-exchange-rates | `POST\|GET /api/cron/update-exchange-rates` | `0 */6 * * *` | Fetches live USD-base FX, inverts to local→USD, upserts `exchange_rates`. |
 | send-notifications | `POST\|GET /api/cron/send-notifications` | `* * * * *` | Drains the notification delivery outbox (Module 9). |
+| payouts | `POST\|GET /api/cron/payouts` | `* * * * *` | Sends queued payouts (approved after review, retried, or not sent by the request) after an atomic claim, then asks the provider about sent/unknown payouts (MTN, Airtel; backoff to 6 h) and settles only on an authoritative answer. A payout whose outcome is unknown is never re-sent. Migration 083. |
 
 All endpoints accept an optional `?limit=` (default 500, capped 2000 for the
 market jobs; 50/500 for notifications) and both `GET` and `POST` (some schedulers
