@@ -30,7 +30,8 @@ export async function GET(req: NextRequest) {
   })
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    console.error('search failed:', error)
+    return NextResponse.json({ error: 'Search failed' }, { status: 500 })
   }
 
   const payload = (data ?? {}) as {

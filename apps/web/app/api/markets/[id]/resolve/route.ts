@@ -28,7 +28,7 @@ export async function POST(
     if (!guard.ok) return guard.response
     const { user } = guard.ctx
 
-    const body = await req.json()
+    const body = await req.json().catch(() => null)
     const parsed = resolveSchema.safeParse(body)
 
     if (!parsed.success) {
@@ -76,7 +76,8 @@ export async function POST(
 
     if (resolveError) {
       console.error('Market resolution error:', resolveError)
-      return NextResponse.json({ error: 'Failed to resolve market', details: resolveError.message }, { status: 500 })
+      console.error('resolve market failed:', resolveError)
+      return NextResponse.json({ error: 'Failed to resolve market' }, { status: 500 })
     }
 
     // Audit log

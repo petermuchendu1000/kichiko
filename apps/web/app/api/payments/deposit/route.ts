@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
     const gate = await platformGate('deposits')
     if (!gate.ok) return NextResponse.json({ error: gate.error, code: gate.code }, { status: gate.status })
 
-    const body = await req.json()
+    const body = await req.json().catch(() => null)
     const parsed = depositSchema.safeParse(body)
 
     if (!parsed.success) {
