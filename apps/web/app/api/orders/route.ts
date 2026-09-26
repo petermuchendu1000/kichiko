@@ -1,5 +1,6 @@
 // app/api/bets/route.ts - Place a bet
 import { NextRequest, NextResponse } from 'next/server'
+import type { SupabaseClient } from '@supabase/supabase-js'
 import { createClient, createAdminClient } from '@/lib/supabase/server'
 import { readFlagFromEnv } from '@/lib/flags'
 import { clobOrderSchema, clobErrorFor, clampPriceCents } from '@/lib/clob'
@@ -89,12 +90,15 @@ export async function GET(req: NextRequest) {
 
     const { searchParams } = new URL(req.url)
     const marketId = searchParams.get('market_id')
-    const page = parseInt(searchParams.get('page') || '1')
-    const perPage = parseInt(searchParams.get('per_page') || '20')
+    // audit 6.23: order-book orders (clob_orders), not the retired AMM `orders`
+    // table; paging bounded (page >= 1, 1 <= per_page <= 100)
+    const page = Math.max(1, Number.parseInt(searchParams.get('page') || '1', 10) || 1)
+    const perPage = Math.min(100, Math.max(1, Number.parseInt(searchParams.get('per_page') || '20', 10) || 20))
     const offset = (page - 1) * perPage
 
-    let query = supabase
-      .from('orders')
+    // clob_orders is not in the generated types yet: untyped client for this read (RLS: own rows)
+    let query = (supabase as unknown as SupabaseClient)
+      .from('clob_orders')
       .select('*, market:markets(id, title, slug, yes_price, no_price, status)', { count: 'exact' })
       .eq('user_id', user.id)
       .order('created_at', { ascending: false })

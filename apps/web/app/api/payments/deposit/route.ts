@@ -178,21 +178,35 @@ export async function POST(req: NextRequest) {
     }
 
     // Update deposit with provider reference
-    const updateData: Record<string, string> = {}
+    const updateData: Record<string, string | null> = {}
     if (provider === 'mpesa') {
-      updateData.checkout_request_id = paymentResult.providerReference || ''
+      updateData.checkout_request_id = paymentResult.providerReference || null
     } else if (provider === 'mtn_momo') {
-      updateData.mtn_reference_id = paymentResult.providerReference || ''
+      updateData.mtn_reference_id = paymentResult.providerReference || null
     } else if (provider === 'airtel_money') {
-      updateData.airtel_reference = paymentResult.providerReference || ''
+      updateData.airtel_reference = paymentResult.providerReference || null
     } else if (provider === 'pesapal') {
-      updateData.pesapal_order_id = paymentResult.providerReference || ''
+      updateData.pesapal_order_id = paymentResult.providerReference || null
     }
 
-    await adminClient
+    // The provider reference is how the callback and the status sweep find
+    // this deposit (audit 6.21): the update is checked and retried once; if it
+    // still fails, log what ops need to reconcile by hand.
+    let stored = await adminClient
       .from('deposits')
       .update({ status: 'processing', ...updateData })
       .eq('id', deposit.id)
+    if (stored.error) {
+      stored = await adminClient
+        .from('deposits')
+        .update({ status: 'processing', ...updateData })
+        .eq('id', deposit.id)
+    }
+    if (stored.error) {
+      console.error('Deposit provider reference NOT stored; reconcile by hand', {
+        depositId: deposit.id, provider, providerReference: paymentResult.providerReference, error: stored.error.message,
+      })
+    }
 
     return NextResponse.json({
       success: true,

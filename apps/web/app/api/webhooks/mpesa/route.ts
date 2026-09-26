@@ -85,9 +85,15 @@ export async function POST(req: NextRequest) {
     // The CheckoutRequestID we use for the authoritative query is the one we
     // stored when initiating the push (server-known) — never taken on trust
     // from the payload alone.
-    const checkoutRequestId = deposit.checkout_request_id || parsed?.checkoutRequestId
+    // ONLY the CheckoutRequestID stored when the push was initiated is used
+    // (audit 6.21): a payload id is never trusted, even when ours is missing.
+    const checkoutRequestId = deposit.checkout_request_id
     if (!checkoutRequestId) {
-      console.error('M-Pesa callback: no CheckoutRequestID to verify deposit', deposit.id)
+      console.error('M-Pesa callback: deposit has no stored CheckoutRequestID; not settled', deposit.id)
+      return NextResponse.json(ACCEPTED)
+    }
+    if (parsed?.checkoutRequestId && parsed.checkoutRequestId !== checkoutRequestId) {
+      console.error('M-Pesa callback: CheckoutRequestID does not match the deposit; not settled', deposit.id)
       return NextResponse.json(ACCEPTED)
     }
 
