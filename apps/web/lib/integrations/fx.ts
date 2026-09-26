@@ -1,11 +1,9 @@
-// lib/integrations/fx.ts — foreign-exchange rate ingestion.
+// lib/integrations/fx.ts — pure FX conversion helpers.
 //
-// Source of the `update-exchange-rates` background job. Fetches live USD-base
-// quotes from OpenExchangeRates (the `exchange_rates.source` default), inverts
-// them into the canonical local->USD form the platform stores, and merges over
-// last-known-good fallbacks so the result always covers every supported
-// currency. Pure inversion/merge logic is isolated for unit testing; the
-// network call is a thin, defensively-typed wrapper that never throws.
+// Inversion (units per USD -> USD per unit), fallback merging and upsert-row
+// shaping. Live rates are fetched by lib/integrations/fx-sources.ts (official
+// central-bank sources + an independent aggregator) and validated in the
+// database by upsert_fx_observations (migrations 075/076).
 
 import type { CurrencyCode } from '@/types'
 import { SUPPORTED_CURRENCIES, FALLBACK_USD_RATES } from '@/lib/currency'
@@ -32,12 +30,6 @@ export interface FxFetchResult {
   /** Provider identifier recorded on each upserted row. */
   source: string
 }
-
-const OER_LATEST_URL = 'https://openexchangerates.org/api/latest.json'
-// Free, no-API-key, reputable provider (ExchangeRate-API "open" endpoint).
-// Overridable per-environment via FX_PROVIDER_URL (no code change needed).
-const ERAPI_LATEST_URL = process.env.FX_PROVIDER_URL || 'https://open.er-api.com/v6/latest/USD'
-const DEFAULT_TIMEOUT_MS = 8000
 
 /**
  * Invert USD-base quotes (units per USD) into local->USD rates (USD per unit),
@@ -97,119 +89,4 @@ export function toUpsertRows(
     from_currency: c,
     rate: rates[c],
   }))
-}
-
-async function fetchJson(url: string, timeoutMs: number): Promise<unknown> {
-  const controller = new AbortController()
-  const timer = setTimeout(() => controller.abort(), timeoutMs)
-  try {
-    const res = await fetch(url, { signal: controller.signal, cache: 'no-store' })
-    if (!res.ok) throw new Error(`FX provider HTTP ${res.status}`)
-    return await res.json()
-  } finally {
-    clearTimeout(timer)
-  }
-}
-
-/** Fetch USD-base quotes from the free, no-key ExchangeRate-API open endpoint. */
-async function fetchErApiUsdBase(timeoutMs: number): Promise<UsdBaseRates | null> {
-  const json = (await fetchJson(ERAPI_LATEST_URL, timeoutMs)) as {
-    result?: string
-    rates?: Record<string, number>
-  }
-  if (json?.result !== 'success' || !json?.rates) return null
-  return json.rates
-}
-
-/** Fetch USD-base quotes from OpenExchangeRates (requires an app id). */
-async function fetchOerUsdBase(appId: string, timeoutMs: number): Promise<UsdBaseRates | null> {
-  const url = `${OER_LATEST_URL}?app_id=${encodeURIComponent(appId)}&base=USD`
-  const json = (await fetchJson(url, timeoutMs)) as { rates?: Record<string, number> }
-  return json?.rates ?? null
-}
-
-/**
- * Fetch live local->USD rates. DEFAULT provider is the free, no-key
- * ExchangeRate-API so live FX works out of the box (no secret required). If an
- * OpenExchangeRates app id is configured it is preferred (higher plan / SLA),
- * with ExchangeRate-API as an automatic fallback. Never throws: on total
- * provider failure it returns the last-known-good fallback map with `live: []`
- * so the cron can skip the upsert and keep good rows intact.
- *
- * Pegged currencies (KES) are always excluded from `live` so the settlement peg
- * is never overwritten by a market quote.
- */
-export async function fetchUsdRates(
-  opts?: { appId?: string; timeoutMs?: number },
-): Promise<FxFetchResult> {
-  const appId = opts?.appId ?? process.env.OPENEXCHANGERATES_APP_ID
-  const timeoutMs = opts?.timeoutMs ?? DEFAULT_TIMEOUT_MS
-
-  let usdBase: UsdBaseRates | null = null
-  let source = 'fallback'
-
-  // 1) Preferred: OpenExchangeRates when a key is present.
-  if (appId) {
-    try {
-      usdBase = await fetchOerUsdBase(appId, timeoutMs)
-      if (usdBase) source = 'openexchangerates'
-    } catch {
-      usdBase = null
-    }
-  }
-  // 2) Default / fallback: free ExchangeRate-API (no key needed).
-  if (!usdBase) {
-    try {
-      usdBase = await fetchErApiUsdBase(timeoutMs)
-      if (usdBase) source = 'exchangerate-api'
-    } catch {
-      usdBase = null
-    }
-  }
-
-  if (!usdBase) {
-    const merged = mergeWithFallback({})
-    return { rates: merged.rates, live: merged.live, source: 'fallback' }
-  }
-
-  const inverted = invertUsdRates(usdBase)
-  const merged = mergeWithFallback(inverted)
-  // No currency is pegged: every live quote (KES included) is eligible to upsert.
-  const live = merged.live.filter((c) => !PEGGED_CURRENCIES.includes(c))
-  return {
-    rates: merged.rates,
-    live,
-    source: live.length > 0 ? source : 'fallback',
-  }
-}
-
-/**
- * Live USD->KES *market* reference (how many KES per 1 USD), from the free
- * ExchangeRate-API. Convenience mirror of the KES row for surfaces that want a
- * human "1 USD = X KES" figure (e.g. platform_settings.fx.usd_kes_reference);
- * the authoritative conversion rate is the KES row in `exchange_rates`. Returns
- * null on any provider error so callers can fall back gracefully.
- */
-export async function fetchUsdKesReference(
-  opts?: { timeoutMs?: number },
-): Promise<{ usdToKes: number; source: string; asOf: string } | null> {
-  const timeoutMs = opts?.timeoutMs ?? DEFAULT_TIMEOUT_MS
-  try {
-    const json = (await fetchJson(ERAPI_LATEST_URL, timeoutMs)) as {
-      result?: string
-      rates?: Record<string, number>
-      time_last_update_utc?: string
-    }
-    const kes = json?.rates?.KES
-    if (json?.result !== 'success' || typeof kes !== 'number' || !Number.isFinite(kes) || kes <= 0) {
-      return null
-    }
-    return {
-      usdToKes: kes,
-      source: 'exchangerate-api',
-      asOf: json.time_last_update_utc ?? new Date().toISOString(),
-    }
-  } catch {
-    return null
-  }
 }

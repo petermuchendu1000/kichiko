@@ -1,16 +1,17 @@
 // app/api/cron/update-exchange-rates/route.ts — refresh local->USD FX rates.
 //
-// Scheduled every ~6h. Fetches live USD-base quotes from OpenExchangeRates,
-// inverts them to the canonical local->USD form, and upserts via the
-// service-role-only upsert_exchange_rates RPC. Fails safe: if the provider is
-// unreachable or no key is configured we DO NOT clobber good rows with stale
-// fallbacks — the run is recorded 'partial' and the DB keeps its last-known-good
-// values (the anon-readable rates the UI relies on stay intact).
+// Fetches quotes from the official central-bank sources and an independent
+// aggregator (lib/integrations/fx-sources.ts), then sends EVERY observation to
+// the service-role-only upsert_fx_observations RPC. The database decides what
+// is accepted (migrations 075/076: sanity bands, move and consensus gates,
+// official quotes preferred) and records every quote in fx_observations. A
+// held or rejected quote keeps the last good rate. Fails safe: with no
+// observations at all nothing is written and the run is recorded 'partial'.
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/server'
 import { isAuthorizedCron } from '@/lib/cron-auth'
 import { withJobRun } from '@/lib/jobs/runner'
-import { fetchUsdRates, toUpsertRows, fetchUsdKesReference } from '@/lib/integrations/fx'
+import { fetchFxObservations } from '@/lib/integrations/fx-sources'
 import { logger } from '@/lib/observability/logger'
 import { resolveRequestId } from '@/lib/observability/request-id'
 
@@ -31,43 +32,31 @@ async function handle(req: NextRequest) {
 
   try {
     const outcome = await withJobRun(sb, JOB_NAME, requestId, async () => {
-      const fx = await fetchUsdRates()
+      const results = await fetchFxObservations()
+      const observations = results.flatMap((r) => r.observations)
+      const sourceErrors = Object.fromEntries(results.filter((r) => r.error).map((r) => [r.source, r.error]))
 
-      // Record the live USD/KES *market* reference as a human-readable mirror.
-      // The authoritative KES conversion rate is the KES row in exchange_rates,
-      // which fetchUsdRates now refreshes live like every other currency.
-      const ref = await fetchUsdKesReference()
-      if (ref) {
-        await sb
-          .from('platform_settings')
-          .upsert(
-            {
-              key: 'fx.usd_kes_reference',
-              value: { usd_to_kes: ref.usdToKes, source: ref.source, as_of: ref.asOf },
-              is_public: true,
-            } as never,
-            { onConflict: 'key' } as never,
-          )
-      }
-
-      // No live rates -> skip the upsert entirely (don't overwrite good data).
-      if (fx.live.length === 0) {
+      if (observations.length === 0) {
         return {
           status: 'partial' as const,
-          result: { upserted: 0, skipped: 0, live: 0, source: fx.source, note: 'no live rates; upsert skipped' },
+          result: { accepted: 0, held: 0, rejected: 0, observations: 0, source_errors: sourceErrors, note: 'no observations; nothing written' },
         }
       }
 
-      const rows = toUpsertRows(fx.rates).filter((r) => fx.live.includes(r.from_currency))
-      const { data, error } = await sb.rpc('upsert_exchange_rates' as never, {
-        p_rates: rows,
-        p_source: fx.source,
-      } as never)
-      if (error) throw new Error(error.message)
-      const r = (data as { upserted?: number; skipped?: number } | null) ?? {}
+      const { data, error } = await sb.rpc('upsert_fx_observations' as never, { p_obs: observations } as never)
+      if (error) throw new Error((error as { message?: string }).message ?? 'upsert_fx_observations failed')
+      const r = (data as { accepted?: number; held?: number; rejected?: number; currencies?: unknown } | null) ?? {}
+      const held = (r.held ?? 0) + (r.rejected ?? 0)
       return {
-        status: 'success' as const,
-        result: { upserted: r.upserted ?? 0, skipped: r.skipped ?? 0, live: fx.live.length, source: fx.source },
+        status: (held > 0 || Object.keys(sourceErrors).length > 0 ? 'partial' : 'success') as 'partial' | 'success',
+        result: {
+          accepted: r.accepted ?? 0,
+          held: r.held ?? 0,
+          rejected: r.rejected ?? 0,
+          observations: observations.length,
+          source_errors: sourceErrors,
+          currencies: r.currencies ?? {},
+        },
       }
     })
     log.info('update-exchange-rates complete', { ...outcome.result })

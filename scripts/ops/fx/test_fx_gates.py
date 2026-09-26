@@ -20,6 +20,9 @@ After 075 every write goes through `upsert_fx_observations(p_obs jsonb)`
   G9 every observation is recorded in fx_observations with its outcome
   G10 rate_date (the publisher's value date) is stored on the rate
   G11 USD, unknown codes and non-positive quotes are skipped
+  G12 (076) when official quotes agree with the rest, the stored rate is the
+      median of the OFFICIAL quotes, not of all quotes
+  G13 (076) official and aggregator disagreeing by > 2% is still held
 
 Usage: SEED_DB_URL="postgresql://...:5432/postgres" python3 test_fx_gates.py
 """
@@ -101,6 +104,16 @@ try:
           f"total={tot} accepted={acc} large_move={big} disagree={dis} out_of_band={oob} err={err}")
     r, err = call("select rate_date::text from exchange_rates where from_currency='ZMW'", ())
     check("G10 rate_date stored", r == '2026-09-25', f"rate_date={r} err={err}")
+
+    print("Official quotes preferred (076):")
+    set_units('KES', 129.40)
+    r, err = obs([{"currency": "KES", "units_per_usd": 129.52, "rate_date": "2026-09-25", "source": "cbk", "official": True},
+                  {"currency": "KES", "units_per_usd": 129.58, "rate_date": "2026-09-26", "source": "fawazahmed0", "official": False}])
+    check("G12 official CBK rate stored, not the midpoint", units('KES') == Decimal('129.52'), f"stored={units('KES')} err={err}")
+    k0 = units('KES')
+    r, err = obs([{"currency": "KES", "units_per_usd": 129.60, "rate_date": "2026-09-26", "source": "cbk", "official": True},
+                  {"currency": "KES", "units_per_usd": 133.50, "rate_date": "2026-09-26", "source": "fawazahmed0", "official": False}])
+    check("G13 official vs aggregator 3% apart held", units('KES') == k0, f"stored={units('KES')} before={k0} err={err}")
 
     print("Skips:")
     r, err = obs([{"currency": "USD", "units_per_usd": 1, "rate_date": "2026-09-25", "source": "x"},

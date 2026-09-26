@@ -1,0 +1,30 @@
+[
+ {
+  "currency_name": "USD",
+  "buying_rate": "1458.065",
+  "average_rate": "1463.065",
+  "selling_rate": "1468.065",
+  "post_date": "19-May-26"
+ },
+ {
+  "currency_name": "USD",
+  "buying_rate": "1458.255",
+  "average_rate": "1463.255",
+  "selling_rate": "1468.255",
+  "post_date": "21-May-26"
+ },
+ {
+  "currency_name": "USD",
+  "buying_rate": "1458.3525",
+  "average_rate": "1463.3525",
+  "selling_rate": "1468.3525",
+  "post_date": "22-May-26"
+ },
+ {
+  "currency_name": "USD",
+  "buying_rate": "1458.1625",
+  "average_rate": "1463.1625",
+  "selling_rate": "1468.1625",
+  "post_date": "20-May-26"
+ }
+]

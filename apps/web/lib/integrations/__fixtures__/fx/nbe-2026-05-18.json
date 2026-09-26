@@ -1,0 +1,254 @@
+{
+ "success": true,
+ "message": "OK",
+ "status": 200,
+ "data": [
+  {
+   "id": "01krwrntc5qsfps1a0fkff8yfr",
+   "currency_id": "01hccadrapzdjbbxb2pgdgfkbp",
+   "buying": "0.9915",
+   "selling": "1.0014",
+   "date": "2026-05-18",
+   "weighted_average": "0.9965",
+   "currency": {
+    "id": "01hccadrapzdjbbxb2pgdgfkbp",
+    "name": "JAPANESE YEN",
+    "code": "JPY"
+   }
+  },
+  {
+   "id": "01krwrntegw1mj4nmmwqgzcm7t",
+   "currency_id": "01hccadraxrgm2gyc039fnt6dd",
+   "buying": "513.1418",
+   "selling": "518.2732",
+   "date": "2026-05-18",
+   "weighted_average": "515.7075",
+   "currency": {
+    "id": "01hccadraxrgm2gyc039fnt6dd",
+    "name": "KUWAITI DINAR",
+    "code": "KWD"
+   }
+  },
+  {
+   "id": "01krwrnte7hzk36d4zff687fak",
+   "currency_id": "01hccadraw6qj2h560vdnzvv07",
+   "buying": "23.0856",
+   "selling": "23.3165",
+   "date": "2026-05-18",
+   "weighted_average": "23.2011",
+   "currency": {
+    "id": "01hccadraw6qj2h560vdnzvv07",
+    "name": "CHINESE YUAN",
+    "code": "CNY"
+   }
+  },
+  {
+   "id": "01krwrntdzhbkgdfv5ckaett71",
+   "currency_id": "01hccadraw6qj2h560vdnzvv06",
+   "buying": "9.4398",
+   "selling": "9.5342",
+   "date": "2026-05-18",
+   "weighted_average": "9.487",
+   "currency": {
+    "id": "01hccadraw6qj2h560vdnzvv06",
+    "name": "SOUTH AFRICAN RAND",
+    "code": "ZAR"
+   }
+  },
+  {
+   "id": "01krwrntdqx6fmfbkm2e1t1c0g",
+   "currency_id": "01hccadravryrxerw8h7rrjeqs",
+   "buying": "215.7626",
+   "selling": "217.9202",
+   "date": "2026-05-18",
+   "weighted_average": "216.8414",
+   "currency": {
+    "id": "01hccadravryrxerw8h7rrjeqs",
+    "name": "SDR",
+    "code": "XDR"
+   }
+  },
+  {
+   "id": "01krwrntdgmkm02qykg2g98sbv",
+   "currency_id": "01hccadratqj2hq49k86vr0nyy",
+   "buying": "182.8236",
+   "selling": "184.6518",
+   "date": "2026-05-18",
+   "weighted_average": "183.7377",
+   "currency": {
+    "id": "01hccadratqj2hq49k86vr0nyy",
+    "name": "EURO",
+    "code": "EUR"
+   }
+  },
+  {
+   "id": "01krwrntd8fy2hcd89bvb4emec",
+   "currency_id": "01hccadrasnh4xq05xxqfaah9b",
+   "buying": "42.8038",
+   "selling": "43.2319",
+   "date": "2026-05-18",
+   "weighted_average": "43.0179",
+   "currency": {
+    "id": "01hccadrasnh4xq05xxqfaah9b",
+    "name": "UAE DIRHAM",
+    "code": "AED"
+   }
+  },
+  {
+   "id": "01krwrntcytwabe4ph2wxvwsw3",
+   "currency_id": "01hccadrasnh4xq05xxqfaah9a",
+   "buying": "41.897",
+   "selling": "42.316",
+   "date": "2026-05-18",
+   "weighted_average": "42.1065",
+   "currency": {
+    "id": "01hccadrasnh4xq05xxqfaah9a",
+    "name": "SAUDI RIYAL",
+    "code": "SAR"
+   }
+  },
+  {
+   "id": "01krwrntcmqf7tr48emrymqp5x",
+   "currency_id": "01hccadrarzxbt9gfyk2cxb5vn",
+   "buying": "112.4802",
+   "selling": "113.605",
+   "date": "2026-05-18",
+   "weighted_average": "113.0426",
+   "currency": {
+    "id": "01hccadrarzxbt9gfyk2cxb5vn",
+    "name": "AUSTRALIAN DOLLAR",
+    "code": "AUD"
+   }
+  },
+  {
+   "id": "01krwrntcdwrb8hjwnrzf8dfk0",
+   "currency_id": "01hccadraq98pvxp1nsh044w6t",
+   "buying": "114.297",
+   "selling": "115.44",
+   "date": "2026-05-18",
+   "weighted_average": "114.8685",
+   "currency": {
+    "id": "01hccadraq98pvxp1nsh044w6t",
+    "name": "CANADIAN DOLLAR",
+    "code": "CAD"
+   }
+  },
+  {
+   "id": "01krwrnt9xyrdhmh7pnhkhyk9k",
+   "currency_id": "01hccadrabmb0fb757f4d09v9g",
+   "buying": "157.227",
+   "selling": "158.7993",
+   "date": "2026-05-18",
+   "weighted_average": "157.227",
+   "currency": {
+    "id": "01hccadrabmb0fb757f4d09v9g",
+    "name": "US DOLLAR",
+    "code": "USD"
+   }
+  },
+  {
+   "id": "01krwrntbym4x3g2srwswy0yad",
+   "currency_id": "01hccadranckd8vetw7ca8ef28",
+   "buying": "1.2136",
+   "selling": "1.25",
+   "date": "2026-05-18",
+   "weighted_average": "1.2318",
+   "currency": {
+    "id": "01hccadranckd8vetw7ca8ef28",
+    "name": "KENYAN SHILLING",
+    "code": "KES"
+   }
+  },
+  {
+   "id": "01krwrntbjav91752my1h0v5qf",
+   "currency_id": "01hccadramc36zh3208fscxd5h",
+   "buying": "1.6382",
+   "selling": "1.6546",
+   "date": "2026-05-18",
+   "weighted_average": "1.6464",
+   "currency": {
+    "id": "01hccadramc36zh3208fscxd5h",
+    "name": "INDIAN RUPEE",
+    "code": "INR"
+   }
+  },
+  {
+   "id": "01krwrntb9c81w28qbh4cy976e",
+   "currency_id": "01hccadrak2aacqe0k4b7dvfqp",
+   "buying": "0.8806",
+   "selling": "0.907",
+   "date": "2026-05-18",
+   "weighted_average": "0.8938",
+   "currency": {
+    "id": "01hccadrak2aacqe0k4b7dvfqp",
+    "name": "DJIBOUTI FRANC",
+    "code": "DJF"
+   }
+  },
+  {
+   "id": "01krwrntb2zq8yxw8rqq50yzfe",
+   "currency_id": "01hccadrahmapvgqe52mex068a",
+   "buying": "24.4616",
+   "selling": "24.7062",
+   "date": "2026-05-18",
+   "weighted_average": "24.5839",
+   "currency": {
+    "id": "01hccadrahmapvgqe52mex068a",
+    "name": "DANISH KNRONER",
+    "code": "DKK"
+   }
+  },
+  {
+   "id": "01krwrntav8nng89707hvx0h2d",
+   "currency_id": "01hccadrayy2a6t7cdx0tt1czv",
+   "buying": "16.8581",
+   "selling": "17.0267",
+   "date": "2026-05-18",
+   "weighted_average": "16.9424",
+   "currency": {
+    "id": "01hccadrayy2a6t7cdx0tt1czv",
+    "name": "NORWEGIAN KRONE",
+    "code": "NOK"
+   }
+  },
+  {
+   "id": "01krwrntakxagvb628gcwg0z1b",
+   "currency_id": "01hccadragtwvf1xa9qcfadn41",
+   "buying": "16.6459",
+   "selling": "16.8123",
+   "date": "2026-05-18",
+   "weighted_average": "16.7291",
+   "currency": {
+    "id": "01hccadragtwvf1xa9qcfadn41",
+    "name": "SWIDISH KNRONER",
+    "code": "SEK"
+   }
+  },
+  {
+   "id": "01krwrntadpsgcpsrj2z1e2nda",
+   "currency_id": "01hccadraf1dnr88nrw8n2yh3d",
+   "buying": "199.8564",
+   "selling": "201.8549",
+   "date": "2026-05-18",
+   "weighted_average": "200.8557",
+   "currency": {
+    "id": "01hccadraf1dnr88nrw8n2yh3d",
+    "name": "SWISS FRANC",
+    "code": "CHF"
+   }
+  },
+  {
+   "id": "01krwrnta5htngc8b2w1ppjw7a",
+   "currency_id": "01hccadrae4tmhz5kqtkhq2rr3",
+   "buying": "209.9924",
+   "selling": "212.0923",
+   "date": "2026-05-18",
+   "weighted_average": "211.0424",
+   "currency": {
+    "id": "01hccadrae4tmhz5kqtkhq2rr3",
+    "name": "POUND STERLING",
+    "code": "GBP"
+   }
+  }
+ ]
+}
