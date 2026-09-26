@@ -138,6 +138,8 @@ describe('POST /api/webhooks/mpesa (deposit)', () => {
     // Idempotency key derived from the SERVER-KNOWN CheckoutRequestID.
     expect(credit.mock.calls[0][1]).toMatchObject({ depositId: 'dep-1', idempotencyKey: 'mpesa_ws_CO_1' })
     expect(failDep).not.toHaveBeenCalled()
+    // audit 6.33: queried with the deposit's country, so the same gateway config as the push
+    expect(q).toHaveBeenCalledWith('ws_CO_1', 'KE')
   })
 
   it('SECURITY: a forged success payload does NOT credit when the query says failed', async () => {

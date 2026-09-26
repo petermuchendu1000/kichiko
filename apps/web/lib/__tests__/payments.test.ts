@@ -2,7 +2,6 @@ import { describe, it, expect } from 'vitest'
 import { parseMpesaCallback, formatMpesaPhone } from '@/lib/payments/mpesa'
 import { parseAirtelCallback, formatAirtelPhone } from '@/lib/payments/airtel-money'
 import { parsePesaPalIpn } from '@/lib/payments/pesapal'
-import { selectBestProvider, getProvidersForCountry } from '@/lib/payments'
 
 describe('parseMpesaCallback', () => {
   it('parses a successful STK callback with metadata', () => {
@@ -103,18 +102,5 @@ describe('parsePesaPalIpn', () => {
     const r = parsePesaPalIpn({ body: { pesapal_transaction_tracking_id: 'otid-2', pesapal_merchant_reference: 'dep-2' } })
     expect(r.orderTrackingId).toBe('otid-2')
     expect(r.merchantReference).toBe('dep-2')
-  })
-})
-
-describe('provider selection', () => {
-  it('selects the canonical provider per country', () => {
-    expect(selectBestProvider('KE', 'KES')).toBe('mpesa')
-    expect(selectBestProvider('UG', 'UGX')).toBe('mtn_momo')
-    expect(selectBestProvider('ET', 'ETB')).toBe('pesapal')
-    expect(selectBestProvider('XX', 'USD')).toBe('pesapal') // fallback
-  })
-  it('lists available providers per country', () => {
-    expect(getProvidersForCountry('KE')).toContain('mpesa')
-    expect(getProvidersForCountry('ET')).toEqual(['pesapal'])
   })
 })

@@ -92,6 +92,8 @@ describe('runDepositStatusSweep', () => {
     expect(fail.mock.calls.map((c) => [c[1], c[2]])).toEqual([['m2', 'cancelled']])
     expect(mtn).toHaveBeenCalledWith('ref-1', 'UGX')
     expect(airtel).toHaveBeenCalledWith('air-1', 'KE')
+    // audit 6.33: the STK query uses the deposit's country (its gateway config), like the push
+    expect(stk).toHaveBeenCalledWith('ws_ok', 'KE')
     expect(notes).toHaveLength(10)
   })
 })

@@ -15,6 +15,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { CurrencyCode, PaymentProvider } from '@/types'
 import { queryMpesaSTKStatus } from '@/lib/payments/mpesa'
+import { mpesaCountryForCurrency } from '@/lib/payments/provider-currency'
 import { getMoMoPaymentStatus } from '@/lib/payments/mtn-momo'
 import { airtelTransactionStatus, airtelCountryForCurrency } from '@/lib/payments/airtel-money'
 import { getPesaPalStatus } from '@/lib/payments/pesapal'
@@ -75,7 +76,7 @@ export async function queryDepositStatus(d: DueDeposit): Promise<DepositVerdict>
     switch (d.provider) {
       case 'mpesa': {
         if (!d.checkout_request_id) return { kind: 'no_reference' }
-        const q = await queryMpesaSTKStatus(d.checkout_request_id)
+        const q = await queryMpesaSTKStatus(d.checkout_request_id, mpesaCountryForCurrency(d.currency) ?? undefined)   // audit 6.33
         const c = classifyStkResult(q.ResultCode)
         if (c === 'paid') return { kind: 'credit', receipt: null, idempotencyKey: `mpesa_${d.checkout_request_id}`, raw: { query: q } }
         if (c === 'failed') return { kind: 'fail', reason: q.ResultDesc || 'M-Pesa payment failed', raw: { query: q } }

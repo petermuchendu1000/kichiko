@@ -40,36 +40,6 @@ export interface PaymentResult {
   requiresPolling: boolean
 }
 
-// Select best provider for a given country/currency
-export function selectBestProvider(country: string, currency: CurrencyCode): PaymentProvider {
-  const mapping: Record<string, PaymentProvider> = {
-    KE: 'mpesa',
-    TZ: 'airtel_money',
-    UG: 'mtn_momo',
-    RW: 'mtn_momo',
-    ZM: 'airtel_money',
-    GH: 'mtn_momo',
-    ET: 'pesapal',
-    BI: 'pesapal',
-  }
-  return mapping[country] || 'pesapal'
-}
-
-// Available providers per country
-export function getProvidersForCountry(country: string): PaymentProvider[] {
-  const mapping: Record<string, PaymentProvider[]> = {
-    KE: ['mpesa', 'airtel_money'],
-    TZ: ['airtel_money', 'mpesa'],
-    UG: ['mtn_momo', 'airtel_money'],
-    RW: ['mtn_momo'],
-    ZM: ['airtel_money', 'mtn_momo'],
-    GH: ['mtn_momo'],
-    ET: ['pesapal'],
-    BI: ['pesapal'],
-  }
-  return mapping[country] || ['pesapal']
-}
-
 // Initiate deposit
 export async function initiateDeposit(req: PaymentRequest): Promise<PaymentResult> {
   try {
