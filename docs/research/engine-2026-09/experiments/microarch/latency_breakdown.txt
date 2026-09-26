@@ -1,0 +1,52 @@
+thin       fast_bitmap    ops=2000000  22.1 ns/op  45.28 M ops/s  fills=621869 rej=5621 hash=7eab5b1f33e4e77b
+thin       fast_linscan   ops=2000000  22.9 ns/op  43.68 M ops/s  fills=621869 rej=5621 hash=7eab5b1f33e4e77b
+thin       std_map        ops=2000000  93.2 ns/op  10.73 M ops/s  fills=621869 rej=5621 hash=7eab5b1f33e4e77b
+thin       fast_bitmap      add_rest   n=1030543  p50=35 p99=66 p99.9=284 ns (raw, incl. timer)
+thin       fast_bitmap      taker      n=285225   p50=65 p99=155 p99.9=338 ns (raw, incl. timer)
+thin       fast_bitmap      cancel_ok  n=678611   p50=34 p99=63 p99.9=279 ns (raw, incl. timer)
+thin       fast_bitmap      cancel_rej n=5621     p50=36 p99=55 p99.9=226 ns (raw, incl. timer)
+thin       fast_bitmap    latency(ns, incl. ~timer overhead) p50=37 p90=60 p99=125 p99.9=289 p99.99=18011 max=163484
+thin       std_map          add_rest   n=1030543  p50=81 p99=191 p99.9=359 ns (raw, incl. timer)
+thin       std_map          taker      n=285225   p50=146 p99=456 p99.9=730 ns (raw, incl. timer)
+thin       std_map          cancel_ok  n=678611   p50=109 p99=221 p99.9=426 ns (raw, incl. timer)
+thin       std_map          cancel_rej n=5621     p50=44 p99=84 p99.9=219 ns (raw, incl. timer)
+thin       std_map        latency(ns, incl. ~timer overhead) p50=95 p90=158 p99=325 p99.9=532 p99.99=19489 max=138712
+normal     fast_bitmap    ops=2000000  25.2 ns/op  39.75 M ops/s  fills=762491 rej=5980 hash=ab13f7db801edad0
+normal     fast_linscan   ops=2000000  23.1 ns/op  43.34 M ops/s  fills=762491 rej=5980 hash=ab13f7db801edad0
+normal     std_map        ops=2000000  105.7 ns/op  9.46 M ops/s  fills=762491 rej=5980 hash=ab13f7db801edad0
+normal     fast_bitmap      add_rest   n=1065122  p50=36 p99=58 p99.9=293 ns (raw, incl. timer)
+normal     fast_bitmap      taker      n=314914   p50=65 p99=149 p99.9=342 ns (raw, incl. timer)
+normal     fast_bitmap      cancel_ok  n=613984   p50=37 p99=60 p99.9=298 ns (raw, incl. timer)
+normal     fast_bitmap      cancel_rej n=5980     p50=38 p99=61 p99.9=290 ns (raw, incl. timer)
+normal     fast_bitmap    latency(ns, incl. ~timer overhead) p50=37 p90=61 p99=121 p99.9=303 p99.99=4560 max=520224
+normal     std_map          add_rest   n=1065122  p50=100 p99=244 p99.9=483 ns (raw, incl. timer)
+normal     std_map          taker      n=314914   p50=167 p99=599 p99.9=974 ns (raw, incl. timer)
+normal     std_map          cancel_ok  n=613984   p50=144 p99=306 p99.9=606 ns (raw, incl. timer)
+normal     std_map          cancel_rej n=5980     p50=55 p99=164 p99.9=512 ns (raw, incl. timer)
+normal     std_map        latency(ns, incl. ~timer overhead) p50=119 p90=197 p99=424 p99.9=733 p99.99=27874 max=2038475
+deep       fast_bitmap    ops=2000000  24.6 ns/op  40.73 M ops/s  fills=475046 rej=3948 hash=9e7bc73d736efb8e
+deep       fast_linscan   ops=2000000  31.7 ns/op  31.59 M ops/s  fills=475046 rej=3948 hash=9e7bc73d736efb8e
+deep       std_map        ops=2000000  201.6 ns/op  4.96 M ops/s  fills=475046 rej=3948 hash=9e7bc73d736efb8e
+deep       fast_bitmap      add_rest   n=1010747  p50=38 p99=130 p99.9=385 ns (raw, incl. timer)
+deep       fast_bitmap      taker      n=219985   p50=61 p99=271 p99.9=519 ns (raw, incl. timer)
+deep       fast_bitmap      cancel_ok  n=765320   p50=53 p99=151 p99.9=458 ns (raw, incl. timer)
+deep       fast_bitmap      cancel_rej n=3948     p50=54 p99=134 p99.9=347 ns (raw, incl. timer)
+deep       fast_bitmap    latency(ns, incl. ~timer overhead) p50=45 p90=65 p99=182 p99.9=433 p99.99=5099 max=134351
+deep       std_map          add_rest   n=1010747  p50=123 p99=605 p99.9=1328 ns (raw, incl. timer)
+deep       std_map          taker      n=219985   p50=229 p99=2073 p99.9=4834 ns (raw, incl. timer)
+deep       std_map          cancel_ok  n=765320   p50=509 p99=1094 p99.9=5814 ns (raw, incl. timer)
+deep       std_map          cancel_rej n=3948     p50=179 p99=751 p99.9=988 ns (raw, incl. timer)
+deep       std_map        latency(ns, incl. ~timer overhead) p50=241 p90=665 p99=1142 p99.9=2945 p99.99=33442 max=1925437
+sweep      fast_bitmap    ops=2000000  33.8 ns/op  29.63 M ops/s  fills=1857641 rej=1310 hash=082383b6bbc1aadb
+sweep      fast_linscan   ops=2000000  38.6 ns/op  25.93 M ops/s  fills=1857641 rej=1310 hash=082383b6bbc1aadb
+sweep      std_map        ops=2000000  111.7 ns/op  8.95 M ops/s  fills=1857641 rej=1310 hash=082383b6bbc1aadb
+sweep      fast_bitmap      add_rest   n=1329871  p50=37 p99=63 p99.9=302 ns (raw, incl. timer)
+sweep      fast_bitmap      taker      n=602151   p50=74 p99=192 p99.9=371 ns (raw, incl. timer)
+sweep      fast_bitmap      cancel_ok  n=66668    p50=41 p99=116 p99.9=345 ns (raw, incl. timer)
+sweep      fast_bitmap      cancel_rej n=1310     p50=41 p99=71 p99.9=328 ns (raw, incl. timer)
+sweep      fast_bitmap    latency(ns, incl. ~timer overhead) p50=41 p90=93 p99=167 p99.9=326 p99.99=4642 max=783750
+sweep      std_map          add_rest   n=1329871  p50=94 p99=213 p99.9=412 ns (raw, incl. timer)
+sweep      std_map          taker      n=602151   p50=165 p99=543 p99.9=860 ns (raw, incl. timer)
+sweep      std_map          cancel_ok  n=66668    p50=136 p99=304 p99.9=599 ns (raw, incl. timer)
+sweep      std_map          cancel_rej n=1310     p50=49 p99=131 p99.9=341 ns (raw, incl. timer)
+sweep      std_map        latency(ns, incl. ~timer overhead) p50=103 p90=233 p99=454 p99.9=685 p99.99=21213 max=1008401

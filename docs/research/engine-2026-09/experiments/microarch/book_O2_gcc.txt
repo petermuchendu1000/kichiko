@@ -1,0 +1,75 @@
+# gen thin: avg_resting=156 cmds=2000200 prefill=200 resting_at_end=154 bestBid=540 bestAsk=543
+# gen normal: avg_resting=3524 cmds=2005000 prefill=5000 resting_at_end=3541 bestBid=549 bestAsk=551
+# gen deep: avg_resting=80949 cmds=2100000 prefill=100000 resting_at_end=87125 bestBid=341 bestAsk=348
+# gen sweep: avg_resting=453 cmds=2005000 prefill=5000 resting_at_end=411 bestBid=918 bestAsk=923
+# TSC 2.800 GHz; empty timed region p50=17.5 ns (49 ticks)
+thin       fast_bitmap    ops=2000000  23.3 ns/op  42.87 M ops/s  fills=621869 rej=5621 hash=7eab5b1f33e4e77b
+thin       fast_linscan   ops=2000000  22.7 ns/op  44.06 M ops/s  fills=621869 rej=5621 hash=7eab5b1f33e4e77b
+thin       std_map        ops=2000000  87.3 ns/op  11.46 M ops/s  fills=621869 rej=5621 hash=7eab5b1f33e4e77b
+thin       fast_bitmap    latency(ns, incl. ~timer overhead) p50=35 p90=55 p99=117 p99.9=324 p99.99=2919 max=51892
+thin       std_map        latency(ns, incl. ~timer overhead) p50=94 p90=155 p99=327 p99.9=508 p99.99=21322 max=8116988
+normal     fast_bitmap    ops=2000000  21.6 ns/op  46.32 M ops/s  fills=762491 rej=5980 hash=ab13f7db801edad0
+normal     fast_linscan   ops=2000000  22.1 ns/op  45.19 M ops/s  fills=762491 rej=5980 hash=ab13f7db801edad0
+normal     std_map        ops=2000000  105.1 ns/op  9.52 M ops/s  fills=762491 rej=5980 hash=ab13f7db801edad0
+normal     fast_bitmap    latency(ns, incl. ~timer overhead) p50=37 p90=60 p99=125 p99.9=338 p99.99=4265 max=389325
+normal     std_map        latency(ns, incl. ~timer overhead) p50=114 p90=184 p99=405 p99.9=729 p99.99=25061 max=1579576
+deep       fast_bitmap    ops=2000000  24.6 ns/op  40.69 M ops/s  fills=475046 rej=3948 hash=9e7bc73d736efb8e
+deep       fast_linscan   ops=2000000  23.8 ns/op  42.01 M ops/s  fills=475046 rej=3948 hash=9e7bc73d736efb8e
+deep       std_map        ops=2000000  187.5 ns/op  5.33 M ops/s  fills=475046 rej=3948 hash=9e7bc73d736efb8e
+deep       fast_bitmap    latency(ns, incl. ~timer overhead) p50=43 p90=64 p99=176 p99.9=436 p99.99=23541 max=782752
+deep       std_map        latency(ns, incl. ~timer overhead) p50=178 p90=496 p99=903 p99.9=1924 p99.99=33365 max=484874
+sweep      fast_bitmap    ops=2000000  34.2 ns/op  29.23 M ops/s  fills=1857641 rej=1310 hash=082383b6bbc1aadb
+sweep      fast_linscan   ops=2000000  39.0 ns/op  25.63 M ops/s  fills=1857641 rej=1310 hash=082383b6bbc1aadb
+sweep      std_map        ops=2000000  113.8 ns/op  8.79 M ops/s  fills=1857641 rej=1310 hash=082383b6bbc1aadb
+sweep      fast_bitmap    latency(ns, incl. ~timer overhead) p50=41 p90=92 p99=163 p99.9=331 p99.99=3926 max=365706
+sweep      std_map        latency(ns, incl. ~timer overhead) p50=102 p90=230 p99=445 p99.9=648 p99.99=18223 max=927554
+# gen thin: avg_resting=156 cmds=2000200 prefill=200 resting_at_end=154 bestBid=540 bestAsk=543
+# gen normal: avg_resting=3524 cmds=2005000 prefill=5000 resting_at_end=3541 bestBid=549 bestAsk=551
+# gen deep: avg_resting=80949 cmds=2100000 prefill=100000 resting_at_end=87125 bestBid=341 bestAsk=348
+# gen sweep: avg_resting=453 cmds=2005000 prefill=5000 resting_at_end=411 bestBid=918 bestAsk=923
+# TSC 2.800 GHz; empty timed region p50=17.5 ns (49 ticks)
+thin       fast_bitmap    ops=2000000  21.9 ns/op  45.74 M ops/s  fills=621869 rej=5621 hash=7eab5b1f33e4e77b
+thin       fast_linscan   ops=2000000  22.4 ns/op  44.65 M ops/s  fills=621869 rej=5621 hash=7eab5b1f33e4e77b
+thin       std_map        ops=2000000  87.1 ns/op  11.48 M ops/s  fills=621869 rej=5621 hash=7eab5b1f33e4e77b
+thin       fast_bitmap    latency(ns, incl. ~timer overhead) p50=35 p90=55 p99=116 p99.9=301 p99.99=708 max=256168
+thin       std_map        latency(ns, incl. ~timer overhead) p50=95 p90=156 p99=327 p99.9=520 p99.99=18400 max=847062
+normal     fast_bitmap    ops=2000000  21.9 ns/op  45.64 M ops/s  fills=762491 rej=5980 hash=ab13f7db801edad0
+normal     fast_linscan   ops=2000000  24.4 ns/op  40.93 M ops/s  fills=762491 rej=5980 hash=ab13f7db801edad0
+normal     std_map        ops=2000000  112.0 ns/op  8.93 M ops/s  fills=762491 rej=5980 hash=ab13f7db801edad0
+normal     fast_bitmap    latency(ns, incl. ~timer overhead) p50=38 p90=61 p99=126 p99.9=325 p99.99=4051 max=113937
+normal     std_map        latency(ns, incl. ~timer overhead) p50=113 p90=179 p99=389 p99.9=647 p99.99=24128 max=784594
+deep       fast_bitmap    ops=2000000  24.9 ns/op  40.13 M ops/s  fills=475046 rej=3948 hash=9e7bc73d736efb8e
+deep       fast_linscan   ops=2000000  25.6 ns/op  39.06 M ops/s  fills=475046 rej=3948 hash=9e7bc73d736efb8e
+deep       std_map        ops=2000000  221.6 ns/op  4.51 M ops/s  fills=475046 rej=3948 hash=9e7bc73d736efb8e
+deep       fast_bitmap    latency(ns, incl. ~timer overhead) p50=43 p90=69 p99=220 p99.9=515 p99.99=5453 max=123938
+deep       std_map        latency(ns, incl. ~timer overhead) p50=191 p90=531 p99=979 p99.9=2179 p99.99=31142 max=1470051
+sweep      fast_bitmap    ops=2000000  34.4 ns/op  29.10 M ops/s  fills=1857641 rej=1310 hash=082383b6bbc1aadb
+sweep      fast_linscan   ops=2000000  40.0 ns/op  25.02 M ops/s  fills=1857641 rej=1310 hash=082383b6bbc1aadb
+sweep      std_map        ops=2000000  130.1 ns/op  7.69 M ops/s  fills=1857641 rej=1310 hash=082383b6bbc1aadb
+sweep      fast_bitmap    latency(ns, incl. ~timer overhead) p50=41 p90=91 p99=160 p99.9=335 p99.99=3908 max=62723
+sweep      std_map        latency(ns, incl. ~timer overhead) p50=103 p90=235 p99=460 p99.9=710 p99.99=19721 max=892367
+# gen thin: avg_resting=156 cmds=2000200 prefill=200 resting_at_end=154 bestBid=540 bestAsk=543
+# gen normal: avg_resting=3524 cmds=2005000 prefill=5000 resting_at_end=3541 bestBid=549 bestAsk=551
+# gen deep: avg_resting=80949 cmds=2100000 prefill=100000 resting_at_end=87125 bestBid=341 bestAsk=348
+# gen sweep: avg_resting=453 cmds=2005000 prefill=5000 resting_at_end=411 bestBid=918 bestAsk=923
+# TSC 2.800 GHz; empty timed region p50=17.5 ns (49 ticks)
+thin       fast_bitmap    ops=2000000  21.8 ns/op  45.87 M ops/s  fills=621869 rej=5621 hash=7eab5b1f33e4e77b
+thin       fast_linscan   ops=2000000  22.7 ns/op  44.09 M ops/s  fills=621869 rej=5621 hash=7eab5b1f33e4e77b
+thin       std_map        ops=2000000  89.5 ns/op  11.18 M ops/s  fills=621869 rej=5621 hash=7eab5b1f33e4e77b
+thin       fast_bitmap    latency(ns, incl. ~timer overhead) p50=37 p90=59 p99=124 p99.9=331 p99.99=6594 max=1055484
+thin       std_map        latency(ns, incl. ~timer overhead) p50=95 p90=159 p99=342 p99.9=552 p99.99=23561 max=304941
+normal     fast_bitmap    ops=2000000  21.5 ns/op  46.50 M ops/s  fills=762491 rej=5980 hash=ab13f7db801edad0
+normal     fast_linscan   ops=2000000  21.8 ns/op  45.90 M ops/s  fills=762491 rej=5980 hash=ab13f7db801edad0
+normal     std_map        ops=2000000  107.3 ns/op  9.32 M ops/s  fills=762491 rej=5980 hash=ab13f7db801edad0
+normal     fast_bitmap    latency(ns, incl. ~timer overhead) p50=37 p90=60 p99=120 p99.9=315 p99.99=3713 max=95797
+normal     std_map        latency(ns, incl. ~timer overhead) p50=113 p90=181 p99=401 p99.9=647 p99.99=20899 max=684804
+deep       fast_bitmap    ops=2000000  24.7 ns/op  40.52 M ops/s  fills=475046 rej=3948 hash=9e7bc73d736efb8e
+deep       fast_linscan   ops=2000000  33.4 ns/op  29.94 M ops/s  fills=475046 rej=3948 hash=9e7bc73d736efb8e
+deep       std_map        ops=2000000  227.6 ns/op  4.39 M ops/s  fills=475046 rej=3948 hash=9e7bc73d736efb8e
+deep       fast_bitmap    latency(ns, incl. ~timer overhead) p50=44 p90=63 p99=199 p99.9=480 p99.99=5214 max=88675
+deep       std_map        latency(ns, incl. ~timer overhead) p50=180 p90=484 p99=886 p99.9=1817 p99.99=30898 max=299211
+sweep      fast_bitmap    ops=2000000  33.8 ns/op  29.58 M ops/s  fills=1857641 rej=1310 hash=082383b6bbc1aadb
+sweep      fast_linscan   ops=2000000  39.6 ns/op  25.27 M ops/s  fills=1857641 rej=1310 hash=082383b6bbc1aadb
+sweep      std_map        ops=2000000  119.4 ns/op  8.37 M ops/s  fills=1857641 rej=1310 hash=082383b6bbc1aadb
+sweep      fast_bitmap    latency(ns, incl. ~timer overhead) p50=41 p90=92 p99=165 p99.9=336 p99.99=4605 max=180217
+sweep      std_map        latency(ns, incl. ~timer overhead) p50=109 p90=260 p99=541 p99.9=987 p99.99=22319 max=357744

@@ -1,0 +1,44 @@
+ calls | tot_ms | mean_us | rows  | wal_records | wal_fpi | wal_bytes |   hit   | dirt |                                             q                                              
+-------+--------+---------+-------+-------------+---------+-----------+---------+------+--------------------------------------------------------------------------------------------
+  5904 | 9542.7 |  1616.3 |  5904 |      271902 |       0 |  33196212 | 1534607 |  935 | select clob_place_order($1,$2,$3,$4::order_side,$5::clob_action,$6::order_type, $7,$8,$9::
+  5904 |  967.3 |   163.8 |  5904 |       41834 |       0 |   4983621 |  192858 |   28 | INSERT INTO public.clob_orders ( market_id, market_option_id, user_id, wallet_id, outcome_
+  3982 |  914.5 |   229.7 |  3982 |       40286 |       0 |   5439510 |  168422 |  306 | INSERT INTO public.transactions ( user_id, wallet_id, type, status, amount, currency, amou
+  2285 |  761.6 |   333.3 |  2285 |       34531 |       0 |   4566713 |   62618 |   13 | UPDATE public.markets SET total_volume_usd = total_volume_usd + v_notional, total_bets = t
+  5904 |  663.9 |   112.5 |  5904 |       11780 |       0 |   1976056 |  184109 |    1 | UPDATE public.clob_orders SET filled = v_filled, status = v_status, reserved_usd = CASE WH
+  3982 |  442.5 |   111.1 |  3982 |       22628 |       0 |   2740126 |  131930 |  241 | INSERT INTO public.clob_fills ( market_id, market_option_id, outcome_side, price_cents, si
+  3982 |  429.7 |   107.9 |  3982 |       12148 |       0 |   1450552 |  111831 |    0 | UPDATE public.clob_orders SET reserved_usd = GREATEST($68, reserved_usd - v_maker_usd) WHE
+  2285 |  427.3 |   187.0 |  2285 |       23108 |       0 |   2878195 |   96336 |  177 | INSERT INTO public.transactions ( user_id, wallet_id, type, status, amount, currency, amou
+  3982 |  327.6 |    82.3 |  3982 |       13911 |       0 |   1844332 |   59642 |    0 | UPDATE public.clob_orders SET filled = filled + v_fill, status = (CASE WHEN (filled + v_fi
+  6267 |  294.6 |    47.0 |  6267 |       12544 |       0 |   1554756 |   37901 |    0 | UPDATE public.profiles SET total_bets = total_bets + $18, total_volume_usd = total_volume_
+  3982 |  285.2 |    71.6 |  3982 |        9630 |       0 |   1211604 |   33269 |    2 | INSERT INTO public.positions ( user_id, market_id, wallet_id, market_option_id, side, shar
+  5904 |  265.8 |    45.0 |  5904 |        5904 |       0 |    906656 |   41374 |    0 | UPDATE public.wallets SET available_balance = available_balance - v_cash_local - v_reserve
+ 31019 |  211.4 |     6.8 | 31019 |          67 |       0 |      8574 |   93057 |    0 | SELECT $2 FROM ONLY "public"."market_options" x WHERE "id" OPERATOR(pg_catalog.=) $1 FOR K
+  2285 |  171.3 |    75.0 |  2285 |        2285 |       0 |    388322 |   11431 |    0 | UPDATE public.market_options SET volume_usd = COALESCE(volume_usd,$38) + v_notional, yes_p
+  3982 |  167.2 |    42.0 |  3982 |        7964 |       0 |    826176 |   27929 |    0 | UPDATE public.wallets SET reserved_balance = GREATEST($72, reserved_balance - v_maker_loca
+  2285 |  160.0 |    70.0 |  2285 |        9447 |       0 |   1068364 |   39122 |   92 | INSERT INTO public.price_history (market_id, market_option_id, price, volume_usd) VALUES (
+  2285 |  157.8 |    69.1 |  2285 |        6332 |       0 |    767048 |   22134 |    2 | INSERT INTO public.positions ( user_id, market_id, wallet_id, market_option_id, side, shar
+  2285 |  144.0 |    63.0 |  2285 |        7023 |       0 |    863559 |   41357 |   73 | INSERT INTO public.market_activity (market_id, user_id, market_option_id, action, amount_u
+  5904 |  141.9 |    24.0 |  5904 |         352 |       0 |     27914 |   52390 |    0 | (SELECT count(*) FROM public.clob_orders WHERE user_id = p_user_id AND status IN ($2,$3)) 
+  5904 |  139.2 |    23.6 |  5904 |          22 |       0 |      1858 |   93071 |    0 | (SELECT count(*) FROM public.clob_orders WHERE user_id = p_user_id AND created_at > now() 
+ 31023 |  122.2 |     3.9 | 31023 |         182 |       0 |     14354 |   93085 |    0 | SELECT $2 FROM ONLY "public"."markets" x WHERE "id" OPERATOR(pg_catalog.=) $1 FOR KEY SHAR
+ 24767 |   82.9 |     3.3 | 24767 |       10186 |       0 |    576758 |   74301 |    0 | SELECT $2 FROM ONLY "public"."profiles" x WHERE "id" OPERATOR(pg_catalog.=) $1 FOR KEY SHA
+ 22467 |   81.1 |     3.6 | 22467 |        4305 |       0 |    269280 |   89928 |    0 | SELECT $2 FROM ONLY "public"."wallets" x WHERE "id" OPERATOR(pg_catalog.=) $1 FOR KEY SHAR
+  5904 |   74.4 |    12.6 |  5904 |        5921 |       0 |    319746 |   17720 |    0 | SELECT * FROM public.markets WHERE id = p_market_id AND status = $3 FOR UPDATE
+  5904 |   70.9 |    12.0 |  5904 |        5904 |       0 |    318816 |   17712 |    0 | SELECT * FROM public.market_options WHERE id = p_market_option_id AND market_id = p_market
+     1 |   64.0 | 64037.9 |  3248 |       10393 |       0 |   1447272 |   38114 |   42 | update clob_orders set created_at = created_at - interval $1 where created_at > now() - in
+  2285 |   57.9 |    25.3 |  2285 |           0 |       0 |         0 |      26 |    0 | SELECT setweight(to_tsvector($4::regconfig, coalesce(p_title, $5)), $6) || setweight(to_ts
+     4 |   51.8 | 12947.0 |   240 |        2384 |       0 |    249848 |   18322 |    2 | update clob_orders set created_at = created_at - interval $1 where market_id=$2
+  5904 |   46.4 |     7.9 |  5904 |        5960 |       0 |    322456 |   23616 |    0 | SELECT * FROM public.wallets WHERE user_id = p_user_id AND currency = p_currency FOR UPDAT
+     1 |   45.1 | 45079.3 |  3590 |       20790 |       0 |   2055052 |   44127 |    0 | update positions p set reserved_shares=$1 from profiles pr where pr.id=p.user_id and pr.di
+  7964 |   44.3 |     5.6 |  7964 |        2322 |       0 |    126264 |   39845 |    0 | SELECT $2 FROM ONLY "public"."clob_orders" x WHERE "id" OPERATOR(pg_catalog.=) $1 FOR KEY 
+  2950 |   33.5 |    11.4 |  3072 |         502 |       0 |     41792 |   11870 |    0 | SELECT id, CASE WHEN outcome_side = p_outcome_side THEN $53 WHEN p_action=$54 THEN $55 ELS
+  5904 |   31.8 |     5.4 |  5904 |           0 |       0 |         0 |   40984 |    0 | (SELECT count(*) FROM public.clob_orders WHERE user_id = p_user_id AND market_id = p_marke
+  3982 |   30.9 |     7.8 |  3982 |        3982 |       0 |    215028 |   19928 |    0 | SELECT * FROM public.clob_orders WHERE id = v_mk.id FOR UPDATE
+  2954 |   30.3 |    10.3 |  2604 |         447 |       0 |     37648 |   11328 |    0 | SELECT id, CASE WHEN outcome_side = p_outcome_side THEN $53 WHEN p_action=$54 THEN $55 ELS
+  5904 |   20.4 |     3.4 |  5904 |           0 |       0 |         0 |   11808 |    0 | SELECT rate FROM public.exchange_rates WHERE from_currency = p_currency AND to_currency = 
+     1 |   17.8 | 17837.5 |  1142 |        3441 |       0 |    461272 |   12159 |    0 | update clob_orders o set status=$1, reserved_usd=$2 from markets m where m.id=o.market_id 
+     4 |    6.9 |  1726.2 |     4 |          65 |       0 |      7938 |     552 |    0 | insert into markets(id,slug,title,description,creator_id,closes_at,resolution_criteria,sta
+     1 |    4.3 |  4297.1 |   200 |         411 |       0 |     42244 |    1514 |    0 | insert into wallets(user_id,currency,available_balance,is_active) select id,$1,$2,$3 from 
+     4 |    2.9 |   733.6 |     4 |           0 |       0 |         0 |      26 |    0 | SELECT setweight(to_tsvector($4::regconfig, coalesce(p_title, $5)), $6) || setweight(to_ts
+(40 rows)
+

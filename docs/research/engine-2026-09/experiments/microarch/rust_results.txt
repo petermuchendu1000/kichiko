@@ -1,0 +1,24 @@
+thin rust_checked   ops=2000000 21.1 ns/op 47.46 M ops/s fills=621869 rej=5621 hash=7eab5b1f33e4e77b
+rust_unchecked ops=2000000 19.7 ns/op 50.79 M ops/s fills=621869 rej=5621 hash=7eab5b1f33e4e77b
+thin rust_checked   ops=2000000 21.2 ns/op 47.12 M ops/s fills=621869 rej=5621 hash=7eab5b1f33e4e77b
+rust_unchecked ops=2000000 20.2 ns/op 49.43 M ops/s fills=621869 rej=5621 hash=7eab5b1f33e4e77b
+thin rust_checked   ops=2000000 21.7 ns/op 46.04 M ops/s fills=621869 rej=5621 hash=7eab5b1f33e4e77b
+rust_unchecked ops=2000000 20.1 ns/op 49.76 M ops/s fills=621869 rej=5621 hash=7eab5b1f33e4e77b
+normal rust_checked   ops=2000000 20.5 ns/op 48.66 M ops/s fills=762491 rej=5980 hash=ab13f7db801edad0
+rust_unchecked ops=2000000 19.3 ns/op 51.72 M ops/s fills=762491 rej=5980 hash=ab13f7db801edad0
+normal rust_checked   ops=2000000 20.5 ns/op 48.67 M ops/s fills=762491 rej=5980 hash=ab13f7db801edad0
+rust_unchecked ops=2000000 20.4 ns/op 48.97 M ops/s fills=762491 rej=5980 hash=ab13f7db801edad0
+normal rust_checked   ops=2000000 21.0 ns/op 47.64 M ops/s fills=762491 rej=5980 hash=ab13f7db801edad0
+rust_unchecked ops=2000000 19.3 ns/op 51.84 M ops/s fills=762491 rej=5980 hash=ab13f7db801edad0
+deep rust_checked   ops=2000000 24.5 ns/op 40.81 M ops/s fills=475046 rej=3948 hash=9e7bc73d736efb8e
+rust_unchecked ops=2000000 25.3 ns/op 39.59 M ops/s fills=475046 rej=3948 hash=9e7bc73d736efb8e
+deep rust_checked   ops=2000000 25.0 ns/op 40.02 M ops/s fills=475046 rej=3948 hash=9e7bc73d736efb8e
+rust_unchecked ops=2000000 23.0 ns/op 43.56 M ops/s fills=475046 rej=3948 hash=9e7bc73d736efb8e
+deep rust_checked   ops=2000000 24.2 ns/op 41.29 M ops/s fills=475046 rej=3948 hash=9e7bc73d736efb8e
+rust_unchecked ops=2000000 23.1 ns/op 43.30 M ops/s fills=475046 rej=3948 hash=9e7bc73d736efb8e
+sweep rust_checked   ops=2000000 31.9 ns/op 31.35 M ops/s fills=1857641 rej=1310 hash=082383b6bbc1aadb
+rust_unchecked ops=2000000 29.7 ns/op 33.70 M ops/s fills=1857641 rej=1310 hash=082383b6bbc1aadb
+sweep rust_checked   ops=2000000 31.5 ns/op 31.79 M ops/s fills=1857641 rej=1310 hash=082383b6bbc1aadb
+rust_unchecked ops=2000000 29.7 ns/op 33.64 M ops/s fills=1857641 rej=1310 hash=082383b6bbc1aadb
+sweep rust_checked   ops=2000000 32.0 ns/op 31.26 M ops/s fills=1857641 rej=1310 hash=082383b6bbc1aadb
+rust_unchecked ops=2000000 29.7 ns/op 33.70 M ops/s fills=1857641 rej=1310 hash=082383b6bbc1aadb

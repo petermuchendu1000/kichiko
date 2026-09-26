@@ -1,0 +1,12 @@
+mixed         btree  ops=1000000 (place 734150) fills=474700  best 0.468s     2137177 ops/s     1569008 orders/s    467.9 ns/op
+mixed         tick   ops=1000000 (place 734150) fills=474700  best 0.364s     2744915 ops/s     2015180 orders/s    364.3 ns/op
+shallow       btree  ops=1000000 (place 780790) fills=555844  best 0.435s     2301294 ops/s     1796827 orders/s    434.5 ns/op
+shallow       tick   ops=1000000 (place 780790) fills=555844  best 0.386s     2591251 ops/s     2023223 orders/s    385.9 ns/op
+deep3000      btree  ops=1000000 (place 619906) fills=238119  best 0.354s     2827980 ops/s     1753082 orders/s    353.6 ns/op
+deep3000      tick   ops=1000000 (place 619906) fills=238119  best 0.269s     3719945 ops/s     2306016 orders/s    268.8 ns/op
+sweep         btree  ops=1000000 (place 1000000) fills=998936  best 0.665s     1503239 ops/s     1503239 orders/s    665.2 ns/op
+sweep         tick   ops=1000000 (place 1000000) fills=998936  best 0.539s     1855252 ops/s     1855252 orders/s    539.0 ns/op
+cancel_heavy  btree  ops=1000000 (place 500010) fills=0  best 0.214s     4674950 ops/s     2337522 orders/s    213.9 ns/op
+cancel_heavy  tick   ops=1000000 (place 500010) fills=0  best 0.157s     6363143 ops/s     3181635 orders/s    157.2 ns/op
+mixed         btree  ops=5000000 (place 3659843) fills=2351989  best 2.341s     2136261 ops/s     1563676 orders/s    468.1 ns/op
+mixed         tick   ops=5000000 (place 3659843) fills=2351989  best 1.880s     2659220 ops/s     1946466 orders/s    376.1 ns/op

@@ -1,0 +1,56 @@
+   Compiling kengine v0.1.0 (/tmp/claude-0/-home-user-kichiko/385cc00d-340c-5f67-955a-0a985fc3ce7d/scratchpad/engine/kengine)
+    Finished `bench` profile [optimized + debuginfo] target(s) in 32.71s
+     Running benches/engine.rs (target/release/deps/engine-dc3fe50c6342f13e)
+Benchmarking ladder/btree/cancel_reinsert_150_per_level
+Benchmarking ladder/btree/cancel_reinsert_150_per_level: Warming up for 1.0000 s
+Benchmarking ladder/btree/cancel_reinsert_150_per_level: Collecting 30 samples in estimated 3.0000 s (23M iterations)
+Benchmarking ladder/btree/cancel_reinsert_150_per_level: Analyzing
+ladder/btree/cancel_reinsert_150_per_level
+                        time:   [127.87 ns 130.27 ns 132.73 ns]
+Found 2 outliers among 30 measurements (6.67%)
+  2 (6.67%) high mild
+Benchmarking ladder/btree/walk_top10_of_3000
+Benchmarking ladder/btree/walk_top10_of_3000: Warming up for 1.0000 s
+Benchmarking ladder/btree/walk_top10_of_3000: Collecting 30 samples in estimated 3.0000 s (51M iterations)
+Benchmarking ladder/btree/walk_top10_of_3000: Analyzing
+ladder/btree/walk_top10_of_3000
+                        time:   [58.137 ns 59.271 ns 60.704 ns]
+Found 3 outliers among 30 measurements (10.00%)
+  1 (3.33%) high mild
+  2 (6.67%) high severe
+Benchmarking ladder/btree/sparse_best_bid_ask
+Benchmarking ladder/btree/sparse_best_bid_ask: Warming up for 1.0000 s
+Benchmarking ladder/btree/sparse_best_bid_ask: Collecting 30 samples in estimated 3.0000 s (207M iterations)
+Benchmarking ladder/btree/sparse_best_bid_ask: Analyzing
+ladder/btree/sparse_best_bid_ask
+                        time:   [14.335 ns 14.527 ns 14.780 ns]
+Found 3 outliers among 30 measurements (10.00%)
+  1 (3.33%) high mild
+  2 (6.67%) high severe
+
+Benchmarking ladder/tick/cancel_reinsert_150_per_level
+Benchmarking ladder/tick/cancel_reinsert_150_per_level: Warming up for 1.0000 s
+Benchmarking ladder/tick/cancel_reinsert_150_per_level: Collecting 30 samples in estimated 3.0000 s (196M iterations)
+Benchmarking ladder/tick/cancel_reinsert_150_per_level: Analyzing
+ladder/tick/cancel_reinsert_150_per_level
+                        time:   [14.620 ns 14.675 ns 14.746 ns]
+Found 2 outliers among 30 measurements (6.67%)
+  2 (6.67%) high severe
+Benchmarking ladder/tick/walk_top10_of_3000
+Benchmarking ladder/tick/walk_top10_of_3000: Warming up for 1.0000 s
+Benchmarking ladder/tick/walk_top10_of_3000: Collecting 30 samples in estimated 3.0000 s (115M iterations)
+Benchmarking ladder/tick/walk_top10_of_3000: Analyzing
+ladder/tick/walk_top10_of_3000
+                        time:   [25.906 ns 25.997 ns 26.091 ns]
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) high severe
+Benchmarking ladder/tick/sparse_best_bid_ask
+Benchmarking ladder/tick/sparse_best_bid_ask: Warming up for 1.0000 s
+Benchmarking ladder/tick/sparse_best_bid_ask: Collecting 30 samples in estimated 3.0000 s (223M iterations)
+Benchmarking ladder/tick/sparse_best_bid_ask: Analyzing
+ladder/tick/sparse_best_bid_ask
+                        time:   [13.317 ns 13.486 ns 13.684 ns]
+Found 3 outliers among 30 measurements (10.00%)
+  2 (6.67%) high mild
+  1 (3.33%) high severe
+

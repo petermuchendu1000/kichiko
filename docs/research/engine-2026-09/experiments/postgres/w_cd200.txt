@@ -1,0 +1,13 @@
+samples 1665 backend-samples 11479
+  Lock:advisory                             55.5%
+  CPU:-                                     26.4%
+  LWLock:WALWrite                           10.1%
+  IO:WalSync                                 6.0%
+  LWLock:LockManager                         0.6%
+  IO:WalInitWrite                            0.4%
+  Lock:transactionid                         0.4%
+  Client:ClientRead                          0.2%
+  IO:WalWrite                                0.2%
+  LWLock:WALInsert                           0.1%
+  IO:DataFileRead                            0.1%
+  IO:DataFileExtend                          0.1%
