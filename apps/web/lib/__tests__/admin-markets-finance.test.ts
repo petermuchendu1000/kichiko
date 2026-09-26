@@ -77,6 +77,16 @@ describe('availableMarketActions', () => {
     expect(map.close).toBe('markets:approve')
     expect(map.dispute).toBe('markets:resolve')
     expect(map.cancel).toBe('markets:cancel')
+    expect(map.void).toBe('markets:cancel')
+  })
+
+  it('offers void (conserving settlement at a price) on active, closed and disputed only', () => {
+    for (const s of ['active', 'closed', 'disputed'] as const) {
+      expect(availableMarketActions(s).map((a) => a.key)).toContain('void')
+    }
+    for (const s of ['draft', 'pending', 'resolved', 'cancelled'] as const) {
+      expect(availableMarketActions(s).map((a) => a.key)).not.toContain('void')
+    }
   })
 })
 

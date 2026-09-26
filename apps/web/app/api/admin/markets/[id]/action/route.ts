@@ -1,7 +1,7 @@
 // POST /api/admin/markets/[id]/action — admin market lifecycle actions.
 //
 // A single capability-guarded dispatch endpoint for approve / reject / close /
-// dispute / resolve / cancel / feature. Each maps to an audited, capability-
+// dispute / resolve / cancel / void / feature. Each maps to an audited, capability-
 // checked SECURITY DEFINER RPC (migration 011). We call via the operator's
 // session client (ctx.supabase) so auth.uid() is set and has_capability()
 // evaluates against the real caller — defence in depth on top of this guard.
@@ -25,6 +25,13 @@ const schema = z.discriminatedUnion('action', [
     resolution_notes: z.string().min(10).max(1000),
   }),
   z.object({ action: z.literal('cancel'), reason: z.string().min(3).max(1000) }),
+  // Void (migration 072): conserving settlement at one YES price for every
+  // share, NO pays 1 - yes_price. Default 0.5 (Polymarket's 50-50 precedent).
+  z.object({
+    action: z.literal('void'),
+    reason: z.string().min(10).max(1000),
+    yes_price: z.number().min(0).max(1).optional(),
+  }),
   z.object({
     action: z.literal('feature'),
     is_featured: z.boolean(),
@@ -42,6 +49,7 @@ const CAP: Record<string, Capability> = {
   dispute: 'markets:resolve',
   resolve: 'markets:resolve',
   cancel: 'markets:cancel',
+  void: 'markets:cancel',
 }
 
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -104,6 +112,10 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       rpc = 'admin_cancel_market'
       args = { p_market_id: id, p_reason: body.reason }
       break
+    case 'void':
+      rpc = 'admin_void_market'
+      args = { p_market_id: id, p_reason: body.reason, p_yes_price: body.yes_price ?? 0.5 }
+      break
     case 'feature':
       rpc = 'admin_set_market_featured'
       args = {
@@ -116,6 +128,16 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   }
 
   const { data, error } = await sb.rpc(rpc as never, args as never)
-  if (error) return NextResponse.json({ error: error.message }, { status: 400 })
+  if (error) {
+    // P0144: the market has open positions, so a cancel would need a cost-basis
+    // refund that collateral does not back. Point the operator at the void.
+    if ((error as { code?: string }).code === 'P0144') {
+      return NextResponse.json(
+        { error: error.message, code: 'P0144', hint: "This market has open positions. Use action 'void' with a yes_price (default 0.5)." },
+        { status: 409 },
+      )
+    }
+    return NextResponse.json({ error: error.message }, { status: 400 })
+  }
   return NextResponse.json({ success: true, data })
 }

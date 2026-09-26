@@ -30,6 +30,12 @@ Conventional-Commit messages by `.github/workflows/release.yml`.
   changelog.
 
 ### Fixed
+- **Void policy (migration 072).** A market that cannot be resolved is voided:
+  every YES share settles at one chosen price p (default 0.50, Polymarket's
+  50-50 precedent) and every NO share at 1-p, which pays out exactly the
+  collateral held. `admin_void_market` (capability `markets:cancel`, reason
+  >= 10 chars, audited) plus an admin-console `void` action; a `cancel` on a
+  market with positions now answers 409 pointing at `void`.
 - **Payments: deposits and withdrawals are bound to the currency the provider
   actually settles in (migration 070).** The routes accepted any currency with
   any provider, but M-Pesa charges and pays shillings: "deposit USD 100 via
