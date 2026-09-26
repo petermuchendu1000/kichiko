@@ -10,6 +10,13 @@ import { mtnRequestToPay, formatMoMoPhone } from './mtn-momo'
 import { airtelCollect, formatAirtelPhone } from './airtel-money'
 import { submitPesaPalOrder } from './pesapal'
 import { appendWebhookToken } from './mpesa-webhook-verify'
+import {
+  classifyAirtelDisbursement,
+  classifyMpesaB2C,
+  classifyMtnTransfer,
+  type Classified,
+  type DisbursementOutcome,
+} from './disbursement-outcome'
 
 export interface PaymentRequest {
   provider: PaymentProvider
@@ -192,12 +199,63 @@ export interface WithdrawRequest {
 }
 
 export interface WithdrawResult {
+  /**
+   * accepted: the provider took the request; rejected: refused or never sent
+   * (safe to refund); unknown: money may have left (keep 'processing', never
+   * refund). See lib/payments/disbursement-outcome.ts (audit 6.5).
+   */
+  outcome: DisbursementOutcome
+  /** outcome === 'accepted' */
   success: boolean
   reference?: string
   receipt?: string
   raw?: unknown
   message?: string
 }
+
+// A payout request that has not answered within this long is `unknown`, not failed.
+const DISBURSE_TIMEOUT_MS = 30_000
+const TOKEN_TIMEOUT_MS = 15_000
+
+class NotSent extends Error {}
+
+/** OAuth token fetch: any failure means nothing was sent (rejected). */
+async function fetchToken(url: string, init: RequestInit, what: string): Promise<string> {
+  let data: { access_token?: unknown }
+  try {
+    const res = await fetch(url, { ...init, signal: AbortSignal.timeout(TOKEN_TIMEOUT_MS) })
+    data = await res.json()
+  } catch (e) {
+    throw new NotSent(`${what} token request failed: ${e instanceof Error ? e.message : 'error'}`)
+  }
+  if (typeof data?.access_token !== 'string' || !data.access_token) throw new NotSent(`Failed to get ${what} access token`)
+  return data.access_token
+}
+
+/** The payout request itself: never throws; a transport failure is reported, not raised. */
+async function sendPayout(url: string, init: RequestInit): Promise<{ status: number; body: unknown } | { error: string }> {
+  try {
+    const res = await fetch(url, { ...init, signal: AbortSignal.timeout(DISBURSE_TIMEOUT_MS) })
+    let body: unknown
+    try {
+      body = await res.json()
+    } catch {
+      body = undefined // unreadable reply: the classifiers treat it as unknown unless the status alone decides
+    }
+    return { status: res.status, body }
+  } catch (e) {
+    return { error: e instanceof Error ? `${e.name}: ${e.message}` : 'payout request failed' }
+  }
+}
+
+const done = (c: Classified, raw?: unknown): WithdrawResult => ({
+  outcome: c.outcome,
+  success: c.outcome === 'accepted',
+  reference: c.reference,
+  receipt: c.receipt,
+  raw,
+  message: c.message,
+})
 
 export async function processWithdrawal(
   provider: PaymentProvider,
@@ -214,26 +272,25 @@ export async function processWithdrawal(
         const securityCredential = process.env.MPESA_SECURITY_CREDENTIAL
         const baseUrl = process.env.MPESA_BASE_URL || 'https://sandbox.safaricom.co.ke'
 
-        if (!consumerKey || !consumerSecret) throw new Error('M-Pesa B2C not configured')
+        if (!consumerKey || !consumerSecret) throw new NotSent('M-Pesa B2C not configured')
 
-        // Get access token
-        const tokenRes = await fetch(`${baseUrl}/oauth/v1/generate?grant_type=client_credentials`, {
+        const token = await fetchToken(`${baseUrl}/oauth/v1/generate?grant_type=client_credentials`, {
           headers: {
             Authorization: `Basic ${Buffer.from(`${consumerKey}:${consumerSecret}`).toString('base64')}`,
           },
-        })
-        const tokenData = await tokenRes.json()
-        const token = tokenData.access_token
-        if (!token) throw new Error('Failed to get M-Pesa access token')
+        }, 'M-Pesa')
 
         const phone = req.phone.replace('+', '').replace(/^0/, '254')
-        const b2cRes = await fetch(`${baseUrl}/mpesa/b2c/v3/paymentrequest`, {
+        const sent = await sendPayout(`${baseUrl}/mpesa/b2c/v3/paymentrequest`, {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
+            // our withdrawal id: the result callback echoes it, so a payout whose
+            // initiation reply was lost can still be matched (audit 6.5)
+            OriginatorConversationID: req.reference,
             InitiatorName: initiatorName,
             SecurityCredential: securityCredential,
             CommandID: 'BusinessPayment',
@@ -251,16 +308,8 @@ export async function processWithdrawal(
             Occasion: req.reference.slice(0, 20),
           }),
         })
-        const b2cData = await b2cRes.json()
-        if (b2cData.ResponseCode === '0') {
-          return {
-            success: true,
-            reference: b2cData.ConversationID,
-            receipt: b2cData.OriginatorConversationID,
-            raw: b2cData,
-          }
-        }
-        throw new Error(b2cData.ResponseDescription || 'B2C payment failed')
+        if ('error' in sent) return done({ outcome: 'unknown', message: sent.error })
+        return done(classifyMpesaB2C(sent.status, sent.body), sent.body)
       }
 
       case 'mtn_momo': {
@@ -270,21 +319,19 @@ export async function processWithdrawal(
         const apiUser = process.env.MTN_MOMO_API_USER
         const apiKey = process.env.MTN_MOMO_API_KEY
 
-        if (!subscriptionKey || !apiUser || !apiKey) throw new Error('MTN Disbursement not configured')
+        if (!subscriptionKey || !apiUser || !apiKey) throw new NotSent('MTN Disbursement not configured')
 
-        const tokenRes = await fetch(`${baseUrl}/disbursement/token/`, {
+        const token = await fetchToken(`${baseUrl}/disbursement/token/`, {
           method: 'POST',
           headers: {
             Authorization: `Basic ${Buffer.from(`${apiUser}:${apiKey}`).toString('base64')}`,
             'Ocp-Apim-Subscription-Key': subscriptionKey,
           },
-        })
-        const tokenData = await tokenRes.json()
-        const token = tokenData.access_token
-        if (!token) throw new Error('Failed to get MTN token')
+        }, 'MTN')
 
+        // chosen before sending, so even an unanswered request can be re-queried
         const referenceId = crypto.randomUUID()
-        const disbRes = await fetch(`${baseUrl}/disbursement/v1_0/transfer`, {
+        const sent = await sendPayout(`${baseUrl}/disbursement/v1_0/transfer`, {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -305,12 +352,8 @@ export async function processWithdrawal(
             payeeNote: `Withdrawal ${req.reference}`,
           }),
         })
-
-        if (disbRes.status === 202) {
-          return { success: true, reference: referenceId, raw: null }
-        }
-        const err = await disbRes.json()
-        throw new Error(err.message || 'MTN Disbursement failed')
+        if ('error' in sent) return done({ outcome: 'unknown', reference: referenceId, message: sent.error })
+        return done(classifyMtnTransfer(sent.status, sent.body, referenceId), sent.body ?? null)
       }
 
       case 'airtel_money': {
@@ -319,19 +362,15 @@ export async function processWithdrawal(
         const clientId = process.env.AIRTEL_MONEY_CLIENT_ID
         const clientSecret = process.env.AIRTEL_MONEY_CLIENT_SECRET
 
-        if (!clientId || !clientSecret) throw new Error('Airtel Money not configured')
+        if (!clientId || !clientSecret) throw new NotSent('Airtel Money not configured')
 
-        // Get OAuth token
-        const tokenRes = await fetch(`${baseUrl}/auth/oauth2/token`, {
+        const token = await fetchToken(`${baseUrl}/auth/oauth2/token`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ client_id: clientId, client_secret: clientSecret, grant_type: 'client_credentials' }),
-        })
-        const tokenData = await tokenRes.json()
-        const token = tokenData.access_token
-        if (!token) throw new Error('Failed to get Airtel token')
+        }, 'Airtel')
 
-        const disbRes = await fetch(`${baseUrl}/standard/v1/disbursements/`, {
+        const sent = await sendPayout(`${baseUrl}/standard/v1/disbursements/`, {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -350,23 +389,18 @@ export async function processWithdrawal(
             },
           }),
         })
-        const disbData = await disbRes.json()
-        if (disbData.status?.code === '200' || disbRes.ok) {
-          return {
-            success: true,
-            reference: disbData.transaction?.id || req.reference,
-            receipt: disbData.transaction?.id,
-            raw: disbData,
-          }
-        }
-        throw new Error(disbData.status?.message || 'Airtel disbursement failed')
+        if ('error' in sent) return done({ outcome: 'unknown', reference: req.reference, message: sent.error })
+        return done(classifyAirtelDisbursement(sent.status, sent.body, req.reference), sent.body)
       }
 
       default:
-        throw new Error(`Withdrawal via ${provider} not yet supported`)
+        throw new NotSent(`Withdrawal via ${provider} not yet supported`)
     }
   } catch (err) {
+    // Only failures before the payout request was sent reach here (config,
+    // token, unsupported provider): nothing left, so it is a refusal.
+    // Anything unexpected is treated as unknown: never refund on a guess.
     const message = err instanceof Error ? err.message : 'Withdrawal processing failed'
-    return { success: false, message }
+    return done({ outcome: err instanceof NotSent ? 'rejected' : 'unknown', message })
   }
 }

@@ -36,7 +36,7 @@ import {
   REVIEW_THRESHOLD_USD,
   INSUFFICIENT_BALANCE_CODE,
 } from '@/lib/payments/withdraw'
-import type { CurrencyCode, PaymentProvider } from '@/types'
+import type { CurrencyCode, Json, PaymentProvider } from '@/types'
 import { getSettlement, resolveMoneyCurrency } from '@/lib/settlement'
 
 const WithdrawSchema = z.object({
@@ -196,8 +196,8 @@ export async function POST(req: NextRequest) {
         reference: withdrawalId,
       })
 
-      if (!result.success) {
-        // Provider rejected up-front → refund the reserve immediately.
+      if (result.outcome === 'rejected') {
+        // Refused by the provider, or never sent: no money left, refund the reserve.
         await failWithdrawal(admin, withdrawalId, result.message || 'Disbursement rejected', result.raw)
         return NextResponse.json(
           { error: result.message || 'Withdrawal could not be processed. You have not been charged.' },
@@ -205,12 +205,20 @@ export async function POST(req: NextRequest) {
         )
       }
 
-      // Accepted for processing. Store the provider reference so the result
-      // webhook can correlate the async completion back to this withdrawal.
-      await admin
-        .from('withdrawals')
-        .update({ provider_reference: result.reference ?? null })
-        .eq('id', withdrawalId)
+      // accepted, or unknown (timeout, unreadable reply, provider 5xx): money
+      // may have left, so the withdrawal stays 'processing' with its reserve
+      // held until the provider's result callback or a status query settles
+      // it. Refunding an unknown outcome is what paid users twice (audit 6.5).
+      // Store whatever correlates the later result with this withdrawal.
+      const update: { provider_reference?: string; raw_response?: Json } = {}
+      if (result.reference) update.provider_reference = result.reference
+      if (result.outcome === 'unknown') {
+        update.raw_response = { initiation: { outcome: 'unknown', message: result.message ?? null, at: new Date().toISOString() } }
+        console.error('Withdrawal disbursement outcome unknown (left in processing):', withdrawalId, result.message)
+      }
+      if (Object.keys(update).length) {
+        await admin.from('withdrawals').update(update).eq('id', withdrawalId)
+      }
 
       return NextResponse.json({
         success: true,
@@ -222,14 +230,10 @@ export async function POST(req: NextRequest) {
         provider_reference: result.reference ?? null,
       })
     } catch (e) {
-      // H3: a disbursement exception here is AMBIGUOUS — the provider may have
-      // already accepted and paid out before the network call timed out.
-      // Auto-refunding (fail_withdrawal) would double-pay: the user keeps the
-      // balance AND receives the mobile-money payout. Instead leave the
-      // withdrawal in 'processing' and let the provider result webhook /
-      // reconciliation sweep (scripts/ops/reconcile_ledger.py) settle it against
-      // the provider's authoritative status. Only a CONFIRMED synchronous
-      // rejection (result.success === false, above) refunds the reserve.
+      // H3: processWithdrawal does not throw, so this is an unexpected error
+      // around it. The provider may still have paid out, so never refund here:
+      // leave the withdrawal 'processing' for the result callback or a status
+      // query. Only an explicit refusal (outcome 'rejected', above) refunds.
       console.error('Withdrawal disbursement error (leaving in processing for reconciliation):', e)
       return NextResponse.json({
         success: true,

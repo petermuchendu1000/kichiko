@@ -248,4 +248,56 @@ describe('POST /api/webhooks/mpesa-b2c (payout)', () => {
     expect(complete).not.toHaveBeenCalled()
     expect(failWd).not.toHaveBeenCalled()
   })
+  // Audit 6.5: when the initiation reply was lost (outcome unknown) no
+  // ConversationID was stored; the result is matched by the withdrawal id we
+  // sent as OriginatorConversationID, and only for a withdrawal without one.
+  describe('lost initiation reply: match by OriginatorConversationID', () => {
+    const WD_ID = '5b0c3a52-3a55-4a4e-9a5e-2f7f1f0c9d11'
+    const filters: Array<Array<[string, string, unknown]>> = []
+    function stubByFilter(match: (f: Array<[string, string, unknown]>) => unknown) {
+      filters.length = 0
+      admin.mockResolvedValue({
+        from() {
+          const f: Array<[string, string, unknown]> = []
+          filters.push(f)
+          const b: Record<string, unknown> = {}
+          b.select = () => b
+          b.eq = (c: string, v: unknown) => { f.push(['eq', c, v]); return b }
+          b.is = (c: string, v: unknown) => { f.push(['is', c, v]); return b }
+          b.maybeSingle = async () => ({ data: match(f), error: null })
+          return b
+        },
+      })
+    }
+    const body = (code: number, origin: string) => {
+      const b = b2cBody(code)
+      ;(b.Result as Record<string, unknown>).OriginatorConversationID = origin
+      return b
+    }
+
+    it('settles the withdrawal found by id when the ConversationID is unknown to us', async () => {
+      process.env.MPESA_WEBHOOK_SECRET = 'real-secret'
+      stubByFilter((f) => (f.some(([, c, v]) => c === 'id' && v === WD_ID) ? { id: WD_ID, status: 'processing' } : null))
+      await b2cPOST(post(`${URL}?token=real-secret`, body(0, WD_ID)))
+      expect(complete).toHaveBeenCalledTimes(1)
+      expect(complete.mock.calls[0][1]).toMatchObject({ withdrawalId: WD_ID })
+      // the fallback is scoped: M-Pesa withdrawals that never got a provider reference
+      expect(filters[1]).toEqual(expect.arrayContaining([['eq', 'provider', 'mpesa'], ['is', 'provider_reference', null]]))
+    })
+
+    it('a failed result found that way refunds it', async () => {
+      process.env.MPESA_WEBHOOK_SECRET = 'real-secret'
+      stubByFilter((f) => (f.some(([, c]) => c === 'id') ? { id: WD_ID, status: 'processing' } : null))
+      await b2cPOST(post(`${URL}?token=real-secret`, body(1, WD_ID)))
+      expect(failWd).toHaveBeenCalledTimes(1)
+    })
+
+    it('a non-UUID OriginatorConversationID is never used as an id', async () => {
+      process.env.MPESA_WEBHOOK_SECRET = 'real-secret'
+      stubByFilter(() => null)
+      await b2cPOST(post(`${URL}?token=real-secret`, body(0, '29115-34620561-1')))
+      expect(filters).toHaveLength(1)
+      expect(complete).not.toHaveBeenCalled()
+    })
+  })
 })

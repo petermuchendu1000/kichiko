@@ -23,6 +23,8 @@ import { verifyMpesaWebhookSource } from '@/lib/payments/mpesa-webhook-verify'
 
 const ACCEPTED = { ResultCode: 0, ResultDesc: 'Accepted' }
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
 export async function POST(req: NextRequest) {
   try {
     // Money-OUT: source verification is MANDATORY and FAILS CLOSED. Safaricom
@@ -56,11 +58,25 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(ACCEPTED)
     }
 
-    const { data: withdrawal } = await admin
+    let { data: withdrawal } = await admin
       .from('withdrawals')
       .select('id, status')
       .eq('provider_reference', reference)
       .maybeSingle()
+
+    // The initiation reply was lost (outcome 'unknown', no ConversationID
+    // stored): we sent our withdrawal id as OriginatorConversationID, and the
+    // result echoes it (audit 6.5).
+    const origin = result.originatorConversationId
+    if (!withdrawal && origin && UUID_RE.test(origin)) {
+      ;({ data: withdrawal } = await admin
+        .from('withdrawals')
+        .select('id, status')
+        .eq('id', origin)
+        .eq('provider', 'mpesa')
+        .is('provider_reference', null)
+        .maybeSingle())
+    }
 
     if (!withdrawal) {
       console.error('M-Pesa B2C result: withdrawal not found for', reference)
