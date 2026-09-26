@@ -1,0 +1,92 @@
+seed 101: ops=2000 fills=966 sql_seconds=7.2
+ops=2000 btree==tick: true coverage={"budget_stops":42,"budget_trims":45,"expired_skips":50,"makers_filled":439,"market_sell_releases":4,"self_trade_skips":220,"unbacked_makers":0}
+seed 102: ops=2000 fills=579 sql_seconds=6.5
+ops=2000 btree==tick: true coverage={"budget_stops":25,"budget_trims":28,"expired_skips":19,"makers_filled":222,"market_sell_releases":12,"self_trade_skips":142,"unbacked_makers":0}
+seed 103: ops=2000 fills=954 sql_seconds=7.8
+ops=2000 btree==tick: true coverage={"budget_stops":34,"budget_trims":35,"expired_skips":56,"makers_filled":441,"market_sell_releases":3,"self_trade_skips":248,"unbacked_makers":0}
+seed 104: ops=2000 fills=997 sql_seconds=8.5
+ops=2000 btree==tick: true coverage={"budget_stops":38,"budget_trims":40,"expired_skips":150,"makers_filled":476,"market_sell_releases":1,"self_trade_skips":305,"unbacked_makers":0}
+seed 105: ops=2000 fills=697 sql_seconds=6.1
+ops=2000 btree==tick: true coverage={"budget_stops":19,"budget_trims":23,"expired_skips":64,"makers_filled":327,"market_sell_releases":12,"self_trade_skips":243,"unbacked_makers":0}
+seed 106: ops=2000 fills=1008 sql_seconds=7.5
+ops=2000 btree==tick: true coverage={"budget_stops":42,"budget_trims":43,"expired_skips":90,"makers_filled":415,"market_sell_releases":1,"self_trade_skips":286,"unbacked_makers":0}
+seed 107: ops=2000 fills=967 sql_seconds=7.8
+ops=2000 btree==tick: true coverage={"budget_stops":27,"budget_trims":28,"expired_skips":64,"makers_filled":448,"market_sell_releases":3,"self_trade_skips":250,"unbacked_makers":0}
+seed 108: ops=2000 fills=642 sql_seconds=6.2
+ops=2000 btree==tick: true coverage={"budget_stops":32,"budget_trims":35,"expired_skips":12,"makers_filled":280,"market_sell_releases":8,"self_trade_skips":165,"unbacked_makers":1}
+seed 109: ops=2000 fills=977 sql_seconds=7.2
+ops=2000 btree==tick: true coverage={"budget_stops":32,"budget_trims":35,"expired_skips":49,"makers_filled":424,"market_sell_releases":1,"self_trade_skips":263,"unbacked_makers":0}
+seed 110: ops=2000 fills=1063 sql_seconds=7.5
+ops=2000 btree==tick: true coverage={"budget_stops":35,"budget_trims":38,"expired_skips":50,"makers_filled":521,"market_sell_releases":5,"self_trade_skips":289,"unbacked_makers":0}
+seed 111: ops=2000 fills=710 sql_seconds=6.5
+ops=2000 btree==tick: true coverage={"budget_stops":21,"budget_trims":23,"expired_skips":44,"makers_filled":297,"market_sell_releases":5,"self_trade_skips":214,"unbacked_makers":0}
+seed 112: ops=2000 fills=1028 sql_seconds=7.5
+ops=2000 btree==tick: true coverage={"budget_stops":34,"budget_trims":40,"expired_skips":134,"makers_filled":494,"market_sell_releases":8,"self_trade_skips":269,"unbacked_makers":0}
+seed 201: ops=2000 fills=639 sql_seconds=6.0
+ops=2000 btree==tick: true coverage={"budget_stops":26,"budget_trims":28,"expired_skips":43,"makers_filled":271,"market_sell_releases":2,"self_trade_skips":194,"unbacked_makers":0}
+seed 202: ops=2000 fills=1085 sql_seconds=8.0
+ops=2000 btree==tick: true coverage={"budget_stops":27,"budget_trims":28,"expired_skips":25,"makers_filled":544,"market_sell_releases":4,"self_trade_skips":324,"unbacked_makers":0}
+seed 203: ops=2000 fills=1138 sql_seconds=7.7
+ops=2000 btree==tick: true coverage={"budget_stops":39,"budget_trims":39,"expired_skips":35,"makers_filled":526,"market_sell_releases":0,"self_trade_skips":358,"unbacked_makers":0}
+seed 204: ops=2000 fills=802 sql_seconds=6.5
+ops=2000 btree==tick: true coverage={"budget_stops":31,"budget_trims":32,"expired_skips":65,"makers_filled":342,"market_sell_releases":2,"self_trade_skips":262,"unbacked_makers":0}
+seed 301: ops=4000 fills=1315 sql_seconds=12.8
+ops=4000 btree==tick: true coverage={"budget_stops":63,"budget_trims":64,"expired_skips":64,"makers_filled":567,"market_sell_releases":0,"self_trade_skips":428,"unbacked_makers":0}
+seed 302: ops=4000 fills=2426 sql_seconds=15.7
+ops=4000 btree==tick: true coverage={"budget_stops":98,"budget_trims":103,"expired_skips":76,"makers_filled":1126,"market_sell_releases":7,"self_trade_skips":871,"unbacked_makers":0}
+seed 101 [btree]: ops identical 2000/2000, orders identical 1304/1304, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 101: ops=2000 fills=966 {'mint': 359, 'direct': 453, 'burn': 154} orders=1304 positions=24 errors={'P0113': 154, 'P0106': 41, 'P0105': 78, 'P0102': 17, 'P0006': 143, 'P0104': 3, 'P0112': 4, 'P0110': 6, 'P0111': 11} cancels=201 expired=43
+seed 101 [tick]: ops identical 2000/2000, orders identical 1304/1304, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 102 [btree]: ops identical 2000/2000, orders identical 842/842, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 102: ops=2000 fills=579 {'mint': 214, 'direct': 293, 'burn': 72} orders=842 positions=24 errors={'P0113': 188, 'P0105': 517, 'P0106': 63, 'P0102': 16, 'P0006': 108, 'P0111': 22, 'P0104': 10, 'P0110': 9, 'P0112': 5} cancels=186 expired=20
+seed 102 [tick]: ops identical 2000/2000, orders identical 842/842, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 103 [btree]: ops identical 2000/2000, orders identical 1309/1309, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 103: ops=2000 fills=954 {'mint': 357, 'direct': 448, 'burn': 149} orders=1309 positions=24 errors={'P0113': 127, 'P0111': 16, 'P0105': 71, 'P0106': 52, 'P0104': 3, 'P0006': 145, 'P0110': 12, 'P0102': 13, 'P0112': 2} cancels=200 expired=55
+seed 103 [tick]: ops identical 2000/2000, orders identical 1309/1309, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 104 [btree]: ops identical 2000/2000, orders identical 1350/1350, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 104: ops=2000 fills=997 {'mint': 356, 'direct': 473, 'burn': 168} orders=1350 positions=24 errors={'P0113': 120, 'P0104': 10, 'P0006': 131, 'P0105': 92, 'P0110': 10, 'P0106': 19, 'P0102': 9, 'P0112': 1, 'P0111': 11} cancels=204 expired=44
+seed 104 [tick]: ops identical 2000/2000, orders identical 1350/1350, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 105 [btree]: ops identical 2000/2000, orders identical 969/969, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 105: ops=2000 fills=697 {'mint': 245, 'direct': 344, 'burn': 108} orders=969 positions=24 errors={'P0113': 150, 'P0105': 477, 'P0102': 12, 'P0006': 81, 'P0106': 33, 'P0111': 14, 'P0110': 13, 'P0112': 7, 'P0104': 11} cancels=190 expired=33
+seed 105 [tick]: ops identical 2000/2000, orders identical 969/969, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 106 [btree]: ops identical 2000/2000, orders identical 1307/1307, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 106: ops=2000 fills=1008 {'mint': 397, 'direct': 468, 'burn': 143} orders=1307 positions=24 errors={'P0113': 129, 'P0105': 83, 'P0106': 57, 'P0104': 12, 'P0102': 13, 'P0111': 15, 'P0006': 140, 'P0110': 6, 'P0112': 3} cancels=199 expired=42
+seed 106 [tick]: ops identical 2000/2000, orders identical 1307/1307, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 107 [btree]: ops identical 2000/2000, orders identical 1295/1295, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 107: ops=2000 fills=967 {'mint': 359, 'direct': 444, 'burn': 164} orders=1295 positions=24 errors={'P0113': 168, 'P0106': 44, 'P0102': 10, 'P0105': 88, 'P0111': 20, 'P0104': 4, 'P0006': 105, 'P0110': 4, 'P0112': 2} cancels=211 expired=44
+seed 107 [tick]: ops identical 2000/2000, orders identical 1295/1295, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 108 [btree]: ops identical 2000/2000, orders identical 889/889, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 108: ops=2000 fills=642 {'mint': 245, 'direct': 302, 'burn': 95} orders=889 positions=24 errors={'P0113': 190, 'P0105': 521, 'P0110': 9, 'P0102': 11, 'P0104': 6, 'P0106': 68, 'P0111': 17, 'P0006': 76, 'P0112': 3} cancels=168 expired=22
+seed 108 [tick]: ops identical 2000/2000, orders identical 889/889, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 109 [btree]: ops identical 2000/2000, orders identical 1330/1330, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 109: ops=2000 fills=977 {'mint': 341, 'direct': 481, 'burn': 155} orders=1330 positions=24 errors={'P0113': 138, 'P0106': 35, 'P0102': 9, 'P0111': 14, 'P0105': 77, 'P0104': 9, 'P0006': 141, 'P0110': 6, 'P0112': 2} cancels=188 expired=36
+seed 109 [tick]: ops identical 2000/2000, orders identical 1330/1330, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 110 [btree]: ops identical 2000/2000, orders identical 1353/1353, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 110: ops=2000 fills=1063 {'mint': 387, 'direct': 505, 'burn': 171} orders=1353 positions=24 errors={'P0105': 91, 'P0113': 115, 'P0106': 58, 'P0111': 29, 'P0104': 1, 'P0102': 17, 'P0110': 5, 'P0006': 102, 'P0112': 3} cancels=192 expired=44
+seed 110 [tick]: ops identical 2000/2000, orders identical 1353/1353, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 111 [btree]: ops identical 2000/2000, orders identical 959/959, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 111: ops=2000 fills=710 {'mint': 260, 'direct': 344, 'burn': 106} orders=959 positions=24 errors={'P0113': 194, 'P0105': 441, 'P0106': 49, 'P0104': 7, 'P0102': 10, 'P0006': 93, 'P0112': 3, 'P0111': 18, 'P0110': 6} cancels=170 expired=24
+seed 111 [tick]: ops identical 2000/2000, orders identical 959/959, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 112 [btree]: ops identical 2000/2000, orders identical 1326/1326, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 112: ops=2000 fills=1028 {'mint': 373, 'direct': 486, 'burn': 169} orders=1326 positions=24 errors={'P0105': 109, 'P0113': 156, 'P0102': 15, 'P0106': 50, 'P0111': 8, 'P0006': 97, 'P0110': 12, 'P0104': 8, 'P0112': 2} cancels=179 expired=48
+seed 112 [tick]: ops identical 2000/2000, orders identical 1326/1326, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 201 [btree]: ops identical 2000/2000, orders identical 868/868, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 201: ops=2000 fills=639 {'mint': 260, 'burn': 101, 'direct': 278} orders=868 positions=24 errors={'P0113': 251, 'P0105': 539, 'P0006': 123, 'P0106': 79, 'P0111': 20, 'P0112': 6, 'P0104': 4, 'P0102': 14, 'P0110': 7} cancels=47 expired=31
+seed 201 [tick]: ops identical 2000/2000, orders identical 868/868, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 202 [btree]: ops identical 2000/2000, orders identical 1360/1360, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 202: ops=2000 fills=1085 {'mint': 356, 'direct': 531, 'burn': 198} orders=1360 positions=24 errors={'P0113': 229, 'P0106': 29, 'P0102': 26, 'P0006': 143, 'P0111': 18, 'P0105': 90, 'P0112': 1, 'P0104': 8, 'P0110': 10} cancels=35 expired=44
+seed 202 [tick]: ops identical 2000/2000, orders identical 1360/1360, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 203 [btree]: ops identical 2000/2000, orders identical 1377/1377, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 203: ops=2000 fills=1138 {'mint': 381, 'direct': 552, 'burn': 205} orders=1377 positions=24 errors={'P0113': 185, 'P0006': 139, 'P0111': 15, 'P0102': 14, 'P0105': 109, 'P0106': 43, 'P0112': 1, 'P0110': 7, 'P0104': 7} cancels=44 expired=38
+seed 203 [tick]: ops identical 2000/2000, orders identical 1377/1377, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 204 [btree]: ops identical 2000/2000, orders identical 990/990, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 204: ops=2000 fills=802 {'mint': 297, 'direct': 367, 'burn': 138} orders=990 positions=24 errors={'P0113': 268, 'P0105': 490, 'P0111': 14, 'P0006': 101, 'P0106': 44, 'P0110': 9, 'P0102': 11, 'P0104': 6, 'P0112': 1} cancels=36 expired=35
+seed 204 [tick]: ops identical 2000/2000, orders identical 990/990, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 301 [btree]: ops identical 4000/4000, orders identical 1668/1668, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 301: ops=4000 fills=1315 {'mint': 444, 'direct': 666, 'burn': 205} orders=1668 positions=24 errors={'P0113': 481, 'P0104': 15, 'P0111': 32, 'P0105': 191, 'P0006': 461, 'P0106': 63, 'P0102': 16, 'P0110': 23, 'P0112': 5, 'P0131': 970} cancels=3 expired=58
+seed 301 [tick]: ops identical 4000/4000, orders identical 1668/1668, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 302 [btree]: ops identical 4000/4000, orders identical 2770/2770, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+seed 302: ops=4000 fills=2426 {'mint': 781, 'direct': 1189, 'burn': 456} orders=2770 positions=24 errors={'P0113': 423, 'P0105': 224, 'P0006': 305, 'P0106': 114, 'P0110': 14, 'P0104': 14, 'P0102': 18, 'P0111': 34, 'P0112': 3} cancels=0 expired=78
+seed 302 [tick]: ops identical 4000/4000, orders identical 2770/2770, positions IDENTICAL, wallets IDENTICAL (text-level diffs: ops 0, orders 0, positions 0, wallets 0) -> OK
+TOTAL {'cancels_ok': 2453, 'cov:budget_stops': 665, 'cov:budget_trims': 707, 'cov:expired_skips': 1090, 'cov:makers_filled': 8160, 'cov:market_sell_releases': 78, 'cov:self_trade_skips': 5331, 'cov:unbacked_makers': 1, 'err:P0006': 2634, 'err:P0102': 251, 'err:P0104': 138, 'err:P0105': 4288, 'err:P0106': 941, 'err:P0110': 168, 'err:P0111': 328, 'err:P0112': 54, 'err:P0113': 3666, 'err:P0131': 970, 'expired': 739, 'fills': 17993, 'kind:burn': 2957, 'kind:direct': 8624, 'kind:mint': 6412, 'ops': 40000, 'orders': 23266, 'positions': 432, 'status:cancelled': 113, 'status:filled': 9836, 'status:open': 12115, 'status:partially_filled': 1202, 'wallets': 108}
+ALL IDENTICAL
