@@ -8,6 +8,16 @@ Conventional-Commit messages by `.github/workflows/release.yml`.
 
 ## [Unreleased]
 
+### Changed
+- **Matching engine: index-ordered unified ladder (migration 071).** The maker
+  ladder sorted the whole live book of the option on every order (computed
+  `CASE` ordering, no index). Orders now carry a YES-perspective price and book
+  side with partial asks/bids indexes, and takers walk the book lazily in
+  price-time order: O(log n + fills). Fill-for-fill identical to 046 on 12,500
+  differential-test operations. One hot market, 3,000-deep book: 263 -> 485
+  orders/s, p50 3.11 -> 1.38 ms. Position updates are now HOT-eligible (6.6% ->
+  94.2%). New ops tools: `scripts/ops/clob/diff_engine.py`, `bench_engine.py`.
+
 ### Added
 - **CI/CD & IaC (Module 16).** Hardened pipeline (parallel lint/type-check/unit
   → build, concurrency, path filters, migration-lint, security scans);
