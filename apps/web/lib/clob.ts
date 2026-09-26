@@ -164,6 +164,8 @@ export const CLOB_ERRORS: Record<string, ClobError> = {
   P0194: { status: 409, error: 'Your account settles in another currency. Refresh and try again.', code: 'currency_mismatch' },
   P0195: { status: 409, error: 'No resting liquidity to fill a market order right now', code: 'no_liquidity' },
   P0196: { status: 400, error: 'This order has already expired', code: 'order_expired' },
+  P0199: { status: 409, error: 'This option is not open for trading', code: 'option_closed' },
+  P0012: { status: 403, error: 'Your wallet is inactive. Contact support.', code: 'wallet_inactive' },
   P0001: { status: 404, error: 'Market not found or not active' },
   P0002: { status: 409, error: 'Market is closed for betting' },
   P0003: { status: 400, error: 'Unsupported currency' },
