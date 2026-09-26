@@ -36,34 +36,48 @@ export async function getCardOptions(
   const countByMarket = new Map<string, number>()
   if (marketIds.length === 0) return { topByMarket, countByMarket }
 
-  const { data } = await supabase
-    .from('market_options')
-    .select('id, market_id, label, price, yes_price, image_url')
-    .in('market_id', marketIds)
-
-  type Row = {
-    id: string
-    market_id: string
-    label: string
-    price: number | null
-    yes_price: number | null
-    image_url: string | null
-  }
-
-  // Group, then rank each market's options and keep the top `perMarket`.
-  const grouped = new Map<string, CardOption[]>()
-  for (const o of (data as Row[]) ?? []) {
-    countByMarket.set(o.market_id, (countByMarket.get(o.market_id) ?? 0) + 1)
-    // For independent lines the candidate probability is its Yes price; fall
-    // back to the shared-simplex `price` otherwise.
-    const price = o.yes_price ?? o.price ?? 0
-    const list = grouped.get(o.market_id) ?? []
-    list.push({ id: o.id, label: o.label, price, imageUrl: o.image_url })
-    grouped.set(o.market_id, list)
-  }
-  for (const [marketId, list] of grouped) {
-    list.sort((a, b) => b.price - a.price)
-    topByMarket.set(marketId, list.slice(0, perMarket))
+  // Ranked in the database (migration 097; audit 6.43): reading every option
+  // and ranking here was cut at PostgREST's max_rows (1,000) past which counts
+  // and front-runners were wrong. The rows come back highest first per market.
+  // Probability = the Yes price for independent lines, else the shared `price`.
+  const rows = await fetchCardOptionRows(supabase, marketIds, perMarket)
+  for (const o of rows) {
+    countByMarket.set(o.market_id, o.option_count)
+    const list = topByMarket.get(o.market_id) ?? []
+    list.push({ id: o.id, label: o.label, price: Number(o.price), imageUrl: o.image_url })
+    topByMarket.set(o.market_id, list)
   }
   return { topByMarket, countByMarket }
+}
+
+export interface CardOptionRow {
+  market_id: string
+  id: string
+  label: string
+  price: number
+  image_url: string | null
+  option_count: number
+}
+
+/** market_card_options (097): the top `perMarket` options per market, highest first, and each market's count. */
+export async function fetchCardOptionRows(
+  supabase: SupabaseClient<any, any, any>,
+  marketIds: string[],
+  perMarket: number,
+): Promise<CardOptionRow[]> {
+  const rows: CardOptionRow[] = []
+  // the RPC takes at most 100 markets per call
+  for (let i = 0; i < marketIds.length; i += 100) {
+    const { data, error } = await supabase.rpc('market_card_options', {
+      p_market_ids: marketIds.slice(i, i + 100),
+      p_per_market: perMarket,
+    })
+    if (error) {
+      // degrade as the old table read did: the cards render without option rows
+      console.error('market_card_options failed:', error.message)
+      break
+    }
+    rows.push(...((data as CardOptionRow[]) ?? []))
+  }
+  return rows
 }
