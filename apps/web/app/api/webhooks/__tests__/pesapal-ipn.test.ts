@@ -12,12 +12,12 @@ vi.mock('@/lib/payments/pesapal', async (orig) => ({
   ...(await orig<typeof import('@/lib/payments/pesapal')>()),
   getPesaPalStatus: vi.fn(),
 }))
-vi.mock('@/lib/payments/credit', () => ({ creditDeposit: vi.fn(async () => ({ ok: true })), failDeposit: vi.fn() }))
+vi.mock('@/lib/payments/credit', () => ({ creditDeposit: vi.fn(async () => ({ ok: true })), failDeposit: vi.fn(), reverseDeposit: vi.fn() }))
 
 import { GET } from '@/app/api/webhooks/pesapal/route'
 import { createAdminClient } from '@/lib/supabase/server'
 import { getPesaPalStatus } from '@/lib/payments/pesapal'
-import { creditDeposit } from '@/lib/payments/credit'
+import { creditDeposit, failDeposit, reverseDeposit } from '@/lib/payments/credit'
 
 const admin = createAdminClient as unknown as Mock
 const status = getPesaPalStatus as unknown as Mock
@@ -87,5 +87,29 @@ describe('PesaPal IPN binding (audit 6.3)', () => {
     status.mockResolvedValue(live({ merchantReference: 'dep-B', amount: 50000 }))
     await ipn('OrderTrackingId=T_B&OrderMerchantReference=dep-B')
     expect(credit.mock.calls[0][1]).toMatchObject({ depositId: 'dep-B', amount: 50000, idempotencyKey: 'pesapal_dep-B' })
+  })
+})
+
+// Audit 6.30: a chargeback after the credit was ignored (fail_deposit returns
+// early for a completed deposit). REVERSED now claws it back (migration 086).
+describe('PesaPal REVERSED (audit 6.30)', () => {
+  it('a REVERSED status reverses the deposit (not a no-op fail)', async () => {
+    status.mockResolvedValue(live({ status: 'REVERSED' }))
+    await ipn('OrderTrackingId=T_A&OrderMerchantReference=dep-A')
+    expect(reverseDeposit).toHaveBeenCalledTimes(1)
+    expect((reverseDeposit as unknown as Mock).mock.calls[0][1]).toBe('dep-A')
+    expect(failDeposit).not.toHaveBeenCalled()
+    expect(credit).not.toHaveBeenCalled()
+  })
+  it('a REVERSED status that does not match the deposit is not applied', async () => {
+    status.mockResolvedValue(live({ status: 'REVERSED', merchantReference: 'dep-B' }))
+    await ipn('OrderTrackingId=T_A&OrderMerchantReference=dep-A')
+    expect(reverseDeposit).not.toHaveBeenCalled()
+  })
+  it('FAILED / INVALID still just fail the deposit', async () => {
+    status.mockResolvedValue(live({ status: 'FAILED' }))
+    await ipn('OrderTrackingId=T_A&OrderMerchantReference=dep-A')
+    expect(failDeposit).toHaveBeenCalledTimes(1)
+    expect(reverseDeposit).not.toHaveBeenCalled()
   })
 })

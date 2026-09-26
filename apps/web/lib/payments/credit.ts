@@ -123,3 +123,32 @@ export async function failDeposit(
   }
   return data as FailDepositResult
 }
+
+export interface ReverseDepositResult {
+  reversed: boolean
+  already_processed?: boolean
+  deposit_id?: string
+  debited?: number
+  shortfall?: number
+  account_suspended?: boolean
+}
+
+/**
+ * A chargeback / provider reversal (audit 6.30, migration 086). A credited
+ * deposit is taken back from the available balance; any shortfall suspends
+ * the account. A deposit never credited is just failed. Idempotent.
+ */
+export async function reverseDeposit(
+  admin: SupabaseClient,
+  depositId: string,
+  reason: string,
+  raw?: unknown,
+): Promise<ReverseDepositResult> {
+  const { data, error } = await admin.rpc('reverse_deposit' as never, {
+    p_deposit_id: depositId,
+    p_reason: reason,
+    p_raw: (raw ?? {}) as never,
+  } as never)
+  if (error) throw new Error(`reverse_deposit RPC failed: ${error.message}`)
+  return data as ReverseDepositResult
+}

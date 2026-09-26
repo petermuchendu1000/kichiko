@@ -18,7 +18,7 @@ import { queryMpesaSTKStatus } from '@/lib/payments/mpesa'
 import { getMoMoPaymentStatus } from '@/lib/payments/mtn-momo'
 import { airtelTransactionStatus, airtelCountryForCurrency } from '@/lib/payments/airtel-money'
 import { getPesaPalStatus } from '@/lib/payments/pesapal'
-import { creditDeposit, failDeposit } from '@/lib/payments/credit'
+import { creditDeposit, failDeposit, reverseDeposit } from '@/lib/payments/credit'
 
 export interface DueDeposit {
   id: string
@@ -35,6 +35,7 @@ export interface DueDeposit {
 export type DepositVerdict =
   | { kind: 'credit'; receipt: string | null; idempotencyKey: string; raw: unknown }
   | { kind: 'fail'; reason: string; raw: unknown }
+  | { kind: 'reverse'; reason: string; raw: unknown }
   | { kind: 'pending'; raw?: unknown }
   | { kind: 'mismatch'; reason: string; raw?: unknown }
   | { kind: 'no_reference' }
@@ -104,7 +105,8 @@ export async function queryDepositStatus(d: DueDeposit): Promise<DepositVerdict>
         if (live.status === 'COMPLETED') {
           return { kind: 'credit', receipt: live.confirmationCode ?? d.pesapal_order_id, idempotencyKey: `pesapal_${d.id}`, raw: live.raw }
         }
-        if (live.status === 'FAILED' || live.status === 'INVALID' || live.status === 'REVERSED') {
+        if (live.status === 'REVERSED') return { kind: 'reverse', reason: 'PesaPal REVERSED', raw: live.raw }
+        if (live.status === 'FAILED' || live.status === 'INVALID') {
           return { kind: 'fail', reason: `PesaPal ${live.status}`, raw: live.raw }
         }
         return { kind: 'pending', raw: live.raw }
@@ -131,6 +133,8 @@ export async function applyDepositVerdict(admin: Admin, d: DueDeposit, v: Deposi
     })
   } else if (v.kind === 'fail') {
     await failDeposit(admin as SupabaseClient, d.id, v.reason, { status_check: v.raw ?? null })
+  } else if (v.kind === 'reverse') {
+    await reverseDeposit(admin as SupabaseClient, d.id, v.reason, { status_check: v.raw ?? null })
   }
 }
 
@@ -139,7 +143,7 @@ export type SweepCounts = Record<DepositVerdict['kind'], number> & { errors: num
 export async function runDepositStatusSweep(admin: Admin, limit = 50): Promise<SweepCounts> {
   const { data, error } = await admin.rpc('claim_deposits_for_status_check' as never, { p_limit: limit } as never)
   if (error) throw new Error(`claim_deposits_for_status_check failed: ${error.message}`)
-  const counts: SweepCounts = { credit: 0, fail: 0, pending: 0, mismatch: 0, no_reference: 0, query_failed: 0, unsupported: 0, errors: 0 }
+  const counts: SweepCounts = { credit: 0, fail: 0, reverse: 0, pending: 0, mismatch: 0, no_reference: 0, query_failed: 0, unsupported: 0, errors: 0 }
   for (const d of (data as DueDeposit[] | null) ?? []) {
     const v = await queryDepositStatus(d)
     counts[v.kind]++

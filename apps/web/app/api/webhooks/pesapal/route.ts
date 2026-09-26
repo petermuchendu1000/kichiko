@@ -10,13 +10,14 @@
 //   * GetTransactionStatus is re-queried server->server, and its merchant
 //     reference must be this deposit's id, its amount this deposit's amount
 //     and (when reported) its currency this deposit's currency;
-//   * the credit is idempotent per deposit (pesapal_<deposit id>).
+//   * the credit is idempotent per deposit (pesapal_<deposit id>);
+//   * REVERSED (chargeback) claws a credited deposit back (reverse_deposit, 086).
 //
 // PesaPal expects a specific JSON acknowledgement so it stops retrying.
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/server'
 import { parsePesaPalIpn, getPesaPalStatus } from '@/lib/payments/pesapal'
-import { creditDeposit, failDeposit } from '@/lib/payments/credit'
+import { creditDeposit, failDeposit, reverseDeposit } from '@/lib/payments/credit'
 import { pesapalMismatch } from '@/lib/payments/deposit-settle'
 import type { CurrencyCode } from '@/types'
 
@@ -68,7 +69,10 @@ async function handle(
       rawCallback: live.raw,
       idempotencyKey: `pesapal_${deposit.id}`,
     })
-  } else if (live.status === 'FAILED' || live.status === 'INVALID' || live.status === 'REVERSED') {
+  } else if (live.status === 'REVERSED') {
+    // chargeback: a credited deposit is clawed back (audit 6.30, migration 086)
+    await reverseDeposit(adminClient, deposit.id, 'PesaPal REVERSED', live.raw)
+  } else if (live.status === 'FAILED' || live.status === 'INVALID') {
     await failDeposit(adminClient, deposit.id, `PesaPal ${live.status}`, live.raw)
   }
   // PENDING → no-op.
