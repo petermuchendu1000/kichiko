@@ -20,6 +20,16 @@ Conventional-Commit messages by `.github/workflows/release.yml`.
   changelog.
 
 ### Fixed
+- **Settlement: CLOB markets pay exactly $1 per winning share (migration 069).**
+  The resolvers were AMM-era code: they paid `shares + cost basis`, cut cost
+  basis out of `reserved_balance` (eating open-order escrow and withdrawal
+  holds), left the market's resting orders live, blocked admin-console
+  resolution with P0121, and in simplex mode paid the wrong side. Every path now
+  goes through one settlement core with a collateral solvency guard (P0141),
+  per-position ledger keys, cumulative P&L and order release. `cancel_market`
+  refuses to pay unbacked cost-basis refunds (P0144); `void_market` settles at an
+  explicit YES price. New CI harness `scripts/ops/clob/test_settlement.py`.
+  Details: `docs/design/CLOB-SETTLEMENT-2026-09.md`.
 - **Currency — KES converts at the real-time market rate, not a "1 USD = 100 KES"
   peg.** The platform hardcoded `KES→USD = 0.01` (via `SHARE_PAYOUT_KES` /
   `KES_SETTLEMENT_RATE`), excluded KES from the live FX cron

@@ -70,12 +70,14 @@ echo "Schema ready: $(psql -tAq -d "$DB" -c "select count(*) from information_sc
 
 # ---- run the invariant harnesses (each rolls back) ----
 FAILED=0
-echo; echo "===== 1/3 fuzz_invariants.py (N=$FUZZ_N) ====="
+echo; echo "===== 1/4 fuzz_invariants.py (N=$FUZZ_N) ====="
 FUZZ_N="$FUZZ_N" python3 "$CLOB_DIR/fuzz_invariants.py" || { echo "::error::CLOB fuzz invariants FAILED"; FAILED=1; }
-echo; echo "===== 2/3 test_two_sided.py ====="
+echo; echo "===== 2/4 test_two_sided.py ====="
 python3 "$CLOB_DIR/test_two_sided.py" || { echo "::error::CLOB two-sided engine test FAILED"; FAILED=1; }
-echo; echo "===== 3/3 test_046.py (abuse-prevention caps) ====="
+echo; echo "===== 3/4 test_046.py (abuse-prevention caps) ====="
 APPLY_MIG="$MIG_DIR/046_clob_order_abuse_prevention.sql" python3 "$CLOB_DIR/test_046.py" || { echo "::error::CLOB abuse-prevention test FAILED"; FAILED=1; }
+echo; echo "===== 4/4 test_settlement.py (resolution / void / cancel) ====="
+python3 "$CLOB_DIR/test_settlement.py" || { echo "::error::CLOB settlement test FAILED"; FAILED=1; }
 
 echo
 if [ "$FAILED" -eq 0 ]; then echo "ALL CLOB INVARIANT HARNESSES PASSED"; else echo "CLOB INVARIANT HARNESSES FAILED"; fi

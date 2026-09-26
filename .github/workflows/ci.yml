@@ -362,11 +362,12 @@ jobs:
   # INF-03 — CLOB matching-engine invariant harnesses against an EPHEMERAL
   # Postgres, as a BLOCKING gate. Spins up a throwaway PG17 (real `http`
   # extension; pg_cron shimmed), applies the Supabase bootstrap + ALL
-  # migrations, seeds 6 users, then runs the fuzz + two-sided + abuse-cap
-  # harnesses (each rolls back — nothing persists). Guards the money path:
-  # value-conservation, share-conservation (YES==NO), no-oversell, self-trade
-  # prevention, price-time priority, escrow exactness, cost-basis, and the
-  # P0130/P0131/P0132 order caps. Gated to migration/script changes; required
+  # migrations, seeds 6 users, then runs the fuzz + two-sided + abuse-cap +
+  # settlement harnesses (each rolls back — nothing persists). Guards the money
+  # path: value-conservation, share-conservation (YES==NO), no-oversell,
+  # self-trade prevention, price-time priority, escrow exactness, cost-basis,
+  # the P0130/P0131/P0132 order caps, and settlement (exact $1/share payout,
+  # zero-sum resolution/void, order release, P0141 solvency guard). Gated to migration/script changes; required
   # via the CI green aggregate below.
   # ------------------------------------------------------------------
   clob-invariants:
