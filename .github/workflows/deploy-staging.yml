@@ -107,6 +107,9 @@ jobs:
                  || ' unfunded_wallets=' || jsonb_array_length(new_data->'unfunded_wallets')
             FROM public.audit_log WHERE action = 'reconcile_wallet_reservations'
            ORDER BY created_at DESC LIMIT 1;
+          SELECT 'live withdrawals by payout state: ' || COALESCE(string_agg(k || '=' || n, ' ' ORDER BY k), 'none')
+            FROM (SELECT COALESCE(payout_state, 'legacy') k, count(*) n FROM public.withdrawals
+                   WHERE status IN ('pending','processing') GROUP BY 1) t;
           ROLLBACK;
           SQL
           fi
