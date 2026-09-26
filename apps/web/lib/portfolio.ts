@@ -42,6 +42,14 @@ export interface PositionValuationInput {
   shares: number
   total_invested_usd: number
   is_active?: boolean
+  /**
+   * CLOB positions only (audit 6.16): `positions.realized_pnl_usd`. While the
+   * position is open it is what partial sells realized; once the database has
+   * settled it (`realized_is_final`) it is the whole realized result,
+   * settlement included (_clob_settle_market), and replaces the computed one.
+   */
+  realized_pnl_usd?: number | null
+  realized_is_final?: boolean
 }
 
 export type PositionOutcome =
@@ -183,6 +191,12 @@ export function computePositionPnl(
     real = resolvedPnl(outcome, shares, invested)
   }
 
+  // CLOB: P&L realized by selling shares (the remaining cost basis is in
+  // `invested`) adds to any computed settlement; once the database settled
+  // the position its stored figure is the whole result.
+  if (position.realized_is_final && isSettled) real = num(position.realized_pnl_usd ?? 0)
+  else real += num(position.realized_pnl_usd ?? 0)
+
   const totalPnl = unreal + real
   const pnlPct = invested > 0 ? totalPnl / invested : 0
 
@@ -231,6 +245,7 @@ export interface RawPositionForValuation {
   shares: number
   total_invested_usd: number
   is_active?: boolean
+  realized_pnl_usd?: number | null
 }
 
 /** The single option row needed to value a multiple_choice position. */
@@ -242,12 +257,13 @@ export interface OptionForValuation {
 /**
  * Map a raw position into the binary valuation model.
  *
- * Multiple-choice (option) positions carry `market_option_id` and a NULL
- * `side`. We model them as a synthetic YES position whose `yes_price` is the
- * option's live probability and whose settlement is decided by the option's
- * `is_winner` flag — so the entire tested binary P&L path (mark-to-market,
- * win/loss classification, realized/unrealized split) is reused verbatim and
- * we never branch on resolution type below this layer.
+ * Option positions carry `market_option_id`. The option is modelled as a
+ * binary market whose `yes_price` is the option's live probability and whose
+ * outcome is 'yes' when the option won. The position keeps its own side:
+ * legacy (AMM) option positions have a NULL side and are YES holdings; CLOB
+ * option positions carry 'yes' or 'no'. Forcing every option position to
+ * YES (as before) valued 100 NO shares on a 20% candidate at $20 instead of
+ * $80, and showed a NO holder as the winner when YES won (audit 6.16).
  */
 export function toValuationInput<M extends MarketValuationInput>(
   p: RawPositionForValuation,
@@ -260,10 +276,14 @@ export function toValuationInput<M extends MarketValuationInput>(
       market.status === 'resolved' ? (option.is_winner ? 'yes' : 'no') : null
     return {
       id: p.id,
-      side: 'yes',
+      side: (p.side ?? 'yes') as PositionSide,
       shares: p.shares,
       total_invested_usd: p.total_invested_usd,
       is_active: p.is_active,
+      // a CLOB position (it has a side) carries its realized P&L; legacy AMM
+      // option positions (NULL side) never recorded one
+      realized_pnl_usd: p.side ? p.realized_pnl_usd ?? 0 : 0,
+      realized_is_final: Boolean(p.side) && p.is_active === false,
       market: { ...market, yes_price: price, no_price: 1 - price, resolved_outcome: resolvedOutcome },
     }
   }
@@ -300,6 +320,7 @@ export function summarizePortfolio(
       totalRealizedPnl += c.realizedPnl
     } else {
       openCount++
+      totalRealizedPnl += c.realizedPnl // realized by partial sells
       totalInvested += c.invested
       totalCurrentValue += c.currentValue
       totalUnrealizedPnl += c.unrealizedPnl

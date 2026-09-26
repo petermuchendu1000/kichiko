@@ -90,6 +90,7 @@ export async function GET(req: NextRequest) {
             shares: p.shares,
             total_invested_usd: p.total_invested_usd,
             is_active: p.is_active,
+            realized_pnl_usd: (p as { realized_pnl_usd?: number | null }).realized_pnl_usd ?? 0,
           },
           (p as any).market ?? null,
           p.market_option_id ? optionsById.get(p.market_option_id) : null,
