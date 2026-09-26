@@ -30,6 +30,9 @@
 import type { CurrencyCode, PaymentProvider } from '@/types'
 import { formatMpesaPhone } from './mpesa'
 
+export const MPESA_COUNTRY_CURRENCY: Readonly<Record<string, CurrencyCode>> = {
+  KE: 'KES',
+}
 export const AIRTEL_COUNTRY_CURRENCY: Readonly<Record<string, CurrencyCode>> = {
   KE: 'KES', TZ: 'TZS', UG: 'UGX', RW: 'RWF', ZM: 'ZMW',
 }
@@ -43,6 +46,16 @@ export const WITHDRAWAL_PROVIDER_CURRENCY: Readonly<Partial<Record<PaymentProvid
   mpesa: 'KES',
   airtel_money: 'KES',
   mtn_momo: 'UGX',
+}
+
+/**
+ * The country an M-Pesa deposit in `currency` was pushed from (audit 6.33): the
+ * push resolves its gateway config (shortcode, passkey) by the user's country,
+ * whose currency is the deposit's (079), so the status query must use the same.
+ */
+export function mpesaCountryForCurrency(currency: string | null | undefined): string | null {
+  const hit = Object.entries(MPESA_COUNTRY_CURRENCY).find(([, cur]) => cur === currency)
+  return hit ? hit[0] : null
 }
 
 export type ProviderCurrencyCheck = { ok: true } | { ok: false; error: string }
@@ -62,8 +75,8 @@ export function checkDepositProviderCurrency(
   const cc = (country || '').toUpperCase()
   switch (provider) {
     case 'mpesa':
-      if (cc !== 'KE') return fail('M-Pesa deposits are available in Kenya only')
-      return currency === 'KES' ? { ok: true } : fail('M-Pesa deposits must be in KES')
+      if (!MPESA_COUNTRY_CURRENCY[cc]) return fail('M-Pesa deposits are available in Kenya only')
+      return currency === MPESA_COUNTRY_CURRENCY[cc] ? { ok: true } : fail(`M-Pesa deposits must be in ${MPESA_COUNTRY_CURRENCY[cc]}`)
     case 'airtel_money': {
       const want = AIRTEL_COUNTRY_CURRENCY[cc]
       if (!want) return fail(`Airtel Money deposits are not available for country ${cc || '(none)'}`)

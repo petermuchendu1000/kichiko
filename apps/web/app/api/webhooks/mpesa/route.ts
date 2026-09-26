@@ -14,6 +14,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/server'
 import { parseMpesaCallback, queryMpesaSTKStatus } from '@/lib/payments/mpesa'
+import { mpesaCountryForCurrency } from '@/lib/payments/provider-currency'
 import { creditDeposit, failDeposit } from '@/lib/payments/credit'
 import { classifyStkResult } from '@/lib/payments/deposit-settle'
 import { verifyMpesaWebhookSource } from '@/lib/payments/mpesa-webhook-verify'
@@ -100,7 +101,8 @@ export async function POST(req: NextRequest) {
     // Authoritative status — trust the provider, not the payload.
     let query: Awaited<ReturnType<typeof queryMpesaSTKStatus>>
     try {
-      query = await queryMpesaSTKStatus(checkoutRequestId)
+      // same country (so the same gateway config) as the push (audit 6.33)
+      query = await queryMpesaSTKStatus(checkoutRequestId, mpesaCountryForCurrency(deposit.currency) ?? undefined)
     } catch {
       // Still processing / transient query error → no-op; Safaricom will retry
       // the callback, and the deposit reconciliation sweep can settle it later.
