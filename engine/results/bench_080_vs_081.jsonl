@@ -1,0 +1,10 @@
+{"tag": "081-1c", "markets": 1, "clients": 1, "seconds": 15.0, "orders_ok": 5198, "orders_per_s": 346.4, "p50_ms": 2.16, "p95_ms": 5.83, "p99_ms": 7.98, "fills_per_order": 0.7, "errors": {}, "deadlock_pct": 0.0}
+{"tag": "081-8c4m", "markets": 4, "clients": 8, "seconds": 15.0, "orders_ok": 11631, "orders_per_s": 773.9, "p50_ms": 8.02, "p95_ms": 24.15, "p99_ms": 37.92, "fills_per_order": 0.7, "errors": {}, "deadlock_pct": 0.0}
+{"tag": "080-1c", "markets": 1, "clients": 1, "seconds": 15.0, "orders_ok": 6158, "orders_per_s": 410.5, "p50_ms": 1.66, "p95_ms": 4.94, "p99_ms": 6.48, "fills_per_order": 0.71, "errors": {}, "deadlock_pct": 0.0}
+{"tag": "080-8c4m", "markets": 4, "clients": 8, "seconds": 15.0, "orders_ok": 13831, "orders_per_s": 920.7, "p50_ms": 6.65, "p95_ms": 20.68, "p99_ms": 32.05, "fills_per_order": 0.7, "errors": {}, "deadlock_pct": 0.0}
+{"tag": "081b-1c", "markets": 1, "clients": 1, "seconds": 15.0, "orders_ok": 5551, "orders_per_s": 370.0, "p50_ms": 1.9, "p95_ms": 5.31, "p99_ms": 7.15, "fills_per_order": 0.7, "errors": {}, "deadlock_pct": 0.0}
+{"tag": "081b-8c4m", "markets": 4, "clients": 8, "seconds": 15.0, "orders_ok": 12421, "orders_per_s": 826.9, "p50_ms": 7.37, "p95_ms": 22.56, "p99_ms": 35.75, "fills_per_order": 0.7, "errors": {}, "deadlock_pct": 0.0}
+{"tag": "081fp-1c", "markets": 1, "clients": 1, "seconds": 15.0, "orders_ok": 5886, "orders_per_s": 392.3, "p50_ms": 1.66, "p95_ms": 5.05, "p99_ms": 6.82, "fills_per_order": 0.71, "errors": {}, "deadlock_pct": 0.0}
+{"tag": "081fp-8c4m", "markets": 4, "clients": 8, "seconds": 15.0, "orders_ok": 13063, "orders_per_s": 869.4, "p50_ms": 7.1, "p95_ms": 21.66, "p99_ms": 34.21, "fills_per_order": 0.7, "errors": {}, "deadlock_pct": 0.0}
+{"tag": "081fp-1c", "markets": 1, "clients": 1, "seconds": 15.0, "orders_ok": 5695, "orders_per_s": 379.6, "p50_ms": 1.67, "p95_ms": 5.12, "p99_ms": 7.01, "fills_per_order": 0.7, "errors": {}, "deadlock_pct": 0.0}
+{"tag": "081fp-8c4m", "markets": 4, "clients": 8, "seconds": 15.0, "orders_ok": 12907, "orders_per_s": 859.2, "p50_ms": 7.21, "p95_ms": 21.54, "p99_ms": 34.73, "fills_per_order": 0.7, "errors": {}, "deadlock_pct": 0.0}
