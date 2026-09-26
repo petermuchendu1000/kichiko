@@ -123,7 +123,8 @@ export const clobOrderSchema = z
     price_cents: z.number().min(CLOB_MIN_CENTS).max(CLOB_MAX_CENTS).optional(),
     size: z.number().positive().optional(), // shares
     amount_local: z.number().positive().optional(), // $ for market buys
-    currency: z.enum(CURRENCIES),
+    // optional assertion only: the order settles in the user's settlement currency (lib/settlement.ts)
+    currency: z.enum(CURRENCIES).optional(),
     client_order_id: z.string().max(64).optional(),
     expires_at: z.string().datetime().optional(),
   })

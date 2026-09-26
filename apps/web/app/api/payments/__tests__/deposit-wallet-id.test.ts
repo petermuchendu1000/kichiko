@@ -27,6 +27,11 @@ const USER = { id: 'user-1' }
 function stubAuth(user: unknown = USER) {
   client.mockResolvedValue({
     auth: { getUser: async () => ({ data: { user }, error: null }) },
+    // the deposit currency comes from the user's settlement (079): a KE/KES user
+    rpc: async (name: string) =>
+      name === 'user_settlement'
+        ? { data: [{ country: 'KE', currency: 'KES', wallet_id: null, locked: false }], error: null }
+        : { data: null, error: null },
   })
 }
 
