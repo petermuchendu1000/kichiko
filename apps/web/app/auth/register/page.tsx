@@ -1,7 +1,7 @@
 'use client'
 
 // app/auth/register/page.tsx — Create account (Preview → Gate → Bridge)
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
@@ -12,13 +12,15 @@ import { safeRedirectPath } from '@/lib/security/sanitize'
 import { withNext } from '@/lib/auth-redirect'
 import {
   AUTH_COUNTRIES,
-  currencyForCountry,
+  signupCountryMetadata,
   scorePassword,
   PASSWORD_STRENGTH,
   canSubmitRegister,
   normalizeAuthError,
   MIN_PASSWORD_LENGTH,
 } from '@/lib/auth-form'
+import { countryByCode } from '@/lib/geo/countries'
+import { useDetectedCountry } from '@/lib/geo/use-detected-country'
 
 export default function RegisterPage() {
   const router = useRouter()
@@ -27,7 +29,14 @@ export default function RegisterPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
-  const [country, setCountry] = useState('KE')
+  // Pre-selected from browser detection (settlement currency = the country's);
+  // the user can correct it before signing up. Never a silent KE default.
+  const [country, setCountry] = useState('')
+  const countryTouched = useRef(false)
+  const detected = useDetectedCountry()
+  useEffect(() => {
+    if (!countryTouched.current && detected?.country) setCountry(detected.country)
+  }, [detected])
   const [refCode, setRefCode] = useState(
     typeof window !== 'undefined'
       ? new URLSearchParams(window.location.search).get('ref') ?? ''
@@ -49,7 +58,7 @@ export default function RegisterPage() {
   )
 
   const strength = useMemo(() => scorePassword(password), [password])
-  const canSubmit = canSubmitRegister({ name, email, password, loading })
+  const canSubmit = canSubmitRegister({ name, email, password, loading }) && !!countryByCode(country)
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -69,8 +78,7 @@ export default function RegisterPage() {
       options: {
         data: {
           display_name: name,
-          country_code: country,
-          preferred_currency: currencyForCountry(country),
+          ...signupCountryMetadata(country, detected),
           referral_code_used: refCode || null,
         },
         emailRedirectTo: callbackUrl.toString(),
@@ -196,14 +204,25 @@ export default function RegisterPage() {
             id="country"
             className="input w-full"
             value={country}
-            onChange={(e) => setCountry(e.target.value)}
+            onChange={(e) => {
+              countryTouched.current = true
+              setCountry(e.target.value)
+            }}
           >
+            {!countryByCode(country) && <option value="">Choose your country</option>}
             {AUTH_COUNTRIES.map((c) => (
               <option key={c.code} value={c.code}>
                 {c.name} · {c.currency}
               </option>
             ))}
           </select>
+          <p className="mt-1 text-xs text-text-muted">
+            {detected?.country && detected.country === country
+              ? 'Detected from your device. Your balance and payouts will be in ' + (countryByCode(country)?.currency ?? '') + '.'
+              : countryByCode(country)
+                ? 'Your balance and payouts will be in ' + (countryByCode(country)?.currency ?? '') + '.'
+                : 'Kichiko is available in Kenya, Uganda, Tanzania, Rwanda, Zambia, Ethiopia and Burundi.'}
+          </p>
         </div>
 
         {/* Referral — progressive disclosure */}

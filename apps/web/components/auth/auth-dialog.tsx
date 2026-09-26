@@ -33,7 +33,7 @@ import {
 import { withNext } from '@/lib/auth-redirect'
 import {
   AUTH_COUNTRIES,
-  currencyForCountry,
+  signupCountryMetadata,
   scorePassword,
   PASSWORD_STRENGTH,
   canSubmitLogin,
@@ -46,6 +46,8 @@ import {
   canRequestCode,
   type AuthMode,
 } from '@/lib/auth-form'
+import { countryByCode } from '@/lib/geo/countries'
+import { useDetectedCountry } from '@/lib/geo/use-detected-country'
 
 export const OPEN_AUTH_EVENT = 'kichiko:open-auth'
 
@@ -81,7 +83,15 @@ export function AuthDialog() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [country, setCountry] = useState<string>('KE')
+  // Pre-selected from browser detection (settlement currency = the country's);
+  // the user can correct it. Never a silent KE default.
+  const [country, setCountry] = useState<string>('')
+  const countryTouched = useRef(false)
+  const detected = useDetectedCountry()
+  useEffect(() => {
+    if (!countryTouched.current && detected?.country) setCountry(detected.country)
+  }, [detected])
+  const countryOk = !!countryByCode(country)
   const [refCode, setRefCode] = useState('')
   const [showRef, setShowRef] = useState(false)
 
@@ -104,7 +114,7 @@ export function AuthDialog() {
   const canSubmit =
     mode === 'login'
       ? canSubmitLogin({ email, password, loading })
-      : canSubmitRegister({ name, email, password, loading })
+      : canSubmitRegister({ name, email, password, loading }) && countryOk
 
   const close = useCallback(() => {
     setOpen(false)
@@ -246,8 +256,7 @@ export function AuthDialog() {
       options: {
         data: {
           display_name: name,
-          country_code: country,
-          preferred_currency: currencyForCountry(country),
+          ...signupCountryMetadata(country, detected),
           referral_code_used: refCode || null,
         },
         emailRedirectTo: callbackUrl,
@@ -276,7 +285,7 @@ export function AuthDialog() {
   // — a 6-digit code the user types back into this dialog via verifyOtp().
   // Passing emailRedirectTo here is what made Supabase mint a link instead.
   const requestCode = async () => {
-    if (!canRequestCode(mode, { name, email, loading })) return
+    if (!canRequestCode(mode, { name, email, loading }) || (mode === 'register' && !countryOk)) return
     setError('')
     setLoading(true)
     const { error: err } = await supabase.auth.signInWithOtp({
@@ -288,8 +297,7 @@ export function AuthDialog() {
           mode === 'register'
             ? {
                 display_name: name,
-                country_code: country,
-                preferred_currency: currencyForCountry(country),
+                ...signupCountryMetadata(country, detected),
                 referral_code_used: refCode || null,
               }
             : undefined,
@@ -636,8 +644,12 @@ export function AuthDialog() {
                       id="auth-country"
                       className="input w-full"
                       value={country}
-                      onChange={(e) => setCountry(e.target.value)}
+                      onChange={(e) => {
+                        countryTouched.current = true
+                        setCountry(e.target.value)
+                      }}
                     >
+                      {!countryOk && <option value="">Choose your country</option>}
                       {AUTH_COUNTRIES.map((c) => (
                         <option key={c.code} value={c.code}>
                           {c.name} · {c.currency}
@@ -726,7 +738,7 @@ export function AuthDialog() {
                 <button
                   type="button"
                   onClick={() => void requestCode()}
-                  disabled={!canRequestCode(mode, { name, email, loading })}
+                  disabled={!canRequestCode(mode, { name, email, loading }) || (mode === 'register' && !countryOk)}
                   className="btn btn-secondary w-full"
                 >
                   Email me a {isLogin ? 'sign-in ' : ''}code

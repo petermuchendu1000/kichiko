@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest'
 import {
   AUTH_COUNTRIES,
   currencyForCountry,
+  signupCountryMetadata,
   scorePassword,
   PASSWORD_STRENGTH,
   MIN_PASSWORD_LENGTH,
@@ -20,9 +21,10 @@ describe('currencyForCountry', () => {
       expect(currencyForCountry(c.code)).toBe(c.currency)
     }
   })
-  it('falls back to KES for unknown / empty codes', () => {
-    expect(currencyForCountry('ZZ')).toBe('KES')
-    expect(currencyForCountry('')).toBe('KES')
+  it('has no currency for unknown / empty codes', () => {
+    // 079: an unsupported country has no settlement currency (no silent KES default)
+    expect(currencyForCountry('ZZ')).toBeNull()
+    expect(currencyForCountry('')).toBeNull()
   })
 })
 
@@ -146,5 +148,21 @@ describe('passwordless OTP helpers', () => {
       /invalid or has expired/i,
     )
     expect(normalizeAuthError('Invalid OTP', 'login')).toMatch(/invalid or has expired/i)
+  })
+})
+
+describe('signupCountryMetadata', () => {
+  const detected = { country: 'UG' as const, confidence: 'high' as const, signals: { tz: 'Africa/Kampala', languages: 'en-UG', geo: null } }
+  it('browser source when the user keeps the detected country', () => {
+    expect(signupCountryMetadata('UG', detected)).toEqual({
+      country_code: 'UG', country_source: 'browser',
+      country_signals: { tz: 'Africa/Kampala', languages: 'en-UG', geo: null, detected: 'UG', confidence: 'high' },
+    })
+  })
+  it('manual source when the user picks another country', () => {
+    expect(signupCountryMetadata('KE', detected)).toMatchObject({ country_code: 'KE', country_source: 'manual' })
+  })
+  it('an unsupported or empty country sends none', () => {
+    expect(signupCountryMetadata('DE', null)).toEqual({ country_code: null, country_source: 'manual', country_signals: null })
   })
 })
