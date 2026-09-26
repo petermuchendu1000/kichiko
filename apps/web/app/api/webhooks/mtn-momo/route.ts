@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
     let financialTransactionId = body.financialTransactionId as string | undefined
     let reason = body.reason as string | undefined
     try {
-      const live = await getMoMoPaymentStatus(referenceId)
+      const live = await getMoMoPaymentStatus(referenceId, deposit.currency ?? 'UGX')
       status = live.status
       financialTransactionId = live.financialTransactionId ?? financialTransactionId
       reason = live.reason ?? reason

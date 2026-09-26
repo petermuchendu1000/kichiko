@@ -64,7 +64,7 @@ describe('POST /api/webhooks/mtn-disbursement (payout)', () => {
     expect(complete).not.toHaveBeenCalled()
     expect(failWd).not.toHaveBeenCalled()
     // We must have consulted the provider, not the body.
-    expect(status).toHaveBeenCalledWith('ref-1')
+    expect(status).toHaveBeenCalledWith('ref-1', 'UGX')
   })
 
   it('SECURITY: a forged SUCCESSFUL body does NOT complete when the authoritative status is FAILED (it fails instead)', async () => {
@@ -106,7 +106,7 @@ describe('POST /api/webhooks/mtn-disbursement (payout)', () => {
     status.mockResolvedValue({ status: 'SUCCESSFUL' })
 
     await mtnDisbPOST(post(`${URL}?ref=ref-query`, {}))
-    expect(status).toHaveBeenCalledWith('ref-query')
+    expect(status).toHaveBeenCalledWith('ref-query', 'UGX')
     expect(complete).toHaveBeenCalledTimes(1)
   })
 

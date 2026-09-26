@@ -6,7 +6,7 @@
 // before crediting (defence against spoofed callbacks).
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/server'
-import { parseAirtelCallback, airtelTransactionStatus } from '@/lib/payments/airtel-money'
+import { parseAirtelCallback, airtelTransactionStatus, airtelCountryForCurrency } from '@/lib/payments/airtel-money'
 import { creditDeposit, failDeposit } from '@/lib/payments/credit'
 import type { CurrencyCode } from '@/types'
 
@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
     let failed: boolean
     let airtelMoneyId = parsed.airtelMoneyId
     try {
-      const live = await airtelTransactionStatus(reference)
+      const live = await airtelTransactionStatus(reference, airtelCountryForCurrency(deposit.currency ?? 'KES') ?? 'KE')
       success = live.status === 'TS'
       failed = live.status === 'TF'
       airtelMoneyId = live.airtelMoneyId ?? airtelMoneyId

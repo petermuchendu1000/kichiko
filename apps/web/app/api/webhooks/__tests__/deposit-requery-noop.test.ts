@@ -84,7 +84,7 @@ describe('POST /api/webhooks/airtel (deposit) — F4 re-query no-op', () => {
 
     const res = await airtelPOST(post(URL, bodyWithRef('TS')))
     expect((await ackOf(res)).received).toBe(true)
-    expect(airtelStatus).toHaveBeenCalledWith('ref-1')
+    expect(airtelStatus).toHaveBeenCalledWith('ref-1', 'KE')
     expect(credit).toHaveBeenCalledTimes(1)
     expect(credit.mock.calls[0][1]).toMatchObject({ depositId: 'dep-1' })
     expect(failDep).not.toHaveBeenCalled()
@@ -124,7 +124,7 @@ describe('POST /api/webhooks/mtn-momo (deposit) — F4 re-query no-op', () => {
 
     const res = await mtnPOST(post(URL, { status: 'PENDING' }))
     expect((await ackOf(res)).received).toBe(true)
-    expect(momoStatus).toHaveBeenCalledWith('ref-1')
+    expect(momoStatus).toHaveBeenCalledWith('ref-1', 'KES')
     expect(credit).toHaveBeenCalledTimes(1)
     expect(credit.mock.calls[0][1]).toMatchObject({ depositId: 'dep-1', idempotencyKey: 'mtn_ref-1' })
     expect(failDep).not.toHaveBeenCalled()

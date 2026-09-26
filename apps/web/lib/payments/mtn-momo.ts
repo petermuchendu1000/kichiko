@@ -6,12 +6,10 @@
 import axios from 'axios'
 import { randomUUID } from 'crypto'
 
-const BASE_URL = process.env.MTN_MOMO_BASE_URL || 'https://sandbox.momodeveloper.mtn.com'
-const SUBSCRIPTION_KEY = process.env.MTN_MOMO_SUBSCRIPTION_KEY!
-const API_USER = process.env.MTN_MOMO_API_USER!
-const API_KEY = process.env.MTN_MOMO_API_KEY!
-const CALLBACK_URL = process.env.MTN_MOMO_CALLBACK_URL!
-const ENVIRONMENT = process.env.MTN_MOMO_ENV || 'sandbox'
+import { resolveMtnConfig, mtnCountryForCurrency, type MtnConfig } from './mtn-config'
+
+// Configuration is resolved per call (lib/payments/mtn-config.ts): the same
+// target environment and keys for collection, payout and re-query (audit 6.12).
 
 interface MoMoTokenResponse {
   access_token: string
@@ -19,27 +17,20 @@ interface MoMoTokenResponse {
   expires_in: number
 }
 
-interface MoMoRequestToPayResponse {
-  referenceId: string
-  status: 'PENDING' | 'SUCCESSFUL' | 'FAILED'
-}
-
-// Get OAuth2 access token
-async function getMoMoToken(): Promise<string> {
-  const credentials = Buffer.from(`${API_USER}:${API_KEY}`).toString('base64')
-
+async function getToken(cfg: MtnConfig, product: 'collection' | 'disbursement'): Promise<string> {
+  const p = cfg[product]
+  const credentials = Buffer.from(`${p.apiUser}:${p.apiKey}`).toString('base64')
   const response = await axios.post<MoMoTokenResponse>(
-    `${BASE_URL}/collection/token/`,
+    `${cfg.baseUrl}/${product}/token/`,
     {},
     {
       headers: {
         Authorization: `Basic ${credentials}`,
-        'Ocp-Apim-Subscription-Key': SUBSCRIPTION_KEY,
+        'Ocp-Apim-Subscription-Key': p.subscriptionKey,
       },
       timeout: 10000,
     }
   )
-
   return response.data.access_token
 }
 
@@ -85,12 +76,13 @@ export async function mtnRequestToPay({
   payeeNote: string
   country?: 'UG' | 'RW' | 'GH'
 }): Promise<{ referenceId: string }> {
-  const token = await getMoMoToken()
+  const cfg = await resolveMtnConfig(country)
+  const token = await getToken(cfg, 'collection')
   const referenceId = randomUUID()
   const formattedPhone = formatMoMoPhone(phone, country)
 
   await axios.post(
-    `${BASE_URL}/collection/v1_0/requesttopay`,
+    `${cfg.baseUrl}/collection/v1_0/requesttopay`,
     {
       amount: String(Math.ceil(amount)),
       currency: currency,
@@ -106,9 +98,9 @@ export async function mtnRequestToPay({
       headers: {
         Authorization: `Bearer ${token}`,
         'X-Reference-Id': referenceId,
-        'X-Target-Environment': ENVIRONMENT,
-        'X-Callback-Url': `${CALLBACK_URL}?ref=${referenceId}`,
-        'Ocp-Apim-Subscription-Key': SUBSCRIPTION_KEY,
+        'X-Target-Environment': cfg.targetEnvironment,
+        'X-Callback-Url': `${cfg.callbackUrl}?ref=${referenceId}`,
+        'Ocp-Apim-Subscription-Key': cfg.collection.subscriptionKey,
         'Content-Type': 'application/json',
       },
       timeout: 15000,
@@ -119,20 +111,21 @@ export async function mtnRequestToPay({
 }
 
 // Check payment status
-export async function getMoMoPaymentStatus(referenceId: string): Promise<{
+export async function getMoMoPaymentStatus(referenceId: string, currency: string = 'UGX'): Promise<{
   status: 'PENDING' | 'SUCCESSFUL' | 'FAILED'
   financialTransactionId?: string
   reason?: string
 }> {
-  const token = await getMoMoToken()
+  const cfg = await resolveMtnConfig(mtnCountryForCurrency(currency) ?? 'UG')
+  const token = await getToken(cfg, 'collection')
 
   const response = await axios.get(
-    `${BASE_URL}/collection/v1_0/requesttopay/${referenceId}`,
+    `${cfg.baseUrl}/collection/v1_0/requesttopay/${referenceId}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
-        'X-Target-Environment': ENVIRONMENT,
-        'Ocp-Apim-Subscription-Key': SUBSCRIPTION_KEY,
+        'X-Target-Environment': cfg.targetEnvironment,
+        'Ocp-Apim-Subscription-Key': cfg.collection.subscriptionKey,
       },
       timeout: 10000,
     }
@@ -145,75 +138,25 @@ export async function getMoMoPaymentStatus(referenceId: string): Promise<{
   }
 }
 
-// Transfer (disbursement - for withdrawals)
-export async function mtnTransfer({
-  phone,
-  amount,
-  currency,
-  externalId,
-  payeeNote,
-  payerMessage,
-  country = 'UG',
-}: {
-  phone: string
-  amount: number
-  currency: string
-  externalId: string
-  payeeNote: string
-  payerMessage: string
-  country?: 'UG' | 'RW' | 'GH'
-}): Promise<{ referenceId: string }> {
-  const token = await getDisburseToken()
-  const referenceId = randomUUID()
-  const formattedPhone = formatMoMoPhone(phone, country)
-
-  await axios.post(
-    `${BASE_URL}/disbursement/v1_0/transfer`,
-    {
-      amount: String(Math.floor(amount)),
-      currency,
-      externalId,
-      payee: {
-        partyIdType: 'MSISDN',
-        partyId: formattedPhone,
-      },
-      payerMessage: payerMessage.slice(0, 160),
-      payeeNote: payeeNote.slice(0, 160),
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'X-Reference-Id': referenceId,
-        'X-Target-Environment': ENVIRONMENT,
-        'Ocp-Apim-Subscription-Key': SUBSCRIPTION_KEY,
-        'Content-Type': 'application/json',
-      },
-      timeout: 15000,
-    }
-  )
-
-  return { referenceId }
-}
-
-// Check disbursement/transfer status (for withdrawals). Mirrors
-// getMoMoPaymentStatus but hits the disbursement product's authoritative
-// GET /transfer/{referenceId} endpoint (and uses the disbursement token/key),
-// so a money-OUT callback can be confirmed rather than trusted.
-export async function getMoMoTransferStatus(referenceId: string): Promise<{
+// Check disbursement/transfer status (for withdrawals): MTN's authoritative
+// GET /transfer/{referenceId}, with the same target environment and
+// disbursement key the payout was initiated with (audit 6.12), so a money-OUT
+// callback can be confirmed rather than trusted.
+export async function getMoMoTransferStatus(referenceId: string, currency: string = 'UGX'): Promise<{
   status: 'PENDING' | 'SUCCESSFUL' | 'FAILED'
   financialTransactionId?: string
   reason?: string
 }> {
-  const token = await getDisburseToken()
-  const disbKey = process.env.MTN_MOMO_DISBURSE_KEY || SUBSCRIPTION_KEY
+  const cfg = await resolveMtnConfig(mtnCountryForCurrency(currency) ?? 'UG')
+  const token = await getToken(cfg, 'disbursement')
 
   const response = await axios.get(
-    `${BASE_URL}/disbursement/v1_0/transfer/${referenceId}`,
+    `${cfg.baseUrl}/disbursement/v1_0/transfer/${referenceId}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
-        'X-Target-Environment': ENVIRONMENT,
-        'Ocp-Apim-Subscription-Key': disbKey,
+        'X-Target-Environment': cfg.targetEnvironment,
+        'Ocp-Apim-Subscription-Key': cfg.disbursement.subscriptionKey,
       },
       timeout: 10000,
     }
@@ -224,25 +167,4 @@ export async function getMoMoTransferStatus(referenceId: string): Promise<{
     financialTransactionId: response.data.financialTransactionId,
     reason: response.data.reason,
   }
-}
-
-async function getDisburseToken(): Promise<string> {
-  const disbKey = process.env.MTN_MOMO_DISBURSE_KEY || SUBSCRIPTION_KEY
-  const credentials = Buffer.from(
-    `${process.env.MTN_MOMO_DISBURSE_USER || API_USER}:${process.env.MTN_MOMO_DISBURSE_API_KEY || API_KEY}`
-  ).toString('base64')
-
-  const response = await axios.post<MoMoTokenResponse>(
-    `${BASE_URL}/disbursement/token/`,
-    {},
-    {
-      headers: {
-        Authorization: `Basic ${credentials}`,
-        'Ocp-Apim-Subscription-Key': disbKey,
-      },
-      timeout: 10000,
-    }
-  )
-
-  return response.data.access_token
 }
