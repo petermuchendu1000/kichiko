@@ -9,7 +9,7 @@
 // Unknown codes are still pending → no-op.
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/server'
-import { parseAirtelCallback, airtelTransactionStatus } from '@/lib/payments/airtel-money'
+import { parseAirtelCallback, airtelDisbursementStatus } from '@/lib/payments/airtel-money'
 import { completeWithdrawal, failWithdrawal } from '@/lib/payments/withdraw'
 
 export async function POST(req: NextRequest) {
@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
 
     const { data: withdrawal } = await admin
       .from('withdrawals')
-      .select('id, status')
+      .select('id, status, currency')
       .eq('provider_reference', reference)
       .maybeSingle()
 
@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
     // the body. Mirrors the mtn-disbursement handler.
     let live: { status: string; airtelMoneyId?: string }
     try {
-      live = await airtelTransactionStatus(reference)
+      live = await airtelDisbursementStatus(reference, withdrawal.currency ?? 'KES')
     } catch (err) {
       console.error(
         'Airtel disbursement result: status re-query unavailable, staying pending for',

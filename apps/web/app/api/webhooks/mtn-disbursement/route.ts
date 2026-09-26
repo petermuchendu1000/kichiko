@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
 
     const { data: withdrawal } = await admin
       .from('withdrawals')
-      .select('id, status')
+      .select('id, status, currency')
       .eq('provider_reference', reference)
       .maybeSingle()
 
@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
     // withdrawal pending (no-op) rather than trust the body — MTN will call again.
     let live: { status: string; financialTransactionId?: string; reason?: string }
     try {
-      live = await getMoMoTransferStatus(reference)
+      live = await getMoMoTransferStatus(reference, withdrawal.currency ?? 'UGX')
     } catch (err) {
       console.error(
         'MTN disbursement result: status re-query unavailable, staying pending for',

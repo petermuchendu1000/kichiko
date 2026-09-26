@@ -7,7 +7,8 @@ import type { CurrencyCode, PaymentProvider } from '@/types'
 import { localToUsd, type RatesMap } from '@/lib/currency'
 import { initiateMpesaSTKPush, formatMpesaPhone } from './mpesa'
 import { mtnRequestToPay, formatMoMoPhone } from './mtn-momo'
-import { airtelCollect, formatAirtelPhone } from './airtel-money'
+import { resolveMtnConfig, mtnCountryForCurrency, type MtnConfig } from './mtn-config'
+import { airtelCollect, formatAirtelPhone, resolveAirtelConfig, airtelCountryForCurrency, type AirtelConfig } from './airtel-money'
 import { submitPesaPalOrder } from './pesapal'
 import { appendWebhookToken } from './mpesa-webhook-verify'
 import {
@@ -313,31 +314,35 @@ export async function processWithdrawal(
       }
 
       case 'mtn_momo': {
-        // MTN MoMo Disbursement
-        const baseUrl = process.env.MTN_MOMO_BASE_URL || 'https://sandbox.momodeveloper.mtn.com'
-        const subscriptionKey = process.env.MTN_MOMO_DISBURSEMENT_KEY || process.env.MTN_MOMO_SUBSCRIPTION_KEY
-        const apiUser = process.env.MTN_MOMO_API_USER
-        const apiKey = process.env.MTN_MOMO_API_KEY
+        // MTN MoMo Disbursement: the same configuration as the re-query (audit 6.12)
+        const country = mtnCountryForCurrency(req.currency)
+        if (!country) throw new NotSent(`MTN payouts in ${req.currency} are not supported`)
+        let cfg: MtnConfig
+        try {
+          cfg = await resolveMtnConfig(country)
+        } catch (e) {
+          throw new NotSent(e instanceof Error ? e.message : 'MTN configuration unavailable')
+        }
+        const d = cfg.disbursement
+        if (!d.subscriptionKey || !d.apiUser || !d.apiKey) throw new NotSent('MTN Disbursement not configured')
 
-        if (!subscriptionKey || !apiUser || !apiKey) throw new NotSent('MTN Disbursement not configured')
-
-        const token = await fetchToken(`${baseUrl}/disbursement/token/`, {
+        const token = await fetchToken(`${cfg.baseUrl}/disbursement/token/`, {
           method: 'POST',
           headers: {
-            Authorization: `Basic ${Buffer.from(`${apiUser}:${apiKey}`).toString('base64')}`,
-            'Ocp-Apim-Subscription-Key': subscriptionKey,
+            Authorization: `Basic ${Buffer.from(`${d.apiUser}:${d.apiKey}`).toString('base64')}`,
+            'Ocp-Apim-Subscription-Key': d.subscriptionKey,
           },
         }, 'MTN')
 
         // chosen before sending, so even an unanswered request can be re-queried
         const referenceId = crypto.randomUUID()
-        const sent = await sendPayout(`${baseUrl}/disbursement/v1_0/transfer`, {
+        const sent = await sendPayout(`${cfg.baseUrl}/disbursement/v1_0/transfer`, {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
             'X-Reference-Id': referenceId,
-            'X-Target-Environment': process.env.MTN_MOMO_ENV === 'production' ? 'mtnuganda' : 'sandbox',
-            'Ocp-Apim-Subscription-Key': subscriptionKey,
+            'X-Target-Environment': cfg.targetEnvironment,
+            'Ocp-Apim-Subscription-Key': d.subscriptionKey,
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
@@ -357,31 +362,35 @@ export async function processWithdrawal(
       }
 
       case 'airtel_money': {
-        // Airtel Disbursement
-        const baseUrl = process.env.AIRTEL_MONEY_BASE_URL || 'https://openapiuat.airtel.africa'
-        const clientId = process.env.AIRTEL_MONEY_CLIENT_ID
-        const clientSecret = process.env.AIRTEL_MONEY_CLIENT_SECRET
+        // Airtel Disbursement: same configuration as the re-query, in the payout's own country (audit 6.11)
+        const country = airtelCountryForCurrency(req.currency)
+        if (!country) throw new NotSent(`Airtel payouts in ${req.currency} are not supported`)
+        let cfg: AirtelConfig
+        try {
+          cfg = await resolveAirtelConfig(country)
+        } catch (e) {
+          throw new NotSent(e instanceof Error ? e.message : 'Airtel configuration unavailable')
+        }
+        if (!cfg.clientId || !cfg.clientSecret) throw new NotSent('Airtel Money not configured')
 
-        if (!clientId || !clientSecret) throw new NotSent('Airtel Money not configured')
-
-        const token = await fetchToken(`${baseUrl}/auth/oauth2/token`, {
+        const token = await fetchToken(`${cfg.baseUrl}/auth/oauth2/token`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ client_id: clientId, client_secret: clientSecret, grant_type: 'client_credentials' }),
+          body: JSON.stringify({ client_id: cfg.clientId, client_secret: cfg.clientSecret, grant_type: 'client_credentials' }),
         }, 'Airtel')
 
-        const sent = await sendPayout(`${baseUrl}/standard/v1/disbursements/`, {
+        const sent = await sendPayout(`${cfg.baseUrl}/standard/v1/disbursements/`, {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
-            'X-Country': 'KE',
+            'X-Country': country,
             'X-Currency': req.currency,
           },
           body: JSON.stringify({
             payee: { msisdn: req.phone.replace('+', ''), wallet_type: 'MSISDN' },
             reference: req.reference,
-            pin: process.env.AIRTEL_DISBURSEMENT_PIN,
+            pin: cfg.pin,
             transaction: {
               amount: req.amount.toString(),
               id: req.reference,

@@ -266,7 +266,7 @@ The two code-audit reports contain step-by-step detail for open critical issues 
 | A-W4 | High | `admin_adjust_balance` ceiling and separation of duties bypassable; no idempotency | A2 §6.8 | open |
 | A-S1 | High | Client IP for rate limits and the M-Pesa allowlist is spoofable | A2 §6.9 | open |
 | A-R1 | High | No deposit/withdrawal reconciliation; lost callbacks are permanent | A2 §6.10 | open |
-| A-W5 | High | Airtel/MTN disbursement status checks use the wrong endpoint or config | A2 §6.11–6.12 | open |
+| A-W5 | High | Airtel/MTN disbursement status checks use the wrong endpoint or config | V (reproduced: MTN re-query sent `X-Target-Environment: production`; Airtel payouts re-queried on `/standard/v1/payments/`) | fixed: one config resolver per provider (`mtn-config.ts`, `resolveAirtelConfig`; DB gateway first, env fallback) for collection, payout and re-query; MTN production target by country (UG `mtnuganda`, others must be configured, sandbox refused in production); one disbursement key (legacy name still read); Airtel payouts re-queried on `/standard/v1/disbursements/{id}` with the withdrawal's country and currency; dead `mtnTransfer`/`airtelDisburse` removed (`mtn-airtel-config.test.ts`, `airtel-disbursement.test.ts`). Open: the Airtel PIN is sent as configured; Airtel production expects it RSA-encrypted with their public key |
 | A-B1 | High | BTC window engine can stall permanently, settle on a stale price, or duplicate windows | A2 §6.13 | open |
 | A-U1 | High | Portfolio values CLOB NO positions at the YES price | A2 §6.16 | open |
 | A-M1 | High | Matcher does not verify that a maker holds the shares or escrow it trades | A1 #9 | open |

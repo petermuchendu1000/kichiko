@@ -38,8 +38,8 @@ Legend — **Scope:** `local` (dev), `ci`, `prod`. **Secret:** 🔒 = never log/
 
 | Var | Purpose |
 | --- | --- |
-| `MTN_MOMO_BASE_URL`, `MTN_MOMO_SUBSCRIPTION_KEY` 🔒, `MTN_MOMO_API_USER`, `MTN_MOMO_API_KEY` 🔒, `MTN_MOMO_CALLBACK_URL`, `MTN_MOMO_ENV` | MTN MoMo collection/disbursement |
-| `AIRTEL_MONEY_CLIENT_ID`, `AIRTEL_MONEY_CLIENT_SECRET` 🔒, `AIRTEL_MONEY_CALLBACK_URL`, `AIRTEL_MONEY_ENV`, `AIRTEL_MONEY_BASE_URL` | Airtel Money |
+| `MTN_MOMO_BASE_URL`, `MTN_MOMO_SUBSCRIPTION_KEY` 🔒, `MTN_MOMO_API_USER`, `MTN_MOMO_API_KEY` 🔒, `MTN_MOMO_CALLBACK_URL`, `MTN_MOMO_ENV`, `MTN_MOMO_DISBURSEMENT_KEY` 🔒 (legacy `MTN_MOMO_DISBURSE_KEY`), `MTN_MOMO_TARGET_ENV` | MTN MoMo collection/disbursement. One resolver (`lib/payments/mtn-config.ts`, DB gateway first) feeds collection, payout and payout re-query; production target defaults to the country's MTN environment (UG: `mtnuganda`) |
+| `AIRTEL_MONEY_CLIENT_ID`, `AIRTEL_MONEY_CLIENT_SECRET` 🔒, `AIRTEL_MONEY_CALLBACK_URL`, `AIRTEL_MONEY_ENV`, `AIRTEL_MONEY_BASE_URL`, `AIRTEL_DISBURSEMENT_PIN` 🔒 (or `AIRTEL_MONEY_PIN`) | Airtel Money. One resolver (`resolveAirtelConfig`, DB gateway first); payouts re-queried on `/standard/v1/disbursements/{id}` in the payout's country/currency |
 | `PESAPAL_CONSUMER_KEY`, `PESAPAL_CONSUMER_SECRET` 🔒, `PESAPAL_IPN_URL`, `PESAPAL_ENV`, `PESAPAL_BASE_URL` | PesaPal (ETB/BIF) |
 
 ## Currency & fees
