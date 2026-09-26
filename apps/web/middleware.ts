@@ -3,12 +3,13 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 import { ADMIN_PORTAL_ROLES } from '@/lib/admin/rbac'
 import {
-  RATE_RULES,
   bucketForPath,
   clientKey,
   enforceEdge,
   isSensitiveBucket,
+  rateKeys,
   rateLimitHeaders,
+  sessionUserId,
   upstashConfigFromEnv,
 } from '@/lib/security/rate-limit'
 import { securityHeaders } from '@/lib/security/headers'
@@ -55,15 +56,20 @@ export async function middleware(request: NextRequest) {
   // default store is per-isolate in-memory; back it with Upstash in production.
   const bucket = bucketForPath(pathname)
   if (bucket) {
-    const rule = RATE_RULES[bucket]
-    const key = `${bucket}:${clientKey(request.headers)}`
-    // Sensitive (auth/OTP) buckets fail CLOSED if the distributed store errors;
-    // non-sensitive buckets fall back to the in-memory store (fail open).
-    const decision = await enforceEdge(key, rule, {
-      upstash: UPSTASH_CONFIG,
-      sensitive: isSensitiveBucket(bucket),
-    })
-    if (!decision.allowed) {
+    // audit 6.22: a signed-in caller is limited per user, with a much higher
+    // per-IP ceiling (carrier NAT); anonymous callers per IP.
+    const userId = bucket === 'webhooks' ? null : sessionUserId(request.headers, request.cookies.getAll())
+    let decision: Awaited<ReturnType<typeof enforceEdge>> | null = null
+    for (const { key, rule } of rateKeys(bucket, clientKey(request.headers), userId)) {
+      // Sensitive (auth/OTP) buckets fail CLOSED if the distributed store errors;
+      // the others fall back to the in-memory store.
+      decision = await enforceEdge(key, rule, {
+        upstash: UPSTASH_CONFIG,
+        sensitive: isSensitiveBucket(bucket),
+      })
+      if (!decision.allowed) break
+    }
+    if (decision && !decision.allowed) {
       return applySecurityHeaders(
         NextResponse.json(
           { error: 'Too many requests. Please slow down.', code: 'rate_limited', request_id: requestId },

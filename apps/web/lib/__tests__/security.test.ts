@@ -1,19 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import {
-  decide,
-  enforce,
-  enforceEdge,
-  enforceDistributed,
-  upstashConfigFromEnv,
-  isSensitiveBucket,
-  MemoryRateStore,
-  bucketForPath,
-  clientKey,
-  rateLimitHeaders,
-  RATE_RULES,
-  type Counter,
-  type UpstashConfig,
-} from '@/lib/security/rate-limit'
+import { decide, enforce, enforceEdge, enforceDistributed, upstashConfigFromEnv, isSensitiveBucket, MemoryRateStore, bucketForPath, clientKey, rateLimitHeaders, RATE_RULES, type Counter, type UpstashConfig, sessionUserId, rateKeys, IP_CEILING_FACTOR } from '@/lib/security/rate-limit'
 import {
   stripControlChars,
   collapseWhitespace,
@@ -384,5 +370,49 @@ describe('webhook signature verification', () => {
     expect(isFreshTimestamp(now / 1000 - 1000, 300, now)).toBe(false)
     expect(isFreshTimestamp('bad', 300, now)).toBe(false)
     expect(isFreshTimestamp(null, 300, now)).toBe(false)
+  })
+})
+
+// Audit 6.22: signed-in callers are limited per user, with a per-IP ceiling
+// IP_CEILING_FACTOR times higher (carrier NAT); anonymous callers per IP.
+describe('rate-limit: per-user keys under carrier NAT (audit 6.22)', () => {
+  const jwt = (sub: string) =>
+    ['eyJhbGciOiJIUzI1NiJ9', btoa(JSON.stringify({ sub })).replace(/=+$/, '').replace(/\+/g, '-').replace(/\//g, '_'), 'sig'].join('.')
+  const U = '5b0c3a52-3a55-4a4e-9a5e-2f7f1f0c9d11'
+
+  it('reads the user from a Bearer token or the Supabase session cookie (plain, base64-, chunked)', () => {
+    expect(sessionUserId(new Headers({ authorization: `Bearer ${jwt(U)}` }), [])).toBe(U)
+    const session = JSON.stringify({ access_token: jwt(U), refresh_token: 'r' })
+    expect(sessionUserId(new Headers(), [{ name: 'sb-abcdefgh-auth-token', value: session }])).toBe(U)
+    const b64 = 'base64-' + btoa(session).replace(/=+$/, '').replace(/\+/g, '-').replace(/\//g, '_')
+    expect(sessionUserId(new Headers(), [{ name: 'sb-abcdefgh-auth-token', value: b64 }])).toBe(U)
+    const [a, b] = [b64.slice(0, 40), b64.slice(40)]
+    expect(sessionUserId(new Headers(), [
+      { name: 'sb-abcdefgh-auth-token.1', value: b }, { name: 'sb-abcdefgh-auth-token.0', value: a },
+    ])).toBe(U)
+    expect(sessionUserId(new Headers(), [{ name: 'other', value: 'x' }])).toBeNull()
+    expect(sessionUserId(new Headers({ authorization: 'Bearer junk' }), [])).toBeNull()
+  })
+
+  it('a signed-in caller: per-user limit plus a per-IP ceiling; anonymous: per-IP limit', () => {
+    const k = rateKeys('orders', '41.90.1.2', U)
+    expect(k).toEqual([
+      { key: `orders:user:${U}`, rule: RATE_RULES.orders },
+      { key: 'orders:ip:41.90.1.2', rule: { limit: RATE_RULES.orders.limit * IP_CEILING_FACTOR, windowMs: RATE_RULES.orders.windowMs } },
+    ])
+    expect(rateKeys('orders', '41.90.1.2', null)).toEqual([{ key: 'orders:ip:41.90.1.2', rule: RATE_RULES.orders }])
+  })
+
+  it('many users behind one carrier IP are not throttled by each other', async () => {
+    const store = new MemoryRateStore()
+    let denied = 0
+    for (let i = 0; i < 200; i++) {
+      const uid = `00000000-0000-4000-8000-${String(i).padStart(12, '0')}`
+      for (const { key, rule } of rateKeys('orders', '105.160.0.1', uid)) {
+        const d = await enforceEdge(key, rule, { store })
+        if (!d.allowed) { denied++; break }
+      }
+    }
+    expect(denied).toBe(0)
   })
 })
