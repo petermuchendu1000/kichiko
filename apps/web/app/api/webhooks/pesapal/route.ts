@@ -2,9 +2,15 @@
 //
 // PesaPal calls this URL (GET by default) with OrderTrackingId +
 // OrderMerchantReference whenever a transaction's status changes. The IPN
-// payload is NOT signed and its status is NOT trusted — we ALWAYS re-query
-// GetTransactionStatus server→server for the authoritative result, then credit
-// atomically + idempotently via the shared helper.
+// payload is NOT signed and NOTHING in it is trusted:
+//   * the deposit is found ONLY by the tracking id stored when we created the
+//     order (deposits.pesapal_order_id), never by the request's merchant
+//     reference (audit 6.3: paying a $1 order and naming an unpaid $50,000
+//     deposit as the merchant reference credited the $50,000);
+//   * GetTransactionStatus is re-queried server->server, and its merchant
+//     reference must be this deposit's id, its amount this deposit's amount
+//     and (when reported) its currency this deposit's currency;
+//   * the credit is idempotent per deposit (pesapal_<deposit id>).
 //
 // PesaPal expects a specific JSON acknowledgement so it stops retrying.
 import { NextRequest, NextResponse } from 'next/server'
@@ -29,36 +35,35 @@ async function handle(
 
   const adminClient = await createAdminClient()
 
-  // Locate the deposit: merchant_reference is our deposit id; fall back to the
-  // stored order tracking id.
-  let deposit:
-    | { id: string; status: string | null; amount: number; currency: string }
-    | null = null
-
-  if (merchantReference) {
-    const { data } = await adminClient
-      .from('deposits')
-      .select('id, status, amount, currency')
-      .eq('id', merchantReference)
-      .maybeSingle()
-    deposit = data
-  }
-  if (!deposit) {
-    const { data } = await adminClient
-      .from('deposits')
-      .select('id, status, amount, currency')
-      .eq('pesapal_order_id', orderTrackingId)
-      .maybeSingle()
-    deposit = data
-  }
+  // Locate the deposit by the tracking id WE stored for it (never by the
+  // request's merchant reference).
+  const { data: deposit } = await adminClient
+    .from('deposits')
+    .select('id, status, amount, currency')
+    .eq('pesapal_order_id', orderTrackingId)
+    .maybeSingle()
 
   if (!deposit) {
     console.error('PesaPal IPN: deposit not found', { orderTrackingId, merchantReference })
     return ack
   }
 
-  // Authoritative status check.
+  // Authoritative status check, bound to THIS deposit.
   const live = await getPesaPalStatus(orderTrackingId)
+  const mismatch =
+    live.merchantReference !== deposit.id
+      ? 'merchant_reference'
+      : typeof live.amount !== 'number' || Math.round(live.amount * 100) !== Math.round(Number(deposit.amount) * 100)
+        ? 'amount'
+        : live.currency && live.currency.toUpperCase() !== String(deposit.currency).toUpperCase()
+          ? 'currency'
+          : null
+  if (mismatch) {
+    console.error('PesaPal IPN: status does not match the deposit; not applied', {
+      depositId: deposit.id, orderTrackingId, mismatch, merchantReference,
+    })
+    return ack
+  }
 
   if (live.status === 'COMPLETED') {
     await creditDeposit(adminClient, {
@@ -67,7 +72,7 @@ async function handle(
       currency: deposit.currency as CurrencyCode,
       providerReceipt: live.confirmationCode ?? orderTrackingId,
       rawCallback: live.raw,
-      idempotencyKey: `pesapal_${orderTrackingId}`,
+      idempotencyKey: `pesapal_${deposit.id}`,
     })
   } else if (live.status === 'FAILED' || live.status === 'INVALID' || live.status === 'REVERSED') {
     await failDeposit(adminClient, deposit.id, `PesaPal ${live.status}`, live.raw)

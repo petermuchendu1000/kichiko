@@ -258,7 +258,7 @@ The two code-audit reports contain step-by-step detail for open critical issues 
 | S8 | Low (ops) | `admin_void_market` (072) was client-executable but missing from the definer allowlist, so the daily security audit would fail once 072 reached production | V (live audit) | fixed (allowlisted) |
 | U1 | Medium (UX) | The profile page's edit form wrote `preferred_currency` directly and ignored errors, so a failed save looked successful | V (code) | fixed (field removed, errors shown) |
 | O2 | Low (DR) | `public.schema_migrations` is referenced (032) but created by no migration; a fresh rebuild fails | V | open |
-| A-P3 | Critical | PesaPal IPN can credit a different, unpaid deposit | A2 §6.3 | open: phase 1 |
+| A-P3 | Critical | PesaPal IPN can credit a different, unpaid deposit | V (reproduced, `pesapal-ipn.test.ts`) | fixed: deposit found only by its stored tracking id; status must name this deposit, amount and currency must match; idempotency per deposit |
 | A-W1 | High | Ambiguous disbursement exceptions auto-refunded, so a paid-out withdrawal can be refunded (double pay) | A2 §6.5 | open |
 | A-W2 | High | Withdrawals approved after review, and admin retries, are never disbursed | A2 §6.6 | open |
 | A-W3 | High | Withdrawal KYC gate can never turn on (read through an RLS client) | A2 §6.7 | open |
