@@ -46,6 +46,7 @@ interface TransactionStatusResponse {
   message: string
   payment_account: string
   merchant_reference: string
+  currency?: string
   status_code: number // 0=INVALID, 1=COMPLETED, 2=FAILED, 3=REVERSED
   status: string
   error?: { code?: string; message?: string } | null
@@ -151,6 +152,7 @@ export async function getPesaPalStatus(orderTrackingId: string): Promise<{
   confirmationCode?: string
   merchantReference?: string
   amount?: number
+  currency?: string
   raw: TransactionStatusResponse
 }> {
   const token = await getPesaPalToken()
@@ -178,6 +180,7 @@ export async function getPesaPalStatus(orderTrackingId: string): Promise<{
     confirmationCode: res.data.confirmation_code,
     merchantReference: res.data.merchant_reference,
     amount: res.data.amount,
+    currency: res.data.currency,
     raw: res.data,
   }
 }
