@@ -123,6 +123,9 @@ try:
                 (mkt, 'sc-' + mkt[:8], ug))
     cur.execute("insert into market_options(id,market_id,label,display_order,is_active) values(%s,%s,'A',0,true)", (opt, mkt))
     r, err = call("select clob_place_order(%s,%s,%s,'yes','buy','limit',40,10,'UGX')", (ug, mkt, opt))
+    # [095] the lock is a deferred trigger: it runs at commit, atomically with the order.
+    # This harness never commits, so fire the pending trigger as commit would.
+    cur.execute("set constraints trg_lock_settlement_on_order immediate")
     p = prof(ug)
     check("S9a first order locks the settlement currency", err is None and p.get('settlement_locked_at') is not None, f"err={err} locked={p.get('settlement_locked_at')}")
     _, err = as_user(ug, "select set_my_country('KE', '{}'::jsonb)")
