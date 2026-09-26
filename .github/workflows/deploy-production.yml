@@ -75,14 +75,32 @@ jobs:
           npm install --no-save --prefix "$RUNNER_TEMP/supabase-cli" supabase
           echo "$RUNNER_TEMP/supabase-cli/node_modules/.bin" >> "$GITHUB_PATH"
           "$RUNNER_TEMP/supabase-cli/node_modules/.bin/supabase" --version
+      # audit 6.32: the same method as Deploy Staging (proven on every main
+      # push): the pooler DB URL (the access-token `supabase link` path failed
+      # there with "Unauthorized"), a dry run, the migration-history guard, and
+      # any failure stops the job before the cutover.
       - name: Push migrations (production)
         env:
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           SUPABASE_DB_PASSWORD: ${{ secrets.PROD_SUPABASE_DB_PASSWORD }}
           SUPABASE_PROJECT_ID: ${{ secrets.PROD_SUPABASE_PROJECT_ID }}
+          POOLER_HOST: ${{ vars.PROD_SUPABASE_POOLER_HOST || vars.SUPABASE_POOLER_HOST || 'aws-0-eu-west-1.pooler.supabase.com' }}
         run: |
-          supabase link --project-ref "$SUPABASE_PROJECT_ID"
-          supabase db push
+          set -eo pipefail
+          if [ -z "$SUPABASE_DB_PASSWORD" ] || [ -z "$SUPABASE_PROJECT_ID" ]; then
+            echo "::error title=Production migration not run::PROD_SUPABASE_PROJECT_ID / PROD_SUPABASE_DB_PASSWORD not configured."
+            exit 1
+          fi
+          PW=$(python3 -c 'import os, urllib.parse; print(urllib.parse.quote(os.environ["SUPABASE_DB_PASSWORD"], safe=""))')
+          echo "::add-mask::$PW"
+          DB_URL="postgresql://postgres.${SUPABASE_PROJECT_ID}:${PW}@${POOLER_HOST}:5432/postgres"
+          echo "::add-mask::$DB_URL"
+          dry="$(supabase db push --db-url "$DB_URL" --dry-run 2>&1)" || { echo "$dry"; echo "::error title=Migration dry run failed::nothing was applied."; exit 1; }
+          echo "$dry"
+          if echo "$dry" | grep -q "001_initial_schema"; then
+            echo "::error title=Migration history mismatch::The dry run would re-apply 001_initial_schema. Repair the history before pushing. Nothing was applied."
+            exit 1
+          fi
+          supabase db push --db-url "$DB_URL"
 
       # --- Health-gated cutover of the promoted image ---
       - name: Deploy to production (health-gated)

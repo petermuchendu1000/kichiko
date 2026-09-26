@@ -64,8 +64,11 @@ jobs:
           if [ -n "$SUPABASE_DB_PASSWORD" ] && [ -n "$SUPABASE_PROJECT_ID" ]; then
             echo "configured=true" >> "$GITHUB_OUTPUT"
           else
+            # audit 6.32: a run whose migrations were skipped must not look green
+            # (and must not go on to deploy code against the old schema)
             echo "configured=false" >> "$GITHUB_OUTPUT"
-            echo "::warning title=Staging migration skipped::SUPABASE_PROJECT_ID / SUPABASE_DB_PASSWORD not configured; skipping db push."
+            echo "::error title=Staging migration not run::SUPABASE_PROJECT_ID / SUPABASE_DB_PASSWORD not configured; nothing was migrated."
+            exit 1
           fi
       - name: Push migrations (staging)
         if: steps.dbcheck.outputs.configured == 'true'
@@ -86,8 +89,9 @@ jobs:
           echo "$dry"
           if [ $code -ne 0 ]; then
             if echo "$dry" | grep -qiE "failed to connect|i/o timeout|connection refused|no such host|context deadline|dial tcp|timeout"; then
-              echo "::warning title=Staging DB unreachable::Could not reach the staging database (connectivity); skipping migration for this run without failing the pipeline."
-              exit 0
+              # audit 6.32: this used to exit 0 and let the deploy continue unmigrated
+              echo "::error title=Staging DB unreachable::Could not reach the database (connectivity); nothing was migrated. Re-run the workflow."
+              exit 1
             fi
             echo "::error title=Migration dry run failed::supabase db push --dry-run failed (credentials or project id?)."
             exit $code
