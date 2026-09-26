@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
     // token is missing/wrong, or the source IP is not allowed, we REJECT with
     // 401/403 and never settle. This closes the previous fail-open gap where an
     // unauthenticated body could complete/fail a payout.
-    const source = verifyMpesaWebhookSource(req)
+    const source = verifyMpesaWebhookSource(req, { requireToken: true })
     if (!source.ok || !source.enforced) {
       console.warn('M-Pesa B2C result REJECTED: source not verified — refusing to settle', {
         reason: source.reason ?? 'not_configured',

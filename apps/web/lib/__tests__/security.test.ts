@@ -102,38 +102,31 @@ describe('rate-limit: routing & headers', () => {
     expect(bucketForPath('/portfolio')).toBeNull()
   })
 
-  it('derives a client key from proxy headers', () => {
-    expect(clientKey(new Headers({ 'x-forwarded-for': '1.2.3.4, 5.6.7.8' }))).toBe('1.2.3.4')
+  // Audit 6.9: the key is the TRUSTED client IP (lib/security/client-ip.ts).
+  // These replaced tests that asserted the vulnerable order (a client-written
+  // first x-forwarded-for entry, and cf-connecting-ip from any sender).
+  it('without Fly: the last x-forwarded-for hop (proxy-appended), never the first', () => {
+    expect(clientKey(new Headers({ 'x-forwarded-for': '1.2.3.4, 5.6.7.8' }))).toBe('5.6.7.8')
     expect(clientKey(new Headers({ 'x-real-ip': '9.9.9.9' }))).toBe('9.9.9.9')
     expect(clientKey(new Headers())).toBe('anon')
   })
 
-  it('prefers cf-connecting-ip over x-real-ip and x-forwarded-for (H4)', () => {
-    // Cloudflare's edge-injected header wins even when spoofable XFF/real-ip
-    // are also present.
-    expect(
-      clientKey(
-        new Headers({
-          'cf-connecting-ip': '10.0.0.1',
-          'x-real-ip': '9.9.9.9',
-          'x-forwarded-for': '1.2.3.4, 5.6.7.8',
-        })
-      )
-    ).toBe('10.0.0.1')
+  it('behind Fly: cf-connecting-ip counts only when Fly saw a Cloudflare peer', () => {
+    // via Cloudflare (peer 162.158.1.1 is a Cloudflare address)
+    expect(clientKey(new Headers({ 'fly-client-ip': '162.158.1.1', 'cf-connecting-ip': '41.90.1.2' }))).toBe('41.90.1.2')
+    // straight to the origin: a forged cf-connecting-ip / XFF is ignored
+    expect(clientKey(new Headers({ 'fly-client-ip': '203.0.113.9', 'cf-connecting-ip': '10.0.0.1', 'x-forwarded-for': '1.1.1.1' }))).toBe('203.0.113.9')
   })
 
-  it('prefers x-real-ip over x-forwarded-for when cf-connecting-ip is absent (H4)', () => {
-    expect(
-      clientKey(new Headers({ 'x-real-ip': '9.9.9.9', 'x-forwarded-for': '1.2.3.4' }))
-    ).toBe('9.9.9.9')
+  it('rotating a spoofable header does not change the key of a direct caller', () => {
+    const keys = new Set(['1.1.1.1', '2.2.2.2', '3.3.3.3'].map((ip) =>
+      clientKey(new Headers({ 'fly-client-ip': '203.0.113.9', 'cf-connecting-ip': ip, 'x-forwarded-for': ip }))))
+    expect([...keys]).toEqual(['203.0.113.9'])
   })
 
-  it('trims whitespace and ignores blank precedence headers (H4)', () => {
-    expect(clientKey(new Headers({ 'cf-connecting-ip': '  10.0.0.2  ' }))).toBe('10.0.0.2')
-    // A blank cf header must not shadow a usable x-forwarded-for entry.
-    expect(
-      clientKey(new Headers({ 'cf-connecting-ip': '', 'x-forwarded-for': '1.2.3.4' }))
-    ).toBe('1.2.3.4')
+  it('ignores blank and malformed values', () => {
+    expect(clientKey(new Headers({ 'fly-client-ip': '162.158.1.1', 'cf-connecting-ip': '  ' }))).toBe('162.158.1.1')
+    expect(clientKey(new Headers({ 'x-forwarded-for': 'not-an-ip' }))).toBe('anon')
   })
 
   it('emits standard rate-limit headers', () => {

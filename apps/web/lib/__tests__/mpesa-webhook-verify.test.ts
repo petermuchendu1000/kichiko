@@ -22,8 +22,11 @@ describe('timingSafeStrEqual', () => {
 })
 
 describe('webhookClientIp', () => {
-  it('takes the first x-forwarded-for entry, falls back to x-real-ip, else null', () => {
-    expect(webhookClientIp(new Headers({ 'x-forwarded-for': '1.2.3.4, 5.6.7.8' }))).toBe('1.2.3.4')
+  // Audit 6.9: the first x-forwarded-for entry is client-written; a forged
+  // callback claimed a Safaricom IP with it. The trusted client IP is used.
+  it('uses the trusted client IP: never the client-written first x-forwarded-for entry', () => {
+    expect(webhookClientIp(new Headers({ 'x-forwarded-for': '196.201.214.200, 5.6.7.8' }))).toBe('5.6.7.8')
+    expect(webhookClientIp(new Headers({ 'fly-client-ip': '13.13.13.13', 'x-forwarded-for': '196.201.214.200' }))).toBe('13.13.13.13')
     expect(webhookClientIp(new Headers({ 'x-real-ip': '9.9.9.9' }))).toBe('9.9.9.9')
     expect(webhookClientIp(new Headers({}))).toBeNull()
   })
