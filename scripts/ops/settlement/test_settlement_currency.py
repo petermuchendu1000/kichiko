@@ -86,10 +86,17 @@ try:
           f"country={p.get('country_code')} settlement={p.get('settlement_currency')} wallets={wallets(xx)}")
 
     print("Direct edits are refused:")
-    _, err = as_user(ug, "update profiles set country_code='KE' where id=auth.uid() returning 1")
-    _, err2 = as_user(ug, "update profiles set preferred_currency='KES' where id=auth.uid() returning 1")
-    check("S4 direct UPDATE of country_code / preferred_currency denied", bool(err and err.startswith('42501')) and bool(err2 and err2.startswith('42501')),
-          f"{err} | {err2}")
+    # Checked on the grants themselves: a behavioural UPDATE as `authenticated`
+    # also depends on the RLS policy's auth.uid(), and the CI bootstrap gives
+    # that role no USAGE on schema auth, so it failed for an unrelated reason
+    # ("permission denied for schema auth") and passed vacuously.
+    r, err = call("""select json_build_object(
+        'country_code', has_column_privilege('authenticated','public.profiles','country_code','UPDATE'),
+        'preferred_currency', has_column_privilege('authenticated','public.profiles','preferred_currency','UPDATE'),
+        'settlement_currency', has_column_privilege('authenticated','public.profiles','settlement_currency','UPDATE'),
+        'display_name', has_column_privilege('authenticated','public.profiles','display_name','UPDATE'))""")
+    check("S4 authenticated cannot UPDATE country_code / preferred_currency / settlement_currency (can UPDATE display_name)",
+          r == {'country_code': False, 'preferred_currency': False, 'settlement_currency': False, 'display_name': True}, f"{r} {err or ''}")
 
     print("set_my_country:")
     r, err = as_user(xx, "select set_my_country('TZ', '{\"tz\":\"Africa/Dar_es_Salaam\"}'::jsonb)")
