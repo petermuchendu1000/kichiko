@@ -1,38 +1,32 @@
 // app/api/bets/route.ts - Place a bet
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient, createAdminClient } from '@/lib/supabase/server'
-import { platformGate, booleanSetting } from '@/lib/platform-gate'
+import { readFlagFromEnv } from '@/lib/flags'
 import { clobOrderSchema, clobErrorFor, clampPriceCents } from '@/lib/clob'
-import { nanoid } from 'nanoid'
-import { getSettlement, resolveMoneyCurrency } from '@/lib/settlement'
 
 /**
- * Order placement. The platform is CLOB-only: every trade is an order-book
- * order routed to `clob_place_order`. The legacy AMM/LMSR path (`place_bet*`
- * RPCs) was retired when all markets moved to `pricing_engine='clob'`; a
- * request without `engine:'clob'` is rejected rather than mis-routed.
+ * Order placement: ONE database round trip (migration 090, finding L1).
+ *
+ * The platform is CLOB-only: every trade is an order-book order. The user is
+ * identified from the verified JWT (getClaims: local verification with the
+ * project's asymmetric signing keys, no Auth-server call), and a single
+ * service-role RPC, place_order_for, does the rest in the database: account
+ * status, maintenance and the flags.clob kill switch, the settlement currency
+ * of the user's country (a request currency is only an assertion), the
+ * market's engine, the dollar-to-shares conversion of a market buy, and
+ * clob_place_order. Before, the route made 6 to 8 sequential round trips
+ * (about 1 s per order from Johannesburg to eu-west-1).
  */
 export async function POST(req: NextRequest) {
   try {
     const supabase = await createClient()
-    const adminClient = await createAdminClient()
-
-    // Authenticate
-    const { data: { user }, error: authError } = await supabase.auth.getUser()
-    if (authError || !user) {
+    const { data: claims } = await supabase.auth.getClaims()
+    const userId = claims?.claims?.sub
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Check account status (self-scoped read)
-    const { data: profile } = await supabase.rpc('get_my_profile').maybeSingle()
-
-    if (profile?.account_status !== 'active') {
-      return NextResponse.json({ error: 'Account is not active' }, { status: 403 })
-    }
-
-    // Parse body
-    const body = await req.json()
-
+    const body = await req.json().catch(() => null)
     // CLOB is the only supported engine. Reject anything else explicitly.
     if (body?.engine !== 'clob') {
       return NextResponse.json(
@@ -40,136 +34,48 @@ export async function POST(req: NextRequest) {
         { status: 400 },
       )
     }
-    return handleClobOrder({ supabase, adminClient, user, body })
+    const parsed = clobOrderSchema.safeParse(body)
+    if (!parsed.success) {
+      return NextResponse.json({ error: 'Invalid request', details: parsed.error.flatten() }, { status: 400 })
+    }
+    const o = parsed.data
+
+    // FLAG_* environment overrides live in the app, not the database: pass the
+    // ones that are set (an unset one leaves the stored value in charge)
+    const envFlags: Record<string, boolean> = {}
+    for (const key of ['flags.clob', 'maintenance.enabled']) {
+      const v = readFlagFromEnv(key)
+      if (v !== undefined) envFlags[key] = v
+    }
+
+    const admin = await createAdminClient()
+    const { data: result, error } = await admin.rpc('place_order_for' as never, {
+      p_user_id: userId,
+      p_market_id: o.market_id,
+      p_market_option_id: o.market_option_id,
+      p_outcome_side: o.outcome_side,
+      p_action: o.action,
+      p_order_type: o.order_type,
+      p_price_cents: o.order_type === 'limit' ? clampPriceCents(o.price_cents!) : null,
+      p_size: o.size ?? null,
+      p_amount_local: o.order_type === 'market' && o.size == null ? o.amount_local ?? null : null,
+      p_currency: o.currency ?? null,
+      p_client_order_id: o.client_order_id ?? null,
+      p_expires_at: o.expires_at ?? null,
+      p_env_flags: envFlags,
+    } as never)
+
+    if (error) {
+      const mapped = clobErrorFor(error)
+      if (mapped) return NextResponse.json({ error: mapped.error, ...(mapped.code ? { code: mapped.code } : {}) }, { status: mapped.status })
+      console.error('CLOB order error:', error)
+      return NextResponse.json({ error: 'Failed to place order' }, { status: 500 })
+    }
+    return NextResponse.json({ success: true, data: result })
   } catch (error) {
     console.error('Order route error:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
-}
-
-/**
- * CLOB order-book order placement. Gated by the `flags.clob` kill-switch and
- * the market's `pricing_engine='clob'`. Buy-side only in phase 1b (the RPC
- * rejects sells with P0100). Market buys may be dollar-denominated: we convert
- * amount_local → size (shares) via the current best ask (conservative — never
- * overspends), while limit orders are share-denominated. All accounting is
- * atomic inside clob_place_order (escrow, positions, transactions, fills).
- */
-async function handleClobOrder({
-  supabase,
-  adminClient,
-  user,
-  body,
-}: {
-  supabase: Awaited<ReturnType<typeof createClient>>
-  adminClient: Awaited<ReturnType<typeof createAdminClient>>
-  user: { id: string }
-  body: unknown
-}) {
-  // Maintenance freezes trading; flags.clob is the order-book kill switch
-  // (deploy ≠ release; off by default). Both read with the service role.
-  const gate = await platformGate('trading', ['flags.clob'])
-  if (!gate.ok) return NextResponse.json({ error: gate.error, code: gate.code }, { status: gate.status })
-  if (!booleanSetting('flags.clob', gate.stored)) {
-    return NextResponse.json(
-      { error: 'Order-book trading is temporarily unavailable' },
-      { status: 503 },
-    )
-  }
-
-  const parsed = clobOrderSchema.safeParse(body)
-  if (!parsed.success) {
-    return NextResponse.json(
-      { error: 'Invalid request', details: parsed.error.flatten() },
-      { status: 400 },
-    )
-  }
-  const o = parsed.data
-
-  // The order settles in the user's settlement currency (their country's,
-  // migration 079); a client `currency` is only an assertion.
-  const money = resolveMoneyCurrency(await getSettlement(supabase, user.id), o.currency)
-  if (!money.ok) return NextResponse.json({ error: money.error, code: money.code }, { status: money.status })
-  const currency = money.currency
-
-  // Authoritative engine check — never mis-route an AMM market into the CLOB.
-  const { data: mkt } = await adminClient
-    .from('markets')
-    .select('pricing_engine')
-    .eq('id', o.market_id)
-    .maybeSingle()
-  if (!mkt) return NextResponse.json({ error: 'Market not found' }, { status: 404 })
-  if (mkt.pricing_engine !== 'clob') {
-    return NextResponse.json({ error: 'This market is not an order-book market' }, { status: 409 })
-  }
-
-  // Resolve order size (shares). For dollar-denominated market buys we also
-  // pass an explicit USD budget so the RPC can cost-cap the walk down the book
-  // and never overspend past the user's amount (audit #2).
-  let size = o.size ?? null
-  let maxSpendUsd: number | null = null
-  if (o.order_type === 'market' && size == null && o.amount_local != null) {
-    // Convert $ → shares via the best ask (best-effort, single-level estimate).
-    const { data: book } = await adminClient.rpc('clob_get_book', {
-      p_market_id: o.market_id,
-      p_market_option_id: o.market_option_id,
-      p_outcome_side: o.outcome_side,
-    })
-    const bestAsk = (book as { best_ask: number | null } | null)?.best_ask ?? null
-    if (!bestAsk || bestAsk <= 0) {
-      return NextResponse.json(
-        { error: 'No resting liquidity to fill a market order right now' },
-        { status: 409 },
-      )
-    }
-    const { data: fx } = await adminClient
-      .from('exchange_rates')
-      .select('rate')
-      .eq('from_currency', currency)
-      .eq('to_currency', 'USD')
-      .maybeSingle()
-    const rate = (fx as { rate: number } | null)?.rate
-    if (!rate) return NextResponse.json({ error: 'Unsupported currency' }, { status: 400 })
-    const amountUsd = o.amount_local * rate
-    // Upper bound on shares (at the best ask); the RPC's budget cap trims the
-    // actual fill so total spend never exceeds this budget when the walk hits
-    // deeper, pricier levels.
-    size = Math.floor((amountUsd / (bestAsk / 100)) * 1e6) / 1e6
-    maxSpendUsd = amountUsd
-    if (size <= 0) {
-      return NextResponse.json({ error: 'Amount too small to buy any shares' }, { status: 400 })
-    }
-  }
-  if (size == null || size <= 0) {
-    return NextResponse.json({ error: 'Order size must be greater than zero' }, { status: 400 })
-  }
-
-  const clientOrderId = o.client_order_id ?? `clob_${user.id.slice(0, 8)}_${nanoid(8)}`
-  const priceCents = o.order_type === 'limit' ? clampPriceCents(o.price_cents!) : null
-
-  const { data: result, error: rpcError } = await adminClient.rpc('clob_place_order', {
-    p_user_id: user.id,
-    p_market_id: o.market_id,
-    p_market_option_id: o.market_option_id,
-    p_outcome_side: o.outcome_side,
-    p_action: o.action,
-    p_order_type: o.order_type,
-    p_price_cents: priceCents,
-    p_size: size,
-    p_currency: currency,
-    p_client_order_id: clientOrderId,
-    p_expires_at: o.expires_at ?? null,
-    p_max_spend_usd: maxSpendUsd,
-  })
-
-  if (rpcError) {
-    const mapped = clobErrorFor(rpcError)
-    if (mapped) return NextResponse.json({ error: mapped.error }, { status: mapped.status })
-    console.error('CLOB order error:', rpcError)
-    return NextResponse.json({ error: 'Failed to place order' }, { status: 500 })
-  }
-
-  return NextResponse.json({ success: true, data: result })
 }
 
 export async function GET(req: NextRequest) {

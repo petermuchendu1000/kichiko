@@ -153,7 +153,16 @@ export type ClobOrderInput = z.infer<typeof clobOrderSchema>
 // SQLSTATE → HTTP mapping for clob_place_order / clob_cancel_order. Single
 // source of truth so the route stays declarative (mirrors BET_ERRORS).
 // ---------------------------------------------------------------------------
-export const CLOB_ERRORS: Record<string, { status: number; error: string }> = {
+export type ClobError = { status: number; error: string; code?: string }
+
+export const CLOB_ERRORS: Record<string, ClobError> = {
+  // place_order_for (migration 090): the checks the route used to make itself
+  P0190: { status: 403, error: 'Account is not active', code: 'account_inactive' },
+  P0191: { status: 503, error: 'Kichiko is in maintenance. Please try again shortly.', code: 'maintenance' },
+  P0192: { status: 503, error: 'Order-book trading is temporarily unavailable', code: 'trading_paused' },
+  P0193: { status: 409, error: 'Choose your country in Settings before moving money.', code: 'country_required' },
+  P0194: { status: 409, error: 'Your account settles in another currency. Refresh and try again.', code: 'currency_mismatch' },
+  P0195: { status: 409, error: 'No resting liquidity to fill a market order right now', code: 'no_liquidity' },
   P0001: { status: 404, error: 'Market not found or not active' },
   P0002: { status: 409, error: 'Market is closed for betting' },
   P0003: { status: 400, error: 'Unsupported currency' },
@@ -198,7 +207,7 @@ export const CLOB_ERRORS: Record<string, { status: number; error: string }> = {
  */
 export function clobErrorFor(
   err: string | { code?: string | null; message?: string | null } | null | undefined,
-): { status: number; error: string } | null {
+): ClobError | null {
   if (err == null) return null
   if (typeof err === 'string') {
     const code = Object.keys(CLOB_ERRORS).find((c) => err.includes(c))

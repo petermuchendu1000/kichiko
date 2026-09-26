@@ -46,7 +46,13 @@ beforeEach(() => {
     if (name === 'get_my_profile') return { maybeSingle: async () => ({ data: { account_status: 'active' }, error: null }) }
     return { maybeSingle: async () => ({ data: { account_status: 'active' }, error: null }) }
   })
-  client.mockResolvedValue({ auth: { getUser: async () => ({ data: { user: { id: 'u1' } }, error: null }) }, rpc, from: builder })
+  client.mockResolvedValue({
+    auth: {
+      getUser: async () => ({ data: { user: { id: 'u1' } }, error: null }),
+      getClaims: async () => ({ data: { claims: { sub: 'u1' } }, error: null }),
+    },
+    rpc, from: builder,
+  })
   adminRpc.mockImplementation(async (name: string) =>
     name === 'clob_get_book' ? { data: { best_ask: 50 }, error: null } : { data: { success: true }, error: null })
   admin.mockResolvedValue({ rpc: adminRpc, from: builder })
@@ -58,23 +64,44 @@ const ORDER = {
   outcome_side: 'yes', action: 'buy', order_type: 'limit', price_cents: 40, size: 10,
 }
 
+// Migration 090: the order route makes ONE round trip; the settlement-currency
+// rules (and account, gates, engine) are enforced inside place_order_for
+// (scripts/ops/clob/test_place_order_for.py). Here: what the route sends, and
+// how it maps the RPC's codes.
 describe('POST /api/orders', () => {
-  it('places the order in the settlement currency when the client sends none', async () => {
+  it('one RPC: place_order_for for the verified user; no currency assertion when the client sends none', async () => {
     const res = await ordersPOST(req('https://x/api/orders', ORDER))
     expect(res.status).toBe(200)
-    const call = adminRpc.mock.calls.find((c) => c[0] === 'clob_place_order')!
-    expect(call[1]).toMatchObject({ p_currency: 'UGX', p_user_id: 'u1' })
+    expect(adminRpc.mock.calls.map((c) => c[0])).toEqual(['place_order_for'])
+    expect(adminRpc.mock.calls[0][1]).toMatchObject({ p_user_id: 'u1', p_currency: null, p_price_cents: 40, p_size: 10 })
   })
-  it('409 currency_mismatch when the client asserts another currency', async () => {
+  it('409 currency_mismatch when the database refuses the asserted currency (P0194)', async () => {
+    adminRpc.mockResolvedValueOnce({ data: null, error: { code: 'P0194', message: 'x' } })
     const res = await ordersPOST(req('https://x/api/orders', { ...ORDER, currency: 'KES' }))
+    expect(adminRpc.mock.calls[0][1]).toMatchObject({ p_currency: 'KES' })
     expect(res.status).toBe(409)
-    expect(adminRpc.mock.calls.some((c) => c[0] === 'clob_place_order')).toBe(false)
+    expect((await res.json()).code).toBe('currency_mismatch')
   })
-  it('409 country_required without a supported country', async () => {
-    settlement = { country: null, currency: null, wallet_id: null, locked: false }
+  it('409 country_required without a supported country (P0193)', async () => {
+    adminRpc.mockResolvedValueOnce({ data: null, error: { code: 'P0193', message: 'x' } })
     const res = await ordersPOST(req('https://x/api/orders', ORDER))
     expect(res.status).toBe(409)
     expect((await res.json()).code).toBe('country_required')
+  })
+  it('401 without a verified user; nothing sent', async () => {
+    client.mockResolvedValueOnce({ auth: { getClaims: async () => ({ data: null, error: { message: 'no session' } }) } })
+    const res = await ordersPOST(req('https://x/api/orders', ORDER))
+    expect(res.status).toBe(401)
+    expect(adminRpc).not.toHaveBeenCalled()
+  })
+  it('FLAG_* environment overrides are passed to the database', async () => {
+    process.env.FLAG_CLOB = 'true'
+    try {
+      await ordersPOST(req('https://x/api/orders', ORDER))
+      expect(adminRpc.mock.calls[0][1]).toMatchObject({ p_env_flags: { 'flags.clob': true } })
+    } finally {
+      delete process.env.FLAG_CLOB
+    }
   })
 })
 
