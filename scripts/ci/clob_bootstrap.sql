@@ -1,7 +1,7 @@
 -- scripts/ci/clob_bootstrap.sql
 -- Supabase primitives an ephemeral vanilla Postgres needs so the Kichiko
 -- migrations (001..NNN) apply. Stubs only what migrations reference at DDL time
--- (cron/net/storage/realtime/schema_migrations). The CLOB runtime path the
+-- (cron/net/storage/realtime). The CLOB runtime path the
 -- invariant harnesses exercise needs only auth.uid()/roles/enums/tables/RPCs.
 -- The real `http` extension (postgresql-NN-http) is installed separately; only
 -- the pg_cron extension is shimmed (a no-op control file), with cron.* provided
@@ -85,8 +85,5 @@ DO $$ BEGIN
   END IF;
 END $$;
 
--- ---- migration bookkeeping table (created by the migration runner in prod;
---      migration 032 REVOKEs grants on it, so it must pre-exist here) ----
-CREATE TABLE IF NOT EXISTS public.schema_migrations (
-  version text PRIMARY KEY, inserted_at timestamptz DEFAULT now()
-);
+-- (public.schema_migrations is NOT stubbed: 032 no longer requires it (O2),
+--  so CI proves the migrations rebuild a database from scratch.)

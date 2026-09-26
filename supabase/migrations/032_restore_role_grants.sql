@@ -39,7 +39,15 @@ grant usage, select on all sequences in schema public to anon, authenticated;
 grant execute on all functions in schema public to anon, authenticated;
 
 -- Keep the migrations bookkeeping table locked (it has no RLS by design).
-revoke all on table public.schema_migrations from anon, authenticated;
+-- [O2] It exists only where an older tool created it (production); no
+-- migration creates it, so on a rebuild from these files (disaster recovery,
+-- a new project) the bare REVOKE failed and stopped the rebuild here.
+do $$
+begin
+  if to_regclass('public.schema_migrations') is not null then
+    revoke all on table public.schema_migrations from anon, authenticated;
+  end if;
+end $$;
 
 -- Future objects created by postgres in `public` inherit the same grants.
 alter default privileges in schema public
