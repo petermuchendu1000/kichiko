@@ -156,4 +156,10 @@ describe('POST /api/orders: the limit and the expiry are the user\'s', () => {
     const res = await ordersPOST(req('https://x/api/orders', { ...ORDER, expires_at: new Date(Date.now() + 60_000).toISOString() }))
     expect(res.status).toBe(400)
   })
+  it('maps a deactivated option (P0199) to 409 and a frozen wallet (P0012) to 403', async () => {
+    for (const [code, status] of [['P0199', 409], ['P0012', 403]] as const) {
+      adminRpc.mockImplementation(async () => ({ data: null, error: { code, message: 'x' } }))
+      expect((await ordersPOST(req('https://x/api/orders', ORDER))).status).toBe(status)
+    }
+  })
 })

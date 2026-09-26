@@ -7,6 +7,7 @@ place_order_for does in the database what POST /api/orders did in 6-8 round
 trips:
   O1  an order is placed in the user's settlement currency (no assertion needed)
   O2  inactive account -> P0190
+  O8  an inactive wallet -> P0012; O9 a deactivated option -> P0199 (104)
   O3  maintenance -> P0191; order book switched off -> P0192; an env override
       passed by the route turns it back on
   O4  no country -> P0193; a different asserted currency -> P0194
@@ -95,6 +96,15 @@ try:
     cur.execute("update clob_orders set status='cancelled' where market_id=%s and status in ('open','partially_filled')", (MKT,))
     _, e = pof(u, otype='market', size=None, amount=1000)
     check("O6 no liquidity -> P0195", e == 'P0195', f"err={e}")
+
+    # O8/O9 (migration 104; db-core #19): a frozen wallet cannot trade (withdrawals already
+    # refuse it, P0012), and neither can a deactivated option
+    cur.execute("update wallets set is_active=false where user_id=%s and currency='KES'", (u,))
+    _, e = pof(u); check("O8 an inactive (frozen) wallet -> P0012", e == 'P0012', f"err={e}")
+    cur.execute("update wallets set is_active=true where user_id=%s and currency='KES'", (u,))
+    cur.execute("update market_options set is_active=false where id=%s", (OPT,))
+    _, e = pof(u); check("O9 a deactivated option -> P0199", e == 'P0199', f"err={e}")
+    cur.execute("update market_options set is_active=true where id=%s", (OPT,))
 
     cur.execute("savepoint j")
     cur.execute("select set_config('request.jwt.claim.sub', %s, true)", (str(u),))
