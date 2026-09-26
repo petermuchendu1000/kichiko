@@ -107,6 +107,7 @@ export interface ReportListParams {
   q: string | null
   page: number
   pageSize: number
+  offset?: number // exports: an explicit row offset (overrides page)
 }
 
 function reader(
@@ -150,12 +151,13 @@ export interface ReportWithReporter extends ReportRow {
 export async function fetchReports(
   supabase: SupabaseClient<Database>,
   params: ReportListParams
-): Promise<{ rows: ReportWithReporter[]; total: number }> {
-  const from = (params.page - 1) * params.pageSize
+): Promise<{ rows: ReportWithReporter[]; total: number; error?: string }> {
+  const from = params.offset ?? (params.page - 1) * params.pageSize
   let query = supabase
     .from('content_reports')
     .select('*', { count: 'exact' })
     .order('created_at', { ascending: false })
+    .order('id', { ascending: false }) // id: stable pages
     .range(from, from + params.pageSize - 1)
 
   if (params.status) query = query.eq('status', params.status)
@@ -163,13 +165,14 @@ export async function fetchReports(
   if (params.reason) query = query.eq('reason', params.reason)
   if (params.q) query = query.or(`entity_id.eq.${params.q},details.ilike.%${params.q}%`)
 
-  const { data, count } = await query
+  const { data, count, error } = await query
   const rows = (data ?? []) as ReportRow[]
   const reporterIds = Array.from(new Set(rows.map((r) => r.reporter_id).filter(Boolean))) as string[]
   const reporters = await resolveProfiles(supabase, reporterIds)
   return {
     rows: rows.map((r) => ({ ...r, reporter: r.reporter_id ? reporters[r.reporter_id] ?? null : null })),
     total: count ?? 0,
+    error: error?.message,
   }
 }
 

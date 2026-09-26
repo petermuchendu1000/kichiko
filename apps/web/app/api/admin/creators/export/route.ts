@@ -2,18 +2,33 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { requireCapability } from '@/lib/auth'
 import { toCsv } from '@/lib/admin/csv'
+import { collectExportRows, exportFailure } from '@/lib/admin/export-pages'
 
 export async function GET(_req: NextRequest) {
   const guard = await requireCapability('creators:manage')
   if (!guard.ok) return guard.response
 
-  const { data } = await guard.ctx.supabase
-    .from('creator_profiles')
-    .select(
-      'user_id, tier, reward_pct, auto_publish, max_open_markets, status, created_at, profiles!creator_profiles_user_id_fkey(username, display_name, country_code)'
+  // audit 6.39: every creator, not the first 1,000
+  let data
+  try {
+    data = await collectExportRows(
+      async (from, to) => {
+        const { data: rows, count, error } = await guard.ctx.supabase
+          .from('creator_profiles')
+          .select(
+            'user_id, tier, reward_pct, auto_publish, max_open_markets, status, created_at, profiles!creator_profiles_user_id_fkey(username, display_name, country_code)',
+            { count: 'exact' }
+          )
+          .order('created_at', { ascending: false })
+          .order('user_id')
+          .range(from, to)
+        return { rows: rows ?? [], total: count, error: error?.message }
+      },
+      (r) => r.user_id
     )
-    .order('created_at', { ascending: false })
-    .limit(1000)
+  } catch (e) {
+    return exportFailure(e, 'creators')
+  }
 
   type Row = {
     user_id: string

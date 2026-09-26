@@ -6,13 +6,23 @@ import { NextRequest, NextResponse } from 'next/server'
 import { requireCapability } from '@/lib/auth'
 import { toCsv } from '@/lib/admin/csv'
 import { fetchAuditLog, parseAuditParams } from '@/lib/admin/audit'
+import { collectExportRows, exportFailure, EXPORT_CHUNK } from '@/lib/admin/export-pages'
 
 export async function GET(req: NextRequest) {
   const guard = await requireCapability('audit:read')
   if (!guard.ok) return guard.response
 
   const params = parseAuditParams(req.nextUrl.searchParams)
-  const { rows } = await fetchAuditLog(guard.ctx.supabase, { ...params, page: 1, pageSize: 500 })
+  // audit 6.39: every row of the filter, not the first page
+  let rows: Awaited<ReturnType<typeof fetchAuditLog>>['rows']
+  try {
+    rows = await collectExportRows(
+      (from) => fetchAuditLog(guard.ctx.supabase, { ...params, page: 1, pageSize: EXPORT_CHUNK, offset: from }),
+      (r) => String(r.id)
+    )
+  } catch (e) {
+    return exportFailure(e, 'audit log')
+  }
 
   type Row = {
     id: string

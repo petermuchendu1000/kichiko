@@ -81,6 +81,7 @@ export interface AuditListParams {
   to: string | null
   page: number
   pageSize: number
+  offset?: number // exports: an explicit row offset (overrides page)
 }
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
@@ -121,12 +122,13 @@ export interface AuditRowWithActor extends AuditRow {
 export async function fetchAuditLog(
   supabase: SupabaseClient<Database>,
   params: AuditListParams
-): Promise<{ rows: AuditRowWithActor[]; total: number }> {
-  const from = (params.page - 1) * params.pageSize
+): Promise<{ rows: AuditRowWithActor[]; total: number; error?: string }> {
+  const from = params.offset ?? (params.page - 1) * params.pageSize
   let query = supabase
     .from('audit_log')
     .select('*', { count: 'exact' })
     .order('created_at', { ascending: false })
+    .order('id', { ascending: false }) // id: stable pages
     .range(from, from + params.pageSize - 1)
 
   if (params.actor) query = query.eq('actor_id', params.actor)
@@ -136,7 +138,7 @@ export async function fetchAuditLog(
   if (params.from) query = query.gte('created_at', `${params.from}T00:00:00Z`)
   if (params.to) query = query.lte('created_at', `${params.to}T23:59:59Z`)
 
-  const { data, count } = await query
+  const { data, count, error } = await query
   const rows = (data ?? []) as AuditRow[]
   const actorIds = Array.from(new Set(rows.map((r) => r.actor_id).filter(Boolean))) as string[]
   const actors: Record<string, { username: string | null; display_name: string | null }> = {}
@@ -150,6 +152,7 @@ export async function fetchAuditLog(
   return {
     rows: rows.map((r) => ({ ...r, actor: r.actor_id ? actors[r.actor_id] ?? null : null })),
     total: count ?? 0,
+    error: error?.message,
   }
 }
 

@@ -1,7 +1,8 @@
 // GET /api/admin/finance/ledger/export — CSV export of the current ledger filter.
 import { NextRequest, NextResponse } from 'next/server'
 import { requireCapability } from '@/lib/auth'
-import { parseLedgerParams, fetchLedger, MAX_PAGE_SIZE } from '@/lib/admin/finance'
+import { parseLedgerParams, fetchLedger } from '@/lib/admin/finance'
+import { collectExportRows, exportFailure, EXPORT_CHUNK } from '@/lib/admin/export-pages'
 import { toCsv } from '@/lib/admin/csv'
 
 export async function GET(req: NextRequest) {
@@ -9,7 +10,16 @@ export async function GET(req: NextRequest) {
   if (!guard.ok) return guard.response
 
   const params = parseLedgerParams(req.nextUrl.searchParams)
-  const { rows } = await fetchLedger(guard.ctx.supabase, { ...params, page: 1, pageSize: MAX_PAGE_SIZE })
+  // audit 6.39: every row of the filter, not the first page
+  let rows: Record<string, unknown>[]
+  try {
+    rows = await collectExportRows(
+      (from) => fetchLedger(guard.ctx.supabase, { ...params, page: 1, pageSize: EXPORT_CHUNK, offset: from }),
+      (r) => String(r.id)
+    )
+  } catch (e) {
+    return exportFailure(e, 'ledger')
+  }
 
   const csv = toCsv<Record<string, unknown>>(rows as Record<string, unknown>[], [
     { key: 'id', header: 'ID' },

@@ -6,14 +6,23 @@ import { NextRequest, NextResponse } from 'next/server'
 import { requireCapability } from '@/lib/auth'
 import { toCsv } from '@/lib/admin/csv'
 import { fetchReports, parseReportListParams, slaDueAt, isOverdue } from '@/lib/admin/moderation'
+import { collectExportRows, exportFailure, EXPORT_CHUNK } from '@/lib/admin/export-pages'
 
 export async function GET(req: NextRequest) {
   const guard = await requireCapability('moderation:read')
   if (!guard.ok) return guard.response
 
   const params = parseReportListParams(req.nextUrl.searchParams)
-  // Export up to a hard cap regardless of UI page size.
-  const { rows } = await fetchReports(guard.ctx.supabase, { ...params, page: 1, pageSize: 1000 })
+  // audit 6.39: every row of the filter, regardless of UI page size
+  let rows: Awaited<ReturnType<typeof fetchReports>>['rows']
+  try {
+    rows = await collectExportRows(
+      (from) => fetchReports(guard.ctx.supabase, { ...params, page: 1, pageSize: EXPORT_CHUNK, offset: from }),
+      (r) => String(r.id)
+    )
+  } catch (e) {
+    return exportFailure(e, 'moderation')
+  }
 
   type Row = {
     id: string

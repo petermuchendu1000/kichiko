@@ -2,7 +2,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { requireCapability } from '@/lib/auth'
 import { createAdminClient } from '@/lib/supabase/server'
-import { parseUserListParams, fetchUsers, MAX_PAGE_SIZE, type UserRow } from '@/lib/admin/users'
+import { parseUserListParams, fetchUsers, type UserRow } from '@/lib/admin/users'
+import { collectExportRows, exportFailure, EXPORT_CHUNK } from '@/lib/admin/export-pages'
 import { toCsv } from '@/lib/admin/csv'
 
 export async function GET(req: NextRequest) {
@@ -10,8 +11,17 @@ export async function GET(req: NextRequest) {
   if (!guard.ok) return guard.response
 
   const params = parseUserListParams(req.nextUrl.searchParams)
-  // Export up to MAX_PAGE_SIZE rows of the current filter (first page window).
-  const { rows } = await fetchUsers(await createAdminClient(), { ...params, page: 1, pageSize: MAX_PAGE_SIZE })
+  // audit 6.39: every row of the filter, not the first page
+  const admin = await createAdminClient()
+  let rows: UserRow[]
+  try {
+    rows = await collectExportRows(
+      (from) => fetchUsers(admin, { ...params, page: 1, pageSize: EXPORT_CHUNK, offset: from }),
+      (r) => r.id
+    )
+  } catch (e) {
+    return exportFailure(e, 'users')
+  }
 
   const csv = toCsv<UserRow>(rows, [
     { key: 'id', header: 'ID' },
