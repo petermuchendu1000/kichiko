@@ -23,6 +23,11 @@ After 075 every write goes through `upsert_fx_observations(p_obs jsonb)`
   G12 (076) when official quotes agree with the rest, the stored rate is the
       median of the OFFICIAL quotes, not of all quotes
   G13 (076) official and aggregator disagreeing by > 2% is still held
+  G15 (078) an admin override (admin_upsert_exchange_rate, settings:write)
+      keeps units_per_usd consistent with rate
+  G16 (078) the next quote is gated against the admin's rate, not a stale one
+  G17 (078) an admin rate outside the sanity band (a typo) is rejected
+  G18 a user without settings:write cannot override
   G14 (077) works under pg-safeupdate, which Supabase preloads for PostgREST
       (authenticator) sessions: a DELETE/UPDATE without WHERE is refused
       there. Needs a server that ships safeupdate (the Supabase image) and a
@@ -118,6 +123,31 @@ try:
     r, err = obs([{"currency": "KES", "units_per_usd": 129.60, "rate_date": "2026-09-26", "source": "cbk", "official": True},
                   {"currency": "KES", "units_per_usd": 133.50, "rate_date": "2026-09-26", "source": "fawazahmed0", "official": False}])
     check("G13 official vs aggregator 3% apart held", units('KES') == k0, f"stored={units('KES')} before={k0} err={err}")
+
+    print("Admin override (078):")
+    cur.execute("select id from profiles order by created_at limit 2")
+    admin_id, plain_id = [r[0] for r in cur.fetchall()]
+    cur.execute("set local app.superadmin_override = 'on'")
+    cur.execute("update profiles set role='admin' where id=%s", (admin_id,))
+    cur.execute("update profiles set role='user' where id=%s", (plain_id,))
+    def as_user(uid, sql, args):
+        cur.execute("select set_config('request.jwt.claim.sub', %s, true)", (str(uid),))
+        try:
+            return call(sql, args)
+        finally:
+            cur.execute("select set_config('request.jwt.claim.sub', '', true)")
+    ADMIN_SQL = "select row_to_json(admin_upsert_exchange_rate(%s::currency_code,'USD'::currency_code,%s::numeric,'manual'))::text"
+    r, err = as_user(admin_id, ADMIN_SQL, ('ZMW', str(Decimal(1) / Decimal(25))))
+    check("G15 admin sets ZMW to 25/USD: stored 25.00", units('ZMW') == Decimal('25.00'), f"stored={units('ZMW')} err={err}")
+    r, err = obs([{"currency": "ZMW", "units_per_usd": 25.1, "rate_date": "2026-09-26", "source": "fawazahmed0"}])
+    check("G16 next +0.4% quote gated against the admin rate: accepted", units('ZMW') == Decimal('25.10'),
+          f"stored={units('ZMW')} r={r and r.get('currencies')} err={err}")
+    before = units('ZMW')
+    r, err = as_user(admin_id, ADMIN_SQL, ('ZMW', str(Decimal(1) / Decimal('1.95'))))
+    check("G17 admin typo 1.95/USD (out of band) rejected", err is not None and units('ZMW') == before,
+          f"stored={units('ZMW')} err={err}")
+    r, err = as_user(plain_id, ADMIN_SQL, ('ZMW', str(Decimal(1) / Decimal(20))))
+    check("G18 plain user cannot override", err is not None and units('ZMW') == before, f"err={err}")
 
     print("Skips:")
     r, err = obs([{"currency": "USD", "units_per_usd": 1, "rate_date": "2026-09-25", "source": "x"},
