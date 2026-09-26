@@ -112,6 +112,8 @@ echo; echo "===== 19/20 test_time_priority.py (arrival-order time priority, migr
 python3 "$CLOB_DIR/test_time_priority.py" || { echo "::error::time priority test FAILED"; FAILED=1; }
 echo; echo "===== +1 test_delivery_lease.py (notification delivery lease, migration 091) ====="
 python3 "$REPO_ROOT/scripts/ops/notifications/test_delivery_lease.py" || { echo "::error::notification delivery lease test FAILED"; FAILED=1; }
+echo; echo "===== +1 test_leaderboard_pnl.py (trader P&L / win rate from realized P&L, migration 092) ====="
+python3 "$CLOB_DIR/test_leaderboard_pnl.py" || { echo "::error::leaderboard P&L test FAILED"; FAILED=1; }
 # last: this one COMMITS data (throwaway cluster) and runs concurrent takers
 echo; echo "===== 20/20 test_deadlock_free.py (concurrent takers, migration 081) ====="
 python3 "$CLOB_DIR/test_deadlock_free.py" || { echo "::error::deadlock-free test FAILED"; FAILED=1; }
