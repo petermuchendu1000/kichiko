@@ -21,6 +21,14 @@ const STATIC_PATHS: Array<{ path: string; changeFrequency: 'hourly' | 'daily' | 
 // Sitemap protocol caps a single file at 50,000 URLs.
 const MAX_MARKETS = 45_000
 
+// The sitemap is prerendered at build time. A database that accepts the
+// connection but never answers used to hang the request until Next's 60s
+// static-generation limit failed the whole build (seen in CI). Give up after
+// 8s and serve the static list; the hourly revalidation fills in markets.
+const DB_TIMEOUT_MS = 8000
+const fetchWithTimeout: typeof fetch = (input, init) =>
+  fetch(input, { ...init, signal: AbortSignal.timeout(DB_TIMEOUT_MS) })
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = siteUrl()
   const entries: MetadataRoute.Sitemap = STATIC_PATHS.map(({ path, changeFrequency, priority }) => ({
@@ -34,7 +42,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   if (!url || !key) return entries
 
   try {
-    const supabase = createClient(url, key, { auth: { persistSession: false, autoRefreshToken: false } })
+    const supabase = createClient(url, key, {
+      auth: { persistSession: false, autoRefreshToken: false },
+      global: { fetch: fetchWithTimeout },
+    })
     const { data, error } = await supabase
       .from('markets')
       .select('slug, status, updated_at')
@@ -54,7 +65,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       })
     }
   } catch {
-    // Network/DB unavailable (e.g. CI build without Supabase): static list only.
+    // Network/DB unavailable or too slow (e.g. CI build): static list only.
   }
   return entries
 }

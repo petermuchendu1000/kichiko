@@ -11,7 +11,9 @@ test('the market page polls each book once per tick, never in a pile', async ({ 
     if (isBook(r)) books.push(r)
   })
   const res = await page.goto(MARKET, { waitUntil: 'domcontentloaded' })
-  test.skip(!res || res.status() !== 200, 'order-book market not available')
+  // Skip only when the market is absent; any other non-200 is a real failure.
+  test.skip(res?.status() === 404, 'order-book market not available')
+  expect(res?.status()).toBe(200)
 
   // Let the page settle, then count one 9s window: 4s polls allow at most 3
   // requests per distinct book (the old per-component setInterval made more).
@@ -40,7 +42,9 @@ test('the book endpoint answers without a session and is cacheable', async ({ pa
   })
   await page.setViewportSize({ width: 1280, height: 900 })
   const res = await page.goto(MARKET, { waitUntil: 'domcontentloaded' })
-  test.skip(!res || res.status() !== 200, 'order-book market not available')
+  // Skip only when the market is absent; any other non-200 is a real failure.
+  test.skip(res?.status() === 404, 'order-book market not available')
+  expect(res?.status()).toBe(200)
   await expect.poll(() => bookUrl, { timeout: 30_000 }).not.toBeNull()
 
   const r = await request.get(bookUrl!)
