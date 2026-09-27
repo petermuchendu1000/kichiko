@@ -1,0 +1,228 @@
+{
+ "buyTab": {
+  "box": {
+   "x": 1014,
+   "y": 205.5,
+   "w": 29.71875,
+   "h": 20
+  },
+  "self": {
+   "content": "normal",
+   "display": "block",
+   "position": "static",
+   "w": "29.7188px",
+   "h": "20px",
+   "bg": "rgba(0, 0, 0, 0)",
+   "bb": "0px solid rgba(0, 0, 0, 0.9)",
+   "bt": "0px rgba(0, 0, 0, 0.9)",
+   "radius": "0px",
+   "pad": "0px",
+   "shadow": "none",
+   "bottom": "auto",
+   "left": "auto"
+  },
+  "after": {
+   "content": "none",
+   "display": "inline",
+   "position": "static",
+   "w": "auto",
+   "h": "auto",
+   "bg": "rgba(0, 0, 0, 0)",
+   "bb": "0px solid rgba(0, 0, 0, 0.9)",
+   "bt": "0px rgba(0, 0, 0, 0.9)",
+   "radius": "0px",
+   "pad": "0px",
+   "shadow": "none",
+   "bottom": "auto",
+   "left": "auto"
+  },
+  "before": {
+   "content": "none",
+   "display": "inline",
+   "position": "static",
+   "w": "auto",
+   "h": "auto",
+   "bg": "rgba(0, 0, 0, 0)",
+   "bb": "0px solid rgba(0, 0, 0, 0.9)",
+   "bt": "0px rgba(0, 0, 0, 0.9)",
+   "radius": "0px",
+   "pad": "0px",
+   "shadow": "none",
+   "bottom": "auto",
+   "left": "auto"
+  }
+ },
+ "buyTabPainters": [],
+ "ticketContainer": {
+  "box": {
+   "x": 997,
+   "y": 187,
+   "w": 352,
+   "h": 400
+  },
+  "style": {
+   "content": "normal",
+   "display": "block",
+   "position": "static",
+   "w": "350px",
+   "h": "398px",
+   "bg": "rgb(255, 255, 255)",
+   "bb": "1px solid rgba(0, 0, 0, 0.06)",
+   "bt": "1px rgba(0, 0, 0, 0.06)",
+   "radius": "16px",
+   "pad": "0px",
+   "shadow": "none",
+   "bottom": "auto",
+   "left": "auto"
+  }
+ },
+ "amountField": {
+  "box": {
+   "x": 1014,
+   "y": 382,
+   "w": 318,
+   "h": 44
+  },
+  "style": {
+   "content": "normal",
+   "display": "flex",
+   "position": "relative",
+   "w": "318px",
+   "h": "44px",
+   "bg": "rgba(0, 0, 0, 0)",
+   "bb": "1px solid rgba(0, 0, 0, 0.1)",
+   "bt": "1px rgba(0, 0, 0, 0.1)",
+   "radius": "8px",
+   "pad": "8px 16px",
+   "shadow": "none",
+   "bottom": "0px",
+   "left": "0px"
+  }
+ },
+ "sideTrack": {
+  "box": {
+   "x": 1014,
+   "y": 334,
+   "w": 196,
+   "h": 32
+  },
+  "style": {
+   "content": "normal",
+   "display": "flex",
+   "position": "relative",
+   "w": "196px",
+   "h": "32px",
+   "bg": "rgba(0, 0, 0, 0.05)",
+   "bb": "0px solid rgba(0, 0, 0, 0.9)",
+   "bt": "0px rgba(0, 0, 0, 0.9)",
+   "radius": "100px",
+   "pad": "2px",
+   "shadow": "none",
+   "bottom": "0px",
+   "left": "0px"
+  },
+  "children": [
+   {
+    "tag": "DIV",
+    "text": "",
+    "box": {
+     "x": 1016,
+     "y": 336,
+     "w": 96,
+     "h": 28
+    },
+    "style": {
+     "content": "normal",
+     "display": "block",
+     "position": "absolute",
+     "w": "96px",
+     "h": "28px",
+     "bg": "rgb(10, 194, 133)",
+     "bb": "0px solid rgba(0, 0, 0, 0.9)",
+     "bt": "0px rgba(0, 0, 0, 0.9)",
+     "radius": "100px",
+     "pad": "0px",
+     "shadow": "none",
+     "bottom": "2px",
+     "left": "2px"
+    }
+   },
+   {
+    "tag": "BUTTON",
+    "text": "YES 86¢",
+    "box": {
+     "x": 1016,
+     "y": 336,
+     "w": 96,
+     "h": 28
+    },
+    "style": {
+     "content": "normal",
+     "display": "flex",
+     "position": "relative",
+     "w": "96px",
+     "h": "28px",
+     "bg": "rgba(0, 0, 0, 0)",
+     "bb": "0px solid rgb(255, 255, 255)",
+     "bt": "0px rgb(255, 255, 255)",
+     "radius": "100px",
+     "pad": "0px",
+     "shadow": "none",
+     "bottom": "0px",
+     "left": "0px"
+    }
+   },
+   {
+    "tag": "BUTTON",
+    "text": "NO 15¢",
+    "box": {
+     "x": 1112,
+     "y": 336,
+     "w": 96,
+     "h": 28
+    },
+    "style": {
+     "content": "normal",
+     "display": "flex",
+     "position": "relative",
+     "w": "96px",
+     "h": "28px",
+     "bg": "rgba(0, 0, 0, 0)",
+     "bb": "0px solid rgba(0, 0, 0, 0.9)",
+     "bt": "0px rgba(0, 0, 0, 0.9)",
+     "radius": "100px",
+     "pad": "0px",
+     "shadow": "none",
+     "bottom": "0px",
+     "left": "0px"
+    }
+   }
+  ]
+ },
+ "cta": {
+  "box": {
+   "x": 1014,
+   "y": 526,
+   "w": 318,
+   "h": 44
+  },
+  "style": {
+   "content": "normal",
+   "display": "flex",
+   "position": "static",
+   "w": "318px",
+   "h": "44px",
+   "bg": "rgb(10, 194, 133)",
+   "bb": "0px solid rgba(0, 0, 0, 0)",
+   "bt": "0px rgba(0, 0, 0, 0)",
+   "radius": "100px",
+   "pad": "0px 16px",
+   "shadow": "none",
+   "bottom": "auto",
+   "left": "auto"
+  }
+ },
+ "url": "https://demo.kalshi.co/markets/kxnflgame/professional-football-game/kxnflgame-26sep27kcmia",
+ "capturedUtc": "2026-09-27T09:26:19.409Z",
+ "grade": "D (demo.kalshi.co, live)"
+}

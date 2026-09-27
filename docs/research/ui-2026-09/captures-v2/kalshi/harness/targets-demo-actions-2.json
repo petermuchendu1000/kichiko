@@ -52,5 +52,44 @@
     "dialog": true
    }
   }
+ },
+ {
+  "id": "more",
+  "page": "P16",
+  "source": "D",
+  "suffix": "more-menu",
+  "url": "https://demo.kalshi.co/",
+  "action": "moreMenu",
+  "vps": [
+   "desktop"
+  ]
+ },
+ {
+  "id": "micon",
+  "page": "P16",
+  "source": "D",
+  "suffix": "header-icon",
+  "url": "https://demo.kalshi.co/",
+  "action": "headerIconMobile",
+  "vps": [
+   "mobile"
+  ]
+ },
+ {
+  "id": "search-m",
+  "page": "P07",
+  "source": "D",
+  "url": "https://demo.kalshi.co/",
+  "action": "searchMobile",
+  "vps": [
+   "mobile"
+  ]
+ },
+ {
+  "id": "profile2",
+  "page": "P09",
+  "source": "D",
+  "url": "https://demo.kalshi.co/ideas/feed",
+  "action": "clickAuthorName"
  }
 ]

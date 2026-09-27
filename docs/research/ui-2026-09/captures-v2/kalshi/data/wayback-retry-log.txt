@@ -5,3 +5,5 @@
 2026-09-27T08:50:36Z attempt 5 -> curl: (35) Recv failure: Connection reset by peer 000 
 2026-09-27T09:00:54Z attempt 6 -> curl: (35) Recv failure: Connection reset by peer 000 
 2026-09-27T09:16:02Z attempt 7 -> curl: (35) Recv failure: Connection reset by peer 000 
+2026-09-27T09:31:13Z attempt 8 -> curl: (35) Recv failure: Connection reset by peer 000 
+2026-09-27T09:31:47Z poller stopped by capture agent after 8 failed attempts

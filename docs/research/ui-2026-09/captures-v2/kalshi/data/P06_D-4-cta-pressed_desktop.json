@@ -18,7 +18,7 @@
   }
  },
  "vp": "desktop",
- "startedUtc": "2026-09-27T09:15:25.713Z",
+ "startedUtc": "2026-09-27T09:22:37.245Z",
  "consoleErrors": [
   "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
   "Failed to load resource: the server responded with a status of 403 (Forbidden)",
@@ -27,9 +27,12 @@
   "Failed to load resource: the server responded with a status of 403 (Forbidden)",
   "Provider's accounts list is empty.",
   "[GSI_LOGGER]: FedCM get() rejects with NetworkError: Error retrieving a token.",
-  "Not signed in with the identity provider.",
+  "WebSocket connection to 'wss://api.sandbox.sardine.ai/v1/events/stream' failed: Error during WebSocket handshake: Unexpected response code: 400",
+  "Permissions policy violation: encrypted-media is not allowed in this document.",
+  "WebSocket connection to 'wss://api.sandbox.sardine.ai/v1/events/stream' failed: Error during WebSocket handshake: Unexpected response code: 400",
   "Access to XMLHttpRequest at 'https://accounts.google.com/gsi/style' from origin 'https://demo.kalshi.co' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
-  "Failed to load resource: net::ERR_FAILED"
+  "Failed to load resource: net::ERR_FAILED",
+  "Permissions policy violation: encrypted-media is not allowed in this document."
  ],
  "responses": [
   {
@@ -45,16 +48,20 @@
    "status": 200
   },
   {
-   "url": "https://15537244.fls.doubleclick.net/activityi;src=15537244;type=unive0;cat=kalsh0;rcb=6;ord=828243918764;npa=0;auiddc=554313727.1790500532;uaa=x86;uab=64;uafvl=Chromium%3B141.0.7390.37%7CNot%253FA_Br",
+   "url": "https://15537244.fls.doubleclick.net/activityi;src=15537244;type=unive0;cat=kalsh0;rcb=13;ord=4016683472885;npa=0;auiddc=1165820818.1790500962;uaa=x86;uab=64;uafvl=Chromium%3B141.0.7390.37%7CNot%253FA",
    "status": 403
   },
   {
    "url": "https://apps.rokt.com/wsdk/plugins/dcui/index.html",
    "status": 200
+  },
+  {
+   "url": "https://api.sandbox.sardine.ai/assets/collector.min.c27ad26.html?r=2026-09-25-c27ad26",
+   "status": 200
   }
  ],
  "httpStatus": 200,
- "signupModalAppearedAfterMs": 9720,
+ "signupModalAppearedAfterMs": 8664,
  "signupModalDismissed": "fallback",
  "action": {
   "amount": {
@@ -69,7 +76,8 @@
      "inDialog": false
     },
     "dialogs": [],
-    "url": "https://demo.kalshi.co/markets/kxnflgame/professional-football-game/kxnflgame-26sep27kcmia"
+    "url": "https://demo.kalshi.co/markets/kxnflgame/professional-football-game/kxnflgame-26sep27kcmia",
+    "googleOneTap": null
    },
    "amountInput": {
     "x": 1308.5859375,
@@ -84,16 +92,18 @@
    "dialogs": []
   },
   "ctaClicked": {
-   "text": "BUY",
-   "x": 1028.859375,
-   "y": 215.5,
-   "w": 29.71875,
-   "h": 20,
-   "top": 205.5,
+   "text": "Sign up to trade",
+   "x": 1173,
+   "y": 548,
+   "w": 318,
+   "h": 44,
+   "top": 526,
    "inDialog": false
   },
-  "afterUrl": "https://demo.kalshi.co/markets/kxnflgame/professional-football-game/kxnflgame-26sep27kcmia?op_side=BUY&op_order_type=dollars",
-  "dialogs": []
+  "afterUrl": "https://demo.kalshi.co/markets/kxnflgame/professional-football-game/kxnflgame-26sep27kcmia",
+  "dialogs": [
+   "Log in Continue with Google Continue with Apple or Sign up with Email Sign in with a passkey Forgot password? By continuing, you acknowledge and agree to Kalshi’s legal terms, which we recommend reviewing Log in to your demo account Try Kalshi markets with no risk using our free demo mode."
+  ]
  },
  "regionProbe": [
   {
@@ -287,7 +297,7 @@
    "radius": "0px",
    "border": "0px #000000E6",
    "padding": "0px 0px 0px 0px",
-   "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgba(59, 130, 246, 0.5) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+   "shadow": null,
    "tnum": "lining-nums tabular-nums",
    "aria": {
     "pressed": null,
@@ -600,17 +610,17 @@
    "tag": "span",
    "role": null,
    "text": "$",
-   "x": 1291,
+   "x": 1283,
    "y": 392,
    "w": 10.8,
    "h": 24,
    "font": "kalshiSans 18px/24px 600",
    "ls": "normal",
    "tt": "none",
-   "color": "#0000004D",
+   "color": "#000000E6",
    "bg": "#00000000",
    "radius": "0px",
-   "border": "0px #0000004D",
+   "border": "0px #000000E6",
    "padding": "0px 0px 0px 0px",
    "shadow": null,
    "tnum": "lining-nums tabular-nums",
@@ -624,10 +634,10 @@
   {
    "tag": "input",
    "role": null,
-   "text": "0",
-   "x": 1302,
+   "text": "25",
+   "x": 1293,
    "y": 392,
-   "w": 12.8,
+   "w": 21.6,
    "h": 24,
    "font": "kalshiSans 18px/24px 600",
    "ls": "normal",
@@ -727,7 +737,7 @@
    "text": "Sep 29, 2026",
    "x": 1014,
    "y": 492,
-   "w": 285.1,
+   "w": 245,
    "h": 18,
    "font": "kalshiSans 12px/18px 400",
    "ls": "normal",
@@ -749,10 +759,10 @@
   {
    "tag": "h2",
    "role": null,
-   "text": "$0",
-   "x": 1303,
+   "text": "$28.77",
+   "x": 1263,
    "y": 472,
-   "w": 28.9,
+   "w": 69,
    "h": 36,
    "font": "kalshiCondensed 30px/36px 500",
    "ls": "-0.3px",
@@ -822,16 +832,16 @@
    }
   }
  ],
- "fullPageClippedTo": 2695,
- "docHeight": 2695,
+ "fullPageClippedTo": 900,
+ "docHeight": 900,
  "measure": {
-  "url": "https://demo.kalshi.co/markets/kxnflgame/professional-football-game/kxnflgame-26sep27kcmia?op_side=BUY&op_order_type=dollars",
+  "url": "https://demo.kalshi.co/markets/kxnflgame/professional-football-game/kxnflgame-26sep27kcmia",
   "viewport": {
    "w": 1440,
    "h": 900,
    "dpr": 1
   },
-  "docHeight": 2695,
+  "docHeight": 900,
   "colorScheme": "light",
   "htmlClass": "kalshisans_b2794dd-module__q5KPJG__variable kalshicondensed_7a0c562e-module__QUSyua__variable graphikwidesuper_9f434a42-module__DSUzfq__variable graphikwidesemibold_839bd37e-module__QN7kBG__variable overscroll-y-none",
   "bodyBg": "#FFFFFF",
@@ -849,9 +859,9 @@
    "nextData": false,
    "nextRouter": true,
    "nextF": true,
-   "scripts": 319,
-   "visibleElements": 1020,
-   "bodyTextChars": 3063
+   "scripts": 303,
+   "visibleElements": 1083,
+   "bodyTextChars": 3366
   },
   "structure": [
    {
@@ -863,7 +873,7 @@
     "w": 1425,
     "x": 0,
     "position": "sticky",
-    "text": "MARKETS PERPS LIVE 39 PRO MORE Log in Sign up Trending Elections Politics Sports Culture C"
+    "text": "MARKETS PERPS LIVE 15 PRO MORE Log in Sign up Trending Elections Politics Sports Culture C"
    },
    {
     "tag": "nav",
@@ -874,7 +884,18 @@
     "w": 1425,
     "x": 0,
     "position": "static",
-    "text": "MARKETS PERPS LIVE 39 PRO MORE Log in Sign up Trending Elections Politics Sports Culture C"
+    "text": "MARKETS PERPS LIVE 15 PRO MORE Log in Sign up Trending Elections Politics Sports Culture C"
+   },
+   {
+    "tag": "div",
+    "role": null,
+    "sel": "div.z-modal.pointer-events-auto",
+    "top": 0,
+    "h": 900,
+    "w": 1440,
+    "x": 0,
+    "position": "fixed",
+    "text": "Log in Continue with Google Continue with Apple or Sign up with Email Sign in with a passk"
    },
    {
     "tag": "form",
@@ -889,6 +910,17 @@
    },
    {
     "tag": "div",
+    "role": "dialog",
+    "sel": "div.flex.flex-col[role=dialog]",
+    "top": 56,
+    "h": 696,
+    "w": 480,
+    "x": 480,
+    "position": "relative",
+    "text": "Log in Continue with Google Continue with Apple or Sign up with Email Sign in with a passk"
+   },
+   {
+    "tag": "div",
     "role": null,
     "sel": "div.trader-drawer.sticky",
     "top": 107,
@@ -897,6 +929,17 @@
     "x": 0,
     "position": "sticky",
     "text": ""
+   },
+   {
+    "tag": "h2",
+    "role": null,
+    "sel": "h2.m-0.font-kalshi-condensed",
+    "top": 128,
+    "h": 36,
+    "w": 62.67,
+    "x": 688.66,
+    "position": "static",
+    "text": "Log in"
    },
    {
     "tag": "div",
@@ -932,6 +975,17 @@
     "text": "KC Chiefs vs MIA Dolphins"
    },
    {
+    "tag": "form",
+    "role": null,
+    "sel": "form.flex.flex-col",
+    "top": 188,
+    "h": 540,
+    "w": 432,
+    "x": 504,
+    "position": "static",
+    "text": "Continue with Google Continue with Apple or Sign up with Email Sign in with a passkey Forg"
+   },
+   {
     "tag": "div",
     "role": "tablist",
     "sel": "div.flex.items-start[role=tablist]",
@@ -951,7 +1005,7 @@
     "w": 912,
     "x": 53,
     "position": "static",
-    "text": "Begins in 7h 44m 08s · Sep 27, 1:00pm EDT Stats Sep 16 Sep 18 Sep 21 Sep 24 Sep 27 0% 25% "
+    "text": "Begins in 7h 36m 59s · Sep 27, 1:00pm EDT Stats Sep 16 Sep 18 Sep 21 Sep 24 Sep 27 0% 25% "
    },
    {
     "tag": "h3",
@@ -970,10 +1024,10 @@
     "sel": "h2.m-0.font-kalshi-condensed",
     "top": 472,
     "h": 36,
-    "w": 28.92,
-    "x": 1303.08,
+    "w": 69.03,
+    "x": 1262.97,
     "position": "static",
-    "text": "$0"
+    "text": "$28.77"
    },
    {
     "tag": "h2",
@@ -1014,10 +1068,10 @@
     "sel": "h2.m-0.font-kalshi-condensed",
     "top": 877,
     "h": 28,
-    "w": 36.42,
+    "w": 37.88,
     "x": 457,
     "position": "static",
-    "text": "52%"
+    "text": "50%"
    },
    {
     "tag": "h2",
@@ -1058,10 +1112,10 @@
     "sel": "h2.m-0.font-kalshi-condensed",
     "top": 1194,
     "h": 28,
-    "w": 36.13,
+    "w": 37.05,
     "x": 457,
     "position": "static",
-    "text": "47%"
+    "text": "45%"
    },
    {
     "tag": "h2",
@@ -1127,7 +1181,7 @@
     "w": 1424,
     "x": 1,
     "position": "static",
-    "text": "NEW MARKETS Where will it rain tomorrow? Where will it rain tomorrow? What will 1+1 equal "
+    "text": "NEW MARKETS What will 1+1 equal on Sep 27 at 05:30? Kalinina vs Muchova Svitolina vs Nosko"
    },
    {
     "tag": "footer",
@@ -1200,12 +1254,17 @@
     "color": "#000000E6",
     "colorRaw": "rgba(0, 0, 0, 0.9)",
     "fontVariantNumeric": "lining-nums proportional-nums",
-    "count": 1,
+    "count": 2,
     "samples": [
      {
       "text": "Game Lines",
       "sel": "h2.m-0.font-kalshi-condensed",
       "top": 1304
+     },
+     {
+      "text": "Log in",
+      "sel": "h2.m-0.font-kalshi-condensed",
+      "top": 128
      }
     ]
    },
@@ -1222,7 +1281,7 @@
     "count": 1,
     "samples": [
      {
-      "text": "$0",
+      "text": "$28.77",
       "sel": "h2.m-0.font-kalshi-condensed",
       "top": 472
      }
@@ -1251,7 +1310,7 @@
       "top": 725
      },
      {
-      "text": "52%",
+      "text": "50%",
       "sel": "h2.m-0.font-kalshi-condensed",
       "top": 877
      }
@@ -1334,7 +1393,7 @@
     "color": "#000000E6",
     "colorRaw": "rgba(0, 0, 0, 0.9)",
     "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 2,
+    "count": 3,
     "samples": [
      {
       "text": "Spread and Total",
@@ -1345,21 +1404,7 @@
       "text": "Team Totals",
       "sel": "h2.m-0.font-kalshi-sans",
       "top": 1066
-     }
-    ]
-   },
-   {
-    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
-    "size": "18px",
-    "weight": "600",
-    "lineHeight": "24px",
-    "letterSpacing": "normal",
-    "transform": "none",
-    "color": "#0000004D",
-    "colorRaw": "rgba(0, 0, 0, 0.3)",
-    "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 1,
-    "samples": [
+     },
      {
       "text": "$",
       "sel": "span.typ-body-x30.shrink-0",
@@ -1382,7 +1427,7 @@
      {
       "text": "100%",
       "sel": "text#__react_svg_text_measurement_id",
-      "top": -916
+      "top": -2710
      }
     ]
    },
@@ -1396,7 +1441,7 @@
     "color": "#0AC285",
     "colorRaw": "rgb(10, 194, 133)",
     "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 13,
+    "count": 15,
     "samples": [
      {
       "text": "Yes",
@@ -1412,6 +1457,35 @@
       "text": "Yes",
       "sel": "span.font-kalshi-sans.typ-emphasis-x30",
       "top": 729
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "15px",
+    "weight": "500",
+    "lineHeight": "22px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "colorRaw": "rgba(0, 0, 0, 0.9)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 13,
+    "samples": [
+     {
+      "text": "Trending",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
+      "top": 72
+     },
+     {
+      "text": "Elections",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
+      "top": 72
+     },
+     {
+      "text": "Politics",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
+      "top": 72
      }
     ]
    },
@@ -1447,35 +1521,6 @@
    {
     "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
     "size": "15px",
-    "weight": "500",
-    "lineHeight": "22px",
-    "letterSpacing": "normal",
-    "transform": "none",
-    "color": "#000000E6",
-    "colorRaw": "rgba(0, 0, 0, 0.9)",
-    "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 12,
-    "samples": [
-     {
-      "text": "Trending",
-      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
-      "top": 72
-     },
-     {
-      "text": "Elections",
-      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
-      "top": 72
-     },
-     {
-      "text": "Politics",
-      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
-      "top": 72
-     }
-    ]
-   },
-   {
-    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
-    "size": "15px",
     "weight": "400",
     "lineHeight": "22px",
     "letterSpacing": "normal",
@@ -1491,7 +1536,7 @@
       "top": 236
      },
      {
-      "text": "7h 44m 08s",
+      "text": "7h 36m 59s",
       "sel": "span.font-kalshi-sans.font-normal",
       "top": 237
      },
@@ -1541,7 +1586,7 @@
     "color": "#0000008C",
     "colorRaw": "rgba(0, 0, 0, 0.55)",
     "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 2,
+    "count": 3,
     "samples": [
      {
       "text": "·",
@@ -1552,6 +1597,11 @@
       "text": "Sep 27, 1:00pm EDT",
       "sel": "span.font-kalshi-sans.font-normal",
       "top": 236
+     },
+     {
+      "text": "Log in to your account",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 682
      }
     ]
    },
@@ -1565,12 +1615,41 @@
     "color": "#FFFFFF",
     "colorRaw": "rgb(255, 255, 255)",
     "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 1,
+    "count": 3,
     "samples": [
      {
       "text": "Sign up to trade",
       "sel": "span.whitespace-nowrap",
       "top": 537
+     },
+     {
+      "text": "Continue with Google",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
+      "top": 202
+     },
+     {
+      "text": "Continue with Apple",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
+      "top": 265
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "15px",
+    "weight": "400",
+    "lineHeight": "22px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#FF6A00",
+    "colorRaw": "rgb(255, 106, 0)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 1,
+    "samples": [
+     {
+      "text": "demo",
+      "sel": "span",
+      "top": 683
      }
     ]
    },
@@ -1587,19 +1666,19 @@
     "count": 50,
     "samples": [
      {
-      "text": "$3,343,092 vol",
+      "text": "$4,095,836 vol",
       "sel": "span.font-kalshi-sans.font-normal",
       "top": 572
      },
      {
-      "text": "Where will it rain tomorrow?",
+      "text": "What will 1+1 equal on Sep 27 at 05:30?",
       "sel": "span.font-kalshi-sans.font-normal",
       "top": 1883
      },
      {
-      "text": "Where will it rain tomorrow?",
+      "text": "Kalinina vs Muchova",
       "sel": "span.font-kalshi-sans.font-normal",
-      "top": 1919
+      "top": 1943
      }
     ]
    },
@@ -1642,7 +1721,7 @@
     "color": "#0000008C",
     "colorRaw": "rgba(0, 0, 0, 0.55)",
     "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 9,
+    "count": 10,
     "samples": [
      {
       "text": "Chance",
@@ -1935,12 +2014,17 @@
     "color": "#D91616",
     "colorRaw": "rgb(217, 22, 22)",
     "fontVariantNumeric": "tabular-nums",
-    "count": 2,
+    "count": 3,
     "samples": [
      {
-      "text": "39",
+      "text": "15",
       "sel": "span.text-red-x10.tabular-nums",
       "top": 24
+     },
+     {
+      "text": "▼ 1",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x10",
+      "top": 882
      },
      {
       "text": "▼ 50",
@@ -1959,12 +2043,41 @@
     "color": "#0000008C",
     "colorRaw": "rgba(0, 0, 0, 0.55)",
     "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 1,
+    "count": 3,
     "samples": [
      {
       "text": "Sep 29, 2026",
       "sel": "span.font-kalshi-sans.font-normal",
       "top": 492
+     },
+     {
+      "text": "or",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 384
+     },
+     {
+      "text": "By continuing, you acknowledge and agree to Kalshi’s legal t",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 616
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "12px",
+    "weight": "500",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0000008C",
+    "colorRaw": "rgba(0, 0, 0, 0.55)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 1,
+    "samples": [
+     {
+      "text": "which we recommend reviewing",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x10",
+      "top": 616
      }
     ]
    },
@@ -2066,9 +2179,9 @@
    }
   ],
   "contrast": {
-   "textNodes": 280,
-   "failAA": 122,
-   "failAAWithoutBgImage": 122,
+   "textNodes": 293,
+   "failAA": 124,
+   "failAAWithoutBgImage": 124,
    "worstUnique": [
     {
      "text": "YES 86¢",
@@ -2179,18 +2292,6 @@
      "sel": "h2.m-0.font-kalshi-condensed"
     },
     {
-     "text": "$",
-     "size": "18px",
-     "weight": "600",
-     "fg": "#0000004D",
-     "bg": "#FFFFFF",
-     "bgImage": false,
-     "ratio": 2.12,
-     "large": false,
-     "passAA": false,
-     "sel": "span.typ-body-x30.shrink-0"
-    },
-    {
      "text": "Show more",
      "size": "13px",
      "weight": "500",
@@ -2249,20 +2350,32 @@
      "large": false,
      "passAA": false,
      "sel": "span.whitespace-nowrap"
+    },
+    {
+     "text": "demo",
+     "size": "15px",
+     "weight": "400",
+     "fg": "#FF6A00",
+     "bg": "#FFFFFF",
+     "bgImage": false,
+     "ratio": 2.87,
+     "large": false,
+     "passAA": false,
+     "sel": "span"
     }
    ],
    "pairs": [
     {
      "pair": "#0000004D on #FFFFFF",
      "ratio": 2.12,
-     "count": 86,
+     "count": 85,
      "sample": "1D",
      "bgImage": false
     },
     {
      "pair": "#000000E6 on #FFFFFF",
      "ratio": 17.58,
-     "count": 79,
+     "count": 82,
      "sample": "MARKETS",
      "bgImage": false
     },
@@ -2270,27 +2383,27 @@
      "pair": "#000000E6 on #F7F7F7",
      "ratio": 16.55,
      "count": 49,
-     "sample": "Where will it rain tomorrow?",
+     "sample": "What will 1+1 equal on Sep 27 at 05:30?",
      "bgImage": false
     },
     {
      "pair": "#0AC285 on #FFFFFF",
      "ratio": 2.32,
-     "count": 19,
+     "count": 21,
      "sample": "Log in",
      "bgImage": false
     },
     {
      "pair": "#D91616 on #FFFFFF",
      "ratio": 5.15,
-     "count": 15,
-     "sample": "39",
+     "count": 16,
+     "sample": "15",
      "bgImage": false
     },
     {
      "pair": "#0000008C on #FFFFFF",
      "ratio": 4.74,
-     "count": 9,
+     "count": 14,
      "sample": "NFL",
      "bgImage": false
     },
@@ -2313,6 +2426,13 @@
      "ratio": 2.08,
      "count": 3,
      "sample": "Spread",
+     "bgImage": false
+    },
+    {
+     "pair": "#FFFFFF on #191919",
+     "ratio": 17.58,
+     "count": 2,
+     "sample": "Continue with Google",
      "bgImage": false
     },
     {
@@ -2355,6 +2475,13 @@
      "ratio": 2.16,
      "count": 1,
      "sample": "Show more",
+     "bgImage": false
+    },
+    {
+     "pair": "#FF6A00 on #FFFFFF",
+     "ratio": 2.87,
+     "count": 1,
+     "sample": "demo",
      "bgImage": false
     }
    ]
@@ -2431,7 +2558,7 @@
    },
    {
     "kind": "a",
-    "label": "LIVE 39",
+    "label": "LIVE 15",
     "ariaLabel": null,
     "sel": "a.flex.items-center",
     "top": 14,
@@ -3305,7 +3432,7 @@
    },
    {
     "kind": "button",
-    "label": "Yes 48¢",
+    "label": "Yes 46¢",
     "ariaLabel": null,
     "sel": "button.group/pill.inline-flex[data-testid=price-pill]",
     "top": 1192,
@@ -3328,7 +3455,7 @@
    },
    {
     "kind": "button",
-    "label": "No 53¢",
+    "label": "No 55¢",
     "ariaLabel": null,
     "sel": "button.group/pill.inline-flex[data-testid=price-pill]",
     "top": 1192,
@@ -3848,7 +3975,7 @@
     "color": "#000000E6",
     "border": "0px solid #000000E6",
     "padding": "0px 0px 0px 0px",
-    "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgba(59, 130, 246, 0.5) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+    "shadow": null,
     "font": "13px/20px 600",
     "cursor": "pointer",
     "disabled": false,
@@ -3972,12 +4099,12 @@
    },
    {
     "kind": "input[text]",
-    "label": "0",
+    "label": "25",
     "ariaLabel": null,
     "sel": "input#_r_s_.peer.relative",
     "top": 392,
-    "x": 1302.17,
-    "w": 12.83,
+    "x": 1293.39,
+    "w": 21.61,
     "h": 24,
     "radius": "0px",
     "bg": "#00000000",
@@ -4018,33 +4145,10 @@
    },
    {
     "kind": "a",
-    "label": "Where will it rain tomorrow?",
+    "label": "What will 1+1 equal on Sep 27 at 05:30?",
     "ariaLabel": null,
     "sel": "a.cursor-pointer.break-words",
     "top": 1872,
-    "x": 125,
-    "w": 216,
-    "h": 36,
-    "radius": "0px",
-    "bg": "#00000000",
-    "bgRaw": "rgba(0, 0, 0, 0)",
-    "effectiveBg": "#F7F7F7",
-    "color": "#000000E6",
-    "border": "0px solid #000000E6",
-    "padding": "6px 0px 6px 0px",
-    "shadow": null,
-    "font": "16px/24px 400",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": null
-   },
-   {
-    "kind": "a",
-    "label": "What will 1+1 equal on Sep 27 at 05:20?",
-    "ariaLabel": null,
-    "sel": "a.cursor-pointer.break-words",
-    "top": 1944,
     "x": 125,
     "w": 216,
     "h": 60,
@@ -4067,7 +4171,7 @@
     "label": "Kalinina vs Muchova",
     "ariaLabel": null,
     "sel": "a.cursor-pointer.break-words",
-    "top": 2004,
+    "top": 1932,
     "x": 125,
     "w": 216,
     "h": 36,
@@ -4090,7 +4194,7 @@
     "label": "Svitolina vs Noskova",
     "ariaLabel": null,
     "sel": "a.cursor-pointer.break-words",
-    "top": 2040,
+    "top": 1968,
     "x": 125,
     "w": 216,
     "h": 36,
@@ -4111,6 +4215,52 @@
    {
     "kind": "a",
     "label": "IND Fever vs LV Aces: Rebounds",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 2004,
+    "x": 125,
+    "w": 216,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "IND Fever vs LV Aces: Points",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 2040,
+    "x": 125,
+    "w": 216,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "IND Fever vs LV Aces: Assists",
     "ariaLabel": null,
     "sel": "a.cursor-pointer.break-words",
     "top": 2076,
@@ -4524,7 +4674,7 @@
    },
    {
     "kind": "a",
-    "label": "IND Colts",
+    "label": "HOU Texans",
     "ariaLabel": null,
     "sel": "a.cursor-pointer.break-words",
     "top": 2040,
@@ -4547,7 +4697,7 @@
    },
    {
     "kind": "a",
-    "label": "LA Rams",
+    "label": "CHI Bears",
     "ariaLabel": null,
     "sel": "a.cursor-pointer.break-words",
     "top": 2076,
@@ -5372,27 +5522,212 @@
     "disabled": false,
     "pressed": null,
     "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "",
+    "ariaLabel": null,
+    "sel": "button.cursor-pointer.transition-all",
+    "top": 72,
+    "x": 496,
+    "w": 40,
+    "h": 40,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "8px 8px 8px 8px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Continue with Google",
+    "ariaLabel": null,
+    "sel": "button.inline-flex.justify-center",
+    "top": 188,
+    "x": 504,
+    "w": 432,
+    "h": 48,
+    "radius": "8px",
+    "bg": "#000000E6",
+    "bgRaw": "rgba(0, 0, 0, 0.9)",
+    "effectiveBg": "#191919",
+    "color": "#FFFFFF",
+    "border": "0px none #FFFFFF",
+    "padding": "12px 16px 12px 16px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Continue with Apple",
+    "ariaLabel": null,
+    "sel": "button.inline-flex.justify-center",
+    "top": 252,
+    "x": 504,
+    "w": 432,
+    "h": 48,
+    "radius": "8px",
+    "bg": "#000000E6",
+    "bgRaw": "rgba(0, 0, 0, 0.9)",
+    "effectiveBg": "#191919",
+    "color": "#FFFFFF",
+    "border": "0px none #FFFFFF",
+    "padding": "12px 16px 12px 16px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "input[email]",
+    "label": "Email",
+    "ariaLabel": null,
+    "sel": "input.text-base.font-medium",
+    "top": 330,
+    "x": 522,
+    "w": 396,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 500",
+    "cursor": "text",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "input[password]",
+    "label": "Password",
+    "ariaLabel": null,
+    "sel": "input.text-base.font-medium",
+    "top": 382,
+    "x": 522,
+    "w": 372,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 500",
+    "cursor": "text",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Sign up with Email",
+    "ariaLabel": null,
+    "sel": "button.inline-flex.justify-center",
+    "top": 418,
+    "x": 504,
+    "w": 432,
+    "h": 48,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "1px solid #0000001A",
+    "padding": "12px 16px 12px 16px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Sign in with a passkey",
+    "ariaLabel": null,
+    "sel": "button.inline-flex.justify-center",
+    "top": 482,
+    "x": 504,
+    "w": 432,
+    "h": 48,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#0AC285",
+    "border": "1px solid #0000001A",
+    "padding": "12px 16px 12px 16px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Forgot password?",
+    "ariaLabel": null,
+    "sel": "button.inline-flex.justify-center",
+    "top": 546,
+    "x": 504,
+    "w": 432,
+    "h": 48,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#0AC285",
+    "border": "0px none #0AC285",
+    "padding": "12px 8px 12px 8px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
    }
   ],
-  "interactiveCount": 131,
+  "interactiveCount": 140,
   "touchTargets": {
    "byMinSide": {
     "lt24": 12,
-    "24to32": 23,
-    "32to44": 96,
-    "gte44": 4
+    "24to32": 25,
+    "32to44": 97,
+    "gte44": 9
    },
    "byHeight": {
     "16": 1,
     "20": 3,
-    "24": 16,
+    "24": 18,
     "28": 2,
     "30": 12,
     "32": 19,
     "36": 58,
     "38": 1,
-    "40": 19,
+    "40": 20,
     "44": 1,
+    "48": 5,
     "60": 2,
     "84": 1
    }
@@ -5417,19 +5752,23 @@
     },
     {
      "v": "8px",
-     "n": 63
+     "n": 69
     },
     {
      "v": "12px",
-     "n": 70
+     "n": 84
     },
     {
      "v": "16px",
-     "n": 77
+     "n": 89
+    },
+    {
+     "v": "18px",
+     "n": 1
     },
     {
      "v": "24px",
-     "n": 12
+     "n": 13
     },
     {
      "v": "32px",
@@ -5459,7 +5798,7 @@
     },
     {
      "v": "-8px",
-     "n": 1
+     "n": 3
     },
     {
      "v": "-4px",
@@ -5470,8 +5809,12 @@
      "n": 10
     },
     {
+     "v": "6px",
+     "n": 1
+    },
+    {
      "v": "8px",
-     "n": 13
+     "n": 14
     },
     {
      "v": "12px",
@@ -5483,7 +5826,7 @@
     },
     {
      "v": "24px",
-     "n": 2
+     "n": 4
     },
     {
      "v": "32px",
@@ -5509,7 +5852,7 @@
    "gap": [
     {
      "v": "4px",
-     "n": 192
+     "n": 194
     },
     {
      "v": "6px",
@@ -5525,7 +5868,7 @@
     },
     {
      "v": "16px",
-     "n": 51
+     "n": 53
     },
     {
      "v": "24px",
@@ -5548,11 +5891,11 @@
    },
    {
     "v": "8px",
-    "n": 30
+    "n": 40
    },
    {
     "v": "16px",
-    "n": 1
+    "n": 2
    },
    {
     "v": "100px",
@@ -5566,23 +5909,25 @@
   "borderWidth": [
    {
     "v": "1px",
-    "n": 39
+    "n": 45
    }
   ],
-  "shadows": [
-   {
-    "v": "rgb(255, 255, 255) 0px 0px 0px 0px, rgba(59, 130, 246, 0.5) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
-    "n": 1
-   }
-  ],
+  "shadows": [],
   "palette": {
    "backgrounds": [
     {
      "hex": "#FFFFFF",
-     "n": 24,
-     "area": 8426700,
+     "n": 25,
+     "area": 8760780,
      "raw": "rgb(255, 255, 255)",
      "sample": "div.trader-drawer-layout.flex"
+    },
+    {
+     "hex": "#00000066",
+     "n": 1,
+     "area": 1296000,
+     "raw": "rgba(0, 0, 0, 0.4)",
+     "sample": "div.z-modal.pointer-events-auto"
     },
     {
      "hex": "#00000008",
@@ -5590,6 +5935,13 @@
      "area": 1255968,
      "raw": "rgba(0, 0, 0, 0.03)",
      "sample": "footer.bg-fill-x60.dark:bg-surface-x20"
+    },
+    {
+     "hex": "#000000E6",
+     "n": 2,
+     "area": 41472,
+     "raw": "rgba(0, 0, 0, 0.9)",
+     "sample": "button.inline-flex.justify-center"
     },
     {
      "hex": "#00000012",
@@ -5637,37 +5989,37 @@
    "text": [
     {
      "hex": "#000000E6",
-     "n": 129,
+     "n": 132,
      "raw": "rgba(0, 0, 0, 0.9)",
      "sample": "MARKETS"
     },
     {
      "hex": "#0000004D",
-     "n": 95,
+     "n": 94,
      "raw": "rgba(0, 0, 0, 0.3)",
      "sample": "1D"
     },
     {
      "hex": "#0AC285",
-     "n": 23,
+     "n": 25,
      "raw": "rgb(10, 194, 133)",
      "sample": "Log in"
     },
     {
-     "hex": "#D91616",
-     "n": 15,
-     "raw": "rgb(217, 22, 22)",
-     "sample": "39"
-    },
-    {
      "hex": "#0000008C",
-     "n": 14,
+     "n": 19,
      "raw": "rgba(0, 0, 0, 0.55)",
      "sample": "NFL"
     },
     {
+     "hex": "#D91616",
+     "n": 16,
+     "raw": "rgb(217, 22, 22)",
+     "sample": "15"
+    },
+    {
      "hex": "#FFFFFF",
-     "n": 3,
+     "n": 5,
      "raw": "rgb(255, 255, 255)",
      "sample": "Sign up"
     },
@@ -5676,6 +6028,12 @@
      "n": 1,
      "raw": "rgba(0, 0, 0, 0.2)",
      "sample": "<1%"
+    },
+    {
+     "hex": "#FF6A00",
+     "n": 1,
+     "raw": "rgb(255, 106, 0)",
+     "sample": "demo"
     }
    ]
   },
@@ -5688,18 +6046,19 @@
     "85%",
     "15%",
     "Spread and Total",
-    "52%",
+    "50%",
     "49%",
     "Team Totals",
     "53%",
-    "47%",
+    "45%",
     "Game Lines",
     "Player Props",
     "Team Props",
     "Game Props",
     "<1%",
     "KC Chiefs",
-    "$0"
+    "$28.77",
+    "Log in"
    ],
    "ctaLabels": [
     "PRO",
@@ -5723,8 +6082,8 @@
     "No 52¢",
     "Yes 54¢",
     "No 47¢",
-    "Yes 48¢",
-    "No 53¢",
+    "Yes 46¢",
+    "No 55¢",
     "Game Lines",
     "Player Props",
     "Team Props",
@@ -5751,12 +6110,17 @@
     "NO 15¢",
     "3.25% Interest",
     "Sign up to trade",
-    "Show more"
+    "Show more",
+    "Continue with Google",
+    "Continue with Apple",
+    "Sign up with Email",
+    "Sign in with a passkey",
+    "Forgot password?"
    ],
    "navLabels": [
     "MARKETS",
     "PERPS",
-    "LIVE 39",
+    "LIVE 15",
     "PRO",
     "MORE",
     "Menu",
@@ -5785,10 +6149,9 @@
     "100%",
     "85%",
     "15%",
-    "$3,343,092 vol",
+    "$4,095,836 vol",
     "86¢",
     "15¢",
-    "52%",
     "50¢",
     "51¢",
     "49%",
@@ -5797,13 +6160,13 @@
     "53%",
     "54¢",
     "47¢",
-    "47%",
-    "48¢",
-    "53¢",
+    "45%",
+    "46¢",
+    "55¢",
     "<1%",
     "3.25%",
     "87% chance",
-    "$0"
+    "$28.77"
    ],
    "priceFormatCounts": {
     "cents": 14,
@@ -5814,9 +6177,11 @@
    },
    "feeAndDisclaimer": [
     "Data Terms of Service",
-    "Trading on Kalshi involves risk and may not be appropriate for all. Members risk losing their cost to enter any transaction, including fees. You should carefully consider whether trading on Kalshi is appropriate for you in light of your investment experience and financial resources. Any trading decisions you make are solely your responsibility and at your own risk. Information is provided for convenience only on an \"AS IS\" basis. Past performance is not necessarily indicative of future results. Kalshi is subject to U.S. regulatory oversight by the CFTC."
+    "Trading on Kalshi involves risk and may not be appropriate for all. Members risk losing their cost to enter any transaction, including fees. You should carefully consider whether trading on Kalshi is appropriate for you in light of your investment experience and financial resources. Any trading decisions you make are solely your responsibility and at your own risk. Information is provided for convenience only on an \"AS IS\" basis. Past performance is not necessarily indicative of future results. Kalshi is subject to U.S. regulatory oversight by the CFTC.",
+    "By continuing, you acknowledge and agree to Kalshi’s legal terms, which we recommend reviewing",
+    "Try Kalshi markets with no risk using our free demo mode."
    ],
-   "footerText": "NEW MARKETS Where will it rain tomorrow? Where will it rain tomorrow? What will 1+1 equal on Sep 27 at 05:20? Kalinina vs Muchova Svitolina vs Noskova IND Fever vs LV Aces: Rebounds Show more RELATED MARKETS FedEx Open de France Winner Pro Baseball Champion Presidents Cup Winner Hollywood Casino 400 Winner NFC Championship Winner Walmart NW Arkansas Championship presented by P&G Winner RELATED TOPICS Other Baseball Basketball Boxing Chess Cities SPORTS NFL Power Rankings The Market's College Football Top 25 MIA Dolphins KC Chiefs IND Colts LA Rams NFL MATCHUPS Chiefs vs Dolphins Bills vs Dolphins Chiefs vs Chargers Dolphins vs Jets Chiefs vs Broncos Chiefs vs Raiders All NFL matchups"
+   "footerText": "NEW MARKETS What will 1+1 equal on Sep 27 at 05:30? Kalinina vs Muchova Svitolina vs Noskova IND Fever vs LV Aces: Rebounds IND Fever vs LV Aces: Points IND Fever vs LV Aces: Assists Show more RELATED MARKETS FedEx Open de France Winner Pro Baseball Champion Presidents Cup Winner Hollywood Casino 400 Winner NFC Championship Winner Walmart NW Arkansas Championship presented by P&G Winner RELATED TOPICS Other Baseball Basketball Boxing Chess Cities SPORTS NFL Power Rankings The Market's College Football Top 25 MIA Dolphins KC Chiefs HOU Texans CHI Bears NFL MATCHUPS Chiefs vs Dolphins Bills vs Dolphins Chiefs vs Chargers Dolphins vs Jets Chiefs vs Broncos Chiefs vs Raiders All NFL matchups"
   },
   "rootTokens": {
    "count": 125,
@@ -6303,12 +6668,17 @@
   "version": "4.12.1",
   "violationRules": 10,
   "nodesByImpact": {
-   "critical": 19,
-   "serious": 55,
-   "moderate": 51,
+   "critical": 20,
+   "serious": 25,
+   "moderate": 50,
    "minor": 0
   },
   "rules": {
+   "aria-dialog-name": {
+    "impact": "serious",
+    "nodes": 1,
+    "help": "ARIA dialog and alertdialog nodes should have an accessible name"
+   },
    "aria-prohibited-attr": {
     "impact": "serious",
     "nodes": 2,
@@ -6321,12 +6691,12 @@
    },
    "button-name": {
     "impact": "critical",
-    "nodes": 6,
+    "nodes": 7,
     "help": "Buttons must have discernible text"
    },
    "color-contrast": {
     "impact": "serious",
-    "nodes": 52,
+    "nodes": 21,
     "help": "Elements must meet minimum color contrast ratio thresholds"
    },
    "image-alt": {
@@ -6338,11 +6708,6 @@
     "impact": "moderate",
     "nodes": 1,
     "help": "Document should not have more than one contentinfo landmark"
-   },
-   "landmark-one-main": {
-    "impact": "moderate",
-    "nodes": 1,
-    "help": "Document should have one main landmark"
    },
    "landmark-unique": {
     "impact": "moderate",
@@ -6360,9 +6725,9 @@
     "help": "All page content should be contained by landmarks"
    }
   },
-  "passes": 41,
+  "passes": 43,
   "incomplete": 2
  },
- "finishedUtc": "2026-09-27T09:15:54.727Z",
- "finalUrl": "https://demo.kalshi.co/markets/kxnflgame/professional-football-game/kxnflgame-26sep27kcmia?op_side=BUY&op_order_type=dollars"
+ "finishedUtc": "2026-09-27T09:23:04.077Z",
+ "finalUrl": "https://demo.kalshi.co/markets/kxnflgame/professional-football-game/kxnflgame-26sep27kcmia"
 }

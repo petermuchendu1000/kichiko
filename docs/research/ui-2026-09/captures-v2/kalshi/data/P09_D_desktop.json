@@ -1,25 +1,20 @@
 {
  "tag": "P09_D_desktop",
  "target": {
-  "id": "profile",
+  "id": "profile2",
   "page": "P09",
   "source": "D",
   "url": "https://demo.kalshi.co/ideas/feed",
-  "action": "clickFirstAuthor"
+  "action": "clickAuthorName"
  },
  "vp": "desktop",
- "startedUtc": "2026-09-27T09:17:49.622Z",
+ "startedUtc": "2026-09-27T09:24:31.493Z",
  "consoleErrors": [
+  "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+  "Failed to load resource: the server responded with a status of 403 (Forbidden)",
   "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
   "Failed to load resource: the server responded with a status of 403 (Forbidden)",
-  "Failed to load resource: the server responded with a status of 403 (Forbidden)",
-  "Failed to load resource: the server responded with a status of 403 (Forbidden)",
-  "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
-  "WebSocket connection to 'wss://api.sandbox.sardine.ai/v1/events/stream' failed: Error during WebSocket handshake: Unexpected response code: 400",
-  "Permissions policy violation: encrypted-media is not allowed in this document.",
-  "WebSocket connection to 'wss://api.sandbox.sardine.ai/v1/events/stream' failed: Error during WebSocket handshake: Unexpected response code: 400",
-  "Permissions policy violation: encrypted-media is not allowed in this document.",
-  "WebSocket connection to 'wss://api.sandbox.sardine.ai/v1/events/stream' failed: Error during WebSocket handshake: Unexpected response code: 400"
+  "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
  ],
  "responses": [
   {
@@ -31,41 +26,39 @@
    "status": 200
   },
   {
-   "url": "https://15537244.fls.doubleclick.net/activityi;src=15537244;type=unive0;cat=kalsh0;rcb=5;ord=1924710053361;npa=0;auiddc=851820532.1790500674;uaa=x86;uab=64;uafvl=Chromium%3B141.0.7390.37%7CNot%253FA_B",
-   "status": 403
-  },
-  {
    "url": "https://apps.rokt.com/wsdk/plugins/dcui/index.html",
    "status": 200
   },
   {
-   "url": "https://api.sandbox.sardine.ai/assets/collector.min.c27ad26.html?r=2026-09-25-c27ad26",
-   "status": 200
+   "url": "https://15537244.fls.doubleclick.net/activityi;src=15537244;type=unive0;cat=kalsh0;rcb=16;ord=3537588464233;npa=0;auiddc=1285928645.1790501076;uaa=x86;uab=64;uafvl=Chromium%3B141.0.7390.37%7CNot%253FA",
+   "status": 403
   }
  ],
  "httpStatus": 200,
- "signupModalAppearedAfterMs": 8689,
+ "signupModalAppearedAfterMs": 8466,
  "signupModalDismissed": "fallback",
  "action": {
-  "via": "avatar-click",
-  "img": {
-   "x": 1176.5,
-   "y": 166,
-   "top": 147,
-   "src": "https://demo.kalshi.co/_next/image?url=%2Fapi-app%2Fpfp%2Fanonymous&w=256&q=80"
+  "clicked": {
+   "name": "brief.grasshopper",
+   "x": 598.1953125,
+   "y": 445.875,
+   "top": 436.375,
+   "cursor": "pointer",
+   "tag": "SPAN"
   },
-  "url": "https://demo.kalshi.co/ideas/feed"
+  "url": "https://demo.kalshi.co/ideas/profiles/brief.grasshopper",
+  "dialogs": []
  },
- "fullPageClippedTo": 900,
- "docHeight": 900,
+ "fullPageClippedTo": 2069,
+ "docHeight": 2069,
  "measure": {
-  "url": "https://demo.kalshi.co/ideas/feed",
+  "url": "https://demo.kalshi.co/ideas/profiles/brief.grasshopper",
   "viewport": {
    "w": 1440,
    "h": 900,
    "dpr": 1
   },
-  "docHeight": 900,
+  "docHeight": 2069,
   "colorScheme": "light",
   "htmlClass": "kalshisans_b2794dd-module__q5KPJG__variable kalshicondensed_7a0c562e-module__QUSyua__variable graphikwidesuper_9f434a42-module__DSUzfq__variable graphikwidesemibold_839bd37e-module__QN7kBG__variable overscroll-y-none",
   "bodyBg": "#FFFFFF",
@@ -76,17 +69,16 @@
    "kalshiSans 500 normal",
    "kalshiSans 600 normal",
    "kalshiCondensed 500 normal",
-   "graphikWideSemibold 600 normal",
-   "ooTheranLight 300 normal"
+   "graphikWideSemibold 600 normal"
   ],
   "hydration": {
    "reactFiberOnNodes": true,
    "nextData": false,
    "nextRouter": true,
    "nextF": true,
-   "scripts": 245,
-   "visibleElements": 1685,
-   "bodyTextChars": 3736
+   "scripts": 267,
+   "visibleElements": 576,
+   "bodyTextChars": 1769
   },
   "structure": [
    {
@@ -98,7 +90,7 @@
     "w": 1425,
     "x": 0,
     "position": "sticky",
-    "text": "MARKETS PERPS LIVE 15 PRO MORE Log in Sign up Trending Elections Politics Sports Culture C"
+    "text": "MARKETS PERPS LIVE 32 PRO MORE Log in Sign up Trending Elections Politics Sports Culture C"
    },
    {
     "tag": "nav",
@@ -109,18 +101,7 @@
     "w": 1425,
     "x": 0,
     "position": "static",
-    "text": "MARKETS PERPS LIVE 15 PRO MORE Log in Sign up Trending Elections Politics Sports Culture C"
-   },
-   {
-    "tag": "div",
-    "role": null,
-    "sel": "div.z-modal.pointer-events-auto",
-    "top": 0,
-    "h": 900,
-    "w": 1440,
-    "x": 0,
-    "position": "fixed",
-    "text": "Log in Continue with Google Continue with Apple or Sign up with Email Sign in with a passk"
+    "text": "MARKETS PERPS LIVE 32 PRO MORE Log in Sign up Trending Elections Politics Sports Culture C"
    },
    {
     "tag": "form",
@@ -135,17 +116,6 @@
    },
    {
     "tag": "div",
-    "role": "dialog",
-    "sel": "div.flex.flex-col[role=dialog]",
-    "top": 56,
-    "h": 696,
-    "w": 480,
-    "x": 480,
-    "position": "relative",
-    "text": "Log in Continue with Google Continue with Apple or Sign up with Email Sign in with a passk"
-   },
-   {
-    "tag": "div",
     "role": null,
     "sel": "div.trader-drawer.sticky",
     "top": 107,
@@ -154,17 +124,6 @@
     "x": 0,
     "position": "sticky",
     "text": ""
-   },
-   {
-    "tag": "h2",
-    "role": null,
-    "sel": "h2.m-0.font-kalshi-condensed",
-    "top": 128,
-    "h": 36,
-    "w": 62.67,
-    "x": 688.66,
-    "position": "static",
-    "text": "Log in"
    },
    {
     "tag": "div",
@@ -178,17 +137,6 @@
     "text": "Feed Your Profile Leaderboard Make a post Request market"
    },
    {
-    "tag": "h1",
-    "role": null,
-    "sel": "h1.m-0.font-kalshi-condensed",
-    "top": 142,
-    "h": 48,
-    "w": 92.17,
-    "x": 485.5,
-    "position": "static",
-    "text": "Social"
-   },
-   {
     "tag": "nav",
     "role": null,
     "sel": "nav.flex.flex-col",
@@ -200,32 +148,21 @@
     "text": "Feed Your Profile Leaderboard"
    },
    {
-    "tag": "form",
+    "tag": "h2",
     "role": null,
-    "sel": "form.flex.flex-col",
-    "top": 188,
-    "h": 540,
-    "w": 432,
-    "x": 504,
+    "sel": "h2.m-0.font-kalshi-condensed",
+    "top": 259,
+    "h": 36,
+    "w": 189.58,
+    "x": 461.5,
     "position": "static",
-    "text": "Continue with Google Continue with Apple or Sign up with Email Sign in with a passkey Forg"
-   },
-   {
-    "tag": "div",
-    "role": "tablist",
-    "sel": "div.native-drag-none.snap-x[role=tablist]",
-    "top": 353,
-    "h": 64,
-    "w": 748,
-    "x": 462.5,
-    "position": "static",
-    "text": "Now Today This Week This Month"
+    "text": "brief.grasshopper"
    },
    {
     "tag": "h2",
     "role": null,
     "sel": "h2.m-0.min-w-0",
-    "top": 515.77,
+    "top": 562.77,
     "h": 22,
     "w": 244,
     "x": 592.5,
@@ -236,7 +173,7 @@
     "tag": "h2",
     "role": null,
     "sel": "h2.m-0.min-w-0",
-    "top": 793.53,
+    "top": 840.53,
     "h": 22,
     "w": 244,
     "x": 592.5,
@@ -247,7 +184,7 @@
     "tag": "h2",
     "role": null,
     "sel": "h2.m-0.min-w-0",
-    "top": 1071.3,
+    "top": 1118.3,
     "h": 22,
     "w": 244,
     "x": 592.5,
@@ -258,183 +195,18 @@
     "tag": "h2",
     "role": null,
     "sel": "h2.m-0.min-w-0",
-    "top": 1349.06,
+    "top": 1396.06,
     "h": 22,
     "w": 244,
     "x": 592.5,
     "position": "static",
     "text": "PEPE Up"
-   },
-   {
-    "tag": "h2",
-    "role": null,
-    "sel": "h2.m-0.font-kalshi-sans",
-    "top": 1608.83,
-    "h": 22,
-    "w": 652,
-    "x": 534.5,
-    "position": "static",
-    "text": "2026 Midterms: Congress Balance of Power?"
-   },
-   {
-    "tag": "h2",
-    "role": null,
-    "sel": "h2.m-0.font-kalshi-sans",
-    "top": 1910.59,
-    "h": 22,
-    "w": 652,
-    "x": 534.5,
-    "position": "static",
-    "text": "2026 Midterms: Congress Balance of Power?"
-   },
-   {
-    "tag": "h2",
-    "role": null,
-    "sel": "h2.m-0.min-w-0",
-    "top": 2114.36,
-    "h": 16,
-    "w": 284,
-    "x": 552.5,
-    "position": "static",
-    "text": "Who will be the Democratic nominee in 2028?"
-   },
-   {
-    "tag": "h2",
-    "role": null,
-    "sel": "h2.m-0.font-kalshi-sans",
-    "top": 2380.13,
-    "h": 22,
-    "w": 652,
-    "x": 534.5,
-    "position": "static",
-    "text": "Who will be the Democratic nominee in 2028?"
-   },
-   {
-    "tag": "h2",
-    "role": null,
-    "sel": "h2.m-0.font-kalshi-sans",
-    "top": 2755.13,
-    "h": 22,
-    "w": 652,
-    "x": 534.5,
-    "position": "static",
-    "text": "Dancing with the Stars Season 35 · Winner"
-   },
-   {
-    "tag": "h2",
-    "role": null,
-    "sel": "h2.m-0.min-w-0",
-    "top": 3293.89,
-    "h": 22,
-    "w": 174.25,
-    "x": 592.5,
-    "position": "static",
-    "text": "Palladium Down"
-   },
-   {
-    "tag": "h2",
-    "role": null,
-    "sel": "h2.m-0.font-kalshi-sans",
-    "top": 3552.89,
-    "h": 22,
-    "w": 652,
-    "x": 534.5,
-    "position": "static",
-    "text": "Preston vs Sakatsume"
-   },
-   {
-    "tag": "h2",
-    "role": null,
-    "sel": "h2.m-0.min-w-0",
-    "top": 3946.66,
-    "h": 22,
-    "w": 174.25,
-    "x": 592.5,
-    "position": "static",
-    "text": "BTC Up"
-   },
-   {
-    "tag": "h2",
-    "role": null,
-    "sel": "h2.m-0.min-w-0",
-    "top": 4438.42,
-    "h": 22,
-    "w": 244,
-    "x": 592.5,
-    "position": "static",
-    "text": "BTC Up"
-   },
-   {
-    "tag": "h2",
-    "role": null,
-    "sel": "h2.m-0.w-full",
-    "top": 4905.42,
-    "h": 18,
-    "w": 284,
-    "x": 552.5,
-    "position": "static",
-    "text": "How high will BTC get in August?"
-   },
-   {
-    "tag": "h2",
-    "role": null,
-    "sel": "h2.m-0.font-kalshi-sans",
-    "top": 5169.19,
-    "h": 22,
-    "w": 652,
-    "x": 534.5,
-    "position": "static",
-    "text": "What will 1+1 equal on Sep 18 at 15:00?"
-   },
-   {
-    "tag": "h2",
-    "role": null,
-    "sel": "h2.m-0.font-kalshi-sans",
-    "top": 5354.19,
-    "h": 22,
-    "w": 652,
-    "x": 534.5,
-    "position": "static",
-    "text": "DET Lions vs BUF Bills"
-   },
-   {
-    "tag": "h2",
-    "role": null,
-    "sel": "h2.m-0.font-kalshi-sans",
-    "top": 5539.19,
-    "h": 22,
-    "w": 652,
-    "x": 534.5,
-    "position": "static",
-    "text": "BTC price on Sep 11, 2026 at 5pm EDT?"
-   },
-   {
-    "tag": "h2",
-    "role": null,
-    "sel": "h2.m-0.min-w-0",
-    "top": 5956.95,
-    "h": 22,
-    "w": 244,
-    "x": 592.5,
-    "position": "static",
-    "text": "Gold Up"
-   },
-   {
-    "tag": "h2",
-    "role": null,
-    "sel": "h2.m-0.min-w-0",
-    "top": 6350.72,
-    "h": 32,
-    "w": 284,
-    "x": 552.5,
-    "position": "static",
-    "text": "When will traffic at the Strait of Hormuz return to normal?"
    },
    {
     "tag": "footer",
     "role": null,
     "sel": "footer.bg-fill-x60.dark:bg-surface-x20",
-    "top": 6552.72,
+    "top": 1575.06,
     "h": 493,
     "w": 1424,
     "x": 1,
@@ -443,25 +215,6 @@
    }
   ],
   "typography": [
-   {
-    "family": "kalshiCondensed, \"kalshiCondensed Fallback\", sans-serif",
-    "size": "44px",
-    "weight": "500",
-    "lineHeight": "48px",
-    "letterSpacing": "-0.5px",
-    "transform": "none",
-    "color": "#000000E6",
-    "colorRaw": "rgba(0, 0, 0, 0.9)",
-    "fontVariantNumeric": "lining-nums proportional-nums",
-    "count": 1,
-    "samples": [
-     {
-      "text": "Social",
-      "sel": "h1.m-0.font-kalshi-condensed",
-      "top": 142
-     }
-    ]
-   },
    {
     "family": "kalshiCondensed, \"kalshiCondensed Fallback\", sans-serif",
     "size": "30px",
@@ -475,9 +228,9 @@
     "count": 1,
     "samples": [
      {
-      "text": "Log in",
+      "text": "brief.grasshopper",
       "sel": "h2.m-0.font-kalshi-condensed",
-      "top": 128
+      "top": 259
      }
     ]
    },
@@ -491,7 +244,7 @@
     "color": "#000000E6",
     "colorRaw": "rgba(0, 0, 0, 0.9)",
     "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 37,
+    "count": 21,
     "samples": [
      {
       "text": "Trending",
@@ -520,22 +273,22 @@
     "color": "#000000E6",
     "colorRaw": "rgba(0, 0, 0, 0.9)",
     "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 19,
+    "count": 4,
     "samples": [
      {
       "text": "Hi",
       "sel": "span.font-kalshi-sans.font-normal",
-      "top": 460.77
+      "top": 507.77
      },
      {
       "text": "How about now",
       "sel": "span.font-kalshi-sans.font-normal",
-      "top": 738.53
+      "top": 785.53
      },
      {
       "text": "Blurgh",
       "sel": "span.font-kalshi-sans.font-normal",
-      "top": 1016.3
+      "top": 1063.3
      }
     ]
    },
@@ -549,22 +302,22 @@
     "color": "#FFFFFFE6",
     "colorRaw": "rgba(255, 255, 255, 0.9)",
     "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 14,
+    "count": 4,
     "samples": [
      {
       "text": "BTC Up",
       "sel": "span.font-kalshi-sans.typ-emphasis-x30",
-      "top": 515.77
+      "top": 562.77
      },
      {
       "text": "UNI Up",
       "sel": "span.font-kalshi-sans.typ-emphasis-x30",
-      "top": 793.53
+      "top": 840.53
      },
      {
       "text": "PEPE Up",
       "sel": "span.font-kalshi-sans.typ-emphasis-x30",
-      "top": 1071.3
+      "top": 1118.3
      }
     ]
    },
@@ -578,80 +331,22 @@
     "color": "#FFFFFF8C",
     "colorRaw": "rgba(255, 255, 255, 0.55)",
     "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 8,
+    "count": 4,
     "samples": [
      {
       "text": "$50.00",
       "sel": "span.font-kalshi-sans.typ-emphasis-x30",
-      "top": 579.77
+      "top": 626.77
      },
      {
       "text": "$5.00",
       "sel": "span.font-kalshi-sans.typ-emphasis-x30",
-      "top": 857.53
+      "top": 904.53
      },
      {
       "text": "$5.00",
       "sel": "span.font-kalshi-sans.typ-emphasis-x30",
-      "top": 1135.3
-     }
-    ]
-   },
-   {
-    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
-    "size": "15px",
-    "weight": "600",
-    "lineHeight": "22px",
-    "letterSpacing": "normal",
-    "transform": "none",
-    "color": "#000000E6",
-    "colorRaw": "rgba(0, 0, 0, 0.9)",
-    "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 8,
-    "samples": [
-     {
-      "text": "2026 Midterms: Congress Balance of Power?",
-      "sel": "h2.m-0.font-kalshi-sans",
-      "top": 1608.83
-     },
-     {
-      "text": "2026 Midterms: Congress Balance of Power?",
-      "sel": "h2.m-0.font-kalshi-sans",
-      "top": 1910.59
-     },
-     {
-      "text": "Who will be the Democratic nominee in 2028?",
-      "sel": "h2.m-0.font-kalshi-sans",
-      "top": 2380.13
-     }
-    ]
-   },
-   {
-    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
-    "size": "15px",
-    "weight": "500",
-    "lineHeight": "22px",
-    "letterSpacing": "normal",
-    "transform": "none",
-    "color": "#00DD94",
-    "colorRaw": "rgb(0, 221, 148)",
-    "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 6,
-    "samples": [
-     {
-      "text": "+$0.00",
-      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
-      "top": 857.53
-     },
-     {
-      "text": "+$0.02",
-      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
-      "top": 1135.3
-     },
-     {
-      "text": "$94.50",
-      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
-      "top": 2202.36
+      "top": 1182.3
      }
     ]
    },
@@ -665,22 +360,17 @@
     "color": "#FF454D",
     "colorRaw": "rgb(255, 69, 77)",
     "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 5,
+    "count": 2,
     "samples": [
      {
       "text": "-$0.49",
       "sel": "span.font-kalshi-sans.typ-emphasis-x30",
-      "top": 579.77
+      "top": 626.77
      },
      {
       "text": "-$0.03",
       "sel": "span.font-kalshi-sans.typ-emphasis-x30",
-      "top": 1413.06
-     },
-     {
-      "text": "$0.00",
-      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
-      "top": 4991.42
+      "top": 1460.06
      }
     ]
    },
@@ -691,25 +381,20 @@
     "lineHeight": "22px",
     "letterSpacing": "normal",
     "transform": "none",
-    "color": "#FFFFFF",
-    "colorRaw": "rgb(255, 255, 255)",
+    "color": "#00DD94",
+    "colorRaw": "rgb(0, 221, 148)",
     "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 3,
+    "count": 2,
     "samples": [
      {
-      "text": "Add a position",
-      "sel": "span.sm:hidden",
-      "top": 296
+      "text": "+$0.00",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
+      "top": 904.53
      },
      {
-      "text": "Continue with Google",
+      "text": "+$0.02",
       "sel": "span.font-kalshi-sans.typ-emphasis-x30",
-      "top": 202
-     },
-     {
-      "text": "Continue with Apple",
-      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
-      "top": 265
+      "top": 1182.3
      }
     ]
    },
@@ -723,113 +408,12 @@
     "color": "#0AC285",
     "colorRaw": "rgb(10, 194, 133)",
     "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 2,
-    "samples": [
-     {
-      "text": "Sign in with a passkey",
-      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
-      "top": 495
-     },
-     {
-      "text": "Forgot password?",
-      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
-      "top": 559
-     }
-    ]
-   },
-   {
-    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
-    "size": "15px",
-    "weight": "400",
-    "lineHeight": "22px",
-    "letterSpacing": "normal",
-    "transform": "none",
-    "color": "#0000008C",
-    "colorRaw": "rgba(0, 0, 0, 0.55)",
-    "fontVariantNumeric": "lining-nums tabular-nums",
     "count": 1,
     "samples": [
      {
-      "text": "Log in to your account",
-      "sel": "span.font-kalshi-sans.font-normal",
-      "top": 682
-     }
-    ]
-   },
-   {
-    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
-    "size": "15px",
-    "weight": "400",
-    "lineHeight": "22px",
-    "letterSpacing": "normal",
-    "transform": "none",
-    "color": "#FF6A00",
-    "colorRaw": "rgb(255, 106, 0)",
-    "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 1,
-    "samples": [
-     {
-      "text": "demo",
-      "sel": "span",
-      "top": 683
-     }
-    ]
-   },
-   {
-    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
-    "size": "13px",
-    "weight": "500",
-    "lineHeight": "20px",
-    "letterSpacing": "normal",
-    "transform": "none",
-    "color": "#000000E6",
-    "colorRaw": "rgba(0, 0, 0, 0.9)",
-    "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 24,
-    "samples": [
-     {
-      "text": "GIF",
-      "sel": "span.whitespace-nowrap",
-      "top": 296
-     },
-     {
-      "text": "Now",
-      "sel": "span",
-      "top": 377
-     },
-     {
-      "text": "Today",
-      "sel": "span",
-      "top": 377
-     }
-    ]
-   },
-   {
-    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
-    "size": "13px",
-    "weight": "400",
-    "lineHeight": "18px",
-    "letterSpacing": "normal",
-    "transform": "none",
-    "color": "#FFFFFF8C",
-    "colorRaw": "rgba(255, 255, 255, 0.55)",
-    "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 18,
-    "samples": [
-     {
-      "text": "Leverage",
-      "sel": "span.font-kalshi-sans.font-normal",
-      "top": 537.77
-     },
-     {
-      "text": "Entry $84,657",
-      "sel": "span.font-kalshi-sans.font-normal",
-      "top": 601.77
-     },
-     {
-      "text": "Leverage",
-      "sel": "span.font-kalshi-sans.font-normal",
-      "top": 815.53
+      "text": "+$3",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
+      "top": 331
      }
     ]
    },
@@ -848,17 +432,17 @@
      {
       "text": "Kalshi Pro",
       "sel": "span.font-kalshi-sans.font-normal",
-      "top": 6631.72
+      "top": 1654.06
      },
      {
       "text": "Perpetual Futures",
       "sel": "span.font-kalshi-sans.font-normal",
-      "top": 6667.72
+      "top": 1690.06
      },
      {
       "text": "Markets",
       "sel": "span.font-kalshi-sans.font-normal",
-      "top": 6703.72
+      "top": 1726.06
      }
     ]
    },
@@ -872,22 +456,51 @@
     "color": "#0000008C",
     "colorRaw": "rgba(0, 0, 0, 0.55)",
     "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 16,
+    "count": 9,
     "samples": [
      {
-      "text": "No Position",
+      "text": "Profit",
       "sel": "span.font-kalshi-sans.font-normal",
-      "top": 1637.83
+      "top": 311
      },
      {
-      "text": "1",
+      "text": "Volume",
       "sel": "span.font-kalshi-sans.font-normal",
-      "top": 1672.83
+      "top": 311
      },
      {
-      "text": "No Position",
+      "text": "Following",
       "sel": "span.font-kalshi-sans.font-normal",
-      "top": 1939.59
+      "top": 311
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "500",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "colorRaw": "rgba(0, 0, 0, 0.9)",
+    "fontVariantNumeric": "tabular-nums",
+    "count": 8,
+    "samples": [
+     {
+      "text": "Posts",
+      "sel": "span",
+      "top": 423
+     },
+     {
+      "text": "Replies",
+      "sel": "span",
+      "top": 423
+     },
+     {
+      "text": "Likes",
+      "sel": "span",
+      "top": 423
      }
     ]
    },
@@ -895,28 +508,28 @@
     "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
     "size": "13px",
     "weight": "400",
-    "lineHeight": "16px",
+    "lineHeight": "18px",
     "letterSpacing": "normal",
     "transform": "none",
-    "color": "#111827",
-    "colorRaw": "rgb(17, 24, 39)",
+    "color": "#FFFFFF8C",
+    "colorRaw": "rgba(255, 255, 255, 0.55)",
     "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 14,
+    "count": 8,
     "samples": [
      {
-      "text": "Top 50% P&L",
-      "sel": "span.font-normal.whitespace-nowrap",
-      "top": 438.77
+      "text": "Leverage",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 584.77
      },
      {
-      "text": "Top 50% P&L",
-      "sel": "span.font-normal.whitespace-nowrap",
-      "top": 716.53
+      "text": "Entry $84,657",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 648.77
      },
      {
-      "text": "Top 50% P&L",
-      "sel": "span.font-normal.whitespace-nowrap",
-      "top": 994.3
+      "text": "Leverage",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 862.53
      }
     ]
    },
@@ -953,57 +566,28 @@
     "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
     "size": "13px",
     "weight": "400",
-    "lineHeight": "18px",
+    "lineHeight": "16px",
     "letterSpacing": "normal",
     "transform": "none",
-    "color": "#00DD94",
-    "colorRaw": "rgb(0, 221, 148)",
+    "color": "#111827",
+    "colorRaw": "rgb(17, 24, 39)",
     "fontVariantNumeric": "lining-nums tabular-nums",
     "count": 5,
     "samples": [
      {
-      "text": "+0%",
-      "sel": "span.font-kalshi-sans.font-normal",
-      "top": 879.53
+      "text": "Top 50% P&L",
+      "sel": "span.font-normal.whitespace-nowrap",
+      "top": 269
      },
      {
-      "text": "+0.46%",
-      "sel": "span.font-kalshi-sans.font-normal",
-      "top": 1157.3
+      "text": "Top 50% P&L",
+      "sel": "span.font-normal.whitespace-nowrap",
+      "top": 485.77
      },
      {
-      "text": "+14.95%",
-      "sel": "span.font-kalshi-sans.font-normal",
-      "top": 3379.89
-     }
-    ]
-   },
-   {
-    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
-    "size": "13px",
-    "weight": "400",
-    "lineHeight": "18px",
-    "letterSpacing": "normal",
-    "transform": "none",
-    "color": "#FF454D",
-    "colorRaw": "rgb(255, 69, 77)",
-    "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 3,
-    "samples": [
-     {
-      "text": "-0.98%",
-      "sel": "span.font-kalshi-sans.font-normal",
-      "top": 601.77
-     },
-     {
-      "text": "-0.58%",
-      "sel": "span.font-kalshi-sans.font-normal",
-      "top": 1435.06
-     },
-     {
-      "text": "-1.55%",
-      "sel": "span.font-kalshi-sans.font-normal",
-      "top": 6042.95
+      "text": "Top 50% P&L",
+      "sel": "span.font-normal.whitespace-nowrap",
+      "top": 763.53
      }
     ]
    },
@@ -1017,8 +601,13 @@
     "color": "#000000E6",
     "colorRaw": "rgba(0, 0, 0, 0.9)",
     "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 2,
+    "count": 3,
     "samples": [
+     {
+      "text": "Feed",
+      "sel": "span.min-w-0.flex-1",
+      "top": 164
+     },
      {
       "text": "Your Profile",
       "sel": "span.min-w-0.flex-1",
@@ -1028,6 +617,54 @@
       "text": "Leaderboard",
       "sel": "span.min-w-0.flex-1",
       "top": 240
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#FF454D",
+    "colorRaw": "rgb(255, 69, 77)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 2,
+    "samples": [
+     {
+      "text": "-0.98%",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 648.77
+     },
+     {
+      "text": "-0.58%",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 1482.06
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#00DD94",
+    "colorRaw": "rgb(0, 221, 148)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 2,
+    "samples": [
+     {
+      "text": "+0%",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 926.53
+     },
+     {
+      "text": "+0.46%",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 1204.3
      }
     ]
    },
@@ -1071,44 +708,6 @@
    },
    {
     "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
-    "size": "13px",
-    "weight": "500",
-    "lineHeight": "18px",
-    "letterSpacing": "normal",
-    "transform": "none",
-    "color": "#000000E6",
-    "colorRaw": "rgba(0, 0, 0, 0.9)",
-    "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 1,
-    "samples": [
-     {
-      "text": "Feed",
-      "sel": "span.min-w-0.flex-1",
-      "top": 164
-     }
-    ]
-   },
-   {
-    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
-    "size": "13px",
-    "weight": "500",
-    "lineHeight": "18px",
-    "letterSpacing": "normal",
-    "transform": "none",
-    "color": "#FFFFFFE6",
-    "colorRaw": "rgba(255, 255, 255, 0.9)",
-    "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 1,
-    "samples": [
-     {
-      "text": "How high will BTC get in August?",
-      "sel": "span.font-kalshi-sans.typ-emphasis-x20",
-      "top": 4905.42
-     }
-    ]
-   },
-   {
-    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
     "size": "12px",
     "weight": "400",
     "lineHeight": "16px",
@@ -1117,22 +716,22 @@
     "color": "#0000008C",
     "colorRaw": "rgba(0, 0, 0, 0.55)",
     "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 22,
+    "count": 4,
     "samples": [
      {
       "text": "Sep 25",
       "sel": "span.font-kalshi-sans.font-normal",
-      "top": 437.38
+      "top": 484.38
      },
      {
       "text": "Sep 25",
       "sel": "span.font-kalshi-sans.font-normal",
-      "top": 715.14
+      "top": 762.14
      },
      {
       "text": "Sep 25",
       "sel": "span.font-kalshi-sans.font-normal",
-      "top": 992.91
+      "top": 1039.91
      }
     ]
    },
@@ -1146,22 +745,22 @@
     "color": "#7839FF",
     "colorRaw": "rgb(120, 57, 255)",
     "fontVariantNumeric": "tabular-nums",
-    "count": 8,
+    "count": 4,
     "samples": [
      {
       "text": "7.4x",
       "sel": "span.shrink-0.font-graphik-wide-semibold",
-      "top": 539.77
+      "top": 586.77
      },
      {
       "text": "1.9x",
       "sel": "span.shrink-0.font-graphik-wide-semibold",
-      "top": 817.53
+      "top": 864.53
      },
      {
       "text": "1.8x",
       "sel": "span.shrink-0.font-graphik-wide-semibold",
-      "top": 1095.3
+      "top": 1142.3
      }
     ]
    },
@@ -1175,157 +774,22 @@
     "color": "#FFFFFF8C",
     "colorRaw": "rgba(255, 255, 255, 0.55)",
     "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 8,
+    "count": 4,
     "samples": [
      {
       "text": "Cost",
       "sel": "span.font-kalshi-sans.font-normal",
-      "top": 563.77
+      "top": 610.77
      },
      {
       "text": "Cost",
       "sel": "span.font-kalshi-sans.font-normal",
-      "top": 841.53
+      "top": 888.53
      },
      {
       "text": "Cost",
       "sel": "span.font-kalshi-sans.font-normal",
-      "top": 1119.3
-     }
-    ]
-   },
-   {
-    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
-    "size": "12px",
-    "weight": "400",
-    "lineHeight": "16px",
-    "letterSpacing": "normal",
-    "transform": "none",
-    "color": "#00DD94",
-    "colorRaw": "rgb(0, 221, 148)",
-    "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 6,
-    "samples": [
-     {
-      "text": "Unrealized profit",
-      "sel": "span.font-kalshi-sans.font-normal",
-      "top": 841.53
-     },
-     {
-      "text": "Unrealized profit",
-      "sel": "span.font-kalshi-sans.font-normal",
-      "top": 1119.3
-     },
-     {
-      "text": "Current value",
-      "sel": "span.font-kalshi-sans.font-normal",
-      "top": 2186.36
-     }
-    ]
-   },
-   {
-    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
-    "size": "12px",
-    "weight": "400",
-    "lineHeight": "16px",
-    "letterSpacing": "normal",
-    "transform": "none",
-    "color": "#FF454D",
-    "colorRaw": "rgb(255, 69, 77)",
-    "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 5,
-    "samples": [
-     {
-      "text": "Unrealized loss",
-      "sel": "span.font-kalshi-sans.font-normal",
-      "top": 563.77
-     },
-     {
-      "text": "Unrealized loss",
-      "sel": "span.font-kalshi-sans.font-normal",
-      "top": 1397.06
-     },
-     {
-      "text": "Paid out",
-      "sel": "span.font-kalshi-sans.font-normal",
-      "top": 4975.42
-     }
-    ]
-   },
-   {
-    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
-    "size": "12px",
-    "weight": "400",
-    "lineHeight": "16px",
-    "letterSpacing": "normal",
-    "transform": "none",
-    "color": "#FFFFFFE6",
-    "colorRaw": "rgba(255, 255, 255, 0.9)",
-    "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 3,
-    "samples": [
-     {
-      "text": "Cost",
-      "sel": "span.font-kalshi-sans.font-normal",
-      "top": 2186.36
-     },
-     {
-      "text": "Total cost",
-      "sel": "span.font-kalshi-sans.font-normal",
-      "top": 4975.42
-     },
-     {
-      "text": "Cost",
-      "sel": "span.font-kalshi-sans.font-normal",
-      "top": 6438.72
-     }
-    ]
-   },
-   {
-    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
-    "size": "12px",
-    "weight": "500",
-    "lineHeight": "16px",
-    "letterSpacing": "normal",
-    "transform": "none",
-    "color": "#0000008C",
-    "colorRaw": "rgba(0, 0, 0, 0.55)",
-    "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 2,
-    "samples": [
-     {
-      "text": "Reply",
-      "sel": "span.font-kalshi-sans.typ-emphasis-x10",
-      "top": 1782.83
-     },
-     {
-      "text": "Reply",
-      "sel": "span.font-kalshi-sans.typ-emphasis-x10",
-      "top": 6204.95
-     }
-    ]
-   },
-   {
-    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
-    "size": "12px",
-    "weight": "500",
-    "lineHeight": "16px",
-    "letterSpacing": "normal",
-    "transform": "none",
-    "color": "#FFFFFFE6",
-    "colorRaw": "rgba(255, 255, 255, 0.9)",
-    "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 2,
-    "samples": [
-     {
-      "text": "Who will be the Democratic nominee in 2028?",
-      "sel": "span.font-kalshi-sans.typ-emphasis-x10",
-      "top": 2114.36
-     },
-     {
-      "text": "When will traffic at the Strait of Hormuz return to normal?",
-      "sel": "span.font-kalshi-sans.typ-emphasis-x10",
-      "top": 6350.72
+      "top": 1166.3
      }
     ]
    },
@@ -1339,17 +803,70 @@
     "color": "#0000008C",
     "colorRaw": "rgba(0, 0, 0, 0.55)",
     "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 3,
+    "samples": [
+     {
+      "text": "4 posts",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 369
+     },
+     {
+      "text": "·",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 369
+     },
+     {
+      "text": "0 trades",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 369
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "12px",
+    "weight": "400",
+    "lineHeight": "16px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#FF454D",
+    "colorRaw": "rgb(255, 69, 77)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
     "count": 2,
     "samples": [
      {
-      "text": "or",
+      "text": "Unrealized loss",
       "sel": "span.font-kalshi-sans.font-normal",
-      "top": 384
+      "top": 610.77
      },
      {
-      "text": "By continuing, you acknowledge and agree to Kalshi’s legal t",
+      "text": "Unrealized loss",
       "sel": "span.font-kalshi-sans.font-normal",
-      "top": 616
+      "top": 1444.06
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "12px",
+    "weight": "400",
+    "lineHeight": "16px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#00DD94",
+    "colorRaw": "rgb(0, 221, 148)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 2,
+    "samples": [
+     {
+      "text": "Unrealized profit",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 888.53
+     },
+     {
+      "text": "Unrealized profit",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 1166.3
      }
     ]
    },
@@ -1366,28 +883,9 @@
     "count": 1,
     "samples": [
      {
-      "text": "15",
+      "text": "32",
       "sel": "span.text-red-x10.tabular-nums",
       "top": 24
-     }
-    ]
-   },
-   {
-    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
-    "size": "12px",
-    "weight": "400",
-    "lineHeight": "16px",
-    "letterSpacing": "normal",
-    "transform": "none",
-    "color": "#111827",
-    "colorRaw": "rgb(17, 24, 39)",
-    "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 1,
-    "samples": [
-     {
-      "text": "Top 50% P&L",
-      "sel": "span.font-normal.whitespace-nowrap",
-      "top": 1722.59
      }
     ]
    },
@@ -1406,26 +904,7 @@
      {
       "text": "Trading on Kalshi involves risk and may not be appropriate f",
       "sel": "span.font-kalshi-sans.font-normal",
-      "top": 6955.72
-     }
-    ]
-   },
-   {
-    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
-    "size": "12px",
-    "weight": "500",
-    "lineHeight": "18px",
-    "letterSpacing": "normal",
-    "transform": "none",
-    "color": "#0000008C",
-    "colorRaw": "rgba(0, 0, 0, 0.55)",
-    "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 1,
-    "samples": [
-     {
-      "text": "which we recommend reviewing",
-      "sel": "span.font-kalshi-sans.typ-emphasis-x10",
-      "top": 616
+      "top": 1978.06
      }
     ]
    },
@@ -1444,49 +923,25 @@
      {
       "text": "Product",
       "sel": "span.font-kalshi-sans.typ-overline-x10",
-      "top": 6591.72
+      "top": 1614.06
      },
      {
       "text": "Company",
       "sel": "span.font-kalshi-sans.typ-overline-x10",
-      "top": 6591.72
+      "top": 1614.06
      },
      {
       "text": "Help",
       "sel": "span.font-kalshi-sans.typ-overline-x10",
-      "top": 6591.72
-     }
-    ]
-   },
-   {
-    "family": "ooTheranLight, \"ooTheranLight Fallback\"",
-    "size": "11px",
-    "weight": "300",
-    "lineHeight": "16px",
-    "letterSpacing": "1.65px",
-    "transform": "uppercase",
-    "color": "#FFFFFFE6",
-    "colorRaw": "rgba(255, 255, 255, 0.9)",
-    "fontVariantNumeric": "lining-nums tabular-nums",
-    "count": 2,
-    "samples": [
-     {
-      "text": "LAST 1D",
-      "sel": "span.ootheranlight_f3f2e9bf-module__oBNn9G__className.shrink-0",
-      "top": 3296.89
-     },
-     {
-      "text": "LAST 1D",
-      "sel": "span.ootheranlight_f3f2e9bf-module__oBNn9G__className.shrink-0",
-      "top": 3949.66
+      "top": 1614.06
      }
     ]
    }
   ],
   "contrast": {
-   "textNodes": 282,
-   "failAA": 99,
-   "failAAWithoutBgImage": 9,
+   "textNodes": 125,
+   "failAA": 43,
+   "failAAWithoutBgImage": 7,
    "worstUnique": [
     {
      "text": "Unrealized loss",
@@ -1525,114 +980,6 @@
      "sel": "span.font-kalshi-sans.font-normal"
     },
     {
-     "text": "Profit",
-     "size": "12px",
-     "weight": "400",
-     "fg": "#00DD94",
-     "bg": "#C1BFAC",
-     "bgImage": true,
-     "ratio": 1.04,
-     "large": false,
-     "passAA": false,
-     "sel": "span.font-kalshi-sans.font-normal"
-    },
-    {
-     "text": "+$13.16",
-     "size": "15px",
-     "weight": "500",
-     "fg": "#00DD94",
-     "bg": "#C1BFAC",
-     "bgImage": true,
-     "ratio": 1.04,
-     "large": false,
-     "passAA": false,
-     "sel": "span.font-kalshi-sans.typ-emphasis-x30"
-    },
-    {
-     "text": "+14.95%",
-     "size": "13px",
-     "weight": "400",
-     "fg": "#00DD94",
-     "bg": "#C1BFAC",
-     "bgImage": true,
-     "ratio": 1.04,
-     "large": false,
-     "passAA": false,
-     "sel": "span.font-kalshi-sans.font-normal"
-    },
-    {
-     "text": "Profit",
-     "size": "12px",
-     "weight": "400",
-     "fg": "#00DD94",
-     "bg": "#F2A900",
-     "bgImage": true,
-     "ratio": 1.13,
-     "large": false,
-     "passAA": false,
-     "sel": "span.font-kalshi-sans.font-normal"
-    },
-    {
-     "text": "+$27.22",
-     "size": "15px",
-     "weight": "500",
-     "fg": "#00DD94",
-     "bg": "#F2A900",
-     "bgImage": true,
-     "ratio": 1.13,
-     "large": false,
-     "passAA": false,
-     "sel": "span.font-kalshi-sans.typ-emphasis-x30"
-    },
-    {
-     "text": "+136.1%",
-     "size": "13px",
-     "weight": "400",
-     "fg": "#00DD94",
-     "bg": "#F2A900",
-     "bgImage": true,
-     "ratio": 1.13,
-     "large": false,
-     "passAA": false,
-     "sel": "span.font-kalshi-sans.font-normal"
-    },
-    {
-     "text": "Leverage",
-     "size": "13px",
-     "weight": "400",
-     "fg": "#FFFFFF8C",
-     "bg": "#F7D21A",
-     "bgImage": true,
-     "ratio": 1.23,
-     "large": false,
-     "passAA": false,
-     "sel": "span.font-kalshi-sans.font-normal"
-    },
-    {
-     "text": "Cost",
-     "size": "12px",
-     "weight": "400",
-     "fg": "#FFFFFF8C",
-     "bg": "#F7D21A",
-     "bgImage": true,
-     "ratio": 1.23,
-     "large": false,
-     "passAA": false,
-     "sel": "span.font-kalshi-sans.font-normal"
-    },
-    {
-     "text": "$50.00",
-     "size": "15px",
-     "weight": "500",
-     "fg": "#FFFFFF8C",
-     "bg": "#F7D21A",
-     "bgImage": true,
-     "ratio": 1.23,
-     "large": false,
-     "passAA": false,
-     "sel": "span.font-kalshi-sans.typ-emphasis-x30"
-    },
-    {
      "text": "1.9x",
      "size": "12px",
      "weight": "600",
@@ -1645,54 +992,6 @@
      "sel": "span.shrink-0.font-graphik-wide-semibold"
     },
     {
-     "text": "Gold Up",
-     "size": "15px",
-     "weight": "500",
-     "fg": "#FFFFFFE6",
-     "bg": "#F7D21A",
-     "bgImage": true,
-     "ratio": 1.42,
-     "large": false,
-     "passAA": false,
-     "sel": "span.font-kalshi-sans.typ-emphasis-x30"
-    },
-    {
-     "text": "Leverage",
-     "size": "13px",
-     "weight": "400",
-     "fg": "#FFFFFF8C",
-     "bg": "#C1BFAC",
-     "bgImage": true,
-     "ratio": 1.43,
-     "large": false,
-     "passAA": false,
-     "sel": "span.font-kalshi-sans.font-normal"
-    },
-    {
-     "text": "Cost",
-     "size": "12px",
-     "weight": "400",
-     "fg": "#FFFFFF8C",
-     "bg": "#C1BFAC",
-     "bgImage": true,
-     "ratio": 1.43,
-     "large": false,
-     "passAA": false,
-     "sel": "span.font-kalshi-sans.font-normal"
-    },
-    {
-     "text": "$88.00",
-     "size": "15px",
-     "weight": "500",
-     "fg": "#FFFFFF8C",
-     "bg": "#C1BFAC",
-     "bgImage": true,
-     "ratio": 1.43,
-     "large": false,
-     "passAA": false,
-     "sel": "span.font-kalshi-sans.typ-emphasis-x30"
-    },
-    {
      "text": "Leverage",
      "size": "13px",
      "weight": "400",
@@ -1724,54 +1023,6 @@
      "bg": "#F2A900",
      "bgImage": true,
      "ratio": 1.46,
-     "large": false,
-     "passAA": false,
-     "sel": "span.font-kalshi-sans.typ-emphasis-x30"
-    },
-    {
-     "text": "Paid out",
-     "size": "12px",
-     "weight": "400",
-     "fg": "#FF454D",
-     "bg": "#0AC285",
-     "bgImage": true,
-     "ratio": 1.46,
-     "large": false,
-     "passAA": false,
-     "sel": "span.font-kalshi-sans.font-normal"
-    },
-    {
-     "text": "$0.00",
-     "size": "15px",
-     "weight": "500",
-     "fg": "#FF454D",
-     "bg": "#0AC285",
-     "bgImage": true,
-     "ratio": 1.46,
-     "large": false,
-     "passAA": false,
-     "sel": "span.font-kalshi-sans.typ-emphasis-x30"
-    },
-    {
-     "text": "Current value",
-     "size": "12px",
-     "weight": "400",
-     "fg": "#FF454D",
-     "bg": "#265CFF",
-     "bgImage": true,
-     "ratio": 1.53,
-     "large": false,
-     "passAA": false,
-     "sel": "span.font-kalshi-sans.font-normal"
-    },
-    {
-     "text": "$8.66",
-     "size": "15px",
-     "weight": "500",
-     "fg": "#FF454D",
-     "bg": "#265CFF",
-     "bgImage": true,
-     "ratio": 1.53,
      "large": false,
      "passAA": false,
      "sel": "span.font-kalshi-sans.typ-emphasis-x30"
@@ -1825,30 +1076,6 @@
      "sel": "span.shrink-0.font-graphik-wide-semibold"
     },
     {
-     "text": "Palladium Down",
-     "size": "15px",
-     "weight": "500",
-     "fg": "#FFFFFFE6",
-     "bg": "#C1BFAC",
-     "bgImage": true,
-     "ratio": 1.76,
-     "large": false,
-     "passAA": false,
-     "sel": "span.font-kalshi-sans.typ-emphasis-x30"
-    },
-    {
-     "text": "LAST 1D",
-     "size": "11px",
-     "weight": "300",
-     "fg": "#FFFFFFE6",
-     "bg": "#C1BFAC",
-     "bgImage": true,
-     "ratio": 1.76,
-     "large": false,
-     "passAA": false,
-     "sel": "span.ootheranlight_f3f2e9bf-module__oBNn9G__className.shrink-0"
-    },
-    {
      "text": "Unrealized profit",
      "size": "12px",
      "weight": "400",
@@ -1895,18 +1122,6 @@
      "large": false,
      "passAA": false,
      "sel": "span.font-kalshi-sans.typ-emphasis-x30"
-    },
-    {
-     "text": "LAST 1D",
-     "size": "11px",
-     "weight": "300",
-     "fg": "#FFFFFFE6",
-     "bg": "#F2A900",
-     "bgImage": true,
-     "ratio": 1.88,
-     "large": false,
-     "passAA": false,
-     "sel": "span.ootheranlight_f3f2e9bf-module__oBNn9G__className.shrink-0"
     },
     {
      "text": "Leverage",
@@ -1967,21 +1182,158 @@
      "large": false,
      "passAA": false,
      "sel": "span.font-kalshi-sans.typ-overline-x10"
+    },
+    {
+     "text": "Trading on Kalshi involves risk and may not be app",
+     "size": "12px",
+     "weight": "400",
+     "fg": "#0000004D",
+     "bg": "#F7F7F7",
+     "bgImage": false,
+     "ratio": 2.11,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.font-normal"
+    },
+    {
+     "text": "Leverage",
+     "size": "13px",
+     "weight": "400",
+     "fg": "#FFFFFF8C",
+     "bg": "#C645C0",
+     "bgImage": true,
+     "ratio": 2.25,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.font-normal"
+    },
+    {
+     "text": "Cost",
+     "size": "12px",
+     "weight": "400",
+     "fg": "#FFFFFF8C",
+     "bg": "#C645C0",
+     "bgImage": true,
+     "ratio": 2.25,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.font-normal"
+    },
+    {
+     "text": "$5.00",
+     "size": "15px",
+     "weight": "500",
+     "fg": "#FFFFFF8C",
+     "bg": "#C645C0",
+     "bgImage": true,
+     "ratio": 2.25,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-emphasis-x30"
+    },
+    {
+     "text": "Log in",
+     "size": "13px",
+     "weight": "500",
+     "fg": "#0AC285",
+     "bg": "#FFFFFF",
+     "bgImage": false,
+     "ratio": 2.32,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-emphasis-x20"
+    },
+    {
+     "text": "+$3",
+     "size": "15px",
+     "weight": "500",
+     "fg": "#0AC285",
+     "bg": "#FFFFFF",
+     "bgImage": false,
+     "ratio": 2.32,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-emphasis-x30"
+    },
+    {
+     "text": "Unrealized profit",
+     "size": "12px",
+     "weight": "400",
+     "fg": "#00DD94",
+     "bg": "#C645C0",
+     "bgImage": true,
+     "ratio": 2.35,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.font-normal"
+    },
+    {
+     "text": "+$0.00",
+     "size": "15px",
+     "weight": "500",
+     "fg": "#00DD94",
+     "bg": "#C645C0",
+     "bgImage": true,
+     "ratio": 2.35,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-emphasis-x30"
+    },
+    {
+     "text": "+0%",
+     "size": "13px",
+     "weight": "400",
+     "fg": "#00DD94",
+     "bg": "#C645C0",
+     "bgImage": true,
+     "ratio": 2.35,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.font-normal"
+    },
+    {
+     "text": "7.4x",
+     "size": "12px",
+     "weight": "600",
+     "fg": "#7839FF",
+     "bg": "#F2A900",
+     "bgImage": true,
+     "ratio": 2.73,
+     "large": false,
+     "passAA": false,
+     "sel": "span.shrink-0.font-graphik-wide-semibold"
+    },
+    {
+     "text": "PEPE Up",
+     "size": "15px",
+     "weight": "500",
+     "fg": "#FFFFFFE6",
+     "bg": "#00A600",
+     "bgImage": true,
+     "ratio": 2.9,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-emphasis-x30"
+    },
+    {
+     "text": "UNI Up",
+     "size": "15px",
+     "weight": "500",
+     "fg": "#FFFFFFE6",
+     "bg": "#C645C0",
+     "bgImage": true,
+     "ratio": 3.69,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-emphasis-x30"
     }
    ],
    "pairs": [
     {
      "pair": "#000000E6 on #FFFFFF",
      "ratio": 17.58,
-     "count": 96,
+     "count": 41,
      "sample": "MARKETS",
-     "bgImage": false
-    },
-    {
-     "pair": "#0000008C on #FFFFFF",
-     "ratio": 4.74,
-     "count": 39,
-     "sample": "Sep 25",
      "bgImage": false
     },
     {
@@ -1992,18 +1344,11 @@
      "bgImage": false
     },
     {
-     "pair": "#111827 on #FFFFFF",
-     "ratio": 17.74,
-     "count": 15,
-     "sample": "Top 50% P&L",
-     "bgImage": true
-    },
-    {
-     "pair": "#FFFFFF8C on #F2A900",
-     "ratio": 1.46,
-     "count": 12,
-     "sample": "Leverage",
-     "bgImage": true
+     "pair": "#0000008C on #FFFFFF",
+     "ratio": 4.74,
+     "count": 11,
+     "sample": "Profit",
+     "bgImage": false
     },
     {
      "pair": "#FFFFFF8C on #00A600",
@@ -2013,10 +1358,10 @@
      "bgImage": true
     },
     {
-     "pair": "#00DD94 on #F2A900",
-     "ratio": 1.13,
-     "count": 6,
-     "sample": "Profit",
+     "pair": "#111827 on #FFFFFF",
+     "ratio": 17.74,
+     "count": 5,
+     "sample": "Top 50% P&L",
      "bgImage": true
     },
     {
@@ -2027,10 +1372,10 @@
      "bgImage": false
     },
     {
-     "pair": "#FFFFFFE6 on #F2A900",
-     "ratio": 1.88,
+     "pair": "#FFFFFF8C on #F2A900",
+     "ratio": 1.46,
      "count": 4,
-     "sample": "BTC Up",
+     "sample": "Leverage",
      "bgImage": true
     },
     {
@@ -2041,67 +1386,11 @@
      "bgImage": true
     },
     {
-     "pair": "#FFFFFFE6 on #AA00FF",
-     "ratio": 4.26,
-     "count": 4,
-     "sample": "Who will be the Democratic nominee in 2028?",
-     "bgImage": true
-    },
-    {
-     "pair": "#FFFFFF8C on #C1BFAC",
-     "ratio": 1.43,
-     "count": 4,
-     "sample": "Leverage",
-     "bgImage": true
-    },
-    {
-     "pair": "#FFFFFFE6 on #0AC285",
-     "ratio": 2.12,
-     "count": 4,
-     "sample": "How high will BTC get in August?",
-     "bgImage": true
-    },
-    {
-     "pair": "#FFFFFF8C on #F7D21A",
-     "ratio": 1.23,
-     "count": 4,
-     "sample": "Leverage",
-     "bgImage": true
-    },
-    {
-     "pair": "#FFFFFFE6 on #265CFF",
-     "ratio": 4.51,
-     "count": 4,
-     "sample": "When will traffic at the Strait of Hormuz return t",
-     "bgImage": true
-    },
-    {
      "pair": "#0000004D on #F7F7F7",
      "ratio": 2.11,
      "count": 4,
      "sample": "Product",
      "bgImage": false
-    },
-    {
-     "pair": "#0AC285 on #FFFFFF",
-     "ratio": 2.32,
-     "count": 3,
-     "sample": "Log in",
-     "bgImage": false
-    },
-    {
-     "pair": "#FFFFFF on #191919",
-     "ratio": 17.58,
-     "count": 3,
-     "sample": "Add a position",
-     "bgImage": false
-    },
-    {
-     "pair": "#7839FF on #F2A900",
-     "ratio": 2.73,
-     "count": 3,
-     "sample": "7.4x",
-     "bgImage": true
     },
     {
      "pair": "#FF454D on #F2A900",
@@ -2132,24 +1421,10 @@
      "bgImage": true
     },
     {
-     "pair": "#00DD94 on #C1BFAC",
-     "ratio": 1.04,
-     "count": 3,
-     "sample": "Profit",
-     "bgImage": true
-    },
-    {
-     "pair": "#FF454D on #F7D21A",
-     "ratio": 2.28,
-     "count": 3,
-     "sample": "Unrealized loss",
-     "bgImage": true
-    },
-    {
-     "pair": "#000000E6 on #F2F2F2",
-     "ratio": 15.9,
+     "pair": "#0AC285 on #FFFFFF",
+     "ratio": 2.32,
      "count": 2,
-     "sample": "Feed",
+     "sample": "Log in",
      "bgImage": false
     },
     {
@@ -2167,38 +1442,10 @@
      "bgImage": true
     },
     {
-     "pair": "#00DD94 on #AA00FF",
-     "ratio": 2.83,
-     "count": 2,
-     "sample": "Current value",
-     "bgImage": true
-    },
-    {
-     "pair": "#FFFFFFE6 on #C1BFAC",
-     "ratio": 1.76,
-     "count": 2,
-     "sample": "Palladium Down",
-     "bgImage": true
-    },
-    {
-     "pair": "#FF454D on #0AC285",
-     "ratio": 1.46,
-     "count": 2,
-     "sample": "Paid out",
-     "bgImage": true
-    },
-    {
-     "pair": "#FF454D on #265CFF",
-     "ratio": 1.53,
-     "count": 2,
-     "sample": "Current value",
-     "bgImage": true
-    },
-    {
      "pair": "#D91616 on #FFFFFF",
      "ratio": 5.15,
      "count": 1,
-     "sample": "15",
+     "sample": "32",
      "bgImage": false
     },
     {
@@ -2207,6 +1454,27 @@
      "count": 1,
      "sample": "Sign up",
      "bgImage": false
+    },
+    {
+     "pair": "#000000E6 on #F2F2F2",
+     "ratio": 15.9,
+     "count": 1,
+     "sample": "Posts",
+     "bgImage": false
+    },
+    {
+     "pair": "#FFFFFFE6 on #F2A900",
+     "ratio": 1.88,
+     "count": 1,
+     "sample": "BTC Up",
+     "bgImage": true
+    },
+    {
+     "pair": "#7839FF on #F2A900",
+     "ratio": 2.73,
+     "count": 1,
+     "sample": "7.4x",
+     "bgImage": true
     },
     {
      "pair": "#FFFFFFE6 on #C645C0",
@@ -2221,48 +1489,6 @@
      "count": 1,
      "sample": "1.9x",
      "bgImage": true
-    },
-    {
-     "pair": "#FFFFFF8C on #AA00FF",
-     "ratio": 2.2,
-     "count": 1,
-     "sample": "16.9% chance · Pays $555.93",
-     "bgImage": true
-    },
-    {
-     "pair": "#7839FF on #C1BFAC",
-     "ratio": 2.96,
-     "count": 1,
-     "sample": "5.3x",
-     "bgImage": true
-    },
-    {
-     "pair": "#FFFFFFE6 on #F7D21A",
-     "ratio": 1.42,
-     "count": 1,
-     "sample": "Gold Up",
-     "bgImage": true
-    },
-    {
-     "pair": "#7839FF on #F7D21A",
-     "ratio": 3.71,
-     "count": 1,
-     "sample": "13.9x",
-     "bgImage": true
-    },
-    {
-     "pair": "#FFFFFF8C on #265CFF",
-     "ratio": 2.6,
-     "count": 1,
-     "sample": "43.9% chance · Pays $19.70",
-     "bgImage": true
-    },
-    {
-     "pair": "#FF6A00 on #FFFFFF",
-     "ratio": 2.87,
-     "count": 1,
-     "sample": "demo",
-     "bgImage": false
     }
    ]
   },
@@ -2338,7 +1564,7 @@
    },
    {
     "kind": "a",
-    "label": "LIVE 15",
+    "label": "LIVE 32",
     "ariaLabel": null,
     "sel": "a.flex.items-center",
     "top": 14,
@@ -2783,14 +2009,14 @@
     "w": 207,
     "h": 36,
     "radius": "8px",
-    "bg": "#0000000D",
-    "bgRaw": "rgba(0, 0, 0, 0.05)",
-    "effectiveBg": "#F2F2F2",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
     "color": "#000000E6",
     "border": "0px solid #000000E6",
     "padding": "0px 8px 0px 16px",
     "shadow": null,
-    "font": "13px/18px 500",
+    "font": "13px/18px 400",
     "cursor": "pointer",
     "disabled": false,
     "pressed": null,
@@ -2890,20 +2116,20 @@
    },
    {
     "kind": "button",
-    "label": "Sign up",
-    "ariaLabel": "Sign up",
-    "sel": "button.flex.h-full",
-    "top": 131,
-    "x": 1141.5,
-    "w": 70,
-    "h": 70,
-    "radius": "100px",
+    "label": "",
+    "ariaLabel": null,
+    "sel": "button.cursor-pointer.transition-all",
+    "top": 139,
+    "x": 1147.5,
+    "w": 40,
+    "h": 40,
+    "radius": "8px",
     "bg": "#00000000",
     "bgRaw": "rgba(0, 0, 0, 0)",
     "effectiveBg": "#FFFFFF",
     "color": "#000000E6",
     "border": "0px solid #000000E6",
-    "padding": "16px 16px 16px 16px",
+    "padding": "8px 8px 8px 8px",
     "shadow": null,
     "font": "16px/24px 400",
     "cursor": "pointer",
@@ -2912,173 +2138,35 @@
     "selected": null
    },
    {
-    "kind": "textarea",
-    "label": "Post text",
-    "ariaLabel": "Post text",
-    "sel": "textarea.w-full.resize-none",
-    "top": 238,
-    "x": 486.5,
-    "w": 700,
-    "h": 22,
+    "kind": "button",
+    "label": "",
+    "ariaLabel": null,
+    "sel": "button.border-none.bg-transparent",
+    "top": 187,
+    "x": 461.5,
+    "w": 56,
+    "h": 56,
     "radius": "0px",
     "bg": "#00000000",
     "bgRaw": "rgba(0, 0, 0, 0)",
     "effectiveBg": "#FFFFFF",
     "color": "#000000E6",
-    "border": "0px solid #000000E6",
+    "border": "0px none #000000E6",
     "padding": "0px 0px 0px 0px",
     "shadow": null,
-    "font": "15px/22px 400",
-    "cursor": "text",
-    "disabled": false,
+    "font": "16px/24px 400",
+    "cursor": "default",
+    "disabled": true,
     "pressed": null,
     "selected": null
-   },
-   {
-    "kind": "button",
-    "label": "GIF",
-    "ariaLabel": null,
-    "sel": "button.appearance-none.inline-flex",
-    "top": 288,
-    "x": 941.64,
-    "w": 72,
-    "h": 36,
-    "radius": "100px",
-    "bg": "#00000000",
-    "bgRaw": "rgba(0, 0, 0, 0)",
-    "effectiveBg": "#FFFFFF",
-    "color": "#000000E6",
-    "border": "0px solid #00000000",
-    "padding": "0px 16px 0px 16px",
-    "shadow": null,
-    "font": "13px/20px 500",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": null
-   },
-   {
-    "kind": "button",
-    "label": "Add a position",
-    "ariaLabel": null,
-    "sel": "button.appearance-none.inline-flex",
-    "top": 284,
-    "x": 1021.64,
-    "w": 164.86,
-    "h": 44,
-    "radius": "100px",
-    "bg": "#000000E6",
-    "bgRaw": "rgba(0, 0, 0, 0.9)",
-    "effectiveBg": "#191919",
-    "color": "#FFFFFF",
-    "border": "0px solid #00000000",
-    "padding": "0px 16px 0px 16px",
-    "shadow": null,
-    "font": "15px/22px 500",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": null
-   },
-   {
-    "kind": "button[tab]",
-    "label": "Now",
-    "ariaLabel": null,
-    "sel": "button.appearance-none.inline-flex[role=tab]",
-    "top": 369,
-    "x": 486.5,
-    "w": 72,
-    "h": 36,
-    "radius": "100px",
-    "bg": "#0000000D",
-    "bgRaw": "rgba(0, 0, 0, 0.05)",
-    "effectiveBg": "#F2F2F2",
-    "color": "#000000E6",
-    "border": "1px solid #000000E6",
-    "padding": "0px 16px 0px 16px",
-    "shadow": null,
-    "font": "13px/20px 500",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": "true"
-   },
-   {
-    "kind": "button[tab]",
-    "label": "Today",
-    "ariaLabel": null,
-    "sel": "button.appearance-none.inline-flex[role=tab]",
-    "top": 369,
-    "x": 566.5,
-    "w": 72,
-    "h": 36,
-    "radius": "100px",
-    "bg": "#00000000",
-    "bgRaw": "rgba(0, 0, 0, 0)",
-    "effectiveBg": "#FFFFFF",
-    "color": "#000000E6",
-    "border": "1px solid #0000001A",
-    "padding": "0px 16px 0px 16px",
-    "shadow": null,
-    "font": "13px/20px 500",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": "false"
-   },
-   {
-    "kind": "button[tab]",
-    "label": "This Week",
-    "ariaLabel": null,
-    "sel": "button.appearance-none.inline-flex[role=tab]",
-    "top": 369,
-    "x": 646.5,
-    "w": 96.53,
-    "h": 36,
-    "radius": "100px",
-    "bg": "#00000000",
-    "bgRaw": "rgba(0, 0, 0, 0)",
-    "effectiveBg": "#FFFFFF",
-    "color": "#000000E6",
-    "border": "1px solid #0000001A",
-    "padding": "0px 16px 0px 16px",
-    "shadow": null,
-    "font": "13px/20px 500",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": "false"
-   },
-   {
-    "kind": "button[tab]",
-    "label": "This Month",
-    "ariaLabel": null,
-    "sel": "button.appearance-none.inline-flex[role=tab]",
-    "top": 369,
-    "x": 751.03,
-    "w": 102.64,
-    "h": 36,
-    "radius": "100px",
-    "bg": "#00000000",
-    "bgRaw": "rgba(0, 0, 0, 0)",
-    "effectiveBg": "#FFFFFF",
-    "color": "#000000E6",
-    "border": "1px solid #0000001A",
-    "padding": "0px 16px 0px 16px",
-    "shadow": null,
-    "font": "13px/20px 500",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": "false"
    },
    {
     "kind": "div[button]",
     "label": "Top 50% P&L",
     "ariaLabel": null,
     "sel": "div.inline-flex.items-center[role=button][data-testid=social-badge]",
-    "top": 435.77,
-    "x": 709.34,
+    "top": 266,
+    "x": 659.08,
     "w": 118.25,
     "h": 22,
     "radius": "9999px",
@@ -3097,10 +2185,102 @@
    },
    {
     "kind": "button",
+    "label": "Posts",
+    "ariaLabel": null,
+    "sel": "button.appearance-none.inline-flex",
+    "top": 415,
+    "x": 461.5,
+    "w": 72,
+    "h": 36,
+    "radius": "100px",
+    "bg": "#0000000D",
+    "bgRaw": "rgba(0, 0, 0, 0.05)",
+    "effectiveBg": "#F2F2F2",
+    "color": "#000000E6",
+    "border": "1px solid #000000E6",
+    "padding": "0px 16px 0px 16px",
+    "shadow": null,
+    "font": "13px/20px 500",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": "true",
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Replies",
+    "ariaLabel": null,
+    "sel": "button.appearance-none.inline-flex",
+    "top": 415,
+    "x": 541.5,
+    "w": 79.11,
+    "h": 36,
+    "radius": "100px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "1px solid #0000001A",
+    "padding": "0px 16px 0px 16px",
+    "shadow": null,
+    "font": "13px/20px 500",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": "false",
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Likes",
+    "ariaLabel": null,
+    "sel": "button.appearance-none.inline-flex",
+    "top": 415,
+    "x": 628.61,
+    "w": 72,
+    "h": 36,
+    "radius": "100px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "1px solid #0000001A",
+    "padding": "0px 16px 0px 16px",
+    "shadow": null,
+    "font": "13px/20px 500",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": "false",
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Top Categories",
+    "ariaLabel": null,
+    "sel": "button.appearance-none.inline-flex",
+    "top": 415,
+    "x": 708.61,
+    "w": 128.08,
+    "h": 36,
+    "radius": "100px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "1px solid #0000001A",
+    "padding": "0px 16px 0px 16px",
+    "shadow": null,
+    "font": "13px/20px 500",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": "false",
+    "selected": null
+   },
+   {
+    "kind": "button",
     "label": "Post actions",
     "ariaLabel": "Post actions",
-    "sel": "button#radix-_r_b_.appearance-none.inline-flex",
-    "top": 427.38,
+    "sel": "button#radix-_r_4p_.appearance-none.inline-flex",
+    "top": 474.38,
     "x": 1154.5,
     "w": 36,
     "h": 36,
@@ -3123,7 +2303,7 @@
     "label": "Like",
     "ariaLabel": "Like",
     "sel": "button.inline-flex.min-h-4.5",
-    "top": 645.77,
+    "top": 692.77,
     "x": 534.5,
     "w": 36,
     "h": 36,
@@ -3146,7 +2326,7 @@
     "label": "Reply",
     "ariaLabel": "Reply",
     "sel": "button.inline-flex.min-h-4.5",
-    "top": 645.77,
+    "top": 692.77,
     "x": 574.5,
     "w": 36,
     "h": 36,
@@ -3169,7 +2349,7 @@
     "label": "Bookmark",
     "ariaLabel": "Bookmark",
     "sel": "button.inline-flex.min-h-4.5",
-    "top": 645.77,
+    "top": 692.77,
     "x": 614.5,
     "w": 36,
     "h": 36,
@@ -3192,7 +2372,7 @@
     "label": "Share",
     "ariaLabel": "Share",
     "sel": "button.inline-flex.min-h-4.5",
-    "top": 645.77,
+    "top": 692.77,
     "x": 654.5,
     "w": 36,
     "h": 36,
@@ -3215,7 +2395,7 @@
     "label": "Buy",
     "ariaLabel": null,
     "sel": "button.appearance-none.inline-flex",
-    "top": 645.77,
+    "top": 692.77,
     "x": 782.5,
     "w": 72,
     "h": 36,
@@ -3237,8 +2417,8 @@
     "kind": "button",
     "label": "Post actions",
     "ariaLabel": "Post actions",
-    "sel": "button#radix-_r_h_.appearance-none.inline-flex",
-    "top": 705.14,
+    "sel": "button#radix-_r_50_.appearance-none.inline-flex",
+    "top": 752.14,
     "x": 1154.5,
     "w": 36,
     "h": 36,
@@ -3260,8 +2440,8 @@
     "kind": "button",
     "label": "Post actions",
     "ariaLabel": "Post actions",
-    "sel": "button#radix-_r_n_.appearance-none.inline-flex",
-    "top": 982.91,
+    "sel": "button#radix-_r_57_.appearance-none.inline-flex",
+    "top": 1029.91,
     "x": 1154.5,
     "w": 36,
     "h": 36,
@@ -3283,537 +2463,8 @@
     "kind": "button",
     "label": "Post actions",
     "ariaLabel": "Post actions",
-    "sel": "button#radix-_r_t_.appearance-none.inline-flex",
-    "top": 1260.67,
-    "x": 1154.5,
-    "w": 36,
-    "h": 36,
-    "radius": "100px",
-    "bg": "#00000000",
-    "bgRaw": "rgba(0, 0, 0, 0)",
-    "effectiveBg": "#FFFFFF",
-    "color": "#0000008C",
-    "border": "0px solid #00000000",
-    "padding": "0px 0px 0px 0px",
-    "shadow": null,
-    "font": "16px/24px 500",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": null
-   },
-   {
-    "kind": "button",
-    "label": "Post actions",
-    "ariaLabel": "Post actions",
-    "sel": "button#radix-_r_13_.appearance-none.inline-flex",
-    "top": 1538.44,
-    "x": 1154.5,
-    "w": 36,
-    "h": 36,
-    "radius": "100px",
-    "bg": "#00000000",
-    "bgRaw": "rgba(0, 0, 0, 0)",
-    "effectiveBg": "#FFFFFF",
-    "color": "#0000008C",
-    "border": "0px solid #00000000",
-    "padding": "0px 0px 0px 0px",
-    "shadow": null,
-    "font": "16px/24px 500",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": null
-   },
-   {
-    "kind": "button",
-    "label": "1",
-    "ariaLabel": "Reply",
-    "sel": "button.inline-flex.min-h-4.5",
-    "top": 1664.83,
-    "x": 574.5,
-    "w": 47.81,
-    "h": 36,
-    "radius": "0px",
-    "bg": "#00000000",
-    "bgRaw": "rgba(0, 0, 0, 0)",
-    "effectiveBg": "#FFFFFF",
-    "color": "#0000008C",
-    "border": "0px solid #0000008C",
-    "padding": "0px 8px 0px 8px",
-    "shadow": null,
-    "font": "16px/24px 400",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": null
-   },
-   {
-    "kind": "div[button]",
-    "label": "Top 50% P&L",
-    "ariaLabel": null,
-    "sel": "div.inline-flex.items-center[role=button][data-testid=social-badge]",
-    "top": 1720.59,
-    "x": 633.09,
-    "w": 110.23,
-    "h": 20,
-    "radius": "9999px",
-    "bg": "#00000000",
-    "bgRaw": "rgba(0, 0, 0, 0)",
-    "effectiveBg": "#FFFFFF",
-    "color": "#000000E6",
-    "border": "0px solid #000000E6",
-    "padding": "2px 2px 2px 2px",
-    "shadow": null,
-    "font": "16px/24px 400",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": null
-   },
-   {
-    "kind": "button",
-    "label": "Reply",
-    "ariaLabel": null,
-    "sel": "button.flex.min-h-4.5",
-    "top": 1772.83,
-    "x": 550.5,
-    "w": 64.08,
-    "h": 36,
-    "radius": "0px",
-    "bg": "#00000000",
-    "bgRaw": "rgba(0, 0, 0, 0)",
-    "effectiveBg": "#FFFFFF",
-    "color": "#0000008C",
-    "border": "0px solid #0000008C",
-    "padding": "0px 8px 0px 0px",
-    "shadow": null,
-    "font": "16px/24px 400",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": null
-   },
-   {
-    "kind": "button",
-    "label": "Like comment",
-    "ariaLabel": "Like comment",
-    "sel": "button.inline-flex.min-h-4.5",
-    "top": 1728.83,
-    "x": 1150.5,
-    "w": 36,
-    "h": 36,
-    "radius": "0px",
-    "bg": "#00000000",
-    "bgRaw": "rgba(0, 0, 0, 0)",
-    "effectiveBg": "#FFFFFF",
-    "color": "#0000008C",
-    "border": "0px solid #0000008C",
-    "padding": "0px 8px 0px 8px",
-    "shadow": null,
-    "font": "16px/24px 400",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": null
-   },
-   {
-    "kind": "button",
-    "label": "Post actions",
-    "ariaLabel": "Post actions",
-    "sel": "button#radix-_r_1a_.appearance-none.inline-flex",
-    "top": 1840.2,
-    "x": 1154.5,
-    "w": 36,
-    "h": 36,
-    "radius": "100px",
-    "bg": "#00000000",
-    "bgRaw": "rgba(0, 0, 0, 0)",
-    "effectiveBg": "#FFFFFF",
-    "color": "#0000008C",
-    "border": "0px solid #00000000",
-    "padding": "0px 0px 0px 0px",
-    "shadow": null,
-    "font": "16px/24px 500",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": null
-   },
-   {
-    "kind": "div[button]",
-    "label": "Top 40% Volume",
-    "ariaLabel": null,
-    "sel": "div.inline-flex.items-center[role=button][data-testid=social-badge]",
-    "top": 2034.36,
-    "x": 616.17,
-    "w": 141.06,
-    "h": 22,
-    "radius": "9999px",
-    "bg": "#00000000",
-    "bgRaw": "rgba(0, 0, 0, 0)",
-    "effectiveBg": "#FFFFFF",
-    "color": "#000000E6",
-    "border": "0px solid #000000E6",
-    "padding": "2px 2px 2px 2px",
-    "shadow": null,
-    "font": "16px/24px 400",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": null
-   },
-   {
-    "kind": "button",
-    "label": "Post actions",
-    "ariaLabel": "Post actions",
-    "sel": "button#radix-_r_1g_.appearance-none.inline-flex",
-    "top": 2025.97,
-    "x": 1154.5,
-    "w": 36,
-    "h": 36,
-    "radius": "100px",
-    "bg": "#00000000",
-    "bgRaw": "rgba(0, 0, 0, 0)",
-    "effectiveBg": "#FFFFFF",
-    "color": "#0000008C",
-    "border": "0px solid #00000000",
-    "padding": "0px 0px 0px 0px",
-    "shadow": null,
-    "font": "16px/24px 500",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": null
-   },
-   {
-    "kind": "button",
-    "label": "Post actions",
-    "ariaLabel": "Post actions",
-    "sel": "button#radix-_r_1m_.appearance-none.inline-flex",
-    "top": 2309.73,
-    "x": 1154.5,
-    "w": 36,
-    "h": 36,
-    "radius": "100px",
-    "bg": "#00000000",
-    "bgRaw": "rgba(0, 0, 0, 0)",
-    "effectiveBg": "#FFFFFF",
-    "color": "#0000008C",
-    "border": "0px solid #00000000",
-    "padding": "0px 0px 0px 0px",
-    "shadow": null,
-    "font": "16px/24px 500",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": null
-   },
-   {
-    "kind": "button",
-    "label": "Post actions",
-    "ariaLabel": "Post actions",
-    "sel": "button#radix-_r_1s_.appearance-none.inline-flex",
-    "top": 2495.13,
-    "x": 1154.5,
-    "w": 36,
-    "h": 36,
-    "radius": "100px",
-    "bg": "#00000000",
-    "bgRaw": "rgba(0, 0, 0, 0)",
-    "effectiveBg": "#FFFFFF",
-    "color": "#0000008C",
-    "border": "0px solid #00000000",
-    "padding": "0px 0px 0px 0px",
-    "shadow": null,
-    "font": "16px/24px 500",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": null
-   },
-   {
-    "kind": "button",
-    "label": "Post actions",
-    "ariaLabel": "Post actions",
-    "sel": "button#radix-_r_22_.appearance-none.inline-flex",
-    "top": 2870.5,
-    "x": 1154.5,
-    "w": 36,
-    "h": 36,
-    "radius": "100px",
-    "bg": "#00000000",
-    "bgRaw": "rgba(0, 0, 0, 0)",
-    "effectiveBg": "#FFFFFF",
-    "color": "#0000008C",
-    "border": "0px solid #00000000",
-    "padding": "0px 0px 0px 0px",
-    "shadow": null,
-    "font": "16px/24px 500",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": null
-   },
-   {
-    "kind": "button",
-    "label": "Post actions",
-    "ariaLabel": "Post actions",
-    "sel": "button#radix-_r_28_.appearance-none.inline-flex",
-    "top": 3205.89,
-    "x": 1154.5,
-    "w": 36,
-    "h": 36,
-    "radius": "100px",
-    "bg": "#00000000",
-    "bgRaw": "rgba(0, 0, 0, 0)",
-    "effectiveBg": "#FFFFFF",
-    "color": "#0000008C",
-    "border": "0px solid #00000000",
-    "padding": "0px 0px 0px 0px",
-    "shadow": null,
-    "font": "16px/24px 500",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": null
-   },
-   {
-    "kind": "button",
-    "label": "Post actions",
-    "ariaLabel": "Post actions",
-    "sel": "button#radix-_r_2e_.appearance-none.inline-flex",
-    "top": 3482.89,
-    "x": 1154.5,
-    "w": 36,
-    "h": 36,
-    "radius": "100px",
-    "bg": "#00000000",
-    "bgRaw": "rgba(0, 0, 0, 0)",
-    "effectiveBg": "#FFFFFF",
-    "color": "#0000008C",
-    "border": "0px solid #00000000",
-    "padding": "0px 0px 0px 0px",
-    "shadow": null,
-    "font": "16px/24px 500",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": null
-   },
-   {
-    "kind": "button",
-    "label": "Post actions",
-    "ariaLabel": "Post actions",
-    "sel": "button#radix-_r_2k_.appearance-none.inline-flex",
-    "top": 3668.27,
-    "x": 1154.5,
-    "w": 36,
-    "h": 36,
-    "radius": "100px",
-    "bg": "#00000000",
-    "bgRaw": "rgba(0, 0, 0, 0)",
-    "effectiveBg": "#FFFFFF",
-    "color": "#0000008C",
-    "border": "0px solid #00000000",
-    "padding": "0px 0px 0px 0px",
-    "shadow": null,
-    "font": "16px/24px 500",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": null
-   },
-   {
-    "kind": "button",
-    "label": "Post actions",
-    "ariaLabel": "Post actions",
-    "sel": "button#radix-_r_2q_.appearance-none.inline-flex",
-    "top": 4136.03,
-    "x": 1154.5,
-    "w": 36,
-    "h": 36,
-    "radius": "100px",
-    "bg": "#00000000",
-    "bgRaw": "rgba(0, 0, 0, 0)",
-    "effectiveBg": "#FFFFFF",
-    "color": "#0000008C",
-    "border": "0px solid #00000000",
-    "padding": "0px 0px 0px 0px",
-    "shadow": null,
-    "font": "16px/24px 500",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": null
-   },
-   {
-    "kind": "button",
-    "label": "Post actions",
-    "ariaLabel": "Post actions",
-    "sel": "button#radix-_r_30_.appearance-none.inline-flex",
-    "top": 4627.42,
-    "x": 1154.5,
-    "w": 36,
-    "h": 36,
-    "radius": "100px",
-    "bg": "#00000000",
-    "bgRaw": "rgba(0, 0, 0, 0)",
-    "effectiveBg": "#FFFFFF",
-    "color": "#0000008C",
-    "border": "0px solid #00000000",
-    "padding": "0px 0px 0px 0px",
-    "shadow": null,
-    "font": "16px/24px 500",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": null
-   },
-   {
-    "kind": "button",
-    "label": "Expand 1 markets",
-    "ariaLabel": "Expand 1 markets",
-    "sel": "button.flex.size-[36px]",
-    "top": 4931.42,
-    "x": 800.5,
-    "w": 36,
-    "h": 36,
-    "radius": "3.35544e+07px",
-    "bg": "#00000000",
-    "bgRaw": "rgba(0, 0, 0, 0)",
-    "effectiveBg": "#0AC285",
-    "color": "#FFFFFFE6",
-    "border": "1px solid #FFFFFF24",
-    "padding": "0px 0px 0px 0px",
-    "shadow": null,
-    "font": "16px/24px 400",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": null
-   },
-   {
-    "kind": "button",
-    "label": "Post actions",
-    "ariaLabel": "Post actions",
-    "sel": "button#radix-_r_36_.appearance-none.inline-flex",
-    "top": 5098.8,
-    "x": 1154.5,
-    "w": 36,
-    "h": 36,
-    "radius": "100px",
-    "bg": "#00000000",
-    "bgRaw": "rgba(0, 0, 0, 0)",
-    "effectiveBg": "#FFFFFF",
-    "color": "#0000008C",
-    "border": "0px solid #00000000",
-    "padding": "0px 0px 0px 0px",
-    "shadow": null,
-    "font": "16px/24px 500",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": null
-   },
-   {
-    "kind": "button",
-    "label": "Post actions",
-    "ariaLabel": "Post actions",
-    "sel": "button#radix-_r_3c_.appearance-none.inline-flex",
-    "top": 5284.19,
-    "x": 1154.5,
-    "w": 36,
-    "h": 36,
-    "radius": "100px",
-    "bg": "#00000000",
-    "bgRaw": "rgba(0, 0, 0, 0)",
-    "effectiveBg": "#FFFFFF",
-    "color": "#0000008C",
-    "border": "0px solid #00000000",
-    "padding": "0px 0px 0px 0px",
-    "shadow": null,
-    "font": "16px/24px 500",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": null
-   },
-   {
-    "kind": "button",
-    "label": "Post actions",
-    "ariaLabel": "Post actions",
-    "sel": "button#radix-_r_3i_.appearance-none.inline-flex",
-    "top": 5469.19,
-    "x": 1154.5,
-    "w": 36,
-    "h": 36,
-    "radius": "100px",
-    "bg": "#00000000",
-    "bgRaw": "rgba(0, 0, 0, 0)",
-    "effectiveBg": "#FFFFFF",
-    "color": "#0000008C",
-    "border": "0px solid #00000000",
-    "padding": "0px 0px 0px 0px",
-    "shadow": null,
-    "font": "16px/24px 500",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": null
-   },
-   {
-    "kind": "div[button]",
-    "label": "#98 P&L",
-    "ariaLabel": null,
-    "sel": "div.inline-flex.items-center[role=button][data-testid=social-badge]",
-    "top": 5662.95,
-    "x": 1001.95,
-    "w": 88.63,
-    "h": 22,
-    "radius": "9999px",
-    "bg": "#00000000",
-    "bgRaw": "rgba(0, 0, 0, 0)",
-    "effectiveBg": "#FFFFFF",
-    "color": "#000000E6",
-    "border": "0px solid #000000E6",
-    "padding": "2px 2px 2px 2px",
-    "shadow": null,
-    "font": "16px/24px 400",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": null
-   },
-   {
-    "kind": "button",
-    "label": "Post actions",
-    "ariaLabel": "Post actions",
-    "sel": "button#radix-_r_3o_.appearance-none.inline-flex",
-    "top": 5654.56,
-    "x": 1154.5,
-    "w": 36,
-    "h": 36,
-    "radius": "100px",
-    "bg": "#00000000",
-    "bgRaw": "rgba(0, 0, 0, 0)",
-    "effectiveBg": "#FFFFFF",
-    "color": "#0000008C",
-    "border": "0px solid #00000000",
-    "padding": "0px 0px 0px 0px",
-    "shadow": null,
-    "font": "16px/24px 500",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": null
-   },
-   {
-    "kind": "button",
-    "label": "Post actions",
-    "ariaLabel": "Post actions",
-    "sel": "button#radix-_r_3v_.appearance-none.inline-flex",
-    "top": 6262.33,
+    "sel": "button#radix-_r_5e_.appearance-none.inline-flex",
+    "top": 1307.67,
     "x": 1154.5,
     "w": 36,
     "h": 36,
@@ -3836,7 +2487,7 @@
     "label": "X (Twitter)",
     "ariaLabel": "X (Twitter)",
     "sel": "a.text-text-x20.hover:text-text-x10",
-    "top": 6632.72,
+    "top": 1655.06,
     "x": 125,
     "w": 20,
     "h": 24,
@@ -3859,7 +2510,7 @@
     "label": "Instagram",
     "ariaLabel": "Instagram",
     "sel": "a.text-text-x20.hover:text-text-x10",
-    "top": 6632.72,
+    "top": 1655.06,
     "x": 157,
     "w": 20,
     "h": 24,
@@ -3882,7 +2533,7 @@
     "label": "TikTok",
     "ariaLabel": "TikTok",
     "sel": "a.text-text-x20.hover:text-text-x10",
-    "top": 6632.72,
+    "top": 1655.06,
     "x": 189,
     "w": 20,
     "h": 24,
@@ -3905,7 +2556,7 @@
     "label": "Discord",
     "ariaLabel": "Discord",
     "sel": "a.text-text-x20.hover:text-text-x10",
-    "top": 6632.72,
+    "top": 1655.06,
     "x": 221,
     "w": 20,
     "h": 24,
@@ -3928,7 +2579,7 @@
     "label": "Reddit",
     "ariaLabel": "Reddit",
     "sel": "a.text-text-x20.hover:text-text-x10",
-    "top": 6632.72,
+    "top": 1655.06,
     "x": 253,
     "w": 20,
     "h": 24,
@@ -3951,7 +2602,7 @@
     "label": "LinkedIn",
     "ariaLabel": "LinkedIn",
     "sel": "a.text-text-x20.hover:text-text-x10",
-    "top": 6632.72,
+    "top": 1655.06,
     "x": 285,
     "w": 20,
     "h": 24,
@@ -3974,7 +2625,7 @@
     "label": "Kalshi Pro",
     "ariaLabel": null,
     "sel": "a.cursor-pointer.break-words",
-    "top": 6620.72,
+    "top": 1643.06,
     "x": 451,
     "w": 267.33,
     "h": 36,
@@ -3997,7 +2648,7 @@
     "label": "Perpetual Futures",
     "ariaLabel": null,
     "sel": "a.cursor-pointer.break-words",
-    "top": 6656.72,
+    "top": 1679.06,
     "x": 451,
     "w": 267.33,
     "h": 36,
@@ -4020,7 +2671,7 @@
     "label": "Markets",
     "ariaLabel": null,
     "sel": "a.cursor-pointer.break-words",
-    "top": 6692.72,
+    "top": 1715.06,
     "x": 451,
     "w": 267.33,
     "h": 36,
@@ -4043,7 +2694,7 @@
     "label": "Incentive program",
     "ariaLabel": null,
     "sel": "a.cursor-pointer.break-words",
-    "top": 6728.72,
+    "top": 1751.06,
     "x": 451,
     "w": 267.33,
     "h": 36,
@@ -4066,7 +2717,7 @@
     "label": "Institutions",
     "ariaLabel": null,
     "sel": "a.cursor-pointer.break-words",
-    "top": 6764.72,
+    "top": 1787.06,
     "x": 451,
     "w": 267.33,
     "h": 36,
@@ -4089,7 +2740,7 @@
     "label": "API & developers",
     "ariaLabel": null,
     "sel": "a.cursor-pointer.break-words",
-    "top": 6800.72,
+    "top": 1823.06,
     "x": 451,
     "w": 267.33,
     "h": 36,
@@ -4112,7 +2763,7 @@
     "label": "About",
     "ariaLabel": null,
     "sel": "a.cursor-pointer.break-words",
-    "top": 6620.72,
+    "top": 1643.06,
     "x": 742.33,
     "w": 267.33,
     "h": 36,
@@ -4135,7 +2786,7 @@
     "label": "Kalshi Research",
     "ariaLabel": null,
     "sel": "a.cursor-pointer.break-words",
-    "top": 6656.72,
+    "top": 1679.06,
     "x": 742.33,
     "w": 267.33,
     "h": 36,
@@ -4158,7 +2809,7 @@
     "label": "Blog",
     "ariaLabel": null,
     "sel": "a.cursor-pointer.break-words",
-    "top": 6692.72,
+    "top": 1715.06,
     "x": 742.33,
     "w": 267.33,
     "h": 36,
@@ -4181,7 +2832,7 @@
     "label": "Careers",
     "ariaLabel": null,
     "sel": "a.cursor-pointer.break-words",
-    "top": 6728.72,
+    "top": 1751.06,
     "x": 742.33,
     "w": 267.33,
     "h": 36,
@@ -4204,7 +2855,7 @@
     "label": "Policy Center",
     "ariaLabel": null,
     "sel": "a.cursor-pointer.break-words",
-    "top": 6764.72,
+    "top": 1787.06,
     "x": 742.33,
     "w": 267.33,
     "h": 36,
@@ -4227,7 +2878,7 @@
     "label": "Brand Kit",
     "ariaLabel": null,
     "sel": "a.cursor-pointer.break-words",
-    "top": 6800.72,
+    "top": 1823.06,
     "x": 742.33,
     "w": 267.33,
     "h": 36,
@@ -4250,7 +2901,7 @@
     "label": "Help Center",
     "ariaLabel": null,
     "sel": "a.cursor-pointer.break-words",
-    "top": 6620.72,
+    "top": 1643.06,
     "x": 1033.66,
     "w": 267.34,
     "h": 36,
@@ -4273,7 +2924,7 @@
     "label": "FAQ",
     "ariaLabel": null,
     "sel": "a.cursor-pointer.break-words",
-    "top": 6656.72,
+    "top": 1679.06,
     "x": 1033.66,
     "w": 267.34,
     "h": 36,
@@ -4296,7 +2947,7 @@
     "label": "Fee schedule",
     "ariaLabel": null,
     "sel": "a.cursor-pointer.break-words",
-    "top": 6692.72,
+    "top": 1715.06,
     "x": 1033.66,
     "w": 267.34,
     "h": 36,
@@ -4319,7 +2970,7 @@
     "label": "Trading hours",
     "ariaLabel": null,
     "sel": "a.cursor-pointer.break-words",
-    "top": 6728.72,
+    "top": 1751.06,
     "x": 1033.66,
     "w": 267.34,
     "h": 36,
@@ -4342,7 +2993,7 @@
     "label": "Regulatory",
     "ariaLabel": null,
     "sel": "a.cursor-pointer.break-words",
-    "top": 6764.72,
+    "top": 1787.06,
     "x": 1033.66,
     "w": 267.34,
     "h": 36,
@@ -4365,7 +3016,7 @@
     "label": "Trust Center",
     "ariaLabel": null,
     "sel": "a.cursor-pointer.break-words",
-    "top": 6800.72,
+    "top": 1823.06,
     "x": 1033.66,
     "w": 267.34,
     "h": 36,
@@ -4388,7 +3039,7 @@
     "label": "Privacy",
     "ariaLabel": null,
     "sel": "a.cursor-pointer.hover:underline",
-    "top": 6909.72,
+    "top": 1932.06,
     "x": 750.75,
     "w": 43.89,
     "h": 24,
@@ -4411,7 +3062,7 @@
     "label": "Data Terms of Service",
     "ariaLabel": null,
     "sel": "a.cursor-pointer.hover:underline",
-    "top": 6909.72,
+    "top": 1932.06,
     "x": 818.64,
     "w": 132.66,
     "h": 24,
@@ -4434,7 +3085,7 @@
     "label": "Trading Prohibitions",
     "ariaLabel": null,
     "sel": "a.cursor-pointer.hover:underline",
-    "top": 6909.72,
+    "top": 1932.06,
     "x": 975.3,
     "w": 121.91,
     "h": 24,
@@ -4457,7 +3108,7 @@
     "label": "FAQ for Finance Professionals",
     "ariaLabel": null,
     "sel": "a.cursor-pointer.hover:underline",
-    "top": 6909.72,
+    "top": 1932.06,
     "x": 1121.2,
     "w": 179.8,
     "h": 24,
@@ -4474,247 +3125,57 @@
     "disabled": false,
     "pressed": null,
     "selected": null
-   },
-   {
-    "kind": "button",
-    "label": "",
-    "ariaLabel": null,
-    "sel": "button.cursor-pointer.transition-all",
-    "top": 72,
-    "x": 496,
-    "w": 40,
-    "h": 40,
-    "radius": "8px",
-    "bg": "#00000000",
-    "bgRaw": "rgba(0, 0, 0, 0)",
-    "effectiveBg": "#FFFFFF",
-    "color": "#000000E6",
-    "border": "0px solid #000000E6",
-    "padding": "8px 8px 8px 8px",
-    "shadow": null,
-    "font": "16px/24px 400",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": null
-   },
-   {
-    "kind": "button",
-    "label": "Continue with Google",
-    "ariaLabel": null,
-    "sel": "button.inline-flex.justify-center",
-    "top": 188,
-    "x": 504,
-    "w": 432,
-    "h": 48,
-    "radius": "8px",
-    "bg": "#000000E6",
-    "bgRaw": "rgba(0, 0, 0, 0.9)",
-    "effectiveBg": "#191919",
-    "color": "#FFFFFF",
-    "border": "0px none #FFFFFF",
-    "padding": "12px 16px 12px 16px",
-    "shadow": null,
-    "font": "16px/24px 400",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": null
-   },
-   {
-    "kind": "button",
-    "label": "Continue with Apple",
-    "ariaLabel": null,
-    "sel": "button.inline-flex.justify-center",
-    "top": 252,
-    "x": 504,
-    "w": 432,
-    "h": 48,
-    "radius": "8px",
-    "bg": "#000000E6",
-    "bgRaw": "rgba(0, 0, 0, 0.9)",
-    "effectiveBg": "#191919",
-    "color": "#FFFFFF",
-    "border": "0px none #FFFFFF",
-    "padding": "12px 16px 12px 16px",
-    "shadow": null,
-    "font": "16px/24px 400",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": null
-   },
-   {
-    "kind": "input[email]",
-    "label": "Email",
-    "ariaLabel": null,
-    "sel": "input.text-base.font-medium",
-    "top": 330,
-    "x": 522,
-    "w": 396,
-    "h": 24,
-    "radius": "0px",
-    "bg": "#00000000",
-    "bgRaw": "rgba(0, 0, 0, 0)",
-    "effectiveBg": "#FFFFFF",
-    "color": "#000000E6",
-    "border": "0px solid #000000E6",
-    "padding": "0px 0px 0px 0px",
-    "shadow": null,
-    "font": "16px/24px 500",
-    "cursor": "text",
-    "disabled": false,
-    "pressed": null,
-    "selected": null
-   },
-   {
-    "kind": "input[password]",
-    "label": "Password",
-    "ariaLabel": null,
-    "sel": "input.text-base.font-medium",
-    "top": 382,
-    "x": 522,
-    "w": 372,
-    "h": 24,
-    "radius": "0px",
-    "bg": "#00000000",
-    "bgRaw": "rgba(0, 0, 0, 0)",
-    "effectiveBg": "#FFFFFF",
-    "color": "#000000E6",
-    "border": "0px solid #000000E6",
-    "padding": "0px 0px 0px 0px",
-    "shadow": null,
-    "font": "16px/24px 500",
-    "cursor": "text",
-    "disabled": false,
-    "pressed": null,
-    "selected": null
-   },
-   {
-    "kind": "button",
-    "label": "Sign up with Email",
-    "ariaLabel": null,
-    "sel": "button.inline-flex.justify-center",
-    "top": 418,
-    "x": 504,
-    "w": 432,
-    "h": 48,
-    "radius": "8px",
-    "bg": "#00000000",
-    "bgRaw": "rgba(0, 0, 0, 0)",
-    "effectiveBg": "#FFFFFF",
-    "color": "#000000E6",
-    "border": "1px solid #0000001A",
-    "padding": "12px 16px 12px 16px",
-    "shadow": null,
-    "font": "16px/24px 400",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": null
-   },
-   {
-    "kind": "button",
-    "label": "Sign in with a passkey",
-    "ariaLabel": null,
-    "sel": "button.inline-flex.justify-center",
-    "top": 482,
-    "x": 504,
-    "w": 432,
-    "h": 48,
-    "radius": "8px",
-    "bg": "#00000000",
-    "bgRaw": "rgba(0, 0, 0, 0)",
-    "effectiveBg": "#FFFFFF",
-    "color": "#0AC285",
-    "border": "1px solid #0000001A",
-    "padding": "12px 16px 12px 16px",
-    "shadow": null,
-    "font": "16px/24px 400",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": null
-   },
-   {
-    "kind": "button",
-    "label": "Forgot password?",
-    "ariaLabel": null,
-    "sel": "button.inline-flex.justify-center",
-    "top": 546,
-    "x": 504,
-    "w": 432,
-    "h": 48,
-    "radius": "8px",
-    "bg": "#00000000",
-    "bgRaw": "rgba(0, 0, 0, 0)",
-    "effectiveBg": "#FFFFFF",
-    "color": "#0AC285",
-    "border": "0px none #0AC285",
-    "padding": "12px 8px 12px 8px",
-    "shadow": null,
-    "font": "16px/24px 400",
-    "cursor": "pointer",
-    "disabled": false,
-    "pressed": null,
-    "selected": null
    }
   ],
-  "interactiveCount": 104,
+  "interactiveCount": 71,
   "touchTargets": {
    "byMinSide": {
-    "lt24": 24,
-    "24to32": 18,
-    "32to44": 159,
-    "gte44": 9
+    "lt24": 13,
+    "24to32": 16,
+    "32to44": 58,
+    "gte44": 3
    },
    "byHeight": {
     "16": 1,
-    "20": 1,
-    "22": 15,
-    "24": 12,
+    "22": 5,
+    "24": 10,
     "30": 12,
-    "36": 155,
+    "36": 54,
     "38": 1,
     "40": 4,
-    "44": 3,
-    "48": 5,
-    "70": 1
+    "44": 2,
+    "56": 1
    }
   },
   "spacing": {
    "padding": [
     {
      "v": "2px",
-     "n": 112
+     "n": 36
     },
     {
      "v": "4px",
-     "n": 25
+     "n": 24
     },
     {
      "v": "6px",
-     "n": 212
+     "n": 68
     },
     {
      "v": "8px",
-     "n": 227
+     "n": 65
     },
     {
      "v": "12px",
-     "n": 46
+     "n": 15
     },
     {
      "v": "16px",
-     "n": 163
-    },
-    {
-     "v": "18px",
-     "n": 1
+     "n": 58
     },
     {
      "v": "24px",
-     "n": 59
+     "n": 15
     },
     {
      "v": "32px",
@@ -4736,27 +3197,19 @@
     },
     {
      "v": "-8px",
-     "n": 42
+     "n": 8
     },
     {
      "v": "-6px",
-     "n": 176
+     "n": 32
     },
     {
      "v": "-4px",
-     "n": 22
-    },
-    {
-     "v": "-1px",
-     "n": 4
-    },
-    {
-     "v": "6px",
-     "n": 1
+     "n": 6
     },
     {
      "v": "8px",
-     "n": 7
+     "n": 1
     },
     {
      "v": "9.42188px",
@@ -4764,26 +3217,18 @@
     },
     {
      "v": "12px",
-     "n": 3
+     "n": 2
     },
     {
      "v": "16px",
-     "n": 12
+     "n": 6
     },
     {
      "v": "17.9844px",
      "n": 1
     },
     {
-     "v": "24px",
-     "n": 2
-    },
-    {
      "v": "32.8125px",
-     "n": 2
-    },
-    {
-     "v": "37.4844px",
      "n": 1
     },
     {
@@ -4795,28 +3240,8 @@
      "n": 2
     },
     {
-     "v": "63.3594px",
-     "n": 1
-    },
-    {
-     "v": "67.25px",
-     "n": 1
-    },
-    {
      "v": "72px",
      "n": 2
-    },
-    {
-     "v": "85.9688px",
-     "n": 1
-    },
-    {
-     "v": "94.9688px",
-     "n": 1
-    },
-    {
-     "v": "107.188px",
-     "n": 1
     },
     {
      "v": "108px",
@@ -4826,27 +3251,27 @@
    "gap": [
     {
      "v": "2px",
-     "n": 34
+     "n": 14
     },
     {
      "v": "4px",
-     "n": 272
+     "n": 58
     },
     {
      "v": "6px",
-     "n": 52
+     "n": 18
     },
     {
      "v": "8px",
-     "n": 75
+     "n": 50
     },
     {
      "v": "12px",
-     "n": 86
+     "n": 26
     },
     {
      "v": "16px",
-     "n": 39
+     "n": 20
     },
     {
      "v": "24px",
@@ -4861,68 +3286,57 @@
   "radius": [
    {
     "v": "6px",
-    "n": 24
+    "n": 5
    },
    {
     "v": "8px",
-    "n": 80
+    "n": 23
    },
    {
     "v": "14px",
-    "n": 11
+    "n": 4
    },
    {
     "v": "16px",
-    "n": 12
+    "n": 4
    },
    {
     "v": "24px",
     "n": 1
    },
    {
-    "v": "32px",
-    "n": 2
-   },
-   {
     "v": "100px",
-    "n": 56
+    "n": 22
    },
    {
     "v": "9999px",
-    "n": 30
+    "n": 10
    },
    {
     "v": "3.35544e+07px",
-    "n": 23
+    "n": 4
    }
   ],
   "borderWidth": [
    {
     "v": "1px",
-    "n": 57
+    "n": 17
    }
   ],
   "shadows": [
    {
     "v": "rgba(255, 255, 255, 0.15) 0px 0px 0px 1px inset",
-    "n": 11
+    "n": 4
    }
   ],
   "palette": {
    "backgrounds": [
     {
      "hex": "#FFFFFF",
-     "n": 8,
-     "area": 29752540,
+     "n": 5,
+     "area": 6726857,
      "raw": "rgb(255, 255, 255)",
      "sample": "div.trader-drawer-layout.flex"
-    },
-    {
-     "hex": "#00000066",
-     "n": 1,
-     "area": 1296000,
-     "raw": "rgba(0, 0, 0, 0.4)",
-     "sample": "div.z-modal.pointer-events-auto"
     },
     {
      "hex": "#00000008",
@@ -4932,13 +3346,6 @@
      "sample": "footer.bg-fill-x60.dark:bg-surface-x20"
     },
     {
-     "hex": "#F2A900",
-     "n": 3,
-     "area": 134400,
-     "raw": "rgb(242, 169, 0)",
-     "sample": "div.w-full.max-w-[320px][data-testid=perps-trade-slip-card]"
-    },
-    {
      "hex": "#00A600",
      "n": 2,
      "area": 89600,
@@ -4946,32 +3353,11 @@
      "sample": "div.w-full.max-w-[320px][data-testid=perps-trade-slip-card]"
     },
     {
-     "hex": "#265CFF",
+     "hex": "#F2A900",
      "n": 1,
-     "area": 51840,
-     "raw": "rgb(38, 92, 255)",
-     "sample": "div.w-full.max-w-[320px][data-testid=trade-slip-card]"
-    },
-    {
-     "hex": "#000000E6",
-     "n": 3,
-     "area": 48726,
-     "raw": "rgba(0, 0, 0, 0.9)",
-     "sample": "button.appearance-none.inline-flex"
-    },
-    {
-     "hex": "#AA00FF",
-     "n": 1,
-     "area": 46720,
-     "raw": "rgb(170, 0, 255)",
-     "sample": "div.w-full.max-w-[320px][data-testid=trade-slip-card]"
-    },
-    {
-     "hex": "#0AC285",
-     "n": 1,
-     "area": 46080,
-     "raw": "rgb(10, 194, 133)",
-     "sample": "div.w-full.max-w-[320px][data-testid=trade-slip-card]"
+     "area": 44800,
+     "raw": "rgb(242, 169, 0)",
+     "sample": "div.w-full.max-w-[320px][data-testid=perps-trade-slip-card]"
     },
     {
      "hex": "#C645C0",
@@ -4981,32 +3367,11 @@
      "sample": "div.w-full.max-w-[320px][data-testid=perps-trade-slip-card]"
     },
     {
-     "hex": "#C1BFAC",
-     "n": 1,
-     "area": 44800,
-     "raw": "rgb(193, 191, 172)",
-     "sample": "div.w-full.max-w-[320px][data-testid=perps-trade-slip-card]"
-    },
-    {
-     "hex": "#F7D21A",
-     "n": 1,
-     "area": 44800,
-     "raw": "rgb(247, 210, 26)",
-     "sample": "div.w-full.max-w-[320px][data-testid=perps-trade-slip-card]"
-    },
-    {
      "hex": "#00000012",
-     "n": 4,
-     "area": 17176,
+     "n": 2,
+     "area": 16376,
      "raw": "rgba(0, 0, 0, 0.07)",
      "sample": "input.font-kalshi-sans.rounded-x30"
-    },
-    {
-     "hex": "#0000000D",
-     "n": 2,
-     "area": 10044,
-     "raw": "rgba(0, 0, 0, 0.05)",
-     "sample": "button.flex.h-4.5"
     },
     {
      "hex": "#28CC95",
@@ -5016,67 +3381,61 @@
      "sample": "button.inline-flex.justify-center"
     },
     {
-     "hex": "#0000001A",
-     "n": 2,
-     "area": 32,
-     "raw": "rgba(0, 0, 0, 0.1)",
-     "sample": "span.h-px.w-2"
+     "hex": "#0000000D",
+     "n": 1,
+     "area": 2592,
+     "raw": "rgba(0, 0, 0, 0.05)",
+     "sample": "button.appearance-none.inline-flex"
     }
    ],
    "text": [
     {
      "hex": "#000000E6",
-     "n": 116,
+     "n": 60,
      "raw": "rgba(0, 0, 0, 0.9)",
      "sample": "MARKETS"
     },
     {
      "hex": "#0000008C",
-     "n": 44,
+     "n": 16,
      "raw": "rgba(0, 0, 0, 0.55)",
-     "sample": "Sep 25"
+     "sample": "Profit"
     },
     {
      "hex": "#FFFFFF8C",
-     "n": 34,
+     "n": 16,
      "raw": "rgba(255, 255, 255, 0.55)",
      "sample": "Leverage"
     },
     {
-     "hex": "#FFFFFFE6",
-     "n": 22,
-     "raw": "rgba(255, 255, 255, 0.9)",
-     "sample": "BTC Up"
+     "hex": "#FF454D",
+     "n": 6,
+     "raw": "rgb(255, 69, 77)",
+     "sample": "Unrealized loss"
     },
     {
      "hex": "#00DD94",
-     "n": 17,
+     "n": 6,
      "raw": "rgb(0, 221, 148)",
      "sample": "Unrealized profit"
     },
     {
      "hex": "#111827",
-     "n": 15,
+     "n": 5,
      "raw": "rgb(17, 24, 39)",
      "sample": "Top 50% P&L"
     },
     {
-     "hex": "#FF454D",
-     "n": 13,
-     "raw": "rgb(255, 69, 77)",
-     "sample": "Unrealized loss"
+     "hex": "#FFFFFFE6",
+     "n": 4,
+     "raw": "rgba(255, 255, 255, 0.9)",
+     "sample": "BTC Up"
     },
     {
      "hex": "#7839FF",
-     "n": 8,
+     "n": 4,
      "raw": "rgb(120, 57, 255)",
      "sample": "7.4x"
-    },
-    {
-     "hex": "#FFFFFF",
-     "n": 4,
-     "raw": "rgb(255, 255, 255)",
-     "sample": "Sign up"
     },
     {
      "hex": "#0000004D",
@@ -5086,7 +3445,7 @@
     },
     {
      "hex": "#0AC285",
-     "n": 3,
+     "n": 2,
      "raw": "rgb(10, 194, 133)",
      "sample": "Log in"
     },
@@ -5094,37 +3453,24 @@
      "hex": "#D91616",
      "n": 1,
      "raw": "rgb(217, 22, 22)",
-     "sample": "15"
+     "sample": "32"
     },
     {
-     "hex": "#FF6A00",
+     "hex": "#FFFFFF",
      "n": 1,
-     "raw": "rgb(255, 106, 0)",
-     "sample": "demo"
+     "raw": "rgb(255, 255, 255)",
+     "sample": "Sign up"
     }
    ]
   },
   "copy": {
-   "title": "Kalshi Social",
-   "h1": [
-    "Social"
-   ],
+   "title": "brief.grasshopper on Kalshi",
+   "h1": [],
    "h2h3": [
+    "brief.grasshopper",
     "BTC Up",
     "UNI Up",
-    "PEPE Up",
-    "2026 Midterms: Congress Balance of Power?",
-    "Who will be the Democratic nominee in 2028?",
-    "Dancing with the Stars Season 35 · Winner",
-    "Palladium Down",
-    "Preston vs Sakatsume",
-    "How high will BTC get in August?",
-    "What will 1+1 equal on Sep 18 at 15:00?",
-    "DET Lions vs BUF Bills",
-    "BTC price on Sep 11, 2026 at 5pm EDT?",
-    "Gold Up",
-    "When will traffic at the Strait of Hormuz return to normal?",
-    "Log in"
+    "PEPE Up"
    ],
    "ctaLabels": [
     "PRO",
@@ -5136,34 +3482,22 @@
     "Leaderboard",
     "Make a post",
     "Request market",
-    "GIF",
-    "Add a position",
-    "Now",
-    "Today",
-    "This Week",
-    "This Month",
     "Top 50% P&L",
+    "Posts",
+    "Replies",
+    "Likes",
+    "Top Categories",
     "Post actions",
     "Like",
     "Reply",
     "Bookmark",
     "Share",
-    "Buy",
-    "1",
-    "Like comment",
-    "Top 40% Volume",
-    "Expand 1 markets",
-    "#98 P&L",
-    "Continue with Google",
-    "Continue with Apple",
-    "Sign up with Email",
-    "Sign in with a passkey",
-    "Forgot password?"
+    "Buy"
    ],
    "navLabels": [
     "MARKETS",
     "PERPS",
-    "LIVE 15",
+    "LIVE 32",
     "PRO",
     "MORE",
     "Menu",
@@ -5187,6 +3521,8 @@
    ],
    "priceFormats": [
     "50%",
+    "$3",
+    "$0",
     "7.4x",
     "$50.00",
     "$84,657",
@@ -5202,47 +3538,18 @@
     "$0.02",
     "0.46%",
     "$0.03",
-    "0.58%",
-    "40%",
-    "16.9% chance",
-    "$555.93",
-    "$94.50",
-    "5.3x",
-    "$88.00",
-    "$1,337.2",
-    "$13.16",
-    "14.95%",
-    "8.6x",
-    "$19.99",
-    "$74,948",
-    "$27.22",
-    "136.1%",
-    "10x",
-    "$27.38",
-    "136.91%",
-    "$482.75",
-    "13.9x",
-    "$4,409.0",
-    "$0.77",
-    "1.55%",
-    "43.9% chance",
-    "$19.70",
-    "$9.65",
-    "$8.66"
+    "0.58%"
    ],
    "priceFormatCounts": {
     "cents": 0,
-    "percent": 24,
-    "chance": 2,
-    "dollarsVol": 0,
-    "multiplier": 8
+    "percent": 9,
+    "chance": 0,
+    "dollarsVol": 1,
+    "multiplier": 4
    },
    "feeAndDisclaimer": [
-    "2026 Midterms: Congress Balance of Power?",
     "Data Terms of Service",
-    "Trading on Kalshi involves risk and may not be appropriate for all. Members risk losing their cost to enter any transaction, including fees. You should carefully consider whether trading on Kalshi is appropriate for you in light of your investment experience and financial resources. Any trading decisions you make are solely your responsibility and at your own risk. Information is provided for convenience only on an \"AS IS\" basis. Past performance is not necessarily indicative of future results. Kalshi is subject to U.S. regulatory oversight by the CFTC.",
-    "By continuing, you acknowledge and agree to Kalshi’s legal terms, which we recommend reviewing",
-    "Try Kalshi markets with no risk using our free demo mode."
+    "Trading on Kalshi involves risk and may not be appropriate for all. Members risk losing their cost to enter any transaction, including fees. You should carefully consider whether trading on Kalshi is appropriate for you in light of your investment experience and financial resources. Any trading decisions you make are solely your responsibility and at your own risk. Information is provided for convenience only on an \"AS IS\" basis. Past performance is not necessarily indicative of future results. Kalshi is subject to U.S. regulatory oversight by the CFTC."
    ],
    "footerText": "PRODUCT Kalshi Pro Perpetual Futures Markets Incentive program Institutions API & developers COMPANY About Kalshi Research Blog Careers Policy Center Brand Kit HELP Help Center FAQ Fee schedule Trading hours Regulatory Trust Center © 2026 Kalshi Inc. · All rights reserved Privacy Data Terms of Service Trading Prohibitions FAQ for Finance Professionals Trading on Kalshi involves risk and may not be appropriate for all. Members risk losing their cost to enter any transaction, including fees. You should carefully consider whether trading on Kalshi is appropriate for you in light of your investment experience and financial resources. Any trading decisions you make are solely your responsibility and at your own risk. Information is provided for convenience only on an \"AS IS\" basis. Past performance is not necessarily indicative of future results. Kalshi is subject to U.S. regulatory oversight by the CFTC."
   },
@@ -5729,19 +4036,14 @@
  },
  "axe": {
   "version": "4.12.1",
-  "violationRules": 6,
+  "violationRules": 7,
   "nodesByImpact": {
    "critical": 7,
-   "serious": 7,
-   "moderate": 161,
+   "serious": 8,
+   "moderate": 43,
    "minor": 0
   },
   "rules": {
-   "aria-dialog-name": {
-    "impact": "serious",
-    "nodes": 1,
-    "help": "ARIA dialog and alertdialog nodes should have an accessible name"
-   },
    "button-name": {
     "impact": "critical",
     "nodes": 2,
@@ -5749,7 +4051,7 @@
    },
    "color-contrast": {
     "impact": "serious",
-    "nodes": 5,
+    "nodes": 7,
     "help": "Elements must meet minimum color contrast ratio thresholds"
    },
    "image-alt": {
@@ -5757,20 +4059,30 @@
     "nodes": 5,
     "help": "Images must have alternative text"
    },
+   "landmark-one-main": {
+    "impact": "moderate",
+    "nodes": 1,
+    "help": "Document should have one main landmark"
+   },
    "link-name": {
     "impact": "serious",
     "nodes": 1,
     "help": "Links must have discernible text"
    },
+   "page-has-heading-one": {
+    "impact": "moderate",
+    "nodes": 1,
+    "help": "Page should contain a level-one heading"
+   },
    "region": {
     "impact": "moderate",
-    "nodes": 161,
+    "nodes": 41,
     "help": "All page content should be contained by landmarks"
    }
   },
-  "passes": 44,
+  "passes": 37,
   "incomplete": 2
  },
- "finishedUtc": "2026-09-27T09:18:14.807Z",
- "finalUrl": "https://demo.kalshi.co/ideas/feed"
+ "finishedUtc": "2026-09-27T09:24:53.426Z",
+ "finalUrl": "https://demo.kalshi.co/ideas/profiles/brief.grasshopper"
 }

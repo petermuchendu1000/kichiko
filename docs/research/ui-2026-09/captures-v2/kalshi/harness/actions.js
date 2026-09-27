@@ -124,7 +124,44 @@ async function orderbookOpen(page, vp, log) {
   await clickAt(page, h); await sleep(2000); return { clicked: h };
 }
 
+
+async function moreMenu(page, vp, log) {
+  const h = await findButton(page, /^more$/i); if (!h) return { more: null };
+  await page.mouse.click(h.x, h.y); await sleep(1500);
+  const items = await page.evaluate(() => Array.from(document.querySelectorAll('[role=menu] a,[role=menu] [role=menuitem],[data-radix-popper-content-wrapper] a')).map(a => (a.innerText || '').replace(/\s+/g, ' ').trim()).filter(Boolean));
+  return { clicked: h, menuItems: items };
+}
+async function headerIconMobile(page, vp, log) {
+  // the unlabeled 16x36 icon button left of "Log in" in the logged-out mobile header
+  const b = await page.evaluate(() => { const bs = Array.from(document.querySelectorAll('button')).filter(b => { const r = b.getBoundingClientRect(); return r.top < 60 && r.width > 0 && !(b.innerText || '').trim(); }); if (!bs.length) return null; const r = bs[0].getBoundingClientRect(); return { x: r.left + 4, y: r.top + r.height / 2, w: r.width, h: r.height, html: bs[0].outerHTML.slice(0, 300) }; });
+  if (!b) return { icon: null };
+  await page.mouse.click(b.x, b.y); await sleep(2000);
+  return { clicked: b, url: page.url(), dialogs: await dialogText(page) };
+}
+async function searchMobile(page, vp, log) {
+  const r = await headerIconMobile(page, vp, log);
+  const inp = page.getByPlaceholder(/trade on anything|search/i).first();
+  if (!(await inp.isVisible().catch(() => false))) return { icon: r, search: null };
+  await inp.click(); await sleep(600); await page.keyboard.type('bitcoin', { delay: 120 }); await sleep(2500);
+  return { icon: r, typed: 'bitcoin', url: page.url() };
+}
+async function clickAuthorName(page, vp, log) {
+  const h = await page.evaluate(() => {
+    for (const el of document.querySelectorAll('main *, body *')) {
+      let own = ''; for (const n of el.childNodes) if (n.nodeType === 3) own += n.nodeValue; own = own.trim();
+      if (!/^[A-Za-z0-9._-]{3,30}$/.test(own) || /^(Now|Today|GIF|Post|Buy|Social|Kalshi|Demo|Trending)$/i.test(own)) continue;
+      const r = el.getBoundingClientRect(); if (r.top < 380 || r.width <= 0) continue;
+      return { name: own, x: r.left + r.width / 2, y: r.top + r.height / 2, top: r.top + scrollY, cursor: getComputedStyle(el).cursor, tag: el.tagName };
+    }
+    return null;
+  });
+  if (!h) return { author: null };
+  await clickAt(page, h); await sleep(4000);
+  return { clicked: h, url: page.url(), dialogs: await dialogText(page) };
+}
+
 module.exports = {
+  moreMenu, headerIconMobile, searchMobile, clickAuthorName,
   ticketYes: (p, v, l) => side(p, v, l, 'yes'), ticketNo: (p, v, l) => side(p, v, l, 'no'),
   ticketAmount: amount, ticketCta: cta, openMenu, searchQuery, clickFirstAuthor, orderbookOpen,
 };

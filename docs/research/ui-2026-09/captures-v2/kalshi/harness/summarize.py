@@ -5,6 +5,7 @@ D = os.path.join(os.path.dirname(__file__), '..', 'data')
 out = {}
 for f in sorted(glob.glob(os.path.join(D, 'P*_*.json'))):
     d = json.load(open(f)); tag = os.path.basename(f)[:-5]; m = d.get('measure') or {}
+    if 'target' not in d: continue  # auxiliary probe files (e.g. ticket geometry)
     if not m:
         out[tag] = {'error': d.get('error') or d.get('measureError'), 'http': d.get('httpStatus'), 'url': d['target']['url']}; continue
     ty = m['typography']

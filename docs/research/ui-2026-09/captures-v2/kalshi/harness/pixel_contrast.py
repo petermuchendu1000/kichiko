@@ -23,7 +23,7 @@ for f in sorted(glob.glob(os.path.join(D, 'P*_*.json'))):
     im = Image.open(png).convert('RGB'); dpr = m['viewport']['dpr']; vh = m['viewport']['h']
     rows = []
     for i in m['interactive']:
-        if not i['label'] or i['top'] < 0 or i['top'] + i['h'] > vh or i['w'] < 12 or i['h'] < 10: continue
+        if not i['label'] or i['top'] < 0 or i['top'] + i['h'] > vh or i['x'] < 0 or i['x'] + i['w'] > m['viewport']['w'] or i['w'] < 12 or i['h'] < 10: continue
         box = tuple(int(v * dpr) for v in (i['x'] + 1, i['top'] + 1, i['x'] + i['w'] - 1, i['top'] + i['h'] - 1))
         if box[2] <= box[0] or box[3] <= box[1]: continue
         px = list(im.crop(box).getdata()); cnt = Counter(px); bg = cnt.most_common(1)[0][0]
