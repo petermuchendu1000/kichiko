@@ -1,5 +1,9 @@
 # UI program 2026-09: work plan
 
+> **Superseded 2026-09-27 by [41-WORK-PLAN-V2](41-WORK-PLAN-V2.md)** (and the element rulings in
+> [40-ELEMENT-MATRIX](40-ELEMENT-MATRIX.md)). Kept as history; do not act on it.
+
+
 Written 2026-09-27. Evidence: [`21-CORPUS-CATALOGUE`](21-CORPUS-CATALOGUE.md),
 [`22-UI-AUDIT`](22-UI-AUDIT.md), [`23-COMPETITOR-CAPTURE`](23-COMPETITOR-CAPTURE.md),
 [`24-PSYCHOLOGY`](24-PSYCHOLOGY.md). Every number below is traceable to one of those
