@@ -105,6 +105,35 @@ export function SearchView() {
   const [recent, setRecent] = useState<string[]>([])
 
   const debouncedQuery = useDebounce(query, 280)
+
+
+  // The query lives in the URL (?q=), so a search can be linked, shared and
+
+  // restored with Back. Read once on mount; write the debounced value back.
+
+  useEffect(() => {
+
+    const q = new URLSearchParams(window.location.search).get('q')
+
+    if (q) setQuery(q)
+
+  }, [])
+
+  useEffect(() => {
+
+    const url = new URL(window.location.href)
+
+    const q = debouncedQuery.trim()
+
+    if ((url.searchParams.get('q') ?? '') === q) return
+
+    if (q) url.searchParams.set('q', q)
+
+    else url.searchParams.delete('q')
+
+    window.history.replaceState(window.history.state, '', url)
+
+  }, [debouncedQuery])
   const hasQuery = debouncedQuery.trim().length > 0
 
   // Autofocus + `/` global shortcut to focus, Esc to clear.

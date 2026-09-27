@@ -163,3 +163,18 @@ describe('POST /api/orders: the limit and the expiry are the user\'s', () => {
     }
   })
 })
+
+// Gambling Control Act 2025 s.71(1): no online bet under KSh 20.
+describe('POST /api/orders: statutory minimum stake', () => {
+  const MARKET_BUY = { ...ORDER, order_type: 'market', price_cents: undefined, size: undefined }
+  it('refuses a KES market buy under KSh 20 without calling the engine', async () => {
+    const res = await ordersPOST(req('https://x/api/orders', { ...MARKET_BUY, amount_local: 19, currency: 'KES' }))
+    expect(res.status).toBe(400)
+    expect((await res.json()).code).toBe('below_minimum_stake')
+    expect(adminRpc.mock.calls.find((c) => c[0] === 'place_order_for')).toBeUndefined()
+  })
+  it('accepts exactly KSh 20', async () => {
+    const res = await ordersPOST(req('https://x/api/orders', { ...MARKET_BUY, amount_local: 20, currency: 'KES' }))
+    expect(res.status).toBe(200)
+  })
+})

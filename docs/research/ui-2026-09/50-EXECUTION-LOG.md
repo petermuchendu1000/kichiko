@@ -55,3 +55,27 @@ Production changes are listed first, with how to reverse them.
 - `lib/leaderboard.ts` and its tests kept for the accuracy board.
 - **Gap:** the `get_leaderboard` RPC is still executable by `anon` directly through PostgREST.
   Closing it needs `REVOKE EXECUTE … FROM anon, authenticated` (proposed migration, not applied).
+
+### 0.6 — Charts use complete, newest-anchored history (`556d8e4`)
+See the commit. Verified on a production build against live data: the 2027-presidency chart's
+x-axis now runs to **Aug** (its data ends 13 Aug); before, it stopped in June. The binary
+market's chart ends in **Jul**, matching its latest row (24 Jul). Regression test fails on the old
+code.
+
+### Ticket, stake, notation, theme, search
+- **Minimum stake KSh 20** (Act s.71(1), verified): `lib/stake.ts`; inline notice in all three
+  ticket layouts ("The minimum stake is KSh 20."), submit disabled below it, and the order API
+  returns 400 `below_minimum_stake` for a KES market buy under 20. Binding enforcement for every
+  currency and order type needs the database check (proposed migration).
+- **Quick amounts** KSh 20 / 50 / 100 / 200, **set** the stake (were additive USD conversions),
+  44 px tall. **No pre-filled stake** on the desktop rail or after "Place another trade".
+- **KSh spelling** everywhere via `formatCurrency` (Intl en-KE rendered "Ksh").
+- **Whole-number probabilities** via `formatProbability` (ticket pills, receipt, best-ask line,
+  candidate buttons).
+- ¢ removed from the last rendered strings: error P0106 and the limit input's accessible name.
+- **Theme follows the phone's setting** (`defaultTheme="system"`).
+- **Search reads and writes `?q=`.**
+- Browser-verified at 390×844 on a production build with live data: empty stake on open; chips
+  `KSh 20/50/100/200` at 44 px; tapping KSh 50 twice gives 50; "KSh 15" shows the minimum notice;
+  "To win KSh 636.56"; light OS → light theme, dark OS → dark; `/search?q=ruto` restores the query
+  and results and typing updates the URL; `/leaderboard` paused, `/api/leaderboard` 410.

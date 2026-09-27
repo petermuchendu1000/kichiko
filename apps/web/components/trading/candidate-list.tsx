@@ -19,6 +19,7 @@ import { EntityAvatar } from '@/components/ui/entity-avatar'
 import { OrderBookDrawer } from '@/components/trading/order-book-drawer'
 import { normalizeOutcomes, type Outcome } from '@/lib/markets/outcomes'
 import { formatVolume } from '@/lib/utils'
+import { formatProbability } from '@/lib/format'
 import type { Market, MarketOption } from '@/types'
 import {
   IconSort,
@@ -181,7 +182,7 @@ export function CandidateList({
 
   // PM parity: cents carry ONE decimal (e.g. 19.9¢ / 80.2¢) and a Yes/No pair
   // reads as complements summing to 100.0¢ under our pick-one LMSR model.
-  const cents = (p: number) => `${(p * 100).toFixed(1)}%`
+  const cents = (p: number) => formatProbability(p)
 
   return (
     <div className="overflow-hidden">

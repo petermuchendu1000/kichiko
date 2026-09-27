@@ -6,7 +6,7 @@ screenshots from this capture. Grade **V** (verified against code) unless noted.
 
 | # | Finding | Where | Rendered? |
 |---|---|---|---|
-| N1 | `formatCents()` renders prices as `52¢` | `lib/clob.ts:35`, used by `components/trading/pm-ticket.tsx` (limit row, average price) and `components/trading/order-book-table.tsx` | Yes, in limit-order and order-book views |
+| N1 | **CORRECTED 2026-09-27: wrong.** `formatCents()` already returns `%`; only its comments mention ¢. Original claim: `formatCents()` renders prices as `52¢` | `lib/clob.ts:35`, used by `components/trading/pm-ticket.tsx` (limit row, average price) and `components/trading/order-book-table.tsx` | Yes, in limit-order and order-book views |
 | N2 | User-facing error "Limit price must be between 0.1¢ and 99.9¢" | `lib/clob.ts:184` (`P0106`) | Yes, on an out-of-band limit price |
 | N3 | Accessible name "Limit price in cents" | `components/trading/pm-ticket.tsx:243` | Yes, to screen readers |
 | N4 | Three independent `formatPercent` implementations | `lib/clob.ts:41`, `lib/utils.ts:57`, `lib/format.ts:54` | Risk of the same probability rendering differently on two surfaces |
@@ -26,3 +26,5 @@ A `$1` hit in the home page's served HTML was checked and is React's RSC seriali
 | N10 | Average price rendered as `52¢` via the HTML entity `&#162;` — missed by the first grep, which searched for the `¢` glyph | `components/trading/position-summary.tsx:132` | Fixed: whole-number `%` |
 | N11 | "Invested" label (investment framing, banned in promotional copy) | `position-summary.tsx:136`, `portfolio/holdings-table.tsx:154` | Fixed: "You paid" |
 | N12 | `formatUSD()` is misnamed: it converts to and renders **KSh** (`lib/utils.ts:29`). Not a notation violation | many | Rename in the Phase 0.7 formatter clean-up |
+| N13 | `formatCurrency()` spelled KES as **Ksh**: `Intl.NumberFormat('en-KE', {style:'currency', currency:'KES'})` → `Ksh 636.56` | `lib/currency.ts` | Fixed: our own `CURRENCY_META` symbols (KSh, USh, TSh, FRw) + Intl number only; unit test asserts `KSh 636.56` |
+| N14 | One-decimal probabilities: ticket pills and "78.6% · 4.9 shares", market buttons "Buy Yes 78.0%" (`candidate-list.tsx:184`) | ticket, candidate list | Fixed: `formatProbability()` in `lib/format.ts` (whole %, `<1%` / `>99%` edges) |

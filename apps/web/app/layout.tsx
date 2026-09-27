@@ -98,9 +98,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <a href="#main-content" className="skip-link">
           Skip to main content
         </a>
-        {/* ThemeProvider (next-themes) sets the `dark` class on <html> before
-            paint — defaultTheme="dark" keeps the institutional look for new
-            visitors while letting the navbar toggle switch to light. */}
+        {/* ThemeProvider (next-themes) sets the theme class on <html> before
+            paint. It follows the phone's light/dark setting until the visitor
+            picks one with the navbar toggle. */}
         <ThemeProvider>
           <NextIntlClientProvider locale={locale} messages={messages}>
             <Providers>

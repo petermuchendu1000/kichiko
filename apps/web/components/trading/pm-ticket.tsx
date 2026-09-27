@@ -42,6 +42,8 @@ import { openAuthDialog } from '@/components/auth/auth-dialog'
 import { planFunding } from '@/lib/funding'
 import { normalizeOutcomes, isMultiOutcome, type Outcome } from '@/lib/markets/outcomes'
 import { formatCurrency, usdToLocal, localToUsd, type RatesMap } from '@/lib/currency'
+import { quickAmounts, stakeError } from '@/lib/stake'
+import { formatProbability } from '@/lib/format'
 import { useClobBook } from '@/components/trading/order-book-table'
 import {
   clampPriceCents,
@@ -240,7 +242,7 @@ function PmLimitBody({
           <div className="flex items-baseline">
             <input
               inputMode="decimal"
-              aria-label="Limit price in cents"
+              aria-label="Limit price in percent"
               value={limitCents}
               onChange={(e) => { setLimitCents(e.target.value.replace(/[^0-9.]/g, '').slice(0, 4)); onError() }}
               placeholder="0.0"
@@ -511,6 +513,8 @@ export function PmTicket({
   const amountNum = parseFloat(amount) || 0
 
   const overBalance = balance > 0 && amountNum > balance
+  // Legal minimum stake (Act s.71(1): KSh 20), shown inline as soon as it applies.
+  const belowMin = stakeError(amountNum, preferredCurrency, currencyInfo?.symbol ?? 'KSh', rates)
 
   // ---- CLOB estimates (from the live top-of-book) ---------------------------
   const clobBestBid = clobBook?.best_bid ?? null // cents
@@ -542,7 +546,7 @@ export function PmTicket({
   const clobBuyOk = clob && isOpen && action === 'buy' && !!selectedOutcome && (
     orderType === 'limit'
       ? buyLimitSharesNum > 0 && !buyLimitPriceInvalid && !buyLimitOverBalance
-      : amountNum > 0 && !overBalance && !!clobBestAsk
+      : amountNum > 0 && !belowMin && !overBalance && !!clobBestAsk
   )
   const clobSellOk =
     clob &&
@@ -555,18 +559,11 @@ export function PmTicket({
 
   const canSubmit = (action === 'buy' ? clobBuyOk : clobSellOk) && !loading
 
-  // Additive quick-add chips (+$1/+$5/+$20/+$100 equivalents in local currency).
-  const chips = useMemo(() => {
-    return [1, 5, 10, 100].map((usd) => Math.max(1, Math.round(usdToLocal(usd, preferredCurrency, rates))))
-  }, [preferredCurrency, rates])
-
-  // Seed a small default stake so the payout preview shows on first render.
-  // The PM mobile sheet (variant=sheet) starts EMPTY — showing the muted "$0"
-  // placeholder — so we skip the seed there to match Polymarket 1:1.
-  useEffect(() => {
-    if (isSheet) return
-    if (!touched && !amount && isOpen && chips.length > 0) setAmount(String(chips[0]))
-  }, [touched, amount, isOpen, chips, isSheet])
+  // Set-to quick amounts from the legal minimum up (lib/stake.ts). They replace
+  // additive US-dollar presets converted to shillings (+KSh 130/648/1.3k/13.0k),
+  // and the stake is never pre-filled: an unasked-for default anchors the bet
+  // (work plan v2, DF-2).
+  const chips = useMemo(() => quickAmounts(preferredCurrency, rates), [preferredCurrency, rates])
 
   // ---- Auth round-trip continuity (shared snapshot with the pro panel) -------
   const restoredRef = useRef(false)
@@ -766,10 +763,8 @@ export function PmTicket({
 
   // PM ticket prices render to one decimal (e.g. 19.8¢, 80.3¢); trailing .0 is
   // dropped so round prices read cleanly (20¢). Matches live PM order ticket.
-  const cents = (p: number) => {
-    const s = (p * 100).toFixed(1)
-    return `${s.endsWith('.0') ? s.slice(0, -2) : s}%`
-  }
+  // Whole-number probability with honest edges (work plan v2, PR-1).
+  const cents = (p: number) => formatProbability(p)
 
   const goToAuth = (mode: 'login' | 'register') => {
     const bet = {
@@ -849,6 +844,7 @@ export function PmTicket({
         })
       } else {
         if (amountNum <= 0) return setError('Enter an amount to continue.')
+        if (belowMin) return setError(belowMin)
         if (overBalance) {
           // Dead-end fix: don't just report "insufficient balance" — guide the
           // user straight to funding by opening the deposit sheet prefilled with
@@ -1019,7 +1015,7 @@ export function PmTicket({
           type="button"
           onClick={() => {
             setReceipt(null)
-            setAmount(String(chips[0] ?? ''))
+            setAmount('')
             setTouched(false)
           }}
           className="btn btn-primary w-full"
@@ -1067,8 +1063,7 @@ export function PmTicket({
   if (isSheet) {
     const showToggle = !isMulti || indepMulti
     const sym = currencyInfo?.symbol ?? 'KSh' // KES-pegged app; never fall back to $
-    const chipLabel = (c: number) =>
-      `+${sym}${c >= 1000 ? `${(c / 1000).toFixed(c % 1000 ? 1 : 0)}k` : c}`
+    const chipLabel = (c: number) => `${sym} ${c.toLocaleString('en-KE')}`
     return (
       <div className="flex flex-col gap-5 px-6 pb-2 pt-1 font-sans">
         {/* 1. Header: Buy pill + order-type (sliders) */}
@@ -1244,7 +1239,7 @@ export function PmTicket({
                 </span>
               </div>
               <span className="text-xs font-medium tabular-nums text-text-muted">
-                {clobBestAsk ? `${formatCents(clobBestAsk)} · ${clobBuyEstShares.toFixed(1)} shares` : 'No resting liquidity'}
+                {clobBestAsk ? `${formatProbability(clobBestAsk / 100)} · ${clobBuyEstShares.toFixed(1)} shares` : 'No resting liquidity'}
               </span>
             </>
           )}
@@ -1256,8 +1251,9 @@ export function PmTicket({
             <button
               key={c}
               type="button"
-              onClick={() => { setTouched(true); setAmount(String((parseFloat(amount) || 0) + c)); setError('') }}
-              className="rounded-[9px] border border-hairline px-2.5 py-[7px] text-xs font-semibold tracking-[-0.1px] text-text-muted transition-colors hover:bg-[color:var(--surface-2)] active:bg-[color:var(--surface-2)]"
+              onClick={() => { setTouched(true); setAmount(String(c)); setError('') }}
+              aria-pressed={amountNum === c}
+              className="min-h-11 min-w-11 rounded-[9px] border border-hairline px-3 text-sm font-semibold tracking-[-0.1px] text-text-muted transition-colors hover:bg-[color:var(--surface-2)] active:bg-[color:var(--surface-2)] aria-pressed:border-[color:var(--pip-500)] aria-pressed:text-text-primary"
             >
               {chipLabel(c)}
             </button>
@@ -1265,6 +1261,8 @@ export function PmTicket({
         </div>
         </>
         )}
+
+        {!error && belowMin && <p role="status" className="-mt-2 text-center text-sm font-medium text-no">{belowMin}</p>}
 
         {error && <TradeError error={error} action={errorAction} retryAfter={retryAfter} onRetry={handleTrade} className="-mt-2 text-center" />}
 
@@ -1606,6 +1604,8 @@ export function PmTicket({
                     </div>
                   )}
 
+                  {!error && belowMin && <p role="status" className="mt-3 text-sm font-medium text-no">{belowMin}</p>}
+
                   {error && <TradeError error={error} action={errorAction} retryAfter={retryAfter} onRetry={handleTrade} className="mt-3" />}
 
                   <button
@@ -1798,12 +1798,13 @@ export function PmTicket({
                   type="button"
                   onClick={() => {
                     setTouched(true)
-                    setAmount(String((parseFloat(amount) || 0) + c))
+                    setAmount(String(c))
                     setError('')
                   }}
-                  className="rounded-md border border-hairline px-3 py-1.5 text-xs font-semibold tracking-[-0.1px] text-text-muted transition-colors hover:bg-surface-2"
+                  aria-pressed={amountNum === c}
+                  className="min-h-11 min-w-11 rounded-md border border-hairline px-3 text-sm font-semibold tracking-[-0.1px] text-text-muted transition-colors hover:bg-surface-2 aria-pressed:border-[color:var(--pip-500)] aria-pressed:text-text-primary"
                 >
-                  +{c >= 1000 ? `${(c / 1000).toFixed(c % 1000 ? 1 : 0)}k` : c}
+                  {c.toLocaleString('en-KE')}
                 </button>
               ))}
             </div>
@@ -1816,7 +1817,7 @@ export function PmTicket({
                   <span>Est. price</span>
                   <span className="tabular-nums">
                     {clobBestAsk
-                      ? `${formatCents(clobBestAsk)} · ${clobBuyEstShares.toFixed(1)} shares`
+                      ? `${formatProbability(clobBestAsk / 100)} · ${clobBuyEstShares.toFixed(1)} shares`
                       : 'No resting liquidity'}
                   </span>
                 </div>
@@ -1834,6 +1835,8 @@ export function PmTicket({
                 </div>
               </div>
             )}
+
+            {!error && belowMin && <p role="status" className="mt-3 text-sm font-medium text-no">{belowMin}</p>}
 
             {error && <TradeError error={error} action={errorAction} retryAfter={retryAfter} onRetry={handleTrade} className="mt-3" />}
 

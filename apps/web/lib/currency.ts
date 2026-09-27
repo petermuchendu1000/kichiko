@@ -144,6 +144,21 @@ export function formatCurrency(
   opts?: { compact?: boolean },
 ): string {
   const meta = CURRENCY_META[currency] ?? CURRENCY_META.USD
+  // Our own symbol + a plain number for every local currency: Intl's en-KE
+  // currency style renders KES as "Ksh", which put "KSh 500" and "Ksh 636.56"
+  // on the same ticket. KSh / USh / TSh / FRw come from CURRENCY_META.
+  if (currency !== 'USD') {
+    try {
+      const n = new Intl.NumberFormat(meta.locale, {
+        minimumFractionDigits: meta.decimals,
+        maximumFractionDigits: meta.decimals,
+        notation: opts?.compact ? 'compact' : 'standard',
+      }).format(amount)
+      return amount < 0 ? `-${meta.symbol} ${n.replace(/^-/, '')}` : `${meta.symbol} ${n}`
+    } catch {
+      return `${meta.symbol} ${amount.toLocaleString(undefined, { maximumFractionDigits: meta.decimals })}`
+    }
+  }
   try {
     return new Intl.NumberFormat(meta.locale, {
       style: 'currency',
