@@ -1,0 +1,13 @@
+URL: https://help.kalshi.com/en/articles/13823767-how-does-kalshi-make-money
+HTTP: 200
+Fetched: 2026-09-27T08:37:38Z
+Sitemap lastmod: 2026-03-17T20:50:46Z
+Title: 
+
+Kalshi operates as a neutral exchange platform, emphasizing its impartiality in event outcomes. Unlike traditional platforms or entities with vested interests, Kalshi does not possess any financial stake in whether the event outcomes swing in one direction or another. This neutrality ensures that all transactions are conducted with transparency and fairness, maintaining the integrity of the exchange.
+
+The primary objective of Kalshi is to facilitate accurate and efficient markets in compliance with established rules and guidelines. The exchange's revenue model revolves around transaction fees rather than positions on specific outcomes, reinforcing their commitment to unbiased operations. By aligning its interests with providing a fair platform, Kalshi ensures that its users participate in a reliable and trustworthy marketplace.
+
+Kalshi makes money by charging a transaction fee on the expected earnings of the contract. The complete Fee Schedule and the math behind the fees are posted at the bottom of our website - or you can find the link here .
+
+Kalshi prides itself on offering very low and competitive transaction fees, ensuring our users get the maximum value from each contract. Our nominal fees are recognized as lower than industry standards, providing cost-effective access while ensuring exceptional security and reliability.

@@ -1,0 +1,109 @@
+URL: https://help.kalshi.com/en/articles/13823791-transfers-faq
+HTTP: 200
+Fetched: 2026-09-27T08:38:20Z
+Sitemap lastmod: 2026-08-24T21:49:47Z
+Title: 
+
+How do I transfer funds to and from Kalshi?
+
+Kalshi offers the following methods for transferring funds:
+
+- Debit card (including Apple Pay and Google Pay)
+
+- Bank transfer (ACH)
+
+- PayPal
+
+- Venmo
+
+- Cash App (deposits only)
+
+- Crypto
+
+- Wire transfer
+
+Note for international users: Deposits can be made via debit card, crypto, and wire transfer. Withdrawals can be made via debit card and crypto. Bank transfers, PayPal, Venmo, and Cash App are not available for international accounts.
+
+Why did my deposit fail?
+
+The minimum deposit amount on Kalshi is $10 (except wire transfers, which have a $1,000 minimum). If you're seeing a minimum amount error, try depositing $10 or more.
+
+Deposit limits: Your deposit limits are shown on the Transfers page. If you need to make a larger deposit, crypto and wire transfers are generally good options.
+
+Debit
+
+- There was a mistype when manually entering your card information. Please double-check that all inputted information matches what is on your debit card.
+
+- Your billing address does not match the address on your Kalshi account. Make sure the billing address associated with your card matches the address you used during Kalshi verification.
+
+- There is an issue with 3D Secure (3DS) authentication. Some easy fixes include:
+
+- Update your app to the latest version
+
+- Check your connection - use stable Wi-Fi and disable any active VPN
+
+- Try Apple Pay or Google Pay instead of direct card entry
+
+- Restart the app or switch between app and website
+
+- Use a different card or payment method if issues continue
+
+- Your deposit is being blocked by your card issuer. Reach out to your bank to ensure there are no issues on their end.
+
+Bank
+
+- "Insufficient funds" errors may occur if you have pending deposits that haven't fully settled in your bank account. Try depositing a smaller amount and check for pending transactions.
+
+- Only bank accounts in your name can be used for depositing.
+
+- Bank transfers are processed through our ACH partners. Most users connect through Plaid. If you're having trouble with your bank connection, visit Plaid Support for troubleshooting help and live chat. If your transfer was done through Aeropay, you can also reach Aeropay Support .
+
+PayPal / Venmo
+
+- Your PayPal or Venmo account must be in the same name as your Kalshi account.
+
+- PayPal and Venmo are available for US users only and may not be available in all states. If you don't see these options, try a different payment method.
+
+Cash App
+
+- Check your Cash App Activity feed for the specific reason. Common causes include not enough available Cash App balance, a Cash App sending limit, or a verification step Cash App needs you to complete.
+
+- Cash App is available for US users only.
+
+- For further help, contact Cash App support through the in-app chat.
+
+Crypto
+
+- You are sending an asset that is not supported. To view a list of our supported assets, see Crypto Deposits .
+
+- For US users, crypto transfers are processed through Zero Hash. More information can be found at Zero Hash Support .
+
+Wire
+
+- Wires that do not include your unique Kalshi memo code can be delayed or returned. See Wire Deposits for details.
+
+- Wires from a bank account that does not match your Kalshi account name will be delayed or returned.
+
+Why is my connected bank account showing numbers I don't recognize?
+
+After linking your bank account, the last four digits shown may differ from your actual account number. This is because some bank accounts use a TAN (Tokenized Account Number) - a randomly generated number that masks your real account number for security.
+
+Why is my debit withdrawal not transferred instantly?
+
+Debit withdrawals are normally instant, but occasionally our payment processor requires additional verification for security. This is a random security check - you've done everything correctly. Your withdrawal will complete normally once the verification is finished.
+
+Why can’t I withdraw all of my funds right now?
+
+For security, we place temporary holds on deposited funds before they’re available for withdrawal. Hold periods vary by deposit method.
+
+See Security Holds for the full breakdown of hold periods by method.
+
+How do I remove a connected debit card or bank account?
+
+Head over to the Transfers tab in your Kalshi account at kalshi.com/account/banking . To remove a connected account, click the "X" to the right of it.
+
+Can I cancel a deposit once it is made?
+
+Deposits cannot be canceled or refunded once submitted. Please carefully verify your deposit amount before confirming.
+
+Once your deposit processes and completes any applicable security hold period, you're free to withdraw those funds back to your original payment method at any time.

@@ -1,0 +1,19 @@
+URL: https://help.kalshi.com/en/articles/13823778-signing-up-as-an-individual
+HTTP: 200
+Fetched: 2026-09-27T08:37:53Z
+Sitemap lastmod: 2026-03-10T20:24:11Z
+Title: 
+
+In order to be eligible to open an account on Kalshi, you must:
+
+- Be 18 years or older
+
+- Pass a document verification if requested
+
+To open an account on Kalshi, click here . You will need to provide basic personal information, and you may be asked for further verification using an identification document as well. If your application is approved, you are all set: you can log in and start trading. In the event that we need more information, the email you receive will outline the next steps.
+
+Kalshi is now accessible internationally. Some international jurisdictions remain restricted, which are outlined in "Section VI. Representations and Warranties" of the Kalshi Member Agreement .
+
+It is your individual responsibility to ensure that your access and use on the Kalshi Exchange is permissible and lawful for you. Kalshi contracts trade as financial derivatives based on events. Regulations vary widely by international jurisdictions. Kalshi does not provide individual legal or eligibility advice.
+
+Kalshi is required to collect the information it does at sign-up in order to comply with applicable U.S. laws and CFTC rules and regulations. These regulations require Kalshi to be able to verify the identity of any person(s) opening an account and to maintain records of their information. We will request personal information from both new and existing customers as required by these regulations. We take the security of personal information and all data maintained seriously, and use it only for regulatory compliance. To avoid delays in the onboarding process, please ensure all information is accurate and current.

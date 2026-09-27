@@ -1,0 +1,15 @@
+URL: https://help.kalshi.com/en/articles/13823780-how-do-i-verify-my-email-and-phone-number
+HTTP: 200
+Fetched: 2026-09-27T08:38:00Z
+Sitemap lastmod: 2026-08-15T18:32:33Z
+Title: 
+
+All users must provide a valid email address during signup. A four-digit verification code will be sent to your email to confirm ownership. If you do not see the code, please check your spam or junk folder and allow a couple of minutes for delivery.
+
+If you encounter issues with email verification, ensure that your email address is correct and check your spam or junk folders. Adding Kalshi's email address to your safe sender list or contacts can help prevent future filtering.
+
+Phone Verification
+
+All accounts require a phone number for verification. A four-digit code will be sent via SMS to confirm your number. If you do not receive the code, please wait up to a few minutes and ensure your device has a strong signal. Please note that not all international phone numbers are supported at this time. If your number is not accepted, you may need to use a supported number to complete signup.
+
+If you still do not receive the code, verify that your phone number is correct in your account settings. Wait up to 20 minutes before requesting a new code, as delivery may sometimes be delayed. Ensure that your phone can receive SMS messages and that any spam-blocking or call-filtering features are disabled.

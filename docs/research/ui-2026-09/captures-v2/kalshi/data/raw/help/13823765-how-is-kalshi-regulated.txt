@@ -1,0 +1,21 @@
+URL: https://help.kalshi.com/en/articles/13823765-how-is-kalshi-regulated
+HTTP: 200
+Fetched: 2026-09-27T08:37:35Z
+Sitemap lastmod: 2026-03-19T23:38:03Z
+Title: 
+
+Kalshi is regulated by the Commodity Futures Trading Commission (CFTC), an independent agency of the US government that has regulated US derivatives markets since 1974 and is overseen by Congress. Kalshi is regulated as a Designated Contract Market (DCM), which is a financial exchange designated to trade futures, swaps, and or options on commodities. You can read more about our regulatory filings, rulings, and listings on our regulatory page , or find more FAQs in the Regulation section.
+
+Why Regulation Matters
+
+Regulation is crucial for several reasons, especially in the financial sector. Being regulated by the Commodity Futures Trading Commission (CFTC) provides our users with numerous benefits and protections:
+
+- Transparency: Regulation ensures that Kalshi operates with a high level of transparency. Users have access to accurate information to make informed decisions.
+
+- Integrity: Our status as a Designated Contract Market (DCM) underlines our commitment to maintaining the integrity of our trading platform, and ensuring fair and orderly markets.
+
+- Security: Regulation offers a framework for the security of transactions and safeguards against fraud and manipulation, protecting your investments.
+
+- Trust: Regulatory oversight by a reputable body like the Commodity Futures Trading Commission (CFTC) fosters trust among users, which is foundational in financial exchanges.
+
+Understanding that Kalshi is regulated by a US Federal regulatory authority helps reassure users that they are engaging with a platform that adheres to the highest standards of operation and accountability.

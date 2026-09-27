@@ -1,0 +1,15 @@
+URL: https://help.kalshi.com/en/articles/13823790-what-is-a-personalized-funding-cap
+HTTP: 200
+Fetched: 2026-09-27T08:38:17Z
+Sitemap lastmod: 2026-03-24T13:40:22Z
+Title: 
+
+What Is a Personalized Funding Cap?
+
+Here at Kalshi, we take responsible trading seriously and are committed to ensuring traders have a safe experience on our platform. A personalized funding cap lets you set a maximum amount you are able to deposit to Kalshi in each calendar month.
+
+Once you set a personalized funding cap, the cap will take effect immediately for all future deposits. If you later increase your personalized funding cap, the increase will take effect in the next calendar month.
+
+Once a personalized funding cap has been set, the limit cannot be changed or lifted until the limit has reached its expiration date.
+
+Note: Please note that Kalshi does not currently accept wire deposits from users with personalized funding caps enabled.

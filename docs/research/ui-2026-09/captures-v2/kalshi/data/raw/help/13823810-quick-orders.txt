@@ -1,0 +1,13 @@
+URL: https://help.kalshi.com/en/articles/13823810-quick-orders
+HTTP: 200
+Fetched: 2026-09-27T08:39:02Z
+Sitemap lastmod: 2026-03-10T20:24:20Z
+Title: 
+
+A Quick Order, also known as a market order, is a request to immediately buy a specific number of contracts at the best available price.
+
+Quick orders execute with no delay. For this reason, quick orders are the simplest and fastest way to make a trade on Kalshi.
+
+When placing a Quick Order, specify the quantity and direction (Yes or No) you want, and Kalshi will get you those contracts as cheaply as possible. If your order is large, there may not be enough shares available at the best price to fulfill your desired quantity. This means your order can span multiple prices.
+
+Note: Consider a market where the Yes sides of 500 contracts are offered at the best price of 10¢, and more are offered at 12¢. If you place a quick order for 1000 contracts, you’ll buy 500 at 10¢ each and another 500 for 12¢ each, for an average price of 11¢. The order panel accounts for this automatically; it would show you an average price of 11¢ in this example.

@@ -1,0 +1,8 @@
+2026-09-27T08:36:20Z exchange-status 200 667 https://api.elections.kalshi.com/trade-api/v2/exchange/status
+2026-09-27T08:36:23Z exchange-schedule 200 559 https://api.elections.kalshi.com/trade-api/v2/exchange/schedule
+2026-09-27T08:36:26Z events-open 200 35940 https://api.elections.kalshi.com/trade-api/v2/events?limit=5&status=open&with_nested_markets=true
+2026-09-27T08:36:29Z markets-open 200 23214 https://api.elections.kalshi.com/trade-api/v2/markets?limit=5&status=open
+2026-09-27T08:36:33Z markets-settled 200 15167 https://api.elections.kalshi.com/trade-api/v2/markets?limit=5&status=settled
+2026-09-27T08:36:36Z event-KXIPO-26 200 50710 https://api.elections.kalshi.com/trade-api/v2/events/KXIPO-26?with_nested_markets=true
+2026-09-27T08:36:39Z series-KXIPO 200 1226 https://api.elections.kalshi.com/trade-api/v2/series/KXIPO
+2026-09-27T08:36:42Z markets-KXIPO-26 200 49949 https://api.elections.kalshi.com/trade-api/v2/markets?event_ticker=KXIPO-26&limit=200

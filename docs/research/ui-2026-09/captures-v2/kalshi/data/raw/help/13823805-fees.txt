@@ -1,0 +1,15 @@
+URL: https://help.kalshi.com/en/articles/13823805-fees
+HTTP: 200
+Fetched: 2026-09-27T08:38:48Z
+Sitemap lastmod: 2026-04-19T18:41:22Z
+Title: 
+
+Kalshi makes money by charging a transaction fee on the expected earnings on the contract. The complete Fee Schedule, and the math behind the fees, are posted at the bottom of our website - or you can find the link here .
+
+Some markets have fees that are different from those of other markets. This is often due to special events (such as the election, awards ceremony, or a large sporting championship).
+
+Maker Fees
+
+In some cases, markets will have maker fees associated with them. Maker fees are charged for orders placed that are not immediately matched and are instead left as resting orders on the orderbook. These fees are only charged when a trade is ultimately executed, there are no fees associated with canceling a resting order. To view more details about these fees, you can refer to our complete Fee Schedule here .
+
+*Fees can be seen by clicking the 'i' icon to the right of 'You're buying'

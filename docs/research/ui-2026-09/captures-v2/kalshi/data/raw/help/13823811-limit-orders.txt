@@ -1,0 +1,41 @@
+URL: https://help.kalshi.com/en/articles/13823811-limit-orders
+HTTP: 200
+Fetched: 2026-09-27T08:39:05Z
+Sitemap lastmod: 2026-03-10T20:26:58Z
+Title: 
+
+What is a limit order?
+
+A limit order is a powerful tool for investors looking to have greater control over their trades, particularly in the context of purchasing contracts. Unlike market orders, which execute immediately at the current market price, a limit order allows you to specify the maximum price you're willing to pay for a contract. This strategic approach ensures that you do not pay more than you intend, potentially leading to savings and better investment outcomes.
+
+When you set a limit order, you are essentially telling the market that you are looking for a deal at your price or better. If the market can match your offer - if there's a seller willing to accept your price or offer an even lower one - then your order will be executed. This mechanism is particularly beneficial in volatile markets where prices can fluctuate rapidly, as it locks in the price you are comfortable with.
+
+Moreover, utilizing limit orders can significantly differ from the prices you see in the Quick Order panel, which generally reflects the current market price or a close approximation in fast-moving markets. The ability to choose your price with a limit order provides a tactical edge, allowing for more precise financial planning and strategy execution.
+
+It's important to note, however, that there is no guarantee a limit order will be filled. If the market does not reach your specified price, your order may remain unfilled. This outcome can be a double-edged sword: while you protect yourself from overpaying, you may also miss the opportunity to purchase a contract if the price never meets your limit. Thus, when using limit orders, it's crucial to balance your desire for a better price with the risk of potentially missing out on the contract altogether.
+
+When to use limit orders
+
+The Advantages of Using Limit Orders
+
+Limit orders are an essential tool for traders looking to control their entry and exit points without incurring additional costs. Here are some key benefits of using limit orders:
+
+Avoiding Trading Fees
+
+A significant benefit of placing a limit order is the potential to avoid trading fees entirely. When you set a limit order that sits on the order book and gets filled by another trader, you effectively bypass the fees typically associated with the trade. This strategy can lead to substantial savings over time, especially for frequent traders. Make sure to check out our current fee page here .
+
+Note: Trading fees are only charged for orders that are immediately matched with orders sitting on the orderbook. Trading fees are not charged for orders placed that are not immediately matched and are instead left as resting orders on the orderbook unless they are included in our “Maker Fees” section.
+
+Precise Price Execution
+
+Using a limit order allows you to specify the exact price at which you're willing to buy or sell a contract. For example, suppose you wish to purchase 1000 contracts at a specific rate, say 79c each, rather than the current market rate of 80c. By doing so, you can save on the total cost of the position and avoid additional fees, likened to saving the equivalent of a deluxe meal.
+
+Encouraging Market Liquidity
+
+Kalshi rewards traders for adding liquidity to the market by eliminating fees on some maker orders. This incentive encourages traders to use limit orders, promoting a more liquid and efficient market.
+
+Meeting Specific Quantity Requirements
+
+Limit orders can also be practical when you aim to purchase a larger quantity of contracts than what's available at the current rate. You can place a limit order for the desired quantity at your target price. The order gets partially filled with the available contracts, and the remainder is listed on the order book for future fulfillment, ensuring you don't overpay for immediate liquidity.
+
+In summary, limit orders offer a strategic advantage by allowing for fee avoidance, price precision, liquidity contribution, and quantity specification in trades. These factors can significantly influence a trader's overall profitability and market engagement.

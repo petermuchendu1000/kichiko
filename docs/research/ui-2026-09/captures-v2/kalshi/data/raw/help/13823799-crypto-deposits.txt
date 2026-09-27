@@ -1,0 +1,49 @@
+URL: https://help.kalshi.com/en/articles/13823799-crypto-deposits
+HTTP: 200
+Fetched: 2026-09-27T08:38:38Z
+Sitemap lastmod: 2026-08-14T03:43:13Z
+Title: 
+
+How to deposit with crypto
+
+- Select "Add funds"
+
+- Select the "Crypto" option
+
+- You will be guided through a step-by-step process to complete your crypto transfer:
+
+- Select one of the supported assets you want to transfer
+
+- Select the network you will transfer on
+
+- Confirm you are sending the correct asset on your desired network
+
+- Initiate the deposit from your wallet using the provided QR code or deposit address
+
+- Always verify the asset and network compatibility before initiating a deposit to ensure successful transactions.
+
+Important information
+
+- Crypto deposits may be subject to transfer provider fees and blockchain network fees (gas).
+
+- Crypto deposits are available for both US and international users.
+
+- Please ensure you are only sending a supported asset on a supported network.
+
+- The maximum amount per crypto deposit depends on the provider your account uses. Your limit is shown on the crypto deposit screen before you confirm.
+
+- Transfers typically take up to 30 minutes to be applied to your cash balance.
+
+- Using direct wallet connections instead of QR codes or manual addresses can help prevent errors and ensure asset compatibility.
+
+- Blockchain confirmation times can vary due to network congestion, which may extend the deposit processing time beyond 30 minutes.
+
+US vs international
+
+- US users: Crypto transfers are processed through Zero Hash, which converts crypto to and from fiat. For support, contact [email protected] or see Zero Hash Support .
+
+- International users: Crypto transfers are processed through a separate provider. The deposit flow is the same - follow the on-screen instructions after selecting "Crypto."
+
+- If you encounter issues, contact Kalshi support with your transaction hash and deposit details for assistance.
+
+- Monitor your blockchain transaction status using the transaction hash to track pending deposits and ensure they are confirmed.

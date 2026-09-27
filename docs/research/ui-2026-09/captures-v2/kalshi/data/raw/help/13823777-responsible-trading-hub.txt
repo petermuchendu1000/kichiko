@@ -1,0 +1,65 @@
+URL: https://help.kalshi.com/en/articles/13823777-responsible-trading-hub
+HTTP: 200
+Fetched: 2026-09-27T08:37:49Z
+Sitemap lastmod: 2026-05-14T18:46:35Z
+Title: 
+
+Trading on prediction markets should be an engaging, informed, and safe experience. At Kalshi, we're committed to providing you with tools and resources to help you trade responsibly, maintain control over your activity on our platform, and access helpful educational and support resources.
+
+Available Tools
+
+We offer several features to help you manage your trading experience.
+
+Voluntary Opt-Outs Choose to exclude yourself from the platform for a specified period if you need a longer break.
+
+Personal Funding Caps Set limits on how much you can deposit into your account to help manage your overall exposure.
+
+How to Access Your Responsible Risk Management Settings
+
+Web
+
+- Log in to your Kalshi account at kalshi.com
+
+- Open the sidebar menu by clicking the hamburger menu icon (☰) in the top left corner if it's not already open
+
+- Scroll down in the sidebar to find account-related options
+
+- Click on "Responsible Risk Management" in the sidebar menu
+
+- Select and configure the tools you'd like to enable based on your needs
+
+App
+
+- Open the Kalshi app and log in to your account
+
+- Tap the menu icon (usually three horizontal lines or your profile icon)
+
+- Navigate to Settings or Account Options
+
+- Select "Responsible Risk Management"
+
+- Choose and configure the tools you'd like to use
+
+Need Help Finding It?
+
+If you're having trouble locating the Responsible Risk Management section, our support team is here to help:
+
+- Click here for guidance on how to contact our support team
+
+- Use the chat feature in the bottom right corner of the website
+
+- We'll walk you through the exact steps to access and configure these settings
+
+Note: Once responsibility actions are taken, there is no way for these to be lifted or changed until they have reached their expiration date.
+
+Additional Resources
+
+Birches Health We've partnered with Birches Health to provide professional support and resources for users who may benefit from additional guidance around trading behavior and financial decision-making. Birches Health offers confidential support services tailored to help individuals maintain healthy relationships with trading and financial activities. Visit BirchesHealth.com/Kalshi or email [email protected] to connect with a Birches care specialist.
+
+Crisis Support If you or someone you know is in crisis or experiencing thoughts of suicide, help is available 24/7. National Suicide Prevention Lifeline: 988 Available 24 hours a day, 7 days a week Or visit https://988lifeline.org/
+
+Questions or Need Support?
+
+Our team is here to help you make the most of these tools. If you have questions about any of our responsible risk management features or need assistance setting them up, please contact support .
+
+Your wellbeing matters to us. We're committed to making Kalshi a safe and sustainable platform for all traders, whether you're just starting out or have been with us for years.

@@ -1,0 +1,41 @@
+URL: https://help.kalshi.com/en/articles/13823807-what-are-trading-hours
+HTTP: 200
+Fetched: 2026-09-27T08:38:55Z
+Sitemap lastmod: 2026-08-23T17:03:09Z
+Title: 
+
+Kalshi is now open for trading 24/7 (with exceptions for maintenance). Scheduled maintenance windows will occur, and trading will not be available on Kalshi, during the following times: On a regular basis, from the hours of 3:00 AM ET to 5:00 AM ET on Thursdays.
+
+When can I trade on Kalshi?
+
+Day
+
+Trading Hours
+
+Sunday
+
+24 Hours
+
+Monday
+
+24 Hours
+
+Tuesday
+
+24 Hours
+
+Wednesday
+
+24 Hours
+
+Thursday
+
+22 hours (closed for maintenance 3:00-5:00 AM ET)
+
+Friday
+
+24 Hours
+
+Saturday
+
+24 Hours

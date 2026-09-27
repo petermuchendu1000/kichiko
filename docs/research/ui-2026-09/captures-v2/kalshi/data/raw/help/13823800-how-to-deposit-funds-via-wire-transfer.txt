@@ -1,0 +1,126 @@
+URL: https://help.kalshi.com/en/articles/13823800-how-to-deposit-funds-via-wire-transfer
+HTTP: 200
+Fetched: 2026-09-27T08:38:41Z
+Sitemap lastmod: 2026-08-24T21:49:56Z
+Title: 
+
+Wire deposits are available for both US and international users and can be used for large transfers.
+
+How to Send a Wire
+
+Your bank account name MUST MATCH your name on Kalshi.
+
+- Log in to Kalshi → Menu → Account & Security → verify your FULL NAME.
+
+- Wires must come from an account matching your Kalshi account name. If your account is in your name, send the wire from your personal account - not a third party's.
+
+- If your Kalshi account is under your entity's name, send the wire from an account owned by and named after your entity.
+
+Domestic Wire Transfer
+
+Instruct the paying financial institution to route all domestic wire transfers via FEDWIRE:
+
+To
+
+Routing / Transit
+
+For Credit of
+
+Address
+
+Credit Account
+
+SVB, a division of First Citizens Bank, 2625 Augustine Drive, Suite 301, Santa Clara, CA 95054
+
+121140399
+
+KALSHI KLEAR LLC
+
+416 W 13th Street, Room 207, New York, NY 10014
+
+3304242626
+
+International Wire Transfer
+
+International wires must be received in USD.
+
+To
+
+Routing / Transit
+
+SWIFT Code
+
+For Credit of
+
+Address
+
+Credit Account
+
+First Citizens Bank and Trust Co., 239 Fayetteville St, RALEIGH, NC 27601 United States
+
+121140399
+
+SVBKUS6S
+
+KALSHI KLEAR LLC
+
+416 W 13th Street, Room 207, New York, NY 10014
+
+3304242626
+
+Message to Recipient / Memo (REQUIRED)
+
+Log in to Kalshi → Menu → Transfers → Wire transfer → MESSAGE TO RECIPIENT / MEMO. Your code has 9 digits and starts with "kal." Wires without the correct memo code will be delayed or returned.
+
+Can't find "Message to recipient / Memo"? Depending on your bank, it may be labeled as: Note, Description, Special Instructions, or Further Credit.
+
+Important information
+
+- No fees for wire deposits.
+
+- No withdrawal hold - wire-deposited funds are available for withdrawal immediately.
+
+Wires less than $1,000 will NOT be accepted and will be returned.
+
+- Wires must be received (not sent) by Kalshi Klear LLC before 4pm ET (Eastern Time, New York) for same-day attribution.
+
+- Wires that do not include your unique Kalshi memo code will be delayed or returned.
+
+- Wires from a bank account that doesn't match your Kalshi account name will be delayed or returned.
+
+- ACH transfers to the wire-only account will be returned.
+
+Common Wire Issues
+
+Issue
+
+What to Do
+
+Missing or incorrect memo code
+
+Email [email protected] with your wire confirmation and Kalshi account details. Wires without the correct memo will be delayed while we manually match them.
+
+Name on bank account does not match Kalshi
+
+The sender name must match your Kalshi account name. If your bank shows a different name format, email [email protected] with documentation.
+
+Wire sent from a trust or entity account
+
+If your Kalshi account is personal, wires from trust or entity accounts cannot be accepted. Send from a personal account matching your name.
+
+Wire sent but funds not appearing
+
+Wires received before 4pm ET (Eastern Time) are typically attributed same-day. If your wire has not appeared after 1 business day, email [email protected] with your FED reference number.
+
+Wire under $1,000
+
+Wires below the $1,000 minimum are automatically returned to the sending bank. This may take 3-5 business days.
+
+Questions about your wire?
+​
+Email [email protected] with:
+- Full name and email on your Kalshi account
+- Your unique Kalshi memo code
+- Screenshot or PDF of the wire confirmation
+- Name of the bank funds were sent from
+- The fed reference number (FED#)

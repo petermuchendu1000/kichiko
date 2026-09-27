@@ -1,0 +1,13 @@
+URL: https://help.kalshi.com/en/articles/13823788-trading-break
+HTTP: 200
+Fetched: 2026-09-27T08:38:10Z
+Sitemap lastmod: 2026-03-10T20:24:24Z
+Title: 
+
+Here at Kalshi, we take responsible trading seriously and are committed to protecting our traders. We offer proactive tools and support meant to encourage responsible trading behavior and to ensure safe trading experiences.
+
+One tool that we offer is the ability to take a Trading Break . Trading breaks let you take a break from trading on Kalshi’s markets by temporarily restricting your trading activities for a day or more.
+
+> Please note that Trading Breaks will not result in your inability to access Kalshi through a third party Futures Commission Merchant, and ultimately it is your responsibility not to trade via such entity during this period.
+
+Note: If you have open positions, you won’t be able to sell them during a trading break, so please close out any positions you don’t want to hold for the duration of the trading break before proceeding.

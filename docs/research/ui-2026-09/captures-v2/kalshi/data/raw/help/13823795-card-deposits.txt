@@ -1,0 +1,43 @@
+URL: https://help.kalshi.com/en/articles/13823795-card-deposits
+HTTP: 200
+Fetched: 2026-09-27T08:38:31Z
+Sitemap lastmod: 2026-08-13T17:03:05Z
+Title: 
+
+How to deposit
+
+- Select "Add funds"
+
+- Select the "Card" option
+
+- Enter the amount you want to deposit
+
+- Select the card you will deposit from. If this is your first time depositing via debit, or you want to add a new card, select "Add a card" and enter your card details.
+
+- You can also deposit using Apple Pay or Google Pay instead of entering card details manually.
+
+- Review the transfer and add funds.
+
+Important information
+
+- The minimum deposit amount is $10 .
+
+- Debit deposits may incur a 2% processing fee .
+
+- Debit card deposits are available for both US and international users. US transactions are processed through Stripe; international transactions are processed through Checkout.
+
+- The debit card cardholder name must match the name on your Kalshi account.
+
+- Visa, Mastercard, and Discover debit cards are accepted for deposits. Credit cards may also be processed, but fees can vary and your card issuer may apply additional charges such as a cash advance fee. American Express is not supported.
+
+- Ensure you are on a strong internet connection and that any active VPN is disabled.
+
+Troubleshooting: If your deposit fails, try using a different card or contact your bank to make sure there are no restrictions on their end.
+
+"Pending" payment on your card statement
+
+Sometimes when a card deposit declines, your bank may temporarily display the charge as "pending" or "refunded" on your card statement or banking app (and not on Kalshi). In the event of this, there is no movement of funds, and the "pending" status will release automatically within 1-2 business days. In the event of this, no money will leave your bank account, and no funds will appear in your Kalshi account. No further action is required in the meantime, and the status will clear up on its own.
+
+Bank statement labeling
+
+Some debit card deposits may appear as "recurring" on your bank statement, even though the charge was a one-time deposit. This is expected behavior - the designation is used to securely save your card for future deposits. Kalshi does not offer subscriptions or recurring charges. All deposits are initiated manually by you.

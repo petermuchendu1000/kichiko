@@ -1,0 +1,27 @@
+URL: https://help.kalshi.com/en/articles/13823792-link-a-debit-card
+HTTP: 200
+Fetched: 2026-09-27T08:38:24Z
+Sitemap lastmod: 2026-09-02T19:26:13Z
+Title: 
+
+Linking a debit card to your Kalshi account is straightforward. If you are adding a debit card for the first time, you will be automatically prompted to input your card details when you initiate a debit deposit.
+
+- Log in to your Kalshi account.
+
+- Initiate a deposit - navigate to the "Add Funds" section and select the debit option.
+
+- Enter card details - input your card number, expiration date, CVV, and cardholder name.
+
+- Verify - double-check that all details are correct and that the cardholder name matches your Kalshi account name.
+
+- Complete - your card will be securely saved for this and future transactions.
+
+Important information
+
+- The cardholder name must match the name on your Kalshi account.
+
+- Visa, Mastercard , and Discover debit cards are accepted for deposits. Other card types may also be processed, but fees can vary and your card issuer may apply additional charges such as a cash advance fee. American Express is not supported.
+
+- Debit cards work for both US and international users.
+
+- You can also use Apple Pay or Google Pay as an alternative to entering card details manually.

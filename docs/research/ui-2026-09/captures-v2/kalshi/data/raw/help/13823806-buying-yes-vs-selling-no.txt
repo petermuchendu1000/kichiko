@@ -1,0 +1,17 @@
+URL: https://help.kalshi.com/en/articles/13823806-buying-yes-vs-selling-no
+HTTP: 200
+Fetched: 2026-09-27T08:38:51Z
+Sitemap lastmod: 2026-03-17T21:11:49Z
+Title: 
+
+On Kalshi, there's a fundamental truth that might surprise some new traders: there's no inherent difference between buying a Yes contract and selling a No contract, or vice versa. Our backend system treats these two actions as essentially the same thing. Let's break it down:
+
+- Market Equilibrium: Each Kalshi market is designed to maintain a state of equilibrium. This means that the combined value of all Yes and No contracts for a given market always equals $1.
+
+- Interconnected Trades: When you buy a Yes contract, you're essentially taking a position that the event will occur. Selling a No contract is equivalent to taking a position that the event will occur (you are short on the event not happening). Both actions have the same impact on the market's equilibrium.
+
+- No Preferential Treatment: Kalshi's system doesn't favor one side over the other. Whether you're bullish or bearish on a particular outcome, your trade has the same effect on the market's dynamics.
+
+So, why does it matter?
+
+While the underlying mechanics are the same, the choice between buying Yes or selling No can be a matter of personal preference or trading strategy. Some traders may find it more intuitive to think in terms of buying a Yes contract, while others may prefer the mindset of selling a No contract. Ultimately, the key is to understand the market dynamics and make trades that align with your beliefs and risk tolerance.
