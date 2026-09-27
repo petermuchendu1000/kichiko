@@ -1,0 +1,4145 @@
+{
+  "meta": {
+    "capturedAt": "2026-09-27T05:23:16.951Z",
+    "playwright": "1.56.0",
+    "chromiumVersion": "141.0.7390.37",
+    "proxy": true,
+    "tlsVerification": "enabled (never disabled)",
+    "eventDiscovery": {
+      "found": "https://polymarket.com/event/los-angeles-mayoral-election-117",
+      "candidates": [
+        {
+          "href": "https://polymarket.com/event/los-angeles-mayoral-election-117",
+          "text": "",
+          "area": 382392.15625
+        },
+        {
+          "href": "https://polymarket.com/event/balance-of-power-2026-midterms",
+          "text": "",
+          "area": 382392.15625
+        },
+        {
+          "href": "https://polymarket.com/event/fed-decision-in-october-20260617190323537",
+          "text": "",
+          "area": 382392.15625
+        },
+        {
+          "href": "https://polymarket.com/event/which-party-will-win-the-senate-in-2026",
+          "text": "",
+          "area": 382392.15625
+        },
+        {
+          "href": "https://polymarket.com/event/us-iran-ceasefire-continues-throughptptpt",
+          "text": "",
+          "area": 382392.15625
+        },
+        {
+          "href": "https://polymarket.com/event/btc-updown-5m-1790486400",
+          "text": "",
+          "area": 382392.15625
+        },
+        {
+          "href": "https://polymarket.com/event/brazil-presidential-election",
+          "text": "",
+          "area": 382392.15625
+        },
+        {
+          "href": "https://polymarket.com/event/maine-senate-election-winner",
+          "text": "",
+          "area": 382392.15625
+        },
+        {
+          "href": "https://polymarket.com/event/us-iran-ceasefire-continues-throughptptpt",
+          "text": "AP News ・ 1d ago Iran proposes a deal to reopen the Strait of Hormuz i",
+          "area": 25607.489871025085
+        },
+        {
+          "href": "https://polymarket.com/event/los-angeles-mayoral-election-117",
+          "text": "",
+          "area": 25607.46875
+        },
+        {
+          "href": "https://polymarket.com/event/los-angeles-mayoral-election-117",
+          "text": "",
+          "area": 25607.46875
+        },
+        {
+          "href": "https://polymarket.com/event/los-angeles-mayoral-election-117",
+          "text": "",
+          "area": 25607.46875
+        },
+        {
+          "href": "https://polymarket.com/event/los-angeles-mayoral-election-117",
+          "text": "",
+          "area": 25607.46875
+        },
+        {
+          "href": "https://polymarket.com/event/los-angeles-mayoral-election-117",
+          "text": "",
+          "area": 25607.46875
+        },
+        {
+          "href": "https://polymarket.com/event/los-angeles-mayoral-election-117",
+          "text": "",
+          "area": 25607.46875
+        },
+        {
+          "href": "https://polymarket.com/event/los-angeles-mayoral-election-117",
+          "text": "",
+          "area": 25607.46875
+        },
+        {
+          "href": "https://polymarket.com/event/los-angeles-mayoral-election-117",
+          "text": "",
+          "area": 25607.46875
+        },
+        {
+          "href": "https://polymarket.com/event/los-angeles-mayoral-election-117",
+          "text": "",
+          "area": 25607.46875
+        },
+        {
+          "href": "https://polymarket.com/event/los-angeles-mayoral-election-117",
+          "text": "",
+          "area": 25607.46875
+        },
+        {
+          "href": "https://polymarket.com/event/los-angeles-mayoral-election-117",
+          "text": "",
+          "area": 25607.46875
+        },
+        {
+          "href": "https://polymarket.com/event/los-angeles-mayoral-election-117",
+          "text": "",
+          "area": 25607.46875
+        },
+        {
+          "href": "https://polymarket.com/event/balance-of-power-2026-midterms",
+          "text": "",
+          "area": 25607.46875
+        },
+        {
+          "href": "https://polymarket.com/event/balance-of-power-2026-midterms",
+          "text": "",
+          "area": 25607.46875
+        },
+        {
+          "href": "https://polymarket.com/event/balance-of-power-2026-midterms",
+          "text": "",
+          "area": 25607.46875
+        },
+        {
+          "href": "https://polymarket.com/event/balance-of-power-2026-midterms",
+          "text": "",
+          "area": 25607.46875
+        }
+      ]
+    },
+    "kalshiProbeLog": [
+      {
+        "attempt": 1,
+        "status": 429,
+        "bodyPreview": "Vercel Security Checkpoint (bot challenge)",
+        "at": "2026-09-27T05:03:34.386Z"
+      },
+      {
+        "attempt": 2,
+        "status": 429,
+        "bodyPreview": "Vercel Security Checkpoint (bot challenge)",
+        "at": "2026-09-27T05:04:34.970Z"
+      },
+      {
+        "attempt": 3,
+        "status": 429,
+        "bodyPreview": "Vercel Security Checkpoint (bot challenge)",
+        "at": "2026-09-27T05:05:35.546Z"
+      }
+    ],
+    "kalshiOutcome": "UNREACHABLE - HTTP 429 Vercel Security Checkpoint (bot challenge) on all 3 attempts, 60s apart. Not retried further.",
+    "polymarketNote": "polymarket.com serves a US geo-block interstitial (view-only mode) from this IP; dismissed before measurement. No logged-out auth CTA is rendered in this region."
+  },
+  "sites": {
+    "polymarket": {
+      "pages": {
+        "home/mobile": {
+          "url": "https://polymarket.com/",
+          "httpStatus": 200,
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "dpr": 3,
+          "notes": [
+            "dismissed interstitial via view-only button",
+            "no visible modal remains",
+            "networkidle TIMEOUT after 25s (live site polls) - fell back to timed settle",
+            "real-content gate passed (>400 chars of rendered text)"
+          ],
+          "scrollHeight": 8775,
+          "pageBackground": {
+            "css": "lab(100 0 0)",
+            "hex": "#ffffff"
+          },
+          "fontFamily": "inter, \"inter Fallback\"",
+          "typeScale": [
+            {
+              "fontSizePx": 16,
+              "weight": "600",
+              "lineHeight": "20px",
+              "lhRatio": 1.25,
+              "letterSpacing": "-0.18px",
+              "family": "inter",
+              "count": 26,
+              "topRole": "paragraph",
+              "sample": "74%"
+            },
+            {
+              "fontSizePx": 16,
+              "weight": "400",
+              "lineHeight": "24px",
+              "lhRatio": 1.5,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 2,
+              "topRole": "link",
+              "sample": "Skip to main content"
+            },
+            {
+              "fontSizePx": 16,
+              "weight": "500",
+              "lineHeight": "20px",
+              "lhRatio": 1.25,
+              "letterSpacing": "-0.18px",
+              "family": "inter",
+              "count": 2,
+              "topRole": "paragraph",
+              "sample": "51%"
+            },
+            {
+              "fontSizePx": 15,
+              "weight": "600",
+              "lineHeight": "22.5px",
+              "lhRatio": 1.5,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 42,
+              "topRole": "paragraph",
+              "sample": "62%"
+            },
+            {
+              "fontSizePx": 14,
+              "weight": "500",
+              "lineHeight": "20px",
+              "lhRatio": 1.43,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 50,
+              "topRole": "link",
+              "sample": "Markets by category and topics"
+            },
+            {
+              "fontSizePx": 14,
+              "weight": "500",
+              "lineHeight": "20px",
+              "lhRatio": 1.43,
+              "letterSpacing": "-0.09px",
+              "family": "inter",
+              "count": 49,
+              "topRole": "paragraph",
+              "sample": "All"
+            },
+            {
+              "fontSizePx": 14,
+              "weight": "440",
+              "lineHeight": "20px",
+              "lhRatio": 1.43,
+              "letterSpacing": "-0.09px",
+              "family": "inter",
+              "count": 42,
+              "topRole": "paragraph",
+              "sample": "Democrats Sweep"
+            },
+            {
+              "fontSizePx": 14,
+              "weight": "600",
+              "lineHeight": "20px",
+              "lhRatio": 1.43,
+              "letterSpacing": "-0.09px",
+              "family": "inter",
+              "count": 31,
+              "topRole": "paragraph",
+              "sample": "Up"
+            },
+            {
+              "fontSizePx": 14,
+              "weight": "590",
+              "lineHeight": "20px",
+              "lhRatio": 1.43,
+              "letterSpacing": "-0.09px",
+              "family": "inter",
+              "count": 23,
+              "topRole": "heading h3",
+              "sample": "Balance of Power: 2026 Midterms"
+            },
+            {
+              "fontSizePx": 14,
+              "weight": "600",
+              "lineHeight": "16px",
+              "lhRatio": 1.14,
+              "letterSpacing": "-0.09px",
+              "family": "inter",
+              "count": 20,
+              "topRole": "nav text",
+              "sample": "Go to polymarket.us"
+            },
+            {
+              "fontSizePx": 13,
+              "weight": "490",
+              "lineHeight": "16px",
+              "lhRatio": 1.23,
+              "letterSpacing": "-0.1px",
+              "family": "inter",
+              "count": 205,
+              "topRole": "span",
+              "sample": "To trade in the US, go to"
+            },
+            {
+              "fontSizePx": 13,
+              "weight": "600",
+              "lineHeight": "13px",
+              "lhRatio": 1,
+              "letterSpacing": "-0.1px",
+              "family": "inter",
+              "count": 3,
+              "topRole": "paragraph",
+              "sample": "Live"
+            },
+            {
+              "fontSizePx": 12,
+              "weight": "500",
+              "lineHeight": "16px",
+              "lhRatio": 1.33,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 14,
+              "topRole": "footer text",
+              "sample": "Predictions & odds"
+            },
+            {
+              "fontSizePx": 12,
+              "weight": "400",
+              "lineHeight": "19.5px",
+              "lhRatio": 1.63,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 4,
+              "topRole": "link",
+              "sample": "Polymarket operates globally through sep"
+            },
+            {
+              "fontSizePx": 12,
+              "weight": "600",
+              "lineHeight": "16px",
+              "lhRatio": 1.33,
+              "letterSpacing": "-0.1px",
+              "family": "inter",
+              "count": 2,
+              "topRole": "paragraph",
+              "sample": "Up"
+            },
+            {
+              "fontSizePx": 11,
+              "weight": "500",
+              "lineHeight": "16.5px",
+              "lhRatio": 1.5,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 4,
+              "topRole": "paragraph",
+              "sample": "Home"
+            }
+          ],
+          "typeSystem": {
+            "sizes": [
+              11,
+              12,
+              13,
+              14,
+              15,
+              16
+            ],
+            "steps": [
+              {
+                "from": 11,
+                "to": 12,
+                "ratio": 1.091,
+                "deltaPx": 1
+              },
+              {
+                "from": 12,
+                "to": 13,
+                "ratio": 1.083,
+                "deltaPx": 1
+              },
+              {
+                "from": 13,
+                "to": 14,
+                "ratio": 1.077,
+                "deltaPx": 1
+              },
+              {
+                "from": 14,
+                "to": 15,
+                "ratio": 1.071,
+                "deltaPx": 1
+              },
+              {
+                "from": 15,
+                "to": 16,
+                "ratio": 1.067,
+                "deltaPx": 1
+              }
+            ],
+            "meanRatio": 1.078,
+            "ratioStdDev": 0.009,
+            "ratioMin": 1.067,
+            "ratioMax": 1.091,
+            "ratioSpread": 0.024,
+            "meanDeltaPx": 1,
+            "deltaStdDevPx": 0,
+            "verdict": "arithmetic scale: a uniform 1px step, not a modular ratio"
+          },
+          "spacing": {
+            "distinctPx": [
+              1,
+              2,
+              4,
+              6,
+              8,
+              10,
+              12,
+              14,
+              16
+            ],
+            "paddingTop10": [
+              {
+                "px": 12,
+                "count": 236
+              },
+              {
+                "px": 8,
+                "count": 168
+              },
+              {
+                "px": 14,
+                "count": 168
+              },
+              {
+                "px": 4,
+                "count": 50
+              },
+              {
+                "px": 10,
+                "count": 40
+              },
+              {
+                "px": 16,
+                "count": 16
+              },
+              {
+                "px": 6,
+                "count": 2
+              },
+              {
+                "px": 20,
+                "count": 2
+              },
+              {
+                "px": 40,
+                "count": 2
+              },
+              {
+                "px": 48,
+                "count": 2
+              }
+            ],
+            "gapTop10": [
+              {
+                "px": 8,
+                "count": 655
+              },
+              {
+                "px": 6,
+                "count": 194
+              },
+              {
+                "px": 4,
+                "count": 193
+              },
+              {
+                "px": 16,
+                "count": 136
+              },
+              {
+                "px": 12,
+                "count": 13
+              },
+              {
+                "px": 2,
+                "count": 5
+              },
+              {
+                "px": 20,
+                "count": 2
+              },
+              {
+                "px": 24,
+                "count": 2
+              },
+              {
+                "px": 32,
+                "count": 2
+              },
+              {
+                "px": 40,
+                "count": 2
+              }
+            ],
+            "gridFit": {
+              "2px": {
+                "onGrid": 8,
+                "total": 9,
+                "pct": 88.9,
+                "offGrid": [
+                  1
+                ]
+              },
+              "4px": {
+                "onGrid": 4,
+                "total": 9,
+                "pct": 44.4,
+                "offGrid": [
+                  1,
+                  2,
+                  6,
+                  10,
+                  14
+                ]
+              },
+              "8px": {
+                "onGrid": 2,
+                "total": 9,
+                "pct": 22.2,
+                "offGrid": [
+                  1,
+                  2,
+                  4,
+                  6,
+                  10,
+                  12,
+                  14
+                ]
+              }
+            }
+          },
+          "borderRadius": [
+            {
+              "px": 0,
+              "raw": "0px",
+              "count": 7130,
+              "pill": false
+            },
+            {
+              "px": 5.2,
+              "raw": "5.2px",
+              "count": 336,
+              "pill": false
+            },
+            {
+              "px": 6,
+              "raw": "6px",
+              "count": 76,
+              "pill": false
+            },
+            {
+              "px": 7.2,
+              "raw": "7.2px",
+              "count": 620,
+              "pill": false
+            },
+            {
+              "px": 9.2,
+              "raw": "9.2px",
+              "count": 16,
+              "pill": false
+            },
+            {
+              "px": 11.2,
+              "raw": "11.2px",
+              "count": 2,
+              "pill": false
+            },
+            {
+              "px": 15.2,
+              "raw": "15.2px",
+              "count": 144,
+              "pill": false
+            },
+            {
+              "px": 33554400,
+              "raw": "3.35544e+07px",
+              "count": 196,
+              "pill": true
+            }
+          ],
+          "semanticColors": [
+            {
+              "kind": "YES/BUY",
+              "label": "Yes 62%",
+              "selector": "a.inline-flex.items-center.cursor-pointer",
+              "textColorCss": "lab(45.7361 -45.2267 37.3056)",
+              "textColorHex": "#007e26",
+              "surfaceCss": "oklab(0.603598 -0.149933 0.0964872 / 0.15)",
+              "surfaceAlpha": 0.149,
+              "surfaceCompositedHex": "#d9f0e2",
+              "pageBgHex": "#ffffff",
+              "fontSizePx": 14,
+              "fontWeight": "600",
+              "heightPx": 27,
+              "borderRadius": "5.2px",
+              "padding": "0px 14px 0px 14px",
+              "contrastRatio": 4.36,
+              "wcag": {
+                "threshold": 4.5,
+                "isLargeText": false,
+                "passAA": false,
+                "passAAA": false
+              },
+              "surfaceVsPageBg": 1.2
+            },
+            {
+              "kind": "NO/SELL",
+              "label": "No 39%",
+              "selector": "a.inline-flex.items-center.cursor-pointer",
+              "textColorCss": "lab(47.8918 72.1772 58.3835)",
+              "textColorHex": "#df0c10",
+              "surfaceCss": "oklab(0.570509 0.201896 0.109506 / 0.09)",
+              "surfaceAlpha": 0.0902,
+              "surfaceCompositedHex": "#fce9e9",
+              "pageBgHex": "#ffffff",
+              "fontSizePx": 14,
+              "fontWeight": "600",
+              "heightPx": 27,
+              "borderRadius": "5.2px",
+              "padding": "0px 14px 0px 14px",
+              "contrastRatio": 4.28,
+              "wcag": {
+                "threshold": 4.5,
+                "isLargeText": false,
+                "passAA": false,
+                "passAAA": false
+              },
+              "surfaceVsPageBg": 1.17
+            }
+          ],
+          "primaryButton": {
+            "text": "All",
+            "selector": "button.inline-flex.text-body-base.font-medium",
+            "heightPx": 32,
+            "widthPx": 40.73,
+            "padding": {
+              "top": "0px",
+              "right": "12px",
+              "bottom": "0px",
+              "left": "12px"
+            },
+            "fontSizePx": 14,
+            "fontWeight": "500",
+            "borderRadius": "6px",
+            "bgCss": "oklab(0.553288 -0.0176905 -0.245344 / 0.1)",
+            "bgHex": "#eaeeff",
+            "fgCss": "lab(44.7153 32.3672 -86.8665)",
+            "fgHex": "#2e5cff",
+            "contrastRatio": 4.44
+          },
+          "primaryInput": {
+            "type": "text",
+            "placeholder": "Search",
+            "heightPx": 40,
+            "widthPx": 260,
+            "padding": {
+              "top": "4px",
+              "right": "12px",
+              "bottom": "4px",
+              "left": "40px"
+            },
+            "fontSizePx": 16,
+            "borderRadius": "9.2px",
+            "borderWidth": "1px"
+          },
+          "allInputs": [
+            {
+              "type": "text",
+              "placeholder": "Search",
+              "heightPx": 40,
+              "padding": {
+                "top": "4px",
+                "right": "12px",
+                "bottom": "4px",
+                "left": "40px"
+              },
+              "fontSizePx": 16,
+              "borderRadius": "9.2px"
+            }
+          ],
+          "touchTargets": {
+            "top12": [
+              {
+                "heightPx": 27,
+                "count": 84,
+                "sample": "a.inline-flex.items-center.cursor-pointer",
+                "text": "Yes 62%"
+              },
+              {
+                "heightPx": 20,
+                "count": 70,
+                "sample": "a.group/market-row-link.!static.block",
+                "text": "Democrats Sweep"
+              },
+              {
+                "heightPx": 28,
+                "count": 63,
+                "sample": "button#base-ui-_R_6rc1d9a5klura9brjaraivb_.inline-flex.items-center.cursor-pointer",
+                "text": ""
+              },
+              {
+                "heightPx": 40,
+                "count": 42,
+                "sample": "input#homepage-search-input.flex.rounded-md.px-3",
+                "text": ""
+              },
+              {
+                "heightPx": 36,
+                "count": 27,
+                "sample": "a.group.!static.flex",
+                "text": "Balance of Power: 2026 Midterm"
+              },
+              {
+                "heightPx": 32,
+                "count": 20,
+                "sample": "a.inline-flex.items-center.justify-center",
+                "text": "Go to polymarket.us"
+              },
+              {
+                "heightPx": 48,
+                "count": 19,
+                "sample": "a.relative.inline-flex.items-center",
+                "text": "Trending"
+              },
+              {
+                "heightPx": 16,
+                "count": 15,
+                "sample": "a.inline-flex.items-center.gap-0.5",
+                "text": "polymarket.us"
+              },
+              {
+                "heightPx": 76,
+                "count": 13,
+                "sample": "a.w-full.px-3.flex",
+                "text": "21 Minnesota 74% 10 Washington"
+              },
+              {
+                "heightPx": 18,
+                "count": 5,
+                "sample": "a.text-pk-content-primary.hover:text-pk-content-secondary.transition-colors",
+                "text": ""
+              },
+              {
+                "heightPx": 59,
+                "count": 4,
+                "sample": "a.flex.w-full.h-full",
+                "text": "Home"
+              },
+              {
+                "heightPx": 15,
+                "count": 2,
+                "sample": "a.underline.hover:text-pk-content-secondary.transition-colors",
+                "text": "Polymarket US"
+              }
+            ],
+            "under44": 333,
+            "atLeast44": 38,
+            "distinctHeights": [
+              1,
+              15,
+              16,
+              18,
+              20,
+              24,
+              27,
+              28,
+              32,
+              33.3,
+              34.5,
+              36,
+              40,
+              48,
+              56,
+              59,
+              76
+            ]
+          },
+          "outcomeCard": {
+            "repeatCount": 109,
+            "box": {
+              "width": 358,
+              "height": 180
+            },
+            "selector": "div.relative.flex.flex-col",
+            "padding": {
+              "top": "12px",
+              "right": "0px",
+              "bottom": "0px",
+              "left": "0px"
+            },
+            "gap": {
+              "row": "normal",
+              "column": "normal"
+            },
+            "borderRadius": "15.2px",
+            "borderWidth": "0px",
+            "bgCss": "lab(100 0 0)",
+            "bgHex": "#ffffff",
+            "boxShadow": "lab(0 0 0 / 0) 0px 0px 0px 0px inset, lab(0 0 0 / 0.06) 0px 0px 0px 1px, lab(0 0 0 / 0.025) 0px 2px 6px -0.5px, lab(0 0 0 / 0.025) 0px 2px 10px 0px, lab(0 0 0 / 0) 0px 0px 0px 0px, lab(0 0 0 / 0) 0px 0px 0px 0px, lab(0 0 0 / 0) 0px 0px 0px 0px",
+            "priceDisplay": [
+              {
+                "text": "62%",
+                "fontSizePx": 15,
+                "fontWeight": "600",
+                "lineHeight": "22.5px",
+                "letterSpacing": "normal",
+                "colorHex": "#23272d",
+                "selector": "p.text-[15px].font-semibold.text-pk-cont"
+              },
+              {
+                "text": "32%",
+                "fontSizePx": 15,
+                "fontWeight": "600",
+                "lineHeight": "22.5px",
+                "letterSpacing": "normal",
+                "colorHex": "#23272d",
+                "selector": "p.text-[15px].font-semibold.text-pk-cont"
+              },
+              {
+                "text": "$14M",
+                "fontSizePx": 13,
+                "fontWeight": "490",
+                "lineHeight": "16px",
+                "letterSpacing": "-0.1px",
+                "colorHex": "#6b727b",
+                "selector": "span.uppercase"
+              },
+              {
+                "text": "51%",
+                "fontSizePx": 16,
+                "fontWeight": "500",
+                "lineHeight": "20px",
+                "letterSpacing": "-0.18px",
+                "colorHex": "#23272d",
+                "selector": "p.font-medium.text-heading-lg.text-cente"
+              },
+              {
+                "text": "65%",
+                "fontSizePx": 15,
+                "fontWeight": "600",
+                "lineHeight": "22.5px",
+                "letterSpacing": "normal",
+                "colorHex": "#23272d",
+                "selector": "p.text-[15px].font-semibold.text-pk-cont"
+              },
+              {
+                "text": "34%",
+                "fontSizePx": 15,
+                "fontWeight": "600",
+                "lineHeight": "22.5px",
+                "letterSpacing": "normal",
+                "colorHex": "#23272d",
+                "selector": "p.text-[15px].font-semibold.text-pk-cont"
+              }
+            ],
+            "textSample": "Balance of Power: 2026 Midterms Democrats Sweep 62% Yes 62% No 39% R Senate, D House 32% Yes 32% No 69% $14M Vol."
+          },
+          "otherCardClusters": [
+            {
+              "n": 109,
+              "box": {
+                "width": 358,
+                "height": 180
+              },
+              "radius": "15.2px",
+              "padding": {
+                "top": "12px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px"
+              },
+              "priceFont": "15px/600"
+            }
+          ]
+        },
+        "home/desktop": {
+          "url": "https://polymarket.com/",
+          "httpStatus": 200,
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "dpr": 1,
+          "notes": [
+            "dismissed interstitial via view-only button",
+            "no visible modal remains",
+            "networkidle TIMEOUT after 25s (live site polls) - fell back to timed settle",
+            "real-content gate passed (>400 chars of rendered text)"
+          ],
+          "scrollHeight": 3363,
+          "pageBackground": {
+            "css": "lab(100 0 0)",
+            "hex": "#ffffff"
+          },
+          "fontFamily": "inter, \"inter Fallback\"",
+          "typeScale": [
+            {
+              "fontSizePx": 26,
+              "weight": "600",
+              "lineHeight": "26px",
+              "lhRatio": 1,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 2,
+              "topRole": "span",
+              "sample": "73%"
+            },
+            {
+              "fontSizePx": 24,
+              "weight": "600",
+              "lineHeight": "32px",
+              "lhRatio": 1.33,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 2,
+              "topRole": "link",
+              "sample": "Which party will win the Senate in 2026?"
+            },
+            {
+              "fontSizePx": 20,
+              "weight": "600",
+              "lineHeight": "24px",
+              "lhRatio": 1.2,
+              "letterSpacing": "-0.2px",
+              "family": "inter",
+              "count": 7,
+              "topRole": "span",
+              "sample": "63%"
+            },
+            {
+              "fontSizePx": 18,
+              "weight": "600",
+              "lineHeight": "18px",
+              "lhRatio": 1,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 3,
+              "topRole": "span",
+              "sample": "91%"
+            },
+            {
+              "fontSizePx": 18,
+              "weight": "580",
+              "lineHeight": "27px",
+              "lhRatio": 1.5,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 2,
+              "topRole": "heading h2",
+              "sample": "Breaking News"
+            },
+            {
+              "fontSizePx": 16,
+              "weight": "600",
+              "lineHeight": "20px",
+              "lhRatio": 1.25,
+              "letterSpacing": "-0.18px",
+              "family": "inter",
+              "count": 28,
+              "topRole": "paragraph",
+              "sample": "Jets"
+            },
+            {
+              "fontSizePx": 16,
+              "weight": "400",
+              "lineHeight": "24px",
+              "lhRatio": 1.5,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 8,
+              "topRole": "span",
+              "sample": "Skip to main content"
+            },
+            {
+              "fontSizePx": 16,
+              "weight": "500",
+              "lineHeight": "24px",
+              "lhRatio": 1.5,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 3,
+              "topRole": "span",
+              "sample": "Jets"
+            },
+            {
+              "fontSizePx": 16,
+              "weight": "500",
+              "lineHeight": "20px",
+              "lhRatio": 1.25,
+              "letterSpacing": "-0.18px",
+              "family": "inter",
+              "count": 2,
+              "topRole": "paragraph",
+              "sample": "51%"
+            },
+            {
+              "fontSizePx": 15,
+              "weight": "600",
+              "lineHeight": "22.5px",
+              "lhRatio": 1.5,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 42,
+              "topRole": "paragraph",
+              "sample": "62%"
+            },
+            {
+              "fontSizePx": 15,
+              "weight": "450",
+              "lineHeight": "22.5px",
+              "lhRatio": 1.5,
+              "letterSpacing": "-0.15px",
+              "family": "inter",
+              "count": 6,
+              "topRole": "paragraph",
+              "sample": "Democratic Party"
+            },
+            {
+              "fontSizePx": 15,
+              "weight": "500",
+              "lineHeight": "22.5px",
+              "lhRatio": 1.5,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 4,
+              "topRole": "button label",
+              "sample": "6.5"
+            },
+            {
+              "fontSizePx": 14,
+              "weight": "500",
+              "lineHeight": "20px",
+              "lhRatio": 1.43,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 54,
+              "topRole": "link",
+              "sample": "1:00 PM"
+            },
+            {
+              "fontSizePx": 14,
+              "weight": "500",
+              "lineHeight": "20px",
+              "lhRatio": 1.43,
+              "letterSpacing": "-0.09px",
+              "family": "inter",
+              "count": 53,
+              "topRole": "paragraph",
+              "sample": "More"
+            },
+            {
+              "fontSizePx": 14,
+              "weight": "440",
+              "lineHeight": "20px",
+              "lhRatio": 1.43,
+              "letterSpacing": "-0.09px",
+              "family": "inter",
+              "count": 42,
+              "topRole": "paragraph",
+              "sample": "Democrats Sweep"
+            },
+            {
+              "fontSizePx": 14,
+              "weight": "600",
+              "lineHeight": "20px",
+              "lhRatio": 1.43,
+              "letterSpacing": "-0.09px",
+              "family": "inter",
+              "count": 36,
+              "topRole": "paragraph",
+              "sample": "Spread"
+            },
+            {
+              "fontSizePx": 14,
+              "weight": "590",
+              "lineHeight": "20px",
+              "lhRatio": 1.43,
+              "letterSpacing": "-0.09px",
+              "family": "inter",
+              "count": 23,
+              "topRole": "heading h3",
+              "sample": "Balance of Power: 2026 Midterms"
+            },
+            {
+              "fontSizePx": 14,
+              "weight": "600",
+              "lineHeight": "16px",
+              "lhRatio": 1.14,
+              "letterSpacing": "-0.09px",
+              "family": "inter",
+              "count": 20,
+              "topRole": "nav text",
+              "sample": "Go to polymarket.us"
+            },
+            {
+              "fontSizePx": 14,
+              "weight": "540",
+              "lineHeight": "20px",
+              "lhRatio": 1.43,
+              "letterSpacing": "-0.09px",
+              "family": "inter",
+              "count": 7,
+              "topRole": "link",
+              "sample": "Sports"
+            },
+            {
+              "fontSizePx": 14,
+              "weight": "500",
+              "lineHeight": "16px",
+              "lhRatio": 1.14,
+              "letterSpacing": "-0.09px",
+              "family": "inter",
+              "count": 5,
+              "topRole": "div",
+              "sample": "UFC"
+            },
+            {
+              "fontSizePx": 13,
+              "weight": "490",
+              "lineHeight": "16px",
+              "lhRatio": 1.23,
+              "letterSpacing": "-0.1px",
+              "family": "inter",
+              "count": 218,
+              "topRole": "span",
+              "sample": "To trade in the US, go to"
+            },
+            {
+              "fontSizePx": 13,
+              "weight": "500",
+              "lineHeight": "19.5px",
+              "lhRatio": 1.5,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 124,
+              "topRole": "button label",
+              "sample": "1.5"
+            },
+            {
+              "fontSizePx": 13,
+              "weight": "400",
+              "lineHeight": "16px",
+              "lhRatio": 1.23,
+              "letterSpacing": "-0.1px",
+              "family": "inter",
+              "count": 27,
+              "topRole": "paragraph",
+              "sample": "Latest Midterm Polls Reveal Bright Spots"
+            },
+            {
+              "fontSizePx": 13,
+              "weight": "600",
+              "lineHeight": "16px",
+              "lhRatio": 1.23,
+              "letterSpacing": "-0.1px",
+              "family": "inter",
+              "count": 14,
+              "topRole": "div",
+              "sample": "63%"
+            },
+            {
+              "fontSizePx": 13,
+              "weight": "500",
+              "lineHeight": "16px",
+              "lhRatio": 1.23,
+              "letterSpacing": "-0.1px",
+              "family": "inter",
+              "count": 6,
+              "topRole": "span",
+              "sample": "polymarket.us"
+            },
+            {
+              "fontSizePx": 13,
+              "weight": "500",
+              "lineHeight": "13px",
+              "lhRatio": 1,
+              "letterSpacing": "-0.1px",
+              "family": "inter",
+              "count": 3,
+              "topRole": "span",
+              "sample": "54%"
+            },
+            {
+              "fontSizePx": 13,
+              "weight": "600",
+              "lineHeight": "13px",
+              "lhRatio": 1,
+              "letterSpacing": "-0.1px",
+              "family": "inter",
+              "count": 3,
+              "topRole": "paragraph",
+              "sample": "Live"
+            },
+            {
+              "fontSizePx": 13,
+              "weight": "500",
+              "lineHeight": "14px",
+              "lhRatio": 1.08,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 2,
+              "topRole": "span",
+              "sample": "Lions"
+            },
+            {
+              "fontSizePx": 12,
+              "weight": "500",
+              "lineHeight": "16px",
+              "lhRatio": 1.33,
+              "letterSpacing": "-0.1px",
+              "family": "inter",
+              "count": 54,
+              "topRole": "span",
+              "sample": "・"
+            },
+            {
+              "fontSizePx": 12,
+              "weight": "400",
+              "lineHeight": "18px",
+              "lhRatio": 1.5,
+              "letterSpacing": "normal",
+              "family": "Arial",
+              "count": 38,
+              "topRole": "tspan",
+              "sample": "4:00 AM"
+            },
+            {
+              "fontSizePx": 12,
+              "weight": "400",
+              "lineHeight": "16px",
+              "lhRatio": 1.33,
+              "letterSpacing": "-0.1px",
+              "family": "inter",
+              "count": 27,
+              "topRole": "span",
+              "sample": "The New York Times"
+            },
+            {
+              "fontSizePx": 12,
+              "weight": "500",
+              "lineHeight": "16px",
+              "lhRatio": 1.33,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 14,
+              "topRole": "footer text",
+              "sample": "Predictions & odds"
+            },
+            {
+              "fontSizePx": 12,
+              "weight": "400",
+              "lineHeight": "19.5px",
+              "lhRatio": 1.63,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 4,
+              "topRole": "link",
+              "sample": "Polymarket operates globally through sep"
+            },
+            {
+              "fontSizePx": 12,
+              "weight": "600",
+              "lineHeight": "16px",
+              "lhRatio": 1.33,
+              "letterSpacing": "-0.1px",
+              "family": "inter",
+              "count": 2,
+              "topRole": "paragraph",
+              "sample": "Up"
+            }
+          ],
+          "typeSystem": {
+            "sizes": [
+              12,
+              13,
+              14,
+              15,
+              16,
+              18,
+              20,
+              24,
+              26
+            ],
+            "steps": [
+              {
+                "from": 12,
+                "to": 13,
+                "ratio": 1.083,
+                "deltaPx": 1
+              },
+              {
+                "from": 13,
+                "to": 14,
+                "ratio": 1.077,
+                "deltaPx": 1
+              },
+              {
+                "from": 14,
+                "to": 15,
+                "ratio": 1.071,
+                "deltaPx": 1
+              },
+              {
+                "from": 15,
+                "to": 16,
+                "ratio": 1.067,
+                "deltaPx": 1
+              },
+              {
+                "from": 16,
+                "to": 18,
+                "ratio": 1.125,
+                "deltaPx": 2
+              },
+              {
+                "from": 18,
+                "to": 20,
+                "ratio": 1.111,
+                "deltaPx": 2
+              },
+              {
+                "from": 20,
+                "to": 24,
+                "ratio": 1.2,
+                "deltaPx": 4
+              },
+              {
+                "from": 24,
+                "to": 26,
+                "ratio": 1.083,
+                "deltaPx": 2
+              }
+            ],
+            "meanRatio": 1.102,
+            "ratioStdDev": 0.041,
+            "ratioMin": 1.067,
+            "ratioMax": 1.2,
+            "ratioSpread": 0.133,
+            "meanDeltaPx": 1.75,
+            "deltaStdDevPx": 0.97,
+            "verdict": "NOT a modular scale: step ratio varies 1.067-1.2 (spread 0.133); hand-picked px ramp with a fine step in the body band and a coarser step above"
+          },
+          "spacing": {
+            "distinctPx": [
+              1,
+              2,
+              3,
+              4,
+              6,
+              8,
+              10,
+              12,
+              14,
+              16,
+              20,
+              24,
+              37.5
+            ],
+            "paddingTop10": [
+              {
+                "px": 12,
+                "count": 499
+              },
+              {
+                "px": 4,
+                "count": 292
+              },
+              {
+                "px": 8,
+                "count": 181
+              },
+              {
+                "px": 14,
+                "count": 168
+              },
+              {
+                "px": 10,
+                "count": 114
+              },
+              {
+                "px": 3,
+                "count": 18
+              },
+              {
+                "px": 2,
+                "count": 17
+              },
+              {
+                "px": 16,
+                "count": 16
+              },
+              {
+                "px": 24,
+                "count": 13
+              },
+              {
+                "px": 20,
+                "count": 12
+              }
+            ],
+            "gapTop10": [
+              {
+                "px": 8,
+                "count": 762
+              },
+              {
+                "px": 6,
+                "count": 360
+              },
+              {
+                "px": 4,
+                "count": 207
+              },
+              {
+                "px": 16,
+                "count": 188
+              },
+              {
+                "px": 12,
+                "count": 71
+              },
+              {
+                "px": 2,
+                "count": 19
+              },
+              {
+                "px": 24,
+                "count": 10
+              },
+              {
+                "px": 32,
+                "count": 2
+              },
+              {
+                "px": 40,
+                "count": 2
+              },
+              {
+                "px": 64,
+                "count": 2
+              }
+            ],
+            "gridFit": {
+              "2px": {
+                "onGrid": 10,
+                "total": 13,
+                "pct": 76.9,
+                "offGrid": [
+                  1,
+                  3,
+                  37.5
+                ]
+              },
+              "4px": {
+                "onGrid": 6,
+                "total": 13,
+                "pct": 46.2,
+                "offGrid": [
+                  1,
+                  2,
+                  3,
+                  6,
+                  10,
+                  14,
+                  37.5
+                ]
+              },
+              "8px": {
+                "onGrid": 3,
+                "total": 13,
+                "pct": 23.1,
+                "offGrid": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  6,
+                  10,
+                  12,
+                  14,
+                  20,
+                  37.5
+                ]
+              }
+            }
+          },
+          "borderRadius": [
+            {
+              "px": 0,
+              "raw": "0px",
+              "count": 11080,
+              "pill": false
+            },
+            {
+              "px": 2,
+              "raw": "2px",
+              "count": 108,
+              "pill": false
+            },
+            {
+              "px": 4,
+              "raw": "4px",
+              "count": 484,
+              "pill": false
+            },
+            {
+              "px": 5.2,
+              "raw": "5.2px",
+              "count": 344,
+              "pill": false
+            },
+            {
+              "px": 6,
+              "raw": "6px",
+              "count": 76,
+              "pill": false
+            },
+            {
+              "px": 7.2,
+              "raw": "7.2px",
+              "count": 684,
+              "pill": false
+            },
+            {
+              "px": 8,
+              "raw": "8px",
+              "count": 48,
+              "pill": false
+            },
+            {
+              "px": 9.2,
+              "raw": "9.2px",
+              "count": 36,
+              "pill": false
+            },
+            {
+              "px": 10,
+              "raw": "10px",
+              "count": 4,
+              "pill": false
+            },
+            {
+              "px": 11.2,
+              "raw": "11.2px",
+              "count": 16,
+              "pill": false
+            },
+            {
+              "px": 12,
+              "raw": "12px",
+              "count": 4,
+              "pill": false
+            },
+            {
+              "px": 15.2,
+              "raw": "15.2px",
+              "count": 144,
+              "pill": false
+            },
+            {
+              "px": 18,
+              "raw": "18px",
+              "count": 16,
+              "pill": false
+            },
+            {
+              "px": 20,
+              "raw": "20px",
+              "count": 8,
+              "pill": false
+            },
+            {
+              "px": 33554400,
+              "raw": "3.35544e+07px",
+              "count": 292,
+              "pill": true
+            }
+          ],
+          "semanticColors": [
+            {
+              "kind": "YES/BUY",
+              "label": "Yes 62%",
+              "selector": "a.inline-flex.items-center.cursor-pointer",
+              "textColorCss": "lab(45.7361 -45.2267 37.3056)",
+              "textColorHex": "#007e26",
+              "surfaceCss": "oklab(0.603598 -0.149933 0.0964872 / 0.15)",
+              "surfaceAlpha": 0.149,
+              "surfaceCompositedHex": "#d9f0e2",
+              "pageBgHex": "#ffffff",
+              "fontSizePx": 14,
+              "fontWeight": "600",
+              "heightPx": 27,
+              "borderRadius": "5.2px",
+              "padding": "0px 14px 0px 14px",
+              "contrastRatio": 4.36,
+              "wcag": {
+                "threshold": 4.5,
+                "isLargeText": false,
+                "passAA": false,
+                "passAAA": false
+              },
+              "surfaceVsPageBg": 1.2
+            },
+            {
+              "kind": "NO/SELL",
+              "label": "No 39%",
+              "selector": "a.inline-flex.items-center.cursor-pointer",
+              "textColorCss": "lab(47.8918 72.1772 58.3835)",
+              "textColorHex": "#df0c10",
+              "surfaceCss": "oklab(0.570509 0.201896 0.109506 / 0.09)",
+              "surfaceAlpha": 0.0902,
+              "surfaceCompositedHex": "#fce9e9",
+              "pageBgHex": "#ffffff",
+              "fontSizePx": 14,
+              "fontWeight": "600",
+              "heightPx": 27,
+              "borderRadius": "5.2px",
+              "padding": "0px 14px 0px 14px",
+              "contrastRatio": 4.28,
+              "wcag": {
+                "threshold": 4.5,
+                "isLargeText": false,
+                "passAA": false,
+                "passAAA": false
+              },
+              "surfaceVsPageBg": 1.17
+            }
+          ],
+          "primaryButton": {
+            "text": "All",
+            "selector": "button.inline-flex.text-body-base.font-medium",
+            "heightPx": 32,
+            "widthPx": 40.73,
+            "padding": {
+              "top": "0px",
+              "right": "12px",
+              "bottom": "0px",
+              "left": "12px"
+            },
+            "fontSizePx": 14,
+            "fontWeight": "500",
+            "borderRadius": "6px",
+            "bgCss": "oklab(0.553288 -0.0176905 -0.245344 / 0.1)",
+            "bgHex": "#eaeeff",
+            "fgCss": "lab(44.7153 32.3672 -86.8665)",
+            "fgHex": "#2e5cff",
+            "contrastRatio": 4.44
+          },
+          "primaryInput": {
+            "type": "text",
+            "placeholder": "Search polymarkets...",
+            "heightPx": 16,
+            "widthPx": 530.08,
+            "padding": {
+              "top": "0px",
+              "right": "0px",
+              "bottom": "0px",
+              "left": "0px"
+            },
+            "fontSizePx": 14,
+            "borderRadius": "0px",
+            "borderWidth": "0px"
+          },
+          "allInputs": [
+            {
+              "type": "text",
+              "placeholder": "Search polymarkets...",
+              "heightPx": 16,
+              "padding": {
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px"
+              },
+              "fontSizePx": 14,
+              "borderRadius": "0px"
+            },
+            {
+              "type": "text",
+              "placeholder": "Search",
+              "heightPx": 40,
+              "padding": {
+                "top": "4px",
+                "right": "12px",
+                "bottom": "4px",
+                "left": "36px"
+              },
+              "fontSizePx": 14,
+              "borderRadius": "9.2px"
+            }
+          ],
+          "touchTargets": {
+            "top12": [
+              {
+                "heightPx": 27.5,
+                "count": 116,
+                "sample": "button.text-[13px].transition.font-medium",
+                "text": "1.5"
+              },
+              {
+                "heightPx": 27,
+                "count": 86,
+                "sample": "a.group.flex.items-center",
+                "text": "Breaking News"
+              },
+              {
+                "heightPx": 20,
+                "count": 75,
+                "sample": "a.inline-flex.items-center.cursor-pointer",
+                "text": "Sports"
+              },
+              {
+                "heightPx": 28,
+                "count": 63,
+                "sample": "button#base-ui-_R_6rc1d9a5klura9brjaraivb_.inline-flex.items-center.cursor-pointer",
+                "text": ""
+              },
+              {
+                "heightPx": 40,
+                "count": 63,
+                "sample": "button#radix-_R_11mmja9brjaraivb_.group.hover:text-pk-content-tertiary.my-auto",
+                "text": "More"
+              },
+              {
+                "heightPx": 36,
+                "count": 35,
+                "sample": "button#base-ui-_R_dibaq5klura9brjaraivb_.inline-flex.items-center.cursor-pointer",
+                "text": ""
+              },
+              {
+                "heightPx": 32,
+                "count": 32,
+                "sample": "a.inline-flex.items-center.justify-center",
+                "text": "Go to polymarket.us"
+              },
+              {
+                "heightPx": 74,
+                "count": 27,
+                "sample": "a.block.py-2.5.shrink-0",
+                "text": "The New York Times ・ 1d ago La"
+              },
+              {
+                "heightPx": 48,
+                "count": 19,
+                "sample": "a.relative.inline-flex.items-center",
+                "text": "Trending"
+              },
+              {
+                "heightPx": 16,
+                "count": 16,
+                "sample": "input#search-input.min-w-0.flex-1.bg-transparent",
+                "text": ""
+              },
+              {
+                "heightPx": 76,
+                "count": 13,
+                "sample": "a.w-full.px-3.flex",
+                "text": "21 Minnesota 74% 10 Washington"
+              },
+              {
+                "heightPx": 30,
+                "count": 9,
+                "sample": "button.flex.items-center.justify-center",
+                "text": ""
+              }
+            ],
+            "under44": 513,
+            "atLeast44": 71,
+            "distinctHeights": [
+              1,
+              15,
+              16,
+              18,
+              20,
+              24,
+              27,
+              27.5,
+              28,
+              29,
+              30,
+              30.5,
+              32,
+              33.05,
+              36,
+              40,
+              48,
+              56,
+              60,
+              74,
+              76,
+              84,
+              442
+            ]
+          },
+          "outcomeCard": {
+            "repeatCount": 109,
+            "box": {
+              "width": 316.5,
+              "height": 180
+            },
+            "selector": "div.relative.flex.flex-col",
+            "padding": {
+              "top": "12px",
+              "right": "0px",
+              "bottom": "0px",
+              "left": "0px"
+            },
+            "gap": {
+              "row": "normal",
+              "column": "normal"
+            },
+            "borderRadius": "15.2px",
+            "borderWidth": "0px",
+            "bgCss": "lab(100 0 0)",
+            "bgHex": "#ffffff",
+            "boxShadow": "lab(0 0 0 / 0) 0px 0px 0px 0px inset, lab(0 0 0 / 0.06) 0px 0px 0px 1px, lab(0 0 0 / 0.025) 0px 2px 6px -0.5px, lab(0 0 0 / 0.025) 0px 2px 10px 0px, lab(0 0 0 / 0) 0px 0px 0px 0px, lab(0 0 0 / 0) 0px 0px 0px 0px, lab(0 0 0 / 0) 0px 0px 0px 0px",
+            "priceDisplay": [
+              {
+                "text": "62%",
+                "fontSizePx": 15,
+                "fontWeight": "600",
+                "lineHeight": "22.5px",
+                "letterSpacing": "normal",
+                "colorHex": "#23272d",
+                "selector": "p.text-[15px].font-semibold.text-pk-cont"
+              },
+              {
+                "text": "32%",
+                "fontSizePx": 15,
+                "fontWeight": "600",
+                "lineHeight": "22.5px",
+                "letterSpacing": "normal",
+                "colorHex": "#23272d",
+                "selector": "p.text-[15px].font-semibold.text-pk-cont"
+              },
+              {
+                "text": "$14M",
+                "fontSizePx": 13,
+                "fontWeight": "490",
+                "lineHeight": "16px",
+                "letterSpacing": "-0.1px",
+                "colorHex": "#6b727b",
+                "selector": "span.uppercase"
+              },
+              {
+                "text": "51%",
+                "fontSizePx": 16,
+                "fontWeight": "500",
+                "lineHeight": "20px",
+                "letterSpacing": "-0.18px",
+                "colorHex": "#23272d",
+                "selector": "p.font-medium.text-heading-lg.text-cente"
+              },
+              {
+                "text": "65%",
+                "fontSizePx": 15,
+                "fontWeight": "600",
+                "lineHeight": "22.5px",
+                "letterSpacing": "normal",
+                "colorHex": "#23272d",
+                "selector": "p.text-[15px].font-semibold.text-pk-cont"
+              },
+              {
+                "text": "34%",
+                "fontSizePx": 15,
+                "fontWeight": "600",
+                "lineHeight": "22.5px",
+                "letterSpacing": "normal",
+                "colorHex": "#23272d",
+                "selector": "p.text-[15px].font-semibold.text-pk-cont"
+              }
+            ],
+            "textSample": "Balance of Power: 2026 Midterms Democrats Sweep 62% Yes 62% No 39% R Senate, D House 32% Yes 32% No 69% $14M Vol."
+          },
+          "otherCardClusters": [
+            {
+              "n": 109,
+              "box": {
+                "width": 316.5,
+                "height": 180
+              },
+              "radius": "15.2px",
+              "padding": {
+                "top": "12px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px"
+              },
+              "priceFont": "15px/600"
+            },
+            {
+              "n": 6,
+              "box": {
+                "width": 362.86,
+                "height": 215
+              },
+              "radius": "11.2px",
+              "padding": {
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px"
+              },
+              "priceFont": "18px/600"
+            },
+            {
+              "n": 5,
+              "box": {
+                "width": 362.86,
+                "height": 219
+              },
+              "radius": "11.2px",
+              "padding": {
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px"
+              },
+              "priceFont": "13px/500"
+            },
+            {
+              "n": 4,
+              "box": {
+                "width": 346.05,
+                "height": 184
+              },
+              "radius": "11.2px",
+              "padding": {
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px"
+              },
+              "priceFont": "20px/600"
+            },
+            {
+              "n": 3,
+              "box": {
+                "width": 907.14,
+                "height": 480
+              },
+              "radius": "18px",
+              "padding": {
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px"
+              },
+              "priceFont": "13px/490"
+            },
+            {
+              "n": 2,
+              "box": {
+                "width": 346.05,
+                "height": 88
+              },
+              "radius": "11.2px",
+              "padding": {
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px"
+              },
+              "priceFont": "20px/600"
+            }
+          ]
+        },
+        "event/mobile": {
+          "url": "https://polymarket.com/event/los-angeles-mayoral-election-117",
+          "httpStatus": 200,
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "dpr": 3,
+          "notes": [
+            "dismissed interstitial via view-only button",
+            "no visible modal remains",
+            "networkidle TIMEOUT after 25s (live site polls) - fell back to timed settle",
+            "real-content gate passed (>400 chars of rendered text)"
+          ],
+          "scrollHeight": 7378,
+          "pageBackground": {
+            "css": "lab(100 0 0)",
+            "hex": "#ffffff"
+          },
+          "fontFamily": "inter, \"inter Fallback\"",
+          "typeScale": [
+            {
+              "fontSizePx": 28,
+              "weight": "600",
+              "lineHeight": "28px",
+              "lhRatio": 1,
+              "letterSpacing": "-0.42px",
+              "family": "inter",
+              "count": 2,
+              "topRole": "paragraph",
+              "sample": "58%"
+            },
+            {
+              "fontSizePx": 26,
+              "weight": "600",
+              "lineHeight": "26px",
+              "lhRatio": 1,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 2,
+              "topRole": "span",
+              "sample": "58.4%"
+            },
+            {
+              "fontSizePx": 16,
+              "weight": "600",
+              "lineHeight": "20px",
+              "lhRatio": 1.25,
+              "letterSpacing": "-0.18px",
+              "family": "inter",
+              "count": 6,
+              "topRole": "button label",
+              "sample": "Rules"
+            },
+            {
+              "fontSizePx": 16,
+              "weight": "400",
+              "lineHeight": "24px",
+              "lhRatio": 1.5,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 5,
+              "topRole": "span",
+              "sample": "Skip to main content"
+            },
+            {
+              "fontSizePx": 16,
+              "weight": "500",
+              "lineHeight": "24px",
+              "lhRatio": 1.5,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 5,
+              "topRole": "span",
+              "sample": "Related"
+            },
+            {
+              "fontSizePx": 16,
+              "weight": "600",
+              "lineHeight": "24px",
+              "lhRatio": 1.5,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 3,
+              "topRole": "paragraph",
+              "sample": "Nithya Raman"
+            },
+            {
+              "fontSizePx": 14,
+              "weight": "500",
+              "lineHeight": "20px",
+              "lhRatio": 1.43,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 83,
+              "topRole": "link",
+              "sample": "View resolved"
+            },
+            {
+              "fontSizePx": 14,
+              "weight": "600",
+              "lineHeight": "20px",
+              "lhRatio": 1.43,
+              "letterSpacing": "-0.09px",
+              "family": "inter",
+              "count": 28,
+              "topRole": "span",
+              "sample": "1H"
+            },
+            {
+              "fontSizePx": 14,
+              "weight": "600",
+              "lineHeight": "16px",
+              "lhRatio": 1.14,
+              "letterSpacing": "-0.09px",
+              "family": "inter",
+              "count": 20,
+              "topRole": "nav text",
+              "sample": "Go to polymarket.us"
+            },
+            {
+              "fontSizePx": 14,
+              "weight": "400",
+              "lineHeight": "20px",
+              "lhRatio": 1.43,
+              "letterSpacing": "-0.09px",
+              "family": "inter",
+              "count": 13,
+              "topRole": "div",
+              "sample": "The 2026 Los Angeles mayoral election wi"
+            },
+            {
+              "fontSizePx": 14,
+              "weight": "400",
+              "lineHeight": "21px",
+              "lhRatio": 1.5,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 6,
+              "topRole": "button label",
+              "sample": "What is the \"Los Angeles Mayoral Electio"
+            },
+            {
+              "fontSizePx": 14,
+              "weight": "400",
+              "lineHeight": "22.75px",
+              "lhRatio": 1.63,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 5,
+              "topRole": "div",
+              "sample": "\"Los Angeles Mayoral Election\" is a pred"
+            },
+            {
+              "fontSizePx": 14,
+              "weight": "500",
+              "lineHeight": "20px",
+              "lhRatio": 1.43,
+              "letterSpacing": "-0.09px",
+              "family": "inter",
+              "count": 3,
+              "topRole": "button label",
+              "sample": "Show more"
+            },
+            {
+              "fontSizePx": 14,
+              "weight": "700",
+              "lineHeight": "20px",
+              "lhRatio": 1.43,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 3,
+              "topRole": "span",
+              "sample": "Volume"
+            },
+            {
+              "fontSizePx": 14,
+              "weight": "400",
+              "lineHeight": "20px",
+              "lhRatio": 1.43,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 3,
+              "topRole": "span",
+              "sample": "$14,561,608"
+            },
+            {
+              "fontSizePx": 14,
+              "weight": "540",
+              "lineHeight": "20px",
+              "lhRatio": 1.43,
+              "letterSpacing": "-0.09px",
+              "family": "inter",
+              "count": 2,
+              "topRole": "link",
+              "sample": "Politics"
+            },
+            {
+              "fontSizePx": 13,
+              "weight": "500",
+              "lineHeight": "16px",
+              "lhRatio": 1.23,
+              "letterSpacing": "-0.1px",
+              "family": "inter",
+              "count": 9,
+              "topRole": "time",
+              "sample": "polymarket.us"
+            },
+            {
+              "fontSizePx": 13,
+              "weight": "600",
+              "lineHeight": "16px",
+              "lhRatio": 1.23,
+              "letterSpacing": "-0.1px",
+              "family": "inter",
+              "count": 4,
+              "topRole": "button label",
+              "sample": "All"
+            },
+            {
+              "fontSizePx": 13,
+              "weight": "600",
+              "lineHeight": "19.5px",
+              "lhRatio": 1.5,
+              "letterSpacing": "-0.09px",
+              "family": "inter",
+              "count": 3,
+              "topRole": "paragraph",
+              "sample": "Will Nithya Raman win the 2026 Los Angel"
+            },
+            {
+              "fontSizePx": 13,
+              "weight": "500",
+              "lineHeight": "14px",
+              "lhRatio": 1.08,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 2,
+              "topRole": "span",
+              "sample": "Nithya Raman"
+            },
+            {
+              "fontSizePx": 12,
+              "weight": "600",
+              "lineHeight": "16px",
+              "lhRatio": 1.33,
+              "letterSpacing": "-0.09px",
+              "family": "inter",
+              "count": 26,
+              "topRole": "span",
+              "sample": "1"
+            },
+            {
+              "fontSizePx": 12,
+              "weight": "500",
+              "lineHeight": "16px",
+              "lhRatio": 1.33,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 20,
+              "topRole": "footer text",
+              "sample": "Predictions & odds"
+            },
+            {
+              "fontSizePx": 12,
+              "weight": "400",
+              "lineHeight": "18px",
+              "lhRatio": 1.5,
+              "letterSpacing": "normal",
+              "family": "Arial",
+              "count": 7,
+              "topRole": "tspan",
+              "sample": "Dec"
+            },
+            {
+              "fontSizePx": 12,
+              "weight": "400",
+              "lineHeight": "19.5px",
+              "lhRatio": 1.63,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 4,
+              "topRole": "link",
+              "sample": "Polymarket operates globally through sep"
+            },
+            {
+              "fontSizePx": 12,
+              "weight": "600",
+              "lineHeight": "16px",
+              "lhRatio": 1.33,
+              "letterSpacing": "-0.1px",
+              "family": "inter",
+              "count": 3,
+              "topRole": "button label",
+              "sample": "1 Replies"
+            },
+            {
+              "fontSizePx": 12,
+              "weight": "400",
+              "lineHeight": "16px",
+              "lhRatio": 1.33,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 2,
+              "topRole": "span",
+              "sample": "$2,158,505 Vol."
+            },
+            {
+              "fontSizePx": 11,
+              "weight": "500",
+              "lineHeight": "16.5px",
+              "lhRatio": 1.5,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 4,
+              "topRole": "paragraph",
+              "sample": "Home"
+            }
+          ],
+          "typeSystem": {
+            "sizes": [
+              11,
+              12,
+              13,
+              14,
+              16,
+              26,
+              28
+            ],
+            "steps": [
+              {
+                "from": 11,
+                "to": 12,
+                "ratio": 1.091,
+                "deltaPx": 1
+              },
+              {
+                "from": 12,
+                "to": 13,
+                "ratio": 1.083,
+                "deltaPx": 1
+              },
+              {
+                "from": 13,
+                "to": 14,
+                "ratio": 1.077,
+                "deltaPx": 1
+              },
+              {
+                "from": 14,
+                "to": 16,
+                "ratio": 1.143,
+                "deltaPx": 2
+              },
+              {
+                "from": 16,
+                "to": 26,
+                "ratio": 1.625,
+                "deltaPx": 10
+              },
+              {
+                "from": 26,
+                "to": 28,
+                "ratio": 1.077,
+                "deltaPx": 2
+              }
+            ],
+            "meanRatio": 1.183,
+            "ratioStdDev": 0.199,
+            "ratioMin": 1.077,
+            "ratioMax": 1.625,
+            "ratioSpread": 0.548,
+            "meanDeltaPx": 2.83,
+            "deltaStdDevPx": 3.24,
+            "verdict": "NOT a modular scale: step ratio varies 1.077-1.625 (spread 0.548); hand-picked px ramp with a fine step in the body band and a coarser step above"
+          },
+          "spacing": {
+            "distinctPx": [
+              2,
+              3.3,
+              4,
+              6,
+              8,
+              10,
+              12,
+              14,
+              16,
+              20,
+              24,
+              32
+            ],
+            "paddingTop10": [
+              {
+                "px": 4,
+                "count": 103
+              },
+              {
+                "px": 6,
+                "count": 52
+              },
+              {
+                "px": 8,
+                "count": 51
+              },
+              {
+                "px": 10,
+                "count": 40
+              },
+              {
+                "px": 12,
+                "count": 30
+              },
+              {
+                "px": 16,
+                "count": 26
+              },
+              {
+                "px": 20,
+                "count": 17
+              },
+              {
+                "px": 32,
+                "count": 15
+              },
+              {
+                "px": 2,
+                "count": 13
+              },
+              {
+                "px": 24,
+                "count": 12
+              }
+            ],
+            "gapTop10": [
+              {
+                "px": 6,
+                "count": 144
+              },
+              {
+                "px": 4,
+                "count": 88
+              },
+              {
+                "px": 8,
+                "count": 85
+              },
+              {
+                "px": 12,
+                "count": 63
+              },
+              {
+                "px": 16,
+                "count": 20
+              },
+              {
+                "px": 10,
+                "count": 11
+              },
+              {
+                "px": 2,
+                "count": 9
+              },
+              {
+                "px": 3.3,
+                "count": 4
+              },
+              {
+                "px": 14,
+                "count": 2
+              },
+              {
+                "px": 20,
+                "count": 2
+              }
+            ],
+            "gridFit": {
+              "2px": {
+                "onGrid": 11,
+                "total": 12,
+                "pct": 91.7,
+                "offGrid": [
+                  3.3
+                ]
+              },
+              "4px": {
+                "onGrid": 7,
+                "total": 12,
+                "pct": 58.3,
+                "offGrid": [
+                  2,
+                  3.3,
+                  6,
+                  10,
+                  14
+                ]
+              },
+              "8px": {
+                "onGrid": 4,
+                "total": 12,
+                "pct": 33.3,
+                "offGrid": [
+                  2,
+                  3.3,
+                  4,
+                  6,
+                  10,
+                  12,
+                  14,
+                  20
+                ]
+              }
+            }
+          },
+          "borderRadius": [
+            {
+              "px": 0,
+              "raw": "0px",
+              "count": 3994,
+              "pill": false
+            },
+            {
+              "px": 4,
+              "raw": "4px",
+              "count": 8,
+              "pill": false
+            },
+            {
+              "px": 7.2,
+              "raw": "7.2px",
+              "count": 212,
+              "pill": false
+            },
+            {
+              "px": 9.2,
+              "raw": "9.2px",
+              "count": 48,
+              "pill": false
+            },
+            {
+              "px": 11.2,
+              "raw": "11.2px",
+              "count": 50,
+              "pill": false
+            },
+            {
+              "px": 15.2,
+              "raw": "15.2px",
+              "count": 12,
+              "pill": false
+            },
+            {
+              "px": 50,
+              "raw": "50%",
+              "count": 16,
+              "pill": false
+            },
+            {
+              "px": 33554400,
+              "raw": "3.35544e+07px",
+              "count": 60,
+              "pill": true
+            }
+          ],
+          "semanticColors": [
+            {
+              "kind": "YES/BUY",
+              "label": "Buy Yes 58.8¢",
+              "selector": "button.inline-flex.items-center.duration-150",
+              "textColorCss": "lab(45.7361 -45.2267 37.3056)",
+              "textColorHex": "#007e26",
+              "surfaceCss": "oklab(0.603598 -0.149933 0.0964872 / 0.15)",
+              "surfaceAlpha": 0.149,
+              "surfaceCompositedHex": "#d9f0e2",
+              "pageBgHex": "#ffffff",
+              "fontSizePx": 14,
+              "fontWeight": "600",
+              "heightPx": 44,
+              "borderRadius": "7.2px",
+              "padding": "8px 16px 8px 16px",
+              "contrastRatio": 4.36,
+              "wcag": {
+                "threshold": 4.5,
+                "isLargeText": false,
+                "passAA": false,
+                "passAAA": false
+              },
+              "surfaceVsPageBg": 1.2
+            },
+            {
+              "kind": "YES/BUY",
+              "label": "Buy No 42.0¢",
+              "selector": "button.inline-flex.items-center.duration-150",
+              "textColorCss": "lab(47.8918 72.1772 58.3835)",
+              "textColorHex": "#df0c10",
+              "surfaceCss": "oklab(0.570509 0.201896 0.109506 / 0.09)",
+              "surfaceAlpha": 0.0902,
+              "surfaceCompositedHex": "#fce9e9",
+              "pageBgHex": "#ffffff",
+              "fontSizePx": 14,
+              "fontWeight": "600",
+              "heightPx": 44,
+              "borderRadius": "7.2px",
+              "padding": "8px 16px 8px 16px",
+              "contrastRatio": 4.28,
+              "wcag": {
+                "threshold": 4.5,
+                "isLargeText": false,
+                "passAA": false,
+                "passAAA": false
+              },
+              "surfaceVsPageBg": 1.17
+            }
+          ],
+          "primaryButton": {
+            "text": "Buy Yes 58.8¢",
+            "selector": "button.inline-flex.items-center.duration-150",
+            "heightPx": 44,
+            "widthPx": 173,
+            "padding": {
+              "top": "8px",
+              "right": "16px",
+              "bottom": "8px",
+              "left": "16px"
+            },
+            "fontSizePx": 14,
+            "fontWeight": "600",
+            "borderRadius": "7.2px",
+            "bgCss": "oklab(0.603598 -0.149933 0.0964872 / 0.15)",
+            "bgHex": "#d9f0e2",
+            "fgCss": "lab(45.7361 -45.2267 37.3056)",
+            "fgHex": "#007e26",
+            "contrastRatio": 4.36
+          },
+          "primaryInput": {
+            "type": "textarea",
+            "placeholder": "Add a comment...",
+            "heightPx": 48,
+            "widthPx": 356,
+            "padding": {
+              "top": "14px",
+              "right": "112px",
+              "bottom": "14px",
+              "left": "14px"
+            },
+            "fontSizePx": 16,
+            "borderRadius": "15.2px",
+            "borderWidth": "0px"
+          },
+          "allInputs": [
+            {
+              "type": "textarea",
+              "placeholder": "Add a comment...",
+              "heightPx": 48,
+              "padding": {
+                "top": "14px",
+                "right": "112px",
+                "bottom": "14px",
+                "left": "14px"
+              },
+              "fontSizePx": 16,
+              "borderRadius": "15.2px"
+            }
+          ],
+          "touchTargets": {
+            "top12": [
+              {
+                "heightPx": 20,
+                "count": 57,
+                "sample": "a.inline-flex.items-center.cursor-pointer",
+                "text": "Politics"
+              },
+              {
+                "heightPx": 24,
+                "count": 33,
+                "sample": "button.flex.size-6.shrink-0",
+                "text": ""
+              },
+              {
+                "heightPx": 36,
+                "count": 26,
+                "sample": "button#radix-_R_5llaccqumsalfiv5ura9brjaraivb_.inline-flex.items-center.cursor-pointer",
+                "text": ""
+              },
+              {
+                "heightPx": 48,
+                "count": 23,
+                "sample": "a.relative.inline-flex.items-center",
+                "text": "Trending"
+              },
+              {
+                "heightPx": 28,
+                "count": 14,
+                "sample": "button#radix-_r_5r_.bg-transparent.hover:bg-pk-hover-overlay-darker.active:bg-pk-hover-overlay-darker",
+                "text": ""
+              },
+              {
+                "heightPx": 22,
+                "count": 12,
+                "sample": "button#radix-_r_5v_.inline-flex.items-center.cursor-pointer",
+                "text": "120.1K Nithya Raman"
+              },
+              {
+                "heightPx": 40,
+                "count": 10,
+                "sample": "button.inline-flex.items-center.cursor-pointer",
+                "text": "Show more"
+              },
+              {
+                "heightPx": 18,
+                "count": 7,
+                "sample": "button.px-0.5",
+                "text": ""
+              },
+              {
+                "heightPx": 32,
+                "count": 7,
+                "sample": "a.inline-flex.items-center.justify-center",
+                "text": "Go to polymarket.us"
+              },
+              {
+                "heightPx": 82,
+                "count": 5,
+                "sample": "button#radix-_R_n5gqumsalfiv5ura9brjaraivb_.w-full.flex.items-center",
+                "text": "What is the \"Los Angeles Mayor"
+              },
+              {
+                "heightPx": 17,
+                "count": 4,
+                "sample": "a",
+                "text": "@Magician5342"
+              },
+              {
+                "heightPx": 44,
+                "count": 4,
+                "sample": "button.inline-flex.items-center.duration-150",
+                "text": "Buy Yes 58.8¢"
+              }
+            ],
+            "under44": 178,
+            "atLeast44": 50,
+            "distinctHeights": [
+              1,
+              14,
+              15,
+              16,
+              17,
+              18,
+              20,
+              21,
+              22,
+              24,
+              28,
+              32,
+              33.3,
+              34.5,
+              36,
+              40,
+              44,
+              48,
+              59,
+              80,
+              81,
+              82,
+              101,
+              141,
+              249.47,
+              253,
+              265,
+              285,
+              566.47,
+              643
+            ]
+          },
+          "outcomeCard": {
+            "repeatCount": 1,
+            "box": {
+              "width": 358,
+              "height": 140
+            },
+            "selector": "div.group.flex.flex-col",
+            "padding": {
+              "top": "16px",
+              "right": "0px",
+              "bottom": "16px",
+              "left": "0px"
+            },
+            "gap": {
+              "row": "16px",
+              "column": "16px"
+            },
+            "borderRadius": "0px",
+            "borderWidth": "1px",
+            "bgCss": "lab(100 0 0)",
+            "bgHex": "#ffffff",
+            "boxShadow": null,
+            "priceDisplay": [
+              {
+                "text": "58%",
+                "fontSizePx": 28,
+                "fontWeight": "600",
+                "lineHeight": "28px",
+                "letterSpacing": "-0.42px",
+                "colorHex": "#23272d",
+                "selector": "p.font-semibold.text-heading-2xl.text-[2"
+              }
+            ],
+            "textSample": "Nithya Raman $2,158,505 Vol. 58% Buy Yes 58.8¢ Buy No 42.0¢"
+          },
+          "otherCardClusters": [
+            {
+              "n": 3,
+              "box": {
+                "width": 390,
+                "height": 5014.47
+              },
+              "radius": "0px",
+              "padding": {
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px"
+              },
+              "priceFont": "16px/500"
+            },
+            {
+              "n": 1,
+              "box": {
+                "width": 358,
+                "height": 140
+              },
+              "radius": "0px",
+              "padding": {
+                "top": "16px",
+                "right": "0px",
+                "bottom": "16px",
+                "left": "0px"
+              },
+              "priceFont": "28px/600"
+            },
+            {
+              "n": 1,
+              "box": {
+                "width": 358,
+                "height": 139
+              },
+              "radius": "0px",
+              "padding": {
+                "top": "16px",
+                "right": "0px",
+                "bottom": "16px",
+                "left": "0px"
+              },
+              "priceFont": "28px/600"
+            },
+            {
+              "n": 1,
+              "box": {
+                "width": 390,
+                "height": 7270.27
+              },
+              "radius": "0px",
+              "padding": {
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px"
+              },
+              "priceFont": "16px/400"
+            }
+          ]
+        },
+        "event/desktop": {
+          "url": "https://polymarket.com/event/los-angeles-mayoral-election-117",
+          "httpStatus": 200,
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "dpr": 1,
+          "notes": [
+            "dismissed interstitial via view-only button",
+            "no visible modal remains",
+            "networkidle TIMEOUT after 25s (live site polls) - fell back to timed settle",
+            "real-content gate passed (>400 chars of rendered text)"
+          ],
+          "scrollHeight": 5555,
+          "pageBackground": {
+            "css": "lab(100 0 0)",
+            "hex": "#ffffff"
+          },
+          "fontFamily": "inter, \"inter Fallback\"",
+          "typeScale": [
+            {
+              "fontSizePx": 28,
+              "weight": "600",
+              "lineHeight": "28px",
+              "lhRatio": 1,
+              "letterSpacing": "-0.42px",
+              "family": "inter",
+              "count": 2,
+              "topRole": "paragraph",
+              "sample": "58%"
+            },
+            {
+              "fontSizePx": 26,
+              "weight": "600",
+              "lineHeight": "26px",
+              "lhRatio": 1,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 2,
+              "topRole": "span",
+              "sample": "58.3%"
+            },
+            {
+              "fontSizePx": 18,
+              "weight": "500",
+              "lineHeight": "27px",
+              "lhRatio": 1.5,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 3,
+              "topRole": "span",
+              "sample": "23%"
+            },
+            {
+              "fontSizePx": 16,
+              "weight": "600",
+              "lineHeight": "20px",
+              "lhRatio": 1.25,
+              "letterSpacing": "-0.18px",
+              "family": "inter",
+              "count": 11,
+              "topRole": "button label",
+              "sample": "Nithya Raman"
+            },
+            {
+              "fontSizePx": 16,
+              "weight": "600",
+              "lineHeight": "24px",
+              "lhRatio": 1.5,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 6,
+              "topRole": "span",
+              "sample": "Frequently Asked Questions"
+            },
+            {
+              "fontSizePx": 16,
+              "weight": "400",
+              "lineHeight": "24px",
+              "lhRatio": 1.5,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 5,
+              "topRole": "span",
+              "sample": "Skip to main content"
+            },
+            {
+              "fontSizePx": 16,
+              "weight": "600",
+              "lineHeight": "24px",
+              "lhRatio": 1.5,
+              "letterSpacing": "-0.09px",
+              "family": "inter",
+              "count": 4,
+              "topRole": "span",
+              "sample": "58.7¢"
+            },
+            {
+              "fontSizePx": 16,
+              "weight": "500",
+              "lineHeight": "20px",
+              "lhRatio": 1.25,
+              "letterSpacing": "-0.18px",
+              "family": "inter",
+              "count": 2,
+              "topRole": "paragraph",
+              "sample": "Amount"
+            },
+            {
+              "fontSizePx": 15,
+              "weight": "600",
+              "lineHeight": "18.75px",
+              "lhRatio": 1.25,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 2,
+              "topRole": "span",
+              "sample": "Yes"
+            },
+            {
+              "fontSizePx": 14,
+              "weight": "500",
+              "lineHeight": "20px",
+              "lhRatio": 1.43,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 83,
+              "topRole": "link",
+              "sample": "Newest"
+            },
+            {
+              "fontSizePx": 14,
+              "weight": "600",
+              "lineHeight": "20px",
+              "lhRatio": 1.43,
+              "letterSpacing": "-0.09px",
+              "family": "inter",
+              "count": 30,
+              "topRole": "span",
+              "sample": "1H"
+            },
+            {
+              "fontSizePx": 14,
+              "weight": "600",
+              "lineHeight": "16px",
+              "lhRatio": 1.14,
+              "letterSpacing": "-0.09px",
+              "family": "inter",
+              "count": 20,
+              "topRole": "nav text",
+              "sample": "Go to polymarket.us"
+            },
+            {
+              "fontSizePx": 14,
+              "weight": "400",
+              "lineHeight": "20px",
+              "lhRatio": 1.43,
+              "letterSpacing": "-0.09px",
+              "family": "inter",
+              "count": 14,
+              "topRole": "div",
+              "sample": "The 2026 Los Angeles mayoral election wi"
+            },
+            {
+              "fontSizePx": 14,
+              "weight": "400",
+              "lineHeight": "21px",
+              "lhRatio": 1.5,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 6,
+              "topRole": "button label",
+              "sample": "What is the \"Los Angeles Mayoral Electio"
+            },
+            {
+              "fontSizePx": 14,
+              "weight": "400",
+              "lineHeight": "22.75px",
+              "lhRatio": 1.63,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 5,
+              "topRole": "div",
+              "sample": "\"Los Angeles Mayoral Election\" is a pred"
+            },
+            {
+              "fontSizePx": 14,
+              "weight": "500",
+              "lineHeight": "20px",
+              "lhRatio": 1.43,
+              "letterSpacing": "-0.09px",
+              "family": "inter",
+              "count": 3,
+              "topRole": "button label",
+              "sample": "More"
+            },
+            {
+              "fontSizePx": 14,
+              "weight": "540",
+              "lineHeight": "20px",
+              "lhRatio": 1.43,
+              "letterSpacing": "-0.09px",
+              "family": "inter",
+              "count": 2,
+              "topRole": "link",
+              "sample": "Politics"
+            },
+            {
+              "fontSizePx": 14,
+              "weight": "600",
+              "lineHeight": "20px",
+              "lhRatio": 1.43,
+              "letterSpacing": "-0.1px",
+              "family": "inter",
+              "count": 2,
+              "topRole": "button label",
+              "sample": "View resolved"
+            },
+            {
+              "fontSizePx": 13,
+              "weight": "500",
+              "lineHeight": "16px",
+              "lhRatio": 1.23,
+              "letterSpacing": "-0.1px",
+              "family": "inter",
+              "count": 15,
+              "topRole": "time",
+              "sample": "polymarket.us"
+            },
+            {
+              "fontSizePx": 13,
+              "weight": "600",
+              "lineHeight": "16px",
+              "lhRatio": 1.23,
+              "letterSpacing": "-0.1px",
+              "family": "inter",
+              "count": 5,
+              "topRole": "button label",
+              "sample": "Propose resolution"
+            },
+            {
+              "fontSizePx": 13,
+              "weight": "490",
+              "lineHeight": "16px",
+              "lhRatio": 1.23,
+              "letterSpacing": "-0.1px",
+              "family": "inter",
+              "count": 3,
+              "topRole": "paragraph",
+              "sample": "To trade in the US, go to"
+            },
+            {
+              "fontSizePx": 13,
+              "weight": "600",
+              "lineHeight": "19.5px",
+              "lhRatio": 1.5,
+              "letterSpacing": "-0.09px",
+              "family": "inter",
+              "count": 3,
+              "topRole": "paragraph",
+              "sample": "Will Nithya Raman win the 2026 Los Angel"
+            },
+            {
+              "fontSizePx": 13,
+              "weight": "500",
+              "lineHeight": "14px",
+              "lhRatio": 1.08,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 2,
+              "topRole": "span",
+              "sample": "Nithya Raman"
+            },
+            {
+              "fontSizePx": 13,
+              "weight": "500",
+              "lineHeight": "19.5px",
+              "lhRatio": 1.5,
+              "letterSpacing": "-0.09px",
+              "family": "inter",
+              "count": 2,
+              "topRole": "paragraph",
+              "sample": "$14,561,608 Vol."
+            },
+            {
+              "fontSizePx": 13,
+              "weight": "490",
+              "lineHeight": "13px",
+              "lhRatio": 1,
+              "letterSpacing": "-0.1px",
+              "family": "inter",
+              "count": 2,
+              "topRole": "paragraph",
+              "sample": "$2,158,505 Vol."
+            },
+            {
+              "fontSizePx": 12,
+              "weight": "600",
+              "lineHeight": "16px",
+              "lhRatio": 1.33,
+              "letterSpacing": "-0.09px",
+              "family": "inter",
+              "count": 26,
+              "topRole": "span",
+              "sample": "1"
+            },
+            {
+              "fontSizePx": 12,
+              "weight": "500",
+              "lineHeight": "16px",
+              "lhRatio": 1.33,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 20,
+              "topRole": "footer text",
+              "sample": "Predictions & odds"
+            },
+            {
+              "fontSizePx": 12,
+              "weight": "400",
+              "lineHeight": "18px",
+              "lhRatio": 1.5,
+              "letterSpacing": "normal",
+              "family": "Arial",
+              "count": 15,
+              "topRole": "tspan",
+              "sample": "Dec"
+            },
+            {
+              "fontSizePx": 12,
+              "weight": "600",
+              "lineHeight": "16px",
+              "lhRatio": 1.33,
+              "letterSpacing": "-0.1px",
+              "family": "inter",
+              "count": 7,
+              "topRole": "button label",
+              "sample": "1 Replies"
+            },
+            {
+              "fontSizePx": 12,
+              "weight": "400",
+              "lineHeight": "19.5px",
+              "lhRatio": 1.63,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 4,
+              "topRole": "link",
+              "sample": "Polymarket operates globally through sep"
+            },
+            {
+              "fontSizePx": 12,
+              "weight": "600",
+              "lineHeight": "16px",
+              "lhRatio": 1.33,
+              "letterSpacing": "normal",
+              "family": "inter",
+              "count": 2,
+              "topRole": "span",
+              "sample": "26%"
+            }
+          ],
+          "typeSystem": {
+            "sizes": [
+              12,
+              13,
+              14,
+              15,
+              16,
+              18,
+              26,
+              28
+            ],
+            "steps": [
+              {
+                "from": 12,
+                "to": 13,
+                "ratio": 1.083,
+                "deltaPx": 1
+              },
+              {
+                "from": 13,
+                "to": 14,
+                "ratio": 1.077,
+                "deltaPx": 1
+              },
+              {
+                "from": 14,
+                "to": 15,
+                "ratio": 1.071,
+                "deltaPx": 1
+              },
+              {
+                "from": 15,
+                "to": 16,
+                "ratio": 1.067,
+                "deltaPx": 1
+              },
+              {
+                "from": 16,
+                "to": 18,
+                "ratio": 1.125,
+                "deltaPx": 2
+              },
+              {
+                "from": 18,
+                "to": 26,
+                "ratio": 1.444,
+                "deltaPx": 8
+              },
+              {
+                "from": 26,
+                "to": 28,
+                "ratio": 1.077,
+                "deltaPx": 2
+              }
+            ],
+            "meanRatio": 1.135,
+            "ratioStdDev": 0.127,
+            "ratioMin": 1.067,
+            "ratioMax": 1.444,
+            "ratioSpread": 0.377,
+            "meanDeltaPx": 2.29,
+            "deltaStdDevPx": 2.37,
+            "verdict": "NOT a modular scale: step ratio varies 1.067-1.444 (spread 0.377); hand-picked px ramp with a fine step in the body band and a coarser step above"
+          },
+          "spacing": {
+            "distinctPx": [
+              2,
+              3.3,
+              4,
+              6,
+              6.5,
+              8,
+              10,
+              12,
+              14,
+              16,
+              20,
+              24,
+              32,
+              37.5,
+              64
+            ],
+            "paddingTop10": [
+              {
+                "px": 4,
+                "count": 101
+              },
+              {
+                "px": 10,
+                "count": 60
+              },
+              {
+                "px": 6,
+                "count": 56
+              },
+              {
+                "px": 8,
+                "count": 51
+              },
+              {
+                "px": 24,
+                "count": 35
+              },
+              {
+                "px": 16,
+                "count": 28
+              },
+              {
+                "px": 12,
+                "count": 25
+              },
+              {
+                "px": 32,
+                "count": 17
+              },
+              {
+                "px": 2,
+                "count": 11
+              },
+              {
+                "px": 14,
+                "count": 5
+              }
+            ],
+            "gapTop10": [
+              {
+                "px": 6,
+                "count": 150
+              },
+              {
+                "px": 8,
+                "count": 109
+              },
+              {
+                "px": 4,
+                "count": 102
+              },
+              {
+                "px": 12,
+                "count": 66
+              },
+              {
+                "px": 16,
+                "count": 30
+              },
+              {
+                "px": 2,
+                "count": 17
+              },
+              {
+                "px": 10,
+                "count": 7
+              },
+              {
+                "px": 20,
+                "count": 6
+              },
+              {
+                "px": 3.3,
+                "count": 4
+              },
+              {
+                "px": 24,
+                "count": 2
+              }
+            ],
+            "gridFit": {
+              "2px": {
+                "onGrid": 12,
+                "total": 15,
+                "pct": 80,
+                "offGrid": [
+                  3.3,
+                  6.5,
+                  37.5
+                ]
+              },
+              "4px": {
+                "onGrid": 8,
+                "total": 15,
+                "pct": 53.3,
+                "offGrid": [
+                  2,
+                  3.3,
+                  6,
+                  6.5,
+                  10,
+                  14,
+                  37.5
+                ]
+              },
+              "8px": {
+                "onGrid": 5,
+                "total": 15,
+                "pct": 33.3,
+                "offGrid": [
+                  2,
+                  3.3,
+                  4,
+                  6,
+                  6.5,
+                  10,
+                  12,
+                  14,
+                  20,
+                  37.5
+                ]
+              }
+            }
+          },
+          "borderRadius": [
+            {
+              "px": 0,
+              "raw": "0px",
+              "count": 6432,
+              "pill": false
+            },
+            {
+              "px": 4,
+              "raw": "4px",
+              "count": 8,
+              "pill": false
+            },
+            {
+              "px": 7,
+              "raw": "7px",
+              "count": 4,
+              "pill": false
+            },
+            {
+              "px": 7.2,
+              "raw": "7.2px",
+              "count": 224,
+              "pill": false
+            },
+            {
+              "px": 9.2,
+              "raw": "9.2px",
+              "count": 88,
+              "pill": false
+            },
+            {
+              "px": 10,
+              "raw": "10px",
+              "count": 4,
+              "pill": false
+            },
+            {
+              "px": 11.2,
+              "raw": "11.2px",
+              "count": 48,
+              "pill": false
+            },
+            {
+              "px": 12,
+              "raw": "12px",
+              "count": 4,
+              "pill": false
+            },
+            {
+              "px": 15.2,
+              "raw": "15.2px",
+              "count": 16,
+              "pill": false
+            },
+            {
+              "px": 16,
+              "raw": "16px",
+              "count": 4,
+              "pill": false
+            },
+            {
+              "px": 18,
+              "raw": "18px",
+              "count": 8,
+              "pill": false
+            },
+            {
+              "px": 50,
+              "raw": "50%",
+              "count": 16,
+              "pill": false
+            },
+            {
+              "px": 33554400,
+              "raw": "3.35544e+07px",
+              "count": 76,
+              "pill": true
+            }
+          ],
+          "semanticColors": [
+            {
+              "kind": "YES/BUY",
+              "label": "Buy Yes 58.7¢",
+              "selector": "button.inline-flex.items-center.transition",
+              "textColorCss": "rgb(255, 255, 255)",
+              "textColorHex": "#ffffff",
+              "surfaceCss": "lab(45.7361 -45.2267 37.3056)",
+              "surfaceAlpha": 1,
+              "surfaceCompositedHex": "#007e26",
+              "pageBgHex": "#ffffff",
+              "fontSizePx": 14,
+              "fontWeight": "600",
+              "heightPx": 48,
+              "borderRadius": "7.2px",
+              "padding": "8px 16px 8px 16px",
+              "contrastRatio": 5.23,
+              "wcag": {
+                "threshold": 4.5,
+                "isLargeText": false,
+                "passAA": true,
+                "passAAA": false
+              },
+              "surfaceVsPageBg": 5.23
+            },
+            {
+              "kind": "YES/BUY",
+              "label": "Buy No 42.0¢",
+              "selector": "button.inline-flex.items-center.duration-150",
+              "textColorCss": "lab(47.8918 72.1772 58.3835)",
+              "textColorHex": "#df0c10",
+              "surfaceCss": "oklab(0.570509 0.201896 0.109506 / 0.09)",
+              "surfaceAlpha": 0.0902,
+              "surfaceCompositedHex": "#fce9e9",
+              "pageBgHex": "#ffffff",
+              "fontSizePx": 14,
+              "fontWeight": "600",
+              "heightPx": 48,
+              "borderRadius": "7.2px",
+              "padding": "8px 16px 8px 16px",
+              "contrastRatio": 4.28,
+              "wcag": {
+                "threshold": 4.5,
+                "isLargeText": false,
+                "passAA": false,
+                "passAAA": false
+              },
+              "surfaceVsPageBg": 1.17
+            },
+            {
+              "kind": "YES/BUY",
+              "label": "Buy Yes 43¢",
+              "selector": "button.inline-flex.items-center.duration-150",
+              "textColorCss": "lab(45.7361 -45.2267 37.3056)",
+              "textColorHex": "#007e26",
+              "surfaceCss": "oklab(0.603598 -0.149933 0.0964872 / 0.15)",
+              "surfaceAlpha": 0.149,
+              "surfaceCompositedHex": "#d9f0e2",
+              "pageBgHex": "#ffffff",
+              "fontSizePx": 14,
+              "fontWeight": "600",
+              "heightPx": 48,
+              "borderRadius": "7.2px",
+              "padding": "8px 16px 8px 16px",
+              "contrastRatio": 4.36,
+              "wcag": {
+                "threshold": 4.5,
+                "isLargeText": false,
+                "passAA": false,
+                "passAAA": false
+              },
+              "surfaceVsPageBg": 1.2
+            },
+            {
+              "kind": "YES/BUY",
+              "label": "Yes 58.7¢",
+              "selector": "button.trading-button[role=radio]",
+              "textColorCss": "lab(15.4544 -0.764295 -4.69404)",
+              "textColorHex": "#23272d",
+              "surfaceCss": "lab(45.7361 -45.2267 37.3056)",
+              "surfaceAlpha": 1,
+              "surfaceCompositedHex": "#007e26",
+              "pageBgHex": "#ffffff",
+              "fontSizePx": 16,
+              "fontWeight": "400",
+              "heightPx": 48,
+              "borderRadius": "9.2px",
+              "padding": "0px 0px 0px 0px",
+              "contrastRatio": 2.87,
+              "wcag": {
+                "threshold": 4.5,
+                "isLargeText": false,
+                "passAA": false,
+                "passAAA": false
+              },
+              "surfaceVsPageBg": 5.23
+            },
+            {
+              "kind": "YES/BUY",
+              "label": "Yes 58.7¢",
+              "selector": "button.trading-button[role=radio]",
+              "textColorCss": "rgb(255, 255, 255)",
+              "textColorHex": "#ffffff",
+              "surfaceCss": "lab(45.7361 -45.2267 37.3056)",
+              "surfaceAlpha": 1,
+              "surfaceCompositedHex": "#007e26",
+              "pageBgHex": "#ffffff",
+              "fontSizePx": 16,
+              "fontWeight": "400",
+              "heightPx": 48,
+              "borderRadius": "9.2px",
+              "padding": "0px 0px 0px 0px",
+              "contrastRatio": 5.23,
+              "wcag": {
+                "threshold": 4.5,
+                "isLargeText": false,
+                "passAA": true,
+                "passAAA": false
+              },
+              "surfaceVsPageBg": 5.23
+            }
+          ],
+          "primaryButton": {
+            "text": "Download the US app and get $50 to trade Use code ",
+            "selector": "button.flex.min-h-36.w-full",
+            "heightPx": 144,
+            "widthPx": 340,
+            "padding": {
+              "top": "16px",
+              "right": "16px",
+              "bottom": "16px",
+              "left": "16px"
+            },
+            "fontSizePx": 16,
+            "fontWeight": "400",
+            "borderRadius": "16px",
+            "bgCss": "lab(44.7153 32.3672 -86.8665)",
+            "bgHex": "#2e5cff",
+            "fgCss": "rgb(255, 255, 255)",
+            "fgHex": "#ffffff",
+            "contrastRatio": 5.13
+          },
+          "primaryInput": {
+            "type": "textarea",
+            "placeholder": "Add a comment...",
+            "heightPx": 48,
+            "widthPx": 920,
+            "padding": {
+              "top": "14px",
+              "right": "112px",
+              "bottom": "14px",
+              "left": "14px"
+            },
+            "fontSizePx": 14,
+            "borderRadius": "15.2px",
+            "borderWidth": "0px"
+          },
+          "allInputs": [
+            {
+              "type": "text",
+              "placeholder": "Search polymarkets...",
+              "heightPx": 16,
+              "padding": {
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px"
+              },
+              "fontSizePx": 14,
+              "borderRadius": "0px"
+            },
+            {
+              "type": "textarea",
+              "placeholder": "Add a comment...",
+              "heightPx": 48,
+              "padding": {
+                "top": "14px",
+                "right": "112px",
+                "bottom": "14px",
+                "left": "14px"
+              },
+              "fontSizePx": 14,
+              "borderRadius": "15.2px"
+            },
+            {
+              "type": "text",
+              "placeholder": "$0",
+              "heightPx": 60,
+              "padding": {
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px"
+              },
+              "fontSizePx": 40,
+              "borderRadius": "0px"
+            }
+          ],
+          "touchTargets": {
+            "top12": [
+              {
+                "heightPx": 20,
+                "count": 63,
+                "sample": "a.inline-flex.items-center.cursor-pointer",
+                "text": "Politics"
+              },
+              {
+                "heightPx": 24,
+                "count": 32,
+                "sample": "a",
+                "text": ""
+              },
+              {
+                "heightPx": 36,
+                "count": 29,
+                "sample": "button#base-ui-_r_6b_.inline-flex.items-center.cursor-pointer",
+                "text": ""
+              },
+              {
+                "heightPx": 48,
+                "count": 26,
+                "sample": "a.relative.inline-flex.items-center",
+                "text": "Trending"
+              },
+              {
+                "heightPx": 28,
+                "count": 14,
+                "sample": "button#radix-_r_86_.bg-transparent.hover:bg-pk-hover-overlay-darker.active:bg-pk-hover-overlay-darker",
+                "text": ""
+              },
+              {
+                "heightPx": 32,
+                "count": 14,
+                "sample": "a.inline-flex.items-center.justify-center",
+                "text": "Go to polymarket.us"
+              },
+              {
+                "heightPx": 22,
+                "count": 12,
+                "sample": "button#radix-_r_8a_.inline-flex.items-center.cursor-pointer",
+                "text": "120.1K Nithya Raman"
+              },
+              {
+                "heightPx": 18,
+                "count": 7,
+                "sample": "button#radix-_R_2tl6p5aoqumsalfiv5ura9brjaraivb_.hover:text-pk-content-primary.cursor-pointer.text-pk-content-secondary",
+                "text": ""
+              },
+              {
+                "heightPx": 40,
+                "count": 5,
+                "sample": "button#radix-_R_11mmja9brjaraivb_.group.hover:text-pk-content-tertiary.my-auto",
+                "text": "More"
+              },
+              {
+                "heightPx": 69,
+                "count": 5,
+                "sample": "button#radix-_R_n5gqumsalfiv5ura9brjaraivb_.w-full.flex.items-center",
+                "text": "What is the \"Los Angeles Mayor"
+              },
+              {
+                "heightPx": 16,
+                "count": 4,
+                "sample": "input#search-input.min-w-0.flex-1.bg-transparent",
+                "text": ""
+              },
+              {
+                "heightPx": 17,
+                "count": 4,
+                "sample": "a",
+                "text": "@Magician5342"
+              }
+            ],
+            "under44": 196,
+            "atLeast44": 50,
+            "distinctHeights": [
+              1,
+              14,
+              15,
+              16,
+              17,
+              18,
+              20,
+              21,
+              22,
+              24,
+              28,
+              30,
+              32,
+              33.05,
+              36,
+              40,
+              43,
+              48,
+              56,
+              60,
+              69,
+              80,
+              81,
+              101,
+              144,
+              233,
+              265,
+              285,
+              602,
+              603
+            ]
+          },
+          "outcomeCard": {
+            "repeatCount": 8,
+            "box": {
+              "width": 922,
+              "height": 72
+            },
+            "selector": "div.flex.items-center.justify-between",
+            "padding": {
+              "top": "0px",
+              "right": "0px",
+              "bottom": "0px",
+              "left": "0px"
+            },
+            "gap": {
+              "row": "normal",
+              "column": "normal"
+            },
+            "borderRadius": "0px",
+            "borderWidth": "0px",
+            "bgCss": "lab(100 0 0)",
+            "bgHex": "#ffffff",
+            "boxShadow": null,
+            "priceDisplay": [
+              {
+                "text": "58%",
+                "fontSizePx": 28,
+                "fontWeight": "600",
+                "lineHeight": "28px",
+                "letterSpacing": "-0.42px",
+                "colorHex": "#23272d",
+                "selector": "p.font-semibold.text-heading-2xl.text-[2"
+              },
+              {
+                "text": "26%",
+                "fontSizePx": 12,
+                "fontWeight": "600",
+                "lineHeight": "16px",
+                "letterSpacing": "normal",
+                "colorHex": "#009c39",
+                "selector": "span.pk-animated-label__text"
+              },
+              {
+                "text": "58.7¢",
+                "fontSizePx": 16,
+                "fontWeight": "600",
+                "lineHeight": "24px",
+                "letterSpacing": "-0.09px",
+                "colorHex": "#ffffff",
+                "selector": "span.shrink-0.text-base"
+              },
+              {
+                "text": "42.0¢",
+                "fontSizePx": 16,
+                "fontWeight": "600",
+                "lineHeight": "24px",
+                "letterSpacing": "-0.09px",
+                "colorHex": "#df0c10",
+                "selector": "span.shrink-0.text-base"
+              },
+              {
+                "text": "43%",
+                "fontSizePx": 28,
+                "fontWeight": "600",
+                "lineHeight": "28px",
+                "letterSpacing": "-0.42px",
+                "colorHex": "#23272d",
+                "selector": "p.font-semibold.text-heading-2xl.text-[2"
+              },
+              {
+                "text": "6%",
+                "fontSizePx": 12,
+                "fontWeight": "600",
+                "lineHeight": "16px",
+                "letterSpacing": "normal",
+                "colorHex": "#fe3d33",
+                "selector": "span.pk-animated-label__text"
+              }
+            ],
+            "textSample": "Nithya Raman $2,158,505 Vol. 58% 26% Buy Yes 58.7¢ Buy No 42.0¢"
+          },
+          "otherCardClusters": [
+            {
+              "n": 8,
+              "box": {
+                "width": 922,
+                "height": 72
+              },
+              "radius": "0px",
+              "padding": {
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px"
+              },
+              "priceFont": "28px/600"
+            },
+            {
+              "n": 2,
+              "box": {
+                "width": 340,
+                "height": 389
+              },
+              "radius": "15.2px",
+              "padding": {
+                "top": "16px",
+                "right": "16px",
+                "bottom": "16px",
+                "left": "16px"
+              },
+              "priceFont": "16px/600"
+            },
+            {
+              "n": 1,
+              "box": {
+                "width": 1425,
+                "height": 5555.05
+              },
+              "radius": "0px",
+              "padding": {
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px"
+              },
+              "priceFont": "16px/400"
+            }
+          ]
+        }
+      },
+      "consolidated": {
+        "fontSizesPx": [
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          18,
+          20,
+          24,
+          26,
+          28
+        ],
+        "typeSystem": {
+          "sizes": [
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            18,
+            20,
+            24,
+            26,
+            28
+          ],
+          "steps": [
+            {
+              "from": 11,
+              "to": 12,
+              "ratio": 1.091,
+              "deltaPx": 1
+            },
+            {
+              "from": 12,
+              "to": 13,
+              "ratio": 1.083,
+              "deltaPx": 1
+            },
+            {
+              "from": 13,
+              "to": 14,
+              "ratio": 1.077,
+              "deltaPx": 1
+            },
+            {
+              "from": 14,
+              "to": 15,
+              "ratio": 1.071,
+              "deltaPx": 1
+            },
+            {
+              "from": 15,
+              "to": 16,
+              "ratio": 1.067,
+              "deltaPx": 1
+            },
+            {
+              "from": 16,
+              "to": 18,
+              "ratio": 1.125,
+              "deltaPx": 2
+            },
+            {
+              "from": 18,
+              "to": 20,
+              "ratio": 1.111,
+              "deltaPx": 2
+            },
+            {
+              "from": 20,
+              "to": 24,
+              "ratio": 1.2,
+              "deltaPx": 4
+            },
+            {
+              "from": 24,
+              "to": 26,
+              "ratio": 1.083,
+              "deltaPx": 2
+            },
+            {
+              "from": 26,
+              "to": 28,
+              "ratio": 1.077,
+              "deltaPx": 2
+            }
+          ],
+          "meanRatio": 1.099,
+          "ratioStdDev": 0.038,
+          "ratioMin": 1.067,
+          "ratioMax": 1.2,
+          "ratioSpread": 0.133,
+          "meanDeltaPx": 1.7,
+          "deltaStdDevPx": 0.9,
+          "verdict": "NOT a modular scale: step ratio varies 1.067-1.2 (spread 0.133); hand-picked px ramp with a fine step in the body band and a coarser step above"
+        },
+        "spacingPx": [
+          1,
+          2,
+          3,
+          3.3,
+          4,
+          6,
+          6.5,
+          8,
+          10,
+          12,
+          14,
+          16,
+          20,
+          24,
+          32,
+          37.5,
+          64
+        ],
+        "spacingGridFit": {
+          "2px": {
+            "onGrid": 12,
+            "total": 17,
+            "pct": 70.6,
+            "offGrid": [
+              1,
+              3,
+              3.3,
+              6.5,
+              37.5
+            ]
+          },
+          "4px": {
+            "onGrid": 8,
+            "total": 17,
+            "pct": 47.1,
+            "offGrid": [
+              1,
+              2,
+              3,
+              3.3,
+              6,
+              6.5,
+              10,
+              14,
+              37.5
+            ]
+          },
+          "8px": {
+            "onGrid": 5,
+            "total": 17,
+            "pct": 29.4,
+            "offGrid": [
+              1,
+              2,
+              3,
+              3.3,
+              4,
+              6,
+              6.5,
+              10,
+              12,
+              14,
+              20,
+              37.5
+            ]
+          }
+        },
+        "radiiPx": [
+          0,
+          2,
+          4,
+          5.2,
+          6,
+          7,
+          7.2,
+          8,
+          9.2,
+          10,
+          11.2,
+          12,
+          15.2,
+          16,
+          18,
+          20,
+          50
+        ],
+        "radiusTokenFromCss": ".7rem",
+        "weightsUsed": [
+          "400",
+          "440",
+          "450",
+          "490",
+          "500",
+          "540",
+          "580",
+          "590",
+          "600",
+          "700"
+        ]
+      }
+    }
+  }
+}
