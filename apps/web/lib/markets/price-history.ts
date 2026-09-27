@@ -2,9 +2,10 @@
 // Server helper for the featured cards' probability sparkline. For a set of
 // markets, batch-load their recorded Yes-price points (oldest → newest) so a
 // card can draw a lightweight inline-SVG trend line of the market's implied
-// probability over time. One query for the whole page. price_history is
+// probability over time. price_history is
 // public-read (RLS), so the caller's session client is fine.
 import type { SupabaseClient } from '@supabase/supabase-js'
+import { fetchHistoryForMarkets } from './history'
 
 export interface PriceSeries {
   /** Yes-price points in [0,1], chronological (oldest first). */
@@ -33,14 +34,13 @@ export async function getPriceSeries(
   const out = new Map<string, PriceSeries>()
   if (marketIds.length === 0) return out
 
-  const { data } = await supabase
-    .from('price_history')
-    .select('market_id, yes_price, price, recorded_at')
-    .in('market_id', marketIds)
-    .order('recorded_at', { ascending: true })
+  // Per market, newest-first and paged past the 1,000-row cap (lib/markets/history.ts).
+  const byMarket = await fetchHistoryForMarkets<Row>(supabase, marketIds, {
+    select: 'market_id, yes_price, price, recorded_at',
+  })
 
   const grouped = new Map<string, number[]>()
-  for (const r of (data as Row[]) ?? []) {
+  for (const r of marketIds.flatMap((id) => byMarket.get(id) ?? [])) {
     const v = r.yes_price ?? r.price
     if (v == null) continue
     const list = grouped.get(r.market_id) ?? []

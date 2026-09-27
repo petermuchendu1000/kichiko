@@ -13,8 +13,9 @@
 // When a market has no recorded history yet we seed a flat 2-point line at the
 // current probability so the chart still renders (flagged via `seeded`).
 // price_history + market_options are public-read (RLS), so the caller's session
-// client is fine. One query per table for the whole page.
+// client is fine. History is paged per market (lib/markets/history.ts).
 import type { SupabaseClient } from '@supabase/supabase-js'
+import { fetchHistoryForMarkets } from './history'
 
 export interface OptionLine {
   id: string
@@ -82,18 +83,20 @@ export async function getOptionSeries(
   const out = new Map<string, MarketSeries>()
   if (marketIds.length === 0) return out
 
-  const [{ data: markets }, { data: options }, { data: hist }] = await Promise.all([
+  // History is read per market, newest-first and paged past the 1,000-row cap
+  // (lib/markets/history.ts); a single .in() query here used to return only the
+  // oldest 1,000 rows across all markets.
+  const [{ data: markets }, { data: options }, histByMarket] = await Promise.all([
     supabase.from('markets').select('id, resolution_type, yes_price').in('id', marketIds),
     supabase
       .from('market_options')
       .select('id, market_id, label, price, yes_price, display_order, image_url')
       .in('market_id', marketIds),
-    supabase
-      .from('price_history')
-      .select('market_id, market_option_id, yes_price, price, recorded_at')
-      .in('market_id', marketIds)
-      .order('recorded_at', { ascending: true }),
+    fetchHistoryForMarkets<HistRow>(supabase, marketIds, {
+      select: 'market_id, market_option_id, yes_price, price, recorded_at',
+    }),
   ])
+  const hist = marketIds.flatMap((id) => histByMarket.get(id) ?? [])
 
   const marketById = new Map<string, MarketRow>()
   for (const m of (markets as MarketRow[]) ?? []) marketById.set(m.id, m)
@@ -112,7 +115,7 @@ export async function getOptionSeries(
   // Track the recorded time window per market so the chart can label its X axis
   // with real dates (rows arrive ordered ascending, so first=min, last=max).
   const timeRange = new Map<string, { start: string; end: string }>() // key: market id
-  for (const r of (hist as HistRow[]) ?? []) {
+  for (const r of hist) {
     const range = timeRange.get(r.market_id)
     if (!range) timeRange.set(r.market_id, { start: r.recorded_at, end: r.recorded_at })
     else range.end = r.recorded_at

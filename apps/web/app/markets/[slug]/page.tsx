@@ -23,6 +23,7 @@ import { MarketContextNews } from '@/components/markets/market-context-news'
 import { getMarketContextNews } from '@/lib/markets/context-news-data'
 import { normalizeOutcomes, isMultiOutcome, isIndependentOptions } from '@/lib/markets/outcomes'
 import { isFeatureEnabled } from '@/lib/flags'
+import { fetchMarketHistory, thinByRecency } from '@/lib/markets/history'
 import type { Market, MarketOption } from '@/types'
 
 // Live market data — render dynamically per request (no static prerender).
@@ -94,13 +95,21 @@ async function MarketPriceHistory({
   // Multiple-choice: one probability series per option (price_history rows are
   // keyed by market_option_id with a single `price`).
   if (options && options.length > 0) {
-    const { data: history } = await supabase
-      .from('price_history')
-      .select('market_option_id, price, recorded_at')
-      .eq('market_id', marketId)
-      .not('market_option_id', 'is', null)
-      .order('recorded_at', { ascending: true })
-      .limit(1000)
+    // Full history, newest-anchored (was: the oldest 1,000 rows), thinned per
+    // option so every timeframe stays accurate without a huge payload.
+    const all = await fetchMarketHistory<{ market_option_id: string | null; price: number | null; recorded_at: string }>(
+      supabase,
+      marketId,
+      { select: 'market_option_id, price, recorded_at', scope: 'options' },
+    )
+    const byOption = new Map<string, typeof all>()
+    for (const r of all) {
+      const k = r.market_option_id as string
+      byOption.set(k, [...(byOption.get(k) ?? []), r])
+    }
+    const history = [...byOption.values()]
+      .flatMap((rows) => thinByRecency(rows, (r) => r.recorded_at))
+      .sort((a, b) => a.recorded_at.localeCompare(b.recorded_at))
     return (
       <OutcomesChart
         options={options.map((o) => ({
@@ -124,13 +133,15 @@ async function MarketPriceHistory({
     )
   }
 
-  const { data: history } = await supabase
-    .from('price_history')
-    .select('yes_price, no_price, volume_usd, recorded_at')
-    .eq('market_id', marketId)
-    .is('market_option_id', null)
-    .order('recorded_at', { ascending: true })
-    .limit(200)
+  // Full history, newest-anchored (was: the oldest 200 rows), thinned by recency.
+  const history = thinByRecency(
+    await fetchMarketHistory<{ yes_price: number | null; no_price: number | null; volume_usd: number | null; recorded_at: string }>(
+      supabase,
+      marketId,
+      { select: 'yes_price, no_price, volume_usd, recorded_at', scope: 'market' },
+    ),
+    (r) => r.recorded_at,
+  )
   return <PriceChart
     currentYes={currentYes}
     volumeUsd={volumeUsd}
