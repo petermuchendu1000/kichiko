@@ -14,8 +14,13 @@ for (const f of files) {
   const weights = [...new Set(d.typography.map(t => t.weight))].sort();
   const families = [...new Set(d.typography.map(t => t.family.split(',')[0].replace(/"/g, '').trim()))];
   const topType = d.typography.slice().sort((a, b) => b.count - a.count).slice(0, 8).map(t => `${t.size}/${t.weight}/lh ${t.lineHeight}/ls ${t.letterSpacing}/${t.color} x${t.count} "${t.examples[0]}"`);
-  const fails = d.contrast.groups.filter(g => !g.passAA);
+  // fg === bg means the painted fill is fully transparent (-webkit-text-fill-color: transparent, e.g. gradient text
+  // or an input-overlay glyph): contrast is not computable from styles, so those nodes are excluded, and counted.
+  const notComputable = d.contrast.groups.filter(g => g.fg === g.bg);
+  const ncNodes = notComputable.reduce((a, g) => a + g.count, 0);
+  const fails = d.contrast.groups.filter(g => !g.passAA && g.fg !== g.bg);
   const failNodes = fails.reduce((a, g) => a + g.count, 0);
+  const tn = d.contrast.textNodes - ncNodes;
   const worst = fails.slice(0, 6).map(g => `${g.ratio}:1 ${g.fg} on ${g.bg} ${g.sizePx}px/${g.weight} x${g.count} "${g.examples[0]}"`);
   const inter = d.interactive;
   const heights = {}; for (const x of inter) { const h = Math.round(x.box.h); heights[h] = (heights[h] || 0) + 1; }
@@ -32,7 +37,7 @@ for (const f of files) {
     structureTop: d.structure.filter(s => s.depth <= 1).slice(0, 14).map(s => `${s.depth ? '  ' : ''}y${Math.round(s.box.y)} h${Math.round(s.box.h)} w${Math.round(s.box.w)} <${s.tag}${s.landmark ? ' ' + s.landmark : ''}${s.position ? ' ' + s.position : ''}> ${(s.heading || s.ariaLabel || s.textStart || '').slice(0, 70)}`),
     fixedBars: d.fixedBars.map(b => `${b.position} y${b.box.y} h${b.box.h}${b.atBottom ? ' bottom' : ''} "${b.text.slice(0, 50)}"`),
     type: { styles: d.typography.length, families, sizes, weights, top: topType, headings: d.copy.headings.slice(0, 6) },
-    contrast: { textNodes: d.contrast.textNodes, aaFailNodes: d.contrast.aaFailures, failPct: Math.round(d.contrast.aaFailures / Math.max(1, d.contrast.textNodes) * 1000) / 10, failGroups: fails.length, worst },
+    contrast: { textNodes: tn, aaFailNodes: failNodes, failPct: Math.round(failNodes / Math.max(1, tn) * 1000) / 10, failGroups: fails.length, worst, notComputableNodes: ncNodes, excludedClipped: d.contrast.excludedClippedTextNodes },
     interactive: { n: inter.length, touch: d.touchTargets, topHeights, namelessCount: inter.filter(x => !x.name).length },
     spacing: { pad, gap, grid: { '2px': on(2), '4px': on(4), '8px': on(8) } }, radii,
     copy: { ctas: d.copy.ctaLabels.slice(0, 15).map(c => c.text + (c.count > 1 ? ' x' + c.count : '')), numberFormats: d.copy.numberFormats.slice(0, 12).map(f => `${f.signature} x${f.count} e.g. ${f.examples.slice(0, 2).join(' | ')}`), fee: d.copy.fee.slice(0, 5), disclaimers: d.copy.disclaimers.slice(0, 6), empty: d.copy.empty.slice(0, 5), error: d.copy.error.slice(0, 6) },

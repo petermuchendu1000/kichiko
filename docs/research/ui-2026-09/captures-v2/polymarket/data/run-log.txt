@@ -3,3 +3,67 @@ OK P01-mobile-light status=200 text=5124 theme=light inter=337 axe=3 21s
 OK P01-mobile-dark status=200 text=5124 theme=dark inter=337 axe=3 15s
 OK P01-desktop-light status=200 text=9672 theme=light inter=391 axe=3 24s
 OK P01-desktop-dark status=200 text=10283 theme=dark inter=390 axe=3 21s
+OK P02-mobile-light status=200 text=7776 theme=light inter=241 axe=3 14s
+OK P02-mobile-dark status=200 text=7776 theme=dark inter=241 axe=2 14s
+OK P02-desktop-light status=200 text=7824 theme=light inter=268 axe=4 14s
+OK P02-desktop-dark status=200 text=7824 theme=dark inter=268 axe=3 12s
+OK P03-mobile-light status=200 text=9233 theme=light inter=150 axe=8 12s
+OK P03-mobile-dark status=200 text=9233 theme=dark inter=150 axe=8 12s
+OK P03-desktop-light status=200 text=10047 theme=light inter=175 axe=8 13s
+OK P03-desktop-dark status=200 text=10047 theme=dark inter=175 axe=8 12s
+OK P04-mobile-light status=200 text=9972 theme=light inter=183 axe=8 14s
+OK P04-mobile-dark status=200 text=9972 theme=dark inter=183 axe=8 14s
+OK P04-desktop-light status=200 text=10432 theme=light inter=215 axe=9 14s
+OK P04-desktop-dark status=200 text=10432 theme=dark inter=215 axe=9 16s
+OK P05-mobile-light status=200 text=30533 theme=light inter=156 axe=6 13s
+OK P05-mobile-dark status=200 text=30533 theme=dark inter=156 axe=6 13s
+OK P05-desktop-light status=200 text=31292 theme=light inter=211 axe=7 16s
+OK P05-desktop-dark status=200 text=31289 theme=dark inter=211 axe=7 15s
+OK P07-mobile-light status=200 text=3695 theme=light inter=126 axe=3 12s
+OK P07-mobile-dark status=200 text=3695 theme=dark inter=126 axe=2 12s
+OK P07-desktop-light status=200 text=3781 theme=light inter=149 axe=3 14s
+OK P07-desktop-dark status=200 text=3781 theme=dark inter=149 axe=2 12s
+OK P08-mobile-light status=200 text=2462 theme=light inter=73 axe=4 11s
+OK P08-mobile-dark status=200 text=2462 theme=dark inter=73 axe=3 11s
+OK P08-desktop-light status=200 text=4092 theme=light inter=113 axe=4 11s
+OK P08-desktop-dark status=200 text=4092 theme=dark inter=113 axe=3 12s
+OK P09-mobile-light status=200 text=2710 theme=light inter=103 axe=3 12s
+OK P09-mobile-dark status=200 text=2710 theme=dark inter=103 axe=3 12s
+OK P09-desktop-light status=200 text=3498 theme=light inter=151 axe=3 12s
+OK P09-desktop-dark status=200 text=3498 theme=dark inter=151 axe=3 13s
+OK P13-mobile-light status=200 text=817 theme=null inter=15 axe=1 17s
+OK P13-mobile-dark status=200 text=817 theme=null inter=15 axe=1 17s
+OK P13-desktop-light status=200 text=842 theme=null inter=16 axe=1 16s
+OK P13-desktop-dark status=200 text=842 theme=null inter=16 axe=1 16s
+OK P14-mobile-light status=200 text=1420 theme=light inter=61 axe=2 10s
+OK P14-mobile-dark status=200 text=1420 theme=dark inter=61 axe=1 11s
+OK P14-desktop-light status=200 text=1399 theme=light inter=74 axe=4 9s
+OK P14-desktop-dark status=200 text=1399 theme=dark inter=74 axe=3 8s
+OK P15-mobile-light status=404 text=1488 theme=light inter=63 axe=3 14s
+OK P15-mobile-dark status=404 text=1488 theme=dark inter=63 axe=3 11s
+OK P15-desktop-light status=404 text=1467 theme=light inter=76 axe=3 12s
+OK P15-desktop-dark status=404 text=1467 theme=dark inter=76 axe=3 10s
+OK P17a-mobile-light status=200 text=3286 theme=light inter=92 axe=2 11s
+OK P17a-mobile-dark status=200 text=3286 theme=dark inter=92 axe=2 11s
+OK P17a-desktop-light status=200 text=13965 theme=light inter=117 axe=3 12s
+OK P17a-desktop-dark status=200 text=13965 theme=dark inter=117 axe=3 12s
+OK P17b-mobile-light status=200 text=6540 theme=light inter=164 axe=3 12s
+OK P17b-mobile-dark status=200 text=6540 theme=dark inter=164 axe=3 12s
+OK P17b-desktop-light status=200 text=12104 theme=light inter=377 axe=3 15s
+OK P17b-desktop-dark status=200 text=12104 theme=dark inter=377 axe=3 15s
+OK P18-mobile-light status=200 text=7264 theme=light inter=148 axe=7 16s
+OK P18-mobile-dark status=200 text=9048 theme=dark inter=148 axe=8 12s
+OK P18-desktop-light status=200 text=9260 theme=light inter=166 axe=8 12s
+OK P18-desktop-dark status=200 text=9262 theme=dark inter=166 axe=8 12s
+== interactions 2026-09-27T09:29:48Z
+geo mobile light: ok 9s
+geo mobile dark: ok 8s
+geo desktop light: ok 10s
+geo desktop dark: ok 10s
+ticket mobile light: ok 35s
+ticket mobile dark: ok 35s
+ticket desktop light: ok 32s
+ticket desktop dark: ok 34s
+hoverfocus desktop light: ok 27s
+hoverfocus desktop dark: ok 27s
+search mobile light: ok 21s
