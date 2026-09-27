@@ -33,8 +33,9 @@ Phase 4. Four measured reasons, strongest first.
    (L.N. 114, per [31]). A landing page multiplies traffic into exactly these surfaces.
 2. **The home page shows numbers that are not true.** The hero and feed charts are truncated by a
    1,000-row cap (market with 1,908 points shows only 24–30 April on 27 September), and the
-   "movers" percentages are computed from the truncated rows [40 A13]. A landing page built on
-   these components inherits the defect.
+   "movers" percentages are computed from the truncated rows. Market pages are worse: they fetch the
+   *oldest* 200 (binary) or 1,000 (multi-outcome) points, so the chart a trader decides on ends months
+   ago [40 A13]. A landing page built on these components inherits the defect.
 3. **The ticket carries every serious money defect we measured** [40 §D]: payout text at 2.18:1,
    quick amounts that are converted US dollars (+KSh 130/648/1.3k/13.0k), a stake pre-filled
    with KSh 130, ¢ in the limit row, no fee line, no "if No you lose" line. The landing page's
@@ -153,7 +154,8 @@ viewport. Remaining:
 - **0.2 Spec of record.** `docs/design/SPEC-OF-RECORD.md`, with [40] as the ruling source for every
   element it covers; the remaining corpus contradictions from [21] each get one ruling; supersession
   headers on every replaced doc.
-- **0.6 Chart truth** (A13): per-market latest-N series; freshness test.
+- **0.6 Chart truth** (A13): newest-first, per-market series on home, feed and market pages (the
+  API route's pattern), downsampled to the display width; freshness test.
 - **0.7 One formatter** (A1, B0): `formatKsh` / `formatPct` only; remove `formatCents` from UI,
   two of the three `formatPercent`, all `text-transform` on currency.
 - **0.8 Search URL state** (G1): read and write `?q=`.
