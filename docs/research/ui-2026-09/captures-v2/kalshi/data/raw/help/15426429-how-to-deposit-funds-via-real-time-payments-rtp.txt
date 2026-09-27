@@ -1,0 +1,57 @@
+URL: https://help.kalshi.com/en/articles/15426429-how-to-deposit-funds-via-real-time-payments-rtp
+HTTP: 200
+Fetched: 2026-09-27T08:40:46Z
+Sitemap lastmod: 2026-08-24T21:49:54Z
+Title: 
+
+Real-time payments (RTP) let you deposit funds from a U.S. bank that participates in The Clearing House Real-Time Payments network.
+
+Sender Needs to Know
+
+Your sending bank account name MUST MATCH your name on Kalshi.
+
+Bank Name
+
+Silicon Valley Bank
+
+Company Account Name
+
+KALSHI KLEAR LLC
+
+SVB Account Number (Direct Members)
+
+3304242626
+
+SVB Account Number (FCMs)
+
+3304182255
+
+SVB Routing Number
+
+121140399
+
+Most users are Direct Members - use the Direct Members account. Use the FCMs account only if you are a registered Futures Commission Merchant clearing through Kalshi.
+
+Message to Recipient / Memo (REQUIRED)
+
+The Reason for Payment / Message to Recipient / Memo MUST INCLUDE your unique Kalshi wire code. Payments without the correct code will be delayed or returned.
+
+- Log in to Kalshi → Menu → Transfers → Wire transfer → MESSAGE TO RECIPIENT / MEMO. Your code has 9 digits and starts with "kal."
+
+Can't find "Message to Recipient / Memo"? Depending on your bank, it may be labeled as: Note, Description, Special Instructions, or Further Credit.
+
+When Funds Arrive
+
+For incoming RTP, expect funds to arrive within minutes on the day they are sent. If funds arrive during end-of-day processing, your available balance may not update immediately.
+
+Important Information
+
+- Kalshi does not add fees for RTP deposits, but your bank may charge its own fees.
+
+Questions about your payment?
+​
+Email [email protected] with:
+- Full name and email on your Kalshi account
+- Your unique Kalshi memo code
+- Screenshot or PDF of the payment confirmation
+- Name of the bank funds were sent from

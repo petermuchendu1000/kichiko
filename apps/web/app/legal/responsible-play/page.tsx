@@ -16,7 +16,7 @@ export default function ResponsiblePlayPage() {
 
       <h2>Our principles</h2>
       <ul>
-        <li><strong>18+ only.</strong> You must be of legal age in your country.</li>
+        <li><strong>Adults only.</strong> You must be 18 or older (25 or older in Uganda).</li>
         <li><strong>Only stake what you can afford to lose.</strong> Never stake money you need for essentials.</li>
         <li><strong>No guaranteed income.</strong> Even likely outcomes sometimes don&rsquo;t happen.</li>
         <li><strong>Don&rsquo;t chase losses.</strong> Take breaks; step away when it stops being fun.</li>

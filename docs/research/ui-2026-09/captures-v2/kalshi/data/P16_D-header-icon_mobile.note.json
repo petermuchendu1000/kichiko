@@ -1,0 +1,15 @@
+{
+ "note": "Logged-out mobile header has an unlabeled 16x36 icon button (no accessible name) left of Log in; a click at its left edge produced no visible change; capture discarded as it equals P01 mobile.",
+ "action": {
+  "clicked": {
+   "x": 219.15625,
+   "y": 32,
+   "w": 16,
+   "h": 36,
+   "html": "<button class=\"inline-flex justify-center items-center rounded-x30 cursor-pointer border-none h-fit whitespace-nowrap flex-nowrap transition-[opacity,background-color,transform] duration-83 hover:opacity-80 active:scale-90 active:transition-[opacity,background-color,transform] active:duration-50 [&a"
+  },
+  "url": "https://demo.kalshi.co/",
+  "dialogs": []
+ },
+ "capturedUtc": "2026-09-27T09:23:24.543Z"
+}

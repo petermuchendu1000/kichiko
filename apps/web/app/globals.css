@@ -21,7 +21,9 @@
     /* Brand blue = Polymarket measured #1452F0 (rgb 20,82,240). Ramp rebalanced
        to that hue: 600 hover-dark, 400 lighter, 300/100 light tints. */
     --pip-600:#1249D8; --pip-500:#1452F0; --pip-400:#4E7DF3; --pip-300:#7D9FF6; --pip-100:#E7EDFD;
-    --pip-text:var(--pip-500); /* pip blue used AS TEXT; lightened under .dark for WCAG AA */
+    /* pip blue used AS TEXT; lightened under .dark for WCAG AA. Light uses 600: 500 was
+       3.94:1 on the active tab pill's count badge (#C1D1FB); 600 is 4.64:1 there. */
+    --pip-text:var(--pip-600);
     /* ---- Accent — Brass (emphasis only, <=5% of surface) ---- */
     --brass-600:#B57E22; --brass-500:#D9A036; --brass-100:#F7ECD4;
 
@@ -100,7 +102,8 @@
     --radius-sm:var(--r-sm); --radius:var(--r-sm); --radius-lg:var(--r-md);
     --radius-xl:var(--r-md); --radius-2xl:var(--r-lg);
 
-    /* shadcn HSL bridge (kept for any radix/shadcn primitives) */
+    /* shadcn HSL bridge — mapped to Tailwind names (background, foreground, card,
+       primary, muted) in tailwind.config.ts; contrast asserted in a11y-contrast.test.ts */
     --background:210 20% 97%; --foreground:220 26% 5%;
     --card:0 0% 100%; --card-foreground:220 26% 5%;
     --popover:0 0% 100%; --popover-foreground:220 26% 5%;
@@ -144,7 +147,9 @@
     --background:220 26% 5%; --foreground:210 20% 96%;
     --card:220 22% 8%; --card-foreground:210 20% 96%;
     --popover:220 22% 8%; --popover-foreground:210 20% 96%;
-    --primary:222 86% 63%; --primary-foreground:0 0% 100%;
+    /* a11y: white on 222 86% 63% was 3.68:1 (fails AA); dark ink on 65% = 5.77:1.
+       65% (was 63%) also lifts text-primary on bg-muted from 4.49:1 to 4.86:1. */
+    --primary:222 86% 65%; --primary-foreground:220 26% 5%;
     --secondary:219 19% 13%; --secondary-foreground:210 20% 96%;
     --muted:219 19% 13%; --muted-foreground:214 14% 66%;
     --accent:219 19% 13%; --accent-foreground:210 20% 96%;
@@ -160,6 +165,9 @@
   * { box-sizing:border-box; border-color:var(--hairline); }
   html { scroll-behavior:smooth; -webkit-tap-highlight-color:transparent; -webkit-text-size-adjust:100%; }
   body {
+    /* viewport-fit=cover (app/layout.tsx) lets the page run under a landscape notch. */
+    padding-left:env(safe-area-inset-left);
+    padding-right:env(safe-area-inset-right);
     background-color:var(--bg);
     color:var(--text);
     font-family:var(--font-ui);

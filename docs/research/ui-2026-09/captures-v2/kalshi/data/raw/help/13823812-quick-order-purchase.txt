@@ -1,0 +1,11 @@
+URL: https://help.kalshi.com/en/articles/13823812-quick-order-purchase
+HTTP: 200
+Fetched: 2026-09-27T08:39:09Z
+Sitemap lastmod: 2026-03-17T21:22:59Z
+Title: 
+
+Quick orders are simple on Kalshi. Simply select the strike you would like to trade on, and the outcome decision (Yes/No). Once that is selected, you can either trade in dollar value, or in # of contracts, and your order will execute to purchase the contracts at the best available price.
+
+When placing a Quick Order on Kalshi, you'll need to specify both how many contracts you want and whether you're selecting Yes or No. The platform then attempts to fill those contracts at the best available price. With larger orders, however, there may not be enough contracts available at a single price point, meaning your order might get filled across several different prices.
+
+*Quick orders can be made by selecting either the 'dollar' or 'contracts' purchase option.

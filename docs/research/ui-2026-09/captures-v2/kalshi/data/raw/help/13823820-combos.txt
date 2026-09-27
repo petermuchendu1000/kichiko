@@ -1,0 +1,75 @@
+URL: https://help.kalshi.com/en/articles/13823820-combos
+HTTP: 200
+Fetched: 2026-09-27T08:39:29Z
+Sitemap lastmod: 2026-09-18T14:35:26Z
+Title: 
+
+What are combos?
+
+Combos allow you to trade custom combinations of events in a single position. Each combo is a unique market with its own dedicated order book. Combos resolve to the product of the underlying positions, paying out a maximum of $1.00 per contract.
+
+Creating a Combo
+
+You can create combos directly in the UI using the combo builder. Access it either from the page of any eligible event or from the live tab by selecting the sports category and then the combo builder.
+
+Combos are available across many event types, including sports, entertainment, and more. Eligible events are added on a rolling basis and typically appear closer to the event start time. Check the combo builder for the most current list of eligible events.
+
+Pricing (RFQ System)
+
+Combo prices are determined through a Request For Quote (RFQ) system. When you request a combo, the platform sends out a quote request to the market and other participants can respond with a price.
+
+- Quotes are generated live, which can sometimes lead to brief delays. Quoted prices may change between viewing and execution.
+
+- Fills are not guaranteed. If no market participant responds to the RFQ with a quote, the combo order will not fill.
+
+Once a combo is placed and filled, it cannot be canceled or reversed by the user.
+
+Why does my combo show "payout unavailable"?
+
+Because combo prices come from the live RFQ system described above, a combo can only display a payout when a live quote is available for it. "Payout unavailable" means a price for that specific combo is not available right now. Common reasons:
+
+- No participant is currently quoting that exact combination. Longer or more complex combos can have fewer participants willing to quote them, as can less active markets or combos built well before the event starts.
+
+- A market in the combo you have built may no longer be open. If a market in your combo has closed or stopped accepting orders, a payout may not be available for the combo.
+
+- A weak or unstable internet connection on your phone or device, which can prevent live quotes from loading.
+
+What to try:
+
+- Fully close and reopen the app, or refresh the page on web.
+
+- Log out and back in to re-establish your live connection.
+
+- Try a different combo. If another combo shows a payout, your original simply does not have a live quote right now.
+
+- Check back closer to the event start time.
+
+Settlement
+
+A combo settles after all of its underlying positions have been determined. Settlement typically occurs within 1 to 12 hours after the last underlying position resolves.
+
+The combo payout equals the product of the value of each individual position:
+
+- If all positions settle at $1.00, the combo pays $1.00 per contract.
+
+- If any position settles at $0, the entire combo pays $0.
+
+What happens if a player does not play (DNP)?
+
+If a player in your combo never enters the game, that component settles according to the rules of the underlying market. This generally means the component resolves to its last fair price as determined by the Exchange rather than $0 or $1. Once a player has entered the game and played for at least one second (or one play), the component settles on the actual statistics accumulated, regardless of any in-game injury, ejection, or other removal from the game. Settlement criteria vary by market and sport, so refer to the contract terms linked on the market page.
+​
+
+The combo payout is the product of all component values, including the adjusted value of the affected component. A DNP does not on its own refund or cancel the combo.
+​
+
+For example, if one component settles at $0.70 due to a DNP and two other components settle at $1.00, the combo pays $0.70 per contract ($0.70 x $1.00 x $1.00).
+
+Each component in a combo is subject to the rules of its underlying market, including any provision for settling at a value between $0 and $1.
+
+What happens if a player is injured?
+
+In most player markets, once a player has entered the game and played for at least one second (or one play), the contract settles on the statistics actually accumulated, regardless of any in-game injury, ejection, or other removal from the game. That component then resolves YES or NO on those statistics, and the combo pays only if every component resolves as you selected. Because criteria differ by market and sport, the contract terms on each market page are the governing reference.
+
+What does the blue arrow mean?
+
+A blue arrow next to a position in your combo indicates that it settled scalar, meaning the position resolved to a value between $0 and $1 rather than a simple yes/no outcome. This typically happens due to a DNP or other partial resolution as described above. Your combo payout is adjusted accordingly based on the scalar value.

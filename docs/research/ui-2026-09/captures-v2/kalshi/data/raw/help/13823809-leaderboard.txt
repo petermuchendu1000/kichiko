@@ -1,0 +1,13 @@
+URL: https://help.kalshi.com/en/articles/13823809-leaderboard
+HTTP: 200
+Fetched: 2026-09-27T08:38:58Z
+Sitemap lastmod: 2026-03-10T20:26:39Z
+Title: 
+
+Kalshi's leaderboard is a dynamic feature that allows you to track your trading performance and compete against other traders in a fun and engaging way. While you're automatically opted out of the leaderboard by default, you have the flexibility to opt in at any time. This feature provides a valuable tool for measuring your trading success, identifying areas for improvement, and setting new goals.
+
+By joining the leaderboard, you can see how your performance stacks up against other traders, compare your trading strategies and celebrate your achievements. It's a great way to stay motivated, learn from others, and foster a sense of community within the Kalshi platform. Whether you're a seasoned pro or just starting out, the leaderboard offers a friendly and competitive environment to showcase your trading skills and celebrate your successes.
+
+How do I opt in?
+
+How do I opt out?

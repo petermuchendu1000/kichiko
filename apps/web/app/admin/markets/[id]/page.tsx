@@ -42,7 +42,7 @@ export default async function MarketDetailPage({ params }: { params: Promise<{ i
     .map((a) => ({ key: a.key, label: a.label, danger: a.danger }))
 
   const F = ({ label, children }: { label: string; children: React.ReactNode }) => (
-    <div className="rounded-[10px] border bg-[var(--bg-secondary)]/40 px-3 py-2.5">
+    <div className="rounded-[10px] border bg-[color-mix(in_srgb,var(--bg-secondary)_40%,transparent)] px-3 py-2.5">
       <dt className="text-[0.7rem] uppercase tracking-wide text-[var(--text-muted)]">{label}</dt>
       <dd className="mt-1 text-sm font-medium text-[var(--text-primary)]">{children}</dd>
     </div>

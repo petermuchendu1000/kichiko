@@ -129,7 +129,6 @@ export function Navbar() {
 
   const navLinks = [
     { href: '/markets', label: 'Events', icon: <IconMarkets size={15}/> },
-    { href: '/leaderboard', label: 'Leaders', icon: <IconTrophy size={15}/> },
   ]
 
   const isActive = (href: string) => pathname === href || pathname.startsWith(href + '/')
@@ -478,7 +477,7 @@ function DepositSheet({ onClose, initialAmount, resumeOrder = false }: { onClose
               )
             ) : confirm === 'failed' ? (
               <>
-                <div className="w-16 h-16 rounded-full bg-[var(--red)]/12 flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 rounded-full bg-[color-mix(in_srgb,var(--red)_12%,transparent)] flex items-center justify-center mx-auto mb-4">
                   <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--red)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                 </div>
                 <h3 className="font-display text-xl mb-2" style={{ color: 'var(--text-primary)' }}>Deposit not completed</h3>
@@ -559,7 +558,7 @@ function DepositSheet({ onClose, initialAmount, resumeOrder = false }: { onClose
             </div>
 
             {error && (
-              <p role="alert" aria-live="assertive" className="mb-3 rounded-lg border border-[var(--red)]/25 bg-[var(--red)]/10 px-3 py-2 text-sm text-[var(--red)]">
+              <p role="alert" aria-live="assertive" className="mb-3 rounded-lg border border-[color-mix(in_srgb,var(--red)_25%,transparent)] bg-[color-mix(in_srgb,var(--red)_10%,transparent)] px-3 py-2 text-sm text-[var(--red)]">
                 {error}
               </p>
             )}
@@ -694,7 +693,7 @@ function WithdrawSheet({ onClose, balance, currency }: { onClose: () => void; ba
             </div>
 
             {error && (
-              <div role="alert" aria-live="assertive" className="mb-3 rounded-lg border border-[var(--red)]/25 bg-[var(--red)]/10 px-3 py-2 text-sm text-[var(--red)]">
+              <div role="alert" aria-live="assertive" className="mb-3 rounded-lg border border-[color-mix(in_srgb,var(--red)_25%,transparent)] bg-[color-mix(in_srgb,var(--red)_10%,transparent)] px-3 py-2 text-sm text-[var(--red)]">
                 <p>{error}</p>
                 {needsKyc && (
                   <button type="button" onClick={() => { onClose(); const back = typeof window !== 'undefined' ? window.location.pathname + window.location.search : '/portfolio'; router.push(`/kyc?next=${encodeURIComponent(back)}`) }} className="mt-1 font-semibold underline">

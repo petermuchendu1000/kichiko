@@ -1,0 +1,41 @@
+URL: https://help.kalshi.com/en/articles/13823847-apy-on-kalshi
+HTTP: 200
+Fetched: 2026-09-27T08:40:22Z
+Sitemap lastmod: 2026-03-17T23:49:43Z
+Title: 
+
+At Kalshi, we're committed to providing the best possible trading experience. That's why we're excited to introduce interest accrual on your cash and open positions. This means that you will also earn interest on the underlying collateral for your positions. In other words, even before a market is resolved, your positions can earn a return.
+
+Why is this awesome for Kalshi users?
+
+- Take longer positions: Interest accrual allows you to hold your positions for a longer period without worrying about running out of funds.
+
+- Get paid while you hold: Watch your account balance grow as your positions accrue interest.
+
+- Maximize your returns: Combine the potential profits from your trades with the interest earned on your account balance !
+
+Interest Rates and Payments
+
+The interest rate is set at 3.25% and will apply to all eligible accounts. This interest rate is variable and can change at any time.
+
+Interest is normally paid within the first week of the following month but can take up to 10 business days to process. Kalshi passes on the interest they receive from their banking partners. Once these payments from the bank are received, Kalshi pays out interest to its users!
+
+Interest Calculation
+
+- Interest is paid monthly, but accrual is calculated daily.
+
+- The daily accrual is based on the net value of the portfolio at 12am ET each day.
+
+How do you determine the net value of the portfolio?
+
+- Available funds in the account.
+
+- Your portfolio value at the end of the day, based on last traded prices
+
+Eligibility
+
+- Interest rate accrual program for cash and open positions is currently only available for eligible users in the United States and its territories.
+
+- Interest rates are subject to change at any time and are only paid to people with balances of $250 or more.
+
+- Your Social Security Number (SSN) must be provided to receive interest payments above $10 annually.

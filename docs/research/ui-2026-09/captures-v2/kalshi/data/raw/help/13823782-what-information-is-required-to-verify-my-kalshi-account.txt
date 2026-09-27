@@ -1,0 +1,21 @@
+URL: https://help.kalshi.com/en/articles/13823782-what-information-is-required-to-verify-my-kalshi-account
+HTTP: 200
+Fetched: 2026-09-27T08:38:03Z
+Sitemap lastmod: 2026-06-30T18:46:11Z
+Title: 
+
+What information is required to verify my Kalshi account?
+
+To ensure adherence to the requirements set forth by our US based regulators and oversight, it is required for us to obtain certain details from all users of the Kalshi platform. It is important to recognize that we are unable to accept any addresses that are commercial in nature or that are associated with PO boxes.
+
+Additionally, ensure that all manually entered details, such as your name and date of birth (DOB), exactly match your government-issued photo ID. If your ID includes both first and middle names, include both in the first-name field to avoid mismatches.
+
+If your legal name has changed (e.g., due to marriage or a court order), you must provide official documentation to verify the change. Once this documentation is provided, Kalshi can update your account name and proceed with ID verification.
+
+Before resubmitting verification, ensure that your account name reflects your full legal name as shown on your current government-issued ID.
+
+Why do you need my ID?
+
+We are mandated to gather this specific information from all Kalshi users due to our regulatory obligations under United States (US) law. As part of this process, users must provide valid identification, which can include either a driver's license or a passport. It is imperative that the information displayed on your chosen form of photo identification corresponds exactly with the details provided in your Kalshi profile. When prompted, you must take a live photo of your physical ID directly through the app you cannot not upload a photo from your camera roll or use a picture taken from a screen.
+
+Kalshi is regulated by the CFTC, which may require additional documents such as proof of address, employment information, or source of funds to complete verification.

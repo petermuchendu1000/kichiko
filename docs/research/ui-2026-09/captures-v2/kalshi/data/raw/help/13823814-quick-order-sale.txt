@@ -1,0 +1,9 @@
+URL: https://help.kalshi.com/en/articles/13823814-quick-order-sale
+HTTP: 200
+Fetched: 2026-09-27T08:39:16Z
+Sitemap lastmod: 2026-03-10T20:27:20Z
+Title: 
+
+Selling a quick order is very similar to the purchasing actions. You can simply navigate over to the 'sell' tab of the market, and the number of contracts you have able to be sold will be shown under 'Your Position.' Once you select how many contracts you wish to sell, Kalshi will provide traders with the average price of those contracts as well as the estimated payout. From there, it is as simple as clicking 'submit' and your quick order sale will be executed.
+
+*Quick order sales are used to sell a specific amount of your contracts at the current market price.

@@ -1,0 +1,25 @@
+URL: https://help.kalshi.com/en/articles/14022615-venmo-deposits
+HTTP: 200
+Fetched: 2026-09-27T08:40:32Z
+Sitemap lastmod: 2026-09-02T19:29:31Z
+Title: 
+
+How to deposit
+
+- Select "Add funds"
+
+- Select the "Venmo" option
+
+- Log in to Venmo and authorize the payment
+
+- Enter the amount you want to deposit
+
+- Review the transfer and add funds
+
+Important information
+
+- The minimum deposit amount is $10 .
+
+Your first deposit is fee-free. After that, fees may vary. There is also no withdrawal hold - funds deposited via Venmo are available for withdrawal immediately.
+
+Venmo is available for US users only and may not be available in all states. Your Venmo account must be in the same name as your Kalshi account.

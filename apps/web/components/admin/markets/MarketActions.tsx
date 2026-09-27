@@ -6,6 +6,7 @@
 // reason; resolve requires an outcome + notes.
 import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
+import { REG_45_7_ATTESTATION } from '@/lib/markets/banned-subjects'
 
 export type MarketActionKey =
   | 'approve' | 'reject' | 'close' | 'dispute' | 'resolve' | 'cancel' | 'void' | 'feature'
@@ -42,6 +43,7 @@ export function MarketActions({
   const [trend, setTrend] = useState(isTrending)
   const [order, setOrder] = useState<string>(featuredOrder != null ? String(featuredOrder) : '')
   const [err, setErr] = useState<string | null>(null)
+  const [attested, setAttested] = useState(false)
   const [busy, setBusy] = useState(false)
 
   async function post(payload: Record<string, unknown>) {
@@ -76,7 +78,7 @@ export function MarketActions({
             disabled={busy || pending}
             onClick={() => {
               setErr(null)
-              if (a.key === 'approve' || a.key === 'close') {
+              if (a.key === 'close') {
                 post({ action: a.key })
               } else {
                 setActive(active === a.key ? null : a.key)
@@ -88,6 +90,31 @@ export function MarketActions({
           </button>
         ))}
       </div>
+
+      {/* Approve: Reg. 45(7) attestation (required); reason required when the
+          subject screen flagged the market — the server says so in `err`. */}
+      {active === 'approve' && (
+        <div className="flex flex-col gap-2 rounded-[10px] border bg-[var(--bg-secondary)] p-3">
+          <label htmlFor="attest" className="flex items-start gap-2 text-sm text-[var(--text-primary)]">
+            <input id="attest" type="checkbox" className="mt-1 h-5 w-5 shrink-0" checked={attested} onChange={(e) => setAttested(e.target.checked)} />
+            <span>{REG_45_7_ATTESTATION}</span>
+          </label>
+          <label htmlFor="approve-reason" className="text-sm font-medium text-[var(--text-secondary)]">
+            Reason (required if the market was flagged)
+          </label>
+          <textarea id="approve-reason" value={reason} onChange={(e) => setReason(e.target.value)} rows={2} className={AREA} placeholder="Why this market is permitted…" />
+          <div className="flex justify-end gap-2">
+            <button className="btn btn-secondary btn-sm" onClick={() => setActive(null)}>Cancel</button>
+            <button
+              disabled={busy || !attested}
+              onClick={() => post({ action: 'approve', attest_permitted_subject: true, ...(reason.trim() ? { reason } : {}) })}
+              className="btn btn-primary btn-sm"
+            >
+              Approve
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Reason-required actions: reject / dispute / cancel */}
       {(active === 'reject' || active === 'dispute' || active === 'cancel') && (

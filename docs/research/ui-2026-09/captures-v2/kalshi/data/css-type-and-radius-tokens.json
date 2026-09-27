@@ -1,0 +1,34 @@
+{
+ "source": "https://demo.kalshi.co/_next/static/immutable/chunks/{3mik1l17sodyv,3-kjv1yg7jj43,2c3xawoz2mzn1}.css fetched 2026-09-27 (grade D)",
+ "typ": {
+  "typ-body-x10": "font-feature-settings:\"case\" 1;font-size:.75rem;line-height:1.125rem",
+  "typ-body-x20": "font-feature-settings:\"case\" 1, \"ss04\" 1;font-size:.8125rem;line-height:1.25rem",
+  "typ-body-x30": "font-feature-settings:\"case\" 1, \"ss04\" 1;font-size:.9375rem;line-height:1.375rem",
+  "typ-body-x40": "font-feature-settings:\"case\" 1, \"ss04\" 1;font-size:1.125rem;line-height:1.625rem",
+  "typ-emphasis-x10": "font-feature-settings:\"case\" 1;font-size:.75rem;font-weight:500;line-height:1.125rem",
+  "typ-emphasis-x20": "font-feature-settings:\"case\" 1, \"ss04\" 1;font-size:.8125rem;font-weight:500;line-height:1.25rem",
+  "typ-emphasis-x30": "font-feature-settings:\"case\" 1, \"ss04\" 1;font-size:.9375rem;font-weight:500;line-height:1.375rem",
+  "typ-emphasis-x40": "font-feature-settings:\"case\" 1, \"ss04\" 1;font-size:1.125rem;font-weight:500;line-height:1.625rem",
+  "typ-title-x10": "font-feature-settings:\"case\" 1, \"ss04\" 1;font-size:.9375rem;font-weight:600;line-height:1.375rem",
+  "typ-title-x20": "font-feature-settings:\"case\" 1, \"ss04\" 1;font-size:1.125rem;font-weight:600;line-height:1.5rem",
+  "typ-title-x30": "letter-spacing:-.03rem;font-feature-settings:\"case\" 1, \"ss04\" 1;font-size:1.5rem;font-weight:600;line-height:1.625rem",
+  "typ-overline-x10": "letter-spacing:.08em;text-transform:uppercase;font-feature-settings:\"case\" 1;font-size:.6875rem;font-weight:600;line-height:1.125rem",
+  "typ-overline-x20": "letter-spacing:.08em;text-transform:uppercase;font-feature-settings:\"case\" 1;font-size:.8125rem;font-weight:600;line-height:1.25rem",
+  "typ-headline-x10": "font-feature-settings:\"case\" 1;font-variant-numeric:lining-nums proportional-nums;font-size:1.5rem;font-weight:500;line-height:1.75rem",
+  "typ-headline-x15": "font-feature-settings:\"case\" 1;font-variant-numeric:lining-nums proportional-nums;font-size:1.625rem;font-weight:600;line-height:2rem",
+  "typ-headline-x20": "font-feature-settings:\"case\" 1;font-variant-numeric:lining-nums proportional-nums;font-size:1.875rem;font-weight:500;line-height:2.25rem",
+  "typ-headline-x60": "letter-spacing:-.3rem;font-feature-settings:\"case\" 1;font-variant-numeric:lining-nums proportional-nums;font-size:6rem;font-weight:400;line-height:6rem",
+  "typ-display-x10": "letter-spacing:-.03125rem;font-feature-settings:\"case\" 1;font-variant-numeric:lining-nums proportional-nums;font-size:2.75rem;font-weight:500;line-height:3rem",
+  "typ-display-x20": "letter-spacing:-.0625rem;font-feature-settings:\"case\" 1;font-variant-numeric:lining-nums proportional-nums;font-size:3.5rem;font-weight:500;line-height:3.875rem",
+  "typ-display-x30": "letter-spacing:-.125rem;font-feature-settings:\"case\" 1;font-variant-numeric:lining-nums proportional-nums;font-size:6rem;font-weight:400;line-height:6rem",
+  "typ-tabular": "font-feature-settings:\"case\" 1, \"ss04\" 1;font-variant-numeric:lining-nums tabular-nums"
+ },
+ "rounded": {
+  "rounded-x10": "border-radius:2px",
+  "rounded-x15": "border-radius:4px",
+  "rounded-x20": "border-radius:6px",
+  "rounded-x30": "border-radius:8px",
+  "rounded-x40": "border-radius:16px",
+  "rounded-x50": "border-radius:100px"
+ }
+}

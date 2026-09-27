@@ -1,0 +1,91 @@
+URL: https://help.kalshi.com/en/articles/13823798-bank-deposits
+HTTP: 200
+Fetched: 2026-09-27T08:38:34Z
+Sitemap lastmod: 2026-08-24T21:49:51Z
+Title: 
+
+How to deposit
+
+- Select "Add funds"
+
+- Select the "Bank transfer" option
+
+- Select the connected bank account you want to deposit from. If this is your first time, you'll be guided through a secure process to connect your bank through one of our ACH partners (Plaid or Aeropay).
+
+- Enter the amount you want to deposit.
+
+- Review the transfer and add funds.
+
+Important information
+
+After you start a bank transfer, your funds are on their way to Kalshi. Your full deposit becomes available in your Kalshi balance once the transfer settles, typically within 5 business days (weekends and bank holidays don't count). To get you trading sooner, Kalshi often credits part of your deposit right away (more below).
+
+- The minimum deposit amount is $10 .
+
+- No fees for bank deposits.
+
+- Bank transfers are available for US users only .
+
+- Only bank accounts in your name can be linked to your Kalshi account.
+
+- Ensure there are enough funds in your bank account to cover the deposit amount.
+
+- It can take 1-4 business days before the funds are withdrawn from your bank account, and the transfer typically settles within 5 business days .
+
+- VoIP phone numbers are not accepted during the bank linking process.
+
+Having trouble with your bank connection? Most users connect through Plaid. Visit Plaid Support for troubleshooting help and live chat, or manage your connections at Plaid Portal . For Aeropay-specific issues, reach Aeropay Support .
+
+Note for international users: Bank transfers (ACH) are not available for international accounts. You can deposit via debit card, crypto, or wire transfer instead.
+
+Why did I only receive part of my deposit?
+
+When you make a bank deposit, Kalshi may credit a portion of the funds immediately so you can start trading right away. The remaining amount will be available once the bank transfer fully settles, typically within 5 business days.
+
+For example, if you deposit $200, you might see $150 available immediately with the remaining $50 released after settlement. The exact split depends on your account history and the deposit amount. This immediate crediting allows you to start trading right away, even though the actual withdrawal from your bank may occur 1-3 business days later.
+
+You can track the status of your deposit on the Transfers page. If you received immediate funding, your withdrawable balance may be temporarily reduced until the ACH transfer fully settles. Bank transfers cannot be canceled once they have been initiated. If you start more than one by mistake, wait for them to settle and then withdraw the extra amount back to your bank. After settlement, the offset is removed, and the funds become withdrawable up to two days later - see Security Holds .
+
+Note: If your bank transfer fails or is returned after immediate funds were credited, the credited amount will be deducted from your balance. If you've already used those funds to place trades, this can leave your account with a negative balance that you'll need to cover by adding funds or closing positions. Make sure your bank account has sufficient funds to cover the full deposit.
+
+For more detailed information on negative balances, including causes, impacts, and resolution steps, see the section below.
+
+What determines whether your deposit qualifies for immediate funding?
+
+Every ACH deposit goes through a quick automated evaluation before any portion is credited up front. The evaluation considers details about the specific transfer and the bank account it's coming from, including your balance with that bank and your prior deposit and trading activity on Kalshi. The full set of inputs isn't disclosed for individual transfers.
+
+The exact immediate-funding amount for a specific deposit is shown on the deposit review screen before you submit it. Immediate funding eligibility cannot be changed or expedited afterward.
+
+The check runs fresh each time, so results aren't permanent. The available amount may change over time as the underlying signals evolve. Accounts with a consistent track record of completed, non-reversed deposits tend to see immediate funding more often; recent reversals or attempts that look unlike your usual deposit behavior reduce the chance.
+
+Need access right away? A debit card deposit usually credits instantly. This method is particularly useful if you need immediate trading access and have reached the limit for pending ACH deposits.
+
+Why Does My Kalshi Account Show a Negative Balance, and How Can I Resolve It?
+
+A negative balance in your Kalshi account can occur for several reasons, most commonly due to disputes or chargebacks initiated by your bank or payment provider. Below, we explain the causes, impacts, and steps to resolve a negative balance.
+
+Common Causes of Negative Balances
+
+- Disputes or Chargebacks : If your bank disputes a deposit made to Kalshi, the funds are temporarily pulled back during the review process. Kalshi removes the credited amount from your account, which can result in a negative balance if those funds were already used.
+
+- Refunds or Reversals : Refunds or reversals initiated by your financial institution can also lead to a negative balance if the funds had already been used.
+
+Impact on Your Account
+
+- Temporary Restrictions : During an active dispute or chargeback, your account may be temporarily restricted to prevent further transactions until the issue is resolved.
+
+- Balance Adjustments : Any incoming funds, such as deposits or trade proceeds, will first be applied to reduce the negative balance. Only after the negative balance is cleared will additional funds appear as available.
+
+Steps to Resolve a Negative Balance
+
+- Deposit Funds : To clear a negative balance, deposit an amount equal to or greater than the negative balance. This will bring your account back to good standing.
+
+- Wait for Dispute Resolution : If the negative balance is due to a dispute, wait for your bank to complete its review. If the dispute is resolved in Kalshi’s favor, the funds will be returned to your account.
+
+- Contact Support : If you have questions or need assistance, contact Kalshi’s support team for further guidance.
+
+Key Considerations
+
+- A negative balance is not a platform glitch; it reflects the standard process during disputes or failed transactions.
+
+- Kalshi may challenge invalid disputes using transaction records and other documentation.

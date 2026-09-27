@@ -14,6 +14,9 @@ trips:
   O5  unknown market -> P0001; not an order-book market -> P0103
   O6  a dollar market buy is converted at the best ask and never spends more
       than the amount; with no liquidity -> P0195
+  O10 a hidden market refuses buys (P0186) but not sells (105)
+  O11 a buy under the KSh 20 statutory minimum -> P0185 (105)
+  O12 get_leaderboard is not executable by PUBLIC/anon/authenticated (105)
   O7  a user JWT cannot call it (P0121): kill-switch overrides are the route's
 Usage: SEED_DB_URL=postgresql://... python3 test_place_order_for.py
 """
@@ -105,6 +108,23 @@ try:
     cur.execute("update market_options set is_active=false where id=%s", (OPT,))
     _, e = pof(u); check("O9 a deactivated option -> P0199", e == 'P0199', f"err={e}")
     cur.execute("update market_options set is_active=true where id=%s", (OPT,))
+
+    # O10 (105): a hidden market takes no new buys; a sell is not refused for being hidden
+    cur.execute("update markets set is_hidden=true where id=%s", (MKT,))
+    _, e = pof(u); check("O10 a buy on a hidden market -> P0186", e == 'P0186', f"err={e}")
+    _, e = pof(u, action='sell'); check("O10 a sell on a hidden market is not refused as hidden", e != 'P0186', f"err={e}")
+    cur.execute("update markets set is_hidden=false where id=%s", (MKT,))
+
+    # O11 (105): Gambling Control Act 2025 s.71(1), no bet under KSh 20. At 0.0077 USD/KES,
+    # 0.3 shares at 40c cost USD 0.12 = KSh 15.58 (refused); 0.5 cost USD 0.20 = KSh 25.97.
+    _, e = pof(u, price=40, size=0.3); check("O11 a KSh 15.58 limit buy -> P0185", e == 'P0185', f"err={e}")
+    _, e = pof(u, price=40, size=0.5); check("O11 a KSh 25.97 limit buy is accepted", e is None, f"err={e}")
+    _, e = pof(u, otype='market', size=None, amount=19); check("O11 a KSh 19 market buy -> P0185", e == 'P0185', f"err={e}")
+
+    # O12 (105): the profit leaderboard RPC is not callable by client roles
+    exposed = [r for r in ('anon', 'authenticated')
+               if one("select has_function_privilege(%s, 'public.get_leaderboard(text,text,integer)', 'EXECUTE')", (r,))]
+    check("O12 get_leaderboard not executable by anon/authenticated", exposed == [], f"exposed={exposed}")
 
     cur.execute("savepoint j")
     cur.execute("select set_config('request.jwt.claim.sub', %s, true)", (str(u),))

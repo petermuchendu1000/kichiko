@@ -4,7 +4,6 @@
       "url": [
         "http://localhost:3000/",
         "http://localhost:3000/markets",
-        "http://localhost:3000/leaderboard",
         "http://localhost:3000/search"
       ],
       "numberOfRuns": 3,

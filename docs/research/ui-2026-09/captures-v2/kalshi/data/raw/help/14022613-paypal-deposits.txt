@@ -1,0 +1,25 @@
+URL: https://help.kalshi.com/en/articles/14022613-paypal-deposits
+HTTP: 200
+Fetched: 2026-09-27T08:40:29Z
+Sitemap lastmod: 2026-04-17T18:04:52Z
+Title: 
+
+How to deposit
+
+- Select "Add funds"
+
+- Select the "PayPal" option
+
+- Log in to PayPal and authorize the payment
+
+- Enter the amount you want to deposit
+
+- Review the transfer and add funds
+
+Important information
+
+- The minimum deposit amount is $10 .
+
+Your first PayPal deposit is fee-free. After that, fees may vary up to 2%. There is also no withdrawal hold - funds deposited via PayPal are available for withdrawal immediately.
+
+PayPal is available for US users only and may not be available in all states. Your PayPal account must be in the same name as your Kalshi account.

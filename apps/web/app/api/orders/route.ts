@@ -4,6 +4,7 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 import { createClient, createAdminClient } from '@/lib/supabase/server'
 import { readFlagFromEnv } from '@/lib/flags'
 import { clobOrderSchema, clobErrorFor } from '@/lib/clob'
+import { MIN_STAKE_KES } from '@/lib/stake'
 
 /**
  * Order placement: ONE database round trip (migration 090, finding L1).
@@ -40,6 +41,16 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid request', details: parsed.error.flatten() }, { status: 400 })
     }
     const o = parsed.data
+
+    // Statutory minimum stake (Gambling Control Act 2025 s.71(1): KSh 20) for a
+    // KES market buy. The currency here is the client's assertion; the binding
+    // check across currencies and order types belongs in place_order_for.
+    if (
+      o.action === 'buy' && o.order_type === 'market' && o.amount_local != null &&
+      (o.currency ?? 'KES') === 'KES' && o.amount_local < MIN_STAKE_KES
+    ) {
+      return NextResponse.json({ error: `The minimum stake is KSh ${MIN_STAKE_KES}.`, code: 'below_minimum_stake' }, { status: 400 })
+    }
 
     // FLAG_* environment overrides live in the app, not the database: pass the
     // ones that are set (an unset one leaves the stored value in charge)

@@ -1,0 +1,2238 @@
+{
+ "tag": "P14_D-responsible_mobile",
+ "target": {
+  "id": "responsible",
+  "page": "P14",
+  "source": "D",
+  "suffix": "responsible",
+  "url": "https://demo.kalshi.co/policy-center/responsible-trading"
+ },
+ "vp": "mobile",
+ "startedUtc": "2026-09-27T09:07:07.166Z",
+ "consoleErrors": [
+  "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+  "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+  "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+  "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+  "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+ ],
+ "responses": [
+  {
+   "url": "https://demo.kalshi.co/policy-center/responsible-trading",
+   "status": 200
+  },
+  {
+   "url": "https://vercel.live/_next-live/feedback/feedback.html?dpl=dpl_6neVDpiFudrvbU85yDS6kGDvT22L",
+   "status": 200
+  },
+  {
+   "url": "https://apps.rokt.com/wsdk/controller/index.2.14466.0.html",
+   "status": 200
+  },
+  {
+   "url": "https://apps.rokt.com/wsdk/plugins/dcui/index.html",
+   "status": 200
+  },
+  {
+   "url": "https://apps.rokt.com/v1/wsdk-init/index.html?version=IL-2.14466.0&launcherInstanceGuid=de730527-a5f4-4ef9-9c77-52f67b5c8c3d&isCached=false&integrationStart=1790500032149&integrationEnd=1790500032182&",
+   "status": 200
+  },
+  {
+   "url": "https://15537244.fls.doubleclick.net/activityi;src=15537244;type=unive0;cat=kalsh0;rcb=19;ord=4787547684976;npa=0;auiddc=411217723.1790500031;uaa=arm;uab=64;uafvl=Chromium%3B141.0.7390.37%7CNot%253FA_",
+   "status": 403
+  }
+ ],
+ "httpStatus": 200,
+ "signupModalAppearedAfterMs": null,
+ "fullPageClippedTo": 6710,
+ "docHeight": 6710,
+ "measure": {
+  "url": "https://demo.kalshi.co/policy-center/responsible-trading",
+  "viewport": {
+   "w": 390,
+   "h": 844,
+   "dpr": 2
+  },
+  "docHeight": 6710,
+  "colorScheme": "light",
+  "htmlClass": "kalshisans_b2794dd-module__q5KPJG__variable kalshicondensed_7a0c562e-module__QUSyua__variable graphikwidesuper_9f434a42-module__DSUzfq__variable graphikwidesemibold_839bd37e-module__QN7kBG__variable overscroll-y-none",
+  "bodyBg": "#FFFFFF",
+  "rootFontSize": "16px",
+  "bodyFont": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+  "fontsLoaded": [
+   "kalshiSans 400 normal",
+   "kalshiSans 500 normal",
+   "kalshiSans 600 normal",
+   "kalshiCondensed 500 normal",
+   "kalshiCondensed 600 normal"
+  ],
+  "hydration": {
+   "reactFiberOnNodes": true,
+   "nextData": false,
+   "nextRouter": true,
+   "nextF": true,
+   "scripts": 209,
+   "visibleElements": 221,
+   "bodyTextChars": 2948
+  },
+  "structure": [
+   {
+    "tag": "header",
+    "role": null,
+    "sel": "header.hidden.h-[76px]",
+    "top": 0,
+    "h": 76,
+    "w": 390,
+    "x": 0,
+    "position": "static",
+    "text": ""
+   },
+   {
+    "tag": "main",
+    "role": null,
+    "sel": "main.min-w-0.flex-1",
+    "top": 77,
+    "h": 5224,
+    "w": 358,
+    "x": 16,
+    "position": "static",
+    "text": "Responsible trading tools Trading should give you control, not take it away. Kalshi is bui"
+   },
+   {
+    "tag": "section",
+    "role": null,
+    "sel": "section.flex.flex-col",
+    "top": 101,
+    "h": 478,
+    "w": 358,
+    "x": 16,
+    "position": "static",
+    "text": "Responsible trading tools Trading should give you control, not take it away. Kalshi is bui"
+   },
+   {
+    "tag": "h1",
+    "role": null,
+    "sel": "h1.m-0.font-kalshi-condensed",
+    "top": 357,
+    "h": 44,
+    "w": 358,
+    "x": 16,
+    "position": "static",
+    "text": "Responsible trading tools"
+   },
+   {
+    "tag": "section",
+    "role": null,
+    "sel": "section.flex.flex-col",
+    "top": 635,
+    "h": 1876,
+    "w": 358,
+    "x": 16,
+    "position": "static",
+    "text": "HELP IS AVAILABLE Available resources 01 Trading breaks Take a temporary pause from tradin"
+   },
+   {
+    "tag": "h2",
+    "role": null,
+    "sel": "h2.m-0.font-kalshi-condensed",
+    "top": 663,
+    "h": 40,
+    "w": 358,
+    "x": 16,
+    "position": "static",
+    "text": "Available resources"
+   },
+   {
+    "tag": "h3",
+    "role": null,
+    "sel": "h3.m-0.font-kalshi-sans",
+    "top": 804,
+    "h": 26,
+    "w": 308,
+    "x": 41,
+    "position": "static",
+    "text": "Trading breaks"
+   },
+   {
+    "tag": "h3",
+    "role": null,
+    "sel": "h3.m-0.font-kalshi-sans",
+    "top": 1100,
+    "h": 26,
+    "w": 308,
+    "x": 41,
+    "position": "static",
+    "text": "Self-exclusions"
+   },
+   {
+    "tag": "h3",
+    "role": null,
+    "sel": "h3.m-0.font-kalshi-sans",
+    "top": 1396,
+    "h": 26,
+    "w": 308,
+    "x": 41,
+    "position": "static",
+    "text": "Deposit limits"
+   },
+   {
+    "tag": "h3",
+    "role": null,
+    "sel": "h3.m-0.font-kalshi-sans",
+    "top": 1692,
+    "h": 26,
+    "w": 308,
+    "x": 41,
+    "position": "static",
+    "text": "Mental health support"
+   },
+   {
+    "tag": "h3",
+    "role": null,
+    "sel": "h3.m-0.font-kalshi-sans",
+    "top": 1988,
+    "h": 26,
+    "w": 308,
+    "x": 41,
+    "position": "static",
+    "text": "Educational guides"
+   },
+   {
+    "tag": "h3",
+    "role": null,
+    "sel": "h3.m-0.font-kalshi-sans",
+    "top": 2284,
+    "h": 26,
+    "w": 308,
+    "x": 41,
+    "position": "static",
+    "text": "Account security"
+   },
+   {
+    "tag": "section",
+    "role": null,
+    "sel": "section.flex.flex-col",
+    "top": 2624,
+    "h": 1188,
+    "w": 358,
+    "x": 16,
+    "position": "static",
+    "text": "PERSONAL SETTINGS Easy to find and use Find responsible trading tools in just a few taps —"
+   },
+   {
+    "tag": "h2",
+    "role": null,
+    "sel": "h2.m-0.font-kalshi-condensed",
+    "top": 2652,
+    "h": 40,
+    "w": 358,
+    "x": 16,
+    "position": "static",
+    "text": "Easy to find and use"
+   },
+   {
+    "tag": "section",
+    "role": null,
+    "sel": "section.flex.flex-col",
+    "top": 3925,
+    "h": 1360,
+    "w": 358,
+    "x": 16,
+    "position": "static",
+    "text": "REACH OUT FOR HELP Additional resources Kalshi is funding the NCPG's new Financial Trader "
+   },
+   {
+    "tag": "h2",
+    "role": null,
+    "sel": "h2.m-0.font-kalshi-condensed",
+    "top": 3953,
+    "h": 40,
+    "w": 358,
+    "x": 16,
+    "position": "static",
+    "text": "Additional resources"
+   },
+   {
+    "tag": "h3",
+    "role": null,
+    "sel": "h3.m-0.font-kalshi-condensed",
+    "top": 4980,
+    "h": 40,
+    "w": 276,
+    "x": 57,
+    "position": "static",
+    "text": "988"
+   },
+   {
+    "tag": "footer",
+    "role": null,
+    "sel": "footer.bg-fill-x60.dark:bg-surface-x20",
+    "top": 5301,
+    "h": 1409,
+    "w": 390,
+    "x": 0,
+    "position": "static",
+    "text": "PRODUCT Kalshi Pro Perpetual Futures Markets Incentive program Institutions API & develope"
+   }
+  ],
+  "typography": [
+   {
+    "family": "kalshiCondensed, \"kalshiCondensed Fallback\", sans-serif",
+    "size": "40px",
+    "weight": "500",
+    "lineHeight": "44px",
+    "letterSpacing": "-0.8px",
+    "transform": "none",
+    "color": "#000000E6",
+    "colorRaw": "rgba(0, 0, 0, 0.9)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Responsible trading tools",
+      "sel": "h1.m-0.font-kalshi-condensed",
+      "top": 357
+     }
+    ]
+   },
+   {
+    "family": "kalshiCondensed, \"kalshiCondensed Fallback\", sans-serif",
+    "size": "36px",
+    "weight": "600",
+    "lineHeight": "40px",
+    "letterSpacing": "-0.72px",
+    "transform": "none",
+    "color": "#000000E6",
+    "colorRaw": "rgba(0, 0, 0, 0.9)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 4,
+    "samples": [
+     {
+      "text": "Available resources",
+      "sel": "h2.m-0.font-kalshi-condensed",
+      "top": 663
+     },
+     {
+      "text": "Easy to find and use",
+      "sel": "h2.m-0.font-kalshi-condensed",
+      "top": 2652
+     },
+     {
+      "text": "Additional resources",
+      "sel": "h2.m-0.font-kalshi-condensed",
+      "top": 3953
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "24px",
+    "weight": "600",
+    "lineHeight": "26px",
+    "letterSpacing": "-0.48px",
+    "transform": "none",
+    "color": "#000000E6",
+    "colorRaw": "rgba(0, 0, 0, 0.9)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 6,
+    "samples": [
+     {
+      "text": "Trading breaks",
+      "sel": "h3.m-0.font-kalshi-sans",
+      "top": 804
+     },
+     {
+      "text": "Self-exclusions",
+      "sel": "h3.m-0.font-kalshi-sans",
+      "top": 1100
+     },
+     {
+      "text": "Deposit limits",
+      "sel": "h3.m-0.font-kalshi-sans",
+      "top": 1396
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "18px",
+    "weight": "400",
+    "lineHeight": "26px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "colorRaw": "rgba(0, 0, 0, 0.9)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 21,
+    "samples": [
+     {
+      "text": "Kalshi is built with protections that help you stay in charg",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 501
+     },
+     {
+      "text": "Take a temporary pause from trading when you need to step ba",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 846
+     },
+     {
+      "text": "Exclude yourself from the platform for a specified period.",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 1142
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "18px",
+    "weight": "600",
+    "lineHeight": "26px",
+    "letterSpacing": "-0.48px",
+    "transform": "none",
+    "color": "#000000E6",
+    "colorRaw": "rgba(0, 0, 0, 0.9)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Trading should give you control, not take it away.",
+      "sel": "p.m-0.font-kalshi-sans",
+      "top": 425
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "15px",
+    "weight": "500",
+    "lineHeight": "22px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "colorRaw": "rgba(0, 0, 0, 0.9)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 10,
+    "samples": [
+     {
+      "text": "1",
+      "sel": "span.shrink-0.inline-flex",
+      "top": 2865
+     },
+     {
+      "text": "2",
+      "sel": "span.shrink-0.inline-flex",
+      "top": 2947
+     },
+     {
+      "text": "3",
+      "sel": "span.shrink-0.inline-flex",
+      "top": 3029
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "15px",
+    "weight": "400",
+    "lineHeight": "22px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "colorRaw": "rgba(0, 0, 0, 0.9)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 8,
+    "samples": [
+     {
+      "text": "Learn more",
+      "sel": "a.typ-body-x30.text-text-x10",
+      "top": 984
+     },
+     {
+      "text": "For ecosystem-wide self exclusion, visit",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 1210
+     },
+     {
+      "text": "SelfExclude.io",
+      "sel": "a.text-text-x10.hover:opacity-75",
+      "top": 1233
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "15px",
+    "weight": "500",
+    "lineHeight": "22px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#FFFFFF",
+    "colorRaw": "rgb(255, 255, 255)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 3,
+    "samples": [
+     {
+      "text": "ncpgambling.org",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
+      "top": 4399
+     },
+     {
+      "text": "bircheshealth.com",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
+      "top": 4803
+     },
+     {
+      "text": "988lifeline.org",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
+      "top": 5185
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "400",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "colorRaw": "rgba(0, 0, 0, 0.9)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 18,
+    "samples": [
+     {
+      "text": "Kalshi Pro",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 5468
+     },
+     {
+      "text": "Perpetual Futures",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 5504
+     },
+     {
+      "text": "Markets",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 5540
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "600",
+    "lineHeight": "20px",
+    "letterSpacing": "1.04px",
+    "transform": "uppercase",
+    "color": "#000000E6",
+    "colorRaw": "rgba(0, 0, 0, 0.9)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 12,
+    "samples": [
+     {
+      "text": "Help is available",
+      "sel": "span.font-kalshi-sans.typ-overline-x20",
+      "top": 635
+     },
+     {
+      "text": "01",
+      "sel": "span.font-kalshi-sans.typ-overline-x20",
+      "top": 776
+     },
+     {
+      "text": "02",
+      "sel": "span.font-kalshi-sans.typ-overline-x20",
+      "top": 1072
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "400",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0000008C",
+    "colorRaw": "rgba(0, 0, 0, 0.55)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 5,
+    "samples": [
+     {
+      "text": "© 2026 Kalshi Inc. · All rights reserved",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 6282
+     },
+     {
+      "text": "Privacy",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 6323
+     },
+     {
+      "text": "Data Terms of Service",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 6323
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "12px",
+    "weight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0000004D",
+    "colorRaw": "rgba(0, 0, 0, 0.3)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Trading on Kalshi involves risk and may not be appropriate f",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 6412
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "11px",
+    "weight": "600",
+    "lineHeight": "18px",
+    "letterSpacing": "0.88px",
+    "transform": "uppercase",
+    "color": "#0000004D",
+    "colorRaw": "rgba(0, 0, 0, 0.3)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 3,
+    "samples": [
+     {
+      "text": "Product",
+      "sel": "span.font-kalshi-sans.typ-overline-x10",
+      "top": 5428
+     },
+     {
+      "text": "Company",
+      "sel": "span.font-kalshi-sans.typ-overline-x10",
+      "top": 5696
+     },
+     {
+      "text": "Help",
+      "sel": "span.font-kalshi-sans.typ-overline-x10",
+      "top": 5964
+     }
+    ]
+   }
+  ],
+  "contrast": {
+   "textNodes": 93,
+   "failAA": 4,
+   "failAAWithoutBgImage": 4,
+   "worstUnique": [
+    {
+     "text": "Product",
+     "size": "11px",
+     "weight": "600",
+     "fg": "#0000004D",
+     "bg": "#F7F7F7",
+     "bgImage": false,
+     "ratio": 2.11,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-overline-x10"
+    },
+    {
+     "text": "Trading on Kalshi involves risk and may not be app",
+     "size": "12px",
+     "weight": "400",
+     "fg": "#0000004D",
+     "bg": "#F7F7F7",
+     "bgImage": false,
+     "ratio": 2.11,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.font-normal"
+    }
+   ],
+   "pairs": [
+    {
+     "pair": "#000000E6 on #FFFFFF",
+     "ratio": 17.58,
+     "count": 53,
+     "sample": "Responsible trading tools",
+     "bgImage": false
+    },
+    {
+     "pair": "#000000E6 on #F7F7F7",
+     "ratio": 16.55,
+     "count": 28,
+     "sample": "1",
+     "bgImage": false
+    },
+    {
+     "pair": "#0000008C on #F7F7F7",
+     "ratio": 4.66,
+     "count": 5,
+     "sample": "© 2026 Kalshi Inc. · All rights reserved",
+     "bgImage": false
+    },
+    {
+     "pair": "#0000004D on #F7F7F7",
+     "ratio": 2.11,
+     "count": 4,
+     "sample": "Product",
+     "bgImage": false
+    },
+    {
+     "pair": "#FFFFFF on #191919",
+     "ratio": 17.58,
+     "count": 3,
+     "sample": "ncpgambling.org",
+     "bgImage": false
+    }
+   ]
+  },
+  "interactive": [
+   {
+    "kind": "a",
+    "label": "",
+    "ariaLabel": null,
+    "sel": "a.flex.items-center",
+    "top": 24,
+    "x": 40,
+    "w": 148.61,
+    "h": 28,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Open menu",
+    "ariaLabel": "Open menu",
+    "sel": "button.flex.items-center",
+    "top": 16,
+    "x": 322,
+    "w": 44,
+    "h": 44,
+    "radius": "100px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px none #000000E6",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Learn more",
+    "ariaLabel": null,
+    "sel": "a.typ-body-x30.text-text-x10",
+    "top": 984,
+    "x": 41,
+    "w": 79.81,
+    "h": 22,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "15px/22px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "SelfExclude.io",
+    "ariaLabel": null,
+    "sel": "a.text-text-x10.hover:opacity-75",
+    "top": 1233,
+    "x": 41,
+    "w": 99.34,
+    "h": 19,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "15px/22px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "ncpgambling.org",
+    "ariaLabel": null,
+    "sel": "a.inline-flex.justify-center",
+    "top": 4386,
+    "x": 57,
+    "w": 199.5,
+    "h": 48,
+    "radius": "100px",
+    "bg": "#000000E6",
+    "bgRaw": "rgba(0, 0, 0, 0.9)",
+    "effectiveBg": "#191919",
+    "color": "#FFFFFF",
+    "border": "0px none #FFFFFF",
+    "padding": "12px 24px 12px 24px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "bircheshealth.com",
+    "ariaLabel": null,
+    "sel": "a.inline-flex.justify-center",
+    "top": 4790,
+    "x": 57,
+    "w": 209.75,
+    "h": 48,
+    "radius": "100px",
+    "bg": "#000000E6",
+    "bgRaw": "rgba(0, 0, 0, 0.9)",
+    "effectiveBg": "#191919",
+    "color": "#FFFFFF",
+    "border": "0px none #FFFFFF",
+    "padding": "12px 24px 12px 24px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "988lifeline.org",
+    "ariaLabel": null,
+    "sel": "a.inline-flex.justify-center",
+    "top": 5172,
+    "x": 57,
+    "w": 179.19,
+    "h": 48,
+    "radius": "100px",
+    "bg": "#000000E6",
+    "bgRaw": "rgba(0, 0, 0, 0.9)",
+    "effectiveBg": "#191919",
+    "color": "#FFFFFF",
+    "border": "0px none #FFFFFF",
+    "padding": "12px 24px 12px 24px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "X (Twitter)",
+    "ariaLabel": "X (Twitter)",
+    "sel": "a.text-text-x20.hover:text-text-x10",
+    "top": 5373,
+    "x": 16,
+    "w": 20,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#0000008C",
+    "border": "0px solid #0000008C",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Instagram",
+    "ariaLabel": "Instagram",
+    "sel": "a.text-text-x20.hover:text-text-x10",
+    "top": 5373,
+    "x": 48,
+    "w": 20,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#0000008C",
+    "border": "0px solid #0000008C",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "TikTok",
+    "ariaLabel": "TikTok",
+    "sel": "a.text-text-x20.hover:text-text-x10",
+    "top": 5373,
+    "x": 80,
+    "w": 20,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#0000008C",
+    "border": "0px solid #0000008C",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Discord",
+    "ariaLabel": "Discord",
+    "sel": "a.text-text-x20.hover:text-text-x10",
+    "top": 5373,
+    "x": 112,
+    "w": 20,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#0000008C",
+    "border": "0px solid #0000008C",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Reddit",
+    "ariaLabel": "Reddit",
+    "sel": "a.text-text-x20.hover:text-text-x10",
+    "top": 5373,
+    "x": 144,
+    "w": 20,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#0000008C",
+    "border": "0px solid #0000008C",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "LinkedIn",
+    "ariaLabel": "LinkedIn",
+    "sel": "a.text-text-x20.hover:text-text-x10",
+    "top": 5373,
+    "x": 176,
+    "w": 20,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#0000008C",
+    "border": "0px solid #0000008C",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Kalshi Pro",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 5457,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Perpetual Futures",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 5493,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Markets",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 5529,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Incentive program",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 5565,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Institutions",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 5601,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "API & developers",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 5637,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "About",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 5725,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Kalshi Research",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 5761,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Blog",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 5797,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Careers",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 5833,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Policy Center",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 5869,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Brand Kit",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 5905,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Help Center",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 5993,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "FAQ",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 6029,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Fee schedule",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 6065,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Trading hours",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 6101,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Regulatory",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 6137,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Trust Center",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 6173,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Privacy",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.hover:underline",
+    "top": 6318,
+    "x": 16,
+    "w": 43.89,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#0000008C",
+    "border": "0px solid #0000008C",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Data Terms of Service",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.hover:underline",
+    "top": 6318,
+    "x": 83.89,
+    "w": 132.66,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#0000008C",
+    "border": "0px solid #0000008C",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Trading Prohibitions",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.hover:underline",
+    "top": 6318,
+    "x": 240.55,
+    "w": 121.91,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#0000008C",
+    "border": "0px solid #0000008C",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "FAQ for Finance Professionals",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.hover:underline",
+    "top": 6366,
+    "x": 16,
+    "w": 179.8,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#0000008C",
+    "border": "0px solid #0000008C",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   }
+  ],
+  "interactiveCount": 35,
+  "touchTargets": {
+   "byMinSide": {
+    "lt24": 13,
+    "24to32": 5,
+    "32to44": 18,
+    "gte44": 4
+   },
+   "byHeight": {
+    "19": 1,
+    "22": 6,
+    "24": 10,
+    "28": 1,
+    "36": 18,
+    "44": 1,
+    "48": 3
+   }
+  },
+  "spacing": {
+   "padding": [
+    {
+     "v": "6px",
+     "n": 36
+    },
+    {
+     "v": "12px",
+     "n": 10
+    },
+    {
+     "v": "16px",
+     "n": 26
+    },
+    {
+     "v": "24px",
+     "n": 57
+    },
+    {
+     "v": "40px",
+     "n": 14
+    },
+    {
+     "v": "64px",
+     "n": 1
+    }
+   ],
+   "margin": [
+    {
+     "v": "8px",
+     "n": 7
+    },
+    {
+     "v": "16px",
+     "n": 2
+    }
+   ],
+   "gap": [
+    {
+     "v": "8px",
+     "n": 26
+    },
+    {
+     "v": "12px",
+     "n": 2
+    },
+    {
+     "v": "16px",
+     "n": 12
+    },
+    {
+     "v": "24px",
+     "n": 50
+    },
+    {
+     "v": "40px",
+     "n": 4
+    },
+    {
+     "v": "56px",
+     "n": 2
+    }
+   ]
+  },
+  "radius": [
+   {
+    "v": "24px",
+    "n": 17
+   },
+   {
+    "v": "33px",
+    "n": 3
+   },
+   {
+    "v": "100px",
+    "n": 4
+   },
+   {
+    "v": "3.35544e+07px",
+    "n": 10
+   }
+  ],
+  "borderWidth": [
+   {
+    "v": "1px",
+    "n": 19
+   }
+  ],
+  "shadows": [],
+  "palette": {
+   "backgrounds": [
+    {
+     "hex": "#FFFFFF",
+     "n": 5,
+     "area": 5659104,
+     "raw": "rgb(255, 255, 255)",
+     "sample": "div#top-level-layout.bg-surface-x10.text-text-x10"
+    },
+    {
+     "hex": "#00000008",
+     "n": 11,
+     "area": 557350,
+     "raw": "rgba(0, 0, 0, 0.03)",
+     "sample": "span.shrink-0.inline-flex"
+    },
+    {
+     "hex": "#000000E6",
+     "n": 3,
+     "area": 28245,
+     "raw": "rgba(0, 0, 0, 0.9)",
+     "sample": "a.inline-flex.justify-center"
+    },
+    {
+     "hex": "#0000000F",
+     "n": 3,
+     "area": 1106,
+     "raw": "rgba(0, 0, 0, 0.06)",
+     "sample": "div.hidden.h-px"
+    },
+    {
+     "hex": "#00000012",
+     "n": 1,
+     "area": 358,
+     "raw": "rgba(0, 0, 0, 0.07)",
+     "sample": "hr.border-none.flex-shrink-0"
+    }
+   ],
+   "text": [
+    {
+     "hex": "#000000E6",
+     "n": 81,
+     "raw": "rgba(0, 0, 0, 0.9)",
+     "sample": "Responsible trading tools"
+    },
+    {
+     "hex": "#0000008C",
+     "n": 5,
+     "raw": "rgba(0, 0, 0, 0.55)",
+     "sample": "© 2026 Kalshi Inc. · All right"
+    },
+    {
+     "hex": "#0000004D",
+     "n": 4,
+     "raw": "rgba(0, 0, 0, 0.3)",
+     "sample": "Product"
+    },
+    {
+     "hex": "#FFFFFF",
+     "n": 3,
+     "raw": "rgb(255, 255, 255)",
+     "sample": "ncpgambling.org"
+    }
+   ]
+  },
+  "copy": {
+   "title": "Responsible trading tools | Kalshi",
+   "h1": [
+    "Responsible trading tools"
+   ],
+   "h2h3": [
+    "Available resources",
+    "Trading breaks",
+    "Self-exclusions",
+    "Deposit limits",
+    "Mental health support",
+    "Educational guides",
+    "Account security",
+    "Easy to find and use",
+    "Additional resources",
+    "988"
+   ],
+   "ctaLabels": [
+    "Open menu",
+    "ncpgambling.org",
+    "bircheshealth.com",
+    "988lifeline.org"
+   ],
+   "navLabels": [
+    "Open menu",
+    "Trust & Safety for Families",
+    "Stopping insider trading",
+    "Responsible trading tools",
+    "Banned markets",
+    "Market integrity",
+    "Markets over monopolies"
+   ],
+   "priceFormats": [],
+   "priceFormatCounts": {
+    "cents": 0,
+    "percent": 0,
+    "chance": 0,
+    "dollarsVol": 0,
+    "multiplier": 0
+   },
+   "feeAndDisclaimer": [
+    "Responsible trading tools",
+    "Self-exclusions",
+    "Understand the risks of trading and how to trade responsibly.",
+    "Find responsible trading tools in just a few taps — available on both app and web.",
+    "Select \"Responsible Risk Management\"",
+    "Click on \"Responsible Risk Management\"",
+    "Data Terms of Service",
+    "Trading on Kalshi involves risk and may not be appropriate for all. Members risk losing their cost to enter any transaction, including fees. You should carefully consider whether trading on Kalshi is appropriate for you in light of your investment experience and financial resources. Any trading decisions you make are solely your responsibility and at your own risk. Information is provided for convenience only on an \"AS IS\" basis. Past performance is not necessarily indicative of future results. Kalshi is subject to U.S. regulatory oversight by the CFTC."
+   ],
+   "footerText": "PRODUCT Kalshi Pro Perpetual Futures Markets Incentive program Institutions API & developers COMPANY About Kalshi Research Blog Careers Policy Center Brand Kit HELP Help Center FAQ Fee schedule Trading hours Regulatory Trust Center © 2026 Kalshi Inc. · All rights reserved Privacy Data Terms of Service Trading Prohibitions FAQ for Finance Professionals Trading on Kalshi involves risk and may not be appropriate for all. Members risk losing their cost to enter any transaction, including fees. You should carefully consider whether trading on Kalshi is appropriate for you in light of your investment experience and financial resources. Any trading decisions you make are solely your responsibility and at your own risk. Information is provided for convenience only on an \"AS IS\" basis. Past performance is not necessarily indicative of future results. Kalshi is subject to U.S. regulatory oversight by the CFTC."
+  },
+  "rootTokens": {
+   "count": 125,
+   "colors": {
+    "--text-x10": {
+     "authored": "#000000e6",
+     "srgb": "#000000E6"
+    },
+    "--text-x20": {
+     "authored": "#0000008c",
+     "srgb": "#0000008C"
+    },
+    "--text-x30": {
+     "authored": "#0000004d",
+     "srgb": "#0000004D"
+    },
+    "--text-white": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--text-black": {
+     "authored": "#000000e6",
+     "srgb": "#000000E6"
+    },
+    "--text-inverse": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--placeholder-text": {
+     "authored": "#0000008c",
+     "srgb": "#0000008C"
+    },
+    "--fill-x10": {
+     "authored": "#000000e6",
+     "srgb": "#000000E6"
+    },
+    "--fill-x20": {
+     "authored": "#00000059",
+     "srgb": "#00000059"
+    },
+    "--fill-x30": {
+     "authored": "#0003",
+     "srgb": "#00000033"
+    },
+    "--fill-x40": {
+     "authored": "#0000001a",
+     "srgb": "#0000001A"
+    },
+    "--fill-x50": {
+     "authored": "#00000012",
+     "srgb": "#00000012"
+    },
+    "--fill-x55": {
+     "authored": "#0000000d",
+     "srgb": "#0000000D"
+    },
+    "--fill-x60": {
+     "authored": "#00000008",
+     "srgb": "#00000008"
+    },
+    "--fill-white": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--fill-inverse": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--surface-x10": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--surface-x20": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--surface-x30": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--surface-x40": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--surface-inverse": {
+     "authored": "#1a1a1a",
+     "srgb": "#1A1A1A"
+    },
+    "--surface-overlay": {
+     "authored": "#0006",
+     "srgb": "#00000066"
+    },
+    "--surface-foreground": {
+     "authored": "#0000000d",
+     "srgb": "#0000000D"
+    },
+    "--surface-foreground-opaque": {
+     "authored": "#f7f7f7",
+     "srgb": "#F7F7F7"
+    },
+    "--sell-x10": {
+     "authored": "#000000e6",
+     "srgb": "#000000E6"
+    },
+    "--sell-x20": {
+     "authored": "#0000000d",
+     "srgb": "#0000000D"
+    },
+    "--sell-x30": {
+     "authored": "#0000001a",
+     "srgb": "#0000001A"
+    },
+    "--sell-x40": {
+     "authored": "#00000073",
+     "srgb": "#00000073"
+    },
+    "--sell-x50": {
+     "authored": "#0009",
+     "srgb": "#00000099"
+    },
+    "--purple-x10": {
+     "authored": "#a0f",
+     "srgb": "#AA00FF"
+    },
+    "--purple-x20": {
+     "authored": "#aa00ff1f",
+     "srgb": "#AD00FF1F"
+    },
+    "--purple-x30": {
+     "authored": "#aa00ff29",
+     "srgb": "#A800FF29"
+    },
+    "--purple-x40": {
+     "authored": "#8f00d6",
+     "srgb": "#8F00D6"
+    },
+    "--purple-x50": {
+     "authored": "#609",
+     "srgb": "#660099"
+    },
+    "--perps-purple-x10": {
+     "authored": "#7839ff",
+     "srgb": "#7839FF"
+    },
+    "--perps-purple-x20": {
+     "authored": "#7839ff1a",
+     "srgb": "#763BFF1A"
+    },
+    "--blue-x10": {
+     "authored": "#265cff",
+     "srgb": "#265CFF"
+    },
+    "--blue-x20": {
+     "authored": "#265cff1f",
+     "srgb": "#295AFF1F"
+    },
+    "--blue-x30": {
+     "authored": "#265cff29",
+     "srgb": "#255DFF29"
+    },
+    "--blue-x40": {
+     "authored": "#204dd6",
+     "srgb": "#204DD6"
+    },
+    "--blue-x50": {
+     "authored": "#173799",
+     "srgb": "#173799"
+    },
+    "--teal-x10": {
+     "authored": "#00b5d9",
+     "srgb": "#00B5D9"
+    },
+    "--teal-x20": {
+     "authored": "#00b5d91f",
+     "srgb": "#00B5D61F"
+    },
+    "--teal-x30": {
+     "authored": "#00b5d929",
+     "srgb": "#00B4DA29"
+    },
+    "--teal-x40": {
+     "authored": "#0098b6",
+     "srgb": "#0098B6"
+    },
+    "--teal-x50": {
+     "authored": "#006d82",
+     "srgb": "#006D82"
+    },
+    "--green-x10": {
+     "authored": "#0ac285",
+     "srgb": "#0AC285"
+    },
+    "--green-x20": {
+     "authored": "#0ac2851f",
+     "srgb": "#08C5841F"
+    },
+    "--green-x30": {
+     "authored": "#0ac28529",
+     "srgb": "#0CC18329"
+    },
+    "--green-x40": {
+     "authored": "#08a370",
+     "srgb": "#08A370"
+    },
+    "--green-x50": {
+     "authored": "#067450",
+     "srgb": "#067450"
+    },
+    "--yellow-x10": {
+     "authored": "#ffd600",
+     "srgb": "#FFD600"
+    },
+    "--yellow-x20": {
+     "authored": "#ffd6001f",
+     "srgb": "#FFD6001F"
+    },
+    "--yellow-x30": {
+     "authored": "#ffd60029",
+     "srgb": "#FFD30029"
+    },
+    "--yellow-x40": {
+     "authored": "#d6b400",
+     "srgb": "#D6B400"
+    },
+    "--yellow-x50": {
+     "authored": "#998000",
+     "srgb": "#998000"
+    },
+    "--orange-x10": {
+     "authored": "#ff6a00",
+     "srgb": "#FF6A00"
+    },
+    "--orange-x20": {
+     "authored": "#ff6a001f",
+     "srgb": "#FF6B001F"
+    },
+    "--orange-x30": {
+     "authored": "#ff6a0029",
+     "srgb": "#FF6A0029"
+    },
+    "--orange-x40": {
+     "authored": "#d65900",
+     "srgb": "#D65900"
+    },
+    "--orange-x50": {
+     "authored": "#994000",
+     "srgb": "#994000"
+    },
+    "--red-x10": {
+     "authored": "#d91616",
+     "srgb": "#D91616"
+    },
+    "--red-x20": {
+     "authored": "#d916161f",
+     "srgb": "#D619191F"
+    },
+    "--red-x30": {
+     "authored": "#d9161629",
+     "srgb": "#DA191929"
+    },
+    "--red-x40": {
+     "authored": "#d91616",
+     "srgb": "#D91616"
+    },
+    "--red-x50": {
+     "authored": "#820d3e",
+     "srgb": "#820D3E"
+    },
+    "--brand-primary": {
+     "authored": "#28cc95",
+     "srgb": "#28CC95"
+    },
+    "--brand-secondary": {
+     "authored": "#003221",
+     "srgb": "#003221"
+    },
+    "--custom-fill": {
+     "authored": "#00000008",
+     "srgb": "#00000008"
+    },
+    "--container-x10": {
+     "authored": "#000000e6",
+     "srgb": "#000000E6"
+    },
+    "--container-x20": {
+     "authored": "#00000059",
+     "srgb": "#00000059"
+    },
+    "--container-x30": {
+     "authored": "#0000000d",
+     "srgb": "#0000000D"
+    },
+    "--container-x40": {
+     "authored": "#80808005",
+     "srgb": "#99999905"
+    },
+    "--core-black": {
+     "authored": "#000",
+     "srgb": "#000000"
+    },
+    "--core-white": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--core-inverse": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--stroke-x10": {
+     "authored": "#000000e6",
+     "srgb": "#000000E6"
+    },
+    "--stroke-x20": {
+     "authored": "#0003",
+     "srgb": "#00000033"
+    },
+    "--stroke-x30": {
+     "authored": "#0000001a",
+     "srgb": "#0000001A"
+    },
+    "--stroke-x40": {
+     "authored": "#0000000f",
+     "srgb": "#0000000F"
+    },
+    "--surface-transparent": {
+     "authored": "#fff0",
+     "srgb": "#00000000"
+    },
+    "--special-gold": {
+     "authored": "#e5bd45",
+     "srgb": "#E5BD45"
+    },
+    "--special-silver": {
+     "authored": "#98a7b2",
+     "srgb": "#98A7B2"
+    },
+    "--special-bronze": {
+     "authored": "#b28474",
+     "srgb": "#B28474"
+    },
+    "--special-tradeslip-bg": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--cfb-gridiron-ink": {
+     "authored": "#6fb8f0",
+     "srgb": "#6FB8F0"
+    },
+    "--bprogress-color": {
+     "authored": "#0ac285",
+     "srgb": "#0AC285"
+    }
+   },
+   "all": {
+    "--text-x10": "#000000e6",
+    "--text-x20": "#0000008c",
+    "--text-x30": "#0000004d",
+    "--text-white": "#fff",
+    "--text-black": "#000000e6",
+    "--text-inverse": "#fff",
+    "--placeholder-text": "#0000008c",
+    "--fill-x10": "#000000e6",
+    "--fill-x20": "#00000059",
+    "--fill-x30": "#0003",
+    "--fill-x40": "#0000001a",
+    "--fill-x50": "#00000012",
+    "--fill-x55": "#0000000d",
+    "--fill-x60": "#00000008",
+    "--fill-white": "#fff",
+    "--fill-inverse": "#fff",
+    "--surface-x10": "#fff",
+    "--surface-x20": "#fff",
+    "--surface-x30": "#fff",
+    "--surface-x40": "#fff",
+    "--surface-inverse": "#1a1a1a",
+    "--surface-overlay": "#0006",
+    "--surface-foreground": "#0000000d",
+    "--surface-foreground-opaque": "#f7f7f7",
+    "--sell-x10": "#000000e6",
+    "--sell-x20": "#0000000d",
+    "--sell-x30": "#0000001a",
+    "--sell-x40": "#00000073",
+    "--sell-x50": "#0009",
+    "--purple-x10": "#a0f",
+    "--purple-x20": "#aa00ff1f",
+    "--purple-x30": "#aa00ff29",
+    "--purple-x40": "#8f00d6",
+    "--purple-x50": "#609",
+    "--perps-purple-x10": "#7839ff",
+    "--perps-purple-x20": "#7839ff1a",
+    "--blue-x10": "#265cff",
+    "--blue-x20": "#265cff1f",
+    "--blue-x30": "#265cff29",
+    "--blue-x40": "#204dd6",
+    "--blue-x50": "#173799",
+    "--teal-x10": "#00b5d9",
+    "--teal-x20": "#00b5d91f",
+    "--teal-x30": "#00b5d929",
+    "--teal-x40": "#0098b6",
+    "--teal-x50": "#006d82",
+    "--green-x10": "#0ac285",
+    "--green-x20": "#0ac2851f",
+    "--green-x30": "#0ac28529",
+    "--green-x40": "#08a370",
+    "--green-x50": "#067450",
+    "--yellow-x10": "#ffd600",
+    "--yellow-x20": "#ffd6001f",
+    "--yellow-x30": "#ffd60029",
+    "--yellow-x40": "#d6b400",
+    "--yellow-x50": "#998000",
+    "--orange-x10": "#ff6a00",
+    "--orange-x20": "#ff6a001f",
+    "--orange-x30": "#ff6a0029",
+    "--orange-x40": "#d65900",
+    "--orange-x50": "#994000",
+    "--red-x10": "#d91616",
+    "--red-x20": "#d916161f",
+    "--red-x30": "#d9161629",
+    "--red-x40": "#d91616",
+    "--red-x50": "#820d3e",
+    "--brand-primary": "#28cc95",
+    "--brand-secondary": "#003221",
+    "--custom-fill": "#00000008",
+    "--content-width": "1320px",
+    "--trader-drawer-width": "360px",
+    "--trader-drawer-width-lg": "300px",
+    "--announcement-height": "0px",
+    "--nv-banner-height": "0px",
+    "--top-banner-height": "0px",
+    "--top-navbar-height": "107px",
+    "--header-height": "calc(0px + 107px + 0px + 0px)",
+    "--container-x10": "#000000e6",
+    "--container-x20": "#00000059",
+    "--container-x30": "#0000000d",
+    "--container-x40": "#80808005",
+    "--core-black": "#000",
+    "--core-white": "#fff",
+    "--core-inverse": "#fff",
+    "--stroke-x10": "#000000e6",
+    "--stroke-x20": "#0003",
+    "--stroke-x30": "#0000001a",
+    "--stroke-x40": "#0000000f",
+    "--surface-transparent": "#fff0",
+    "--special-gold": "#e5bd45",
+    "--special-silver": "#98a7b2",
+    "--special-bronze": "#b28474",
+    "--special-tradeslip-bg": "#fff",
+    "--tw-bg-opacity": "1",
+    "--tw-gradient-from": "var(--fill-x50) var(--tw-gradient-from-position)",
+    "--tw-gradient-to": "var(--fill-x50) var(--tw-gradient-to-position)",
+    "--tw-gradient-stops": "var(--tw-gradient-from), var(--fill-x40) var(--tw-gradient-via-position), var(--tw-gradient-to)",
+    "--tw-text-opacity": "1",
+    "--tw-shadow": "0 0 #0000",
+    "--tw-shadow-colored": "0 0 #0000",
+    "--tw-invert": "invert(100%)",
+    "--lightningcss-light": "",
+    "--lightningcss-dark": "initial",
+    "--cfb-gridiron-ink": "#6fb8f0",
+    "--perp-live-trade-filter": "drop-shadow(0 1px 1px #000000bf)",
+    "--toast-icon-margin-start": "4px",
+    "--toast-icon-margin-end": "-3px",
+    "--toast-svg-margin-start": "0px",
+    "--toast-svg-margin-end": "-1px",
+    "--toast-button-margin-start": "0",
+    "--toast-button-margin-end": "auto",
+    "--toast-close-button-start": "unset",
+    "--toast-close-button-end": "0",
+    "--toast-close-button-transform": "translate(35%, -35%)",
+    "--bprogress-color": "#0ac285",
+    "--bprogress-height": "2px",
+    "--bprogress-spinner-size": "18px",
+    "--bprogress-spinner-animation-duration": "400ms",
+    "--bprogress-spinner-border-size": "2px",
+    "--bprogress-box-shadow": "0 0 10px #0ac285, 0 0 5px #0ac285",
+    "--bprogress-z-index": "99999",
+    "--bprogress-spinner-top": "15px",
+    "--bprogress-spinner-bottom": "auto",
+    "--bprogress-spinner-right": "15px",
+    "--bprogress-spinner-left": "auto"
+   }
+  }
+ },
+ "axe": {
+  "version": "4.12.1",
+  "violationRules": 3,
+  "nodesByImpact": {
+   "critical": 1,
+   "serious": 4,
+   "moderate": 1,
+   "minor": 0
+  },
+  "rules": {
+   "color-contrast": {
+    "impact": "serious",
+    "nodes": 4,
+    "help": "Elements must meet minimum color contrast ratio thresholds"
+   },
+   "image-alt": {
+    "impact": "critical",
+    "nodes": 1,
+    "help": "Images must have alternative text"
+   },
+   "region": {
+    "impact": "moderate",
+    "nodes": 1,
+    "help": "All page content should be contained by landmarks"
+   }
+  },
+  "passes": 37,
+  "incomplete": 0
+ },
+ "finishedUtc": "2026-09-27T09:07:30.002Z",
+ "finalUrl": "https://demo.kalshi.co/policy-center/responsible-trading"
+}

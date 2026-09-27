@@ -1,0 +1,9 @@
+URL: https://help.kalshi.com/en/articles/13823848-trading-history
+HTTP: 200
+Fetched: 2026-09-27T08:40:25Z
+Sitemap lastmod: 2026-03-10T20:27:22Z
+Title: 
+
+Upon executing trades, traders can access a summary of their total profits and losses by navigating to the documents tab. This tab provides an essential resource that allows traders to track and assess their financial performance over time. By reviewing the cumulative gains and losses, traders can make informed decisions, refine their strategies, and ultimately enhance their trading. This section helps traders, both new and experienced, track their investments and adjust their strategies as needed.
+
+*PnL statements will be shown here once trades are made.

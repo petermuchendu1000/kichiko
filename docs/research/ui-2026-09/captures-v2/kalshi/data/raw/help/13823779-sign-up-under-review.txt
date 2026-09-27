@@ -1,0 +1,13 @@
+URL: https://help.kalshi.com/en/articles/13823779-sign-up-under-review
+HTTP: 200
+Fetched: 2026-09-27T08:37:56Z
+Sitemap lastmod: 2026-08-25T22:19:19Z
+Title: 
+
+If your signup is under review, our team is working to review your account quickly. We understand the importance of timely access and aim to process it efficiently, typically within 48 hours. This allows us to verify your information and ensure accuracy and compliance.
+
+A review may be needed due to discrepancies in your submitted information or similarities with an existing account, which we must resolve to prevent duplicates.
+
+We know waiting can be inconvenient, but these steps ensure our platform’s security and integrity.
+
+To resolve application issues, check your email for instructions, resubmit your profile information if prompted, and ensure all details match your official documents. If your application is denied, reapply only if your circumstances have materially changed to meet eligibility requirements.

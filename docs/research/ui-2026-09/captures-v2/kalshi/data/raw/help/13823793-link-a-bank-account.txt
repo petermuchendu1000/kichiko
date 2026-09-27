@@ -1,0 +1,45 @@
+URL: https://help.kalshi.com/en/articles/13823793-link-a-bank-account
+HTTP: 200
+Fetched: 2026-09-27T08:38:27Z
+Sitemap lastmod: 2026-05-27T20:43:20Z
+Title: 
+
+Bank accounts can be linked by US users only .
+
+To link a bank account, navigate to "Add Funds" and select the bank transfer option. You will be directed to securely connect your bank through one of our ACH partners (Plaid or Aeropay).
+
+- Search for your bank by name and select it from the available options.
+
+- Log in to your online banking portal to securely authenticate.
+
+- Select the checking account you'd like to link to your Kalshi account.
+
+Your bank account should then be successfully linked, allowing you to transfer funds to and from your bank.
+
+Important information
+
+- Bank transfers are available for US users only .
+
+- Only bank accounts in your name can be linked to your Kalshi account.
+
+- VoIP phone numbers may not be accepted during the linking process.
+
+Trouble connecting?
+
+Bank linking is powered by Plaid. If you're having trouble connecting your bank account, try these steps in order:
+
+- Verify your bank credentials by logging into your bank's own website or app. If that doesn't work, the issue is on your bank's side.
+
+- Check your bank's privacy settings. Some banks require you to enable third-party access or data sharing before connecting through Plaid.
+
+- Try a different browser or device. Use Google Chrome in an incognito/private window. If you're on mobile, try on a computer, or vice versa.
+
+- Disable browser extensions and VPN. Ad blockers, privacy extensions, and VPN connections can interfere with the bank connection flow.
+
+- Wait and retry. Your bank's systems may be temporarily unavailable. Waiting 1-2 hours and trying again often resolves it.
+
+If none of these steps help, visit Plaid Support for bank-specific troubleshooting, or manage your existing connections at Plaid Portal .
+
+Some users may link their bank through Aeropay instead. For Aeropay-specific issues, visit Aeropay Support .
+
+Note for international users: Bank transfers are not available for international accounts. You can use debit card or crypto instead. Wire transfer is also available for deposits.

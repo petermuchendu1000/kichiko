@@ -1,0 +1,111 @@
+URL: https://help.kalshi.com/en/articles/15581140-document-verification-on-kalshi
+HTTP: 200
+Fetched: 2026-09-27T08:40:53Z
+Sitemap lastmod: 2026-07-08T17:28:37Z
+Title: 
+
+As a U.S. exchange regulated by the CFTC, Kalshi is required to confirm the identity of every person who trades on the platform. Document verification is the step where you submit a photo of your government-issued ID so we can match it to the details on your account. This keep you, and the platform, safe.
+
+You'll typically be prompted to verify your documents when you first sign up, and occasionally afterward as part of routine compliance checks. We only use your verification data to confirm who you are.
+
+Note: Your access to certain account functions may be restricted until identity verification is successfully completed.
+
+Step-by-Step Guide to Completing Identity Verification
+
+- Log in to Your Kalshi Account
+
+- Use your registered email and password to access your account.
+
+- Follow On-Screen Prompts
+
+- After logging in, you will see prompts guiding you through the verification process. These prompts will direct you to complete your profile and submit necessary information.
+
+- Submit Required Documents
+
+- Depending on your situation, you may need to upload specific documents, such as a government-issued ID. Ensure all documents are clear and valid.
+
+- Complete Phone Number Verification (if required)
+
+- Some users may need to verify their phone number as part of the process. Follow the instructions provided to complete this step.
+
+- Wait for Review
+
+- Once all steps are completed, your account will be reviewed. You will be notified via email or within the platform when the review is finalized.
+
+What you'll need
+
+Before you start, have these ready:
+
+- A valid government-issued photo ID — the physical document, in hand
+
+- A phone or a computer with a camera — you may be asked to photograph your ID and, in some cases, take a live selfie
+
+- A few minutes — verification usually takes just a few minutes when your photo is clear
+
+Accepted ID types
+
+We accept original, government-issued photo identification. Acceptable documents are:
+
+- A valid driver's license
+
+- A valid passport
+
+Your ID must be unexpired, clearly legible, undamaged, and show a photo of you. The name and details on your ID must match the information on your Kalshi profile exactly.
+
+We can't accept:
+
+- Photos or screenshots of an ID taken from a screen
+
+- Photocopies or scans
+
+- Expired or damaged documents
+
+- Non-government IDs (student IDs, employee badges, library cards, bank cards)
+
+Tips for a clean photo
+
+Most verification issues come down to the photo. Before you submit:
+
+- Lay the ID flat on a dark, non-reflective surface
+
+- Use good, even lighting and avoid glare or shadows
+
+- Make sure all four corners are in frame and the text is sharp
+
+- Capture the original document directly — never a picture of a picture
+
+A note on your name and address
+
+- If your legal name has changed (for example, due to marriage or a court order), you'll need to provide official documentation of the change before we can update your account and complete verification.
+
+- We can't accept commercial addresses or PO boxes . Please use your residential address.
+
+How your data is protected
+
+We've designed this process to collect only what we need and to keep your ID secure:
+
+- When you submit your ID, the image is sent to our third-party KYC partner , which performs the verification. Kalshi does not receive or store the image of your ID or the information printed on it.
+
+- Other personal details required by regulation, such as your address, phone number, email, and your Social Security Number, are stored securely by Kalshi for audit and regulatory purposes.
+
+What if my verification fails?
+
+Verification can fail for a number of reasons: a blurry photo, glare, an expired document, or a name that doesn't match your profile. If your verification is unsuccessful:
+
+- Try again. Most failures are fixed by retaking the photo in better lighting or using a different accepted ID.
+
+- Check your document. Confirm it's unexpired, undamaged, and fully legible.
+
+- Check your details. Make sure the name and address on your Kalshi profile match your ID exactly.
+
+- Contact us. If you've tried the above and still can't verify, reach out to our support team and we'll take a look.
+
+- Pending Verification: If your verification is pending, check your registered email for instructions on submitting additional documents. Follow the provided steps to complete the process.
+
+- Repeated Verification Prompts: If you encounter repeated prompts, ensure the documents you submitted meet the requirements.
+
+What happens after verification? Once verification is successful, your account will be activated, and you can deposit funds and start using the platform.
+
+Questions?
+
+If you have questions about document verification, your data, or the verification process, contact our support team through in-app chat.

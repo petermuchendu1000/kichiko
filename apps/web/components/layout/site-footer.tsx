@@ -31,7 +31,6 @@ const COLUMNS: FooterColumn[] = [
     heading: 'Events',
     links: [
       { href: '/markets', label: 'All events' },
-      { href: '/leaderboard', label: 'Leaderboard' },
       { href: '/markets/create', label: 'Create an event' },
       { href: '/search', label: 'Search' },
     ],
@@ -151,7 +150,7 @@ export function SiteFooter() {
         >
           <p className="text-[12.5px] leading-relaxed flex-1" style={{ color: 'var(--text-2)' }}>
             <strong style={{ color: 'var(--text-2)' }}>Play with care.</strong>{' '}
-            This is real money and you can lose what you put in. You must be 18 or older.
+            This is real money and you can lose what you put in. You must be 18 or older (25 in Uganda).
             Ask us any time to set a limit, take a break, or close your account.
           </p>
           <Link

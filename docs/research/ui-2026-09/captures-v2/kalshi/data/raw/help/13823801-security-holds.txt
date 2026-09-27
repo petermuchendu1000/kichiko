@@ -1,0 +1,61 @@
+URL: https://help.kalshi.com/en/articles/13823801-security-holds
+HTTP: 200
+Fetched: 2026-09-27T08:38:44Z
+Sitemap lastmod: 2026-08-14T03:19:40Z
+Title: 
+
+Withdrawal Hold Periods
+
+After a deposit, some funds may be held briefly before you can withdraw them. How long depends on how you deposited and where you're withdrawing to. Hold periods are measured from the exact time of your deposit, not from the start of the day.
+
+The withdrawal screen in the app or on the website shows exactly when each deposit becomes available to withdraw. That's the most accurate answer for your account - the table below shows the maximum that can apply.
+
+Method
+
+Same Method
+
+Different Method
+
+Debit card / Apple Pay / Google Pay
+
+Available once deposit settles
+
+Up to 2 days after settlement
+
+Bank transfer (ACH)
+
+Available once deposit settles
+
+Up to 2 days after settlement
+
+PayPal / Venmo (US only)
+
+No hold
+
+No hold
+
+Cash App (US only, deposits only)
+
+N/A
+
+No hold
+
+Crypto
+
+No hold
+
+No hold
+
+Wire
+
+No hold
+
+No hold
+
+Withdrawing via crypto requires a prior crypto deposit. If you have never deposited with crypto, crypto will not be available as a withdrawal method.
+
+Important
+
+Holds only apply to the original deposited amount. Earnings beyond your deposited amounts can be withdrawn immediately once they are settled cash. Funds tied up in open positions are not available to withdraw until you close those positions.
+
+Note for international users: International accounts can deposit via debit card, crypto, and wire transfer. Withdrawals can be made via debit card and crypto. The hold periods above apply the same way.

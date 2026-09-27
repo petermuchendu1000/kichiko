@@ -1,0 +1,18 @@
+{
+ "note": "No search input or search entry point is reachable in the logged-out mobile web header at 390px (only logo, an unlabeled 16x36 icon button, Log in, Sign up). P07 mobile NOT MEASURED; capture discarded (it equals P01 mobile).",
+ "action": {
+  "icon": {
+   "clicked": {
+    "x": 219.15625,
+    "y": 32,
+    "w": 16,
+    "h": 36,
+    "html": "<button class=\"inline-flex justify-center items-center rounded-x30 cursor-pointer border-none h-fit whitespace-nowrap flex-nowrap transition-[opacity,background-color,transform] duration-83 hover:opacity-80 active:scale-90 active:transition-[opacity,background-color,transform] active:duration-50 [&a"
+   },
+   "url": "https://demo.kalshi.co/",
+   "dialogs": []
+  },
+  "search": null
+ },
+ "capturedUtc": "2026-09-27T09:23:47.647Z"
+}

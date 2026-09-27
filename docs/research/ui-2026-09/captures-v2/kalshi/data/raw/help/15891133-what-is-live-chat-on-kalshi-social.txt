@@ -1,0 +1,31 @@
+URL: https://help.kalshi.com/en/articles/15891133-what-is-live-chat-on-kalshi-social
+HTTP: 200
+Fetched: 2026-09-27T08:40:57Z
+Sitemap lastmod: 2026-07-10T02:59:30Z
+Title: 
+
+Live Chat lets you talk with other traders in real time on a specific event or market while things are happening.
+
+Finding Live Chat
+
+- Open an event or market, then tap Live chat .
+
+- Use the chat switcher to move between the live chats that are currently active.
+
+Sending messages
+
+- Type your message and send. Messages can be up to 300 characters .
+
+- Your messages show your Social nickname and profile photo.
+
+When chat is limited
+
+Live Chat availability depends on the event or market:
+
+- A chat may be read-only , so you can follow along but not send messages.
+
+- A chat may not be available yet, or may be temporarily unavailable.
+
+Keeping chat respectful
+
+Our community standards apply in Live Chat too. See the Community Guidelines . If you see hateful or abusive messages, report or block them .

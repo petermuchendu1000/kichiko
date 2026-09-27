@@ -1,0 +1,95 @@
+[
+ {
+  "id": "t-side-no",
+  "page": "P06",
+  "source": "D",
+  "suffix": "2b-side-no",
+  "url": "https://demo.kalshi.co/markets/kxnflgame/professional-football-game/kxnflgame-26sep27kcmia",
+  "action": "ticketNo",
+  "probe": {
+   "desktop": {
+    "minX": 980,
+    "maxTop": 900
+   },
+   "mobile": {
+    "dialog": true
+   }
+  }
+ },
+ {
+  "id": "t-amount",
+  "page": "P06",
+  "source": "D",
+  "suffix": "3-amount-25",
+  "url": "https://demo.kalshi.co/markets/kxnflgame/professional-football-game/kxnflgame-26sep27kcmia",
+  "action": "ticketAmount",
+  "probe": {
+   "desktop": {
+    "minX": 980,
+    "maxTop": 900
+   },
+   "mobile": {
+    "dialog": true
+   }
+  },
+  "vps": [
+   "mobile"
+  ]
+ },
+ {
+  "id": "t-cta",
+  "page": "P06",
+  "source": "D",
+  "suffix": "4-cta-pressed",
+  "url": "https://demo.kalshi.co/markets/kxnflgame/professional-football-game/kxnflgame-26sep27kcmia",
+  "action": "ticketCta",
+  "probe": {
+   "desktop": {
+    "minX": 980,
+    "maxTop": 900
+   },
+   "mobile": {
+    "dialog": true
+   }
+  }
+ },
+ {
+  "id": "more",
+  "page": "P16",
+  "source": "D",
+  "suffix": "more-menu",
+  "url": "https://demo.kalshi.co/",
+  "action": "moreMenu",
+  "vps": [
+   "desktop"
+  ]
+ },
+ {
+  "id": "micon",
+  "page": "P16",
+  "source": "D",
+  "suffix": "header-icon",
+  "url": "https://demo.kalshi.co/",
+  "action": "headerIconMobile",
+  "vps": [
+   "mobile"
+  ]
+ },
+ {
+  "id": "search-m",
+  "page": "P07",
+  "source": "D",
+  "url": "https://demo.kalshi.co/",
+  "action": "searchMobile",
+  "vps": [
+   "mobile"
+  ]
+ },
+ {
+  "id": "profile2",
+  "page": "P09",
+  "source": "D",
+  "url": "https://demo.kalshi.co/ideas/feed",
+  "action": "clickAuthorName"
+ }
+]

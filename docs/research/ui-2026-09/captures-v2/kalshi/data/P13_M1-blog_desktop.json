@@ -1,0 +1,2746 @@
+{
+ "tag": "P13_M1-blog_desktop",
+ "target": {
+  "id": "blog",
+  "page": "P13",
+  "source": "D",
+  "suffix": "blog",
+  "url": "https://demo.kalshi.co/blog"
+ },
+ "vp": "desktop",
+ "startedUtc": "2026-09-27T09:11:59.035Z",
+ "consoleErrors": [],
+ "responses": [
+  {
+   "url": "https://demo.kalshi.co/blog",
+   "status": 308
+  },
+  {
+   "url": "https://news.kalshi.com/t/featured",
+   "status": 200
+  }
+ ],
+ "httpStatus": 200,
+ "signupModalAppearedAfterMs": null,
+ "fullPageClippedTo": 6336,
+ "docHeight": 6336,
+ "measure": {
+  "url": "https://news.kalshi.com/t/featured",
+  "viewport": {
+   "w": 1440,
+   "h": 900,
+   "dpr": 1
+  },
+  "docHeight": 6336,
+  "colorScheme": "normal",
+  "htmlClass": "h-full antialiased",
+  "bodyBg": "#00000000",
+  "rootFontSize": "16px",
+  "bodyFont": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+  "fontsLoaded": [
+   "Instrument Sans 400 normal",
+   "Instrument Sans 600 normal",
+   "Instrument Sans 700 normal",
+   "Kalshi Sans Web 400 normal",
+   "Kalshi Sans XCondensed Web 600 normal"
+  ],
+  "hydration": {
+   "reactFiberOnNodes": true,
+   "nextData": false,
+   "nextRouter": false,
+   "nextF": false,
+   "scripts": 8,
+   "visibleElements": 709,
+   "bodyTextChars": 2600
+  },
+  "structure": [
+   {
+    "tag": "nav",
+    "role": "presentation",
+    "sel": "nav._1ma1r0q0._1ma1r0q7[role=presentation]",
+    "top": 0,
+    "h": 125,
+    "w": 1440,
+    "x": 0,
+    "position": "sticky",
+    "text": "Sign Up News Sports 2026 Midterm Hub Markets Features NFL Power Rankings CFB Power Ranking"
+   },
+   {
+    "tag": "div",
+    "role": null,
+    "sel": "div",
+    "top": 16,
+    "h": 868,
+    "w": 1408,
+    "x": 16,
+    "position": "fixed",
+    "text": ""
+   },
+   {
+    "tag": "section",
+    "role": null,
+    "sel": "section._1ny5scw0._1ny5scw6",
+    "top": 125,
+    "h": 5834.2,
+    "w": 1440,
+    "x": 0,
+    "position": "relative",
+    "text": "Featured 4 min read VMA TMA: Taylor, Madonna, and Ariana fight for pop supremacy By Jack K"
+   },
+   {
+    "tag": "h1",
+    "role": null,
+    "sel": "h1#9b3346d3-f669-40f6-9932-c3eff8a67c2e.dream-heading.v3sg6r0",
+    "top": 165,
+    "h": 32,
+    "w": 1280,
+    "x": 80,
+    "position": "static",
+    "text": "Featured"
+   },
+   {
+    "tag": "h3",
+    "role": null,
+    "sel": "h3#e5135411-ae9d-4684-b1f9-75c93f62d2a5.dream-heading.v3sg6r0",
+    "top": 296.41,
+    "h": 28.8,
+    "w": 980,
+    "x": 380,
+    "position": "relative",
+    "text": "VMA TMA: Taylor, Madonna, and Ariana fight for pop supremacy"
+   },
+   {
+    "tag": "h3",
+    "role": null,
+    "sel": "h3#e5135411-ae9d-4684-b1f9-75c93f62d2a5.dream-heading.v3sg6r0",
+    "top": 520.41,
+    "h": 28.8,
+    "w": 980,
+    "x": 380,
+    "position": "relative",
+    "text": "The week ahead: Pennant races, pain at the pump, and 'Patient Zero'"
+   },
+   {
+    "tag": "h3",
+    "role": null,
+    "sel": "h3#e5135411-ae9d-4684-b1f9-75c93f62d2a5.dream-heading.v3sg6r0",
+    "top": 744.41,
+    "h": 28.8,
+    "w": 980,
+    "x": 380,
+    "position": "relative",
+    "text": "Emmy Odds: What Kalshi traders are forecasting for tonight's top categories"
+   },
+   {
+    "tag": "h3",
+    "role": null,
+    "sel": "h3#e5135411-ae9d-4684-b1f9-75c93f62d2a5.dream-heading.v3sg6r0",
+    "top": 968.41,
+    "h": 28.8,
+    "w": 980,
+    "x": 380,
+    "position": "relative",
+    "text": "The week ahead: US Open finals, the Fed, and Week 1 football"
+   },
+   {
+    "tag": "h3",
+    "role": null,
+    "sel": "h3#e5135411-ae9d-4684-b1f9-75c93f62d2a5.dream-heading.v3sg6r0",
+    "top": 1192.41,
+    "h": 28.8,
+    "w": 980,
+    "x": 380,
+    "position": "relative",
+    "text": "GTA odds: Everything Kalshi traders are pricing on Grand Theft Auto VI"
+   },
+   {
+    "tag": "h3",
+    "role": null,
+    "sel": "h3#e5135411-ae9d-4684-b1f9-75c93f62d2a5.dream-heading.v3sg6r0",
+    "top": 1416.41,
+    "h": 28.8,
+    "w": 980,
+    "x": 380,
+    "position": "relative",
+    "text": "007 odds: Who will be the next James Bond?"
+   },
+   {
+    "tag": "h3",
+    "role": null,
+    "sel": "h3#e5135411-ae9d-4684-b1f9-75c93f62d2a5.dream-heading.v3sg6r0",
+    "top": 1640.41,
+    "h": 28.8,
+    "w": 980,
+    "x": 380,
+    "position": "relative",
+    "text": "The week ahead: Senate seats, Silicon Valley, and Saturday football"
+   },
+   {
+    "tag": "h3",
+    "role": null,
+    "sel": "h3#e5135411-ae9d-4684-b1f9-75c93f62d2a5.dream-heading.v3sg6r0",
+    "top": 1864.41,
+    "h": 28.8,
+    "w": 980,
+    "x": 380,
+    "position": "relative",
+    "text": "Who's next? Donald Trump's press secretary search"
+   },
+   {
+    "tag": "h3",
+    "role": null,
+    "sel": "h3#e5135411-ae9d-4684-b1f9-75c93f62d2a5.dream-heading.v3sg6r0",
+    "top": 2088.41,
+    "h": 28.8,
+    "w": 980,
+    "x": 380,
+    "position": "relative",
+    "text": "Too soon? Pricing the 2028 presidential picture"
+   },
+   {
+    "tag": "h3",
+    "role": null,
+    "sel": "h3#e5135411-ae9d-4684-b1f9-75c93f62d2a5.dream-heading.v3sg6r0",
+    "top": 2312.41,
+    "h": 28.8,
+    "w": 980,
+    "x": 380,
+    "position": "relative",
+    "text": "Preseason football just started, but Kalshi traders are already pricing a champion"
+   },
+   {
+    "tag": "h3",
+    "role": null,
+    "sel": "h3#e5135411-ae9d-4684-b1f9-75c93f62d2a5.dream-heading.v3sg6r0",
+    "top": 2536.41,
+    "h": 28.8,
+    "w": 980,
+    "x": 380,
+    "position": "relative",
+    "text": "The week ahead: Primaries, price data, and preseason football"
+   },
+   {
+    "tag": "h3",
+    "role": null,
+    "sel": "h3#e5135411-ae9d-4684-b1f9-75c93f62d2a5.dream-heading.v3sg6r0",
+    "top": 2760.41,
+    "h": 28.8,
+    "w": 980,
+    "x": 380,
+    "position": "relative",
+    "text": "In Texas, Paxton and Talarico are surprisingly close"
+   },
+   {
+    "tag": "h3",
+    "role": null,
+    "sel": "h3#e5135411-ae9d-4684-b1f9-75c93f62d2a5.dream-heading.v3sg6r0",
+    "top": 2984.41,
+    "h": 28.8,
+    "w": 980,
+    "x": 380,
+    "position": "relative",
+    "text": "The week ahead: End zones, unemployment, and Elon's SpaceX earnings"
+   },
+   {
+    "tag": "h3",
+    "role": null,
+    "sel": "h3#e5135411-ae9d-4684-b1f9-75c93f62d2a5.dream-heading.v3sg6r0",
+    "top": 3208.41,
+    "h": 28.8,
+    "w": 980,
+    "x": 380,
+    "position": "relative",
+    "text": "Kalshi's 2026 college football preview"
+   },
+   {
+    "tag": "h3",
+    "role": null,
+    "sel": "h3#e5135411-ae9d-4684-b1f9-75c93f62d2a5.dream-heading.v3sg6r0",
+    "top": 3432.41,
+    "h": 28.8,
+    "w": 980,
+    "x": 380,
+    "position": "relative",
+    "text": "The week ahead: Interest rates and IPOs"
+   },
+   {
+    "tag": "h3",
+    "role": null,
+    "sel": "h3#e5135411-ae9d-4684-b1f9-75c93f62d2a5.dream-heading.v3sg6r0",
+    "top": 3656.41,
+    "h": 28.8,
+    "w": 980,
+    "x": 380,
+    "position": "relative",
+    "text": "100 days away: What Kalshi's Midterm Hub tells us about the fight for Congress"
+   },
+   {
+    "tag": "h3",
+    "role": null,
+    "sel": "h3#e5135411-ae9d-4684-b1f9-75c93f62d2a5.dream-heading.v3sg6r0",
+    "top": 3880.41,
+    "h": 28.8,
+    "w": 980,
+    "x": 380,
+    "position": "relative",
+    "text": "The week ahead: Big business and Big Brother"
+   },
+   {
+    "tag": "h3",
+    "role": null,
+    "sel": "h3#e5135411-ae9d-4684-b1f9-75c93f62d2a5.dream-heading.v3sg6r0",
+    "top": 4104.41,
+    "h": 28.8,
+    "w": 980,
+    "x": 380,
+    "position": "relative",
+    "text": "The Odyssey, the Oscars, and the odds"
+   },
+   {
+    "tag": "h3",
+    "role": null,
+    "sel": "h3#e5135411-ae9d-4684-b1f9-75c93f62d2a5.dream-heading.v3sg6r0",
+    "top": 4328.41,
+    "h": 28.8,
+    "w": 980,
+    "x": 380,
+    "position": "relative",
+    "text": "The week ahead: Primaries, power vacuums, and Kalshi Pro"
+   },
+   {
+    "tag": "h3",
+    "role": null,
+    "sel": "h3#e5135411-ae9d-4684-b1f9-75c93f62d2a5.dream-heading.v3sg6r0",
+    "top": 4552.41,
+    "h": 28.8,
+    "w": 980,
+    "x": 380,
+    "position": "relative",
+    "text": "The week ahead: Red cards, relocations, and an AI arms race"
+   },
+   {
+    "tag": "h3",
+    "role": null,
+    "sel": "h3#e5135411-ae9d-4684-b1f9-75c93f62d2a5.dream-heading.v3sg6r0",
+    "top": 4776.41,
+    "h": 28.8,
+    "w": 980,
+    "x": 380,
+    "position": "relative",
+    "text": "America: Are you ready for some hotdogs?"
+   },
+   {
+    "tag": "h3",
+    "role": null,
+    "sel": "h3#e5135411-ae9d-4684-b1f9-75c93f62d2a5.dream-heading.v3sg6r0",
+    "top": 5000.41,
+    "h": 28.8,
+    "w": 980,
+    "x": 380,
+    "position": "relative",
+    "text": "The Week ahead: World Cup, Wimbledon, and heatwaves"
+   },
+   {
+    "tag": "h3",
+    "role": null,
+    "sel": "h3#e5135411-ae9d-4684-b1f9-75c93f62d2a5.dream-heading.v3sg6r0",
+    "top": 5224.41,
+    "h": 28.8,
+    "w": 980,
+    "x": 380,
+    "position": "relative",
+    "text": "Save the date and place your trades: what's in store for the Swift/Kelce wedding?"
+   },
+   {
+    "tag": "h3",
+    "role": null,
+    "sel": "h3#e5135411-ae9d-4684-b1f9-75c93f62d2a5.dream-heading.v3sg6r0",
+    "top": 5448.41,
+    "h": 28.8,
+    "w": 980,
+    "x": 380,
+    "position": "relative",
+    "text": "Makerfield by-election odds put Burnham on track to challenge Starmer"
+   },
+   {
+    "tag": "h3",
+    "role": null,
+    "sel": "h3#e5135411-ae9d-4684-b1f9-75c93f62d2a5.dream-heading.v3sg6r0",
+    "top": 5672.41,
+    "h": 28.8,
+    "w": 980,
+    "x": 380,
+    "position": "relative",
+    "text": "The week ahead: Interest rates, runoffs, and red cards"
+   },
+   {
+    "tag": "section",
+    "role": null,
+    "sel": "section._1ny5scw0._1ny5scw6",
+    "top": 5959.2,
+    "h": 376.42,
+    "w": 1440,
+    "x": 0,
+    "position": "relative",
+    "text": "Home Subscribe Upgrade Archive Recommendations Authors Tags News Opinion Explainers Origin"
+   }
+  ],
+  "typography": [
+   {
+    "family": "\"Instrument Sans\", system-ui, sans-serif",
+    "size": "32px",
+    "weight": "600",
+    "lineHeight": "32px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000",
+    "colorRaw": "rgb(0, 0, 0)",
+    "fontVariantNumeric": "normal",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Featured",
+      "sel": "span._11r14xt1",
+      "top": 161
+     }
+    ]
+   },
+   {
+    "family": "\"Instrument Sans\", system-ui, sans-serif",
+    "size": "24px",
+    "weight": "600",
+    "lineHeight": "28.8px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000",
+    "colorRaw": "rgb(0, 0, 0)",
+    "fontVariantNumeric": "normal",
+    "count": 25,
+    "samples": [
+     {
+      "text": "VMA TMA: Taylor, Madonna, and Ariana fight for pop supremacy",
+      "sel": "span._11r14xt1",
+      "top": 295.41
+     },
+     {
+      "text": "The week ahead: Pennant races, pain at the pump, and 'Patien",
+      "sel": "span._11r14xt1",
+      "top": 519.41
+     },
+     {
+      "text": "Emmy Odds: What Kalshi traders are forecasting for tonight's",
+      "sel": "span._11r14xt1",
+      "top": 743.41
+     }
+    ]
+   },
+   {
+    "family": "\"Kalshi Sans Web\", system-ui, sans-serif",
+    "size": "16px",
+    "weight": "400",
+    "lineHeight": "19.2px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#FAF7F7",
+    "colorRaw": "rgb(250, 247, 247)",
+    "fontVariantNumeric": "normal",
+    "count": 12,
+    "samples": [
+     {
+      "text": "Subscribe",
+      "sel": "span._11r14xt1",
+      "top": 6049.41
+     },
+     {
+      "text": "Upgrade",
+      "sel": "span._11r14xt1",
+      "top": 6080.61
+     },
+     {
+      "text": "Archive",
+      "sel": "span._11r14xt1",
+      "top": 6111.81
+     }
+    ]
+   },
+   {
+    "family": "\"Kalshi Sans XCondensed Web\", system-ui, sans-serif",
+    "size": "16px",
+    "weight": "600",
+    "lineHeight": "24px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000",
+    "colorRaw": "rgb(0, 0, 0)",
+    "fontVariantNumeric": "normal",
+    "count": 2,
+    "samples": [
+     {
+      "text": "Sign Up",
+      "sel": "span._11r14xt0",
+      "top": 26
+     },
+     {
+      "text": "Sign Up",
+      "sel": "span._11r14xt0",
+      "top": 1382.5
+     }
+    ]
+   },
+   {
+    "family": "\"Kalshi Sans Web\", system-ui, sans-serif",
+    "size": "16px",
+    "weight": "900",
+    "lineHeight": "19.2px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#FAF7F7",
+    "colorRaw": "rgb(250, 247, 247)",
+    "fontVariantNumeric": "normal",
+    "count": 2,
+    "samples": [
+     {
+      "text": "Home",
+      "sel": "strong",
+      "top": 6018.2
+     },
+     {
+      "text": "News",
+      "sel": "strong",
+      "top": 6018.2
+     }
+    ]
+   },
+   {
+    "family": "\"Kalshi Sans Web\", system-ui, sans-serif",
+    "size": "16px",
+    "weight": "400",
+    "lineHeight": "19.2px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#FFFFFF",
+    "colorRaw": "rgb(255, 255, 255)",
+    "fontVariantNumeric": "normal",
+    "count": 2,
+    "samples": [
+     {
+      "text": "Careers",
+      "sel": "span._11r14xt1",
+      "top": 6049.41
+     },
+     {
+      "text": "Advertise",
+      "sel": "span._11r14xt1",
+      "top": 6080.61
+     }
+    ]
+   },
+   {
+    "family": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+    "size": "16px",
+    "weight": "600",
+    "lineHeight": "24px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0AC285",
+    "colorRaw": "rgb(10, 194, 133)",
+    "fontVariantNumeric": "normal",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Load more",
+      "sel": "span.v3vmq10",
+      "top": 5875.2
+     }
+    ]
+   },
+   {
+    "family": "\"Kalshi Sans Web\", system-ui, sans-serif",
+    "size": "16px",
+    "weight": "400",
+    "lineHeight": "19.2px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000",
+    "colorRaw": "rgb(0, 0, 0)",
+    "fontVariantNumeric": "normal",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Help",
+      "sel": "span._11r14xt1",
+      "top": 6018.2
+     }
+    ]
+   },
+   {
+    "family": "\"Kalshi Sans Web\", system-ui, sans-serif",
+    "size": "16px",
+    "weight": "400",
+    "lineHeight": "19.2px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#FFFDFD",
+    "colorRaw": "rgb(255, 253, 253)",
+    "fontVariantNumeric": "normal",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Made in NYC",
+      "sel": "span._11r14xt1",
+      "top": 6111.81
+     }
+    ]
+   },
+   {
+    "family": "\"Instrument Sans\", system-ui, sans-serif",
+    "size": "14px",
+    "weight": "700",
+    "lineHeight": "16.8px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000",
+    "colorRaw": "rgb(0, 0, 0)",
+    "fontVariantNumeric": "normal",
+    "count": 50,
+    "samples": [
+     {
+      "text": "By",
+      "sel": "span._11r14xt1",
+      "top": 336.2
+     },
+     {
+      "text": "Jack Kuveke",
+      "sel": "span._11r14xt1",
+      "top": 336.2
+     },
+     {
+      "text": "By",
+      "sel": "span._11r14xt1",
+      "top": 560.2
+     }
+    ]
+   },
+   {
+    "family": "\"Kalshi Sans XCondensed Web\", system-ui, sans-serif",
+    "size": "14px",
+    "weight": "600",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000",
+    "colorRaw": "rgb(0, 0, 0)",
+    "fontVariantNumeric": "normal",
+    "count": 18,
+    "samples": [
+     {
+      "text": "News",
+      "sel": "span._11r14xt0",
+      "top": 90
+     },
+     {
+      "text": "Sports",
+      "sel": "span._11r14xt0",
+      "top": 90
+     },
+     {
+      "text": "2026 Midterm Hub",
+      "sel": "span._11r14xt0",
+      "top": 90
+     }
+    ]
+   },
+   {
+    "family": "\"Instrument Sans\", system-ui, sans-serif",
+    "size": "12px",
+    "weight": "400",
+    "lineHeight": "14.4px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000",
+    "colorRaw": "rgb(0, 0, 0)",
+    "fontVariantNumeric": "normal",
+    "count": 25,
+    "samples": [
+     {
+      "text": "4 min read",
+      "sel": "span._11r14xt1",
+      "top": 270.2
+     },
+     {
+      "text": "3 min read",
+      "sel": "span._11r14xt1",
+      "top": 494.2
+     },
+     {
+      "text": "4 min read",
+      "sel": "span._11r14xt1",
+      "top": 718.2
+     }
+    ]
+   },
+   {
+    "family": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+    "size": "12px",
+    "weight": "300",
+    "lineHeight": "16px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#FAF7F7",
+    "colorRaw": "rgb(250, 247, 247)",
+    "fontVariantNumeric": "normal",
+    "count": 2,
+    "samples": [
+     {
+      "text": "\u00a9 2026 Kalshi News.",
+      "sel": "span._1te91d12",
+      "top": 6244.63
+     },
+     {
+      "text": "Powered by beehiiv",
+      "sel": "span",
+      "top": 6242.63
+     }
+    ]
+   }
+  ],
+  "contrast": {
+   "textNodes": 142,
+   "failAA": 7,
+   "failAAWithoutBgImage": 7,
+   "worstUnique": [
+    {
+     "text": "News",
+     "size": "14px",
+     "weight": "600",
+     "fg": "#000000",
+     "bg": "#000000",
+     "bgImage": false,
+     "ratio": 1,
+     "large": false,
+     "passAA": false,
+     "sel": "span._11r14xt0"
+    },
+    {
+     "text": "Sign Up",
+     "size": "16px",
+     "weight": "600",
+     "fg": "#000000",
+     "bg": "#000000",
+     "bgImage": false,
+     "ratio": 1,
+     "large": false,
+     "passAA": false,
+     "sel": "span._11r14xt0"
+    },
+    {
+     "text": "Help",
+     "size": "16px",
+     "weight": "400",
+     "fg": "#000000",
+     "bg": "#000503",
+     "bgImage": false,
+     "ratio": 1.02,
+     "large": false,
+     "passAA": false,
+     "sel": "span._11r14xt1"
+    }
+   ],
+   "pairs": [
+    {
+     "pair": "#000000 on #FFFFFF",
+     "ratio": 21,
+     "count": 115,
+     "sample": "Sign Up",
+     "bgImage": false
+    },
+    {
+     "pair": "#FAF7F7 on #000503",
+     "ratio": 19.27,
+     "count": 16,
+     "sample": "Home",
+     "bgImage": false
+    },
+    {
+     "pair": "#000000 on #000000",
+     "ratio": 1,
+     "count": 6,
+     "sample": "News",
+     "bgImage": false
+    },
+    {
+     "pair": "#FFFFFF on #000503",
+     "ratio": 20.53,
+     "count": 2,
+     "sample": "Careers",
+     "bgImage": false
+    },
+    {
+     "pair": "#0AC285 on #000000",
+     "ratio": 9.07,
+     "count": 1,
+     "sample": "Load more",
+     "bgImage": false
+    },
+    {
+     "pair": "#000000 on #000503",
+     "ratio": 1.02,
+     "count": 1,
+     "sample": "Help",
+     "bgImage": false
+    },
+    {
+     "pair": "#FFFDFD on #000503",
+     "ratio": 20.25,
+     "count": 1,
+     "sample": "Made in NYC",
+     "bgImage": false
+    }
+   ]
+  },
+  "interactive": [
+   {
+    "kind": "a",
+    "label": "Logo",
+    "ariaLabel": "Logo",
+    "sel": "a._1ma1r0qw._1ma1r0qo",
+    "top": 20,
+    "x": 80,
+    "w": 249.81,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #00000000",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 500",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Sign Up",
+    "ariaLabel": null,
+    "sel": "a._1ma1r0qt._1ma1r0qo",
+    "top": 22,
+    "x": 1256.94,
+    "w": 55.06,
+    "h": 32,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #00000000",
+    "padding": "4px 8px 4px 8px",
+    "shadow": null,
+    "font": "16px/24px 600",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "News",
+    "ariaLabel": null,
+    "sel": "a._1ma1r0qt._1ma1r0qo",
+    "top": 90,
+    "x": 80,
+    "w": 24.97,
+    "h": 21,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #00000000",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "14px/21px 600",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Sports",
+    "ariaLabel": null,
+    "sel": "a._1ma1r0qt._1ma1r0qo",
+    "top": 88,
+    "x": 120.97,
+    "w": 38.34,
+    "h": 25,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #00000000",
+    "padding": "2px 4px 2px 4px",
+    "shadow": null,
+    "font": "14px/21px 600",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "2026 Midterm Hub",
+    "ariaLabel": null,
+    "sel": "a._1ma1r0qt._1ma1r0qo",
+    "top": 88,
+    "x": 175.31,
+    "w": 91.89,
+    "h": 25,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #00000000",
+    "padding": "2px 4px 2px 4px",
+    "shadow": null,
+    "font": "14px/21px 600",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Markets",
+    "ariaLabel": null,
+    "sel": "a._1ma1r0qt._1ma1r0qo",
+    "top": 90,
+    "x": 283.2,
+    "w": 36.78,
+    "h": 21,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #00000000",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "14px/21px 600",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Features",
+    "ariaLabel": null,
+    "sel": "a._1ma1r0qt._1ma1r0qo",
+    "top": 90,
+    "x": 335.98,
+    "w": 39.67,
+    "h": 21,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #00000000",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "14px/21px 600",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "NFL Power Rankings",
+    "ariaLabel": null,
+    "sel": "a._1ma1r0qt._1ma1r0qo",
+    "top": 90,
+    "x": 391.66,
+    "w": 91.02,
+    "h": 21,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #00000000",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "14px/21px 600",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "CFB Power Rankings",
+    "ariaLabel": null,
+    "sel": "a._1ma1r0qt._1ma1r0qo",
+    "top": 90,
+    "x": 498.67,
+    "w": 91.89,
+    "h": 21,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #00000000",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "14px/21px 600",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Interviews",
+    "ariaLabel": null,
+    "sel": "a._1ma1r0qt._1ma1r0qo",
+    "top": 90,
+    "x": 606.56,
+    "w": 48.41,
+    "h": 21,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #00000000",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "14px/21px 600",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Announcements",
+    "ariaLabel": null,
+    "sel": "a._1ma1r0qt._1ma1r0qo",
+    "top": 88,
+    "x": 670.97,
+    "w": 81.91,
+    "h": 25,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #00000000",
+    "padding": "2px 4px 2px 4px",
+    "shadow": null,
+    "font": "14px/21px 600",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Learn",
+    "ariaLabel": null,
+    "sel": "a._1ma1r0qt._1ma1r0qo",
+    "top": 87,
+    "x": 768.88,
+    "w": 35.52,
+    "h": 27,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "1px solid #00000000",
+    "padding": "2px 4px 2px 4px",
+    "shadow": null,
+    "font": "14px/21px 600",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "KPOW",
+    "ariaLabel": null,
+    "sel": "a._1ma1r0qt._1ma1r0qo",
+    "top": 87,
+    "x": 820.39,
+    "w": 37.88,
+    "h": 27,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "1px solid #00000000",
+    "padding": "2px 4px 2px 4px",
+    "shadow": null,
+    "font": "14px/21px 600",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Compute",
+    "ariaLabel": null,
+    "sel": "a._1ma1r0qt._1ma1r0qo",
+    "top": 87,
+    "x": 874.27,
+    "w": 51.27,
+    "h": 27,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "1px solid #00000000",
+    "padding": "2px 4px 2px 4px",
+    "shadow": null,
+    "font": "14px/21px 600",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Authors",
+    "ariaLabel": null,
+    "sel": "a._1ma1r0qt._1ma1r0qo",
+    "top": 87,
+    "x": 941.53,
+    "w": 46,
+    "h": 27,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "1px solid #00000000",
+    "padding": "2px 4px 2px 4px",
+    "shadow": null,
+    "font": "14px/21px 600",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "4 min read VMA TMA: Taylor, Madonna, and Ariana fight for po",
+    "ariaLabel": "VMA TMA: Taylor, Madonna, and Ariana fight for pop supremacy",
+    "sel": "a.relative.z-10",
+    "top": 267.2,
+    "x": 80,
+    "w": 1280,
+    "h": 188,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "3 min read The week ahead: Pennant races, pain at the pump, ",
+    "ariaLabel": "The week ahead: Pennant races, pain at the pump, and 'Patient Zero'",
+    "sel": "a.relative.z-10",
+    "top": 491.2,
+    "x": 80,
+    "w": 1280,
+    "h": 188,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "4 min read Emmy Odds: What Kalshi traders are forecasting fo",
+    "ariaLabel": "Emmy Odds: What Kalshi traders are forecasting for tonight's top categories",
+    "sel": "a.relative.z-10",
+    "top": 715.2,
+    "x": 80,
+    "w": 1280,
+    "h": 188,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "4 min read The week ahead: US Open finals, the Fed, and Week",
+    "ariaLabel": "The week ahead: US Open finals, the Fed, and Week 1 football",
+    "sel": "a.relative.z-10",
+    "top": 939.2,
+    "x": 80,
+    "w": 1280,
+    "h": 188,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "5 min read GTA odds: Everything Kalshi traders are pricing o",
+    "ariaLabel": "GTA odds: Everything Kalshi traders are pricing on Grand Theft Auto VI",
+    "sel": "a.relative.z-10",
+    "top": 1163.2,
+    "x": 80,
+    "w": 1280,
+    "h": 188,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "4 min read 007 odds: Who will be the next James Bond? By Jac",
+    "ariaLabel": "007 odds: Who will be the next James Bond?",
+    "sel": "a.relative.z-10",
+    "top": 1387.2,
+    "x": 80,
+    "w": 1280,
+    "h": 188,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "4 min read The week ahead: Senate seats, Silicon Valley, and",
+    "ariaLabel": "The week ahead: Senate seats, Silicon Valley, and Saturday football",
+    "sel": "a.relative.z-10",
+    "top": 1611.2,
+    "x": 80,
+    "w": 1280,
+    "h": 188,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "3 min read Who's next? Donald Trump's press secretary search",
+    "ariaLabel": "Who's next? Donald Trump's press secretary search",
+    "sel": "a.relative.z-10",
+    "top": 1835.2,
+    "x": 80,
+    "w": 1280,
+    "h": 188,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "4 min read Too soon? Pricing the 2028 presidential picture B",
+    "ariaLabel": "Too soon? Pricing the 2028 presidential picture",
+    "sel": "a.relative.z-10",
+    "top": 2059.2,
+    "x": 80,
+    "w": 1280,
+    "h": 188,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "4 min read Preseason football just started, but Kalshi trade",
+    "ariaLabel": "Preseason football just started, but Kalshi traders are already pricing a champion",
+    "sel": "a.relative.z-10",
+    "top": 2283.2,
+    "x": 80,
+    "w": 1280,
+    "h": 188,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "4 min read The week ahead: Primaries, price data, and presea",
+    "ariaLabel": "The week ahead: Primaries, price data, and preseason football",
+    "sel": "a.relative.z-10",
+    "top": 2507.2,
+    "x": 80,
+    "w": 1280,
+    "h": 188,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "3 min read In Texas, Paxton and Talarico are surprisingly cl",
+    "ariaLabel": "In Texas, Paxton and Talarico are surprisingly close",
+    "sel": "a.relative.z-10",
+    "top": 2731.2,
+    "x": 80,
+    "w": 1280,
+    "h": 188,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "4 min read The week ahead: End zones, unemployment, and Elon",
+    "ariaLabel": "The week ahead: End zones, unemployment, and Elon's SpaceX earnings",
+    "sel": "a.relative.z-10",
+    "top": 2955.2,
+    "x": 80,
+    "w": 1280,
+    "h": 188,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "4 min read Kalshi's 2026 college football preview By Jack Ku",
+    "ariaLabel": "Kalshi's 2026 college football preview",
+    "sel": "a.relative.z-10",
+    "top": 3179.2,
+    "x": 80,
+    "w": 1280,
+    "h": 188,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "4 min read The week ahead: Interest rates and IPOs By Jack K",
+    "ariaLabel": "The week ahead: Interest rates and IPOs",
+    "sel": "a.relative.z-10",
+    "top": 3403.2,
+    "x": 80,
+    "w": 1280,
+    "h": 188,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "3 min read 100 days away: What Kalshi's Midterm Hub tells us",
+    "ariaLabel": "100 days away: What Kalshi's Midterm Hub tells us about the fight for Congress",
+    "sel": "a.relative.z-10",
+    "top": 3627.2,
+    "x": 80,
+    "w": 1280,
+    "h": 188,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "5 min read The week ahead: Big business and Big Brother By J",
+    "ariaLabel": "The week ahead: Big business and Big Brother",
+    "sel": "a.relative.z-10",
+    "top": 3851.2,
+    "x": 80,
+    "w": 1280,
+    "h": 188,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "3 min read The Odyssey, the Oscars, and the odds By Jack Kuv",
+    "ariaLabel": "The Odyssey, the Oscars, and the odds",
+    "sel": "a.relative.z-10",
+    "top": 4075.2,
+    "x": 80,
+    "w": 1280,
+    "h": 188,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "4 min read The week ahead: Primaries, power vacuums, and Kal",
+    "ariaLabel": "The week ahead: Primaries, power vacuums, and Kalshi Pro",
+    "sel": "a.relative.z-10",
+    "top": 4299.2,
+    "x": 80,
+    "w": 1280,
+    "h": 188,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "4 min read The week ahead: Red cards, relocations, and an AI",
+    "ariaLabel": "The week ahead: Red cards, relocations, and an AI arms race",
+    "sel": "a.relative.z-10",
+    "top": 4523.2,
+    "x": 80,
+    "w": 1280,
+    "h": 188,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "3 min read America: Are you ready for some hotdogs? By Jack ",
+    "ariaLabel": "America: Are you ready for some hotdogs?",
+    "sel": "a.relative.z-10",
+    "top": 4747.2,
+    "x": 80,
+    "w": 1280,
+    "h": 188,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "5 min read The Week ahead: World Cup, Wimbledon, and heatwav",
+    "ariaLabel": "The Week ahead: World Cup, Wimbledon, and heatwaves",
+    "sel": "a.relative.z-10",
+    "top": 4971.2,
+    "x": 80,
+    "w": 1280,
+    "h": 188,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "4 min read Save the date and place your trades: what's in st",
+    "ariaLabel": "Save the date and place your trades: what's in store for the Swift/Kelce wedding?",
+    "sel": "a.relative.z-10",
+    "top": 5195.2,
+    "x": 80,
+    "w": 1280,
+    "h": 188,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "2 min read Makerfield by-election odds put Burnham on track ",
+    "ariaLabel": "Makerfield by-election odds put Burnham on track to challenge Starmer",
+    "sel": "a.relative.z-10",
+    "top": 5419.2,
+    "x": 80,
+    "w": 1280,
+    "h": 188,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "5 min read The week ahead: Interest rates, runoffs, and red ",
+    "ariaLabel": "The week ahead: Interest rates, runoffs, and red cards",
+    "sel": "a.relative.z-10",
+    "top": 5643.2,
+    "x": 80,
+    "w": 1280,
+    "h": 188,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Subscribe",
+    "ariaLabel": null,
+    "sel": "a.ey1jsk1.ey1jsk0",
+    "top": 6050.41,
+    "x": 360,
+    "w": 75.52,
+    "h": 19,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#000503",
+    "color": "#000000",
+    "border": "0px none #000000",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/19.2px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Upgrade",
+    "ariaLabel": null,
+    "sel": "a.ey1jsk1.ey1jsk0",
+    "top": 6081.61,
+    "x": 360,
+    "w": 64.83,
+    "h": 19,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#000503",
+    "color": "#000000",
+    "border": "0px none #000000",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/19.2px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Archive",
+    "ariaLabel": null,
+    "sel": "a.ey1jsk1.ey1jsk0",
+    "top": 6112.81,
+    "x": 360,
+    "w": 56.73,
+    "h": 19,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#000503",
+    "color": "#000000",
+    "border": "0px none #000000",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/19.2px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Recommendations",
+    "ariaLabel": null,
+    "sel": "a.ey1jsk1.ey1jsk0",
+    "top": 6144.02,
+    "x": 360,
+    "w": 140.81,
+    "h": 19,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#000503",
+    "color": "#000000",
+    "border": "0px none #000000",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/19.2px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Authors",
+    "ariaLabel": null,
+    "sel": "a.ey1jsk1.ey1jsk0",
+    "top": 6175.22,
+    "x": 360,
+    "w": 58.58,
+    "h": 19,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#000503",
+    "color": "#000000",
+    "border": "0px none #000000",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/19.2px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Tags",
+    "ariaLabel": null,
+    "sel": "a.ey1jsk1.ey1jsk0",
+    "top": 6206.42,
+    "x": 360,
+    "w": 34.3,
+    "h": 19,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#000503",
+    "color": "#000000",
+    "border": "0px none #000000",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/19.2px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Help",
+    "ariaLabel": null,
+    "sel": "a.ey1jsk0",
+    "top": 6019.2,
+    "x": 920,
+    "w": 34.91,
+    "h": 19,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#000503",
+    "color": "#000000",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/19.2px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Careers",
+    "ariaLabel": null,
+    "sel": "a.ey1jsk0",
+    "top": 6050.41,
+    "x": 920,
+    "w": 58.06,
+    "h": 19,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#000503",
+    "color": "#000000",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/19.2px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Powered by beehiiv",
+    "ariaLabel": null,
+    "sel": "a._1te91d14",
+    "top": 6233.63,
+    "x": 1176.88,
+    "w": 167.13,
+    "h": 34,
+    "radius": "4px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#000503",
+    "color": "#FAF7F7",
+    "border": "1px solid #FAF7F7",
+    "padding": "8px 12px 8px 12px",
+    "shadow": null,
+    "font": "12px/16px 300",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "News",
+    "ariaLabel": null,
+    "sel": "a._1ma1r0qt._1ma1r0qo",
+    "top": 121,
+    "x": 16,
+    "w": 56.97,
+    "h": 37,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#000000",
+    "color": "#000000",
+    "border": "0px solid #00000000",
+    "padding": "8px 16px 8px 16px",
+    "shadow": null,
+    "font": "14px/21px 600",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Features",
+    "ariaLabel": null,
+    "sel": "a._1ma1r0qt._1ma1r0qo",
+    "top": 372,
+    "x": 16,
+    "w": 71.67,
+    "h": 37,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#000000",
+    "color": "#000000",
+    "border": "0px solid #00000000",
+    "padding": "8px 16px 8px 16px",
+    "shadow": null,
+    "font": "14px/21px 600",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Interviews",
+    "ariaLabel": null,
+    "sel": "a._1ma1r0qt._1ma1r0qo",
+    "top": 623,
+    "x": 16,
+    "w": 80.41,
+    "h": 37,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#000000",
+    "color": "#000000",
+    "border": "0px solid #00000000",
+    "padding": "8px 16px 8px 16px",
+    "shadow": null,
+    "font": "14px/21px 600",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Announcements",
+    "ariaLabel": null,
+    "sel": "a._1ma1r0qt._1ma1r0qo",
+    "top": 874,
+    "x": 16,
+    "w": 105.91,
+    "h": 37,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#000000",
+    "color": "#000000",
+    "border": "0px solid #00000000",
+    "padding": "8px 16px 8px 16px",
+    "shadow": null,
+    "font": "14px/21px 600",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Learn",
+    "ariaLabel": null,
+    "sel": "a._1ma1r0qt._1ma1r0qo",
+    "top": 1124,
+    "x": 16,
+    "w": 59.52,
+    "h": 39,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#000000",
+    "color": "#000000",
+    "border": "1px solid #00000000",
+    "padding": "8px 16px 8px 16px",
+    "shadow": null,
+    "font": "14px/21px 600",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Sign Up",
+    "ariaLabel": null,
+    "sel": "a._1ma1r0qt._1ma1r0qo",
+    "top": 1374.5,
+    "x": 16,
+    "w": 71.06,
+    "h": 40,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#000000",
+    "color": "#000000",
+    "border": "0px solid #00000000",
+    "padding": "8px 16px 8px 16px",
+    "shadow": null,
+    "font": "16px/24px 600",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   }
+  ],
+  "interactiveCount": 55,
+  "touchTargets": {
+   "byMinSide": {
+    "lt24": 14,
+    "24to32": 7,
+    "32to44": 9,
+    "gte44": 25
+   },
+   "byHeight": {
+    "19": 8,
+    "21": 6,
+    "25": 3,
+    "27": 4,
+    "32": 1,
+    "34": 1,
+    "36": 1,
+    "37": 4,
+    "39": 1,
+    "40": 1,
+    "188": 25
+   }
+  },
+  "spacing": {
+   "padding": [
+    {
+     "v": "2px",
+     "n": 14
+    },
+    {
+     "v": "4px",
+     "n": 16
+    },
+    {
+     "v": "8px",
+     "n": 22
+    },
+    {
+     "v": "12px",
+     "n": 4
+    },
+    {
+     "v": "16px",
+     "n": 22
+    },
+    {
+     "v": "20px",
+     "n": 10
+    },
+    {
+     "v": "40px",
+     "n": 5
+    },
+    {
+     "v": "60px",
+     "n": 2
+    },
+    {
+     "v": "200px",
+     "n": 1
+    }
+   ],
+   "margin": [
+    {
+     "v": "8px",
+     "n": 1
+    },
+    {
+     "v": "10px",
+     "n": 2
+    },
+    {
+     "v": "40px",
+     "n": 4
+    }
+   ],
+   "gap": [
+    {
+     "v": "4px",
+     "n": 54
+    },
+    {
+     "v": "8px",
+     "n": 6
+    },
+    {
+     "v": "10px",
+     "n": 52
+    },
+    {
+     "v": "12px",
+     "n": 6
+    },
+    {
+     "v": "16px",
+     "n": 46
+    },
+    {
+     "v": "18px",
+     "n": 50
+    },
+    {
+     "v": "20px",
+     "n": 2
+    },
+    {
+     "v": "36px",
+     "n": 2
+    },
+    {
+     "v": "40px",
+     "n": 2
+    }
+   ]
+  },
+  "radius": [
+   {
+    "v": "4px",
+    "n": 1
+   },
+   {
+    "v": "8px",
+    "n": 4
+   }
+  ],
+  "borderWidth": [
+   {
+    "v": "1px",
+    "n": 6
+   }
+  ],
+  "shadows": [
+   {
+    "v": "rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+    "n": 1
+   }
+  ],
+  "palette": {
+   "backgrounds": [
+    {
+     "hex": "#FFFFFF",
+     "n": 31,
+     "area": 23358506,
+     "raw": "rgb(255, 255, 255)",
+     "sample": "nav._1ma1r0q0._1ma1r0q7[role=presentation]"
+    },
+    {
+     "hex": "#000503",
+     "n": 2,
+     "area": 606048,
+     "raw": "rgb(0, 5, 3)",
+     "sample": "section._1ny5scw0._1ny5scw6"
+    },
+    {
+     "hex": "#000000",
+     "n": 1,
+     "area": 6116,
+     "raw": "rgb(0, 0, 0)",
+     "sample": "a.bdk9l25.bdk9l21"
+    }
+   ],
+   "text": [
+    {
+     "hex": "#000000",
+     "n": 122,
+     "raw": "rgb(0, 0, 0)",
+     "sample": "Sign Up"
+    },
+    {
+     "hex": "#FAF7F7",
+     "n": 16,
+     "raw": "rgb(250, 247, 247)",
+     "sample": "Home"
+    },
+    {
+     "hex": "#FFFFFF",
+     "n": 2,
+     "raw": "rgb(255, 255, 255)",
+     "sample": "Careers"
+    },
+    {
+     "hex": "#0AC285",
+     "n": 1,
+     "raw": "rgb(10, 194, 133)",
+     "sample": "Load more"
+    },
+    {
+     "hex": "#FFFDFD",
+     "n": 1,
+     "raw": "rgb(255, 253, 253)",
+     "sample": "Made in NYC"
+    }
+   ]
+  },
+  "copy": {
+   "title": "Featured | Kalshi News",
+   "h1": [
+    "Featured"
+   ],
+   "h2h3": [
+    "VMA TMA: Taylor, Madonna, and Ariana fight for pop supremacy",
+    "The week ahead: Pennant races, pain at the pump, and 'Patient Zero'",
+    "Emmy Odds: What Kalshi traders are forecasting for tonight's top categories",
+    "The week ahead: US Open finals, the Fed, and Week 1 football",
+    "GTA odds: Everything Kalshi traders are pricing on Grand Theft Auto VI",
+    "007 odds: Who will be the next James Bond?",
+    "The week ahead: Senate seats, Silicon Valley, and Saturday football",
+    "Who's next? Donald Trump's press secretary search",
+    "Too soon? Pricing the 2028 presidential picture",
+    "Preseason football just started, but Kalshi traders are already pricing a champion",
+    "The week ahead: Primaries, price data, and preseason football",
+    "In Texas, Paxton and Talarico are surprisingly close",
+    "The week ahead: End zones, unemployment, and Elon's SpaceX earnings",
+    "Kalshi's 2026 college football preview",
+    "The week ahead: Interest rates and IPOs",
+    "100 days away: What Kalshi's Midterm Hub tells us about the fight for Congress",
+    "The week ahead: Big business and Big Brother",
+    "The Odyssey, the Oscars, and the odds",
+    "The week ahead: Primaries, power vacuums, and Kalshi Pro",
+    "The week ahead: Red cards, relocations, and an AI arms race",
+    "America: Are you ready for some hotdogs?",
+    "The Week ahead: World Cup, Wimbledon, and heatwaves",
+    "Save the date and place your trades: what's in store for the Swift/Kelce wedding?",
+    "Makerfield by-election odds put Burnham on track to challenge Starmer",
+    "The week ahead: Interest rates, runoffs, and red cards"
+   ],
+   "ctaLabels": [],
+   "navLabels": [
+    "Logo",
+    "Sign Up",
+    "News",
+    "Sports",
+    "2026 Midterm Hub",
+    "Markets",
+    "Features",
+    "NFL Power Rankings",
+    "CFB Power Rankings",
+    "Interviews",
+    "Announcements",
+    "Learn",
+    "KPOW",
+    "Compute",
+    "Authors",
+    "Menu"
+   ],
+   "priceFormats": [],
+   "priceFormatCounts": {
+    "cents": 0,
+    "percent": 0,
+    "chance": 0,
+    "dollarsVol": 0,
+    "multiplier": 0
+   },
+   "feeAndDisclaimer": [],
+   "footerText": null
+  },
+  "rootTokens": {
+   "count": 94,
+   "colors": {
+    "--wt-primary-color": {
+     "authored": "#000000",
+     "srgb": "#000000"
+    },
+    "--wt-text-on-primary-color": {
+     "authored": "#0AC285FF",
+     "srgb": "#0AC285"
+    },
+    "--wt-background-color": {
+     "authored": "#FFFFFF",
+     "srgb": "#FFFFFF"
+    },
+    "--wt-text-on-background-color": {
+     "authored": "#000000",
+     "srgb": "#000000"
+    },
+    "--wt-secondary-color": {
+     "authored": "#DFD150",
+     "srgb": "#DFD150"
+    },
+    "--wt-text-on-secondary-color": {
+     "authored": "#222222",
+     "srgb": "#222222"
+    },
+    "--wt-tertiary-color": {
+     "authored": "#FFFFFF",
+     "srgb": "#FFFFFF"
+    },
+    "--wt-text-on-tertiary-color": {
+     "authored": "#222222",
+     "srgb": "#222222"
+    },
+    "--wt-subscribe-background-color": {
+     "authored": "#FFFFFF",
+     "srgb": "#FFFFFF"
+    },
+    "--wt-text-on-subscribe-background-color": {
+     "authored": "#222222",
+     "srgb": "#222222"
+    },
+    "--background": {
+     "authored": "#131415",
+     "srgb": "#131415"
+    },
+    "--background-highlight": {
+     "authored": "#2c2c30",
+     "srgb": "#2C2C30"
+    },
+    "--background-highlight-highlight": {
+     "authored": "#393941",
+     "srgb": "#393941"
+    },
+    "--background-button": {
+     "authored": "#1f2124",
+     "srgb": "#1F2124"
+    },
+    "--background-modal-highlight": {
+     "authored": "#37373c",
+     "srgb": "#37373C"
+    },
+    "--background-popup-overlay": {
+     "authored": "#1c1d1f80",
+     "srgb": "#1C1E2080"
+    },
+    "--shadow-modal-color": {
+     "authored": "#0003",
+     "srgb": "#00000033"
+    },
+    "--shadow-modal": {
+     "authored": "#00000059 0px 7px 32px 0px",
+     "srgb": "#00000000"
+    },
+    "--shadow-modal-highlight": {
+     "authored": "#0009 0px 7px 32px 0px",
+     "srgb": "#00000000"
+    },
+    "--highlight": {
+     "authored": "#ffffff0d",
+     "srgb": "#FFFFFF0D"
+    },
+    "--highlight-highlight": {
+     "authored": "#ffffff1a",
+     "srgb": "#FFFFFF1A"
+    },
+    "--highlight-3": {
+     "authored": "#ffffff4d",
+     "srgb": "#FFFFFF4D"
+    },
+    "--border-modal": {
+     "authored": "#303236",
+     "srgb": "#303236"
+    },
+    "--border-card": {
+     "authored": "#303236",
+     "srgb": "#303236"
+    },
+    "--text": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--side-background": {
+     "authored": "#131415",
+     "srgb": "#131415"
+    },
+    "--side-text": {
+     "authored": "#d7d8db",
+     "srgb": "#D7D8DB"
+    },
+    "--text-light": {
+     "authored": "#8a8f98",
+     "srgb": "#8A8F98"
+    },
+    "--text-lighter": {
+     "authored": "#757783",
+     "srgb": "#757783"
+    },
+    "--text-sharp": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--accent": {
+     "authored": "#7381ff",
+     "srgb": "#7381FF"
+    },
+    "--accent-light": {
+     "authored": "#1d1e33",
+     "srgb": "#1D1E33"
+    },
+    "--accent-transparent": {
+     "authored": "#7381ff33",
+     "srgb": "#7382FF33"
+    },
+    "--accent-semi-transparent": {
+     "authored": "#7381ff80",
+     "srgb": "#7481FF80"
+    },
+    "--accent-highlight": {
+     "authored": "#8995ff",
+     "srgb": "#8995FF"
+    },
+    "--text-on-accent": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--background-input": {
+     "authored": "#1f2023",
+     "srgb": "#1F2023"
+    },
+    "--border-input": {
+     "authored": "#3c3f44",
+     "srgb": "#3C3F44"
+    },
+    "--border-input-focused": {
+     "authored": "#6499ff",
+     "srgb": "#6499FF"
+    },
+    "--background-invert": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--background-invert-highlight": {
+     "authored": "#f0f3f9",
+     "srgb": "#F0F3F9"
+    },
+    "--text-invert": {
+     "authored": "#3c4149",
+     "srgb": "#3C4149"
+    },
+    "--text-invert-light": {
+     "authored": "#6b6f76",
+     "srgb": "#6B6F76"
+    },
+    "--danger-transparent": {
+     "authored": "#cc0f354d",
+     "srgb": "#CD11354D"
+    },
+    "--shadow-color-unicorn": {
+     "authored": "#000",
+     "srgb": "#000000"
+    },
+    "--shadow-color-nebula": {
+     "authored": "#000",
+     "srgb": "#000000"
+    },
+    "--shadow-color-water": {
+     "authored": "#000",
+     "srgb": "#000000"
+    },
+    "--shadow-color-candy": {
+     "authored": "#000",
+     "srgb": "#000000"
+    },
+    "--shadow-color-melon": {
+     "authored": "#000",
+     "srgb": "#000000"
+    },
+    "--shadow-color-orange": {
+     "authored": "#000",
+     "srgb": "#000000"
+    },
+    "--shadow-color-yellow": {
+     "authored": "#000",
+     "srgb": "#000000"
+    },
+    "--shadow-color-green": {
+     "authored": "#000",
+     "srgb": "#000000"
+    },
+    "--shadow-color-blue": {
+     "authored": "#000",
+     "srgb": "#000000"
+    },
+    "--shadow-color-indigo": {
+     "authored": "#000",
+     "srgb": "#000000"
+    },
+    "--shadow-color-purple": {
+     "authored": "#000",
+     "srgb": "#000000"
+    },
+    "--shadow-color-pink": {
+     "authored": "#000",
+     "srgb": "#000000"
+    },
+    "--shadow-color-red": {
+     "authored": "#000",
+     "srgb": "#000000"
+    },
+    "--shadow-color-black": {
+     "authored": "#000",
+     "srgb": "#000000"
+    },
+    "--shadow-color-white": {
+     "authored": "#000",
+     "srgb": "#000000"
+    },
+    "--shadow-color-accent": {
+     "authored": "#000",
+     "srgb": "#000000"
+    },
+    "--neutral-900": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--neutral-800": {
+     "authored": "#ccc",
+     "srgb": "#CCCCCC"
+    },
+    "--neutral-700": {
+     "authored": "#646668",
+     "srgb": "#646668"
+    },
+    "--neutral-600": {
+     "authored": "#43474b",
+     "srgb": "#43474B"
+    },
+    "--neutral-500": {
+     "authored": "#3e4246",
+     "srgb": "#3E4246"
+    },
+    "--neutral-400": {
+     "authored": "#35383b",
+     "srgb": "#35383B"
+    },
+    "--neutral-300": {
+     "authored": "#35383b",
+     "srgb": "#35383B"
+    },
+    "--neutral-200": {
+     "authored": "#303335",
+     "srgb": "#303335"
+    },
+    "--neutral-100": {
+     "authored": "#26282b",
+     "srgb": "#26282B"
+    },
+    "--neutral-50": {
+     "authored": "#1d1e20",
+     "srgb": "#1D1E20"
+    },
+    "--neutral-25": {
+     "authored": "#131415",
+     "srgb": "#131415"
+    }
+   },
+   "all": {
+    "--wt-primary-color": "#000000",
+    "--wt-text-on-primary-color": "#0AC285FF",
+    "--wt-background-color": "#FFFFFF",
+    "--wt-text-on-background-color": "#000000",
+    "--wt-secondary-color": "#DFD150",
+    "--wt-text-on-secondary-color": "#222222",
+    "--wt-tertiary-color": "#FFFFFF",
+    "--wt-text-on-tertiary-color": "#222222",
+    "--wt-subscribe-background-color": "#FFFFFF",
+    "--wt-text-on-subscribe-background-color": "#222222",
+    "--wt-header-font": "\"Instrument Sans\", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto,\"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+    "--wt-body-font": "\"Instrument Sans\", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+    "--wt-button-font": "\"Instrument Sans\", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+    "--wt-border-radius": "6px",
+    "--background": "#131415",
+    "--background-highlight": "#2c2c30",
+    "--background-highlight-highlight": "#393941",
+    "--background-button": "#1f2124",
+    "--background-modal": "linear-gradient(136.61deg, #27282b 13.72%, #2d2e31 74.3%)",
+    "--background-modal-highlight": "#37373c",
+    "--background-popup-overlay": "#1c1d1f80",
+    "--shadow-modal-color": "#0003",
+    "--shadow-modal": "#00000059 0px 7px 32px 0px",
+    "--shadow-modal-highlight": "#0009 0px 7px 32px 0px",
+    "--shadow-navbar": "0 0 20px #0006",
+    "--highlight": "#ffffff0d",
+    "--highlight-highlight": "#ffffff1a",
+    "--highlight-3": "#ffffff4d",
+    "--border-modal": "#303236",
+    "--border-card": "#303236",
+    "--text": "#fff",
+    "--side-background": "#131415",
+    "--side-text": "#d7d8db",
+    "--text-light": "#8a8f98",
+    "--text-lighter": "#757783",
+    "--text-sharp": "#fff",
+    "--accent": "#7381ff",
+    "--accent-light": "#1d1e33",
+    "--accent-transparent": "#7381ff33",
+    "--accent-semi-transparent": "#7381ff80",
+    "--accent-highlight": "#8995ff",
+    "--text-on-accent": "#fff",
+    "--background-input": "#1f2023",
+    "--border-input": "#3c3f44",
+    "--border-input-focused": "#6499ff",
+    "--background-invert": "#fff",
+    "--background-invert-highlight": "#f0f3f9",
+    "--text-invert": "#3c4149",
+    "--text-invert-light": "#6b6f76",
+    "--danger": "var(--error-300)",
+    "--danger-transparent": "#cc0f354d",
+    "--danger-background": "var(--error-800)",
+    "--shadow-color-unicorn": "#000",
+    "--shadow-color-nebula": "#000",
+    "--shadow-color-water": "#000",
+    "--shadow-color-candy": "#000",
+    "--shadow-color-melon": "#000",
+    "--shadow-color-orange": "#000",
+    "--shadow-color-yellow": "#000",
+    "--shadow-color-green": "#000",
+    "--shadow-color-blue": "#000",
+    "--shadow-color-indigo": "#000",
+    "--shadow-color-purple": "#000",
+    "--shadow-color-pink": "#000",
+    "--shadow-color-red": "#000",
+    "--shadow-color-black": "#000",
+    "--shadow-color-white": "#000",
+    "--shadow-color-accent": "#000",
+    "--neutral-900": "#fff",
+    "--neutral-800": "#ccc",
+    "--neutral-700": "#646668",
+    "--neutral-600": "#43474b",
+    "--neutral-500": "#3e4246",
+    "--neutral-400": "#35383b",
+    "--neutral-300": "#35383b",
+    "--neutral-200": "#303335",
+    "--neutral-100": "#26282b",
+    "--neutral-50": "#1d1e20",
+    "--neutral-25": "#131415",
+    "--color-border": "var(--neutral-600)",
+    "--color-border-light": "var(--neutral-500)",
+    "--color-text-light": "var(--neutral-800)",
+    "--color-surface-raised": "var(--neutral-400)",
+    "--color-background-input": "var(--neutral-200)",
+    "--elevation-surface-raised": "0px 0px 0px #0000, 0px 1px 1px #03040480, 0px 0px 1px #03040480",
+    "--toast-icon-margin-start": "4px",
+    "--toast-icon-margin-end": "-3px",
+    "--toast-svg-margin-start": "0px",
+    "--toast-svg-margin-end": "-1px",
+    "--toast-button-margin-start": "0",
+    "--toast-button-margin-end": "auto",
+    "--toast-close-button-start": "unset",
+    "--toast-close-button-end": "0",
+    "--toast-close-button-transform": "translate(35%, -35%)"
+   }
+  }
+ },
+ "axe": {
+  "version": "4.12.1",
+  "violationRules": 4,
+  "nodesByImpact": {
+   "critical": 0,
+   "serious": 1,
+   "moderate": 27,
+   "minor": 0
+  },
+  "rules": {
+   "color-contrast": {
+    "impact": "serious",
+    "nodes": 1,
+    "help": "Elements must meet minimum color contrast ratio thresholds"
+   },
+   "heading-order": {
+    "impact": "moderate",
+    "nodes": 1,
+    "help": "Heading levels should only increase by one"
+   },
+   "landmark-one-main": {
+    "impact": "moderate",
+    "nodes": 1,
+    "help": "Document should have one main landmark"
+   },
+   "region": {
+    "impact": "moderate",
+    "nodes": 25,
+    "help": "All page content should be contained by landmarks"
+   }
+  },
+  "passes": 30,
+  "incomplete": 1
+ },
+ "finishedUtc": "2026-09-27T09:12:24.164Z",
+ "finalUrl": "https://news.kalshi.com/t/featured",
+ "note": "Target was demo.kalshi.co/blog; it redirected to the production blog news.kalshi.com/t/featured, so this is a LIVE production capture (grade M1, 2026-09-27), not demo."
+}

@@ -1,0 +1,18 @@
+{
+  "captured": "2026-09-27",
+  "harness": "perf-probe.cjs (Playwright Chromium 1194, run from apps/web). Viewport 360x800, DPR 2, isMobile, Android Chrome UA (SM-A075F). Single run each. Egress via sandbox proxy (not a Kenyan vantage point).",
+  "throttle_profiles": {
+    "none": "no network or CPU throttling",
+    "slow4g": "CDP Network.emulateNetworkConditions latency 562.5 ms (150 ms RTT x 3.75, DevTools request-level multiplier), down 1.6 Mbps x 0.9, up 750 kbps x 0.9; CPU throttling 4x"
+  },
+  "results": [
+    {"url":"https://polymarket.com/","throttle":"none","lcp_ms":956,"nav":{"ttfb":232.4,"dcl":533.1,"load":7851.6},"total_kb":12550,"requests":364,"byType":{"Document":{"n":4,"kb":274},"Stylesheet":{"n":4,"kb":90},"Other":{"n":3,"kb":9},"Script":{"n":211,"kb":5957},"Font":{"n":2,"kb":699},"Image":{"n":42,"kb":926},"XHR":{"n":16,"kb":2781},"Fetch":{"n":72,"kb":1812},"Ping":{"n":5,"kb":2},"Preflight":{"n":5,"kb":0}}},
+    {"url":"https://polymarket.com/","throttle":"slow4g","lcp_ms":6092,"nav":{"ttfb":309.8,"dcl":3836.5,"load":58012.5},"total_kb":10248,"requests":370,"byType":{"Document":{"n":4,"kb":274},"Stylesheet":{"n":4,"kb":91},"Other":{"n":2,"kb":10},"Script":{"n":204,"kb":5486},"Image":{"n":51,"kb":949},"Font":{"n":2,"kb":699},"XHR":{"n":16,"kb":919},"Ping":{"n":10,"kb":9},"Fetch":{"n":72,"kb":1811},"Preflight":{"n":5,"kb":0}}},
+    {"url":"https://kalshi.com/","throttle":"none","lcp_ms":456,"total_kb":67,"requests":2,"note":"NOT MEASURED - bot challenge page served (2 requests, 67 KB). Not the real app."}
+  ],
+  "caveats": [
+    "kb = encodedDataLength summed per request (compressed bytes on the wire), including requests made during the post-load wait (8 s unthrottled, 15 s throttled), so polling traffic is included.",
+    "A US geo-block interstitial may be served to this egress region (see 23-COMPETITOR-CAPTURE); the page measured is what this vantage point receives.",
+    "One run per condition; variance not estimated."
+  ]
+}

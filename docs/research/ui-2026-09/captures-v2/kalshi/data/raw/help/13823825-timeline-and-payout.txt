@@ -1,0 +1,17 @@
+URL: https://help.kalshi.com/en/articles/13823825-timeline-and-payout
+HTTP: 200
+Fetched: 2026-09-27T08:39:43Z
+Sitemap lastmod: 2026-03-10T20:27:04Z
+Title: 
+
+Each market has a "Timeline and Payout" section which informs traders when a given market opened, closes, and is expected to payout. There are two different types of closings that a market may have:
+
+- Closure when the outcome occurs
+
+- Closure at a listed date and time
+
+It is important to read timeline and payout information before trading, and to determine which type of closure that market has.
+
+You can find the full description of the closing time for each market in the grey text below the "Pays out" line.
+
+An example of the Timeline and Payout section of a market.

@@ -1,0 +1,11 @@
+URL: https://help.kalshi.com/en/articles/13823813-limit-order-purchase
+HTTP: 200
+Fetched: 2026-09-27T08:39:12Z
+Sitemap lastmod: 2026-03-10T20:27:10Z
+Title: 
+
+When you use a limit order, you set the exact price at which you're willing to buy or sell. For example, if you want to buy 1000 contracts at 79 cents each, rather than the current market price of 80 cents, you can do that. This approach can reduce the total cost and help avoid extra fees.
+
+You first enter the amount of contracts you wish to purchase at the limit price, and then you enter the limit price that you are willing to buy said contracts at. If contracts are then being sold at your limit price (or lower), Kalshi will execute the purchase of those contracts.
+
+*Limit order purchase used to specify price you are willing to buy at.

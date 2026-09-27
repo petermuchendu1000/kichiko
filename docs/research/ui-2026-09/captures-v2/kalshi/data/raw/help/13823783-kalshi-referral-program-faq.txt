@@ -1,0 +1,87 @@
+URL: https://help.kalshi.com/en/articles/13823783-kalshi-referral-program-faq
+HTTP: 200
+Fetched: 2026-09-27T08:38:07Z
+Sitemap lastmod: 2026-08-25T21:36:53Z
+Title: 
+
+How do I refer a friend?
+
+Kalshi's referral program rewards both you and a friend you refer. Grab your unique referral link from Menu → Referrals and share it. After your friend signs up using your link, completes identity verification, and meets the trading requirement shown in their Rewards section, your referral bonus is credited to your account. The current bonus amount and requirements are shown in your Rewards section in the app.
+
+Your personal referral code is also displayed alongside the link, making it easy to share either option with friends.
+
+How do I enter a referral code during sign-up?
+
+When creating your account, look for the code field on the "Enter your birthday" screen. You may see a button "Enter referral code." Tap the "Enter referral code" button and paste the code exactly as provided. If you used a friend's invite link, the code may auto-fill when you complete sign-up. The code is the text at the end of the referral link, e.g., in .../referral=sample-code , the code is sample-code .
+
+Can I add a referral code after signing up?
+
+Sometimes, but only for a limited time. A code can be added within 72 hours of creating your account and only before your first deposit - whichever comes first. The option can be accessed by clicking the waffle icon in the top left on mobile and then clicking "add referral code" below the leaderboard icon. On web, the waffle menu is in the top right.
+
+This 72-hour window begins from the time of your first login, which is considered the account creation moment.
+
+The screenshot above shows the Kalshi mobile app with the waffle menu open. Below the leaderboard icon, an "Add referral code" button is visible. Tap this button to enter your referral code.
+
+If you don't see the option, you may have already deposited, already applied a code, or passed the window. Once that window has closed, a code can't be added retroactively. Additionally, once a referral code is applied, it cannot be changed or replaced.
+
+How much is the referral reward?
+
+Referral reward amounts depend on the program that applies to your account. To see the current reward for your account, open Menu → Referrals in the app or check your Rewards section.
+
+How do I claim my referral credit?
+
+How you claim depends on whether you were referred by someone or you referred a friend.
+​
+
+If you were referred (your signup bonus): If your signup bonus credits automatically, it appears in Menu → Activity → Credit with no further action. If your app shows an "Unlock your referral bonus" banner, your bonus lives in your onboarding checklist. To find it:
+
+- Open the Kalshi app and go to the Home or Explore tab (the main screen when you open the app).
+
+- Near the top, look for the "Unlock your referral bonus" banner, which shows your progress. You may need to scroll down to see it.
+
+- Tap "See all steps" on that banner.
+
+- On the "Unlock your bonus" screen, find the bonus vault card.
+
+- Tap "Unlock bonus amount" (Claim). Your bonus is revealed and credited to your account.
+
+Claiming referral from onboarding checklist
+​
+This can sometimes be easier to locate on the website at kalshi.com .
+​
+
+If you referred a friend: Once your referral reaches the bonus-issued stage, claim it at kalshi.com/account/referrals or Menu → "Invite Friends" in the app. In most cases the credit posts automatically once your referral reaches the bonus-issued stage, and appears in Menu → Activity. If your Rewards section shows a claim step, tap it and the credit posts right after. Or from the credits menu accessed by clicking "credits" on the portfolio page.
+​
+
+Invite friends from the menu
+​
+
+What are the basic requirements to get a referral credit?
+
+To earn a Kalshi referral credit, you must sign up through a referral link or enter a valid referral code during sign-up (or within 72 hours and before your first deposit). Your Kalshi account must be fully verified through KYC.
+
+Is there a limit to how much I can earn?
+
+Yes. There's a lifetime cap on total referral earnings. You can see your progress toward the cap, and the cap amount that applies to your account, in the Rewards section of the app. Once you've reached the cap, additional referrals won't pay out.
+
+Why can't I withdraw my referral credits?
+
+Referral credits aren't cash, they're designed for trading on the platform. Only the profits you make from using referral credits become withdrawable cash. The original referral amount itself usually isn't withdrawable.
+
+How can I check my requirements?
+
+Open the Rewards section in the app to review your specific terms, including trading requirements and expiration dates. Check your Activity to see how referral credits were applied. On the web, navigate to Activity > Credit to view credited bonuses. On mobile, access Menu > Activity > Credit .
+
+My referral code says "invalid or expired" - what should I do?
+
+First, double-check the code was entered exactly as it appears - a typo or autocorrect change is by far the most common cause, so carefully re-enter the exact code. If the exact code still does not work, the code may have expired, or the referring account may not be eligible to make referrals. Referral codes are fixed to each account and cannot be regenerated - there is no way to create a new or "fresh" code, so asking your friend for another code will not resolve the error.
+
+If the referral code didn’t track automatically, you can manually add it within the eligibility criteria mentioned above.
+
+Does it expire?
+
+Referral credits issued by Kalshi must be used within 7 days of issuance, unless otherwise specified, or they will be forfeited. Once credits have expired, they cannot be reissued, reinstated, or extended under any circumstances. Referral credits expire 7 days after issuance. If they are not used within the 7-day validity period, they will expire and cannot be recovered. You can see the exact expiration date in the app under Referrals Hub (it shows "Expires in X days") or Portfolio > Credit.
+
+Eligibility
+
+Referral incentives are only available to U.S. users at this time. International users are not eligible for referral rewards, and this program is not open outside the U.S. at this time.

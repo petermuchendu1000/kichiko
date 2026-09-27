@@ -1,0 +1,11 @@
+2026-09-27T08:31:34Z
+08:31:34 https://kalshi.com/ -> 429 33956 https://kalshi.com/ <title>Vercel Security Checkpoint
+08:31:44 https://web.archive.org/ -> curl: (35) Recv failure: Connection reset by peer
+000 0 https://web.archive.org/ <title>Vercel Security Checkpoint
+08:31:47 https://apps.apple.com/us/app/kalshi-trade-the-news/id6448207512 -> 404 2383 https://apps.apple.com/us/app/kalshi-trade-the-news/id6448207512 
+08:31:50 https://play.google.com/store/apps/details?id=com.kalshi.mobile -> 200 1285838 https://play.google.com/store/apps/details?id=com.kalshi.mobile 
+08:31:54 https://help.kalshi.com/ -> 302 0 https://help.kalshi.com/ 
+08:31:57 https://docs.kalshi.com/ -> 308 107760 https://docs.kalshi.com/ 
+08:32:01 https://api.elections.kalshi.com/trade-api/v2/series?limit=1 -> 200 17635399 https://api.elections.kalshi.com/trade-api/v2/series?limit=1 
+08:32:04 https://news.kalshi.com/ -> 200 1533471 https://news.kalshi.com/ 
+2026-09-27T08:51:18Z https://demo.kalshi.co/ -> 200 1707505 https://demo.kalshi.co/ <title>Kalshi - Prediction Market for Trading the Future

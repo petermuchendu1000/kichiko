@@ -1,0 +1,440 @@
+{
+ "at": "2026-09-27T08:35:44.122Z",
+ "themeToggle": {
+  "before": {
+   "t": "light",
+   "bg": "lab(100 0 0)",
+   "ls": null
+  },
+  "after": {
+   "t": "dark",
+   "bg": "lab(3.97501 -0.0636876 -3.07571)",
+   "ls": {
+    "color-mode": "dark"
+   },
+   "cookies": []
+  }
+ },
+ "politicsCards": [
+  {
+   "href": "/event/balance-of-power-2026-midterms",
+   "text": "Balance of Power: 2026 Midterms Democrats Sweep 62% Yes 62% No 39% R Senate, D House 32% Yes 32% No 69% $14M Vol."
+  },
+  {
+   "href": "/event/us-iran-ceasefire-continues-throughptptpt",
+   "text": "US-Iran ceasefire continues through...? September 30 90% Yes 90% No 11% October 31 52% Yes 52% No 48% $4M Vol."
+  },
+  {
+   "href": "/event/next-french-presidential-election",
+   "text": "Next French Presidential Election Marine Le Pen 38% Yes 38% No 62% Édouard Philippe 22% Yes 22% No 79% $138M Vol."
+  },
+  {
+   "href": "/event/strait-of-hormuz-traffic-returns-to-normal-by-september-30-20260702154339440",
+   "text": "Strait of Hormuz traffic returns to normal by September 30? <1% chance Yes No $11M Vol."
+  },
+  {
+   "href": "/event/will-the-us-confirm-that-aliens-exist-before-2027",
+   "text": "Will the US confirm that aliens exist by...? December 31 4% Yes 4% No 96% September 30 <1% Yes <1% No 100% $71M Vol."
+  },
+  {
+   "href": "/event/bab-el-mandeb-strait-effectively-closed-by",
+   "text": "Bab el-Mandeb Strait effectively closed by...? December 31 19% Yes 19% No 82% October 31 9% Yes 9% No 92% $16M Vol."
+  },
+  {
+   "href": "/event/brazil-presidential-election",
+   "text": "Brazil Presidential Election Flávio Bolsonaro 57% Yes 57% No 43% Luiz Inácio Lula da Silva 44% Yes 44% No 57% $156M Vol."
+  },
+  {
+   "href": "/event/us-announces-end-of-iranian-blockade-byptptpt-20260713152715080",
+   "text": "US announces end of Iranian blockade by...? March 31 73% Yes 73% No 28% December 31 56% Yes 56% No 44% $33M Vol."
+  },
+  {
+   "href": "/event/presidential-election-winner-2028",
+   "text": "Presidential Election Winner 2028 JD Vance 21% Yes 21% No 79% Alexandria Ocasio-Cortez 13% Yes 13% No 87% $710M Vol."
+  },
+  {
+   "href": "/event/will-the-us-invade-iran-before-2027",
+   "text": "Will the U.S. invade Iran before 2027? 16% chance Yes No $70M Vol."
+  },
+  {
+   "href": "/event/will-the-iranian-regime-fall-by-september-30-20260629143335077",
+   "text": "Will the Iranian regime fall by September 30? <1% chance Yes No $3M Vol."
+  },
+  {
+   "href": "/event/elon-musk-of-tweets-september-22-september-29-2026",
+   "text": "Elon Musk # tweets September 22 - September 29, 2026? 160-179 42% Yes 42% No 58% 180-199 29% Yes 29% No 72% $926K Vol."
+  },
+  {
+   "href": "/event/democratic-presidential-nominee-2028",
+   "text": "Democratic Presidential Nominee 2028 Alexandria Ocasio-Cortez 19% Yes 19% No 81% Gavin Newsom 16% Yes 16% No 85% $1B Vol."
+  },
+  {
+   "href": "/event/bulgaria-presidential-election",
+   "text": "Bulgaria Presidential Election Iliana Iotova 79% Yes 79% No 21% Аndrey Gyurov 16% Yes 16% No 84% $740K Vol."
+  },
+  {
+   "href": "/event/los-angeles-mayoral-election-117",
+   "text": "Los Angeles Mayoral Election Nithya Raman 59% Yes 59% No 41% Karen Bass 43% Yes 43% No 58% $15M Vol."
+  },
+  {
+   "href": "/event/strait-of-hormuz-traffic-returns-to-normal-by-december-31",
+   "text": "Strait of Hormuz traffic returns to normal by December 31? 21% chance Yes No $13M Vol."
+  },
+  {
+   "href": "/event/elon-musk-of-tweets-september-26-september-28-2026",
+   "text": "Elon Musk # tweets September 26 - September 28, 2026? 40-64 66% Yes 66% No 34% <40 28% Yes 28% No 72% $124K Vol."
+  },
+  {
+   "href": "/event/who-will-be-the-next-prime-minister-of-israel-after-the-next-election",
+   "text": "Prime Minister of Israel after the next election? Gadi Eizenkot 52% Yes 52% No 48% Benjamin Netanyahu 30% Yes 30% No 71% $39M Vol."
+  },
+  {
+   "href": "/event/iran-leadership-change-by",
+   "text": "Iran leadership change by...? June 30, 2027 23% Yes 23% No 78% December 31 11% Yes 11% No 90% $26M Vol."
+  },
+  {
+   "href": "/event/elon-musk-of-tweets-september-25-october-2-2026",
+   "text": "Elon Musk # tweets September 25 - October 2, 2026? 180-199 29% Yes 29% No 72% 200-219 23% Yes 23% No 78% $531K Vol."
+  },
+  {
+   "href": "/event/saudi-oil-pipeline-east-west-restarts-byptptpt",
+   "text": "Saudi Oil Pipeline (East-West) restarts by...? Brazil Presidential Election First Round: 2nd Place Serbia Parliamentary Election Winner Vene"
+  },
+  {
+   "href": "/event/brazil-presidential-election-first-round-2nd-place",
+   "text": "Saudi Oil Pipeline (East-West) restarts by...? Brazil Presidential Election First Round: 2nd Place Serbia Parliamentary Election Winner Vene"
+  },
+  {
+   "href": "/event/serbia-parliamentary-election-winner-2026",
+   "text": "Saudi Oil Pipeline (East-West) restarts by...? Brazil Presidential Election First Round: 2nd Place Serbia Parliamentary Election Winner Vene"
+  },
+  {
+   "href": "/event/venezuela-leader-end-of-2026",
+   "text": "Saudi Oil Pipeline (East-West) restarts by...? Brazil Presidential Election First Round: 2nd Place Serbia Parliamentary Election Winner Vene"
+  },
+  {
+   "href": "/event/putin-out-before-2027",
+   "text": "Saudi Oil Pipeline (East-West) restarts by...? Brazil Presidential Election First Round: 2nd Place Serbia Parliamentary Election Winner Vene"
+  },
+  {
+   "href": "/event/which-party-will-win-the-house-in-2026",
+   "text": "Saudi Oil Pipeline (East-West) restarts by...? Brazil Presidential Election First Round: 2nd Place Serbia Parliamentary Election Winner Vene"
+  },
+  {
+   "href": "/event/south-carolina-senate-election-winner",
+   "text": "Saudi Oil Pipeline (East-West) restarts by...? Brazil Presidential Election First Round: 2nd Place Serbia Parliamentary Election Winner Vene"
+  },
+  {
+   "href": "/event/will-china-invade-taiwan-by-september-30-2026",
+   "text": "Saudi Oil Pipeline (East-West) restarts by...? Brazil Presidential Election First Round: 2nd Place Serbia Parliamentary Election Winner Vene"
+  },
+  {
+   "href": "/event/nobel-peace-prize-winner-2026-139",
+   "text": "Saudi Oil Pipeline (East-West) restarts by...? Brazil Presidential Election First Round: 2nd Place Serbia Parliamentary Election Winner Vene"
+  },
+  {
+   "href": "/event/strait-of-hormuz-traffic-returns-to-normal-by-october-31-20260810151043583",
+   "text": "Saudi Oil Pipeline (East-West) restarts by...? Brazil Presidential Election First Round: 2nd Place Serbia Parliamentary Election Winner Vene"
+  },
+  {
+   "href": "/event/iowa-senate-election-winner",
+   "text": "Iowa Senate Election Winner Next Prime Minister of Sweden Trump renames AI by...? Russia military action against EU country by...? Elon Musk"
+  },
+  {
+   "href": "/event/next-prime-minister-of-sweden",
+   "text": "Iowa Senate Election Winner Next Prime Minister of Sweden Trump renames AI by...? Russia military action against EU country by...? Elon Musk"
+  },
+  {
+   "href": "/event/trump-renames-ai-by-september-30",
+   "text": "Iowa Senate Election Winner Next Prime Minister of Sweden Trump renames AI by...? Russia military action against EU country by...? Elon Musk"
+  },
+  {
+   "href": "/event/russia-military-action-against-eu-country-byptptpt",
+   "text": "Iowa Senate Election Winner Next Prime Minister of Sweden Trump renames AI by...? Russia military action against EU country by...? Elon Musk"
+  },
+  {
+   "href": "/event/elon-musk-of-tweets-september-29-october-6-2026",
+   "text": "Iowa Senate Election Winner Next Prime Minister of Sweden Trump renames AI by...? Russia military action against EU country by...? Elon Musk"
+  },
+  {
+   "href": "/event/lima-mayoral-election-winner-20260724153924694",
+   "text": "Iowa Senate Election Winner Next Prime Minister of Sweden Trump renames AI by...? Russia military action against EU country by...? Elon Musk"
+  },
+  {
+   "href": "/event/brazil-presidential-election-first-round-3rd-place",
+   "text": "Iowa Senate Election Winner Next Prime Minister of Sweden Trump renames AI by...? Russia military action against EU country by...? Elon Musk"
+  },
+  {
+   "href": "/event/dtrump-out-as-president-by-september-30",
+   "text": "Iowa Senate Election Winner Next Prime Minister of Sweden Trump renames AI by...? Russia military action against EU country by...? Elon Musk"
+  },
+  {
+   "href": "/event/russia-x-ukraine-ceasefire-agreement-by",
+   "text": "Iowa Senate Election Winner Next Prime Minister of Sweden Trump renames AI by...? Russia military action against EU country by...? Elon Musk"
+  },
+  {
+   "href": "/event/which-candidates-will-advance-to-brazils-presidential-runoff",
+   "text": "Iowa Senate Election Winner Next Prime Minister of Sweden Trump renames AI by...? Russia military action against EU country by...? Elon Musk"
+  },
+  {
+   "href": "/event/elon-musk-of-tweets-september-28-september-30-2026",
+   "text": "Elon Musk # tweets September 28 - September 30, 2026? Elon Musk # tweets September 29 - October 6, 2026? CZ # posts September 29 - October 6"
+  },
+  {
+   "href": "/event/cz-binance-of-tweets-september-29-october-6-2026",
+   "text": "Elon Musk # tweets September 28 - September 30, 2026? Elon Musk # tweets September 29 - October 6, 2026? CZ # posts September 29 - October 6"
+  },
+  {
+   "href": "/event/white-house-of-tweets-september-29-october-6-2026",
+   "text": "Elon Musk # tweets September 28 - September 30, 2026? Elon Musk # tweets September 29 - October 6, 2026? CZ # posts September 29 - October 6"
+  },
+  {
+   "href": "/event/zelenskyy-of-tweets-september-29-october-6-2026",
+   "text": "Elon Musk # tweets September 28 - September 30, 2026? Elon Musk # tweets September 29 - October 6, 2026? CZ # posts September 29 - October 6"
+  },
+  {
+   "href": "/event/donald-trump-of-truth-social-posts-september-29-october-6-2026",
+   "text": "Elon Musk # tweets September 28 - September 30, 2026? Elon Musk # tweets September 29 - October 6, 2026? CZ # posts September 29 - October 6"
+  },
+  {
+   "href": "/event/khamenei-of-tweets-september-29-october-6-2026",
+   "text": "Elon Musk # tweets September 28 - September 30, 2026? Elon Musk # tweets September 29 - October 6, 2026? CZ # posts September 29 - October 6"
+  },
+  {
+   "href": "/event/nyc-mayor-of-tweets-september-29-october-6-2026",
+   "text": "Elon Musk # tweets September 28 - September 30, 2026? Elon Musk # tweets September 29 - October 6, 2026? CZ # posts September 29 - October 6"
+  },
+  {
+   "href": "/event/ted-cruz-of-tweets-september-29-october-6-2026",
+   "text": "Elon Musk # tweets September 28 - September 30, 2026? Elon Musk # tweets September 29 - October 6, 2026? CZ # posts September 29 - October 6"
+  },
+  {
+   "href": "/event/la-mayoral-election-margin-of-victory",
+   "text": "Elon Musk # tweets September 28 - September 30, 2026? Elon Musk # tweets September 29 - October 6, 2026? CZ # posts September 29 - October 6"
+  },
+  {
+   "href": "/event/trump-admin-held-in-contempt-over-press-ban-by-october-31",
+   "text": "Trump Admin held in contempt over press ban by October 31? Which Dems will underperform Kamala? Will Republicans lose any \"Safe Republican\" "
+  },
+  {
+   "href": "/event/which-dems-will-underperform-kamala",
+   "text": "Trump Admin held in contempt over press ban by October 31? Which Dems will underperform Kamala? Will Republicans lose any \"Safe Republican\" "
+  },
+  {
+   "href": "/event/will-republicans-lose-any-safe-republican-senate-race",
+   "text": "Trump Admin held in contempt over press ban by October 31? Which Dems will underperform Kamala? Will Republicans lose any \"Safe Republican\" "
+  },
+  {
+   "href": "/event/serbia-election-student-list-vote-share",
+   "text": "Trump Admin held in contempt over press ban by October 31? Which Dems will underperform Kamala? Will Republicans lose any \"Safe Republican\" "
+  },
+  {
+   "href": "/event/serbia-election-united-serbia-vote-share",
+   "text": "Trump Admin held in contempt over press ban by October 31? Which Dems will underperform Kamala? Will Republicans lose any \"Safe Republican\" "
+  },
+  {
+   "href": "/event/serbia-parliamentary-election-3rd-place",
+   "text": "Trump Admin held in contempt over press ban by October 31? Which Dems will underperform Kamala? Will Republicans lose any \"Safe Republican\" "
+  },
+  {
+   "href": "/event/what-will-trump-say-this-week-september-28-october-4-20261004",
+   "text": "Trump Admin held in contempt over press ban by October 31? Which Dems will underperform Kamala? Will Republicans lose any \"Safe Republican\" "
+  },
+  {
+   "href": "/event/what-will-trump-post-this-week-september-28-october-4-2026",
+   "text": "Trump Admin held in contempt over press ban by October 31? Which Dems will underperform Kamala? Will Republicans lose any \"Safe Republican\" "
+  },
+  {
+   "href": "/event/serbia-parliamentary-election-turnout",
+   "text": "Trump Admin held in contempt over press ban by October 31? Which Dems will underperform Kamala? Will Republicans lose any \"Safe Republican\" "
+  },
+  {
+   "href": "/event/trump-putin-and-xi-seen-together-before-2027",
+   "text": "Trump Admin held in contempt over press ban by October 31? Which Dems will underperform Kamala? Will Republicans lose any \"Safe Republican\" "
+  }
+ ],
+ "leaderboardProfiles": [
+  {
+   "href": "/profile/0x111f73e91f85b6fe4de1ddec3de2fe32122e355b",
+   "text": "Papeasy"
+  },
+  {
+   "href": "/profile/0x4f1d5ae26fc31472966e951af3183308736d8de2",
+   "text": "e46m3"
+  },
+  {
+   "href": "/profile/0x51698a47f840a242abc2ca0351371c7ffac41842",
+   "text": "00gringo00"
+  },
+  {
+   "href": "/profile/0x34dd4a4b70eaf79a17878f7938263c801d4dfd83",
+   "text": "vito3corleone"
+  },
+  {
+   "href": "/profile/0x3a8aa345d5db7ec5138298c8c4f4540259be7699",
+   "text": "TheReturnOfDarthMaul"
+  },
+  {
+   "href": "/profile/0x0f6f76ced62a911bccef92f50faaff143854d977",
+   "text": "totoro3miyazaki"
+  },
+  {
+   "href": "/profile/0xfea31bc088000ff909be1dfd8d0e3f2c7ef2d227",
+   "text": "ndb1"
+  },
+  {
+   "href": "/profile/0x821dab0565ebf5b327f51db06223fdcfe01acf16",
+   "text": "Flaznorp"
+  },
+  {
+   "href": "/profile/0x2a69660046d7acc4ab204d7cc5ba78b0776cd2f7",
+   "text": "UpTheBlues"
+  },
+  {
+   "href": "/profile/0x924379a79c64b77ad5816ad362122a5f6228658e",
+   "text": "Kch-Temp"
+  }
+ ],
+ "activityLinks": [
+  {
+   "href": "/profile/0xbeaa8b0144cb915b617bdaacfcf78795f481efeb",
+   "text": "Vibrant-Paperbac..."
+  },
+  {
+   "href": "/profile/0xea39e6ba17f908074104f1880569fa783f7f6a94",
+   "text": "Radiant-Station"
+  },
+  {
+   "href": "/profile/0x576b0696fd5a9225d66fd9500fd98f5be10b0cab",
+   "text": "Hcrystallash"
+  },
+  {
+   "href": "/profile/0xc19d026ee86f852eb781bd41ce2afd23edddf9fa",
+   "text": "sonic17"
+  },
+  {
+   "href": "/profile/0xddb6e6246546230503f153506ac1e9914978b9b3",
+   "text": "baseinv3"
+  },
+  {
+   "href": "/profile/0xc19d026ee86f852eb781bd41ce2afd23edddf9fa",
+   "text": "sonic17"
+  },
+  {
+   "href": "/profile/0xfccc9c3e31f971d495327dded086c0a8bdff8025",
+   "text": "Boiling-Someplac..."
+  },
+  {
+   "href": "/profile/0x4bcd04f17b37a5e0c6c863f202cd04a3ca2dc00f",
+   "text": "Irina1972"
+  },
+  {
+   "href": "/profile/0x672c9e0698b0d668f8fd8baf0e1e19c76142881b",
+   "text": "Antonio1729-2"
+  },
+  {
+   "href": "/profile/0x47138dc1eef25f1ea91f3b2fda0e0f455c634d21",
+   "text": "dsknadkasnkfjs"
+  },
+  {
+   "href": "/profile/0x4bed7119658a275aa5ede289e7935cecf1d25cd6",
+   "text": "GB-14"
+  },
+  {
+   "href": "/event/btc-updown-5m-1790498100",
+   "text": "Bitcoin Up or Down - September 27, 4:35AM-4:40AM ET"
+  }
+ ],
+ "profileTabs": [
+  "Continue in view only mode",
+  "How it works",
+  "Log in",
+  "Sign up",
+  "More",
+  "Predictions",
+  "Perps",
+  "1D",
+  "1W",
+  "1M",
+  "1Y",
+  "YTD",
+  "ALL",
+  "Positions",
+  "Activity",
+  "Active",
+  "Closed",
+  "Value",
+  "Value",
+  "CURRENT",
+  "VALUE",
+  "Show more positions",
+  "View more",
+  "English",
+  "Predictions",
+  "Perps",
+  "1D",
+  "1W",
+  "1M",
+  "1Y",
+  "YTD",
+  "ALL",
+  "Positions",
+  "Activity",
+  "Active",
+  "Closed",
+  "Value",
+  "Value",
+  "Current",
+  "Value"
+ ],
+ "profileClosedLinks": [
+  {
+   "href": "/event/btc-updown-15m-1774188000",
+   "text": ""
+  },
+  {
+   "href": "/event/btc-updown-15m-1774188000",
+   "text": "Bitcoin Up or Down - March 22, 10:00AM-10:15AM ET"
+  },
+  {
+   "href": "/event/btc-updown-15m-1774188000",
+   "text": ""
+  },
+  {
+   "href": "/event/btc-updown-15m-1774188000",
+   "text": "Bitcoin Up or Down - March 22, 10:00AM-10:15AM ET"
+  },
+  {
+   "href": "/event/btc-updown-15m-1774125000",
+   "text": ""
+  },
+  {
+   "href": "/event/btc-updown-15m-1774125000",
+   "text": "Bitcoin Up or Down - March 21, 4:30PM-4:45PM ET"
+  },
+  {
+   "href": "/event/btc-updown-15m-1774125000",
+   "text": ""
+  },
+  {
+   "href": "/event/btc-updown-15m-1774125000",
+   "text": "Bitcoin Up or Down - March 21, 4:30PM-4:45PM ET"
+  },
+  {
+   "href": "/event/btc-updown-15m-1774971000",
+   "text": ""
+  },
+  {
+   "href": "/event/btc-updown-15m-1774971000",
+   "text": "Bitcoin Up or Down - March 31, 11:30AM-11:45AM ET"
+  },
+  {
+   "href": "/event/btc-updown-15m-1774971000",
+   "text": ""
+  },
+  {
+   "href": "/event/btc-updown-15m-1774971000",
+   "text": "Bitcoin Up or Down - March 31, 11:30AM-11:45AM ET"
+  }
+ ]
+}

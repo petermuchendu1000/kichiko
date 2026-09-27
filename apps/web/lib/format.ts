@@ -63,6 +63,18 @@ export function formatPercent(
   }).format(ratio)
 }
 
+/**
+ * A probability for display: whole-number percent from a 0..1 ratio, with honest
+ * edges so a 0.4% longshot never reads "0%" and 99.6% never reads "100%"
+ * (work plan v2, rule PR-1). Use this for every displayed chance.
+ */
+export function formatProbability(ratio: number, locale: string = DEFAULT_LOCALE): string {
+  const v = ratio * 100
+  if (v > 0 && v < 1) return '<1%'
+  if (v > 99 && v < 100) return '>99%'
+  return formatPercent(Math.round(v) / 100, locale)
+}
+
 /** Compact large numbers, e.g. 2_400_000 -> "2.4M". */
 export function formatCompact(value: number, locale: string = DEFAULT_LOCALE): string {
   return new Intl.NumberFormat(resolveLocale(locale), {

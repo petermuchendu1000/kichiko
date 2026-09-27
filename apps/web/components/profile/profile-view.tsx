@@ -445,7 +445,7 @@ function ReferralCard({
       <SectionTitle>Refer a friend</SectionTitle>
       <div className="card p-4">
         <p className="mb-3 text-xs" style={{ color: 'var(--text-muted)' }}>
-          Share your code — you both earn a bonus when they join and trade.
+          Share your code with friends who want to join Kichiko.
         </p>
         <div className="flex gap-2">
           <input className="input mono flex-1 text-sm" readOnly value={code} aria-label="Referral code" />

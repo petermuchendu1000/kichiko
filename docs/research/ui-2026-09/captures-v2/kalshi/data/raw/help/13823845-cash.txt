@@ -1,0 +1,11 @@
+URL: https://help.kalshi.com/en/articles/13823845-cash
+HTTP: 200
+Fetched: 2026-09-27T08:40:18Z
+Sitemap lastmod: 2026-03-10T20:27:06Z
+Title: 
+
+The 'cash' value is the number of unallocated funds that a trader has in their account at any given moment. These are the funds that are not yet invested in any particular positions or markets and are considered liquid assets. This liquidity affords traders the agility to respond quickly to market developments and opportunities without the delay of waiting for funds to clear from investments. Uninvested funds in the cash balance can be quickly allocated to trades or withdrawn as needed, thus offering a seamless and user-friendly trading experience.
+
+If a trader is planning to withdraw their funds from Kalshi, it is important that they first ensure all funds are moved to the 'cash' tab within their account. This is an essential step because only funds categorized as 'cash' are eligible to be withdrawn from the platform. Without moving funds to this category, the withdrawal process cannot be successfully carried out.
+
+When a trader makes a deposit into their Kalshi account, the funds they add are initially applied to their cash balance. This cash balance serves as a holding area where traders can monitor and manage their available funds. From this cash balance, traders have the flexibility to purchase positions in any of the open markets that Kalshi offers.

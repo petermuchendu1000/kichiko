@@ -70,6 +70,8 @@ jobs:
           cache-dependency-path: package-lock.json
       - run: npm ci
       - run: npm run lint
+      - name: Tailwind classes resolve to tokens
+        run: node scripts/check-tailwind-classes.mjs
 
   type-check:
     name: Type check

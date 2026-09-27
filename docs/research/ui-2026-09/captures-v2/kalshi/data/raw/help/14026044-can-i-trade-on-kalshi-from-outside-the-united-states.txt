@@ -1,0 +1,33 @@
+URL: https://help.kalshi.com/en/articles/14026044-can-i-trade-on-kalshi-from-outside-the-united-states
+HTTP: 200
+Fetched: 2026-09-27T08:40:36Z
+Sitemap lastmod: 2026-03-20T14:29:24Z
+Title: 
+
+Can I trade on Kalshi from outside the United States?
+
+Yes, you can trade on Kalshi from many countries. Your eligibility to trade on Kalshi from outside the United States is subject to the terms of the Kalshi Member Agreement . During signup, you will be asked to verify your identity and confirm your country of residence.
+
+Are there any country restrictions for using Kalshi?
+
+Yes, there are country restrictions, as eligibility to trade on Kalshi is subject to the terms outlined in the Kalshi Member Agreement . Supported countries and any specific geographic restrictions are detailed in that agreement.
+
+What payment methods are available for international users?
+
+International users may have access to the following deposit and withdrawal methods, depending on their region:
+
+- Debit card (Visa/Mastercard only)
+
+- Wire transfer (minimum $1,000)
+
+- Cryptocurrency
+
+Note: Automated Clearing House (ACH) bank transfers, PayPal, and Venmo are not available for international users. For withdrawals, international users can use debit card or cryptocurrency.
+
+Can I use Kalshi while traveling abroad?
+
+Yes, you can use Kalshi while traveling, provided that access is consistent with the eligibility and geographic requirements outlined in the Kalshi Member Agreement .
+
+Do I need a US phone number to sign up for Kalshi?
+
+No, you do not need a United States phone number to sign up for Kalshi. Kalshi supports phone numbers from most countries. However, some country codes are not supported. If you receive an error when entering your phone number during signup, try using an alternative phone number.

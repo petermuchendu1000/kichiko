@@ -286,11 +286,6 @@
       "kind": "read_only",
       "reason": "read-only (STABLE/IMMUTABLE) public/self-scoped data"
     },
-    "get_leaderboard": {
-      "guarded": false,
-      "kind": "read_only",
-      "reason": "read-only (STABLE/IMMUTABLE) public/self-scoped data"
-    },
     "get_my_profile": {
       "guarded": true,
       "kind": "read_only",

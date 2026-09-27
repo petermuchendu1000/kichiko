@@ -37,7 +37,22 @@ function resolveHex(value: string, vars: Record<string, string>, depth = 0): str
     if (h.length === 3) h = h.split('').map((c) => c + c).join('')
     return `#${h.toLowerCase()}`
   }
+  // shadcn HSL bridge values are bare triplets: `227 78% 53%`.
+  const hsl = v.match(/^(\d+(?:\.\d+)?)\s+(\d+(?:\.\d+)?)%\s+(\d+(?:\.\d+)?)%$/)
+  if (hsl) return hslToHex(Number(hsl[1]), Number(hsl[2]), Number(hsl[3]))
   throw new Error(`cannot resolve to hex: "${value}"`)
+}
+
+function hslToHex(h: number, s: number, l: number): string {
+  const sat = s / 100
+  const light = l / 100
+  const a = sat * Math.min(light, 1 - light)
+  const f = (n: number) => {
+    const k = (n + h / 30) % 12
+    const c = light - a * Math.max(-1, Math.min(k - 3, 9 - k, 1))
+    return Math.round(c * 255).toString(16).padStart(2, '0')
+  }
+  return `#${f(0)}${f(8)}${f(4)}`
 }
 
 function lin(c: number) {
@@ -91,6 +106,39 @@ describe('a11y — base --yes/--no remain valid for graphics/fills (3:1)', () =>
         const fg = resolveHex(`var(${token})`, vars)
         const bg = resolveHex('var(--surface)', vars)
         expect(contrast(fg, bg)).toBeGreaterThanOrEqual(AA_GRAPHIC)
+      })
+    }
+  }
+})
+
+// The shadcn HSL bridge is mapped to Tailwind names (bg-muted, text-muted-foreground,
+// bg-primary …) and used ~440 times, almost all in the admin console. Every text/
+// surface pairing those utilities actually render must clear AA in both themes.
+describe('a11y — shadcn HSL bridge text pairs clear WCAG AA (4.5:1)', () => {
+  const PAIRS: Array<[string, string]> = [
+    ['--foreground', '--background'],
+    ['--foreground', '--card'],
+    ['--card-foreground', '--card'],
+    ['--muted-foreground', '--background'],
+    ['--muted-foreground', '--card'],
+    ['--muted-foreground', '--muted'],
+    ['--muted-foreground', '--surface'],
+    ['--muted-foreground', '--surface-2'],
+    ['--primary-foreground', '--primary'],
+    ['--primary', '--background'],
+    ['--primary', '--card'],
+    ['--primary', '--muted'],
+    ['--primary', '--surface'],
+  ]
+  for (const [theme, vars] of [
+    ['light', rootVars],
+    ['dark', darkVars],
+  ] as const) {
+    for (const [fgToken, bgToken] of PAIRS) {
+      it(`${theme}: ${fgToken} on ${bgToken} >= 4.5:1`, () => {
+        const fg = resolveHex(`var(${fgToken})`, vars)
+        const bg = resolveHex(`var(${bgToken})`, vars)
+        expect(contrast(fg, bg)).toBeGreaterThanOrEqual(AA_TEXT)
       })
     }
   }

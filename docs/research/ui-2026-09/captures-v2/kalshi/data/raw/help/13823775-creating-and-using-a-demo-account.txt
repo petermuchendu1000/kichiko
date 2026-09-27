@@ -1,0 +1,97 @@
+URL: https://help.kalshi.com/en/articles/13823775-creating-and-using-a-demo-account
+HTTP: 200
+Fetched: 2026-09-27T08:37:45Z
+Sitemap lastmod: 2026-09-24T03:28:05Z
+Title: 
+
+How Do I Set Up and Use a Kalshi Demo Account?
+
+Kalshi's demo environment lets you explore the platform and practice trading using mock funds.
+
+Your demo account credentials are completely separate from your production account credentials, so your financial and personal data stay secure.
+
+Getting Started
+
+demo.kalshi.co is Kalshi’s official Demo trading environment. We understand the .co domain may be confusing, but the .com version is not a valid Kalshi domain. This is the correct URL/domain for the Kalshi Demo environment.
+
+We recommend following our tutorial when creating your demo account:
+
+Link: Sign Up for a Demo Account
+
+A few things to keep in mind:
+
+- You can just use mock information when signing up (fake name, address, Social Security Number, etc.), no real personal details needed.
+
+- Make sure you use an email you can access and remember your password .
+
+- Your demo account won't have funds preloaded, so follow the tutorial to add mock funds using a test payment method.
+
+Adding Funds
+
+Your demo account does not come with funds preloaded. Use the test payment methods below to add mock funds.
+
+Debit Card (Recommended)
+
+The demo environment accepts test card numbers. Use any future expiration date and any 3-digit Card Verification Value (CVV).
+
+Card
+
+Number
+
+Visa Debit
+
+4000 0566 5566 5556
+
+Mastercard Debit
+
+5200 8282 8282 8210
+
+Google Pay
+
+If you have a test card saved to your Google Pay wallet, you can use it to deposit in the demo environment. Just select Google Pay as your payment method in the browser and choose your test card. The Google Pay interface processes the transaction as a debit card payment behind the scenes.
+
+Bank Account (ACH)
+
+When prompted to link a bank account via Plaid, a service used to securely connect bank accounts, use the following sandbox credentials:
+
+Field
+
+Value
+
+Username
+
+user_good
+
+Password
+
+pass_good
+
+Phone Number
+
+415-555-0010
+
+OTP Code
+
+123456
+
+Select any bank account from the list after logging in. Mock funds will appear after the mock Automated Clearing House (ACH) transfer settles.
+
+Cryptocurrency
+
+Warning: The demo environment uses test networks , not real blockchains. Do NOT send real cryptocurrency to a demo deposit address - real funds sent to a demo address cannot be recovered.
+
+You can add mock funds with test USDC on the Solana Devnet test network, using Circle's public test token faucet:
+
+- In your demo account, start a crypto deposit and select USDC on Solana . Copy the address shown under Your address .
+
+- Go to faucet.circle.com , select USDC and the Solana Devnet network, paste your demo deposit address, and request tokens.
+
+- The test USDC is sent directly to your demo account and appears as mock funds once the transfer is confirmed. 1 test USDC is credited as $1.
+
+Note: Select Solana Devnet in the faucet. Test USDC on other networks will not arrive at your Solana deposit address. The faucet limits how often you can request tokens, so request again later if you need more.
+
+Demo troubleshooting
+
+Sometimes, the Demo environment may be under construction. In the event of this, we recommend checking back later anytime over the next 24 hours, as it should be back up and running shortly. We apologize for any inconvenience or confusion may cause if this is ever unclear.
+
+Note: Nothing you do in the demo environment affects your production account. All test payment methods use sandbox or test networks - no real money is involved. Additionally, there are no conflicts with using the same email or information between the two environments.

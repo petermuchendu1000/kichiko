@@ -1,0 +1,37 @@
+URL: https://help.kalshi.com/en/articles/13823836-how-are-prices-determined
+HTTP: 200
+Fetched: 2026-09-27T08:40:05Z
+Sitemap lastmod: 2026-03-10T20:24:46Z
+Title: 
+
+Understanding the Basics
+
+Kalshi, a market prediction platform, employs a dynamic pricing model that directly correlates with the market's perceived probability of a specific event occurring. This innovative approach allows for real-time fluctuations in contract prices, ensuring that they accurately reflect the consensus opinion of the market participants.
+
+The Contract Price Mechanism
+
+At the core of Kalshi's pricing system is the concept of market-assigned probability. The platform continuously assesses the collective sentiment of its users regarding the likelihood of an event resulting in a "Yes" or "No" outcome. This probability is expressed as a percentage, ranging from 0% (certain to not happen) to 100% (certain to happen).
+
+The contract price for a particular event is directly tied to this probability. As the perceived likelihood of a "Yes" outcome increases, the contract price for "Yes" will rise, while the contract price for "No" will correspondingly decrease. Conversely, if the market believes a "No" outcome is more probable, the contract price for "No" will increase, and the contract price for "Yes" will fall.
+
+A Concrete Example
+
+To illustrate this concept, let's consider a hypothetical market predicting whether a specific company will launch a new product by the end of the year. If the market consensus is that there's a 70% chance of the launch happening, the contract price for "Yes" would be 70 cents, while the contract price for "No" would be 30 cents.
+
+Matching Orders and Price Discovery
+
+Kalshi facilitates trading by matching buyers and sellers with opposing views. When a user invests in a market, the platform searches for another user who is willing to take the opposite side of the trade. For instance, if one user believes the event is likely to happen (and buys a "Yes" contract), Kalshi will pair them with a user who believes the event is unlikely to happen (and buys a "No" contract).
+
+The combined investment of both users must equal $1. In our previous example, if the contract price for "Yes" is 70 cents and the contract price for "No" is 30 cents, then a buyer of "Yes" and a buyer of "No" would together contribute $1 to the market.
+
+The Benefits of Dynamic Pricing
+
+Kalshi's dynamic pricing model offers several advantages:
+
+- Accurate Reflection of Market Sentiment: The contract prices consistently reflect the prevailing market opinion, ensuring that investors can make informed decisions based on real-time information.
+
+- Efficient Price Discovery: As more users participate in the market, the pricing mechanism becomes increasingly efficient at discovering the true probability of an event.
+
+- Fairness and Transparency: The system is designed to be fair and transparent, with all participants having access to the same information and pricing.
+
+- Incentive for Accurate Predictions: The dynamic pricing model encourages users to provide accurate predictions, as those who consistently make correct assessments can potentially profit from their insights.

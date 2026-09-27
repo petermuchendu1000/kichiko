@@ -1,0 +1,15 @@
+URL: https://help.kalshi.com/en/articles/13823789-voluntary-self-exclusion
+HTTP: 200
+Fetched: 2026-09-27T08:38:13Z
+Sitemap lastmod: 2026-03-16T23:37:59Z
+Title: 
+
+Here at Kalshi, we take responsible trading seriously and are committed to protecting our traders. We recognize that sometimes traders may not have all resources necessary to trade in a responsible manner. We offer proactive tools and support meant to encourage responsible trading behavior and to ensure safe trader experiences
+
+One tool that we offer is the Voluntary Self-Exclusion . This is a process by which a Member or potential Member can restrict their own access to Kalshi’s markets in order to limit their potential losses on the exchange. Kalshi permits individuals to request to be excluded from trading activities for a specific term of time on Kalshi.com, via Kalshi’s API, and via the Kalshi app.
+
+We also offer access to broader ecosystem-wide self-exclusion through SelfExclude.io for individuals who want to self-exclude across participating prediction market platforms.
+
+> Please note that Voluntary Self-Exclusion does not limit a trader's ability to access Kalshi products via a Futures Commission Merchant. It is ultimately the trader's responsibility not to trade during this time.
+
+Note: If you have open positions, you won’t be able to sell them during a self-exclusion period, so please close out any positions you don’t want to hold for the duration of before self-excluding.

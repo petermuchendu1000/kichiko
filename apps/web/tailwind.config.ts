@@ -46,8 +46,27 @@ const config: Config = {
         // Semantic surfaces (from CSS vars)
         surface: 'var(--surface)',
         'surface-2': 'var(--surface-2)',
-        hairline: 'var(--hairline)',
+        hairline: { DEFAULT: 'var(--hairline)', strong: 'var(--hairline-strong)' },
         border:  'var(--hairline)',
+        // shadcn HSL bridge (globals.css --background/--muted/...). Without these
+        // names, bg-muted / text-muted-foreground / bg-primary compiled to nothing
+        // (442 uses). <alpha-value> keeps opacity modifiers like bg-muted/50 working.
+        // `secondary` and `accent` are deliberately NOT mapped: their shadcn values
+        // are near-white surfaces, so `text-secondary` would render near-invisible.
+        background: 'hsl(var(--background) / <alpha-value>)',
+        foreground: 'hsl(var(--foreground) / <alpha-value>)',
+        card: {
+          DEFAULT: 'hsl(var(--card) / <alpha-value>)',
+          foreground: 'hsl(var(--card-foreground) / <alpha-value>)',
+        },
+        primary: {
+          DEFAULT: 'hsl(var(--primary) / <alpha-value>)',
+          foreground: 'hsl(var(--primary-foreground) / <alpha-value>)',
+        },
+        muted: {
+          DEFAULT: 'hsl(var(--muted) / <alpha-value>)',
+          foreground: 'hsl(var(--muted-foreground) / <alpha-value>)',
+        },
         ink: {
           50: '#F4F5F6', 100: '#E6E8EA', 200: '#CACED3', 300: '#AEB4BC', 400: '#939AA5',
           500: '#77808D', 600: '#5F6772', 700: '#484E56', 800: '#31353A', 900: '#1A1C1F', 950: '#0E0F11',

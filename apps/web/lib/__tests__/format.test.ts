@@ -44,3 +44,15 @@ describe('format — relative time', () => {
     expect(formatRelativeTime(new Date('2026-07-06T12:00:00Z'), 'en', base)).toMatch(/in 3 days/)
   })
 })
+
+describe('formatProbability (work plan v2, PR-1)', () => {
+  it('shows whole-number percentages with honest edges', async () => {
+    const { formatProbability } = await import('@/lib/format')
+    expect(formatProbability(0.786)).toBe('79%')
+    expect(formatProbability(0.5)).toBe('50%')
+    expect(formatProbability(0.004)).toBe('<1%')
+    expect(formatProbability(0.996)).toBe('>99%')
+    expect(formatProbability(0)).toBe('0%')
+    expect(formatProbability(1)).toBe('100%')
+  })
+})

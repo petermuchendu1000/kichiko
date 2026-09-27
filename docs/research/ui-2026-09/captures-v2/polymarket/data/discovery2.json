@@ -1,0 +1,451 @@
+{
+ "at": "2026-09-27T08:34:52.393Z",
+ "desktop:Open user menu": [
+  {
+   "role": null,
+   "text": "Leaderboard Rewards APIs Dark mode Accuracy Status Documentation Help Center Terms of Use Language",
+   "items": [
+    {
+     "tag": "A",
+     "role": null,
+     "name": "Leaderboard",
+     "href": "/leaderboard",
+     "state": null
+    },
+    {
+     "tag": "A",
+     "role": null,
+     "name": "Rewards",
+     "href": "/rewards",
+     "state": null
+    },
+    {
+     "tag": "A",
+     "role": null,
+     "name": "APIs",
+     "href": "https://docs.polymarket.com/api-reference",
+     "state": null
+    },
+    {
+     "tag": "SPAN",
+     "role": "switch",
+     "name": "",
+     "href": null,
+     "state": "false"
+    },
+    {
+     "tag": "A",
+     "role": null,
+     "name": "Accuracy",
+     "href": "/accuracy",
+     "state": null
+    },
+    {
+     "tag": "A",
+     "role": null,
+     "name": "Status",
+     "href": "https://status.polymarket.com",
+     "state": null
+    },
+    {
+     "tag": "A",
+     "role": null,
+     "name": "Documentation",
+     "href": "https://docs.polymarket.com",
+     "state": null
+    },
+    {
+     "tag": "A",
+     "role": null,
+     "name": "Help Center",
+     "href": "https://help.polymarket.com",
+     "state": null
+    },
+    {
+     "tag": "A",
+     "role": null,
+     "name": "Terms of Use",
+     "href": "https://polymarket.com/tos",
+     "state": null
+    },
+    {
+     "tag": "DIV",
+     "role": "menuitem",
+     "name": "Language",
+     "href": null,
+     "state": "closed"
+    }
+   ]
+  },
+  {
+   "role": "menu",
+   "text": "Leaderboard Rewards APIs Dark mode Accuracy Status Documentation Help Center Terms of Use Language",
+   "items": [
+    {
+     "tag": "A",
+     "role": null,
+     "name": "Leaderboard",
+     "href": "/leaderboard",
+     "state": null
+    },
+    {
+     "tag": "A",
+     "role": null,
+     "name": "Rewards",
+     "href": "/rewards",
+     "state": null
+    },
+    {
+     "tag": "A",
+     "role": null,
+     "name": "APIs",
+     "href": "https://docs.polymarket.com/api-reference",
+     "state": null
+    },
+    {
+     "tag": "SPAN",
+     "role": "switch",
+     "name": "",
+     "href": null,
+     "state": "false"
+    },
+    {
+     "tag": "A",
+     "role": null,
+     "name": "Accuracy",
+     "href": "/accuracy",
+     "state": null
+    },
+    {
+     "tag": "A",
+     "role": null,
+     "name": "Status",
+     "href": "https://status.polymarket.com",
+     "state": null
+    },
+    {
+     "tag": "A",
+     "role": null,
+     "name": "Documentation",
+     "href": "https://docs.polymarket.com",
+     "state": null
+    },
+    {
+     "tag": "A",
+     "role": null,
+     "name": "Help Center",
+     "href": "https://help.polymarket.com",
+     "state": null
+    },
+    {
+     "tag": "A",
+     "role": null,
+     "name": "Terms of Use",
+     "href": "https://polymarket.com/tos",
+     "state": null
+    },
+    {
+     "tag": "DIV",
+     "role": "menuitem",
+     "name": "Language",
+     "href": null,
+     "state": "closed"
+    }
+   ]
+  }
+ ],
+ "desktop:Help": [
+  {
+   "role": "dialog",
+   "text": "Help Why am I unable to trade? Trading is blocked in the United States on polymarket.com. Switch to polymarket.us to trade prediction markets. Bring me to polymarket.us I already have a polymarket.com account If you have an account you want to access for social or notifications, you can log in here. Need more help? Contact support",
+   "items": [
+    {
+     "tag": "A",
+     "role": null,
+     "name": "polymarket.us",
+     "href": "https://polymarket.us/?signup=true&referring_domain=polymarket.com&referring_surface=help",
+     "state": null
+    },
+    {
+     "tag": "A",
+     "role": null,
+     "name": "Bring me to polymarket.us",
+     "href": "https://polymarket.us/?signup=true&referring_domain=polymarket.com&referring_surface=help",
+     "state": null
+    },
+    {
+     "tag": "BUTTON",
+     "role": null,
+     "name": "here",
+     "href": null,
+     "state": null
+    },
+    {
+     "tag": "BUTTON",
+     "role": null,
+     "name": "Contact support",
+     "href": null,
+     "state": null
+    }
+   ]
+  }
+ ],
+ "desktop:Open more navigation links": [
+  {
+   "role": null,
+   "text": "Activity Leaderboard Dashboards Rewards",
+   "items": [
+    {
+     "tag": "A",
+     "role": "menuitem",
+     "name": "Activity",
+     "href": "/activity",
+     "state": null
+    },
+    {
+     "tag": "A",
+     "role": "menuitem",
+     "name": "Leaderboard",
+     "href": "/leaderboard",
+     "state": null
+    },
+    {
+     "tag": "A",
+     "role": "menuitem",
+     "name": "Dashboards",
+     "href": "/dashboards/macro",
+     "state": null
+    },
+    {
+     "tag": "A",
+     "role": "menuitem",
+     "name": "Rewards",
+     "href": "/rewards",
+     "state": null
+    }
+   ]
+  },
+  {
+   "role": "menu",
+   "text": "Activity Leaderboard Dashboards Rewards",
+   "items": [
+    {
+     "tag": "A",
+     "role": "menuitem",
+     "name": "Activity",
+     "href": "/activity",
+     "state": null
+    },
+    {
+     "tag": "A",
+     "role": "menuitem",
+     "name": "Leaderboard",
+     "href": "/leaderboard",
+     "state": null
+    },
+    {
+     "tag": "A",
+     "role": "menuitem",
+     "name": "Dashboards",
+     "href": "/dashboards/macro",
+     "state": null
+    },
+    {
+     "tag": "A",
+     "role": "menuitem",
+     "name": "Rewards",
+     "href": "/rewards",
+     "state": null
+    }
+   ]
+  }
+ ],
+ "eventCards": [
+  {
+   "href": "/event/los-angeles-mayoral-election-117",
+   "cardText": "Los Angeles Mayoral Election Politics · Mayor Nithya Raman 59% Karen Bass 43% WSJ ・ 4d ago Opinion | The ‘Mansion Tax’ That Hits the Middle Class The New York T"
+  },
+  {
+   "href": "/event/balance-of-power-2026-midterms",
+   "cardText": "Balance of Power: 2026 Midterms Politics · US Election Democrats Sweep 62% D Senate, R House 1% R Senate, D House 32% Republicans Sweep 8% The New York Times ・ "
+  },
+  {
+   "href": "/event/fed-decision-in-october-20260617190323537",
+   "cardText": "Fed Decision in October? Economy · Global Rates 25 bps decrease <1% No change 34% 25 bps increase 65% 50+ bps increase 1% JohnA No matter the result, its an hon"
+  },
+  {
+   "href": "/event/which-party-will-win-the-senate-in-2026",
+   "cardText": ""
+  },
+  {
+   "href": "/event/us-iran-ceasefire-continues-throughptptpt",
+   "cardText": ""
+  },
+  {
+   "href": "/event/btc-updown-5m-1790497800",
+   "cardText": ""
+  },
+  {
+   "href": "/event/brazil-presidential-election",
+   "cardText": ""
+  },
+  {
+   "href": "/event/maine-senate-election-winner",
+   "cardText": ""
+  },
+  {
+   "href": "/event/of-views-of-next-mrbeast-gaming-video-on-day-1-20260922",
+   "cardText": "1 Will MrBeast Gaming's next video get between 15 and 17.5 million views on day 1? 84% 65% 2 Will Nick Walker win Mr. Olympia 2026? 100% 49% 3 Will \"Forgotten I"
+  },
+  {
+   "href": "/event/mr-olympia-2026-mens-open-winner",
+   "cardText": "1 Will MrBeast Gaming's next video get between 15 and 17.5 million views on day 1? 84% 65% 2 Will Nick Walker win Mr. Olympia 2026? 100% 49% 3 Will \"Forgotten I"
+  },
+  {
+   "href": "/event/forgotten-island-opening-weekend-box-office",
+   "cardText": "1 Will MrBeast Gaming's next video get between 15 and 17.5 million views on day 1? 84% 65% 2 Will Nick Walker win Mr. Olympia 2026? 100% 49% 3 Will \"Forgotten I"
+  },
+  {
+   "href": "/event/btc-updown-5m-1790498100",
+   "cardText": "BTC Up or Down 5m 51% Up Up Down LIVE · Bitcoin"
+  },
+  {
+   "href": "/event/us-announces-end-of-iranian-blockade-byptptpt-20260713152715080",
+   "cardText": "US announces end of Iranian blockade by...? March 31 73% Yes 73% No 28% December 31 56% Yes 56% No 44% $33M Vol."
+  },
+  {
+   "href": "/event/what-price-will-wti-hit-in-september-2026",
+   "cardText": "What will WTI Crude Oil (WTI) hit in September 2026? ↑ $95 87% Yes 87% No 14% ↓ $90 43% Yes 43% No 57% $8M Vol."
+  },
+  {
+   "href": "/event/how-high-will-10-year-treasury-yield-go-before-2027",
+   "cardText": "How high will 10-year Treasury yield go before 2027? 5.2% 89% Yes 89% No 11% 5.3% 72% Yes 72% No 28% $669K Vol."
+  },
+  {
+   "href": "/event/presidents-cup-2026",
+   "cardText": "Presidents Cup 2026 Winner 38% USA USA International $17K Vol."
+  },
+  {
+   "href": "/event/saudi-oil-pipeline-east-west-restarts-byptptpt",
+   "cardText": "Saudi Oil Pipeline (East-West) restarts by...? October 31 68% Yes 68% No 32% October 15 46% Yes 46% No 55% $2M Vol."
+  },
+  {
+   "href": "/event/alaska-senate-election-winner",
+   "cardText": "Alaska Senate Election Winner Mary Peltola 73% Yes 73% No 28% Sen. Dan Sullivan 29% Yes 29% No 72% $1M Vol."
+  },
+  {
+   "href": "/event/anthropic-ipo-by",
+   "cardText": "Anthropic IPO by __? December 31, 2026 76% Yes 76% No 25% December 15, 2026 73% Yes 73% No 28% $4M Vol."
+  },
+  {
+   "href": "/event/anthropic-ipo-closing-market-cap-higher-strikes",
+   "cardText": "Anthropic IPO Closing Market Cap $2.0–$2.25T 23% Yes 23% No 77% $1.75–$2.0T 21% Yes 21% No 80% $999K Vol."
+  },
+  {
+   "href": "/event/trump-renames-ai-by-september-30",
+   "cardText": "Trump renames AI by...? December 31 60% Yes 60% No 41% September 30 19% Yes 19% No 82% $353K Vol."
+  },
+  {
+   "href": "/event/nato-x-russia-military-clash-in-2025",
+   "cardText": "NATO x Russia military clash by...? December 31 30% Yes 30% No 71% October 31 16% Yes 16% No 85% $8M Vol."
+  },
+  {
+   "href": "/event/us-announces-diesel-export-ban-byptptpt",
+   "cardText": "US Announces Diesel Export ban by...? October 31 11% Yes 11% No 90% September 30 3% Yes 3% No 97% $146K Vol."
+  },
+  {
+   "href": "/event/how-many-fed-rate-hikes-in-2026-20260623190717369",
+   "cardText": "How many Fed rate hikes in 2026? 2 (50 bps) 51% Yes 51% No 49% 3 (75 bps) 40% Yes 40% No 60% $692K Vol."
+  },
+  {
+   "href": "/event/bab-el-mandeb-strait-effectively-closed-by",
+   "cardText": "Bab el-Mandeb Strait effectively closed by...? December 31 19% Yes 19% No 82% October 31 9% Yes 9% No 92% $16M Vol."
+  },
+  {
+   "href": "/event/who-will-be-the-next-prime-minister-of-israel-after-the-next-election",
+   "cardText": "Prime Minister of Israel after the next election? Gadi Eizenkot 52% Yes 52% No 48% Benjamin Netanyahu 30% Yes 30% No 71% $39M Vol."
+  },
+  {
+   "href": "/event/pro-football-2027-champion-20260729185915366",
+   "cardText": "Pro Football: 2027 Champion Buffalo Bills 13% Yes 13% No 88% Los Angeles Rams 13% Yes 13% No 88% $61M Vol."
+  }
+ ],
+ "mobileChrome": [
+  {
+   "pos": "sticky",
+   "y": 48,
+   "h": 104,
+   "text": "Go to polymarket.us Trending Combos Perps Breaking New Politics Sports Crypto Esports Iran Finance Geopolitics Tech Culture Economy Weather Mentions E",
+   "controls": [
+    "Polymarket Logo->/",
+    "New->/predictions?_sort=newest",
+    "Trending->/predictions",
+    "Popular->/predictions?_sort=volume",
+    "Liquid->/predictions?_sort=liquidity",
+    "Ending Soon->/predictions?_sort=ending_soon",
+    "Competitive->/predictions?_sort=competitive",
+    "Live Crypto->/event/bitcoin-up-or-down-august-22-9pm-et/live",
+    "Politics->/predictions/politics",
+    "Middle East->/predictions/middle-east",
+    "Crypto->/predictions/crypto",
+    "Sports->/sports/live",
+    "Pop Culture->/predictions/pop-culture",
+    "Tech->/predictions/tech",
+    "AI->/predictions/ai",
+    "How it works",
+    "Go to polymarket.us->https://polymarket.us/?signup=true&referring_domain=polymarket.com&referring_surface=navbar",
+    "Help",
+    "Log in",
+    "Sign up"
+   ]
+  },
+  {
+   "pos": "fixed",
+   "y": 784,
+   "h": 60,
+   "text": "Home Search Breaking More",
+   "controls": [
+    "Home->/",
+    "Search",
+    "Breaking->/breaking",
+    "More menu"
+   ]
+  }
+ ],
+ "mobileButtons": [
+  "polymarket.us @199,16 106x16",
+  "Dismiss @346,12 24x24",
+  "Polymarket Logo @16,68 150x24",
+  "Go to polymarket.us @182,64 188x32",
+  "Trending @16,104 106x48",
+  "Combos @122,104 102x48",
+  "Perps @223,104 85x48",
+  "Breaking @308,104 80x48",
+  "New @388,104 50x48",
+  "Politics @438,104 69x48",
+  "Sports @507,104 64x48",
+  "Crypto @571,104 66x48",
+  "Esports @637,104 71x48",
+  "Iran @708,104 46x48",
+  "Finance @754,104 74x48",
+  "Geopolitics @828,104 95x48",
+  "Tech @923,104 53x48",
+  "Culture @976,104 69x48",
+  "Economy @1045,104 82x48",
+  "Weather @1127,104 77x48",
+  "Mentions @1204,104 82x48",
+  "Elections @1287,104 81x48",
+  "Art @1368,104 41x48"
+ ],
+ "mobileBottom": [
+  "No change @28,759 72x20 ->/event/fed-decision-in-october-20260617190323537/will-there-be-no-change-in-fed-interest-rates-after-the-october-2026-meeting-20260617190324031",
+  "Yes 34% @278,756 40x27 ->/event/fed-decision-in-october-20260617190323537?marketSlug=will-there-be-no-change-in-fed-interest-rates-after-the-october-2026-meeting-20260617190324031&outcomeIndex=0",
+  "No 67% @322,756 40x27 ->/event/fed-decision-in-october-20260617190323537?marketSlug=will-there-be-no-change-in-fed-interest-rates-after-the-october-2026-meeting-20260617190324031&outcomeIndex=1",
+  "Rewards @306,795 28x28",
+  "Add to favorites @334,795 28x28",
+  "Home @0,785 98x59 ->/",
+  "Search @98,785 98x59",
+  "Breaking @195,785 98x59 ->/breaking",
+  "More menu @293,785 98x59"
+ ]
+}

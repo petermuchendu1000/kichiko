@@ -1,0 +1,119 @@
+URL: https://help.kalshi.com/en/articles/13823821-market-faqs
+HTTP: 200
+Fetched: 2026-09-27T08:39:33Z
+Sitemap lastmod: 2026-04-12T15:44:11Z
+Title: 
+
+Market Settlement and Payout Timelines
+
+What does "settled" mean?
+
+A market settles when the official outcome is confirmed and our markets team finalizes the result. Once settled, any winning contracts are paid out to your cash balance.
+
+How long does settlement typically take?
+
+Most markets settle within a few hours after the outcome is known (often within about 3 hours). In some cases, it can take longer if we're waiting on official data from source agencies.
+
+Why might settlement take longer than expected?
+
+Waiting on official data: We rely on a source agency (for example, official league statistics, government releases, or other event authorities) to publish finalized results. If their data is delayed or revised, we may wait before settling, depending on the market rules.
+
+Market rules and timing: Some markets specify a determination time or date in their rules that can be later than when the event appears to end. Always check the market's Rules and Important Information sections.
+
+How can I check my market's status?
+
+Market page: The final result and determination appear on the market page once settled.
+
+Portfolio & Trading History: After settlement, your closed position should appear with the result and any payout reflected in your cash balance.
+
+Notifications: You can enable email/app notifications in Settings to be alerted when a market you own settles.
+
+When should I contact us via the in-app chat?
+
+For standard (single-outcome) markets: If the event ended and it's been more than ~12 hours with no update, check the Rules first. If everything seems met and it's still pending:
+
+- If the rules list a later determination time/date, please wait until that window passes before contacting us via the in-app chat.
+
+- Include: market title and any details (e.g., source) so we can escalate to the markets team if needed.
+
+What's the difference between market close time and determination time?
+
+The market's displayed close time may not equal determination time. Trading can end before or after an event for operational reasons, while settlement occurs once the official result is confirmed by the source agency.
+
+Why is a market still open after the event appears to have occurred?
+
+A market remaining open is not an indication that payout criteria have not been met. Kalshi often must wait for an official source agency to publish finalized data before closing or determining a market.
+
+What this means for you:
+
+- Trading may continue while we await official confirmation; prices will reflect participant expectations.
+
+- Markets are not re-settled because an event appears to have concluded while trading was still available.
+
+- Always check the rules for the market's official source and determination criteria.
+
+Market Suggestions
+
+How can I suggest a new market idea?
+
+We love community ideas for new markets. The fastest way to get your suggestion to our markets team is to submit it via our market suggestion form (the same one referenced by our support team).
+
+What should I include in my market suggestion?
+
+- A clear, objective event definition and settlement criteria
+
+- Reliable data source(s) for settlement
+
+- Proposed timeframe/expiration
+
+- Why traders would find it valuable
+
+Will my market suggestion be guaranteed to be listed?
+
+While we can't guarantee every suggestion will be listed, detailed proposals are reviewed and considered by our markets team.
+
+Combos: Availability, Processing, and Settlement
+
+When do combo markets become available?
+
+Combo buttons typically appear when starting lineups/rosters are finalized. For many events, this is closer to the event start rather than early in the day.
+
+How are combo orders processed?
+
+Combos use a Request For Quote (RFQ) process:
+
+- You submit a request
+
+- Other participants may quote prices
+
+- When you accept a quote, your combo becomes part of its own order book
+
+- You may see "processing" while your RFQ is live or while matching/quotes are being handled
+
+Why do combo markets take longer to settle than individual components?
+
+Combo positions are their own markets and do not always settle immediately when each underlying component resolves. After the individual events finish, the combo market goes through a separate review to confirm all conditions have been met and to apply the market's specific rules. This extra step can add time beyond the settlement of the individual components.
+
+What should I expect during combo settlement?
+
+- The combo's status will update once the review is complete
+
+- Funds related to potential combo outcomes remain pending until settlement
+
+- No action is needed on your end
+
+Player Injuries and Did-Not-Play (DNP) in Single Markets and Combos
+
+What happens if a player participates in the game but then exits due to injury or ejection?
+
+Per the market rules: "Once a player has taken at least one snap, the Contract will settle based on actual statistics accumulated despite any in-game injury, ejection, or other removal from the game."
+
+What happens if a player does not play at all (DNP)?
+
+The treatment is defined in the specific market's rules. Some markets may adjust to a fair market value or have specific DNP provisions.
+
+How are combos affected when a position doesn't resolve to $1.00 (like when a player doesn't play)?
+
+Each combo position follows the rules of the underlying market. There are certain instances where a market can resolve to the last fair market price or a non-standard payout like 50-50. When a position in the combo resolves to a value other than $1 or $0, the combo isn't simply returned. Instead, the payout is the product of all individual position values.
+
+For example, in a 3-position combo: If two underlying positions resolve to $1.00 and one resolves to $0.70 (last fair market value), the calculation would be: $0.70 × $1.00 × $1.00 = $0.70 paid per contract.

@@ -1,0 +1,217 @@
+{
+ "authBeforeDismiss": [],
+ "authMobile": [
+  {
+   "t": "How it works",
+   "href": null,
+   "box": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "display": "none",
+   "vis": "visible",
+   "anc": "BUTTON.items-center justify-center shrink-0 cur none/visible"
+  },
+  {
+   "t": "Log in",
+   "href": null,
+   "box": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "display": "none",
+   "vis": "visible",
+   "anc": "BUTTON.items-center justify-center cursor-point none/visible"
+  },
+  {
+   "t": "Sign up",
+   "href": null,
+   "box": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "display": "inline-flex",
+   "vis": "visible",
+   "anc": "DIV.flex items-center gap-x-2 min-w-0 md:min none/visible"
+  }
+ ],
+ "mobileMore": [],
+ "mobileSearch": {
+  "error": "locator.click: Timeout 4000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Search' }).last()\u001b[22m\n\u001b[2m    - locator resolved to <button tabindex=\"0\" type=\"button\" aria-label=\"S"
+ },
+ "authDesktop": [
+  {
+   "t": "How it works",
+   "href": null,
+   "box": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "display": "none",
+   "vis": "visible",
+   "anc": "BUTTON.items-center justify-center shrink-0 cur none/visible"
+  },
+  {
+   "t": "Log in",
+   "href": null,
+   "box": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "display": "inline-flex",
+   "vis": "visible",
+   "anc": "DIV.flex items-center gap-x-2 min-w-0 md:min none/visible"
+  },
+  {
+   "t": "Sign up",
+   "href": null,
+   "box": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "display": "inline-flex",
+   "vis": "visible",
+   "anc": "DIV.flex items-center gap-x-2 min-w-0 md:min none/visible"
+  }
+ ],
+ "sportsLive": [
+  {
+   "href": "/sports/mlb/games",
+   "text": "NFL MLB College Football UFC UEFA Champions League UEFA Nations League Soccer Tennis Cricket Basketball Baseball Footbal"
+  },
+  {
+   "href": "/sports/cfb/games",
+   "text": "NFL MLB College Football UFC UEFA Champions League UEFA Nations League Soccer Tennis Cricket Basketball Baseball Footbal"
+  },
+  {
+   "href": "/sports/ufc/games",
+   "text": "NFL MLB College Football UFC UEFA Champions League UEFA Nations League Soccer Tennis Cricket Basketball Baseball Footbal"
+  },
+  {
+   "href": "/sports/ucl/games",
+   "text": "NFL MLB College Football UFC UEFA Champions League UEFA Nations League Soccer Tennis Cricket Basketball Baseball Footbal"
+  },
+  {
+   "href": "/sports/unl/games",
+   "text": "NFL MLB College Football UFC UEFA Champions League UEFA Nations League Soccer Tennis Cricket Basketball Baseball Footbal"
+  },
+  {
+   "href": "/sports/soccer/games",
+   "text": "NFL MLB College Football UFC UEFA Champions League UEFA Nations League Soccer Tennis Cricket Basketball Baseball Footbal"
+  },
+  {
+   "href": "/sports/tennis/games",
+   "text": "NFL MLB College Football UFC UEFA Champions League UEFA Nations League Soccer Tennis Cricket Basketball Baseball Footbal"
+  },
+  {
+   "href": "/sports/cricket/games",
+   "text": "NFL MLB College Football UFC UEFA Champions League UEFA Nations League Soccer Tennis Cricket Basketball Baseball Footbal"
+  },
+  {
+   "href": "/sports/basketball/games",
+   "text": "NFL MLB College Football UFC UEFA Champions League UEFA Nations League Soccer Tennis Cricket Basketball Baseball Footbal"
+  },
+  {
+   "href": "/sports/baseball/games",
+   "text": "NFL MLB College Football UFC UEFA Champions League UEFA Nations League Soccer Tennis Cricket Basketball Baseball Footbal"
+  },
+  {
+   "href": "/sports/football/games",
+   "text": "NFL MLB College Football UFC UEFA Champions League UEFA Nations League Soccer Tennis Cricket Basketball Baseball Footbal"
+  },
+  {
+   "href": "/sports/hockey/games",
+   "text": "NFL MLB College Football UFC UEFA Champions League UEFA Nations League Soccer Tennis Cricket Basketball Baseball Footbal"
+  },
+  {
+   "href": "/sports/rugby/games",
+   "text": "NFL MLB College Football UFC UEFA Champions League UEFA Nations League Soccer Tennis Cricket Basketball Baseball Footbal"
+  },
+  {
+   "href": "/sports/aflw/games",
+   "text": "NFL MLB College Football UFC UEFA Champions League UEFA Nations League Soccer Tennis Cricket Basketball Baseball Footbal"
+  },
+  {
+   "href": "/sports/table-tennis/games",
+   "text": "NFL MLB College Football UFC UEFA Champions League UEFA Nations League Soccer Tennis Cricket Basketball Baseball Footbal"
+  },
+  {
+   "href": "/sports/darts/games",
+   "text": "NFL MLB College Football UFC UEFA Champions League UEFA Nations League Soccer Tennis Cricket Basketball Baseball Footbal"
+  },
+  {
+   "href": "/sports/vbeuro/games",
+   "text": "NFL MLB College Football UFC UEFA Champions League UEFA Nations League Soccer Tennis Cricket Basketball Baseball Footbal"
+  },
+  {
+   "href": "/sports/handball/games",
+   "text": "NFL MLB College Football UFC UEFA Champions League UEFA Nations League Soccer Tennis Cricket Basketball Baseball Footbal"
+  },
+  {
+   "href": "/sports/golf/props",
+   "text": "NFL MLB College Football UFC UEFA Champions League UEFA Nations League Soccer Tennis Cricket Basketball Baseball Footbal"
+  },
+  {
+   "href": "/sports/mma/games",
+   "text": "NFL MLB College Football UFC UEFA Champions League UEFA Nations League Soccer Tennis Cricket Basketball Baseball Footbal"
+  },
+  {
+   "href": "/sports/motorsports/props",
+   "text": "NFL MLB College Football UFC UEFA Champions League UEFA Nations League Soccer Tennis Cricket Basketball Baseball Footbal"
+  },
+  {
+   "href": "/sports/cycling/props",
+   "text": "NFL MLB College Football UFC UEFA Champions League UEFA Nations League Soccer Tennis Cricket Basketball Baseball Footbal"
+  },
+  {
+   "href": "/sports/poker/props",
+   "text": "NFL MLB College Football UFC UEFA Champions League UEFA Nations League Soccer Tennis Cricket Basketball Baseball Footbal"
+  },
+  {
+   "href": "/sports/chess/games",
+   "text": "NFL MLB College Football UFC UEFA Champions League UEFA Nations League Soccer Tennis Cricket Basketball Baseball Footbal"
+  },
+  {
+   "href": "/sports/mlb/games",
+   "text": "Live Futures ALL SPORTS NFL MLB College Football UFC UEFA Champions League UEFA Nations League Soccer Tennis Cricket Bas"
+  },
+  {
+   "href": "/sports/cfb/games",
+   "text": "Live Futures ALL SPORTS NFL MLB College Football UFC UEFA Champions League UEFA Nations League Soccer Tennis Cricket Bas"
+  },
+  {
+   "href": "/sports/ufc/games",
+   "text": "Live Futures ALL SPORTS NFL MLB College Football UFC UEFA Champions League UEFA Nations League Soccer Tennis Cricket Bas"
+  },
+  {
+   "href": "/sports/atp/atp-gaston-rublev-2026-09-26",
+   "text": "Hangzhou Open: Hugo Gaston vs Andrey Rublev TB1 $79.28K Vol · Hangzhou Open H. Gaston 63 A. Rublev 66 GASTON 8¢ RUBLEV 9"
+  },
+  {
+   "href": "/sports/atp/atp-misolic-ovchare-2026-09-27",
+   "text": "Bari: Filip Misolic vs Oleksandr Ovcharenko 8:00 AM $2.45K Vol · Bari F. Misolic Oleksandr Ovcharenko MISOLIC 46¢ OVCHAR"
+  },
+  {
+   "href": "/sports/atp/atp-ajdukov-morillo-2026-09-27",
+   "text": "Bari: Duje Ajdukovic vs Imanol Lopez Morillo 8:00 AM $1.25K Vol · Bari D. Ajdukovic Imanol Lopez Morillo AJDUKOV 52¢ MOR"
+  }
+ ],
+ "desktopSearchOpen": [],
+ "desktopSearchNone": [],
+ "searchNoneText": [
+  "self.__next_f.push([1,\"3a:[\\\"$\\\",\\\"$L44\\\",null,{\\\"locale\\\":\\\"en\\\",\\\"messages\\\":{\\\"deposit\\\":{\\\"funds",
+  "self.__next_f.push([1,\"5f:[\\\"$\\\",\\\"$L44\\\",null,{\\\"locale\\\":\\\"en\\\",\\\"messages\\\":{\\\"common\\\":{\\\"punctu"
+ ]
+}

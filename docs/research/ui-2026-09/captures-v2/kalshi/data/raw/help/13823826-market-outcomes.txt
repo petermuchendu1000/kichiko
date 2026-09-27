@@ -1,0 +1,11 @@
+URL: https://help.kalshi.com/en/articles/13823826-market-outcomes
+HTTP: 200
+Fetched: 2026-09-27T08:39:47Z
+Sitemap lastmod: 2026-03-17T21:20:09Z
+Title: 
+
+The rules for determining a contract’s outcome, the information that will be used, and the source of this information, are included in each contract’s terms and conditions. Once a contract has expired, Kalshi determines the market’s outcome based on these rules and the information from the source.
+
+Determination can take anywhere from one hour to more than twelve hours to complete aftermarket closure and is usually dictated by when we receive the data from the source agency we use to verify the outcome of the market, as defined in the market contract.
+
+At Kalshi, we pride ourselves on our unbiased approach when determining market outcomes. Our dedicated rules and meticulous adherence to them ensure all markets are conducted fairly, giving every participant a level playing field. Rest assured, the integrity of the market and the fairness of outcomes are our top priorities.

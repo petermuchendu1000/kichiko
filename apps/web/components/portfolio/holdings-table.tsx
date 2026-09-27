@@ -151,7 +151,7 @@ export function HoldingsTable({ holdings }: HoldingsTableProps) {
                       <td colSpan={6} className="px-4 py-3">
                         <div className="grid grid-cols-2 gap-x-6 gap-y-2 sm:grid-cols-4">
                           <Detail label="Shares" value={h.shares.toFixed(2)} />
-                          <Detail label="Invested" value={formatUSD(h.invested)} />
+                          <Detail label="You paid" value={formatUSD(h.invested)} />
                           <Detail label="Entry price" value={cents(h.avgCost)} />
                           <Detail label="Status" value={h.outcomeLabel} />
                         </div>

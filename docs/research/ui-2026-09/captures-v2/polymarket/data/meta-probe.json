@@ -1,0 +1,10 @@
+{
+ "viewport": "width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover",
+ "themeColor": [
+  "rgb(255, 255, 255)",
+  "#ffffff ((prefers-color-scheme: light))",
+  "#0c0e13 ((prefers-color-scheme: dark))"
+ ],
+ "lang": "en",
+ "manifest": true
+}

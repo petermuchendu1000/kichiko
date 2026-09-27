@@ -418,7 +418,7 @@ function Spotlight({ market, series, comments, activity }: HeroMarket & { commen
               className="relative z-10 inline-flex items-center gap-1 rounded-full px-3 py-1 font-semibold transition-transform active:scale-[97%]"
               style={{ fontSize: 13, background: 'var(--pip-500)', color: '#fff' }}
             >
-              Predict &amp; Earn <IconArrowRight size={13} />
+              View market <IconArrowRight size={13} />
             </Link>
           </div>
         </div>

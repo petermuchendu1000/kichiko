@@ -1,0 +1,29 @@
+URL: https://help.kalshi.com/en/articles/16083491-how-to-add-your-social-security-number
+HTTP: 200
+Fetched: 2026-09-27T08:41:04Z
+Sitemap lastmod: 2026-08-25T21:33:04Z
+Title: 
+
+As a federally regulated exchange, Kalshi may ask you to add or confirm your Social Security Number after signup - for example, for identity verification or for tax reporting on credits and incentives you receive.
+
+Where to enter your Social Security Number
+
+- Sign in at kalshi.com/account/profile , or open the menu and select Account & security .
+
+- Select Social Security Number .
+
+- Enter your SSN and save.
+
+Account & security on kalshi.com - select the Social Security Number row to add or confirm yours.
+
+Using the Kalshi mobile app? Open the menu in the top left and select Account & security .
+
+Why Kalshi asks for this
+
+As a federally regulated exchange, Kalshi is required to verify the identity of its members, and we may ask you to add or confirm your Social Security Number at any point after signup. Your SSN is used only for identity verification and required tax reporting: users who hit certain reporting thresholds as defined by the Internal Revenue Service (IRS) receive tax documentation from Kalshi, such as a 1099-MISC for credits and rewards. See What Tax Documentation Does Kalshi Provide? Your SSN is stored encrypted and retained only for required audit and regulatory purposes - for details, see How is data stored? SSN verification is not required for depositing funds, trading on the platform, or withdrawing funds using non-crypto methods. Specific IRS reporting thresholds include:
+
+- Interest Payments : If you earn more than $10 in interest payments annually, Kalshi is required to report this to the IRS.
+
+- Incentive Credits : If you receive more than $600 in incentive credits (e.g., referral bonuses) in a calendar year, this must also be reported.
+
+If a credit or incentive could not be applied to your account, adding or confirming your Social Security Number is often what is needed. Once you have saved it, reach out to Kalshi Support - or reply in your existing conversation - and let us know it has been added. Kalshi cannot manually bypass SSN verification requirements, so completing this step is essential for processing taxable items.

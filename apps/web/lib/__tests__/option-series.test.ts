@@ -16,24 +16,7 @@
 // [.order()]) so there is no network/db dependency.
 import { describe, it, expect } from 'vitest'
 import { getOptionSeries } from '@/lib/markets/option-series'
-
-type Row = Record<string, unknown>
-
-/** Minimal thenable query builder: select/in/order chain, resolves to {data}. */
-function makeClient(tables: Record<string, Row[]>) {
-  return {
-    from(table: string) {
-      const data = tables[table] ?? []
-      const builder: any = {
-        select: () => builder,
-        in: () => builder,
-        order: () => builder,
-        then: (resolve: (v: { data: Row[] }) => unknown) => resolve({ data }),
-      }
-      return builder
-    },
-  } as any
-}
+import { makeClient } from './helpers/fake-supabase'
 
 describe('getOptionSeries — binary anchoring', () => {
   it('anchors the Yes line endpoint to the newest recorded yes_price and the legend to market.yes_price', async () => {
@@ -140,5 +123,30 @@ describe('getOptionSeries — multi-outcome anchoring', () => {
     expect(s.lines[0].points.at(-1)).toBeCloseTo(0.46, 6) // anchored to market.yes_price
     expect(s.lines[0].points[0]).toBeCloseTo(0.63, 6)
     expect(s.changePct).toBe(Math.round((0.46 - 0.63) * 100)) // change uses the anchored endpoint
+  })
+})
+
+describe('getOptionSeries — history longer than the 1,000-row cap', () => {
+  // Regression for 40-ELEMENT-MATRIX A13: 1,908 rows used to render only the
+  // oldest 1,000, so the chart ended months early and endpoint anchoring drew a
+  // fake jump to today's price.
+  it('ends at the newest recorded point, not the 1,000th', async () => {
+    const start = Date.parse('2026-04-24T00:00:00Z')
+    const rows = Array.from({ length: 1908 }, (_, i) => ({
+      market_id: 'bin', market_option_id: null, price: null,
+      yes_price: i < 1000 ? 0.2 : 0.8,
+      recorded_at: new Date(start + i * 3_600_000).toISOString(),
+    }))
+    const client = makeClient({
+      markets: [{ id: 'bin', resolution_type: 'binary', yes_price: 0.8 }],
+      market_options: [],
+      price_history: rows,
+    })
+    const s = (await getOptionSeries(client, ['bin'])).get('bin')!
+    expect(s.endAt).toBe(rows.at(-1)!.recorded_at)
+    expect(s.startAt).toBe(rows[0].recorded_at)
+    // The point before the anchored endpoint comes from the newest data (0.8),
+    // so the line does not jump from 0.2 to the legend price.
+    expect(s.lines[0].points.at(-2)).toBeCloseTo(0.8, 6)
   })
 })

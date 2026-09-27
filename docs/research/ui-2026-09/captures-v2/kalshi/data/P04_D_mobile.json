@@ -1,0 +1,4312 @@
+{
+ "tag": "P04_D_mobile",
+ "target": {
+  "id": "event-multi",
+  "page": "P04",
+  "source": "D",
+  "url": "https://demo.kalshi.co/markets/kxpresnomd/democratic-primary-winner/kxpresnomd-28"
+ },
+ "vp": "mobile",
+ "startedUtc": "2026-09-27T08:59:52.068Z",
+ "consoleErrors": [
+  "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+  "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+  "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+  "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+  "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+ ],
+ "responses": [
+  {
+   "url": "https://demo.kalshi.co/markets/kxpresnomd/democratic-primary-winner/kxpresnomd-28",
+   "status": 200
+  },
+  {
+   "url": "https://vercel.live/_next-live/feedback/feedback.html?dpl=dpl_6neVDpiFudrvbU85yDS6kGDvT22L",
+   "status": 200
+  },
+  {
+   "url": "https://platform.twitter.com/widgets/widget_iframe.1227a5674072e080ffb1ba14ac0c1079.html?origin=https%3A%2F%2Fdemo.kalshi.co",
+   "status": 200
+  },
+  {
+   "url": "https://15537244.fls.doubleclick.net/activityi;src=15537244;type=unive0;cat=kalsh0;rcb=0;ord=6913576841639;npa=0;auiddc=561660472.1790499597;uaa=arm;uab=64;uafvl=Chromium%3B141.0.7390.37%7CNot%253FA_B",
+   "status": 403
+  },
+  {
+   "url": "https://apps.rokt.com/wsdk/plugins/dcui/index.html",
+   "status": 200
+  },
+  {
+   "url": "https://apps.rokt.com/wsdk/controller/index.2.14466.0.html",
+   "status": 200
+  }
+ ],
+ "httpStatus": 200,
+ "signupModalAppearedAfterMs": 8682,
+ "signupModalDismissed": "fallback",
+ "fullPageClippedTo": 5009,
+ "docHeight": 5009,
+ "measure": {
+  "url": "https://demo.kalshi.co/markets/kxpresnomd/democratic-primary-winner/kxpresnomd-28",
+  "viewport": {
+   "w": 390,
+   "h": 844,
+   "dpr": 2
+  },
+  "docHeight": 5009,
+  "colorScheme": "light",
+  "htmlClass": "kalshisans_b2794dd-module__q5KPJG__variable kalshicondensed_7a0c562e-module__QUSyua__variable graphikwidesuper_9f434a42-module__DSUzfq__variable graphikwidesemibold_839bd37e-module__QN7kBG__variable overscroll-y-none",
+  "bodyBg": "#FFFFFF",
+  "rootFontSize": "16px",
+  "bodyFont": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+  "fontsLoaded": [
+   "kalshiSans 400 normal",
+   "kalshiSans 500 normal",
+   "kalshiSans 600 normal",
+   "kalshiCondensed 500 normal"
+  ],
+  "hydration": {
+   "reactFiberOnNodes": true,
+   "nextData": false,
+   "nextRouter": true,
+   "nextF": true,
+   "scripts": 274,
+   "visibleElements": 679,
+   "bodyTextChars": 3883
+  },
+  "structure": [
+   {
+    "tag": "div",
+    "role": null,
+    "sel": "div.sticky.top-0",
+    "top": 0,
+    "h": 106,
+    "w": 390,
+    "x": 0,
+    "position": "sticky",
+    "text": "Log in Sign up Trending Elections Politics Sports Culture Crypto Commodities Climate Econo"
+   },
+   {
+    "tag": "nav",
+    "role": null,
+    "sel": "nav.flex.min-h-7[data-testid=navbar-top]",
+    "top": 0,
+    "h": 106,
+    "w": 390,
+    "x": 0,
+    "position": "static",
+    "text": "Log in Sign up Trending Elections Politics Sports Culture Crypto Commodities Climate Econo"
+   },
+   {
+    "tag": "nav",
+    "role": null,
+    "sel": "nav",
+    "top": 118,
+    "h": 20,
+    "w": 342,
+    "x": 24,
+    "position": "static",
+    "text": "2028"
+   },
+   {
+    "tag": "h1",
+    "role": null,
+    "sel": "h1.m-0.font-kalshi-condensed",
+    "top": 142,
+    "h": 72,
+    "w": 342,
+    "x": 24,
+    "position": "static",
+    "text": "Who will be the Democratic nominee in 2028?"
+   },
+   {
+    "tag": "section",
+    "role": null,
+    "sel": "section.w-full.py-0",
+    "top": 231,
+    "h": 898,
+    "w": 390,
+    "x": 0,
+    "position": "static",
+    "text": "Liz Cheney 99.9% Tim Walz 99.9% Gina Raimondo 99% » » » + $1 + $0 + $0 + $0 + $0 + $1 + $0"
+   },
+   {
+    "tag": "h2",
+    "role": null,
+    "sel": "h2.m-0.font-kalshi-condensed",
+    "top": 733,
+    "h": 28,
+    "w": 52.5,
+    "x": 313.5,
+    "position": "static",
+    "text": "99.9%"
+   },
+   {
+    "tag": "h2",
+    "role": null,
+    "sel": "h2.m-0.font-kalshi-condensed",
+    "top": 852,
+    "h": 28,
+    "w": 52.5,
+    "x": 313.5,
+    "position": "static",
+    "text": "99.9%"
+   },
+   {
+    "tag": "h2",
+    "role": null,
+    "sel": "h2.m-0.font-kalshi-condensed",
+    "top": 971,
+    "h": 28,
+    "w": 37.38,
+    "x": 328.63,
+    "position": "static",
+    "text": "99%"
+   },
+   {
+    "tag": "section",
+    "role": null,
+    "sel": "section.w-full.py-0",
+    "top": 1161,
+    "h": 469,
+    "w": 390,
+    "x": 0,
+    "position": "static",
+    "text": "Market Rules Tim Walz Resolves Yes if Tim Walz wins and accepts the nomination for the Pre"
+   },
+   {
+    "tag": "h2",
+    "role": null,
+    "sel": "h2.m-0.font-kalshi-condensed",
+    "top": 1161,
+    "h": 28,
+    "w": 109.72,
+    "x": 24,
+    "position": "static",
+    "text": "Market Rules"
+   },
+   {
+    "tag": "section",
+    "role": null,
+    "sel": "section.w-full.py-0",
+    "top": 1686,
+    "h": 308,
+    "w": 390,
+    "x": 0,
+    "position": "static",
+    "text": "People are also trading Who will win the next presidential election? Who will be the Repub"
+   },
+   {
+    "tag": "h2",
+    "role": null,
+    "sel": "h2.m-0.font-kalshi-condensed",
+    "top": 1686,
+    "h": 28,
+    "w": 192.75,
+    "x": 24,
+    "position": "static",
+    "text": "People are also trading"
+   },
+   {
+    "tag": "section",
+    "role": null,
+    "sel": "section.sm:px-0.w-full",
+    "top": 2050,
+    "h": 204,
+    "w": 390,
+    "x": 0,
+    "position": "static",
+    "text": "Social Activity This event All GIF Position Post"
+   },
+   {
+    "tag": "div",
+    "role": "tablist",
+    "sel": "div.flex.items-start[role=tablist]",
+    "top": 2068,
+    "h": 28,
+    "w": 132.8,
+    "x": 16,
+    "position": "static",
+    "text": "Social Activity"
+   },
+   {
+    "tag": "section",
+    "role": null,
+    "sel": "section.p-3",
+    "top": 2310,
+    "h": 48,
+    "w": 390,
+    "x": 0,
+    "position": "static",
+    "text": ""
+   },
+   {
+    "tag": "footer",
+    "role": null,
+    "sel": "footer.bg-fill-x60.dark:bg-surface-x20",
+    "top": 2406,
+    "h": 1193,
+    "w": 390,
+    "x": 0,
+    "position": "static",
+    "text": "NEW MARKETS What will 1+1 equal on Sep 27 at 05:00? Los Angeles D vs San Francisco: First "
+   },
+   {
+    "tag": "footer",
+    "role": null,
+    "sel": "footer.bg-fill-x60.dark:bg-surface-x20",
+    "top": 3599,
+    "h": 1409,
+    "w": 390,
+    "x": 0,
+    "position": "static",
+    "text": "PRODUCT Kalshi Pro Perpetual Futures Markets Incentive program Institutions API & develope"
+   }
+  ],
+  "typography": [
+   {
+    "family": "kalshiCondensed, \"kalshiCondensed Fallback\", sans-serif",
+    "size": "30px",
+    "weight": "500",
+    "lineHeight": "36px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "colorRaw": "rgba(0, 0, 0, 0.9)",
+    "fontVariantNumeric": "lining-nums proportional-nums",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Who will be the Democratic nominee in 2028?",
+      "sel": "span.text-text-x10",
+      "top": 142
+     }
+    ]
+   },
+   {
+    "family": "kalshiCondensed, \"kalshiCondensed Fallback\", sans-serif",
+    "size": "24px",
+    "weight": "500",
+    "lineHeight": "28px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "colorRaw": "rgba(0, 0, 0, 0.9)",
+    "fontVariantNumeric": "lining-nums proportional-nums",
+    "count": 6,
+    "samples": [
+     {
+      "text": "99.9%",
+      "sel": "h2.m-0.font-kalshi-condensed",
+      "top": 733
+     },
+     {
+      "text": "99.9%",
+      "sel": "h2.m-0.font-kalshi-condensed",
+      "top": 852
+     },
+     {
+      "text": "99%",
+      "sel": "h2.m-0.font-kalshi-condensed",
+      "top": 971
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "24px",
+    "weight": "400",
+    "lineHeight": "36px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "colorRaw": "rgba(0, 0, 0, 0.9)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 3,
+    "samples": [
+     {
+      "text": "»",
+      "sel": "tspan",
+      "top": 302.22
+     },
+     {
+      "text": "»",
+      "sel": "tspan",
+      "top": 305.21
+     },
+     {
+      "text": "»",
+      "sel": "tspan",
+      "top": 310.12
+     }
+    ]
+   },
+   {
+    "family": "kalshiCondensed, \"kalshiCondensed Fallback\", sans-serif",
+    "size": "24px",
+    "weight": "500",
+    "lineHeight": "28px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0000004D",
+    "colorRaw": "rgba(0, 0, 0, 0.3)",
+    "fontVariantNumeric": "lining-nums proportional-nums",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Activity",
+      "sel": "button#event-social-activity-tab.appearance-none.cursor-pointer[role=tab]",
+      "top": 2068
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "15px",
+    "weight": "500",
+    "lineHeight": "22px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "colorRaw": "rgba(0, 0, 0, 0.9)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 20,
+    "samples": [
+     {
+      "text": "Trending",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
+      "top": 72
+     },
+     {
+      "text": "Elections",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
+      "top": 72
+     },
+     {
+      "text": "Politics",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
+      "top": 72
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "15px",
+    "weight": "400",
+    "lineHeight": "22px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "colorRaw": "rgba(0, 0, 0, 0.9)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 11,
+    "samples": [
+     {
+      "text": "Liz Cheney",
+      "sel": "div.flex.items-center",
+      "top": 736
+     },
+     {
+      "text": "Tim Walz",
+      "sel": "div.flex.items-center",
+      "top": 855
+     },
+     {
+      "text": "Gina Raimondo",
+      "sel": "div.flex.items-center",
+      "top": 974
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "15px",
+    "weight": "500",
+    "lineHeight": "22px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#D91616",
+    "colorRaw": "rgb(217, 22, 22)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 6,
+    "samples": [
+     {
+      "text": "No",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
+      "top": 793
+     },
+     {
+      "text": "50¢",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
+      "top": 793
+     },
+     {
+      "text": "No",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
+      "top": 912
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "15px",
+    "weight": "500",
+    "lineHeight": "22px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0AC285",
+    "colorRaw": "rgb(10, 194, 133)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 4,
+    "samples": [
+     {
+      "text": "Yes",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
+      "top": 793
+     },
+     {
+      "text": "Yes",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
+      "top": 912
+     },
+     {
+      "text": "Yes",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
+      "top": 1031
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "15px",
+    "weight": "600",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "colorRaw": "rgba(0, 0, 0, 0.9)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Live chat",
+      "sel": "span.font-kalshi-sans.text-[15px]",
+      "top": 632
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "15px",
+    "weight": "400",
+    "lineHeight": "24px",
+    "letterSpacing": "0.15px",
+    "transform": "none",
+    "color": "#000000E6",
+    "colorRaw": "rgba(0, 0, 0, 0.9)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Democratic Party",
+      "sel": "a.text-[0.9375rem].leading-[1.5rem]",
+      "top": 1359
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "15px",
+    "weight": "500",
+    "lineHeight": "22px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#FFFFFF",
+    "colorRaw": "rgb(255, 255, 255)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Post",
+      "sel": "span.whitespace-nowrap",
+      "top": 2196
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "400",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "colorRaw": "rgba(0, 0, 0, 0.9)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 44,
+    "samples": [
+     {
+      "text": "$7,744,514,269 vol",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 565
+     },
+     {
+      "text": "Pick up to 4 markets",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 448.5
+     },
+     {
+      "text": "What will 1+1 equal on Sep 27 at 05:00?",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 2469
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "400",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0000008C",
+    "colorRaw": "rgba(0, 0, 0, 0.55)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 15,
+    "samples": [
+     {
+      "text": "Liz Cheney",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 231
+     },
+     {
+      "text": "Tim Walz",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 255
+     },
+     {
+      "text": "Gina Raimondo",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 279
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "500",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "colorRaw": "rgba(0, 0, 0, 0.9)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 10,
+    "samples": [
+     {
+      "text": "99.9%",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x20",
+      "top": 231
+     },
+     {
+      "text": "99.9%",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x20",
+      "top": 255
+     },
+     {
+      "text": "99%",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x20",
+      "top": 279
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\"",
+    "size": "13px",
+    "weight": "500",
+    "lineHeight": "19.5px",
+    "letterSpacing": "0.15px",
+    "transform": "none",
+    "color": "#000000E6",
+    "colorRaw": "rgba(0, 0, 0, 0.9)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 8,
+    "samples": [
+     {
+      "text": "+ $1",
+      "sel": "text",
+      "top": 358.24
+     },
+     {
+      "text": "+ $0",
+      "sel": "text",
+      "top": 382.24
+     },
+     {
+      "text": "+ $0",
+      "sel": "text",
+      "top": 406.24
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "500",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0AC285",
+    "colorRaw": "rgb(10, 194, 133)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 5,
+    "samples": [
+     {
+      "text": "Log in",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x20",
+      "top": 22
+     },
+     {
+      "text": "View full rules",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x20",
+      "top": 1429
+     },
+     {
+      "text": "Help center",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x20",
+      "top": 1429
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "500",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0000004D",
+    "colorRaw": "rgba(0, 0, 0, 0.3)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 3,
+    "samples": [
+     {
+      "text": "1D",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x20",
+      "top": 575
+     },
+     {
+      "text": "1W",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x20",
+      "top": 575
+     },
+     {
+      "text": "1M",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x20",
+      "top": 575
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "500",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#FFFFFF",
+    "colorRaw": "rgb(255, 255, 255)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 2,
+    "samples": [
+     {
+      "text": "Sign up",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x20",
+      "top": 22
+     },
+     {
+      "text": "Report Insider Trading",
+      "sel": "span.whitespace-nowrap",
+      "top": 1479
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "600",
+    "lineHeight": "20px",
+    "letterSpacing": "1.04px",
+    "transform": "uppercase",
+    "color": "#0000008C",
+    "colorRaw": "rgba(0, 0, 0, 0.55)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 1,
+    "samples": [
+     {
+      "text": "2028",
+      "sel": "span.font-kalshi-sans.typ-overline-x20",
+      "top": 118
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "400",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#00000033",
+    "colorRaw": "rgba(0, 0, 0, 0.2)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Loading more...",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 503.6
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "12px",
+    "weight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0000008C",
+    "colorRaw": "rgba(0, 0, 0, 0.55)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 14,
+    "samples": [
+     {
+      "text": "The following are prohibited from trading this contract:",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 1629
+     },
+     {
+      "text": "Holders of federal and statewide public office.",
+      "sel": "li",
+      "top": 1647
+     },
+     {
+      "text": "Paid campaign staffers on Presidential campaigns.",
+      "sel": "li",
+      "top": 1665
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "12px",
+    "weight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0000004D",
+    "colorRaw": "rgba(0, 0, 0, 0.3)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Trading on Kalshi involves risk and may not be appropriate f",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 4710
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "11px",
+    "weight": "600",
+    "lineHeight": "18px",
+    "letterSpacing": "0.88px",
+    "transform": "uppercase",
+    "color": "#0000004D",
+    "colorRaw": "rgba(0, 0, 0, 0.3)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 7,
+    "samples": [
+     {
+      "text": "New markets",
+      "sel": "span.font-kalshi-sans.typ-overline-x10",
+      "top": 2429
+     },
+     {
+      "text": "Related markets",
+      "sel": "span.font-kalshi-sans.typ-overline-x10",
+      "top": 2745
+     },
+     {
+      "text": "Related topics",
+      "sel": "span.font-kalshi-sans.typ-overline-x10",
+      "top": 3021
+     }
+    ]
+   }
+  ],
+  "contrast": {
+   "textNodes": 166,
+   "failAA": 23,
+   "failAAWithoutBgImage": 23,
+   "worstUnique": [
+    {
+     "text": "Loading more...",
+     "size": "13px",
+     "weight": "400",
+     "fg": "#00000033",
+     "bg": "#FFFFFF",
+     "bgImage": false,
+     "ratio": 1.61,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.font-normal"
+    },
+    {
+     "text": "Sign up",
+     "size": "13px",
+     "weight": "500",
+     "fg": "#FFFFFF",
+     "bg": "#28CC95",
+     "bgImage": false,
+     "ratio": 2.07,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-emphasis-x20"
+    },
+    {
+     "text": "New markets",
+     "size": "11px",
+     "weight": "600",
+     "fg": "#0000004D",
+     "bg": "#F7F7F7",
+     "bgImage": false,
+     "ratio": 2.11,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-overline-x10"
+    },
+    {
+     "text": "Trading on Kalshi involves risk and may not be app",
+     "size": "12px",
+     "weight": "400",
+     "fg": "#0000004D",
+     "bg": "#F7F7F7",
+     "bgImage": false,
+     "ratio": 2.11,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.font-normal"
+    },
+    {
+     "text": "1D",
+     "size": "13px",
+     "weight": "500",
+     "fg": "#0000004D",
+     "bg": "#FFFFFF",
+     "bgImage": false,
+     "ratio": 2.12,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-emphasis-x20"
+    },
+    {
+     "text": "Activity",
+     "size": "24px",
+     "weight": "500",
+     "fg": "#0000004D",
+     "bg": "#FFFFFF",
+     "bgImage": false,
+     "ratio": 2.12,
+     "large": true,
+     "passAA": false,
+     "sel": "button#event-social-activity-tab.appearance-none.cursor-pointer[role=tab]"
+    },
+    {
+     "text": "Show more",
+     "size": "13px",
+     "weight": "500",
+     "fg": "#0AC285",
+     "bg": "#F7F7F7",
+     "bgImage": false,
+     "ratio": 2.16,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-emphasis-x20"
+    },
+    {
+     "text": "Log in",
+     "size": "13px",
+     "weight": "500",
+     "fg": "#0AC285",
+     "bg": "#FFFFFF",
+     "bgImage": false,
+     "ratio": 2.32,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-emphasis-x20"
+    },
+    {
+     "text": "Yes",
+     "size": "15px",
+     "weight": "500",
+     "fg": "#0AC285",
+     "bg": "#FFFFFF",
+     "bgImage": false,
+     "ratio": 2.32,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-emphasis-x30"
+    }
+   ],
+   "pairs": [
+    {
+     "pair": "#000000E6 on #FFFFFF",
+     "ratio": 17.58,
+     "count": 62,
+     "sample": "Trending",
+     "bgImage": false
+    },
+    {
+     "pair": "#000000E6 on #F7F7F7",
+     "ratio": 16.55,
+     "count": 42,
+     "sample": "What will 1+1 equal on Sep 27 at 05:00?",
+     "bgImage": false
+    },
+    {
+     "pair": "#0000008C on #FFFFFF",
+     "ratio": 4.74,
+     "count": 25,
+     "sample": "2028",
+     "bgImage": false
+    },
+    {
+     "pair": "#0AC285 on #FFFFFF",
+     "ratio": 2.32,
+     "count": 8,
+     "sample": "Log in",
+     "bgImage": false
+    },
+    {
+     "pair": "#0000004D on #F7F7F7",
+     "ratio": 2.11,
+     "count": 8,
+     "sample": "New markets",
+     "bgImage": false
+    },
+    {
+     "pair": "#D91616 on #FFFFFF",
+     "ratio": 5.15,
+     "count": 6,
+     "sample": "No",
+     "bgImage": false
+    },
+    {
+     "pair": "#0000008C on #F7F7F7",
+     "ratio": 4.66,
+     "count": 5,
+     "sample": "© 2026 Kalshi Inc. · All rights reserved",
+     "bgImage": false
+    },
+    {
+     "pair": "#0000004D on #FFFFFF",
+     "ratio": 2.12,
+     "count": 4,
+     "sample": "1D",
+     "bgImage": false
+    },
+    {
+     "pair": "#FFFFFF on #191919",
+     "ratio": 17.58,
+     "count": 2,
+     "sample": "Report Insider Trading",
+     "bgImage": false
+    },
+    {
+     "pair": "#FFFFFF on #28CC95",
+     "ratio": 2.07,
+     "count": 1,
+     "sample": "Sign up",
+     "bgImage": false
+    },
+    {
+     "pair": "#00000033 on #FFFFFF",
+     "ratio": 1.61,
+     "count": 1,
+     "sample": "Loading more...",
+     "bgImage": false
+    },
+    {
+     "pair": "#000000E6 on #F2F2F2",
+     "ratio": 15.9,
+     "count": 1,
+     "sample": "This event",
+     "bgImage": false
+    },
+    {
+     "pair": "#0AC285 on #F7F7F7",
+     "ratio": 2.16,
+     "count": 1,
+     "sample": "Show more",
+     "bgImage": false
+    }
+   ]
+  },
+  "interactive": [
+   {
+    "kind": "a",
+    "label": "",
+    "ariaLabel": null,
+    "sel": "a.flex.flex-col[data-testid=navbar-logo]",
+    "top": 24,
+    "x": 24,
+    "w": 112,
+    "h": 16,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "",
+    "ariaLabel": null,
+    "sel": "button.inline-flex.justify-center",
+    "top": 14,
+    "x": 215.16,
+    "w": 16,
+    "h": 36,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#28CC95",
+    "border": "0px none #28CC95",
+    "padding": "8px 8px 8px 8px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Log in",
+    "ariaLabel": null,
+    "sel": "button.inline-flex.justify-center",
+    "top": 16,
+    "x": 223.16,
+    "w": 63.73,
+    "h": 32,
+    "radius": "100px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#0AC285",
+    "border": "1px solid #0000001A",
+    "padding": "4px 12px 4px 12px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Sign up",
+    "ariaLabel": null,
+    "sel": "button.inline-flex.justify-center",
+    "top": 16,
+    "x": 294.89,
+    "w": 71.11,
+    "h": 32,
+    "radius": "100px",
+    "bg": "#28CC95",
+    "bgRaw": "rgb(40, 204, 149)",
+    "effectiveBg": "#28CC95",
+    "color": "#FFFFFF",
+    "border": "0px none #FFFFFF",
+    "padding": "4px 12px 4px 12px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Trending",
+    "ariaLabel": null,
+    "sel": "a.group.flex",
+    "top": 68,
+    "x": 24,
+    "w": 64.05,
+    "h": 30,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "4px 0px 4px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Elections",
+    "ariaLabel": null,
+    "sel": "a.group.flex",
+    "top": 68,
+    "x": 104.05,
+    "w": 65.44,
+    "h": 30,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "4px 0px 4px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Politics",
+    "ariaLabel": null,
+    "sel": "a.group.flex",
+    "top": 68,
+    "x": 185.48,
+    "w": 51.83,
+    "h": 30,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "4px 0px 4px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Sports",
+    "ariaLabel": null,
+    "sel": "a.group.flex",
+    "top": 68,
+    "x": 253.31,
+    "w": 47.16,
+    "h": 30,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "4px 0px 4px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Culture",
+    "ariaLabel": null,
+    "sel": "a.group.flex",
+    "top": 68,
+    "x": 316.47,
+    "w": 53.36,
+    "h": 30,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "4px 0px 4px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Crypto",
+    "ariaLabel": null,
+    "sel": "a.group.flex",
+    "top": 68,
+    "x": 385.83,
+    "w": 49.63,
+    "h": 30,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "4px 0px 4px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Commodities",
+    "ariaLabel": null,
+    "sel": "a.group.flex",
+    "top": 68,
+    "x": 451.45,
+    "w": 96.33,
+    "h": 30,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "4px 0px 4px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Climate",
+    "ariaLabel": null,
+    "sel": "a.group.flex",
+    "top": 68,
+    "x": 563.78,
+    "w": 55.56,
+    "h": 30,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "4px 0px 4px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Economics",
+    "ariaLabel": null,
+    "sel": "a.group.flex",
+    "top": 68,
+    "x": 635.34,
+    "w": 78.72,
+    "h": 30,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "4px 0px 4px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Mentions",
+    "ariaLabel": null,
+    "sel": "a.group.flex",
+    "top": 68,
+    "x": 730.06,
+    "w": 66.45,
+    "h": 30,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "4px 0px 4px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Finance",
+    "ariaLabel": null,
+    "sel": "a.group.flex",
+    "top": 68,
+    "x": 812.52,
+    "w": 56.2,
+    "h": 30,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "4px 0px 4px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Tech & Science",
+    "ariaLabel": null,
+    "sel": "a.group.flex",
+    "top": 68,
+    "x": 884.72,
+    "w": 109.33,
+    "h": 30,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "4px 0px 4px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "2028",
+    "ariaLabel": null,
+    "sel": "a.text-text-x20.no-underline",
+    "top": 118,
+    "x": 24,
+    "w": 35.38,
+    "h": 20,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#0000008C",
+    "border": "0px solid #0000008C",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "1D",
+    "ariaLabel": null,
+    "sel": "button.text-text-x30.hover:text-text-x20",
+    "top": 573,
+    "x": 145.83,
+    "w": 30.11,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#0000004D",
+    "border": "0px solid #0000004D",
+    "padding": "0px 6.5px 0px 6.5px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": "false",
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "1W",
+    "ariaLabel": null,
+    "sel": "button.text-text-x30.hover:text-text-x20",
+    "top": 573,
+    "x": 191.94,
+    "w": 33.22,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#0000004D",
+    "border": "0px solid #0000004D",
+    "padding": "0px 6.5px 0px 6.5px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": "false",
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "1M",
+    "ariaLabel": null,
+    "sel": "button.text-text-x30.hover:text-text-x20",
+    "top": 573,
+    "x": 241.16,
+    "w": 32.38,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#0000004D",
+    "border": "0px solid #0000004D",
+    "padding": "0px 6.5px 0px 6.5px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": "false",
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "ALL",
+    "ariaLabel": null,
+    "sel": "button.text-text-x10.hover:text-text-x20",
+    "top": 573,
+    "x": 289.53,
+    "w": 36.47,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "0px 6.5px 0px 6.5px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": "true",
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "",
+    "ariaLabel": null,
+    "sel": "button.group.flex",
+    "top": 571,
+    "x": 334,
+    "w": 32,
+    "h": 28,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px none #000000E6",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Live chat",
+    "ariaLabel": "Show live chat",
+    "sel": "button.flex.h-6",
+    "top": 617,
+    "x": 24,
+    "w": 342,
+    "h": 48,
+    "radius": "24px",
+    "bg": "#FFFFFF",
+    "bgRaw": "rgb(255, 255, 255)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "1px solid #0000000F",
+    "padding": "0px 12px 0px 24px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "",
+    "ariaLabel": null,
+    "sel": "button.cursor-pointer.transition-all",
+    "top": 678,
+    "x": 262,
+    "w": 32,
+    "h": 32,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "4px 4px 4px 4px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Switch event",
+    "ariaLabel": "Switch event",
+    "sel": "button.cursor-pointer.transition-all",
+    "top": 678,
+    "x": 334,
+    "w": 32,
+    "h": 32,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "4px 4px 4px 4px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Yes",
+    "ariaLabel": null,
+    "sel": "button.group/pill.inline-flex[data-testid=price-pill]",
+    "top": 787,
+    "x": 24,
+    "w": 167,
+    "h": 32,
+    "radius": "100px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "No 50¢",
+    "ariaLabel": null,
+    "sel": "button.group/pill.inline-flex[data-testid=price-pill]",
+    "top": 787,
+    "x": 199,
+    "w": 167,
+    "h": 32,
+    "radius": "100px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "No 20¢",
+    "ariaLabel": null,
+    "sel": "button.group/pill.inline-flex[data-testid=price-pill]",
+    "top": 906,
+    "x": 199,
+    "w": 167,
+    "h": 32,
+    "radius": "100px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "No 49.9¢",
+    "ariaLabel": null,
+    "sel": "button.group/pill.inline-flex[data-testid=price-pill]",
+    "top": 1025,
+    "x": 199,
+    "w": 167,
+    "h": 32,
+    "radius": "100px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "div[button]",
+    "label": "More markets",
+    "ariaLabel": null,
+    "sel": "div.flex.items-center[role=button]",
+    "top": 1072,
+    "x": 12,
+    "w": 183,
+    "h": 56,
+    "radius": "6px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "16px 16px 16px 12px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Democratic Party",
+    "ariaLabel": null,
+    "sel": "a.text-[0.9375rem].leading-[1.5rem]",
+    "top": 1359,
+    "x": 190.64,
+    "w": 123.69,
+    "h": 19,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "15px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "View full rules",
+    "ariaLabel": null,
+    "sel": "button.inline-flex.justify-center",
+    "top": 1419,
+    "x": 24,
+    "w": 112.66,
+    "h": 40,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#0AC285",
+    "border": "1px solid #0000001A",
+    "padding": "8px 12px 8px 12px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Help center",
+    "ariaLabel": null,
+    "sel": "button.inline-flex.justify-center",
+    "top": 1419,
+    "x": 148.66,
+    "w": 98.56,
+    "h": 40,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#0AC285",
+    "border": "1px solid #0000001A",
+    "padding": "8px 12px 8px 12px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Report Insider Trading",
+    "ariaLabel": null,
+    "sel": "button.appearance-none.inline-flex",
+    "top": 1471,
+    "x": 24,
+    "w": 200.28,
+    "h": 36,
+    "radius": "100px",
+    "bg": "#000000E6",
+    "bgRaw": "rgba(0, 0, 0, 0.9)",
+    "effectiveBg": "#191919",
+    "color": "#FFFFFF",
+    "border": "0px solid #00000000",
+    "padding": "0px 16px 0px 16px",
+    "shadow": null,
+    "font": "13px/20px 500",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "div[button]",
+    "label": "Timeline and payout",
+    "ariaLabel": null,
+    "sel": "div.flex.items-center[role=button]",
+    "top": 1532,
+    "x": 12,
+    "w": 366,
+    "h": 48,
+    "radius": "6px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "12px 16px 12px 12px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "div[button]",
+    "label": "Insider trading is prohibited",
+    "ariaLabel": null,
+    "sel": "div.flex.items-center[role=button]",
+    "top": 1581,
+    "x": 12,
+    "w": 366,
+    "h": 48,
+    "radius": "6px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "12px 16px 12px 12px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Who will win the next presidential election?",
+    "ariaLabel": null,
+    "sel": "a.flex.items-center",
+    "top": 1726,
+    "x": 12,
+    "w": 366,
+    "h": 72,
+    "radius": "6px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "12px 12px 12px 12px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Who will be the Republican nominee in 2028?",
+    "ariaLabel": null,
+    "sel": "a.flex.items-center",
+    "top": 1798,
+    "x": 12,
+    "w": 366,
+    "h": 72,
+    "radius": "6px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "12px 12px 12px 12px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Who will DSA endorse in the 2028 presidential election?",
+    "ariaLabel": null,
+    "sel": "a.flex.items-center",
+    "top": 1870,
+    "x": 12,
+    "w": 366,
+    "h": 72,
+    "radius": "6px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "12px 12px 12px 12px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Show more",
+    "ariaLabel": null,
+    "sel": "button.inline-flex.justify-center",
+    "top": 1954,
+    "x": 24,
+    "w": 96.11,
+    "h": 40,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#0AC285",
+    "border": "1px solid #0000001A",
+    "padding": "8px 12px 8px 12px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button[tab]",
+    "label": "Social",
+    "ariaLabel": null,
+    "sel": "button#event-social-ideas-tab.appearance-none.cursor-pointer[role=tab]",
+    "top": 2068,
+    "x": 16,
+    "w": 51.92,
+    "h": 28,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "24px/28px 500",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": "true"
+   },
+   {
+    "kind": "button[tab]",
+    "label": "Activity",
+    "ariaLabel": null,
+    "sel": "button#event-social-activity-tab.appearance-none.cursor-pointer[role=tab]",
+    "top": 2068,
+    "x": 83.92,
+    "w": 64.88,
+    "h": 28,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#0000004D",
+    "border": "0px solid #0000004D",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "24px/28px 500",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": "false"
+   },
+   {
+    "kind": "button",
+    "label": "This event",
+    "ariaLabel": null,
+    "sel": "button.appearance-none.inline-flex",
+    "top": 2064,
+    "x": 218.66,
+    "w": 97.16,
+    "h": 36,
+    "radius": "100px",
+    "bg": "#0000000D",
+    "bgRaw": "rgba(0, 0, 0, 0.05)",
+    "effectiveBg": "#F2F2F2",
+    "color": "#000000E6",
+    "border": "1px solid #000000E6",
+    "padding": "0px 16px 0px 16px",
+    "shadow": null,
+    "font": "13px/20px 500",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": "true",
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "All",
+    "ariaLabel": null,
+    "sel": "button.appearance-none.inline-flex",
+    "top": 2064,
+    "x": 323.81,
+    "w": 50.19,
+    "h": 36,
+    "radius": "100px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "1px solid #0000001A",
+    "padding": "0px 16px 0px 16px",
+    "shadow": null,
+    "font": "13px/20px 500",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": "false",
+    "selected": null
+   },
+   {
+    "kind": "textarea",
+    "label": "Post text",
+    "ariaLabel": "Post text",
+    "sel": "textarea.w-full.resize-none",
+    "top": 2139,
+    "x": 33,
+    "w": 324,
+    "h": 22,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "15px/22px 400",
+    "cursor": "text",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "GIF",
+    "ariaLabel": null,
+    "sel": "button.appearance-none.inline-flex",
+    "top": 2189,
+    "x": 120.23,
+    "w": 37.34,
+    "h": 36,
+    "radius": "100px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #00000000",
+    "padding": "0px 8px 0px 8px",
+    "shadow": null,
+    "font": "13px/20px 500",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Position",
+    "ariaLabel": null,
+    "sel": "button.appearance-none.inline-flex",
+    "top": 2185,
+    "x": 161.58,
+    "w": 103.42,
+    "h": 44,
+    "radius": "100px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "1px solid #0000001A",
+    "padding": "0px 8px 0px 8px",
+    "shadow": null,
+    "font": "15px/22px 500",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Post",
+    "ariaLabel": null,
+    "sel": "button.appearance-none.inline-flex",
+    "top": 2185,
+    "x": 269,
+    "w": 88,
+    "h": 44,
+    "radius": "100px",
+    "bg": "#000000E6",
+    "bgRaw": "rgba(0, 0, 0, 0.9)",
+    "effectiveBg": "#191919",
+    "color": "#FFFFFF",
+    "border": "0px solid #00000000",
+    "padding": "0px 16px 0px 16px",
+    "shadow": null,
+    "font": "15px/22px 500",
+    "cursor": "not-allowed",
+    "disabled": true,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "What will 1+1 equal on Sep 27 at 05:00?",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 2458,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Los Angeles D vs San Francisco: First 7 Innings",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 2494,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Houston vs A's: First 7 Innings",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 2530,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Arizona vs San Diego: First 7 Innings",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 2566,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Los Angeles D vs San Francisco: First 3 Innings",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 2602,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Houston vs A's: First 3 Innings",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 2638,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Show more",
+    "ariaLabel": null,
+    "sel": "button.inline-flex.justify-center",
+    "top": 2674,
+    "x": 8,
+    "w": 85,
+    "h": 40,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#0AC285",
+    "border": "0px none #0AC285",
+    "padding": "8px 8px 8px 8px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Who will win the next presidential election?",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 2774,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Who will be the Democratic nominee in 2028?",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 2810,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Who will be the Republican nominee in 2028?",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 2846,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Trump Truth Social posts this week? (9/20-9/26)",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 2882,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "2026 Midterms: Congress Balance of Power?",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 2918,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "When will traffic at the Strait of Hormuz return to normal?",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 2954,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "US Elections",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 3050,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Primaries",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 3086,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "2028",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 3122,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Senate",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 3158,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "House",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 3194,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Governor",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 3230,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "NFL Power Rankings",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 3326,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "The Market's College Football Top 25",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 3362,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "CHI Bears",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 3398,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "GB Packers",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 3434,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "NY Giants",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 3470,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "HOU Texans",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 3506,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "X (Twitter)",
+    "ariaLabel": "X (Twitter)",
+    "sel": "a.text-text-x20.hover:text-text-x10",
+    "top": 3671,
+    "x": 16,
+    "w": 20,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#0000008C",
+    "border": "0px solid #0000008C",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Instagram",
+    "ariaLabel": "Instagram",
+    "sel": "a.text-text-x20.hover:text-text-x10",
+    "top": 3671,
+    "x": 48,
+    "w": 20,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#0000008C",
+    "border": "0px solid #0000008C",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "TikTok",
+    "ariaLabel": "TikTok",
+    "sel": "a.text-text-x20.hover:text-text-x10",
+    "top": 3671,
+    "x": 80,
+    "w": 20,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#0000008C",
+    "border": "0px solid #0000008C",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Discord",
+    "ariaLabel": "Discord",
+    "sel": "a.text-text-x20.hover:text-text-x10",
+    "top": 3671,
+    "x": 112,
+    "w": 20,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#0000008C",
+    "border": "0px solid #0000008C",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Reddit",
+    "ariaLabel": "Reddit",
+    "sel": "a.text-text-x20.hover:text-text-x10",
+    "top": 3671,
+    "x": 144,
+    "w": 20,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#0000008C",
+    "border": "0px solid #0000008C",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "LinkedIn",
+    "ariaLabel": "LinkedIn",
+    "sel": "a.text-text-x20.hover:text-text-x10",
+    "top": 3671,
+    "x": 176,
+    "w": 20,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#0000008C",
+    "border": "0px solid #0000008C",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Kalshi Pro",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 3755,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Perpetual Futures",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 3791,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Markets",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 3827,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Incentive program",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 3863,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Institutions",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 3899,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "API & developers",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 3935,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "About",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 4023,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Kalshi Research",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 4059,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Blog",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 4095,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Careers",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 4131,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Policy Center",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 4167,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Brand Kit",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 4203,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Help Center",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 4291,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "FAQ",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 4327,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Fee schedule",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 4363,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Trading hours",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 4399,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Regulatory",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 4435,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Trust Center",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 4471,
+    "x": 16,
+    "w": 358,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Privacy",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.hover:underline",
+    "top": 4616,
+    "x": 16,
+    "w": 43.89,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#0000008C",
+    "border": "0px solid #0000008C",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Data Terms of Service",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.hover:underline",
+    "top": 4616,
+    "x": 83.89,
+    "w": 132.66,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#0000008C",
+    "border": "0px solid #0000008C",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Trading Prohibitions",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.hover:underline",
+    "top": 4616,
+    "x": 240.55,
+    "w": 121.91,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#0000008C",
+    "border": "0px solid #0000008C",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "FAQ for Finance Professionals",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.hover:underline",
+    "top": 4664,
+    "x": 16,
+    "w": 179.8,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#0000008C",
+    "border": "0px solid #0000008C",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   }
+  ],
+  "interactiveCount": 101,
+  "touchTargets": {
+   "byMinSide": {
+    "lt24": 11,
+    "24to32": 23,
+    "32to44": 62,
+    "gte44": 9
+   },
+   "byHeight": {
+    "16": 1,
+    "19": 1,
+    "20": 1,
+    "22": 1,
+    "24": 14,
+    "28": 3,
+    "30": 12,
+    "32": 12,
+    "36": 47,
+    "40": 4,
+    "44": 2,
+    "48": 3,
+    "56": 1,
+    "72": 3
+   }
+  },
+  "spacing": {
+   "padding": [
+    {
+     "v": "2px",
+     "n": 3
+    },
+    {
+     "v": "4px",
+     "n": 64
+    },
+    {
+     "v": "6px",
+     "n": 84
+    },
+    {
+     "v": "6.5px",
+     "n": 8
+    },
+    {
+     "v": "8px",
+     "n": 31
+    },
+    {
+     "v": "12px",
+     "n": 58
+    },
+    {
+     "v": "16px",
+     "n": 30
+    },
+    {
+     "v": "20px",
+     "n": 1
+    },
+    {
+     "v": "24px",
+     "n": 29
+    },
+    {
+     "v": "40px",
+     "n": 1
+    },
+    {
+     "v": "64px",
+     "n": 1
+    }
+   ],
+   "margin": [
+    {
+     "v": "-24px",
+     "n": 9
+    },
+    {
+     "v": "-16px",
+     "n": 6
+    },
+    {
+     "v": "-12px",
+     "n": 16
+    },
+    {
+     "v": "-8px",
+     "n": 1
+    },
+    {
+     "v": "-4px",
+     "n": 2
+    },
+    {
+     "v": "-3px",
+     "n": 1
+    },
+    {
+     "v": "8px",
+     "n": 10
+    },
+    {
+     "v": "12px",
+     "n": 4
+    },
+    {
+     "v": "16px",
+     "n": 10
+    },
+    {
+     "v": "24px",
+     "n": 1
+    },
+    {
+     "v": "48px",
+     "n": 1
+    },
+    {
+     "v": "108.516px",
+     "n": 1
+    }
+   ],
+   "gap": [
+    {
+     "v": "4px",
+     "n": 19
+    },
+    {
+     "v": "6px",
+     "n": 6
+    },
+    {
+     "v": "8px",
+     "n": 61
+    },
+    {
+     "v": "12px",
+     "n": 8
+    },
+    {
+     "v": "16px",
+     "n": 72
+    },
+    {
+     "v": "24px",
+     "n": 14
+    },
+    {
+     "v": "32px",
+     "n": 2
+    },
+    {
+     "v": "56px",
+     "n": 6
+    }
+   ]
+  },
+  "radius": [
+   {
+    "v": "6px",
+    "n": 13
+   },
+   {
+    "v": "8px",
+    "n": 22
+   },
+   {
+    "v": "24px",
+    "n": 2
+   },
+   {
+    "v": "100px",
+    "n": 23
+   }
+  ],
+  "borderWidth": [
+   {
+    "v": "1px",
+    "n": 15
+   }
+  ],
+  "shadows": [],
+  "palette": {
+   "backgrounds": [
+    {
+     "hex": "#FFFFFF",
+     "n": 8,
+     "area": 4231246,
+     "raw": "rgb(255, 255, 255)",
+     "sample": "div.trader-drawer-layout.flex"
+    },
+    {
+     "hex": "#00000008",
+     "n": 2,
+     "area": 1014780,
+     "raw": "rgba(0, 0, 0, 0.03)",
+     "sample": "footer.bg-fill-x60.dark:bg-surface-x20"
+    },
+    {
+     "hex": "#000000E6",
+     "n": 2,
+     "area": 11082,
+     "raw": "rgba(0, 0, 0, 0.9)",
+     "sample": "button.appearance-none.inline-flex"
+    },
+    {
+     "hex": "#00000012",
+     "n": 12,
+     "area": 4136,
+     "raw": "rgba(0, 0, 0, 0.07)",
+     "sample": "hr.border-none.flex-shrink-0"
+    },
+    {
+     "hex": "#0000000D",
+     "n": 1,
+     "area": 3498,
+     "raw": "rgba(0, 0, 0, 0.05)",
+     "sample": "button.appearance-none.inline-flex"
+    },
+    {
+     "hex": "#28CC95",
+     "n": 3,
+     "area": 2440,
+     "raw": "rgb(40, 204, 149)",
+     "sample": "button.inline-flex.justify-center"
+    },
+    {
+     "hex": "#0000001A",
+     "n": 3,
+     "area": 300,
+     "raw": "rgba(0, 0, 0, 0.1)",
+     "sample": "div.rounded-x50.w-[10px]"
+    },
+    {
+     "hex": "#265CFF",
+     "n": 1,
+     "area": 64,
+     "raw": "rgb(38, 92, 255)",
+     "sample": "div"
+    },
+    {
+     "hex": "#FF6A00",
+     "n": 1,
+     "area": 64,
+     "raw": "rgb(255, 106, 0)",
+     "sample": "div"
+    },
+    {
+     "hex": "#D91616",
+     "n": 1,
+     "area": 36,
+     "raw": "rgb(217, 22, 22)",
+     "sample": "div.h-1.w-1"
+    }
+   ],
+   "text": [
+    {
+     "hex": "#000000E6",
+     "n": 105,
+     "raw": "rgba(0, 0, 0, 0.9)",
+     "sample": "Trending"
+    },
+    {
+     "hex": "#0000008C",
+     "n": 30,
+     "raw": "rgba(0, 0, 0, 0.55)",
+     "sample": "2028"
+    },
+    {
+     "hex": "#0000004D",
+     "n": 12,
+     "raw": "rgba(0, 0, 0, 0.3)",
+     "sample": "1D"
+    },
+    {
+     "hex": "#0AC285",
+     "n": 9,
+     "raw": "rgb(10, 194, 133)",
+     "sample": "Log in"
+    },
+    {
+     "hex": "#D91616",
+     "n": 6,
+     "raw": "rgb(217, 22, 22)",
+     "sample": "No"
+    },
+    {
+     "hex": "#FFFFFF",
+     "n": 3,
+     "raw": "rgb(255, 255, 255)",
+     "sample": "Sign up"
+    },
+    {
+     "hex": "#00000033",
+     "n": 1,
+     "raw": "rgba(0, 0, 0, 0.2)",
+     "sample": "Loading more..."
+    }
+   ]
+  },
+  "copy": {
+   "title": "Who will be the Democratic nominee in 2028? Odds & Predictions",
+   "h1": [
+    "Who will be the Democratic nominee in 2028?"
+   ],
+   "h2h3": [
+    "99.9%",
+    "99%",
+    "Market Rules",
+    "People are also trading"
+   ],
+   "ctaLabels": [
+    "Log in",
+    "Sign up",
+    "1D",
+    "1W",
+    "1M",
+    "ALL",
+    "Live chat",
+    "Switch event",
+    "Yes",
+    "No 50¢",
+    "No 20¢",
+    "No 49.9¢",
+    "More markets",
+    "View full rules",
+    "Help center",
+    "Report Insider Trading",
+    "Timeline and payout",
+    "Insider trading is prohibited",
+    "Show more",
+    "Social",
+    "Activity",
+    "This event",
+    "All",
+    "GIF",
+    "Position",
+    "Post"
+   ],
+   "navLabels": [
+    "MARKETS",
+    "PERPS",
+    "LIVE55",
+    "PRO",
+    "MORE",
+    "Menu",
+    "Log in",
+    "Sign up",
+    "Add to watchlist",
+    "Trending",
+    "Elections",
+    "Politics",
+    "Sports",
+    "Culture",
+    "Crypto",
+    "Commodities",
+    "Climate",
+    "Economics",
+    "Mentions",
+    "Finance",
+    "Tech & Science",
+    "2028"
+   ],
+   "priceFormats": [
+    "99.9%",
+    "99%",
+    "$1",
+    "$0",
+    "$7,744,514,269 vol",
+    "50¢",
+    "20¢",
+    "49.9¢"
+   ],
+   "priceFormatCounts": {
+    "cents": 3,
+    "percent": 6,
+    "chance": 0,
+    "dollarsVol": 1,
+    "multiplier": 0
+   },
+   "feeAndDisclaimer": [
+    "2026 Midterms: Congress Balance of Power?",
+    "Data Terms of Service",
+    "Trading on Kalshi involves risk and may not be appropriate for all. Members risk losing their cost to enter any transaction, including fees. You should carefully consider whether trading on Kalshi is appropriate for you in light of your investment experience and financial resources. Any trading decisions you make are solely your responsibility and at your own risk. Information is provided for convenience only on an \"AS IS\" basis. Past performance is not necessarily indicative of future results. Kalshi is subject to U.S. regulatory oversight by the CFTC."
+   ],
+   "footerText": "NEW MARKETS What will 1+1 equal on Sep 27 at 05:00? Los Angeles D vs San Francisco: First 7 Innings Houston vs A's: First 7 Innings Arizona vs San Diego: First 7 Innings Los Angeles D vs San Francisco: First 3 Innings Houston vs A's: First 3 Innings Show more RELATED MARKETS Who will win the next presidential election? Who will be the Democratic nominee in 2028? Who will be the Republican nominee in 2028? Trump Truth Social posts this week? (9/20-9/26) 2026 Midterms: Congress Balance of Power? When will traffic at the Strait of Hormuz return to normal? RELATED TOPICS US Elections Primaries 2028 Senate House Governor SPORTS NFL Power Rankings The Market's College Football Top 25 CHI Bears GB Packers NY Giants HOU Texans"
+  },
+  "rootTokens": {
+   "count": 125,
+   "colors": {
+    "--text-x10": {
+     "authored": "#000000e6",
+     "srgb": "#000000E6"
+    },
+    "--text-x20": {
+     "authored": "#0000008c",
+     "srgb": "#0000008C"
+    },
+    "--text-x30": {
+     "authored": "#0000004d",
+     "srgb": "#0000004D"
+    },
+    "--text-white": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--text-black": {
+     "authored": "#000000e6",
+     "srgb": "#000000E6"
+    },
+    "--text-inverse": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--placeholder-text": {
+     "authored": "#0000008c",
+     "srgb": "#0000008C"
+    },
+    "--fill-x10": {
+     "authored": "#000000e6",
+     "srgb": "#000000E6"
+    },
+    "--fill-x20": {
+     "authored": "#00000059",
+     "srgb": "#00000059"
+    },
+    "--fill-x30": {
+     "authored": "#0003",
+     "srgb": "#00000033"
+    },
+    "--fill-x40": {
+     "authored": "#0000001a",
+     "srgb": "#0000001A"
+    },
+    "--fill-x50": {
+     "authored": "#00000012",
+     "srgb": "#00000012"
+    },
+    "--fill-x55": {
+     "authored": "#0000000d",
+     "srgb": "#0000000D"
+    },
+    "--fill-x60": {
+     "authored": "#00000008",
+     "srgb": "#00000008"
+    },
+    "--fill-white": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--fill-inverse": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--surface-x10": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--surface-x20": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--surface-x30": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--surface-x40": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--surface-inverse": {
+     "authored": "#1a1a1a",
+     "srgb": "#1A1A1A"
+    },
+    "--surface-overlay": {
+     "authored": "#0006",
+     "srgb": "#00000066"
+    },
+    "--surface-foreground": {
+     "authored": "#0000000d",
+     "srgb": "#0000000D"
+    },
+    "--surface-foreground-opaque": {
+     "authored": "#f7f7f7",
+     "srgb": "#F7F7F7"
+    },
+    "--sell-x10": {
+     "authored": "#000000e6",
+     "srgb": "#000000E6"
+    },
+    "--sell-x20": {
+     "authored": "#0000000d",
+     "srgb": "#0000000D"
+    },
+    "--sell-x30": {
+     "authored": "#0000001a",
+     "srgb": "#0000001A"
+    },
+    "--sell-x40": {
+     "authored": "#00000073",
+     "srgb": "#00000073"
+    },
+    "--sell-x50": {
+     "authored": "#0009",
+     "srgb": "#00000099"
+    },
+    "--purple-x10": {
+     "authored": "#a0f",
+     "srgb": "#AA00FF"
+    },
+    "--purple-x20": {
+     "authored": "#aa00ff1f",
+     "srgb": "#AD00FF1F"
+    },
+    "--purple-x30": {
+     "authored": "#aa00ff29",
+     "srgb": "#A800FF29"
+    },
+    "--purple-x40": {
+     "authored": "#8f00d6",
+     "srgb": "#8F00D6"
+    },
+    "--purple-x50": {
+     "authored": "#609",
+     "srgb": "#660099"
+    },
+    "--perps-purple-x10": {
+     "authored": "#7839ff",
+     "srgb": "#7839FF"
+    },
+    "--perps-purple-x20": {
+     "authored": "#7839ff1a",
+     "srgb": "#763BFF1A"
+    },
+    "--blue-x10": {
+     "authored": "#265cff",
+     "srgb": "#265CFF"
+    },
+    "--blue-x20": {
+     "authored": "#265cff1f",
+     "srgb": "#295AFF1F"
+    },
+    "--blue-x30": {
+     "authored": "#265cff29",
+     "srgb": "#255DFF29"
+    },
+    "--blue-x40": {
+     "authored": "#204dd6",
+     "srgb": "#204DD6"
+    },
+    "--blue-x50": {
+     "authored": "#173799",
+     "srgb": "#173799"
+    },
+    "--teal-x10": {
+     "authored": "#00b5d9",
+     "srgb": "#00B5D9"
+    },
+    "--teal-x20": {
+     "authored": "#00b5d91f",
+     "srgb": "#00B5D61F"
+    },
+    "--teal-x30": {
+     "authored": "#00b5d929",
+     "srgb": "#00B4DA29"
+    },
+    "--teal-x40": {
+     "authored": "#0098b6",
+     "srgb": "#0098B6"
+    },
+    "--teal-x50": {
+     "authored": "#006d82",
+     "srgb": "#006D82"
+    },
+    "--green-x10": {
+     "authored": "#0ac285",
+     "srgb": "#0AC285"
+    },
+    "--green-x20": {
+     "authored": "#0ac2851f",
+     "srgb": "#08C5841F"
+    },
+    "--green-x30": {
+     "authored": "#0ac28529",
+     "srgb": "#0CC18329"
+    },
+    "--green-x40": {
+     "authored": "#08a370",
+     "srgb": "#08A370"
+    },
+    "--green-x50": {
+     "authored": "#067450",
+     "srgb": "#067450"
+    },
+    "--yellow-x10": {
+     "authored": "#ffd600",
+     "srgb": "#FFD600"
+    },
+    "--yellow-x20": {
+     "authored": "#ffd6001f",
+     "srgb": "#FFD6001F"
+    },
+    "--yellow-x30": {
+     "authored": "#ffd60029",
+     "srgb": "#FFD30029"
+    },
+    "--yellow-x40": {
+     "authored": "#d6b400",
+     "srgb": "#D6B400"
+    },
+    "--yellow-x50": {
+     "authored": "#998000",
+     "srgb": "#998000"
+    },
+    "--orange-x10": {
+     "authored": "#ff6a00",
+     "srgb": "#FF6A00"
+    },
+    "--orange-x20": {
+     "authored": "#ff6a001f",
+     "srgb": "#FF6B001F"
+    },
+    "--orange-x30": {
+     "authored": "#ff6a0029",
+     "srgb": "#FF6A0029"
+    },
+    "--orange-x40": {
+     "authored": "#d65900",
+     "srgb": "#D65900"
+    },
+    "--orange-x50": {
+     "authored": "#994000",
+     "srgb": "#994000"
+    },
+    "--red-x10": {
+     "authored": "#d91616",
+     "srgb": "#D91616"
+    },
+    "--red-x20": {
+     "authored": "#d916161f",
+     "srgb": "#D619191F"
+    },
+    "--red-x30": {
+     "authored": "#d9161629",
+     "srgb": "#DA191929"
+    },
+    "--red-x40": {
+     "authored": "#d91616",
+     "srgb": "#D91616"
+    },
+    "--red-x50": {
+     "authored": "#820d3e",
+     "srgb": "#820D3E"
+    },
+    "--brand-primary": {
+     "authored": "#28cc95",
+     "srgb": "#28CC95"
+    },
+    "--brand-secondary": {
+     "authored": "#003221",
+     "srgb": "#003221"
+    },
+    "--custom-fill": {
+     "authored": "#00000008",
+     "srgb": "#00000008"
+    },
+    "--container-x10": {
+     "authored": "#000000e6",
+     "srgb": "#000000E6"
+    },
+    "--container-x20": {
+     "authored": "#00000059",
+     "srgb": "#00000059"
+    },
+    "--container-x30": {
+     "authored": "#0000000d",
+     "srgb": "#0000000D"
+    },
+    "--container-x40": {
+     "authored": "#80808005",
+     "srgb": "#99999905"
+    },
+    "--core-black": {
+     "authored": "#000",
+     "srgb": "#000000"
+    },
+    "--core-white": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--core-inverse": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--stroke-x10": {
+     "authored": "#000000e6",
+     "srgb": "#000000E6"
+    },
+    "--stroke-x20": {
+     "authored": "#0003",
+     "srgb": "#00000033"
+    },
+    "--stroke-x30": {
+     "authored": "#0000001a",
+     "srgb": "#0000001A"
+    },
+    "--stroke-x40": {
+     "authored": "#0000000f",
+     "srgb": "#0000000F"
+    },
+    "--surface-transparent": {
+     "authored": "#fff0",
+     "srgb": "#00000000"
+    },
+    "--special-gold": {
+     "authored": "#e5bd45",
+     "srgb": "#E5BD45"
+    },
+    "--special-silver": {
+     "authored": "#98a7b2",
+     "srgb": "#98A7B2"
+    },
+    "--special-bronze": {
+     "authored": "#b28474",
+     "srgb": "#B28474"
+    },
+    "--special-tradeslip-bg": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--cfb-gridiron-ink": {
+     "authored": "#6fb8f0",
+     "srgb": "#6FB8F0"
+    },
+    "--bprogress-color": {
+     "authored": "#0ac285",
+     "srgb": "#0AC285"
+    }
+   },
+   "all": {
+    "--text-x10": "#000000e6",
+    "--text-x20": "#0000008c",
+    "--text-x30": "#0000004d",
+    "--text-white": "#fff",
+    "--text-black": "#000000e6",
+    "--text-inverse": "#fff",
+    "--placeholder-text": "#0000008c",
+    "--fill-x10": "#000000e6",
+    "--fill-x20": "#00000059",
+    "--fill-x30": "#0003",
+    "--fill-x40": "#0000001a",
+    "--fill-x50": "#00000012",
+    "--fill-x55": "#0000000d",
+    "--fill-x60": "#00000008",
+    "--fill-white": "#fff",
+    "--fill-inverse": "#fff",
+    "--surface-x10": "#fff",
+    "--surface-x20": "#fff",
+    "--surface-x30": "#fff",
+    "--surface-x40": "#fff",
+    "--surface-inverse": "#1a1a1a",
+    "--surface-overlay": "#0006",
+    "--surface-foreground": "#0000000d",
+    "--surface-foreground-opaque": "#f7f7f7",
+    "--sell-x10": "#000000e6",
+    "--sell-x20": "#0000000d",
+    "--sell-x30": "#0000001a",
+    "--sell-x40": "#00000073",
+    "--sell-x50": "#0009",
+    "--purple-x10": "#a0f",
+    "--purple-x20": "#aa00ff1f",
+    "--purple-x30": "#aa00ff29",
+    "--purple-x40": "#8f00d6",
+    "--purple-x50": "#609",
+    "--perps-purple-x10": "#7839ff",
+    "--perps-purple-x20": "#7839ff1a",
+    "--blue-x10": "#265cff",
+    "--blue-x20": "#265cff1f",
+    "--blue-x30": "#265cff29",
+    "--blue-x40": "#204dd6",
+    "--blue-x50": "#173799",
+    "--teal-x10": "#00b5d9",
+    "--teal-x20": "#00b5d91f",
+    "--teal-x30": "#00b5d929",
+    "--teal-x40": "#0098b6",
+    "--teal-x50": "#006d82",
+    "--green-x10": "#0ac285",
+    "--green-x20": "#0ac2851f",
+    "--green-x30": "#0ac28529",
+    "--green-x40": "#08a370",
+    "--green-x50": "#067450",
+    "--yellow-x10": "#ffd600",
+    "--yellow-x20": "#ffd6001f",
+    "--yellow-x30": "#ffd60029",
+    "--yellow-x40": "#d6b400",
+    "--yellow-x50": "#998000",
+    "--orange-x10": "#ff6a00",
+    "--orange-x20": "#ff6a001f",
+    "--orange-x30": "#ff6a0029",
+    "--orange-x40": "#d65900",
+    "--orange-x50": "#994000",
+    "--red-x10": "#d91616",
+    "--red-x20": "#d916161f",
+    "--red-x30": "#d9161629",
+    "--red-x40": "#d91616",
+    "--red-x50": "#820d3e",
+    "--brand-primary": "#28cc95",
+    "--brand-secondary": "#003221",
+    "--custom-fill": "#00000008",
+    "--content-width": "1320px",
+    "--trader-drawer-width": "360px",
+    "--trader-drawer-width-lg": "300px",
+    "--announcement-height": "0px",
+    "--nv-banner-height": "0px",
+    "--top-banner-height": "0px",
+    "--top-navbar-height": "106px",
+    "--header-height": "calc(0px + 106px + 0px + 0px)",
+    "--container-x10": "#000000e6",
+    "--container-x20": "#00000059",
+    "--container-x30": "#0000000d",
+    "--container-x40": "#80808005",
+    "--core-black": "#000",
+    "--core-white": "#fff",
+    "--core-inverse": "#fff",
+    "--stroke-x10": "#000000e6",
+    "--stroke-x20": "#0003",
+    "--stroke-x30": "#0000001a",
+    "--stroke-x40": "#0000000f",
+    "--surface-transparent": "#fff0",
+    "--special-gold": "#e5bd45",
+    "--special-silver": "#98a7b2",
+    "--special-bronze": "#b28474",
+    "--special-tradeslip-bg": "#fff",
+    "--tw-bg-opacity": "1",
+    "--tw-gradient-from": "var(--fill-x50) var(--tw-gradient-from-position)",
+    "--tw-gradient-to": "var(--fill-x50) var(--tw-gradient-to-position)",
+    "--tw-gradient-stops": "var(--tw-gradient-from), var(--fill-x40) var(--tw-gradient-via-position), var(--tw-gradient-to)",
+    "--tw-text-opacity": "1",
+    "--tw-shadow": "0 0 #0000",
+    "--tw-shadow-colored": "0 0 #0000",
+    "--tw-invert": "invert(100%)",
+    "--lightningcss-light": "",
+    "--lightningcss-dark": "initial",
+    "--cfb-gridiron-ink": "#6fb8f0",
+    "--perp-live-trade-filter": "drop-shadow(0 1px 1px #000000bf)",
+    "--toast-icon-margin-start": "4px",
+    "--toast-icon-margin-end": "-3px",
+    "--toast-svg-margin-start": "0px",
+    "--toast-svg-margin-end": "-1px",
+    "--toast-button-margin-start": "0",
+    "--toast-button-margin-end": "auto",
+    "--toast-close-button-start": "unset",
+    "--toast-close-button-end": "0",
+    "--toast-close-button-transform": "translate(35%, -35%)",
+    "--bprogress-color": "#0ac285",
+    "--bprogress-height": "2px",
+    "--bprogress-spinner-size": "18px",
+    "--bprogress-spinner-animation-duration": "400ms",
+    "--bprogress-spinner-border-size": "2px",
+    "--bprogress-box-shadow": "0 0 10px #0ac285, 0 0 5px #0ac285",
+    "--bprogress-z-index": "99999",
+    "--bprogress-spinner-top": "15px",
+    "--bprogress-spinner-bottom": "auto",
+    "--bprogress-spinner-right": "15px",
+    "--bprogress-spinner-left": "auto"
+   }
+  }
+ },
+ "axe": {
+  "version": "4.12.1",
+  "violationRules": 9,
+  "nodesByImpact": {
+   "critical": 7,
+   "serious": 23,
+   "moderate": 27,
+   "minor": 0
+  },
+  "rules": {
+   "aria-allowed-attr": {
+    "impact": "critical",
+    "nodes": 1,
+    "help": "Elements must only use supported ARIA attributes"
+   },
+   "button-name": {
+    "impact": "critical",
+    "nodes": 5,
+    "help": "Buttons must have discernible text"
+   },
+   "color-contrast": {
+    "impact": "serious",
+    "nodes": 22,
+    "help": "Elements must meet minimum color contrast ratio thresholds"
+   },
+   "image-alt": {
+    "impact": "critical",
+    "nodes": 1,
+    "help": "Images must have alternative text"
+   },
+   "landmark-no-duplicate-contentinfo": {
+    "impact": "moderate",
+    "nodes": 1,
+    "help": "Document should not have more than one contentinfo landmark"
+   },
+   "landmark-one-main": {
+    "impact": "moderate",
+    "nodes": 1,
+    "help": "Document should have one main landmark"
+   },
+   "landmark-unique": {
+    "impact": "moderate",
+    "nodes": 1,
+    "help": "Landmarks should have a unique role or role/label/title (i.e. accessible name) combination"
+   },
+   "link-name": {
+    "impact": "serious",
+    "nodes": 1,
+    "help": "Links must have discernible text"
+   },
+   "region": {
+    "impact": "moderate",
+    "nodes": 24,
+    "help": "All page content should be contained by landmarks"
+   }
+  },
+  "passes": 43,
+  "incomplete": 1
+ },
+ "finishedUtc": "2026-09-27T09:00:07.464Z",
+ "finalUrl": "https://demo.kalshi.co/markets/kxpresnomd/democratic-primary-winner/kxpresnomd-28"
+}

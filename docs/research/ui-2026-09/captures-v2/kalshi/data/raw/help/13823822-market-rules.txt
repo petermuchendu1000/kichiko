@@ -1,0 +1,19 @@
+URL: https://help.kalshi.com/en/articles/13823822-market-rules
+HTTP: 200
+Fetched: 2026-09-27T08:39:36Z
+Sitemap lastmod: 2026-03-17T21:12:20Z
+Title: 
+
+Market Rules and Summary
+
+Each market operates under its own set of regulations which are documented on the markets page. These rules explain the criteria and procedures that determine the market's functionality.
+
+There is a comprehensive rules summary available that provides clarity by detailing the specific outcomes required for a strike to be successful. It elaborates on the conditions under which an outcome would meet the necessary criteria for a contract to resolve Yes.
+
+This summary includes information about the outcome verification source, which ensures the integrity and reliability of the result. This verification source acts as an authoritative point of reference to confirm the legitimacy of the strike outcome, ensuring transparency and trust for all traders.
+
+Note: All markets are thoroughly reviewed by our markets team, and the outcomes will be determined when decided that resolution criteria has been met. A market remaining open or undetermined is in no way an indication of the resolution criteria being met or not being met
+
+Finding Market Rules
+
+*Make sure to read market rules before trading!

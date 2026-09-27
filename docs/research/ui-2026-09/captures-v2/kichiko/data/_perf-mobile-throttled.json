@@ -1,0 +1,219 @@
+{
+ "profile": "1.6Mbps/750kbps/150ms RTT, CPU 4x, 390x844 dpr2, cache disabled, 3 runs, median",
+ "capturedAt": "2026-09-27T09:10:36.973Z",
+ "pages": {
+  "P01-home": {
+   "runs": [
+    {
+     "ttfb": 2747.5,
+     "fcp": 3624,
+     "lcp": 3624,
+     "cls": 0.0075,
+     "longTasks": 13,
+     "longTaskMs": 1845,
+     "docBytes": 158089,
+     "bytesByType": {
+      "script": 255999,
+      "css": 18700,
+      "img": 12450,
+      "font": 72140,
+      "fetch": 7581,
+      "other": 2304
+     },
+     "totalBytes": 527263,
+     "requests": 52
+    },
+    {
+     "ttfb": 2555.899999999907,
+     "fcp": 3568,
+     "lcp": 3568,
+     "cls": 0.0075,
+     "longTasks": 18,
+     "longTaskMs": 2059,
+     "docBytes": 158087,
+     "bytesByType": {
+      "script": 255999,
+      "css": 18700,
+      "img": 12450,
+      "font": 72140,
+      "fetch": 7579,
+      "other": 2304
+     },
+     "totalBytes": 527259,
+     "requests": 52
+    },
+    {
+     "ttfb": 2289.600000000093,
+     "fcp": 3216,
+     "lcp": 3216,
+     "cls": 0.0075,
+     "longTasks": 13,
+     "longTaskMs": 2310,
+     "docBytes": 158089,
+     "bytesByType": {
+      "script": 255999,
+      "css": 18700,
+      "img": 12450,
+      "font": 72140,
+      "fetch": 7582,
+      "other": 2304
+     },
+     "totalBytes": 527264,
+     "requests": 52
+    }
+   ],
+   "median": {
+    "ttfb": 2555.899999999907,
+    "fcp": 3568,
+    "lcp": 3568,
+    "cls": 0.0075,
+    "longTaskMs": 2059,
+    "totalKB": 515,
+    "scriptKB": 250,
+    "requests": 52
+   }
+  },
+  "P03-event-binary": {
+   "runs": [
+    {
+     "ttfb": 1640.2999999998137,
+     "fcp": 2576,
+     "lcp": 2576,
+     "cls": 0.0508,
+     "longTasks": 9,
+     "longTaskMs": 1285,
+     "docBytes": 31719,
+     "bytesByType": {
+      "script": 409627,
+      "css": 18700,
+      "img": 12450,
+      "font": 72140,
+      "fetch": 9740,
+      "other": 2304
+     },
+     "totalBytes": 556680,
+     "requests": 48
+    },
+    {
+     "ttfb": 1104,
+     "fcp": 2124,
+     "lcp": 2124,
+     "cls": 0.0508,
+     "longTasks": 11,
+     "longTaskMs": 1401,
+     "docBytes": 31719,
+     "bytesByType": {
+      "script": 409627,
+      "css": 18700,
+      "img": 12450,
+      "font": 72140,
+      "fetch": 9740,
+      "other": 2304
+     },
+     "totalBytes": 556680,
+     "requests": 48
+    },
+    {
+     "ttfb": 1098.6999999997206,
+     "fcp": 2056,
+     "lcp": 2056,
+     "cls": 0.0508,
+     "longTasks": 8,
+     "longTaskMs": 1128,
+     "docBytes": 31719,
+     "bytesByType": {
+      "script": 409627,
+      "css": 18700,
+      "img": 12450,
+      "font": 72140,
+      "fetch": 9743,
+      "other": 2304
+     },
+     "totalBytes": 556683,
+     "requests": 48
+    }
+   ],
+   "median": {
+    "ttfb": 1104,
+    "fcp": 2124,
+    "lcp": 2124,
+    "cls": 0.0508,
+    "longTaskMs": 1285,
+    "totalKB": 544,
+    "scriptKB": 400,
+    "requests": 48
+   }
+  },
+  "P04-event-multi": {
+   "runs": [
+    {
+     "ttfb": 921.6000000000931,
+     "fcp": 2084,
+     "lcp": 2084,
+     "cls": 0.0377,
+     "longTasks": 13,
+     "longTaskMs": 1849,
+     "docBytes": 40476,
+     "bytesByType": {
+      "script": 409627,
+      "css": 18700,
+      "img": 12450,
+      "font": 72140,
+      "fetch": 6262,
+      "other": 2304
+     },
+     "totalBytes": 561959,
+     "requests": 49
+    },
+    {
+     "ttfb": 10060.899999999907,
+     "fcp": 11208,
+     "lcp": 11208,
+     "cls": 0.0377,
+     "longTasks": 11,
+     "longTaskMs": 1930,
+     "docBytes": 40475,
+     "bytesByType": {
+      "script": 409627,
+      "css": 18700,
+      "img": 12450,
+      "font": 72140,
+      "fetch": 7315,
+      "other": 2904
+     },
+     "totalBytes": 563611,
+     "requests": 53
+    },
+    {
+     "ttfb": 1159.1000000000931,
+     "fcp": 2308,
+     "lcp": 2308,
+     "cls": 0.0377,
+     "longTasks": 13,
+     "longTaskMs": 1950,
+     "docBytes": 40475,
+     "bytesByType": {
+      "script": 409627,
+      "css": 18700,
+      "img": 12450,
+      "font": 72140,
+      "fetch": 7315,
+      "other": 2304
+     },
+     "totalBytes": 563011,
+     "requests": 51
+    }
+   ],
+   "median": {
+    "ttfb": 1159.1000000000931,
+    "fcp": 2308,
+    "lcp": 2308,
+    "cls": 0.0377,
+    "longTaskMs": 1930,
+    "totalKB": 550,
+    "scriptKB": 400,
+    "requests": 51
+   }
+  }
+ }
+}

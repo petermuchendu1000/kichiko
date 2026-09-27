@@ -1,0 +1,27 @@
+URL: https://help.kalshi.com/en/articles/13823771-what-is-kalshi-klear
+HTTP: 200
+Fetched: 2026-09-27T08:37:42Z
+Sitemap lastmod: 2026-03-10T21:29:20Z
+Title: 
+
+We’re thrilled to announce that Kalshi has officially merged its two exchanges into our very own clearinghouse: Kalshi Klear - the world's only tech-first derivatives clearinghouse.
+
+For the past three years, MIAXdx has been the clearinghouse for contracts traded on KalshiEX LLC (“Kalshi”). Following regulatory approval from the Commodity Futures Trading Commission (“Commission”), Kalshi has begun clearing its contracts through Kalshi Klear LLC (“Kalshi Klear”), an affiliate of Kalshi.
+
+What does this mean? Kalshi Klear accelerates everything.
+
+- More markets and market categories for even more ways to trade
+
+- New structures to trade smarter (exciting announcements coming soon)
+
+- Faster market listings in reaction to breaking news, because timing is everything
+
+- Faster settlements so you’ll get paid out sooner
+
+- Improved performance across the board for a smoother, faster experience
+
+- 3.25% APY (variable rate, subject to change) interest on your holdings, so your money can earn interest while you trade
+
+- View eligibility requirements here
+
+In other words, Kalshi Klear is here to make trading faster, better, and smoother than ever. Further information regarding the transfer may be found in Other Notices, Notice to Participants 24-15, found here: https://ledgerx.com/reg-notices .

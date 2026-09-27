@@ -576,7 +576,7 @@ export function SettingsView() {
 
       {/* REFERRAL */}
       {profile?.referral_code && (
-        <SectionCard icon={<IconLink size={17} />} title="Referral code" desc="Invite friends and earn rewards.">
+        <SectionCard icon={<IconLink size={17} />} title="Referral code" desc="Share your code with friends who want to join.">
           <div className="flex items-center justify-between rounded-lg border p-3" style={{ borderColor: 'var(--hairline)' }}>
             <span className="mono text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
               {profile.referral_code}

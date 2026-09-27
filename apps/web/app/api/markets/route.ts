@@ -6,6 +6,7 @@ import { z } from 'zod'
 import type { Enums, Json } from '@/types/supabase'
 import { presetHeaders } from '@/lib/http/cache-headers'
 import { clampInt, normalizeCategory, normalizeStatus } from '@/lib/search'
+import { screenMarketSubject } from '@/lib/markets/banned-subjects'
 import {
   validateOutcomeLabels,
   MAX_LABEL_LEN,
@@ -196,8 +197,11 @@ export async function POST(req: NextRequest) {
 
     // Markets created by regular users go to 'pending' for admin review
     // Admin/moderators can go directly to 'active'
+    // Reg. 45(7) screen (lib/markets/banned-subjects.ts). A flagged market never
+    // goes live directly, even for staff: it waits for an attested review.
+    const subjectFlags = screenMarketSubject(data)
     const isAdmin = profile?.role === 'admin' || profile?.role === 'moderator'
-    const status = isAdmin ? 'active' : 'pending'
+    const status = isAdmin && subjectFlags.length === 0 ? 'active' : 'pending'
 
     // Opening probability -> seed yes_price/no_price (defaults to an even 50/50).
     // `options` is not a `markets` column; it is persisted separately below.
@@ -217,7 +221,13 @@ export async function POST(req: NextRequest) {
         resolver_id: isAdmin ? user.id : null,
         yes_price: yesPrice,
         no_price: noPrice,
-        metadata: (metadata ?? null) as Json,
+        metadata: {
+          ...(metadata ?? {}),
+          subject_screen: {
+            flags: subjectFlags.map((f) => ({ category: f.category, term: f.term })),
+            screened_at: new Date().toISOString(),
+          },
+        } as unknown as Json,
       })
       .select()
       .single()
