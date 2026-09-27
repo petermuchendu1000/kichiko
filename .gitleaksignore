@@ -1,0 +1,5 @@
+# Google's public browser API keys embedded in the Google Play store page's
+# front-end config (WIZ_global_data), captured as competitor evidence on
+# 2026-09-27 and removed from the tree in the next commit. Not Kichiko
+# credentials; every visitor to play.google.com receives them.
+e450b2bffbdc9bbab319ae6579e2dcadd6d9dcd2:docs/research/ui-2026-09/captures-v2/kalshi/data/raw/play-com.kalshi.mobile.html:gcp-api-key:1
