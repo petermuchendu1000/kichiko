@@ -61,5 +61,14 @@
     "unauthorized": "Tafadhali ingia ili kuendelea.",
     "notFound": "Haikupatikana.",
     "rateLimited": "Maombi mengi mno. Tafadhali punguza kasi."
+  },
+  "shell": {
+    "errorTitle": "Kuna hitilafu",
+    "errorBody": "Ukurasa huu haukuweza kupakia. Tafadhali jaribu tena.",
+    "errorReference": "Marejeleo: {digest}",
+    "tryAgain": "Jaribu tena",
+    "goHome": "Nenda mwanzo",
+    "notFoundTitle": "Ukurasa haukupatikana",
+    "notFoundBody": "Ukurasa unaoutafuta haupo au umehamishwa."
   }
 }

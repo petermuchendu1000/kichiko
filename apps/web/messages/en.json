@@ -61,5 +61,14 @@
     "unauthorized": "Please sign in to continue.",
     "notFound": "Not found.",
     "rateLimited": "Too many requests. Please slow down."
+  },
+  "shell": {
+    "errorTitle": "Something went wrong",
+    "errorBody": "This page couldn’t load. Please try again.",
+    "errorReference": "Reference: {digest}",
+    "tryAgain": "Try again",
+    "goHome": "Go to home",
+    "notFoundTitle": "Page not found",
+    "notFoundBody": "The page you’re looking for doesn’t exist or has moved."
   }
 }

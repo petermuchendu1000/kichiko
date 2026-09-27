@@ -241,9 +241,10 @@ Entry: none. This is first.
 - **0.2 Collapse 23 contradictions into one spec of record.** Produce `docs/design/SPEC-OF-RECORD.md`; add a supersession header to every doc it replaces. The four token positions, the KES-vs-¢ notation conflict, `--navbar-height` 116 vs 104, detail H1 24 vs 28–32, ticket 372 vs 340, and the Σ price = 1 conflict (a coherence guard would reject the 22 live independent markets converted 2026-07-11) all get a single ruling with a reason.
 - **0.3 Re-capture the stale July numbers.** Hero, detail header / navbar height, timeframe set, buy sheet, related rows. The harness from [23] is committed under `experiments/competitor-capture/` and extends directly. Retry Kalshi on a different approach.
 - **0.4 Add the missing shell.** `error.tsx`, `loading.tsx`, `not-found.tsx`, `global-error.tsx`, plus `sitemap.ts` / `robots.ts`.
-- **0.5 Fix `viewport-fit=cover`** so the 7 existing safe-area usages start working.
+  ✅ **Done 2026-09-27**, verified on a production build (standalone server + Chromium, both themes): unknown URL, missing market and missing trader return **404**; a throwing route returns **500** with the navbar still mounted; all shell buttons measure 44px. **Finding that changes the gate:** a root `app/loading.tsx` turned every `notFound()` on a dynamic page into a **200 soft-404** (status is committed once a Suspense boundary streams; measured on `/markets/[slug]` and `/traders/[id]`). So loading boundaries are **per segment**, only where the subtree never calls `notFound()`: portfolio, notifications, settings, profile, search, leaderboard, kyc, creator, marketer, and the `/markets` list (moved into a `(list)` route group; URL unchanged). `/markets/[slug]`, `/traders/[id]` and the admin `[id]` pages deliberately have none.
+- **0.5 Fix `viewport-fit=cover`** so the 7 existing safe-area usages start working. ✅ **Done 2026-09-27** (meta verified in served HTML); `<body>` also pads `safe-area-inset-left/right` so landscape notches don't clip content.
 
-**Exit gate:** CI fails on unresolvable classes · one spec of record exists and every superseded doc says so · re-measured numbers committed as JSON, not prose · every route has an error and loading boundary.
+**Exit gate:** CI fails on unresolvable classes ✅ · one spec of record exists and every superseded doc says so · re-measured numbers committed as JSON, not prose · every route has an error boundary ✅ and a loading boundary **except where one would break 404 status** ✅.
 
 ### Phase 1 — Foundation: tokens, spacing, dark mode, targets
 

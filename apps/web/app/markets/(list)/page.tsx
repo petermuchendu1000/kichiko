@@ -1,4 +1,4 @@
-// app/markets/page.tsx — Markets discovery
+// app/markets/(list)/page.tsx — Markets discovery
 //
 // Server-rendered, URL-driven browse surface. All filter state lives in the URL
 // (?q, ?category, ?status, ?sort, ?page), validated by lib/search, and the grid

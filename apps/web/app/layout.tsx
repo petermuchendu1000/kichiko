@@ -78,6 +78,10 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
+  // Without `cover`, iOS reports every env(safe-area-inset-*) as 0, so the
+  // bottom nav, trade bar and sheets sat under the home indicator. Left/right
+  // insets (landscape notch) are handled on <body> in globals.css.
+  viewportFit: 'cover',
   themeColor: '#1452F0',
 }
 

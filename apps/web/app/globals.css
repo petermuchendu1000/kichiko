@@ -163,6 +163,9 @@
   * { box-sizing:border-box; border-color:var(--hairline); }
   html { scroll-behavior:smooth; -webkit-tap-highlight-color:transparent; -webkit-text-size-adjust:100%; }
   body {
+    /* viewport-fit=cover (app/layout.tsx) lets the page run under a landscape notch. */
+    padding-left:env(safe-area-inset-left);
+    padding-right:env(safe-area-inset-right);
     background-color:var(--bg);
     color:var(--text);
     font-family:var(--font-ui);
