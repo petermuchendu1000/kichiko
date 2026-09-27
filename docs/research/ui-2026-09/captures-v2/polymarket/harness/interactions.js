@@ -14,15 +14,13 @@ const MARK_PRE = () => { let n = 0; for (const el of document.querySelectorAll('
 const FIND_NEW_LAYER = (minArea) => {
   let best = null, bestA = 0;
   for (const el of document.body.querySelectorAll('*')) {
-    if (el.hasAttribute('data-kc-pre')) continue;
-    const p = el.parentElement; if (p && !p.hasAttribute('data-kc-pre') && p !== document.body) continue;
-    const r = el.getBoundingClientRect(), cs = getComputedStyle(el);
-    if (r.width <= 0 || r.height <= 0 || cs.visibility === 'hidden' || parseFloat(cs.opacity) === 0) continue;
-    if (!(el.innerText || '').trim()) continue; // skip empty scrims/overlays
-    if (!el.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true })) continue;
+    // candidate = newly visible, boxed, text-bearing; root = candidate whose parent is not itself a candidate
+    const isCand = e => { if (!e || e === document.body || e.hasAttribute('data-kc-pre')) return false; const q = e.getBoundingClientRect(); return q.width > 0 && q.height > 0 && e.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true }) && !!(e.innerText || '').trim(); };
+    if (!isCand(el) || isCand(el.parentElement)) continue;
+    const r = el.getBoundingClientRect();
     // overlay-ness: dialog/menu/listbox role, or fixed / high-z positioned in its ancestry (excludes in-flow carousel slides)
     let overlay = /^(dialog|menu|listbox|alertdialog)$/.test(el.getAttribute('role') || '') || !!el.querySelector('[role=dialog],[role=menu],[role=listbox]');
-    for (let n = el; n && n !== document.body && !overlay; n = n.parentElement) { const c = getComputedStyle(n); if (c.position === 'fixed' || (c.position === 'absolute' && parseInt(c.zIndex) >= 10) || n.hasAttribute('data-radix-popper-content-wrapper')) overlay = true; }
+    for (let n = el; n && n !== document.body && !overlay; n = n.parentElement) { const c = getComputedStyle(n); if (c.position === 'fixed' || (c.position === 'absolute' && parseInt(c.zIndex) >= 40) || n.hasAttribute('data-radix-popper-content-wrapper')) overlay = true; }
     const a = (overlay ? 1 : 0.001) * Math.max(0, Math.min(r.right, innerWidth) - Math.max(r.left, 0)) * Math.max(0, Math.min(r.bottom, innerHeight) - Math.max(r.top, 0)); // on-screen area, overlays preferred
     if (a > bestA) { bestA = a; best = el; }
   }
@@ -199,7 +197,7 @@ SEG.hoverfocus = async (browser, vp, theme) => {
   }
   // a feed-card Yes chip on home as a second Yes/No sample
   await L.politeGoto(page, HOME); await L.dismissInterstitial(page); await page.waitForTimeout(2500);
-  const ok = await tag('feed-yes-chip', `() => Array.from(document.querySelectorAll('a,button')).find(b => /^yes$/i.test((b.innerText||'').trim()) && b.getBoundingClientRect().width > 0 && b.getBoundingClientRect().top > 150)`);
+  const ok = await tag('feed-yes-chip', `() => Array.from(document.querySelectorAll('a[href*="outcomeIndex=0"],button')).find(b => /^yes\\b/i.test((b.innerText||'').trim()) && b.getBoundingClientRect().width > 0 && b.getBoundingClientRect().width < 140 && b.getBoundingClientRect().top > 150)`);
   if (ok) {
     const sel = '[data-kc-t="feed-yes-chip"]'; const t = {};
     await page.locator(sel).scrollIntoViewIfNeeded();
@@ -323,13 +321,14 @@ SEG.flows = async (browser, vp, theme) => {
     await page.waitForTimeout(2000);
     try {
       // click the first feed-card Yes chip
-      await page.evaluate(() => { const c = Array.from(document.querySelectorAll('a,button')).find(b => /^yes$/i.test((b.innerText || '').trim()) && b.getBoundingClientRect().width > 0 && b.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true }) && b.getBoundingClientRect().top + scrollY > 150); if (c) c.setAttribute('data-kc-chip', '1'); });
+      await page.evaluate(() => { const c = Array.from(document.querySelectorAll('a[href*="outcomeIndex=0"],button')).find(b => /^yes\b/i.test((b.innerText || '').trim()) && b.getBoundingClientRect().width < 140 && b.getBoundingClientRect().width > 0 && b.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true }) && b.getBoundingClientRect().top + scrollY > 150); if (c) c.setAttribute('data-kc-chip', '1'); });
       const chip = page.locator('[data-kc-chip]');
       const href = await chip.getAttribute('href').catch(() => null);
       await chip.click({ timeout: 6000 }); steps.push({ action: 'tap first feed-card "Yes" chip', href, counted: 1 });
       await page.waitForTimeout(4500);
       steps.push({ state: 'after chip', url: page.url() });
-      let t = await page.evaluate(TAG_TICKET);
+      let t = null;
+      for (let i = 0; i < 12 && !t; i++) { t = await page.evaluate(TAG_TICKET); if (!t) await page.waitForTimeout(1000); }
       if (!t && vp === 'mobile') {
         // the sheet may need the Buy button
         await page.evaluate(TAG_BIG_YES); const b = page.locator('[data-kc-opener]');

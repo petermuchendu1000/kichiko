@@ -1,0 +1,5 @@
+== capture 2026-09-27T09:17:08Z
+OK P01-mobile-light status=200 text=5124 theme=light inter=337 axe=3 21s
+OK P01-mobile-dark status=200 text=5124 theme=dark inter=337 axe=3 15s
+OK P01-desktop-light status=200 text=9672 theme=light inter=391 axe=3 24s
+OK P01-desktop-dark status=200 text=10283 theme=dark inter=390 axe=3 21s

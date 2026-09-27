@@ -51,6 +51,15 @@ async function amount(page, vp, log, value = '25') {
     if (!pick) return null; const r = pick.getBoundingClientRect();
     return { x: r.left + r.width / 2, y: r.top + r.height / 2, top: r.top + scrollY, placeholder: pick.placeholder, inputMode: pick.inputMode, type: pick.type, aria: pick.getAttribute('aria-label') };
   }, { desktop: vp === 'desktop' });
+  // Google One Tap (accounts.google.com iframe) overlays the bottom of the mobile sheet for logged-out
+  // visitors; close it with its own close button so the ticket is visible. Logged as observed.
+  let oneTap = null;
+  for (const f of page.frames()) if (/accounts\.google\.com\/gsi/.test(f.url())) {
+    oneTap = { present: true, url: f.url().slice(0, 120) };
+    const c = f.locator('#close, [aria-label=Close], div[role=button][aria-label]').first();
+    if (await c.isVisible().catch(() => false)) { await c.click().catch(() => { }); oneTap.closed = true; await sleep(800); }
+  }
+  s.googleOneTap = oneTap;
   if (!inp) return { side: s, amountInput: null, note: 'no amount input visible after side selection (keypad-style or none)' };
   await clickAt(page, inp); await sleep(300);
   await page.keyboard.type(value, { delay: 120 }); await sleep(1500);
@@ -58,8 +67,12 @@ async function amount(page, vp, log, value = '25') {
 }
 async function cta(page, vp, log) {
   const a = await amount(page, vp, log);
-  const re = /^(sign up to trade|review|review order|buy yes|buy no|buy|log in to trade|continue)\b/i;
-  const hit = vp === 'desktop' ? await findButton(page, re, { minX: 960 }) : await findButton(page, re, { preferDialog: true });
+  // the primary CTA, tried in priority order (the BUY tab must never match)
+  let hit = null;
+  for (const re of [/^sign up to trade$/i, /^review( order)?$/i, /^buy (yes|no)\b/i, /^log in to trade$/i, /^place order$/i]) {
+    hit = vp === 'desktop' ? await findButton(page, re, { minX: 960 }) : await findButton(page, re, { preferDialog: true });
+    if (hit) break;
+  }
   if (!hit) return { amount: a, cta: null };
   await clickAt(page, hit); await sleep(2500);
   return { amount: a, ctaClicked: hit, afterUrl: page.url(), dialogs: await dialogText(page) };

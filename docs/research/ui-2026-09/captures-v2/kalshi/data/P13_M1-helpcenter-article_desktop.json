@@ -1,0 +1,2557 @@
+{
+ "tag": "P13_M1-helpcenter-article_desktop",
+ "target": {
+  "id": "help-article",
+  "page": "P13",
+  "source": "M1",
+  "suffix": "helpcenter-article",
+  "url": "https://help.kalshi.com/en/articles/13823805-fees"
+ },
+ "vp": "desktop",
+ "startedUtc": "2026-09-27T09:11:09.639Z",
+ "consoleErrors": [
+  "Refused to connect to 'https://static.intercomassets.com/_next/static/css/0d033cbca92dd9eb.css' because it violates the following Content Security Policy directive: \"connect-src 'self' wss://*.intercom.io https://*.intercom.io https://*.intercom.com https://*.fin.ai https://*.intercom-messenger.com ",
+  "Refused to connect to 'https://static.intercomassets.com/_next/static/css/aca6b59773c71079.css' because it violates the following Content Security Policy directive: \"connect-src 'self' wss://*.intercom.io https://*.intercom.io https://*.intercom.com https://*.fin.ai https://*.intercom-messenger.com ",
+  "Refused to connect to 'https://static.intercomassets.com/_next/static/css/a36d49340c3b5f22.css' because it violates the following Content Security Policy directive: \"connect-src 'self' wss://*.intercom.io https://*.intercom.io https://*.intercom.com https://*.fin.ai https://*.intercom-messenger.com ",
+  "Refused to connect to 'https://static.intercomassets.com/_next/static/css/6b939ce177e16b28.css' because it violates the following Content Security Policy directive: \"connect-src 'self' wss://*.intercom.io https://*.intercom.io https://*.intercom.com https://*.fin.ai https://*.intercom-messenger.com ",
+  "Refused to connect to 'https://static.intercomassets.com/_next/static/css/b116545afd082284.css' because it violates the following Content Security Policy directive: \"connect-src 'self' wss://*.intercom.io https://*.intercom.io https://*.intercom.com https://*.fin.ai https://*.intercom-messenger.com "
+ ],
+ "responses": [
+  {
+   "url": "https://help.kalshi.com/en/articles/13823805-fees",
+   "status": 200
+  }
+ ],
+ "httpStatus": 200,
+ "signupModalAppearedAfterMs": null,
+ "fullPageClippedTo": 3462,
+ "docHeight": 3462,
+ "measure": {
+  "url": "https://help.kalshi.com/en/articles/13823805-fees",
+  "viewport": {
+   "w": 1440,
+   "h": 900,
+   "dpr": 1
+  },
+  "docHeight": 3462,
+  "colorScheme": "normal",
+  "htmlClass": "",
+  "bodyBg": "#FFFFFF",
+  "rootFontSize": "16px",
+  "bodyFont": "KalshiSans-Regular",
+  "fontsLoaded": [
+   "KalshiSans-Semibold 600 normal",
+   "KalshiSans-Regular 400 normal"
+  ],
+  "hydration": {
+   "reactFiberOnNodes": true,
+   "nextData": true,
+   "nextRouter": true,
+   "nextF": false,
+   "scripts": 26,
+   "visibleElements": 316,
+   "bodyTextChars": 2208
+  },
+  "structure": [
+   {
+    "tag": "header",
+    "role": "banner",
+    "sel": "header.DocsTopBar_bar__i14eF[role=banner]",
+    "top": 0,
+    "h": 60,
+    "w": 1440,
+    "x": 0,
+    "position": "fixed",
+    "text": "API Docs Search Ctrl K"
+   },
+   {
+    "tag": "nav",
+    "role": null,
+    "sel": "nav.DocsTopBar_tabs__s9VM5",
+    "top": 22.5,
+    "h": 14,
+    "w": 58.06,
+    "x": 1201.94,
+    "position": "static",
+    "text": "API Docs"
+   },
+   {
+    "tag": "aside",
+    "role": null,
+    "sel": "aside.DocsSidebar_sidebar__5kaW1.DocsSidebar_sidebarPinned__GqF0b",
+    "top": 60,
+    "h": 840,
+    "w": 276,
+    "x": 0,
+    "position": "fixed",
+    "text": "Getting Started Perpetual Futures Account & Security Deposits & Withdrawals Trading Market"
+   },
+   {
+    "tag": "main",
+    "role": null,
+    "sel": "main#docs-main.DocsShell_main__bquc5",
+    "top": 60,
+    "h": 2894.58,
+    "w": 812,
+    "x": 324,
+    "position": "static",
+    "text": "All Collections Trading Fees Fees April 19, 2026 Copy for LLM Kalshi makes money by chargi"
+   },
+   {
+    "tag": "div",
+    "role": null,
+    "sel": "div.DocsShell_toc__O_GUe",
+    "top": 60,
+    "h": 130.33,
+    "w": 240,
+    "x": 1184,
+    "position": "fixed",
+    "text": "On this page Maker Fees"
+   },
+   {
+    "tag": "nav",
+    "role": null,
+    "sel": "nav.DocsToc_toc__klYmW",
+    "top": 60,
+    "h": 98.33,
+    "w": 240,
+    "x": 1184,
+    "position": "static",
+    "text": "On this page Maker Fees"
+   },
+   {
+    "tag": "nav",
+    "role": null,
+    "sel": "nav.DocsArticle_breadcrumbs__pASWu",
+    "top": 92,
+    "h": 20.14,
+    "w": 812,
+    "x": 324,
+    "position": "static",
+    "text": "All Collections Trading Fees"
+   },
+   {
+    "tag": "header",
+    "role": null,
+    "sel": "header.DocsArticle_header__le7BR",
+    "top": 128.14,
+    "h": 117.31,
+    "w": 812,
+    "x": 324,
+    "position": "static",
+    "text": "Fees April 19, 2026 Copy for LLM"
+   },
+   {
+    "tag": "h1",
+    "role": null,
+    "sel": "h1.DocsArticle_title__3pXkn",
+    "top": 128.14,
+    "h": 40.31,
+    "w": 812,
+    "x": 324,
+    "position": "static",
+    "text": "Fees"
+   },
+   {
+    "tag": "h1",
+    "role": null,
+    "sel": "h1#h_c4566dbd7b",
+    "top": 416.95,
+    "h": 31.19,
+    "w": 812,
+    "x": 324,
+    "position": "static",
+    "text": "Maker Fees"
+   },
+   {
+    "tag": "section",
+    "role": null,
+    "sel": "section.DocsArticle_related__7PPTw",
+    "top": 2656.45,
+    "h": 234.13,
+    "w": 812,
+    "x": 324,
+    "position": "static",
+    "text": "Related Articles How does Kalshi make money? Who are you trading with? Limit Orders Liquid"
+   },
+   {
+    "tag": "h2",
+    "role": null,
+    "sel": "h2.DocsArticle_relatedTitle__Ysv8Y",
+    "top": 2656.45,
+    "h": 24.69,
+    "w": 812,
+    "x": 324,
+    "position": "static",
+    "text": "Related Articles"
+   },
+   {
+    "tag": "footer",
+    "role": null,
+    "sel": "footer#footer.shrink-0.bg-footer-bg",
+    "top": 2954.58,
+    "h": 506.94,
+    "w": 1440,
+    "x": 0,
+    "position": "relative",
+    "text": "Trade what's next. Company Markets About Blog Careers Legal and trust Fee schedule Regulat"
+   }
+  ],
+  "typography": [
+   {
+    "family": "KalshiSans-Semibold",
+    "size": "36px",
+    "weight": "600",
+    "lineHeight": "40.32px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#1A1A1A",
+    "colorRaw": "rgb(26, 26, 26)",
+    "fontVariantNumeric": "normal",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Fees",
+      "sel": "h1.DocsArticle_title__3pXkn",
+      "top": 128.14
+     }
+    ]
+   },
+   {
+    "family": "KalshiSans-Semibold",
+    "size": "26px",
+    "weight": "600",
+    "lineHeight": "31.2px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#1A1A1A",
+    "colorRaw": "rgb(26, 26, 26)",
+    "fontVariantNumeric": "normal",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Maker Fees",
+      "sel": "h1#h_c4566dbd7b",
+      "top": 416.95
+     }
+    ]
+   },
+   {
+    "family": "KalshiSans-Semibold",
+    "size": "19px",
+    "weight": "600",
+    "lineHeight": "24.7px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#1A1A1A",
+    "colorRaw": "rgb(26, 26, 26)",
+    "fontVariantNumeric": "normal",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Related Articles",
+      "sel": "h2.DocsArticle_relatedTitle__Ysv8Y",
+      "top": 2656.45
+     }
+    ]
+   },
+   {
+    "family": "KalshiSans-Regular",
+    "size": "16px",
+    "weight": "700",
+    "lineHeight": "25.6px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#191919",
+    "colorRaw": "rgb(25, 25, 25)",
+    "fontVariantNumeric": "normal",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Skip to main content",
+      "sel": "a.sr-only.font-bold",
+      "top": -1
+     }
+    ]
+   },
+   {
+    "family": "KalshiSans-Regular",
+    "size": "15px",
+    "weight": "400",
+    "lineHeight": "23.25px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#1A1A1A",
+    "colorRaw": "rgb(26, 26, 26)",
+    "fontVariantNumeric": "normal",
+    "count": 4,
+    "samples": [
+     {
+      "text": "Kalshi makes money by charging a transaction fee on the expe",
+      "sel": "p",
+      "top": 277.45
+     },
+     {
+      "text": "Some markets have fees that are different from those of othe",
+      "sel": "p",
+      "top": 347.2
+     },
+     {
+      "text": "In some cases, markets will have maker fees associated with ",
+      "sel": "p",
+      "top": 460.14
+     }
+    ]
+   },
+   {
+    "family": "KalshiSans-Regular",
+    "size": "15px",
+    "weight": "400",
+    "lineHeight": "23.25px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#595959",
+    "colorRaw": "rgb(89, 89, 89)",
+    "fontVariantNumeric": "normal",
+    "count": 3,
+    "samples": [
+     {
+      "text": "Disappointed Reaction",
+      "sel": "span#:R2abq6:-disappointed.sr-only",
+      "top": 2587.95
+     },
+     {
+      "text": "Neutral Reaction",
+      "sel": "span#:R2abq6:-neutral.sr-only",
+      "top": 2587.95
+     },
+     {
+      "text": "Smiley Reaction",
+      "sel": "span#:R2abq6:-smiley.sr-only",
+      "top": 2587.95
+     }
+    ]
+   },
+   {
+    "family": "KalshiSans-Regular",
+    "size": "15px",
+    "weight": "400",
+    "lineHeight": "23.25px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#00B87A",
+    "colorRaw": "rgb(0, 184, 122)",
+    "fontVariantNumeric": "normal",
+    "count": 2,
+    "samples": [
+     {
+      "text": "here",
+      "sel": "a",
+      "top": 302.7
+     },
+     {
+      "text": "here",
+      "sel": "a",
+      "top": 531.89
+     }
+    ]
+   },
+   {
+    "family": "KalshiSans-Regular",
+    "size": "14px",
+    "weight": "600",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#1A1A1A",
+    "colorRaw": "rgb(26, 26, 26)",
+    "fontVariantNumeric": "normal",
+    "count": 12,
+    "samples": [
+     {
+      "text": "Getting Started",
+      "sel": "span.DocsSidebar_collectionHeaderLabel__OOPry",
+      "top": 92
+     },
+     {
+      "text": "Perpetual Futures",
+      "sel": "span.DocsSidebar_collectionHeaderLabel__OOPry",
+      "top": 128
+     },
+     {
+      "text": "Account & Security",
+      "sel": "span.DocsSidebar_collectionHeaderLabel__OOPry",
+      "top": 164
+     }
+    ]
+   },
+   {
+    "family": "KalshiSans-Regular",
+    "size": "14px",
+    "weight": "400",
+    "lineHeight": "21.7px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#757575",
+    "colorRaw": "rgb(117, 117, 117)",
+    "fontVariantNumeric": "normal",
+    "count": 11,
+    "samples": [
+     {
+      "text": "Trade what's next.",
+      "sel": "div.mt-6.text-start",
+      "top": 3062.58
+     },
+     {
+      "text": "Markets",
+      "sel": "a.no-underline[data-testid=footer-custom-link-0]",
+      "top": 3050.27
+     },
+     {
+      "text": "About",
+      "sel": "a.no-underline[data-testid=footer-custom-link-1]",
+      "top": 3087.95
+     }
+    ]
+   },
+   {
+    "family": "KalshiSans-Regular",
+    "size": "14px",
+    "weight": "600",
+    "lineHeight": "21.7px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#1A1A1A",
+    "colorRaw": "rgb(26, 26, 26)",
+    "fontVariantNumeric": "normal",
+    "count": 5,
+    "samples": [
+     {
+      "text": "How does Kalshi make money?",
+      "sel": "span.DocsArticle_relatedCardTitle__f4Dqj",
+      "top": 2705.14
+     },
+     {
+      "text": "Who are you trading with?",
+      "sel": "span.DocsArticle_relatedCardTitle__f4Dqj",
+      "top": 2743.83
+     },
+     {
+      "text": "Limit Orders",
+      "sel": "span.DocsArticle_relatedCardTitle__f4Dqj",
+      "top": 2782.52
+     }
+    ]
+   },
+   {
+    "family": "KalshiSans-Regular",
+    "size": "14px",
+    "weight": "600",
+    "lineHeight": "21.7px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#757575",
+    "colorRaw": "rgb(117, 117, 117)",
+    "fontVariantNumeric": "normal",
+    "count": 2,
+    "samples": [
+     {
+      "text": "Company",
+      "sel": "p.mb-6.text-start",
+      "top": 3003.58
+     },
+     {
+      "text": "Legal and trust",
+      "sel": "p.mb-6.text-start",
+      "top": 3003.58
+     }
+    ]
+   },
+   {
+    "family": "KalshiSans-Regular",
+    "size": "14px",
+    "weight": "400",
+    "lineHeight": "21.7px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#ADADAD",
+    "colorRaw": "rgb(173, 173, 173)",
+    "fontVariantNumeric": "normal",
+    "count": 2,
+    "samples": [
+     {
+      "text": "© 2026 Kalshi Inc. · All rights reserved",
+      "sel": "span",
+      "top": 3262.7
+     },
+     {
+      "text": "​​​​​Trading on Kalshi involves risk and may not be appropri",
+      "sel": "span",
+      "top": 3306.08
+     }
+    ]
+   },
+   {
+    "family": "KalshiSans-Regular",
+    "size": "14px",
+    "weight": "400",
+    "lineHeight": "14px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#1A1A1AC7",
+    "colorRaw": "color(srgb 0.0980392 0.0980392 0.0980392 / 0.78)",
+    "fontVariantNumeric": "normal",
+    "count": 1,
+    "samples": [
+     {
+      "text": "API Docs",
+      "sel": "a.DocsTopBar_tab__AXxRm",
+      "top": 14.5
+     }
+    ]
+   },
+   {
+    "family": "KalshiSans-Regular",
+    "size": "14px",
+    "weight": "400",
+    "lineHeight": "21.7px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#1A1A1AC7",
+    "colorRaw": "color(srgb 0.0980392 0.0980392 0.0980392 / 0.78)",
+    "fontVariantNumeric": "normal",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Search",
+      "sel": "span",
+      "top": 18.66
+     }
+    ]
+   },
+   {
+    "family": "KalshiSans-Regular",
+    "size": "14px",
+    "weight": "400",
+    "lineHeight": "21.7px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#595959",
+    "colorRaw": "rgb(89, 89, 89)",
+    "fontVariantNumeric": "normal",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Did this answer your question?",
+      "sel": "legend#:R2abq6:.DocsReactionPicker_prompt__jhEmS",
+      "top": 2534.77
+     }
+    ]
+   },
+   {
+    "family": "KalshiSans-Regular",
+    "size": "13px",
+    "weight": "400",
+    "lineHeight": "20.15px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#595959",
+    "colorRaw": "rgb(89, 89, 89)",
+    "fontVariantNumeric": "normal",
+    "count": 2,
+    "samples": [
+     {
+      "text": "All Collections",
+      "sel": "a.DocsArticle_crumbLink__S6a6m",
+      "top": 92
+     },
+     {
+      "text": "Trading",
+      "sel": "a.DocsArticle_crumbLink__S6a6m",
+      "top": 92
+     }
+    ]
+   },
+   {
+    "family": "KalshiSans-Regular",
+    "size": "13px",
+    "weight": "400",
+    "lineHeight": "20.15px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#1A1A1A",
+    "colorRaw": "rgb(26, 26, 26)",
+    "fontVariantNumeric": "normal",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Fees",
+      "sel": "span.DocsArticle_crumbCurrent__Jy3_j",
+      "top": 92
+     }
+    ]
+   },
+   {
+    "family": "KalshiSans-Regular",
+    "size": "13px",
+    "weight": "400",
+    "lineHeight": "18.2px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#595959",
+    "colorRaw": "rgb(89, 89, 89)",
+    "fontVariantNumeric": "normal",
+    "count": 1,
+    "samples": [
+     {
+      "text": "April 19, 2026",
+      "sel": "time",
+      "top": 188.36
+     }
+    ]
+   },
+   {
+    "family": "KalshiSans-Regular",
+    "size": "13px",
+    "weight": "600",
+    "lineHeight": "20.15px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#1A1A1A",
+    "colorRaw": "rgb(26, 26, 26)",
+    "fontVariantNumeric": "normal",
+    "count": 1,
+    "samples": [
+     {
+      "text": "On this page",
+      "sel": "div.DocsToc_label__hyv0Z",
+      "top": 92
+     }
+    ]
+   },
+   {
+    "family": "KalshiSans-Regular",
+    "size": "13px",
+    "weight": "400",
+    "lineHeight": "18.2px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#00B87A",
+    "colorRaw": "rgb(0, 184, 122)",
+    "fontVariantNumeric": "normal",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Maker Fees",
+      "sel": "a.DocsToc_link__LliFQ",
+      "top": 124.14
+     }
+    ]
+   },
+   {
+    "family": "\"JetBrains Mono\", ui-monospace, monospace",
+    "size": "12px",
+    "weight": "500",
+    "lineHeight": "12px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#1A1A1AC7",
+    "colorRaw": "color(srgb 0.0980392 0.0980392 0.0980392 / 0.78)",
+    "fontVariantNumeric": "normal",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Ctrl K",
+      "sel": "kbd.DocsTopBar_kbd__R7hwM",
+      "top": 23.5
+     }
+    ]
+   },
+   {
+    "family": "KalshiSans-Regular",
+    "size": "12px",
+    "weight": "700",
+    "lineHeight": "12px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#1A1A1A",
+    "colorRaw": "rgb(26, 26, 26)",
+    "fontVariantNumeric": "normal",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Copy for LLM",
+      "sel": "button.DocsActionBar_btn__jbxkw",
+      "top": 180.45
+     }
+    ]
+   }
+  ],
+  "contrast": {
+   "textNodes": 56,
+   "failAA": 18,
+   "failAAWithoutBgImage": 18,
+   "worstUnique": [
+    {
+     "text": "© 2026 Kalshi Inc. · All rights reserved",
+     "size": "14px",
+     "weight": "400",
+     "fg": "#ADADAD",
+     "bg": "#F7F7F7",
+     "bgImage": false,
+     "ratio": 2.09,
+     "large": false,
+     "passAA": false,
+     "sel": "span"
+    },
+    {
+     "text": "here",
+     "size": "15px",
+     "weight": "400",
+     "fg": "#00B87A",
+     "bg": "#FFFFFF",
+     "bgImage": false,
+     "ratio": 2.58,
+     "large": false,
+     "passAA": false,
+     "sel": "a"
+    },
+    {
+     "text": "Maker Fees",
+     "size": "13px",
+     "weight": "400",
+     "fg": "#00B87A",
+     "bg": "#FFFFFF",
+     "bgImage": false,
+     "ratio": 2.58,
+     "large": false,
+     "passAA": false,
+     "sel": "a.DocsToc_link__LliFQ"
+    },
+    {
+     "text": "Trade what's next.",
+     "size": "14px",
+     "weight": "400",
+     "fg": "#757575",
+     "bg": "#F7F7F7",
+     "bgImage": false,
+     "ratio": 4.3,
+     "large": false,
+     "passAA": false,
+     "sel": "div.mt-6.text-start"
+    }
+   ],
+   "pairs": [
+    {
+     "pair": "#1A1A1A on #FFFFFF",
+     "ratio": 17.4,
+     "count": 27,
+     "sample": "Getting Started",
+     "bgImage": false
+    },
+    {
+     "pair": "#757575 on #F7F7F7",
+     "ratio": 4.3,
+     "count": 13,
+     "sample": "Trade what's next.",
+     "bgImage": false
+    },
+    {
+     "pair": "#595959 on #FFFFFF",
+     "ratio": 7,
+     "count": 7,
+     "sample": "All Collections",
+     "bgImage": false
+    },
+    {
+     "pair": "#00B87A on #FFFFFF",
+     "ratio": 2.58,
+     "count": 3,
+     "sample": "here",
+     "bgImage": false
+    },
+    {
+     "pair": "#1A1A1AC7 on #F3F3F3",
+     "ratio": 8.02,
+     "count": 2,
+     "sample": "Search",
+     "bgImage": false
+    },
+    {
+     "pair": "#ADADAD on #F7F7F7",
+     "ratio": 2.09,
+     "count": 2,
+     "sample": "© 2026 Kalshi Inc. · All rights reserved",
+     "bgImage": false
+    },
+    {
+     "pair": "#191919 on #FFFFFF",
+     "ratio": 17.58,
+     "count": 1,
+     "sample": "Skip to main content",
+     "bgImage": false
+    },
+    {
+     "pair": "#1A1A1AC7 on #FFFFFF",
+     "ratio": 8.54,
+     "count": 1,
+     "sample": "API Docs",
+     "bgImage": false
+    }
+   ]
+  },
+  "interactive": [
+   {
+    "kind": "a",
+    "label": "Skip to main content",
+    "ariaLabel": null,
+    "sel": "a.sr-only.font-bold",
+    "top": -1,
+    "x": -1,
+    "w": 1,
+    "h": 1,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#191919",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/25.6px 700",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Kalshi Help Center home",
+    "ariaLabel": "Kalshi Help Center home",
+    "sel": "a.DocsTopBar_brand__TXdtf",
+    "top": 13.5,
+    "x": 16,
+    "w": 113.5,
+    "h": 32,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#191919",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 8px",
+    "shadow": null,
+    "font": "15px/23.25px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "API Docs",
+    "ariaLabel": null,
+    "sel": "a.DocsTopBar_tab__AXxRm",
+    "top": 14.5,
+    "x": 1189.94,
+    "w": 82.06,
+    "h": 30,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#1A1A1AC7",
+    "border": "0px solid #E5E7EB",
+    "padding": "8px 12px 8px 12px",
+    "shadow": null,
+    "font": "14px/14px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Search Ctrl K",
+    "ariaLabel": "Search docs (Ctrl K)",
+    "sel": "button.DocsTopBar_search__tI7kY",
+    "top": 14.5,
+    "x": 1284,
+    "w": 140,
+    "h": 30,
+    "radius": "8px",
+    "bg": "#1414140D",
+    "bgRaw": "color(srgb 0.0980392 0.0980392 0.0980392 / 0.05)",
+    "effectiveBg": "#F3F3F3",
+    "color": "#1A1A1AC7",
+    "border": "1px solid #1B1B1B26",
+    "padding": "0px 16px 0px 16px",
+    "shadow": null,
+    "font": "14px/21.7px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Getting Started",
+    "ariaLabel": null,
+    "sel": "a.DocsSidebar_collectionHeader__hbgyv",
+    "top": 84,
+    "x": 16,
+    "w": 207,
+    "h": 36,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#1A1A1A",
+    "border": "0px solid #E5E7EB",
+    "padding": "8px 8px 8px 8px",
+    "shadow": null,
+    "font": "14px/20px 600",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Expand Getting Started",
+    "ariaLabel": "Expand Getting Started",
+    "sel": "button.DocsSidebar_toggle___lsmG",
+    "top": 88,
+    "x": 227,
+    "w": 28,
+    "h": 28,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#585858AD",
+    "border": "0px none #585858AD",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "15px/23.25px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Perpetual Futures",
+    "ariaLabel": null,
+    "sel": "a.DocsSidebar_collectionHeader__hbgyv",
+    "top": 120,
+    "x": 16,
+    "w": 207,
+    "h": 36,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#1A1A1A",
+    "border": "0px solid #E5E7EB",
+    "padding": "8px 8px 8px 8px",
+    "shadow": null,
+    "font": "14px/20px 600",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Expand Perpetual Futures",
+    "ariaLabel": "Expand Perpetual Futures",
+    "sel": "button.DocsSidebar_toggle___lsmG",
+    "top": 124,
+    "x": 227,
+    "w": 28,
+    "h": 28,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#585858AD",
+    "border": "0px none #585858AD",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "15px/23.25px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Account & Security",
+    "ariaLabel": null,
+    "sel": "a.DocsSidebar_collectionHeader__hbgyv",
+    "top": 156,
+    "x": 16,
+    "w": 207,
+    "h": 36,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#1A1A1A",
+    "border": "0px solid #E5E7EB",
+    "padding": "8px 8px 8px 8px",
+    "shadow": null,
+    "font": "14px/20px 600",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Expand Account & Security",
+    "ariaLabel": "Expand Account & Security",
+    "sel": "button.DocsSidebar_toggle___lsmG",
+    "top": 160,
+    "x": 227,
+    "w": 28,
+    "h": 28,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#585858AD",
+    "border": "0px none #585858AD",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "15px/23.25px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Deposits & Withdrawals",
+    "ariaLabel": null,
+    "sel": "a.DocsSidebar_collectionHeader__hbgyv",
+    "top": 192,
+    "x": 16,
+    "w": 207,
+    "h": 36,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#1A1A1A",
+    "border": "0px solid #E5E7EB",
+    "padding": "8px 8px 8px 8px",
+    "shadow": null,
+    "font": "14px/20px 600",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Expand Deposits & Withdrawals",
+    "ariaLabel": "Expand Deposits & Withdrawals",
+    "sel": "button.DocsSidebar_toggle___lsmG",
+    "top": 196,
+    "x": 227,
+    "w": 28,
+    "h": 28,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#585858AD",
+    "border": "0px none #585858AD",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "15px/23.25px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Trading",
+    "ariaLabel": null,
+    "sel": "a.DocsSidebar_collectionHeader__hbgyv",
+    "top": 228,
+    "x": 16,
+    "w": 207,
+    "h": 36,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#1A1A1A",
+    "border": "0px solid #E5E7EB",
+    "padding": "8px 8px 8px 8px",
+    "shadow": null,
+    "font": "14px/20px 600",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Expand Trading",
+    "ariaLabel": "Expand Trading",
+    "sel": "button.DocsSidebar_toggle___lsmG",
+    "top": 232,
+    "x": 227,
+    "w": 28,
+    "h": 28,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#585858AD",
+    "border": "0px none #585858AD",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "15px/23.25px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Markets",
+    "ariaLabel": null,
+    "sel": "a.DocsSidebar_collectionHeader__hbgyv",
+    "top": 264,
+    "x": 16,
+    "w": 207,
+    "h": 36,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#1A1A1A",
+    "border": "0px solid #E5E7EB",
+    "padding": "8px 8px 8px 8px",
+    "shadow": null,
+    "font": "14px/20px 600",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Expand Markets",
+    "ariaLabel": "Expand Markets",
+    "sel": "button.DocsSidebar_toggle___lsmG",
+    "top": 268,
+    "x": 227,
+    "w": 28,
+    "h": 28,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#585858AD",
+    "border": "0px none #585858AD",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "15px/23.25px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Portfolio & Tools",
+    "ariaLabel": null,
+    "sel": "a.DocsSidebar_collectionHeader__hbgyv",
+    "top": 300,
+    "x": 16,
+    "w": 207,
+    "h": 36,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#1A1A1A",
+    "border": "0px solid #E5E7EB",
+    "padding": "8px 8px 8px 8px",
+    "shadow": null,
+    "font": "14px/20px 600",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Expand Portfolio & Tools",
+    "ariaLabel": "Expand Portfolio & Tools",
+    "sel": "button.DocsSidebar_toggle___lsmG",
+    "top": 304,
+    "x": 227,
+    "w": 28,
+    "h": 28,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#585858AD",
+    "border": "0px none #585858AD",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "15px/23.25px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Taxes & Documents",
+    "ariaLabel": null,
+    "sel": "a.DocsSidebar_collectionHeader__hbgyv",
+    "top": 336,
+    "x": 16,
+    "w": 207,
+    "h": 36,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#1A1A1A",
+    "border": "0px solid #E5E7EB",
+    "padding": "8px 8px 8px 8px",
+    "shadow": null,
+    "font": "14px/20px 600",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Expand Taxes & Documents",
+    "ariaLabel": "Expand Taxes & Documents",
+    "sel": "button.DocsSidebar_toggle___lsmG",
+    "top": 340,
+    "x": 227,
+    "w": 28,
+    "h": 28,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#585858AD",
+    "border": "0px none #585858AD",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "15px/23.25px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Programs & Promotions",
+    "ariaLabel": null,
+    "sel": "a.DocsSidebar_collectionHeader__hbgyv",
+    "top": 372,
+    "x": 16,
+    "w": 207,
+    "h": 36,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#1A1A1A",
+    "border": "0px solid #E5E7EB",
+    "padding": "8px 8px 8px 8px",
+    "shadow": null,
+    "font": "14px/20px 600",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Expand Programs & Promotions",
+    "ariaLabel": "Expand Programs & Promotions",
+    "sel": "button.DocsSidebar_toggle___lsmG",
+    "top": 376,
+    "x": 227,
+    "w": 28,
+    "h": 28,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#585858AD",
+    "border": "0px none #585858AD",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "15px/23.25px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "API & Developers",
+    "ariaLabel": null,
+    "sel": "a.DocsSidebar_collectionHeader__hbgyv",
+    "top": 408,
+    "x": 16,
+    "w": 207,
+    "h": 36,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#1A1A1A",
+    "border": "0px solid #E5E7EB",
+    "padding": "8px 8px 8px 8px",
+    "shadow": null,
+    "font": "14px/20px 600",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Expand API & Developers",
+    "ariaLabel": "Expand API & Developers",
+    "sel": "button.DocsSidebar_toggle___lsmG",
+    "top": 412,
+    "x": 227,
+    "w": 28,
+    "h": 28,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#585858AD",
+    "border": "0px none #585858AD",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "15px/23.25px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Support",
+    "ariaLabel": null,
+    "sel": "a.DocsSidebar_collectionHeader__hbgyv",
+    "top": 444,
+    "x": 16,
+    "w": 207,
+    "h": 36,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#1A1A1A",
+    "border": "0px solid #E5E7EB",
+    "padding": "8px 8px 8px 8px",
+    "shadow": null,
+    "font": "14px/20px 600",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Expand Support",
+    "ariaLabel": "Expand Support",
+    "sel": "button.DocsSidebar_toggle___lsmG",
+    "top": 448,
+    "x": 227,
+    "w": 28,
+    "h": 28,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#585858AD",
+    "border": "0px none #585858AD",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "15px/23.25px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Kalshi Social",
+    "ariaLabel": null,
+    "sel": "a.DocsSidebar_collectionHeader__hbgyv",
+    "top": 480,
+    "x": 16,
+    "w": 207,
+    "h": 36,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#1A1A1A",
+    "border": "0px solid #E5E7EB",
+    "padding": "8px 8px 8px 8px",
+    "shadow": null,
+    "font": "14px/20px 600",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Expand Kalshi Social",
+    "ariaLabel": "Expand Kalshi Social",
+    "sel": "button.DocsSidebar_toggle___lsmG",
+    "top": 484,
+    "x": 227,
+    "w": 28,
+    "h": 28,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#585858AD",
+    "border": "0px none #585858AD",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "15px/23.25px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "All Collections",
+    "ariaLabel": null,
+    "sel": "a.DocsArticle_crumbLink__S6a6m",
+    "top": 92,
+    "x": 324,
+    "w": 87.45,
+    "h": 20.14,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#595959",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "13px/20.15px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Trading",
+    "ariaLabel": null,
+    "sel": "a.DocsArticle_crumbLink__S6a6m",
+    "top": 92,
+    "x": 439.45,
+    "w": 46.02,
+    "h": 20.14,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#595959",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "13px/20.15px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Copy for LLM",
+    "ariaLabel": null,
+    "sel": "button.DocsActionBar_btn__jbxkw",
+    "top": 180.45,
+    "x": 984.14,
+    "w": 120.86,
+    "h": 32,
+    "radius": "8px 0px 0px 8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#1A1A1A",
+    "border": "1px solid #1B1B1B26",
+    "padding": "0px 12px 0px 12px",
+    "shadow": null,
+    "font": "12px/12px 700",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "More article actions",
+    "ariaLabel": "More article actions",
+    "sel": "button#radix-:Rjdabq6:.DocsActionBar_caretBtn__KVQfJ",
+    "top": 180.45,
+    "x": 1104,
+    "w": 32,
+    "h": 32,
+    "radius": "0px 8px 8px 0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#1A1A1A",
+    "border": "1px solid #1B1B1B26",
+    "padding": "0px 8px 0px 8px",
+    "shadow": null,
+    "font": "15px/23.25px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "here",
+    "ariaLabel": null,
+    "sel": "a",
+    "top": 302.7,
+    "x": 1069.14,
+    "w": 31.36,
+    "h": 19,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#00B87A",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "15px/23.25px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "",
+    "ariaLabel": null,
+    "sel": "a",
+    "top": 1492.42,
+    "x": 324,
+    "w": 811.98,
+    "h": 19,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#00B87A",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "15px/23.25px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Disappointed Reaction",
+    "ariaLabel": null,
+    "sel": "button.DocsReactionPicker_reaction__hkJ7y",
+    "top": 2568.45,
+    "x": 324,
+    "w": 40,
+    "h": 40,
+    "radius": "6px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#595959",
+    "border": "1px solid #1B1B1B26",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "15px/23.25px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": "false",
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Neutral Reaction",
+    "ariaLabel": null,
+    "sel": "button.DocsReactionPicker_reaction__hkJ7y",
+    "top": 2568.45,
+    "x": 372,
+    "w": 40,
+    "h": 40,
+    "radius": "6px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#595959",
+    "border": "1px solid #1B1B1B26",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "15px/23.25px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": "false",
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Smiley Reaction",
+    "ariaLabel": null,
+    "sel": "button.DocsReactionPicker_reaction__hkJ7y",
+    "top": 2568.45,
+    "x": 420,
+    "w": 40,
+    "h": 40,
+    "radius": "6px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#595959",
+    "border": "1px solid #1B1B1B26",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "15px/23.25px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": "false",
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "How does Kalshi make money?",
+    "ariaLabel": null,
+    "sel": "a.DocsArticle_relatedCard__QVpvw",
+    "top": 2697.14,
+    "x": 312,
+    "w": 836,
+    "h": 37.69,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#1A1A1A",
+    "border": "0px solid #E5E7EB",
+    "padding": "8px 12px 8px 12px",
+    "shadow": null,
+    "font": "15px/23.25px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Who are you trading with?",
+    "ariaLabel": null,
+    "sel": "a.DocsArticle_relatedCard__QVpvw",
+    "top": 2735.83,
+    "x": 312,
+    "w": 836,
+    "h": 37.69,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#1A1A1A",
+    "border": "0px solid #E5E7EB",
+    "padding": "8px 12px 8px 12px",
+    "shadow": null,
+    "font": "15px/23.25px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Limit Orders",
+    "ariaLabel": null,
+    "sel": "a.DocsArticle_relatedCard__QVpvw",
+    "top": 2774.52,
+    "x": 312,
+    "w": 836,
+    "h": 37.69,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#1A1A1A",
+    "border": "0px solid #E5E7EB",
+    "padding": "8px 12px 8px 12px",
+    "shadow": null,
+    "font": "15px/23.25px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Liquidity Incentive Program",
+    "ariaLabel": null,
+    "sel": "a.DocsArticle_relatedCard__QVpvw",
+    "top": 2813.2,
+    "x": 312,
+    "w": 836,
+    "h": 37.69,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#1A1A1A",
+    "border": "0px solid #E5E7EB",
+    "padding": "8px 12px 8px 12px",
+    "shadow": null,
+    "font": "15px/23.25px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Perps Fees Explained",
+    "ariaLabel": null,
+    "sel": "a.DocsArticle_relatedCard__QVpvw",
+    "top": 2851.89,
+    "x": 312,
+    "w": 836,
+    "h": 37.69,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#1A1A1A",
+    "border": "0px solid #E5E7EB",
+    "padding": "8px 12px 8px 12px",
+    "shadow": null,
+    "font": "15px/23.25px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Maker Fees",
+    "ariaLabel": null,
+    "sel": "a.DocsToc_link__LliFQ",
+    "top": 124.14,
+    "x": 1201,
+    "w": 223,
+    "h": 18.19,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#00B87A",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "13px/18.2px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "",
+    "ariaLabel": null,
+    "sel": "a.no-underline",
+    "top": 3007.84,
+    "x": 324,
+    "w": 105.78,
+    "h": 23,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#757575",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "18px/27.9px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Markets",
+    "ariaLabel": null,
+    "sel": "a.no-underline[data-testid=footer-custom-link-0]",
+    "top": 3050.27,
+    "x": 882,
+    "w": 51.41,
+    "h": 18,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#757575",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "14px/21.7px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "About",
+    "ariaLabel": null,
+    "sel": "a.no-underline[data-testid=footer-custom-link-1]",
+    "top": 3087.95,
+    "x": 882,
+    "w": 39.97,
+    "h": 18,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#757575",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "14px/21.7px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Blog",
+    "ariaLabel": null,
+    "sel": "a.no-underline[data-testid=footer-custom-link-2]",
+    "top": 3125.64,
+    "x": 882,
+    "w": 29.53,
+    "h": 18,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#757575",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "14px/21.7px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Careers",
+    "ariaLabel": null,
+    "sel": "a.no-underline[data-testid=footer-custom-link-3]",
+    "top": 3163.33,
+    "x": 882,
+    "w": 50.8,
+    "h": 18,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#757575",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "14px/21.7px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Fee schedule",
+    "ariaLabel": null,
+    "sel": "a.no-underline[data-testid=footer-custom-link-0]",
+    "top": 3050.27,
+    "x": 1023,
+    "w": 86.5,
+    "h": 18,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#757575",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "14px/21.7px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Regulatory",
+    "ariaLabel": null,
+    "sel": "a.no-underline[data-testid=footer-custom-link-1]",
+    "top": 3087.95,
+    "x": 1023,
+    "w": 70.95,
+    "h": 18,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#757575",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "14px/21.7px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Policy Center",
+    "ariaLabel": null,
+    "sel": "a.no-underline[data-testid=footer-custom-link-2]",
+    "top": 3125.64,
+    "x": 1023,
+    "w": 87.3,
+    "h": 18,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#757575",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "14px/21.7px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Privacy Policy",
+    "ariaLabel": null,
+    "sel": "a.no-underline[data-testid=footer-custom-link-3]",
+    "top": 3163.33,
+    "x": 1023,
+    "w": 89.81,
+    "h": 18,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#757575",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "14px/21.7px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Trust Center",
+    "ariaLabel": null,
+    "sel": "a.no-underline[data-testid=footer-custom-link-4]",
+    "top": 3201.02,
+    "x": 1023,
+    "w": 81.02,
+    "h": 18,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#757575",
+    "border": "0px solid #E5E7EB",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "14px/21.7px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   }
+  ],
+  "interactiveCount": 53,
+  "touchTargets": {
+   "byMinSide": {
+    "lt24": 17,
+    "24to32": 14,
+    "32to44": 23,
+    "gte44": 0
+   },
+   "byHeight": {
+    "1": 1,
+    "18": 10,
+    "19": 3,
+    "20": 2,
+    "23": 1,
+    "28": 12,
+    "30": 2,
+    "32": 3,
+    "36": 12,
+    "38": 5,
+    "40": 3
+   }
+  },
+  "spacing": {
+   "padding": [
+    {
+     "v": "8px",
+     "n": 63
+    },
+    {
+     "v": "12px",
+     "n": 14
+    },
+    {
+     "v": "16px",
+     "n": 12
+    },
+    {
+     "v": "24px",
+     "n": 1
+    },
+    {
+     "v": "32px",
+     "n": 6
+    },
+    {
+     "v": "48px",
+     "n": 2
+    },
+    {
+     "v": "64px",
+     "n": 1
+    }
+   ],
+   "margin": [
+    {
+     "v": "-12px",
+     "n": 12
+    },
+    {
+     "v": "-8px",
+     "n": 2
+    },
+    {
+     "v": "-2px",
+     "n": 1
+    },
+    {
+     "v": "-1px",
+     "n": 25
+    },
+    {
+     "v": "3px",
+     "n": 1
+    },
+    {
+     "v": "4px",
+     "n": 25
+    },
+    {
+     "v": "12px",
+     "n": 4
+    },
+    {
+     "v": "16px",
+     "n": 11
+    },
+    {
+     "v": "24px",
+     "n": 6
+    },
+    {
+     "v": "32px",
+     "n": 1
+    },
+    {
+     "v": "48px",
+     "n": 2
+    },
+    {
+     "v": "72px",
+     "n": 1
+    }
+   ],
+   "gap": [
+    {
+     "v": "2px",
+     "n": 10
+    },
+    {
+     "v": "4px",
+     "n": 26
+    },
+    {
+     "v": "8px",
+     "n": 34
+    },
+    {
+     "v": "12px",
+     "n": 14
+    },
+    {
+     "v": "16px",
+     "n": 4
+    },
+    {
+     "v": "24px",
+     "n": 4
+    },
+    {
+     "v": "28px",
+     "n": 1
+    },
+    {
+     "v": "48px",
+     "n": 4
+    },
+    {
+     "v": "56px",
+     "n": 1
+    }
+   ]
+  },
+  "radius": [
+   {
+    "v": "6px",
+    "n": 4
+   },
+   {
+    "v": "8px",
+    "n": 44
+   }
+  ],
+  "borderWidth": [
+   {
+    "v": "1px",
+    "n": 8
+   }
+  ],
+  "shadows": [],
+  "palette": {
+   "backgrounds": [
+    {
+     "hex": "#FFFFFF",
+     "n": 3,
+     "area": 5302823,
+     "raw": "rgb(255, 255, 255)",
+     "sample": "div.tokens_docsRoot__1XQPC"
+    },
+    {
+     "hex": "#F7F7F7",
+     "n": 1,
+     "area": 729990,
+     "raw": "rgb(247, 247, 247)",
+     "sample": "footer#footer.shrink-0.bg-footer-bg"
+    },
+    {
+     "hex": "#1414140D",
+     "n": 1,
+     "area": 4200,
+     "raw": "color(srgb 0.0980392 0.0980392 0.0980392 / 0.05)",
+     "sample": "button.DocsTopBar_search__tI7kY"
+    }
+   ],
+   "text": [
+    {
+     "hex": "#1A1A1A",
+     "n": 27,
+     "raw": "rgb(26, 26, 26)",
+     "sample": "Getting Started"
+    },
+    {
+     "hex": "#757575",
+     "n": 13,
+     "raw": "rgb(117, 117, 117)",
+     "sample": "Trade what's next."
+    },
+    {
+     "hex": "#595959",
+     "n": 7,
+     "raw": "rgb(89, 89, 89)",
+     "sample": "All Collections"
+    },
+    {
+     "hex": "#1A1A1AC7",
+     "n": 3,
+     "raw": "color(srgb 0.0980392 0.0980392 0.0980392 / 0.78)",
+     "sample": "API Docs"
+    },
+    {
+     "hex": "#00B87A",
+     "n": 3,
+     "raw": "rgb(0, 184, 122)",
+     "sample": "here"
+    },
+    {
+     "hex": "#ADADAD",
+     "n": 2,
+     "raw": "rgb(173, 173, 173)",
+     "sample": "© 2026 Kalshi Inc. · All right"
+    },
+    {
+     "hex": "#191919",
+     "n": 1,
+     "raw": "rgb(25, 25, 25)",
+     "sample": "Skip to main content"
+    }
+   ]
+  },
+  "copy": {
+   "title": "Fees | Kalshi Help Center",
+   "h1": [
+    "Fees",
+    "Maker Fees"
+   ],
+   "h2h3": [
+    "Related Articles"
+   ],
+   "ctaLabels": [
+    "Search Ctrl K",
+    "Expand Getting Started",
+    "Expand Perpetual Futures",
+    "Expand Account & Security",
+    "Expand Deposits & Withdrawals",
+    "Expand Trading",
+    "Expand Markets",
+    "Expand Portfolio & Tools",
+    "Expand Taxes & Documents",
+    "Expand Programs & Promotions",
+    "Expand API & Developers",
+    "Expand Support",
+    "Expand Kalshi Social",
+    "Copy for LLM",
+    "More article actions",
+    "Disappointed Reaction",
+    "Neutral Reaction",
+    "Smiley Reaction"
+   ],
+   "navLabels": [
+    "Kalshi Help Center home",
+    "API Docs",
+    "Search",
+    "Open docs navigation",
+    "Search Ctrl K",
+    "All Collections",
+    "Trading",
+    "Copy for LLM",
+    "More article actions",
+    "Maker Fees"
+   ],
+   "priceFormats": [],
+   "priceFormatCounts": {
+    "cents": 0,
+    "percent": 0,
+    "chance": 0,
+    "dollarsVol": 0,
+    "multiplier": 0
+   },
+   "feeAndDisclaimer": [
+    "Kalshi makes money by charging a transaction fee on the expected earnings on the contract. The complete Fee Schedule, and the math behind the fees, are posted at the bottom of our website - or you can find the link here.",
+    "Some markets have fees that are different from those of other markets. This is often due to special events (such as the election, awards ceremony, or a large sporting championship).",
+    "In some cases, markets will have maker fees associated with them. Maker fees are charged for orders placed that are not immediately matched and are instead left as resting orders on the orderbook. These fees are only charged when a trade is ultimately executed, there are no fees associated with canceling a resting order. To view more details about these fees, you can refer to our complete Fee Schedule here.",
+    "*Fees can be seen by clicking the 'i' icon to the right of 'You're buying'",
+    "Perps Fees Explained",
+    "Privacy Policy",
+    "​​​​​​Trading on Kalshi involves risk and may not be appropriate for all. Members risk losing their cost to enter any transaction, including fees. You should carefully consider whether trading on Kalshi is appropriate for you in light of your investment experience and financial resources. Any trading decisions you make are solely your responsibility and at your own risk. Information is provided for convenience only on an \"AS IS\" basis. Past performance is not necessarily indicative of future results. Kalshi is subject to U.S. regulatory oversight by the CFTC."
+   ],
+   "footerText": "Trade what's next. Company Markets About Blog Careers Legal and trust Fee schedule Regulatory Policy Center Privacy Policy Trust Center © 2026 Kalshi Inc. · All rights reserved ​​​​​​Trading on Kalshi involves risk and may not be appropriate for all. Members risk losing their cost to enter any transaction, including fees. You should carefully consider whether trading on Kalshi is appropriate for you in light of your investment experience and financial resources. Any trading decisions you make are solely your responsibility and at your own risk. Information is provided for convenience only on an \"AS IS\" basis. Past performance is not necessarily indicative of future results. Kalshi is subject to U.S. regulatory oversight by the CFTC."
+  },
+  "rootTokens": {
+   "count": 59,
+   "colors": {
+    "--body-bg": {
+     "authored": "rgb(255, 255, 255)",
+     "srgb": "#FFFFFF"
+    },
+    "--body-border": {
+     "authored": "rgb(230, 230, 230)",
+     "srgb": "#E6E6E6"
+    },
+    "--body-primary-color": {
+     "authored": "#1a1a1a",
+     "srgb": "#1A1A1A"
+    },
+    "--body-secondary-color": {
+     "authored": "#595959",
+     "srgb": "#595959"
+    },
+    "--body-reaction-bg": {
+     "authored": "rgb(242, 242, 242)",
+     "srgb": "#F2F2F2"
+    },
+    "--body-reaction-text-color": {
+     "authored": "rgb(89, 89, 89)",
+     "srgb": "#595959"
+    },
+    "--body-toc-active-border": {
+     "authored": "#737373",
+     "srgb": "#737373"
+    },
+    "--body-toc-inactive-border": {
+     "authored": "#f2f2f2",
+     "srgb": "#F2F2F2"
+    },
+    "--body-toc-inactive-color": {
+     "authored": "#595959",
+     "srgb": "#595959"
+    },
+    "--body-table-border": {
+     "authored": "rgb(204, 204, 204)",
+     "srgb": "#CCCCCC"
+    },
+    "--body-color": {
+     "authored": "hsl(0, 0%, 0%)",
+     "srgb": "#000000"
+    },
+    "--footer-bg": {
+     "authored": "rgb(247, 247, 247)",
+     "srgb": "#F7F7F7"
+    },
+    "--footer-border": {
+     "authored": "rgb(221, 221, 221)",
+     "srgb": "#DDDDDD"
+    },
+    "--footer-color": {
+     "authored": "hsl(0, 0%, 46%)",
+     "srgb": "#757575"
+    },
+    "--header-bg": {
+     "authored": "#FFFFFF",
+     "srgb": "#FFFFFF"
+    },
+    "--header-color": {
+     "authored": "#191919",
+     "srgb": "#191919"
+    },
+    "--collection-card-bg": {
+     "authored": "rgb(255, 255, 255)",
+     "srgb": "#FFFFFF"
+    },
+    "--collection-card-color": {
+     "authored": "hsl(160, 100%, 36%)",
+     "srgb": "#00B87A"
+    },
+    "--ticket-blue-bg-color": {
+     "authored": "#dce1f9",
+     "srgb": "#DCE1F9"
+    },
+    "--ticket-blue-text-color": {
+     "authored": "#334bfa",
+     "srgb": "#334BFA"
+    },
+    "--ticket-green-bg-color": {
+     "authored": "#d7efdc",
+     "srgb": "#D7EFDC"
+    },
+    "--ticket-green-text-color": {
+     "authored": "#0f7134",
+     "srgb": "#0F7134"
+    },
+    "--ticket-orange-bg-color": {
+     "authored": "#ffebdb",
+     "srgb": "#FFEBDB"
+    },
+    "--ticket-orange-text-color": {
+     "authored": "#b24d00",
+     "srgb": "#B24D00"
+    },
+    "--ticket-red-bg-color": {
+     "authored": "#ffdbdb",
+     "srgb": "#FFDBDB"
+    },
+    "--ticket-red-text-color": {
+     "authored": "#df2020",
+     "srgb": "#DF2020"
+    },
+    "--header-subheader-background-color": {
+     "authored": "#FFFFFF",
+     "srgb": "#FFFFFF"
+    },
+    "--header-subheader-font-color": {
+     "authored": "#191919",
+     "srgb": "#191919"
+    },
+    "--content-block-bg": {
+     "authored": "rgb(255, 255, 255)",
+     "srgb": "#FFFFFF"
+    },
+    "--content-block-color": {
+     "authored": "hsl(0, 0%, 10%)",
+     "srgb": "#1A1A1A"
+    },
+    "--content-block-button-bg": {
+     "authored": "rgb(51, 75, 250)",
+     "srgb": "#334BFA"
+    },
+    "--content-block-button-color": {
+     "authored": "hsl(0, 0%, 100%)",
+     "srgb": "#FFFFFF"
+    },
+    "--primary-color": {
+     "authored": "hsl(160, 100%, 36%)",
+     "srgb": "#00B87A"
+    },
+    "--primary-color-alpha-10": {
+     "authored": "hsla(160, 100%, 36%, 0.1)",
+     "srgb": "#00BA761A"
+    },
+    "--primary-color-alpha-60": {
+     "authored": "hsla(160, 100%, 36%, 0.6)",
+     "srgb": "#00B77A99"
+    },
+    "--text-on-primary-color": {
+     "authored": "#1a1a1a",
+     "srgb": "#1A1A1A"
+    },
+    "--secondary-color": {
+     "authored": "hsl(0, 0%, 10%)",
+     "srgb": "#1A1A1A"
+    },
+    "--text-on-secondary-color": {
+     "authored": "#ffffff",
+     "srgb": "#FFFFFF"
+    }
+   },
+   "all": {
+    "--body-bg": "rgb(255, 255, 255)",
+    "--body-image": "none",
+    "--body-bg-rgb": "255, 255, 255",
+    "--body-border": "rgb(230, 230, 230)",
+    "--body-primary-color": "#1a1a1a",
+    "--body-secondary-color": "#595959",
+    "--body-reaction-bg": "rgb(242, 242, 242)",
+    "--body-reaction-text-color": "rgb(89, 89, 89)",
+    "--body-toc-active-border": "#737373",
+    "--body-toc-inactive-border": "#f2f2f2",
+    "--body-toc-inactive-color": "#595959",
+    "--body-toc-active-font-weight": "400",
+    "--body-table-border": "rgb(204, 204, 204)",
+    "--body-color": "hsl(0, 0%, 0%)",
+    "--footer-bg": "rgb(247, 247, 247)",
+    "--footer-image": "none",
+    "--footer-border": "rgb(221, 221, 221)",
+    "--footer-color": "hsl(0, 0%, 46%)",
+    "--header-bg": "#FFFFFF",
+    "--header-image": "none",
+    "--header-color": "#191919",
+    "--collection-card-bg": "rgb(255, 255, 255)",
+    "--collection-card-image": "none",
+    "--collection-card-color": "hsl(160, 100%, 36%)",
+    "--card-bg": "transparent",
+    "--card-border-color": "transparent",
+    "--card-border-inner-radius": "8px",
+    "--card-border-radius": "8px",
+    "--card-shadow": "0 0 #0000",
+    "--search-bar-border-radius": "20px",
+    "--search-bar-width": "100%",
+    "--ticket-blue-bg-color": "#dce1f9",
+    "--ticket-blue-text-color": "#334bfa",
+    "--ticket-green-bg-color": "#d7efdc",
+    "--ticket-green-text-color": "#0f7134",
+    "--ticket-orange-bg-color": "#ffebdb",
+    "--ticket-orange-text-color": "#b24d00",
+    "--ticket-red-bg-color": "#ffdbdb",
+    "--ticket-red-text-color": "#df2020",
+    "--header-height": "405px",
+    "--header-subheader-background-color": "#FFFFFF",
+    "--header-subheader-font-color": "#191919",
+    "--content-block-bg": "rgb(255, 255, 255)",
+    "--content-block-image": "none",
+    "--content-block-color": "hsl(0, 0%, 10%)",
+    "--content-block-button-bg": "rgb(51, 75, 250)",
+    "--content-block-button-image": "none",
+    "--content-block-button-color": "hsl(0, 0%, 100%)",
+    "--content-block-button-radius": "6px",
+    "--content-block-margin": "0",
+    "--content-block-width": "auto",
+    "--primary-color": "hsl(160, 100%, 36%)",
+    "--primary-color-alpha-10": "hsla(160, 100%, 36%, 0.1)",
+    "--primary-color-alpha-60": "hsla(160, 100%, 36%, 0.6)",
+    "--text-on-primary-color": "#1a1a1a",
+    "--secondary-color": "hsl(0, 0%, 10%)",
+    "--text-on-secondary-color": "#ffffff",
+    "--font-family-primary": "'KalshiSans-Semibold'",
+    "--font-family-secondary": "'KalshiSans-Regular'"
+   }
+  }
+ },
+ "axe": {
+  "version": "4.12.1",
+  "violationRules": 2,
+  "nodesByImpact": {
+   "critical": 0,
+   "serious": 18,
+   "moderate": 0,
+   "minor": 0
+  },
+  "rules": {
+   "color-contrast": {
+    "impact": "serious",
+    "nodes": 17,
+    "help": "Elements must meet minimum color contrast ratio thresholds"
+   },
+   "link-name": {
+    "impact": "serious",
+    "nodes": 1,
+    "help": "Links must have discernible text"
+   }
+  },
+  "passes": 42,
+  "incomplete": 0
+ },
+ "finishedUtc": "2026-09-27T09:11:32.889Z",
+ "finalUrl": "https://help.kalshi.com/en/articles/13823805-fees"
+}
