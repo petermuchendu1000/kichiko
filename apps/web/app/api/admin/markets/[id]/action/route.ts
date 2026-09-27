@@ -9,9 +9,16 @@ import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { requireCapability, type Capability } from '@/lib/auth'
 import { optionsResolverRpc } from '@/lib/trading'
+import { screenMarketSubject, describeFlags } from '@/lib/markets/banned-subjects'
 
 const schema = z.discriminatedUnion('action', [
-  z.object({ action: z.literal('approve'), reason: z.string().max(1000).optional() }),
+  // Reg. 45(7): approval requires the reviewer's attestation; a screen-flagged
+  // market also needs a written reason why it is permitted (min 10 chars).
+  z.object({
+    action: z.literal('approve'),
+    reason: z.string().max(1000).optional(),
+    attest_permitted_subject: z.literal(true),
+  }),
   z.object({ action: z.literal('reject'), reason: z.string().min(3).max(1000) }),
   z.object({ action: z.literal('close'), reason: z.string().max(1000).optional() }),
   z.object({ action: z.literal('dispute'), reason: z.string().min(3).max(1000) }),
@@ -67,10 +74,32 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   let rpc: string
   let args: Record<string, unknown>
   switch (body.action) {
-    case 'approve':
+    case 'approve': {
+      const { data: mkt } = await sb
+        .from('markets')
+        .select('title, description, resolution_criteria, resolution_source')
+        .eq('id', id)
+        .single()
+      const flags = screenMarketSubject((mkt ?? {}) as Parameters<typeof screenMarketSubject>[0])
+      const why = body.reason?.trim() ?? ''
+      if (flags.length > 0 && why.length < 10) {
+        return NextResponse.json(
+          {
+            error: `This market was flagged for ${describeFlags(flags)}. Explain why it is permitted before approving.`,
+            code: 'subject_review_required',
+            flags,
+          },
+          { status: 400 },
+        )
+      }
       rpc = 'admin_approve_market'
-      args = { p_market_id: id, p_reason: body.reason ?? null }
+      // The attestation is written into the audited reason (audit_log via the RPC).
+      args = {
+        p_market_id: id,
+        p_reason: `[Reg. 45(7) attested${flags.length ? `; flagged: ${flags.map((f) => f.category).join(', ')}` : ''}] ${why}`.trim(),
+      }
       break
+    }
     case 'reject':
       rpc = 'admin_reject_market'
       args = { p_market_id: id, p_reason: body.reason }

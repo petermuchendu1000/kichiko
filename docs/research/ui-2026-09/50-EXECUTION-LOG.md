@@ -79,3 +79,21 @@ code.
   `KSh 20/50/100/200` at 44 px; tapping KSh 50 twice gives 50; "KSh 15" shows the minimum notice;
   "To win KSh 636.56"; light OS → light theme, dark OS → dark; `/search?q=ruto` restores the query
   and results and typing updates the URL; `/leaderboard` paused, `/api/leaderboard` 410.
+
+### L.3 — Reg. 45(7) subject screen and approval attestation
+- `lib/markets/banned-subjects.ts` screens question, description and resolution text for the three
+  barred subjects (court proceedings; safety/health/death of an identifiable person; national
+  security/public order), English and Kiswahili. It over-flags by design: it triggers review, it
+  does not decide.
+- **Creation:** a flagged market is stored `pending` even when staff create it (staff used to
+  publish straight to `active`); the flags are saved in `metadata.subject_screen`.
+- **Approval:** `approve` now requires `attest_permitted_subject: true` (the admin UI shows the
+  attestation text as a checkbox); a flagged market also needs a written reason. Both are written
+  into the audited reason passed to `admin_approve_market`, e.g.
+  `[Reg. 45(7) attested; flagged: court_proceedings] <reason>`.
+- **Run against all 38 production markets:** 6 flagged — the two hidden court markets, plus
+  `ke-2027-president` (text mentions a court), `ke-finance-bill-protests-2026` and
+  `ke-genz-protest-h2-2026` (protests: possible public-order question), and
+  `ke-hashtag-number-one-2026` (text mentions a protest). **Not hidden** — these are for counsel.
+- Not done: `gra_approval_ref` on markets (Reg. 45(5)) waits for the owner's answer on GRA
+  approval status (decision 2).
