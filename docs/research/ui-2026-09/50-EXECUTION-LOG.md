@@ -97,3 +97,16 @@ code.
   `ke-hashtag-number-one-2026` (text mentions a protest). **Not hidden** — these are for counsel.
 - Not done: `gra_approval_ref` on markets (Reg. 45(5)) waits for the owner's answer on GRA
   approval status (decision 2).
+
+### L.4 — Minimum stake done; age gate blocked on a product decision
+- Minimum stake: see "Ticket, stake, notation" above.
+- **Uganda's minimum age of 25 verified first-hand**: Lotteries and Gaming Act 2016 s.1 ("'minor'
+  means a person below twenty five years") and s.57(1) ("A licensee shall not accept payments from
+  a minor"), from the regulator's PDF (lgrb.go.ug).
+- `lib/eligibility.ts` (tested): KE 18, UG 25, TZ 18, RW 18; unknown country → 25.
+- Terms, responsible-play page and footer now say "18 or older (25 in Uganda)".
+- **Blocked:** the product captures no date of birth and requires no KYC before deposits, which
+  conflicts with L.N. 112 Reg. 82 (verified first-hand). Enforcing any age rule needs electronic
+  ID verification and a deposit gate that would stop current unverified users. Written up as D4 in
+  [51-PROPOSED-DB-CHANGES](51-PROPOSED-DB-CHANGES.md), with D1–D3 (hidden-market orders, the
+  stake minimum in every currency, and the leaderboard RPC grant).

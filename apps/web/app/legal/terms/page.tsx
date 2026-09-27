@@ -19,7 +19,7 @@ export default function TermsPage() {
 
       <h2>1. Eligibility</h2>
       <p>
-        You must be at least 18 years old (or the legal age in your country) and
+        You must be at least 18 years old (25 in Uganda) and
         legally permitted to use prediction markets where you live. You are
         responsible for complying with your local laws.
       </p>
