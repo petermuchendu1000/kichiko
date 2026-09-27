@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-27T09:27:32.706Z",
+ "generatedAt": "2026-09-27T09:45:01.361Z",
  "captures": {
   "P01-desktop-dark": {
    "url": "https://polymarket.com/",
@@ -80,7 +80,9 @@
      "1.95:1 #991616 on #1c1f27 14px/600 x1 \"Stanford\"",
      "1.96:1 #0040c0 on #1c1f27 14px/600 x1 \"Bills\"",
      "2.26:1 #aa1830 on #1c1f27 14px/600 x2 \"Ole Miss\""
-    ]
+    ],
+    "notComputableNodes": 0,
+    "excludedClipped": 248
    },
    "interactive": {
     "n": 390,
@@ -283,7 +285,9 @@
      "1.87:1 #c4c41c on #ffffff 14px/600 x1 \"Natus\"",
      "1.97:1 #b5b9bd on #ffffff 13px/490 x26 \"·\"",
      "2.45:1 #a7a69d on #ffffff 14px/600 x1 \"Iberian\""
-    ]
+    ],
+    "notComputableNodes": 0,
+    "excludedClipped": 213
    },
    "interactive": {
     "n": 391,
@@ -481,7 +485,9 @@
      "1.95:1 #991616 on #1c1f27 14px/600 x1 \"Stanford\"",
      "1.96:1 #0040c0 on #1c1f27 14px/600 x1 \"Bills\"",
      "2.26:1 #aa1830 on #1c1f27 14px/600 x2 \"Ole Miss\""
-    ]
+    ],
+    "notComputableNodes": 0,
+    "excludedClipped": 30
    },
    "interactive": {
     "n": 337,
@@ -672,7 +678,9 @@
      "2.58:1 #c49a5f on #ffffff 14px/600 x1 \"Tennessee\"",
      "2.83:1 #a99960 on #ffffff 14px/600 x1 \"Oklahoma\"",
      "2.91:1 #9a9a6a on #ffffff 14px/600 x1 \"Georgia\""
-    ]
+    ],
+    "notComputableNodes": 0,
+    "excludedClipped": 30
    },
    "interactive": {
     "n": 337,
@@ -854,13 +862,13 @@
     ]
    },
    "contrast": {
-    "textNodes": 337,
-    "aaFailNodes": 1,
-    "failPct": 0.3,
-    "failGroups": 1,
-    "worst": [
-     "1:1 #0c0e13 on #0c0e13 24px/600 x1 \"Predictions\""
-    ]
+    "textNodes": 336,
+    "aaFailNodes": 0,
+    "failPct": 0,
+    "failGroups": 0,
+    "worst": [],
+    "notComputableNodes": 1,
+    "excludedClipped": 53
    },
    "interactive": {
     "n": 268,
@@ -1043,18 +1051,20 @@
     ]
    },
    "contrast": {
-    "textNodes": 337,
-    "aaFailNodes": 111,
-    "failPct": 32.9,
-    "failGroups": 10,
+    "textNodes": 336,
+    "aaFailNodes": 110,
+    "failPct": 32.7,
+    "failGroups": 9,
     "worst": [
-     "1:1 #ffffff on #ffffff 24px/600 x1 \"Predictions\"",
      "2.56:1 #8b929b on #e6e8ec 11px/700 x1 \"4.4K\"",
      "3.14:1 #8b929b on #ffffff 11px/700 x17 \"312\"",
      "3.14:1 #8b929b on #ffffff 12px/500 x10 \"Predictions & odds\"",
      "3.14:1 #8b929b on #ffffff 14px/500 x6 \"·\"",
-     "3.14:1 #8b929b on #ffffff 12px/400 x4 \"Polymarket operates globally through separate lega\""
-    ]
+     "3.14:1 #8b929b on #ffffff 12px/400 x4 \"Polymarket operates globally through separate lega\"",
+     "4.28:1 #df0c10 on #fce9e9 13px/490 x32 \"No\""
+    ],
+    "notComputableNodes": 1,
+    "excludedClipped": 53
    },
    "interactive": {
     "n": 268,
@@ -1238,14 +1248,15 @@
     ]
    },
    "contrast": {
-    "textNodes": 295,
-    "aaFailNodes": 2,
-    "failPct": 0.7,
-    "failGroups": 2,
+    "textNodes": 294,
+    "aaFailNodes": 1,
+    "failPct": 0.3,
+    "failGroups": 1,
     "worst": [
-     "1:1 #0c0e13 on #0c0e13 24px/600 x1 \"Predictions\"",
      "3.32:1 #3262ff on #141f42 14px/500 x1 \"All\""
-    ]
+    ],
+    "notComputableNodes": 1,
+    "excludedClipped": 78
    },
    "interactive": {
     "n": 241,
@@ -1423,18 +1434,20 @@
     ]
    },
    "contrast": {
-    "textNodes": 295,
-    "aaFailNodes": 94,
-    "failPct": 31.9,
-    "failGroups": 9,
+    "textNodes": 294,
+    "aaFailNodes": 93,
+    "failPct": 31.6,
+    "failGroups": 8,
     "worst": [
-     "1:1 #ffffff on #ffffff 24px/600 x1 \"Predictions\"",
      "3.14:1 #8b929b on #ffffff 12px/500 x10 \"Predictions & odds\"",
      "3.14:1 #8b929b on #ffffff 14px/500 x6 \"·\"",
      "3.14:1 #8b929b on #ffffff 12px/400 x4 \"Polymarket operates globally through separate lega\"",
      "4.28:1 #df0c10 on #fce9e9 13px/490 x32 \"No\"",
-     "4.28:1 #df0c10 on #fce9e9 14px/600 x4 \"No\""
-    ]
+     "4.28:1 #df0c10 on #fce9e9 14px/600 x4 \"No\"",
+     "4.36:1 #007e26 on #d9f0e2 13px/490 x32 \"Yes\""
+    ],
+    "notComputableNodes": 1,
+    "excludedClipped": 78
    },
    "interactive": {
     "n": 241,
@@ -1615,18 +1628,20 @@
     ]
    },
    "contrast": {
-    "textNodes": 213,
-    "aaFailNodes": 7,
-    "failPct": 3.3,
-    "failGroups": 7,
+    "textNodes": 212,
+    "aaFailNodes": 6,
+    "failPct": 2.8,
+    "failGroups": 6,
     "worst": [
-     "1:1 #1c1f27 on #1c1f27 40px/600 x1 \"$\"",
      "2.33:1 #99b1ff on #3262ff 14px/600 x1 \"Post\"",
      "2.72:1 #adc0ff on #3262ff 14px/500 x1 \"Use code for $50\"",
      "3.39:1 #3262ff on #1c1f27 14px/400 x1 \"0x65070be91...\"",
      "3.62:1 #b3d6bd on #007723 15px/600 x1 \"Yes\"",
-     "3.68:1 #df0b10 on #220e13 12px/600 x1 \"9.3K No\""
-    ]
+     "3.68:1 #df0b10 on #220e13 12px/600 x1 \"9.3K No\"",
+     "3.69:1 #d6e0ff on #3262ff 14px/500 x1 \"POLY50\""
+    ],
+    "notComputableNodes": 1,
+    "excludedClipped": 65
    },
    "interactive": {
     "n": 175,
@@ -1824,18 +1839,20 @@
     ]
    },
    "contrast": {
-    "textNodes": 213,
-    "aaFailNodes": 35,
-    "failPct": 16.4,
-    "failGroups": 16,
+    "textNodes": 212,
+    "aaFailNodes": 34,
+    "failPct": 16,
+    "failGroups": 15,
     "worst": [
-     "1:1 #ffffff on #ffffff 40px/600 x1 \"$\"",
      "2.4:1 #97aeff on #2e5cff 14px/600 x1 \"Post\"",
      "2.82:1 #abbeff on #2e5cff 14px/500 x1 \"Use code for $50\"",
      "2.89:1 #04af52 on #ffffff 16px/600 x1 \"Yes\"",
      "3.08:1 #919396 on #ffffff 15px/600 x1 \"No\"",
-     "3.08:1 #919396 on #ffffff 16px/600 x1 \"85¢\""
-    ]
+     "3.08:1 #919396 on #ffffff 16px/600 x1 \"85¢\"",
+     "3.14:1 #8b929b on #ffffff 13px/490 x2 \"By trading, you agree to the .\""
+    ],
+    "notComputableNodes": 1,
+    "excludedClipped": 65
    },
    "interactive": {
     "n": 175,
@@ -2042,7 +2059,9 @@
      "3.62:1 #b3d6bd on #007723 14px/600 x1 \"Yes\"",
      "3.68:1 #df0b10 on #220e13 12px/600 x1 \"9.3K No\"",
      "3.98:1 #3262ff on #0c0e13 20px/600 x1 \"16% chance\""
-    ]
+    ],
+    "notComputableNodes": 0,
+    "excludedClipped": 74
    },
    "interactive": {
     "n": 150,
@@ -2246,7 +2265,9 @@
      "3.14:1 #8b929b on #ffffff 14px/500 x6 \"·\"",
      "3.14:1 #8b929b on #ffffff 12px/400 x4 \"Polymarket operates globally through separate lega\"",
      "3.36:1 #b3d8be on #007e26 14px/600 x1 \"Yes\""
-    ]
+    ],
+    "notComputableNodes": 0,
+    "excludedClipped": 74
    },
    "interactive": {
     "n": 150,
@@ -2442,18 +2463,20 @@
     ]
    },
    "contrast": {
-    "textNodes": 259,
-    "aaFailNodes": 25,
-    "failPct": 9.7,
-    "failGroups": 12,
+    "textNodes": 258,
+    "aaFailNodes": 24,
+    "failPct": 9.3,
+    "failGroups": 11,
     "worst": [
-     "1:1 #1c1f27 on #1c1f27 40px/600 x1 \"$\"",
      "2.33:1 #99b1ff on #3262ff 14px/600 x1 \"Post\"",
      "2.72:1 #adc0ff on #3262ff 14px/500 x1 \"Use code for $50\"",
      "2.96:1 #bf0000 on #0c0e13 12px/600 x1 \"6%\"",
      "3.03:1 #007723 on #0a1e15 12px/600 x10 \"120.1K Nithya Raman\"",
-     "3.39:1 #3262ff on #1c1f27 14px/400 x1 \"0x2f5e3684c...\""
-    ]
+     "3.39:1 #3262ff on #1c1f27 14px/400 x1 \"0x2f5e3684c...\"",
+     "3.62:1 #b3d6bd on #007723 15px/600 x1 \"Yes\""
+    ],
+    "notComputableNodes": 1,
+    "excludedClipped": 56
    },
    "interactive": {
     "n": 215,
@@ -2654,18 +2677,20 @@
     ]
    },
    "contrast": {
-    "textNodes": 259,
-    "aaFailNodes": 46,
-    "failPct": 17.8,
-    "failGroups": 25,
+    "textNodes": 258,
+    "aaFailNodes": 45,
+    "failPct": 17.4,
+    "failGroups": 24,
     "worst": [
-     "1:1 #ffffff on #ffffff 40px/600 x1 \"$\"",
      "1.68:1 #f6c030 on #ffffff 13px/500 x1 \"Karen Bass\"",
      "1.68:1 #f6c030 on #ffffff 26px/600 x1 \"43%\"",
      "2.4:1 #97aeff on #2e5cff 14px/600 x1 \"Post\"",
      "2.82:1 #abbeff on #2e5cff 14px/500 x1 \"Use code for $50\"",
-     "2.89:1 #04af52 on #ffffff 16px/600 x1 \"Yes\""
-    ]
+     "2.89:1 #04af52 on #ffffff 16px/600 x1 \"Yes\"",
+     "3.08:1 #919396 on #ffffff 15px/600 x1 \"No\""
+    ],
+    "notComputableNodes": 1,
+    "excludedClipped": 56
    },
    "interactive": {
     "n": 215,
@@ -2876,7 +2901,9 @@
      "3.68:1 #df0b10 on #220e13 12px/600 x2 \"600 Karen Bass\"",
      "3.83:1 #257d5d on #0c0e13 13px/500 x1 \"Nithya Raman\"",
      "3.98:1 #3262ff on #0c0e13 14px/600 x5 \"@Magician5342\""
-    ]
+    ],
+    "notComputableNodes": 0,
+    "excludedClipped": 66
    },
    "interactive": {
     "n": 183,
@@ -3085,7 +3112,9 @@
      "3.14:1 #8b929b on #ffffff 12px/400 x6 \"$2,158,798 Vol.\"",
      "3.14:1 #8b929b on #ffffff 12px/500 x10 \"Predictions & odds\"",
      "3.14:1 #8b929b on #ffffff 14px/500 x6 \"·\""
-    ]
+    ],
+    "notComputableNodes": 0,
+    "excludedClipped": 66
    },
    "interactive": {
     "n": 183,
@@ -3285,18 +3314,20 @@
     ]
    },
    "contrast": {
-    "textNodes": 278,
-    "aaFailNodes": 20,
-    "failPct": 7.2,
-    "failGroups": 18,
+    "textNodes": 277,
+    "aaFailNodes": 19,
+    "failPct": 6.9,
+    "failGroups": 17,
     "worst": [
-     "1:1 #1c1f27 on #1c1f27 40px/600 x1 \"$\"",
      "2.17:1 #a22020 on #1c1f27 16px/600 x1 \"H. Gaston\"",
      "2.33:1 #99b1ff on #3262ff 14px/600 x1 \"Post\"",
      "2.4:1 #1d3fc9 on #0c0e13 13px/500 x1 \"A. Rublev\"",
      "2.4:1 #1d3fc9 on #0c0e13 26px/600 x1 \"73%\"",
-     "2.54:1 #a22020 on #0c0e13 13px/500 x1 \"H. Gaston\""
-    ]
+     "2.54:1 #a22020 on #0c0e13 13px/500 x1 \"H. Gaston\"",
+     "2.54:1 #a22020 on #0c0e13 26px/600 x1 \"28%\""
+    ],
+    "notComputableNodes": 1,
+    "excludedClipped": 100
    },
    "interactive": {
     "n": 211,
@@ -3493,18 +3524,20 @@
     ]
    },
    "contrast": {
-    "textNodes": 278,
-    "aaFailNodes": 51,
-    "failPct": 18.3,
-    "failGroups": 19,
+    "textNodes": 277,
+    "aaFailNodes": 50,
+    "failPct": 18.1,
+    "failGroups": 18,
     "worst": [
-     "1:1 #ffffff on #ffffff 40px/600 x1 \"$\"",
      "1.77:1 #bfc3ca on #ffffff 14px/600 x1 \"6\"",
      "1.77:1 #bfc3ca on #ffffff 9px/600 x1 \"6\"",
      "2.4:1 #97aeff on #2e5cff 14px/600 x1 \"Post\"",
      "2.66:1 #7c90e0 on #1d3fc9 12px/600 x1 \"rublev\"",
-     "2.82:1 #abbeff on #2e5cff 14px/500 x1 \"Use code for $50\""
-    ]
+     "2.82:1 #abbeff on #2e5cff 14px/500 x1 \"Use code for $50\"",
+     "3.08:1 #919396 on #ffffff 15px/600 x1 \"rublev\""
+    ],
+    "notComputableNodes": 1,
+    "excludedClipped": 100
    },
    "interactive": {
     "n": 211,
@@ -3711,7 +3744,9 @@
      "2.54:1 #a22020 on #0c0e13 13px/500 x1 \"H. Gaston\"",
      "2.54:1 #a22020 on #0c0e13 26px/600 x1 \"29%\"",
      "3.26:1 #62646a on #0c0e13 14px/600 x1 \"6\""
-    ]
+    ],
+    "notComputableNodes": 0,
+    "excludedClipped": 80
    },
    "interactive": {
     "n": 156,
@@ -3912,7 +3947,9 @@
      "3.14:1 #8b929b on #ffffff 12px/500 x10 \"Predictions & odds\"",
      "3.14:1 #8b929b on #ffffff 14px/500 x6 \"·\"",
      "3.14:1 #8b929b on #ffffff 12px/400 x4 \"Polymarket operates globally through separate lega\""
-    ]
+    ],
+    "notComputableNodes": 0,
+    "excludedClipped": 80
    },
    "interactive": {
     "n": 156,
@@ -4100,7 +4137,9 @@
     "failGroups": 1,
     "worst": [
      "3.44:1 #7d8189 on #2b2f36 13px/600 x1 \"/\""
-    ]
+    ],
+    "notComputableNodes": 0,
+    "excludedClipped": 31
    },
    "interactive": {
     "n": 149,
@@ -4290,7 +4329,9 @@
      "3.14:1 #8b929b on #ffffff 12px/500 x14 \"Predictions & odds\"",
      "3.14:1 #8b929b on #ffffff 14px/500 x6 \"·\"",
      "3.14:1 #8b929b on #ffffff 12px/400 x4 \"Polymarket operates globally through separate lega\""
-    ]
+    ],
+    "notComputableNodes": 0,
+    "excludedClipped": 31
    },
    "interactive": {
     "n": 149,
@@ -4475,7 +4516,9 @@
     "aaFailNodes": 0,
     "failPct": 0,
     "failGroups": 0,
-    "worst": []
+    "worst": [],
+    "notComputableNodes": 0,
+    "excludedClipped": 44
    },
    "interactive": {
     "n": 126,
@@ -4653,7 +4696,9 @@
      "3.14:1 #8b929b on #ffffff 12px/500 x14 \"Predictions & odds\"",
      "3.14:1 #8b929b on #ffffff 14px/500 x6 \"·\"",
      "3.14:1 #8b929b on #ffffff 12px/400 x4 \"Polymarket operates globally through separate lega\""
-    ]
+    ],
+    "notComputableNodes": 0,
+    "excludedClipped": 44
    },
    "interactive": {
     "n": 126,
@@ -4824,7 +4869,9 @@
     "aaFailNodes": 0,
     "failPct": 0,
     "failGroups": 0,
-    "worst": []
+    "worst": [],
+    "notComputableNodes": 0,
+    "excludedClipped": 83
    },
    "interactive": {
     "n": 113,
@@ -5007,7 +5054,9 @@
      "3.14:1 #8b929b on #ffffff 12px/500 x14 \"Predictions & odds\"",
      "3.14:1 #8b929b on #ffffff 14px/500 x6 \"·\"",
      "3.14:1 #8b929b on #ffffff 12px/400 x4 \"Polymarket operates globally through separate lega\""
-    ]
+    ],
+    "notComputableNodes": 0,
+    "excludedClipped": 83
    },
    "interactive": {
     "n": 113,
@@ -5185,7 +5234,9 @@
     "aaFailNodes": 0,
     "failPct": 0,
     "failGroups": 0,
-    "worst": []
+    "worst": [],
+    "notComputableNodes": 0,
+    "excludedClipped": 36
    },
    "interactive": {
     "n": 73,
@@ -5362,7 +5413,9 @@
      "3.14:1 #8b929b on #ffffff 12px/500 x14 \"Predictions & odds\"",
      "3.14:1 #8b929b on #ffffff 14px/500 x6 \"·\"",
      "3.14:1 #8b929b on #ffffff 12px/400 x4 \"Polymarket operates globally through separate lega\""
-    ]
+    ],
+    "notComputableNodes": 0,
+    "excludedClipped": 36
    },
    "interactive": {
     "n": 73,
@@ -5542,7 +5595,9 @@
      "3.29:1 #df0b10 on #1c1f27 12px/600 x1 \"-$28.3K\"",
      "3.39:1 #3262ff on #1c1f27 12px/600 x1 \"1D\"",
      "3.58:1 #df0b10 on #14171d 12px/500 x1 \"-$19.50 (-100%)\""
-    ]
+    ],
+    "notComputableNodes": 0,
+    "excludedClipped": 3
    },
    "interactive": {
     "n": 151,
@@ -5739,7 +5794,9 @@
      "3.14:1 #8b929b on #ffffff 14px/500 x6 \"·\"",
      "3.14:1 #8b929b on #ffffff 12px/400 x4 \"Polymarket operates globally through separate lega\"",
      "3.31:1 #009c39 on #f4f5f7 12px/500 x9 \"$0.33 (51.5%)\""
-    ]
+    ],
+    "notComputableNodes": 0,
+    "excludedClipped": 3
    },
    "interactive": {
     "n": 151,
@@ -5931,7 +5988,9 @@
     "worst": [
      "3.39:1 #3262ff on #1c1f27 12px/600 x1 \"1D\"",
      "3.85:1 #df0b10 on #0c0e13 12px/600 x1 \"-$28.3K\""
-    ]
+    ],
+    "notComputableNodes": 0,
+    "excludedClipped": 16
    },
    "interactive": {
     "n": 103,
@@ -6122,7 +6181,9 @@
      "3.14:1 #8b929b on #ffffff 12px/400 x4 \"Polymarket operates globally through separate lega\"",
      "3.2:1 #009c39 on #e5f5eb 12px/500 x4 \"Up 58¢\"",
      "3.31:1 #009c39 on #f4f5f7 12px/500 x6 \"$0.33 (51.5%)\""
-    ]
+    ],
+    "notComputableNodes": 0,
+    "excludedClipped": 16
    },
    "interactive": {
     "n": 103,
@@ -6287,14 +6348,13 @@
     ]
    },
    "contrast": {
-    "textNodes": 25,
-    "aaFailNodes": 3,
-    "failPct": 12,
-    "failGroups": 2,
-    "worst": [
-     "1:1 #ffffff on #ffffff 14px/600 x2 \"Community\"",
-     "1:1 #ffffff on #ffffff 28px/700 x1 \"Guides, articles and support to learn about Polyma\""
-    ]
+    "textNodes": 22,
+    "aaFailNodes": 0,
+    "failPct": 0,
+    "failGroups": 0,
+    "worst": [],
+    "notComputableNodes": 3,
+    "excludedClipped": 2
    },
    "interactive": {
     "n": 16,
@@ -6417,14 +6477,13 @@
     ]
    },
    "contrast": {
-    "textNodes": 25,
-    "aaFailNodes": 3,
-    "failPct": 12,
-    "failGroups": 2,
-    "worst": [
-     "1:1 #ffffff on #ffffff 14px/600 x2 \"Community\"",
-     "1:1 #ffffff on #ffffff 28px/700 x1 \"Guides, articles and support to learn about Polyma\""
-    ]
+    "textNodes": 22,
+    "aaFailNodes": 0,
+    "failPct": 0,
+    "failGroups": 0,
+    "worst": [],
+    "notComputableNodes": 3,
+    "excludedClipped": 2
    },
    "interactive": {
     "n": 16,
@@ -6550,13 +6609,13 @@
     ]
    },
    "contrast": {
-    "textNodes": 23,
-    "aaFailNodes": 1,
-    "failPct": 4.3,
-    "failGroups": 1,
-    "worst": [
-     "1:1 #ffffff on #ffffff 28px/700 x1 \"Guides, articles and support to learn about Polyma\""
-    ]
+    "textNodes": 22,
+    "aaFailNodes": 0,
+    "failPct": 0,
+    "failGroups": 0,
+    "worst": [],
+    "notComputableNodes": 1,
+    "excludedClipped": 2
    },
    "interactive": {
     "n": 15,
@@ -6684,13 +6743,13 @@
     ]
    },
    "contrast": {
-    "textNodes": 23,
-    "aaFailNodes": 1,
-    "failPct": 4.3,
-    "failGroups": 1,
-    "worst": [
-     "1:1 #ffffff on #ffffff 28px/700 x1 \"Guides, articles and support to learn about Polyma\""
-    ]
+    "textNodes": 22,
+    "aaFailNodes": 0,
+    "failPct": 0,
+    "failGroups": 0,
+    "worst": [],
+    "notComputableNodes": 1,
+    "excludedClipped": 2
    },
    "interactive": {
     "n": 15,
@@ -6829,7 +6888,9 @@
     "aaFailNodes": 0,
     "failPct": 0,
     "failGroups": 0,
-    "worst": []
+    "worst": [],
+    "notComputableNodes": 0,
+    "excludedClipped": 4
    },
    "interactive": {
     "n": 74,
@@ -6988,7 +7049,9 @@
      "3.14:1 #8b929b on #ffffff 12px/500 x14 \"Predictions & odds\"",
      "3.14:1 #8b929b on #ffffff 14px/500 x6 \"·\"",
      "3.14:1 #8b929b on #ffffff 12px/400 x4 \"Polymarket operates globally through separate lega\""
-    ]
+    ],
+    "notComputableNodes": 0,
+    "excludedClipped": 4
    },
    "interactive": {
     "n": 74,
@@ -7146,7 +7209,9 @@
     "aaFailNodes": 0,
     "failPct": 0,
     "failGroups": 0,
-    "worst": []
+    "worst": [],
+    "notComputableNodes": 0,
+    "excludedClipped": 17
    },
    "interactive": {
     "n": 61,
@@ -7301,7 +7366,9 @@
      "3.14:1 #8b929b on #ffffff 12px/500 x14 \"Predictions & odds\"",
      "3.14:1 #8b929b on #ffffff 14px/500 x6 \"·\"",
      "3.14:1 #8b929b on #ffffff 12px/400 x4 \"Polymarket operates globally through separate lega\""
-    ]
+    ],
+    "notComputableNodes": 0,
+    "excludedClipped": 17
    },
    "interactive": {
     "n": 61,
@@ -7454,7 +7521,9 @@
     "failGroups": 1,
     "worst": [
      "3.98:1 #3262ff on #0c0e13 14px/400 x1 \"support team\""
-    ]
+    ],
+    "notComputableNodes": 0,
+    "excludedClipped": 3
    },
    "interactive": {
     "n": 76,
@@ -7622,7 +7691,9 @@
      "3.14:1 #8b929b on #ffffff 12px/500 x14 \"Predictions & odds\"",
      "3.14:1 #8b929b on #ffffff 14px/500 x6 \"·\"",
      "3.14:1 #8b929b on #ffffff 12px/400 x4 \"Polymarket operates globally through separate lega\""
-    ]
+    ],
+    "notComputableNodes": 0,
+    "excludedClipped": 3
    },
    "interactive": {
     "n": 76,
@@ -7790,7 +7861,9 @@
     "failGroups": 1,
     "worst": [
      "3.98:1 #3262ff on #0c0e13 14px/400 x1 \"support team\""
-    ]
+    ],
+    "notComputableNodes": 0,
+    "excludedClipped": 16
    },
    "interactive": {
     "n": 63,
@@ -7956,7 +8029,9 @@
      "3.14:1 #8b929b on #ffffff 12px/500 x14 \"Predictions & odds\"",
      "3.14:1 #8b929b on #ffffff 14px/500 x6 \"·\"",
      "3.14:1 #8b929b on #ffffff 12px/400 x4 \"Polymarket operates globally through separate lega\""
-    ]
+    ],
+    "notComputableNodes": 0,
+    "excludedClipped": 16
    },
    "interactive": {
     "n": 63,
@@ -8060,10 +8135,186 @@
   "P17a-desktop-dark": {
    "url": "https://polymarket.com/breaking",
    "httpStatus": 200,
-   "textLength": 13949,
+   "textLength": 13965,
    "gate": true,
    "dataTheme": "dark",
    "pageBg": "#0c0e13",
+   "docHeight": 3485,
+   "horizontalOverflow": false,
+   "title": "Breaking News | Polymarket",
+   "structureTop": [
+    "y0 h116 w1425 <nav navigation sticky> Main",
+    "y116 h40 w1425 <div> To trade in the US, go to polymarket.us",
+    "y156 h3329 w1425 <div> Breaking News",
+    "  y156 h2665 w1425 <div> Breaking News",
+    "  y2821 h664 w1425 <div> Markets by category and topics"
+   ],
+   "fixedBars": [
+    "sticky y0 h116 \"Go to polymarket.us Trending Combos Perps Breaking\""
+   ],
+   "type": {
+    "styles": 24,
+    "families": [
+     "inter"
+    ],
+    "sizes": [
+     12,
+     13,
+     14,
+     15,
+     16,
+     22,
+     24
+    ],
+    "weights": [
+     "400",
+     "490",
+     "500",
+     "600"
+    ],
+    "top": [
+     "14px/500/lh 20px/ls normal/#b6bbc4 x35 \"1\"",
+     "14px/500/lh 20px/ls normal/#ffffff x34 \"Trump\"",
+     "22px/600/lh 22px/ls normal/#ffffff x25 \"95%\"",
+     "15px/500/lh 22.5px/ls normal/#ffffff x25 \"Will Russia enter Malokaterynivka by December 31, 2026?\"",
+     "14px/600/lh 16px/ls -0.09px/#b6bbc4 x17 \"Trending\"",
+     "13px/600/lh 13px/ls -0.1px/#df0b10 x15 \"38%\"",
+     "12px/500/lh 16px/ls normal/#999ea7 x14 \"Predictions & odds\"",
+     "14px/600/lh 20px/ls -0.09px/#ffffff x10 \"All\""
+    ],
+    "headings": [
+     "H1: Breaking News",
+     "H3: Will Russia enter Malokaterynivka by December 31, 2026?",
+     "H3: Will Z.ai be the third-best Math AI lab at the end of September 2026?",
+     "H3: Will \"Forgotten Island\" Opening Weekend Box Office be between 13m and 16m?",
+     "H3: Will the Ornn A100 Index be between $0.75 and $1.00 on September 30, 2026?",
+     "H3: Shipping targeted in Hormuz on September 25, 2026?"
+    ]
+   },
+   "contrast": {
+    "textNodes": 223,
+    "aaFailNodes": 17,
+    "failPct": 7.6,
+    "failGroups": 3,
+    "worst": [
+     "3.78:1 #77797d on #1c1f27 13px/500 x1 \"Sep 27, 2026\"",
+     "3.78:1 #77797d on #1c1f27 14px/500 x1 \"See the polymarkets that moved the most in the las\"",
+     "3.85:1 #df0b10 on #0c0e13 13px/600 x15 \"38%\""
+    ],
+    "notComputableNodes": 0,
+    "excludedClipped": 200
+   },
+   "interactive": {
+    "n": 117,
+    "touch": {
+     "ge44": 50,
+     "from24to43": 31,
+     "lt24": 36,
+     "n": 117,
+     "byMinDimension": true
+    },
+    "topHeights": [
+     "20px x26",
+     "93px x23",
+     "36px x22",
+     "48px x18",
+     "32px x6",
+     "18px x5"
+    ],
+    "namelessCount": 0
+   },
+   "spacing": {
+    "pad": [
+     "16 x313",
+     "4 x69",
+     "20 x52",
+     "10 x44",
+     "8 x17",
+     "12 x13",
+     "24 x8",
+     "1 x4",
+     "32 x4",
+     "6 x2"
+    ],
+    "gap": [
+     "12 x203",
+     "8 x89",
+     "6 x80",
+     "4 x58",
+     "2 x57",
+     "16 x54",
+     "24 x6",
+     "48 x3"
+    ],
+    "grid": {
+     "2px": 99.6,
+     "4px": 82.8,
+     "8px": 46.4
+    }
+   },
+   "radii": [
+    "11.2px x111",
+    "7.2px x33",
+    "pillpx x13",
+    "9.2px x3",
+    "16px x2",
+    "18px x2",
+    "10px x1",
+    "12px x1"
+   ],
+   "copy": {
+    "ctas": [
+     "Help",
+     "Open user menu",
+     "Scroll right",
+     "Get updates",
+     "Follow on 𝕏",
+     "View more",
+     "English"
+    ],
+    "numberFormats": [
+     "9% x50 e.g. 95% | 89%",
+     "Will Solana reach $9 in September? x1 e.g. Will Solana reach $130 in September?"
+    ],
+    "fee": [],
+    "disclaimers": [
+     {
+      "text": "Terms of Use",
+      "count": 1
+     },
+     {
+      "text": "Polymarket operates globally through separate legal entities. is operated by QCX LLC d/b/a Polymarket US, a CFTC-regulated Designated Contract Market. This international platform is not regulated by the CFTC and operates",
+      "count": 1
+     },
+     {
+      "text": "Terms of Service",
+      "count": 1
+     }
+    ],
+    "empty": [],
+    "error": []
+   },
+   "axe": {
+    "rules": 3,
+    "byImpact": {
+     "serious": 18,
+     "moderate": 1
+    },
+    "ids": [
+     "color-contrast(serious,17)",
+     "meta-viewport(moderate,1)",
+     "target-size(serious,1)"
+    ]
+   },
+   "internalLinksOfInterest": []
+  },
+  "P17a-desktop-light": {
+   "url": "https://polymarket.com/breaking",
+   "httpStatus": 200,
+   "textLength": 13965,
+   "gate": true,
+   "dataTheme": "light",
+   "pageBg": "#ffffff",
    "docHeight": 3485,
    "horizontalOverflow": false,
    "title": "Breaking News | Polymarket",
@@ -8098,236 +8349,56 @@
      "600"
     ],
     "top": [
-     "13px/490/lh 16px/ls -0.1px/#b6bbc4 x72 \"We'll send you an email every day with what's moving on Poly\"",
-     "13px/500/lh 16px/ls -0.1px/#b6bbc4 x71 \"New polymarket\"",
-     "13px/400/lh 19.5px/ls normal/#ffffff@0.8 x71 \"Manchester City punishment announced by...?\"",
-     "14px/500/lh 20px/ls normal/#b6bbc4 x35 \"1\"",
-     "14px/500/lh 20px/ls normal/#ffffff x34 \"Trump\"",
-     "22px/600/lh 22px/ls normal/#ffffff x25 \"95%\"",
-     "15px/500/lh 22.5px/ls normal/#ffffff x25 \"Will Russia enter Malokaterynivka by December 31, 2026?\"",
-     "14px/600/lh 16px/ls -0.09px/#b6bbc4 x18 \"Trending\""
-    ],
-    "headings": [
-     "H1: Breaking News",
-     "H3: Will Russia enter Malokaterynivka by December 31, 2026?",
-     "H3: Will Z.ai be the third-best Math AI lab at the end of September 2026?",
-     "H3: Will the Ornn A100 Index be between $0.75 and $1.00 on September 30, 2026?",
-     "H3: Shipping targeted in Hormuz on September 25, 2026?",
-     "H3: Will \"Forgotten Island\" Opening Weekend Box Office be between 13m and 16m?"
-    ]
-   },
-   "contrast": {
-    "textNodes": 422,
-    "aaFailNodes": 16,
-    "failPct": 3.8,
-    "failGroups": 3,
-    "worst": [
-     "3.78:1 #77797d on #1c1f27 13px/500 x1 \"Sep 27, 2026\"",
-     "3.78:1 #77797d on #1c1f27 14px/500 x1 \"See the polymarkets that moved the most in the las\"",
-     "3.85:1 #df0b10 on #0c0e13 13px/600 x14 \"39%\""
-    ]
-   },
-   "interactive": {
-    "n": 186,
-    "touch": {
-     "ge44": 115,
-     "from24to43": 35,
-     "lt24": 36,
-     "n": 186,
-     "byMinDimension": true
-    },
-    "topHeights": [
-     "111px x29",
-     "20px x26",
-     "93px x23",
-     "36px x22",
-     "48px x19",
-     "91px x13"
-    ],
-    "namelessCount": 0
-   },
-   "spacing": {
-    "pad": [
-     "16 x313",
-     "4 x69",
-     "20 x52",
-     "10 x44",
-     "8 x17",
-     "12 x13",
-     "24 x8",
-     "1 x4",
-     "32 x4",
-     "6 x2"
-    ],
-    "gap": [
-     "12 x203",
-     "8 x89",
-     "6 x80",
-     "4 x58",
-     "2 x57",
-     "16 x54",
-     "24 x6",
-     "48 x3"
-    ],
-    "grid": {
-     "2px": 99.6,
-     "4px": 82.8,
-     "8px": 46.4
-    }
-   },
-   "radii": [
-    "11.2px x111",
-    "7.2px x34",
-    "pillpx x13",
-    "9.2px x3",
-    "16px x2",
-    "18px x2",
-    "10px x1",
-    "12px x1"
-   ],
-   "copy": {
-    "ctas": [
-     "Help",
-     "Open user menu",
-     "Open more navigation links",
-     "Scroll right",
-     "Get updates",
-     "Follow on 𝕏",
-     "See all",
-     "View more",
-     "English"
-    ],
-    "numberFormats": [
-     "9% x50 e.g. 95% | 89%",
-     "Will Solana reach $9 in September? x1 e.g. Will Solana reach $130 in September?",
-     "Cash Cat soars +9%. x1 e.g. Cash Cat soars +22%."
-    ],
-    "fee": [],
-    "disclaimers": [
-     {
-      "text": "Terms of Use",
-      "count": 1
-     },
-     {
-      "text": "Polymarket operates globally through separate legal entities. is operated by QCX LLC d/b/a Polymarket US, a CFTC-regulated Designated Contract Market. This international platform is not regulated by the CFTC and operates",
-      "count": 1
-     },
-     {
-      "text": "Terms of Service",
-      "count": 1
-     }
-    ],
-    "empty": [],
-    "error": [
-     {
-      "text": "Colombia’s new president extradites alleged narco-terrorist & rebel commander Geovany “Spider” Rojas to the United States.",
-      "count": 1
-     }
-    ]
-   },
-   "axe": {
-    "rules": 3,
-    "byImpact": {
-     "serious": 17,
-     "moderate": 1
-    },
-    "ids": [
-     "color-contrast(serious,16)",
-     "meta-viewport(moderate,1)",
-     "target-size(serious,1)"
-    ]
-   },
-   "internalLinksOfInterest": []
-  },
-  "P17a-desktop-light": {
-   "url": "https://polymarket.com/breaking",
-   "httpStatus": 200,
-   "textLength": 13949,
-   "gate": true,
-   "dataTheme": "light",
-   "pageBg": "#ffffff",
-   "docHeight": 3485,
-   "horizontalOverflow": false,
-   "title": "Breaking News | Polymarket",
-   "structureTop": [
-    "y0 h116 w1425 <nav navigation sticky> Main",
-    "y116 h40 w1425 <div> To trade in the US, go to polymarket.us",
-    "y156 h3329 w1425 <div> Breaking News",
-    "  y156 h2665 w1425 <div> Breaking News",
-    "  y2821 h664 w1425 <div> Markets by category and topics"
-   ],
-   "fixedBars": [
-    "sticky y0 h116 \"Go to polymarket.us Trending Combos Perps Breaking\""
-   ],
-   "type": {
-    "styles": 26,
-    "families": [
-     "inter"
-    ],
-    "sizes": [
-     12,
-     13,
-     14,
-     15,
-     16,
-     22,
-     24
-    ],
-    "weights": [
-     "400",
-     "490",
-     "500",
-     "600"
-    ],
-    "top": [
-     "13px/490/lh 16px/ls -0.1px/#6b727b x72 \"We'll send you an email every day with what's moving on Poly\"",
-     "13px/500/lh 16px/ls -0.1px/#6b727b x71 \"New polymarket\"",
-     "13px/400/lh 19.5px/ls normal/#23272d@0.8 x71 \"Manchester City punishment announced by...?\"",
      "14px/500/lh 20px/ls normal/#6b727b x35 \"1\"",
      "14px/500/lh 20px/ls normal/#23272d x34 \"Trump\"",
      "22px/600/lh 22px/ls normal/#23272d x25 \"95%\"",
      "15px/500/lh 22.5px/ls normal/#23272d x25 \"Will Russia enter Malokaterynivka by December 31, 2026?\"",
-     "14px/600/lh 16px/ls -0.09px/#6b727b x18 \"Trending\""
+     "14px/600/lh 16px/ls -0.09px/#6b727b x17 \"Trending\"",
+     "13px/600/lh 13px/ls -0.1px/#df0c10 x15 \"38%\"",
+     "12px/500/lh 16px/ls normal/#8b929b x14 \"Predictions & odds\"",
+     "13px/600/lh 13px/ls -0.1px/#04af52 x10 \"89%\""
     ],
     "headings": [
      "H1: Breaking News",
      "H3: Will Russia enter Malokaterynivka by December 31, 2026?",
      "H3: Will Z.ai be the third-best Math AI lab at the end of September 2026?",
+     "H3: Will \"Forgotten Island\" Opening Weekend Box Office be between 13m and 16m?",
      "H3: Will the Ornn A100 Index be between $0.75 and $1.00 on September 30, 2026?",
-     "H3: Shipping targeted in Hormuz on September 25, 2026?",
-     "H3: Will \"Forgotten Island\" Opening Weekend Box Office be between 13m and 16m?"
+     "H3: Shipping targeted in Hormuz on September 25, 2026?"
     ]
    },
    "contrast": {
-    "textNodes": 422,
-    "aaFailNodes": 37,
-    "failPct": 8.8,
+    "textNodes": 223,
+    "aaFailNodes": 36,
+    "failPct": 16.1,
     "failGroups": 6,
     "worst": [
      "2.27:1 #949eab on #dfecff 13px/500 x1 \"Sep 27, 2026\"",
      "2.27:1 #949eab on #dfecff 14px/500 x1 \"See the polymarkets that moved the most in the las\"",
-     "2.89:1 #04af52 on #ffffff 13px/600 x11 \"89%\"",
+     "2.89:1 #04af52 on #ffffff 13px/600 x10 \"89%\"",
      "3.14:1 #8b929b on #ffffff 12px/500 x14 \"Predictions & odds\"",
      "3.14:1 #8b929b on #ffffff 14px/500 x6 \"·\"",
      "3.14:1 #8b929b on #ffffff 12px/400 x4 \"Polymarket operates globally through separate lega\""
-    ]
+    ],
+    "notComputableNodes": 0,
+    "excludedClipped": 200
    },
    "interactive": {
-    "n": 186,
+    "n": 117,
     "touch": {
-     "ge44": 115,
-     "from24to43": 35,
+     "ge44": 50,
+     "from24to43": 31,
      "lt24": 36,
-     "n": 186,
+     "n": 117,
      "byMinDimension": true
     },
     "topHeights": [
-     "111px x29",
      "20px x26",
      "93px x23",
      "36px x22",
-     "48px x19",
-     "91px x13"
+     "48px x18",
+     "32px x6",
+     "18px x5"
     ],
     "namelessCount": 0
    },
@@ -8362,7 +8433,7 @@
    },
    "radii": [
     "11.2px x111",
-    "7.2px x34",
+    "7.2px x33",
     "pillpx x13",
     "9.2px x3",
     "16px x2",
@@ -8374,18 +8445,15 @@
     "ctas": [
      "Help",
      "Open user menu",
-     "Open more navigation links",
      "Scroll right",
      "Get updates",
      "Follow on 𝕏",
-     "See all",
      "View more",
      "English"
     ],
     "numberFormats": [
      "9% x50 e.g. 95% | 89%",
-     "Will Solana reach $9 in September? x1 e.g. Will Solana reach $130 in September?",
-     "Cash Cat soars +9%. x1 e.g. Cash Cat soars +22%."
+     "Will Solana reach $9 in September? x1 e.g. Will Solana reach $130 in September?"
     ],
     "fee": [],
     "disclaimers": [
@@ -8403,21 +8471,16 @@
      }
     ],
     "empty": [],
-    "error": [
-     {
-      "text": "Colombia’s new president extradites alleged narco-terrorist & rebel commander Geovany “Spider” Rojas to the United States.",
-      "count": 1
-     }
-    ]
+    "error": []
    },
    "axe": {
     "rules": 3,
     "byImpact": {
-     "serious": 32,
+     "serious": 31,
      "moderate": 1
     },
     "ids": [
-     "color-contrast(serious,31)",
+     "color-contrast(serious,30)",
      "meta-viewport(moderate,1)",
      "target-size(serious,1)"
     ]
@@ -8427,7 +8490,7 @@
   "P17a-mobile-dark": {
    "url": "https://polymarket.com/breaking",
    "httpStatus": 200,
-   "textLength": 3249,
+   "textLength": 3286,
    "gate": true,
    "dataTheme": "dark",
    "pageBg": "#0c0e13",
@@ -8471,45 +8534,47 @@
      "14px/500/lh 20px/ls normal/#ffffff x34 \"Trump\"",
      "22px/500/lh 22px/ls normal/#ffffff x25 \"95%\"",
      "15px/500/lh 22.5px/ls normal/#ffffff x25 \"Will Russia enter Malokaterynivka by December 31, 2026?\"",
-     "14px/600/lh 16px/ls -0.09px/#b6bbc4 x18 \"Trending\"",
-     "15px/600/lh 15px/ls normal/#df0b10 x14 \"39%\"",
+     "15px/600/lh 15px/ls normal/#df0b10 x15 \"38%\"",
      "12px/500/lh 16px/ls normal/#999ea7 x14 \"Predictions & odds\"",
-     "15px/600/lh 15px/ls normal/#00ae4b x11 \"89%\""
+     "15px/600/lh 15px/ls normal/#00ae4b x10 \"89%\"",
+     "14px/600/lh 20px/ls -0.09px/#ffffff x6 \"All\""
     ],
     "headings": [
      "H1: Breaking News",
      "H3: Will Russia enter Malokaterynivka by December 31, 2026?",
      "H3: Will Z.ai be the third-best Math AI lab at the end of September 2026?",
+     "H3: Will \"Forgotten Island\" Opening Weekend Box Office be between 13m and 16m?",
      "H3: Will the Ornn A100 Index be between $0.75 and $1.00 on September 30, 2026?",
-     "H3: Shipping targeted in Hormuz on September 25, 2026?",
-     "H3: Will \"Forgotten Island\" Opening Weekend Box Office be between 13m and 16m?"
+     "H3: Shipping targeted in Hormuz on September 25, 2026?"
     ]
    },
    "contrast": {
-    "textNodes": 206,
-    "aaFailNodes": 15,
-    "failPct": 7.3,
+    "textNodes": 188,
+    "aaFailNodes": 16,
+    "failPct": 8.5,
     "failGroups": 2,
     "worst": [
      "3.78:1 #77797d on #1c1f27 13px/500 x1 \"Sep 27, 2026\"",
-     "3.85:1 #df0b10 on #0c0e13 15px/600 x14 \"39%\""
-    ]
+     "3.85:1 #df0b10 on #0c0e13 15px/600 x15 \"38%\""
+    ],
+    "notComputableNodes": 0,
+    "excludedClipped": 19
    },
    "interactive": {
-    "n": 110,
+    "n": 92,
     "touch": {
-     "ge44": 50,
-     "from24to43": 25,
+     "ge44": 36,
+     "from24to43": 21,
      "lt24": 35,
-     "n": 110,
+     "n": 92,
      "byMinDimension": true
     },
     "topHeights": [
      "20px x26",
      "111px x21",
-     "36px x20",
-     "48px x20",
+     "36px x17",
      "18px x5",
+     "48px x5",
      "59px x4"
     ],
     "namelessCount": 0
@@ -8544,7 +8609,7 @@
     }
    },
    "radii": [
-    "7.2px x34",
+    "7.2px x33",
     "11.2px x25",
     "pillpx x12",
     "16px x1"
@@ -8583,11 +8648,11 @@
    "axe": {
     "rules": 2,
     "byImpact": {
-     "serious": 15,
+     "serious": 16,
      "moderate": 1
     },
     "ids": [
-     "color-contrast(serious,15)",
+     "color-contrast(serious,16)",
      "meta-viewport(moderate,1)"
     ]
    },
@@ -8665,7 +8730,9 @@
      "3.14:1 #8b929b on #ffffff 12px/500 x14 \"Predictions & odds\"",
      "3.14:1 #8b929b on #ffffff 14px/500 x6 \"·\"",
      "3.14:1 #8b929b on #ffffff 12px/400 x4 \"Polymarket operates globally through separate lega\""
-    ]
+    ],
+    "notComputableNodes": 0,
+    "excludedClipped": 19
    },
    "interactive": {
     "n": 92,
@@ -8768,7 +8835,7 @@
   "P17b-desktop-dark": {
    "url": "https://polymarket.com/activity",
    "httpStatus": 200,
-   "textLength": 11646,
+   "textLength": 12104,
    "gate": true,
    "dataTheme": "dark",
    "pageBg": "#0c0e13",
@@ -8786,7 +8853,7 @@
     "sticky y0 h116 \"Go to polymarket.us Trending Combos Perps Breaking\""
    ],
    "type": {
-    "styles": 17,
+    "styles": 16,
     "families": [
      "-apple-system",
      "inter"
@@ -8805,12 +8872,12 @@
      "600"
     ],
     "top": [
-     "14px/400/lh 20px/ls normal/#b6bbc4 x600 \"Trump renames AI by September 30?\"",
-     "14px/600/lh 20px/ls normal/#ffffff x100 \"noballer\"",
-     "14px/600/lh 20px/ls normal/#009431 x58 \"Down\"",
-     "14px/600/lh 20px/ls normal/#df0b10 x42 \"No\"",
+     "14px/400/lh 20px/ls normal/#b6bbc4 x600 \"Bitcoin Up or Down - September 27, 5:15AM-5:30AM ET\"",
+     "14px/600/lh 20px/ls normal/#ffffff x100 \"Avaricious-Corre...\"",
+     "14px/600/lh 20px/ls normal/#009431 x74 \"Up\"",
      "14px/500/lh 20px/ls normal/#ffffff x34 \"Trump\"",
-     "14px/600/lh 16px/ls -0.09px/#b6bbc4 x19 \"Trending\"",
+     "14px/600/lh 20px/ls normal/#df0b10 x26 \"No\"",
+     "14px/600/lh 16px/ls -0.09px/#b6bbc4 x18 \"Trending\"",
      "12px/500/lh 16px/ls normal/#999ea7 x14 \"Predictions & odds\"",
      "14px/500/lh 20px/ls normal/#b6bbc4 x10 \"Markets by category and topics\""
     ],
@@ -8822,27 +8889,29 @@
     ]
    },
    "contrast": {
-    "textNodes": 895,
-    "aaFailNodes": 42,
-    "failPct": 4.7,
+    "textNodes": 893,
+    "aaFailNodes": 26,
+    "failPct": 2.9,
     "failGroups": 1,
     "worst": [
-     "3.85:1 #df0b10 on #0c0e13 14px/600 x42 \"No\""
-    ]
+     "3.85:1 #df0b10 on #0c0e13 14px/600 x26 \"No\""
+    ],
+    "notComputableNodes": 0,
+    "excludedClipped": 3
    },
    "interactive": {
-    "n": 379,
+    "n": 377,
     "touch": {
      "ge44": 18,
-     "from24to43": 25,
+     "from24to43": 23,
      "lt24": 336,
-     "n": 379,
+     "n": 377,
      "byMinDimension": true
     },
     "topHeights": [
      "20px x226",
      "12px x100",
-     "48px x19",
+     "48px x18",
      "36px x15",
      "18px x5",
      "32px x4"
@@ -8880,8 +8949,8 @@
    "radii": [
     "4px x100",
     "15.2px x100",
-    "50px x89",
-    "pillpx x15",
+    "50px x90",
+    "pillpx x14",
     "18px x2",
     "10px x1",
     "12px x1",
@@ -8891,7 +8960,6 @@
     "ctas": [
      "Help",
      "Open user menu",
-     "Open more navigation links",
      "Scroll right",
      "filter-by-category",
      "sort-markets-by",
@@ -8899,13 +8967,16 @@
      "English"
     ],
     "numberFormats": [
-     "9¢ x100 e.g. 81¢ | 36¢",
-     "($9.9) x92 e.g. ($38.67) | ($2.16)",
-     "($9) x5 e.g. ($274) | ($318)",
-     "($9,9) x3 e.g. ($1,176) | ($1,128)"
+     "9¢ x100 e.g. 34¢ | 62¢",
+     "($9.9) x87 e.g. ($11.64) | ($8.00)",
+     "($9) x13 e.g. ($319) | ($876)"
     ],
     "fee": [],
     "disclaimers": [
+     {
+      "text": "OhioRiskManageme...",
+      "count": 2
+     },
      {
       "text": "Terms of Use",
       "count": 1
@@ -8926,12 +8997,12 @@
     "rules": 3,
     "byImpact": {
      "critical": 1,
-     "serious": 42,
+     "serious": 26,
      "moderate": 1
     },
     "ids": [
      "button-name(critical,1)",
-     "color-contrast(serious,42)",
+     "color-contrast(serious,26)",
      "meta-viewport(moderate,1)"
     ]
    },
@@ -8940,7 +9011,7 @@
   "P17b-desktop-light": {
    "url": "https://polymarket.com/activity",
    "httpStatus": 200,
-   "textLength": 11646,
+   "textLength": 12104,
    "gate": true,
    "dataTheme": "light",
    "pageBg": "#ffffff",
@@ -8958,7 +9029,7 @@
     "sticky y0 h116 \"Go to polymarket.us Trending Combos Perps Breaking\""
    ],
    "type": {
-    "styles": 17,
+    "styles": 16,
     "families": [
      "-apple-system",
      "inter"
@@ -8977,12 +9048,12 @@
      "600"
     ],
     "top": [
-     "14px/400/lh 20px/ls normal/#6b727b x600 \"Trump renames AI by September 30?\"",
-     "14px/600/lh 20px/ls normal/#23272d x100 \"noballer\"",
-     "14px/600/lh 20px/ls normal/#009c39 x58 \"Down\"",
-     "14px/600/lh 20px/ls normal/#df0c10 x42 \"No\"",
+     "14px/400/lh 20px/ls normal/#6b727b x600 \"Bitcoin Up or Down - September 27, 5:15AM-5:30AM ET\"",
+     "14px/600/lh 20px/ls normal/#23272d x100 \"Avaricious-Corre...\"",
+     "14px/600/lh 20px/ls normal/#009c39 x74 \"Up\"",
      "14px/500/lh 20px/ls normal/#23272d x34 \"Trump\"",
-     "14px/600/lh 16px/ls -0.09px/#6b727b x19 \"Trending\"",
+     "14px/600/lh 20px/ls normal/#df0c10 x26 \"No\"",
+     "14px/600/lh 16px/ls -0.09px/#6b727b x18 \"Trending\"",
      "12px/500/lh 16px/ls normal/#8b929b x14 \"Predictions & odds\"",
      "14px/500/lh 20px/ls normal/#6b727b x10 \"Markets by category and topics\""
     ],
@@ -8994,30 +9065,32 @@
     ]
    },
    "contrast": {
-    "textNodes": 895,
-    "aaFailNodes": 82,
-    "failPct": 9.2,
+    "textNodes": 893,
+    "aaFailNodes": 98,
+    "failPct": 11,
     "failGroups": 4,
     "worst": [
      "3.14:1 #8b929b on #ffffff 12px/500 x14 \"Predictions & odds\"",
      "3.14:1 #8b929b on #ffffff 14px/500 x6 \"·\"",
      "3.14:1 #8b929b on #ffffff 12px/400 x4 \"Polymarket operates globally through separate lega\"",
-     "3.61:1 #009c39 on #ffffff 14px/600 x58 \"Down\""
-    ]
+     "3.61:1 #009c39 on #ffffff 14px/600 x74 \"Up\""
+    ],
+    "notComputableNodes": 0,
+    "excludedClipped": 3
    },
    "interactive": {
-    "n": 379,
+    "n": 377,
     "touch": {
      "ge44": 18,
-     "from24to43": 25,
+     "from24to43": 23,
      "lt24": 336,
-     "n": 379,
+     "n": 377,
      "byMinDimension": true
     },
     "topHeights": [
      "20px x226",
      "12px x100",
-     "48px x19",
+     "48px x18",
      "36px x15",
      "18px x5",
      "32px x4"
@@ -9055,8 +9128,8 @@
    "radii": [
     "4px x100",
     "15.2px x100",
-    "50px x89",
-    "pillpx x15",
+    "50px x90",
+    "pillpx x14",
     "18px x2",
     "10px x1",
     "12px x1",
@@ -9066,7 +9139,6 @@
     "ctas": [
      "Help",
      "Open user menu",
-     "Open more navigation links",
      "Scroll right",
      "filter-by-category",
      "sort-markets-by",
@@ -9074,13 +9146,16 @@
      "English"
     ],
     "numberFormats": [
-     "9¢ x100 e.g. 81¢ | 36¢",
-     "($9.9) x92 e.g. ($38.67) | ($2.16)",
-     "($9) x5 e.g. ($274) | ($318)",
-     "($9,9) x3 e.g. ($1,176) | ($1,128)"
+     "9¢ x100 e.g. 34¢ | 62¢",
+     "($9.9) x87 e.g. ($11.64) | ($8.00)",
+     "($9) x13 e.g. ($319) | ($876)"
     ],
     "fee": [],
     "disclaimers": [
+     {
+      "text": "OhioRiskManageme...",
+      "count": 2
+     },
      {
       "text": "Terms of Use",
       "count": 1
@@ -9101,12 +9176,12 @@
     "rules": 3,
     "byImpact": {
      "critical": 1,
-     "serious": 76,
+     "serious": 92,
      "moderate": 1
     },
     "ids": [
      "button-name(critical,1)",
-     "color-contrast(serious,76)",
+     "color-contrast(serious,92)",
      "meta-viewport(moderate,1)"
     ]
    },
@@ -9115,19 +9190,19 @@
   "P17b-mobile-dark": {
    "url": "https://polymarket.com/activity",
    "httpStatus": 200,
-   "textLength": 6548,
+   "textLength": 6540,
    "gate": true,
    "dataTheme": "dark",
    "pageBg": "#0c0e13",
-   "docHeight": 7480,
+   "docHeight": 7388,
    "horizontalOverflow": false,
    "title": "Activity | Polymarket",
    "structureTop": [
     "y0 h48 w390 <div> To trade in the US, go to polymarket.us",
     "y48 h104 w390 <nav navigation sticky> Main",
-    "y152 h7328 w390 <div> Activity",
-    "  y152 h5972 w390 <div> Activity",
-    "  y6124 h1356 w390 <div> Markets by category and topics"
+    "y152 h7236 w390 <div> Activity",
+    "  y152 h5880 w390 <div> Activity",
+    "  y6032 h1356 w390 <div> Markets by category and topics"
    ],
    "fixedBars": [
     "sticky y48 h104 \"Go to polymarket.us Trending Combos Perps Breaking\"",
@@ -9154,14 +9229,14 @@
      "600"
     ],
     "top": [
-     "14px/400/lh 20px/ls normal/#b6bbc4 x300 \"Trump renames AI by September 30?\"",
-     "14px/600/lh 20px/ls normal/#ffffff x50 \"noballer\"",
-     "14px/600/lh 20px/ls normal/#009431 x37 \"Down\"",
+     "14px/400/lh 20px/ls normal/#b6bbc4 x300 \"Bitcoin Up or Down - September 27, 5:15AM-5:30AM ET\"",
+     "14px/600/lh 20px/ls normal/#ffffff x50 \"Avaricious-Corre...\"",
+     "14px/600/lh 20px/ls normal/#009431 x49 \"Up\"",
      "14px/500/lh 20px/ls normal/#ffffff x34 \"Trump\"",
-     "14px/600/lh 16px/ls -0.09px/#b6bbc4 x19 \"Trending\"",
      "12px/500/lh 16px/ls normal/#999ea7 x14 \"Predictions & odds\"",
-     "14px/600/lh 20px/ls normal/#df0b10 x13 \"No\"",
-     "14px/500/lh 20px/ls normal/#b6bbc4 x10 \"Markets by category and topics\""
+     "14px/500/lh 20px/ls normal/#b6bbc4 x10 \"Markets by category and topics\"",
+     "14px/500/lh 20px/ls normal/#999ea7 x6 \"·\"",
+     "14px/600/lh 16px/ls -0.09px/#b6bbc4 x4 \"Trending\""
     ],
     "headings": [
      "H1: Activity",
@@ -9171,29 +9246,31 @@
     ]
    },
    "contrast": {
-    "textNodes": 498,
-    "aaFailNodes": 13,
-    "failPct": 2.6,
+    "textNodes": 483,
+    "aaFailNodes": 1,
+    "failPct": 0.2,
     "failGroups": 1,
     "worst": [
-     "3.85:1 #df0b10 on #0c0e13 14px/600 x13 \"No\""
-    ]
+     "3.85:1 #df0b10 on #0c0e13 14px/600 x1 \"No\""
+    ],
+    "notComputableNodes": 0,
+    "excludedClipped": 16
    },
    "interactive": {
-    "n": 179,
+    "n": 164,
     "touch": {
-     "ge44": 24,
-     "from24to43": 20,
+     "ge44": 10,
+     "from24to43": 19,
      "lt24": 135,
-     "n": 179,
+     "n": 164,
      "byMinDimension": true
     },
     "topHeights": [
      "20px x76",
      "12px x50",
-     "48px x19",
      "36px x13",
      "18px x5",
+     "48px x4",
      "59px x4"
     ],
     "namelessCount": 1
@@ -9228,8 +9305,8 @@
    },
    "radii": [
     "4px x50",
-    "50px x46",
-    "pillpx x8",
+    "50px x44",
+    "pillpx x10",
     "7.2px x1"
    ],
    "copy": {
@@ -9243,12 +9320,16 @@
      "More menu"
     ],
     "numberFormats": [
-     "9¢ x50 e.g. 81¢ | 36¢",
-     "($9.9) x49 e.g. ($38.67) | ($2.16)",
-     "($9) x1 e.g. ($274)"
+     "9¢ x50 e.g. 34¢ | 62¢",
+     "($9.9) x45 e.g. ($11.64) | ($8.00)",
+     "($9) x5 e.g. ($319) | ($876)"
     ],
     "fee": [],
     "disclaimers": [
+     {
+      "text": "OhioRiskManageme...",
+      "count": 1
+     },
      {
       "text": "Terms of Use",
       "count": 1
@@ -9269,12 +9350,12 @@
     "rules": 3,
     "byImpact": {
      "critical": 1,
-     "serious": 13,
+     "serious": 1,
      "moderate": 1
     },
     "ids": [
      "button-name(critical,1)",
-     "color-contrast(serious,13)",
+     "color-contrast(serious,1)",
      "meta-viewport(moderate,1)"
     ]
    },
@@ -9283,19 +9364,19 @@
   "P17b-mobile-light": {
    "url": "https://polymarket.com/activity",
    "httpStatus": 200,
-   "textLength": 6790,
+   "textLength": 6540,
    "gate": true,
    "dataTheme": "light",
    "pageBg": "#ffffff",
-   "docHeight": 7296,
+   "docHeight": 7388,
    "horizontalOverflow": false,
    "title": "Activity | Polymarket",
    "structureTop": [
     "y0 h48 w390 <div> To trade in the US, go to polymarket.us",
     "y48 h104 w390 <nav navigation sticky> Main",
-    "y152 h7144 w390 <div> Activity",
-    "  y152 h5788 w390 <div> Activity",
-    "  y5940 h1356 w390 <div> Markets by category and topics"
+    "y152 h7236 w390 <div> Activity",
+    "  y152 h5880 w390 <div> Activity",
+    "  y6032 h1356 w390 <div> Markets by category and topics"
    ],
    "fixedBars": [
     "sticky y48 h104 \"Go to polymarket.us Trending Combos Perps Breaking\"",
@@ -9322,14 +9403,14 @@
      "600"
     ],
     "top": [
-     "14px/400/lh 20px/ls normal/#6b727b x300 \"LoL: KT Rolster Challengers vs Galions (BO5) - World Star Ch\"",
-     "14px/600/lh 20px/ls normal/#23272d x50 \"cute2212\"",
+     "14px/400/lh 20px/ls normal/#6b727b x300 \"Bitcoin Up or Down - September 27, 5:15AM-5:30AM ET\"",
+     "14px/600/lh 20px/ls normal/#23272d x50 \"Avaricious-Corre...\"",
+     "14px/600/lh 20px/ls normal/#009c39 x49 \"Up\"",
      "14px/500/lh 20px/ls normal/#23272d x34 \"Trump\"",
-     "14px/600/lh 20px/ls normal/#009c39 x28 \"KT Rolster Challengers\"",
-     "14px/600/lh 20px/ls normal/#df0c10 x21 \"No\"",
-     "14px/600/lh 16px/ls -0.09px/#6b727b x19 \"Trending\"",
      "12px/500/lh 16px/ls normal/#8b929b x14 \"Predictions & odds\"",
-     "14px/500/lh 20px/ls normal/#6b727b x10 \"Markets by category and topics\""
+     "14px/500/lh 20px/ls normal/#6b727b x10 \"Markets by category and topics\"",
+     "14px/500/lh 20px/ls normal/#8b929b x6 \"·\"",
+     "14px/600/lh 16px/ls -0.09px/#6b727b x4 \"Trending\""
     ],
     "headings": [
      "H1: Activity",
@@ -9339,32 +9420,34 @@
     ]
    },
    "contrast": {
-    "textNodes": 497,
-    "aaFailNodes": 52,
-    "failPct": 10.5,
+    "textNodes": 483,
+    "aaFailNodes": 73,
+    "failPct": 15.1,
     "failGroups": 4,
     "worst": [
      "3.14:1 #8b929b on #ffffff 12px/500 x14 \"Predictions & odds\"",
      "3.14:1 #8b929b on #ffffff 14px/500 x6 \"·\"",
      "3.14:1 #8b929b on #ffffff 12px/400 x4 \"Polymarket operates globally through separate lega\"",
-     "3.61:1 #009c39 on #ffffff 14px/600 x28 \"KT Rolster Challengers\""
-    ]
+     "3.61:1 #009c39 on #ffffff 14px/600 x49 \"Up\""
+    ],
+    "notComputableNodes": 0,
+    "excludedClipped": 16
    },
    "interactive": {
-    "n": 179,
+    "n": 164,
     "touch": {
-     "ge44": 24,
-     "from24to43": 20,
+     "ge44": 10,
+     "from24to43": 19,
      "lt24": 135,
-     "n": 179,
+     "n": 164,
      "byMinDimension": true
     },
     "topHeights": [
      "20px x76",
      "12px x50",
-     "48px x19",
      "36px x13",
      "18px x5",
+     "48px x4",
      "59px x4"
     ],
     "namelessCount": 1
@@ -9399,8 +9482,8 @@
    },
    "radii": [
     "4px x50",
-    "50px x48",
-    "pillpx x6",
+    "50px x44",
+    "pillpx x10",
     "7.2px x1"
    ],
    "copy": {
@@ -9414,13 +9497,16 @@
      "More menu"
     ],
     "numberFormats": [
-     "9¢ x50 e.g. 64¢ | 35¢",
-     "($9.9) x45 e.g. ($66.00) | ($16.55)",
-     "($9) x4 e.g. ($215) | ($150)",
-     "($9,9) x1 e.g. ($2,100)"
+     "9¢ x50 e.g. 34¢ | 62¢",
+     "($9.9) x45 e.g. ($11.64) | ($8.00)",
+     "($9) x5 e.g. ($319) | ($876)"
     ],
     "fee": [],
     "disclaimers": [
+     {
+      "text": "OhioRiskManageme...",
+      "count": 1
+     },
      {
       "text": "Terms of Use",
       "count": 1
@@ -9435,27 +9521,18 @@
      }
     ],
     "empty": [],
-    "error": [
-     {
-      "text": "errormargin3",
-      "count": 1
-     },
-     {
-      "text": "Will Lake Powell's minimum elevation stay above 3,510 ft?",
-      "count": 1
-     }
-    ]
+    "error": []
    },
    "axe": {
     "rules": 3,
     "byImpact": {
      "critical": 1,
-     "serious": 46,
+     "serious": 67,
      "moderate": 1
     },
     "ids": [
      "button-name(critical,1)",
-     "color-contrast(serious,46)",
+     "color-contrast(serious,67)",
      "meta-viewport(moderate,1)"
     ]
    },
@@ -9464,7 +9541,7 @@
   "P18-desktop-dark": {
    "url": "https://polymarket.com/event/btc-updown-15m-1774188000",
    "httpStatus": 200,
-   "textLength": 9252,
+   "textLength": 9262,
    "gate": true,
    "dataTheme": "dark",
    "pageBg": "#0c0e13",
@@ -9482,7 +9559,7 @@
     "sticky y0 h116 \"Go to polymarket.us Trending Combos Perps Breaking\""
    ],
    "type": {
-    "styles": 43,
+    "styles": 41,
     "families": [
      "inter"
     ],
@@ -9502,14 +9579,14 @@
      "600"
     ],
     "top": [
-     "14px/500/lh 20px/ls normal/#ffffff x63 \"Newest\"",
-     "12px/500/lh 16px/ls normal/#999ea7 x20 \"Predictions & odds\"",
-     "14px/600/lh 16px/ls -0.09px/#b6bbc4 x19 \"Trending\"",
+     "14px/500/lh 20px/ls normal/#ffffff x33 \"Newest\"",
+     "14px/600/lh 16px/ls -0.09px/#b6bbc4 x18 \"Trending\"",
      "14px/600/lh 20px/ls -0.09px/#ffffff x14 \"Go to live market\"",
      "14px/400/lh 20px/ls -0.09px/#ffffff x13 \"This market will resolve to \"Up\" if the Bitcoin price at the\"",
      "14px/500/lh 20px/ls normal/#b6bbc4 x12 \"Related topics\"",
      "13px/500/lh 16px/ls -0.1px/#b6bbc4 x11 \"21h ago\"",
-     "12px/600/lh 16px/ls -0.09px/#b6bbc4 x11 \"3\""
+     "12px/600/lh 16px/ls -0.09px/#b6bbc4 x11 \"3\"",
+     "12px/500/lh 16px/ls normal/#999ea7 x10 \"Predictions & odds\""
     ],
     "headings": [
      "H1: BTC Up or Down 15m",
@@ -9521,34 +9598,35 @@
     ]
    },
    "contrast": {
-    "textNodes": 242,
-    "aaFailNodes": 12,
-    "failPct": 5,
-    "failGroups": 7,
+    "textNodes": 193,
+    "aaFailNodes": 5,
+    "failPct": 2.6,
+    "failGroups": 5,
     "worst": [
-     "1:1 #0c0e13 on #0c0e13 11px/400 x1 \"(market closed)\"",
-     "1:1 #0c0e13 on #0c0e13 14px/400 x5 \"\"Bitcoin Up or Down - March 22, 10:00AM-10:15AM ET\"",
      "2.33:1 #99b1ff on #3262ff 14px/600 x1 \"Post\"",
      "3.39:1 #3262ff on #1c1f27 14px/400 x1 \"https://data.chain.link/streams/btc-usd\"",
      "3.39:1 #3262ff on #1c1f27 18px/500 x1 \"Outcome: Up\"",
-     "3.98:1 #3262ff on #0c0e13 14px/400 x2 \"https://data.chain.link/streams/btc-usd\""
-    ]
+     "3.98:1 #3262ff on #0c0e13 14px/400 x1 \"https://data.chain.link/streams/btc-usd\"",
+     "3.98:1 #3262ff on #0c0e13 14px/600 x1 \"@Z-Group\""
+    ],
+    "notComputableNodes": 1,
+    "excludedClipped": 51
    },
    "interactive": {
-    "n": 199,
+    "n": 166,
     "touch": {
      "ge44": 28,
-     "from24to43": 105,
-     "lt24": 66,
-     "n": 199,
+     "from24to43": 90,
+     "lt24": 48,
+     "n": 166,
      "byMinDimension": true
     },
     "topHeights": [
-     "20px x50",
+     "20px x33",
      "24px x25",
-     "36px x25",
      "32px x21",
-     "48px x20",
+     "48px x19",
+     "36px x15",
      "28px x11"
     ],
     "namelessCount": 25
@@ -9583,8 +9661,8 @@
     }
    },
    "radii": [
+    "pillpx x27",
     "7.2px x27",
-    "pillpx x26",
     "11.2px x13",
     "50px x8",
     "9.2px x8",
@@ -9600,7 +9678,6 @@
      "3",
      "Help",
      "Open user menu",
-     "Open more navigation links",
      "Scroll right",
      "Add to favorites",
      "Go to live market",
@@ -9608,10 +9685,11 @@
      "More",
      "chart-candlestick",
      "Rules",
-     "Market Context"
+     "Market Context",
+     "Comments (25,877)"
     ],
     "numberFormats": [
-     "9% x4 e.g. 60% | 71%"
+     "9% x4 e.g. 100% | 3%"
     ],
     "fee": [],
     "disclaimers": [
@@ -9659,7 +9737,7 @@
   "P18-desktop-light": {
    "url": "https://polymarket.com/event/btc-updown-15m-1774188000",
    "httpStatus": 200,
-   "textLength": 9252,
+   "textLength": 9260,
    "gate": true,
    "dataTheme": "light",
    "pageBg": "#ffffff",
@@ -9677,7 +9755,7 @@
     "sticky y0 h116 \"Go to polymarket.us Trending Combos Perps Breaking\""
    ],
    "type": {
-    "styles": 43,
+    "styles": 41,
     "families": [
      "inter"
     ],
@@ -9697,14 +9775,14 @@
      "600"
     ],
     "top": [
-     "14px/500/lh 20px/ls normal/#23272d x63 \"Newest\"",
-     "12px/500/lh 16px/ls normal/#8b929b x20 \"Predictions & odds\"",
-     "14px/600/lh 16px/ls -0.09px/#6b727b x19 \"Trending\"",
+     "14px/500/lh 20px/ls normal/#23272d x33 \"Newest\"",
+     "14px/600/lh 16px/ls -0.09px/#6b727b x18 \"Trending\"",
      "14px/600/lh 20px/ls -0.09px/#23272d x14 \"Go to live market\"",
      "14px/400/lh 20px/ls -0.09px/#23272d x13 \"This market will resolve to \"Up\" if the Bitcoin price at the\"",
      "14px/500/lh 20px/ls normal/#6b727b x12 \"Related topics\"",
      "13px/500/lh 16px/ls -0.1px/#6b727b x11 \"21h ago\"",
-     "12px/600/lh 16px/ls -0.09px/#6b727b x11 \"3\""
+     "12px/600/lh 16px/ls -0.09px/#6b727b x11 \"3\"",
+     "12px/500/lh 16px/ls normal/#8b929b x10 \"Predictions & odds\""
     ],
     "headings": [
      "H1: BTC Up or Down 15m",
@@ -9716,34 +9794,36 @@
     ]
    },
    "contrast": {
-    "textNodes": 242,
-    "aaFailNodes": 41,
-    "failPct": 16.9,
-    "failGroups": 9,
+    "textNodes": 193,
+    "aaFailNodes": 25,
+    "failPct": 13,
+    "failGroups": 7,
     "worst": [
-     "1:1 #ffffff on #ffffff 11px/400 x1 \"(market closed)\"",
-     "1:1 #ffffff on #ffffff 14px/400 x5 \"\"Bitcoin Up or Down - March 22, 10:00AM-10:15AM ET\"",
      "2.4:1 #97aeff on #2e5cff 14px/600 x1 \"Post\"",
      "3.14:1 #8b929b on #ffffff 13px/490 x2 \"By trading, you agree to the .\"",
-     "3.14:1 #8b929b on #ffffff 12px/500 x20 \"Predictions & odds\"",
-     "3.14:1 #8b929b on #ffffff 14px/500 x6 \"·\""
-    ]
+     "3.14:1 #8b929b on #ffffff 12px/500 x10 \"Predictions & odds\"",
+     "3.14:1 #8b929b on #ffffff 14px/500 x6 \"·\"",
+     "3.14:1 #8b929b on #ffffff 12px/400 x4 \"Polymarket operates globally through separate lega\"",
+     "4.31:1 #6b727b on #f0f1f4 11px/600 x1 \"Source: Polymarket.com\""
+    ],
+    "notComputableNodes": 1,
+    "excludedClipped": 51
    },
    "interactive": {
-    "n": 199,
+    "n": 166,
     "touch": {
      "ge44": 28,
-     "from24to43": 105,
-     "lt24": 66,
-     "n": 199,
+     "from24to43": 90,
+     "lt24": 48,
+     "n": 166,
      "byMinDimension": true
     },
     "topHeights": [
-     "20px x50",
+     "20px x33",
      "24px x25",
-     "36px x25",
      "32px x21",
-     "48px x20",
+     "48px x19",
+     "36px x15",
      "28px x11"
     ],
     "namelessCount": 25
@@ -9778,8 +9858,8 @@
     }
    },
    "radii": [
+    "pillpx x31",
     "7.2px x27",
-    "pillpx x26",
     "11.2px x13",
     "50px x8",
     "9.2px x8",
@@ -9795,7 +9875,6 @@
      "3",
      "Help",
      "Open user menu",
-     "Open more navigation links",
      "Scroll right",
      "Add to favorites",
      "Go to live market",
@@ -9803,10 +9882,11 @@
      "More",
      "chart-candlestick",
      "Rules",
-     "Market Context"
+     "Market Context",
+     "Comments (25,877)"
     ],
     "numberFormats": [
-     "9% x4 e.g. 56% | 54%"
+     "9% x4 e.g. 100% | 69%"
     ],
     "fee": [],
     "disclaimers": [
@@ -9854,7 +9934,7 @@
   "P18-mobile-dark": {
    "url": "https://polymarket.com/event/btc-updown-15m-1774188000",
    "httpStatus": 200,
-   "textLength": 9040,
+   "textLength": 9048,
    "gate": true,
    "dataTheme": "dark",
    "pageBg": "#0c0e13",
@@ -9874,7 +9954,7 @@
     "fixed y659 h185 bottom \"Outcome: Up How it works Home Search Breaking More\""
    ],
    "type": {
-    "styles": 42,
+    "styles": 41,
     "families": [
      "inter"
     ],
@@ -9894,14 +9974,14 @@
      "700"
     ],
     "top": [
-     "14px/500/lh 20px/ls normal/#ffffff x63 \"Newest\"",
-     "12px/500/lh 16px/ls normal/#999ea7 x20 \"Predictions & odds\"",
-     "14px/600/lh 16px/ls -0.09px/#b6bbc4 x19 \"Trending\"",
+     "14px/500/lh 20px/ls normal/#ffffff x33 \"Newest\"",
      "14px/400/lh 20px/ls -0.09px/#ffffff x12 \"This market will resolve to \"Up\" if the Bitcoin price at the\"",
      "14px/600/lh 20px/ls -0.09px/#ffffff x12 \"10to5\"",
      "14px/500/lh 20px/ls normal/#b6bbc4 x12 \"Related topics\"",
      "13px/500/lh 16px/ls -0.1px/#b6bbc4 x11 \"21h ago\"",
-     "12px/600/lh 16px/ls -0.09px/#b6bbc4 x11 \"3\""
+     "12px/600/lh 16px/ls -0.09px/#b6bbc4 x11 \"3\"",
+     "12px/500/lh 16px/ls normal/#999ea7 x10 \"Predictions & odds\"",
+     "14px/500/lh 20px/ls -0.09px/#b6bbc4 x9 \"Show more\""
     ],
     "headings": [
      "H1: BTC Up or Down 15m",
@@ -9913,35 +9993,36 @@
     ]
    },
    "contrast": {
-    "textNodes": 248,
-    "aaFailNodes": 13,
-    "failPct": 5.2,
-    "failGroups": 7,
+    "textNodes": 181,
+    "aaFailNodes": 6,
+    "failPct": 3.3,
+    "failGroups": 5,
     "worst": [
-     "1:1 #0c0e13 on #0c0e13 11px/400 x1 \"(market closed)\"",
-     "1:1 #0c0e13 on #0c0e13 14px/400 x5 \"\"Bitcoin Up or Down - March 22, 10:00AM-10:15AM ET\"",
      "2.33:1 #99b1ff on #3262ff 14px/600 x1 \"Post\"",
      "3.39:1 #3262ff on #1c1f27 14px/400 x1 \"https://data.chain.link/streams/btc-usd\"",
-     "3.98:1 #3262ff on #0c0e13 14px/400 x2 \"https://data.chain.link/streams/btc-usd\"",
-     "3.98:1 #3262ff on #0c0e13 14px/600 x2 \"@Z-Group\""
-    ]
+     "3.98:1 #3262ff on #0c0e13 14px/400 x1 \"https://data.chain.link/strea\"",
+     "3.98:1 #3262ff on #0c0e13 14px/600 x2 \"@Z-Group\"",
+     "3.98:1 #3262ff on #0c0e13 16px/500 x1 \"Outcome: Up\""
+    ],
+    "notComputableNodes": 1,
+    "excludedClipped": 70
    },
    "interactive": {
-    "n": 197,
+    "n": 148,
     "touch": {
-     "ge44": 31,
-     "from24to43": 105,
-     "lt24": 61,
-     "n": 197,
+     "ge44": 17,
+     "from24to43": 80,
+     "lt24": 51,
+     "n": 148,
      "byMinDimension": true
     },
     "topHeights": [
-     "20px x46",
+     "20px x37",
      "24px x26",
-     "48px x23",
-     "36px x22",
-     "40px x20",
-     "32px x13"
+     "36px x12",
+     "28px x11",
+     "32px x10",
+     "40px x9"
     ],
     "namelessCount": 22
    },
@@ -9995,11 +10076,11 @@
      "Add to favorites",
      "Go to live market",
      "View past events",
-     "More",
      "chart-candlestick",
      "Rules",
      "Market Context",
-     "Comments"
+     "Comments",
+     "Top Holders"
     ],
     "numberFormats": [
      "9% x3 e.g. 100%",
@@ -10071,7 +10152,7 @@
     "fixed y659 h185 bottom \"Outcome: Up How it works Home Search Breaking More\""
    ],
    "type": {
-    "styles": 42,
+    "styles": 41,
     "families": [
      "inter"
     ],
@@ -10092,13 +10173,13 @@
     ],
     "top": [
      "14px/500/lh 20px/ls normal/#23272d x35 \"Newest\"",
-     "14px/600/lh 16px/ls -0.09px/#6b727b x19 \"Trending\"",
      "12px/500/lh 16px/ls normal/#8b929b x14 \"Predictions & odds\"",
      "14px/400/lh 20px/ls -0.09px/#23272d x12 \"This market will resolve to \"Up\" if the Bitcoin price at the\"",
      "14px/600/lh 20px/ls -0.09px/#23272d x12 \"10to5\"",
      "13px/500/lh 16px/ls -0.1px/#6b727b x11 \"21h ago\"",
      "12px/600/lh 16px/ls -0.09px/#6b727b x11 \"3\"",
-     "14px/500/lh 20px/ls normal/#6b727b x10 \"Markets by category and topics\""
+     "14px/500/lh 20px/ls normal/#6b727b x10 \"Markets by category and topics\"",
+     "14px/500/lh 20px/ls -0.09px/#6b727b x9 \"Show more\""
     ],
     "headings": [
      "H1: BTC Up or Down 15m",
@@ -10110,35 +10191,37 @@
     ]
    },
    "contrast": {
-    "textNodes": 212,
-    "aaFailNodes": 33,
-    "failPct": 15.6,
-    "failGroups": 8,
+    "textNodes": 185,
+    "aaFailNodes": 27,
+    "failPct": 14.6,
+    "failGroups": 6,
     "worst": [
-     "1:1 #ffffff on #ffffff 11px/400 x1 \"(market closed)\"",
-     "1:1 #ffffff on #ffffff 14px/400 x5 \"\"Bitcoin Up or Down - March 22, 10:00AM-10:15AM ET\"",
      "2.4:1 #97aeff on #2e5cff 14px/600 x1 \"Post\"",
      "3.14:1 #8b929b on #ffffff 12px/500 x14 \"Predictions & odds\"",
      "3.14:1 #8b929b on #ffffff 14px/500 x6 \"·\"",
-     "3.14:1 #8b929b on #ffffff 12px/400 x4 \"Polymarket operates globally through separate lega\""
-    ]
+     "3.14:1 #8b929b on #ffffff 12px/400 x4 \"Polymarket operates globally through separate lega\"",
+     "4.31:1 #6b727b on #f0f1f4 11px/600 x1 \"Source: Polymarket.com\"",
+     "4.46:1 #6b727b on #f4f5f7 13px/600 x1 \"Beware of external links.\""
+    ],
+    "notComputableNodes": 1,
+    "excludedClipped": 30
    },
    "interactive": {
-    "n": 167,
+    "n": 148,
     "touch": {
-     "ge44": 33,
-     "from24to43": 78,
-     "lt24": 56,
-     "n": 167,
+     "ge44": 19,
+     "from24to43": 74,
+     "lt24": 55,
+     "n": 148,
      "byMinDimension": true
     },
     "topHeights": [
      "20px x41",
      "24px x26",
-     "48px x23",
      "36px x14",
-     "32px x13",
-     "28px x11"
+     "28px x11",
+     "32px x10",
+     "48px x8"
     ],
     "namelessCount": 22
    },
@@ -10173,7 +10256,7 @@
    },
    "radii": [
     "7.2px x27",
-    "pillpx x20",
+    "pillpx x19",
     "50px x8",
     "11.2px x8",
     "9.2px x5",
@@ -10192,11 +10275,11 @@
      "Add to favorites",
      "Go to live market",
      "View past events",
-     "More",
      "chart-candlestick",
      "Rules",
      "Market Context",
-     "Comments"
+     "Comments",
+     "Top Holders"
     ],
     "numberFormats": [
      "9% x3 e.g. 100%",

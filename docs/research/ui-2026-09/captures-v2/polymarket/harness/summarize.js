@@ -8,6 +8,7 @@ const px = s => parseFloat(s);
 for (const f of files) {
   const j = JSON.parse(fs.readFileSync(path.join(L.DATA, f)));
   const k = f.replace('.json', '');
+  if (j.segment) continue; // interaction-state files (P06/P11/P16) have their own shape
   if (j.error || !j.data) { S.captures[k] = { error: j.error || 'no data', httpStatus: j.httpStatus }; continue; }
   const d = j.data;
   const sizes = [...new Set(d.typography.map(t => px(t.size)))].sort((a, b) => a - b);

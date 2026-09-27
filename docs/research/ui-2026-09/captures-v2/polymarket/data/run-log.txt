@@ -67,3 +67,53 @@ ticket desktop dark: ok 34s
 hoverfocus desktop light: ok 27s
 hoverfocus desktop dark: ok 27s
 search mobile light: ok 21s
+search mobile dark: ok 21s
+search desktop light: ok 26s
+search desktop dark: ok 26s
+auth mobile light: ok 61s
+auth mobile dark: ok 61s
+auth desktop light: ok 31s
+auth desktop dark: ok 30s
+nav mobile light: ok 12s
+nav mobile dark: ok 12s
+nav desktop light: ok 22s
+nav desktop dark: ok 20s
+flows mobile light: ok 38s
+flows desktop light: ok 34s
+== perf 2026-09-27T09:40:31Z
+P01 TTFB 261 FCP 2156 LCP 7480 CLS 0.0066 LT 10044ms/37 bytes 4931.6KB req 293
+P03 TTFB 343 FCP 2104 LCP 7844 CLS 0.0279 LT 12434ms/42 bytes 4721.6KB req 244
+P04 TTFB 367 FCP 2168 LCP 7808 CLS 0.0066 LT 10547ms/35 bytes 5115.1KB req 262
+== post 2026-09-27T09:42:18Z
+P01-hf-feed-yes-chip-dark {'hover': (1060, 231), 'focus': (154, 157)}
+P01-hf-feed-yes-chip-light {'hover': (1059, 239), 'focus': (154, 148)}
+P06-hf-primary-cta-trade-dark {'hover': (1273, 165), 'focus': (0, 0)}
+P06-hf-primary-cta-trade-light {'hover': (1275, 219), 'focus': (0, 0)}
+P06-hf-ticket-no-dark {'hover': (6387, 23), 'focus': (0, 0)}
+P06-hf-ticket-no-light {'hover': (0, 13), 'focus': (0, 0)}
+P06-hf-ticket-yes-dark {'hover': (0, 0), 'focus': (0, 0)}
+P06-hf-ticket-yes-light {'hover': (0, 0), 'focus': (0, 0)}
+| Page | mobile light | mobile dark | desktop light | desktop dark |
+|---|---|---|---|---|
+| P01 | captured (HTTP 200) | captured (HTTP 200) | captured (HTTP 200) | captured (HTTP 200) |
+| P02 | captured (HTTP 200) | captured (HTTP 200) | captured (HTTP 200) | captured (HTTP 200) |
+| P03 | captured (HTTP 200) | captured (HTTP 200) | captured (HTTP 200) | captured (HTTP 200) |
+| P04 | captured (HTTP 200) | captured (HTTP 200) | captured (HTTP 200) | captured (HTTP 200) |
+| P05 | captured (HTTP 200) | captured (HTTP 200) | captured (HTTP 200) | captured (HTTP 200) |
+| P06 | captured: 1-default, 2-side-no, 3-amount-10, 4-invalid-99999999, 4b-invalid-0 | captured: 1-default, 2-side-no, 3-amount-10, 4-invalid-99999999, 4b-invalid-0 | captured: 1-default, 2-side-no, 3-amount-10, 4-invalid-99999999, 4b-invalid-0 | captured: 1-default, 2-side-no, 3-amount-10, 4-invalid-99999999, 4b-invalid-0 |
+| P07 | captured (HTTP 200) | captured (HTTP 200) | captured (HTTP 200) | captured (HTTP 200) |
+| P08 | captured (HTTP 200) | captured (HTTP 200) | captured (HTTP 200) | captured (HTTP 200) |
+| P09 | captured (HTTP 200) | captured (HTTP 200) | captured (HTTP 200) | captured (HTTP 200) |
+| P10 | NOT MEASURED | NOT MEASURED | NOT MEASURED | NOT MEASURED |
+| P11 | captured: signup, login, login-via-help(fail) | captured: signup, login, login-via-help(fail) | captured: login-via-help | captured: login-via-help |
+| P12 | NOT MEASURED | NOT MEASURED | NOT MEASURED | NOT MEASURED |
+| P13 | captured (HTTP 200) | captured (HTTP 200) | captured (HTTP 200) | captured (HTTP 200) |
+| P14 | captured (HTTP 200) | captured (HTTP 200) | captured (HTTP 200) | captured (HTTP 200) |
+| P15 | captured (HTTP 404) | captured (HTTP 404) | captured (HTTP 404) | captured (HTTP 404) |
+| P16 | captured: more-drawer, header, footer, bottom-tab-bar | captured: more-drawer, header, footer, bottom-tab-bar | captured: user-menu, more-nav, help-popover, header, footer | captured: user-menu, more-nav, help-popover, header, footer |
+| P17a | captured (HTTP 200) | captured (HTTP 200) | captured (HTTP 200) | captured (HTTP 200) |
+| P17b | captured (HTTP 200) | captured (HTTP 200) | captured (HTTP 200) | captured (HTTP 200) |
+| P18 | captured (HTTP 200) | captured (HTTP 200) | captured (HTTP 200) | captured (HTTP 200) |
+
+shots: 35.73 MB · data: 5.42 MB · harness: 0.10 MB · TOTAL 41.24 MB
+== done 2026-09-27T09:42:19Z

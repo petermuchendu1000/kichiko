@@ -1,0 +1,146 @@
+{
+ "P01-hf-feed-yes-chip-dark": {
+  "size": [
+   60,
+   47
+  ],
+  "hover": {
+   "changedAny": 1070,
+   "changedGt16": 1060,
+   "maxDelta": 231,
+   "total": 2820
+  },
+  "focus": {
+   "changedAny": 168,
+   "changedGt16": 154,
+   "maxDelta": 157,
+   "total": 2820
+  }
+ },
+ "P01-hf-feed-yes-chip-light": {
+  "size": [
+   60,
+   47
+  ],
+  "hover": {
+   "changedAny": 1066,
+   "changedGt16": 1059,
+   "maxDelta": 239,
+   "total": 2820
+  },
+  "focus": {
+   "changedAny": 168,
+   "changedGt16": 154,
+   "maxDelta": 148,
+   "total": 2820
+  }
+ },
+ "P06-hf-primary-cta-trade-dark": {
+  "size": [
+   328,
+   63
+  ],
+  "hover": {
+   "changedAny": 1331,
+   "changedGt16": 1273,
+   "maxDelta": 165,
+   "total": 20664
+  },
+  "focus": {
+   "changedAny": 0,
+   "changedGt16": 0,
+   "maxDelta": 0,
+   "total": 20664
+  }
+ },
+ "P06-hf-primary-cta-trade-light": {
+  "size": [
+   328,
+   63
+  ],
+  "hover": {
+   "changedAny": 1336,
+   "changedGt16": 1275,
+   "maxDelta": 219,
+   "total": 20664
+  },
+  "focus": {
+   "changedAny": 0,
+   "changedGt16": 0,
+   "maxDelta": 0,
+   "total": 20664
+  }
+ },
+ "P06-hf-ticket-no-dark": {
+  "size": [
+   168,
+   68
+  ],
+  "hover": {
+   "changedAny": 6731,
+   "changedGt16": 6387,
+   "maxDelta": 23,
+   "total": 11424
+  },
+  "focus": {
+   "changedAny": 0,
+   "changedGt16": 0,
+   "maxDelta": 0,
+   "total": 11424
+  }
+ },
+ "P06-hf-ticket-no-light": {
+  "size": [
+   168,
+   68
+  ],
+  "hover": {
+   "changedAny": 6724,
+   "changedGt16": 0,
+   "maxDelta": 13,
+   "total": 11424
+  },
+  "focus": {
+   "changedAny": 0,
+   "changedGt16": 0,
+   "maxDelta": 0,
+   "total": 11424
+  }
+ },
+ "P06-hf-ticket-yes-dark": {
+  "size": [
+   168,
+   68
+  ],
+  "hover": {
+   "changedAny": 0,
+   "changedGt16": 0,
+   "maxDelta": 0,
+   "total": 11424
+  },
+  "focus": {
+   "changedAny": 0,
+   "changedGt16": 0,
+   "maxDelta": 0,
+   "total": 11424
+  }
+ },
+ "P06-hf-ticket-yes-light": {
+  "size": [
+   168,
+   68
+  ],
+  "hover": {
+   "changedAny": 0,
+   "changedGt16": 0,
+   "maxDelta": 0,
+   "total": 11424
+  },
+  "focus": {
+   "changedAny": 0,
+   "changedGt16": 0,
+   "maxDelta": 0,
+   "total": 11424
+  }
+ }
+}

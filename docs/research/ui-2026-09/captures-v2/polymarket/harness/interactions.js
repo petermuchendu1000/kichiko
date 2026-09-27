@@ -48,7 +48,7 @@ const TAG_TICKET = (keep) => {
   return { box: [Math.round(r.x), Math.round(r.y), Math.round(r.width), Math.round(r.height)], input: { placeholder: inp.placeholder, inputMode: inp.inputMode, type: inp.type, value: inp.value }, text: (pick.innerText || '').replace(/\s+/g, ' ').trim().slice(0, 800) };
 };
 // largest visible button whose label starts with Yes / Buy Yes (the primary trade opener)
-const TAG_BIG_YES = () => { let best = null, a = 0; for (const b of document.querySelectorAll('button')) { const r = b.getBoundingClientRect(); if (r.width <= 0 || r.bottom < 0 || r.top > innerHeight) continue; if (!/^(buy )?yes\b/i.test((b.innerText || '').trim())) continue; if (r.width * r.height > a) { a = r.width * r.height; best = b; } } document.querySelectorAll('[data-kc-opener]').forEach(e => e.removeAttribute('data-kc-opener')); if (best) best.setAttribute('data-kc-opener', '1'); return !!best; };
+const TAG_BIG_YES = () => { let best = null, a = 0; for (const b of document.querySelectorAll('button')) { const r = b.getBoundingClientRect(); if (r.width <= 0 || !b.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true })) continue; if (!/^(buy )?yes\b/i.test((b.innerText || '').trim())) continue; const inVp = r.bottom > 0 && r.top < innerHeight; const score = r.width * r.height * (inVp ? 1000 : 1) / (1 + Math.max(0, r.top) / 1000); if (score > a) { a = score; best = b; } } document.querySelectorAll('[data-kc-opener]').forEach(e => e.removeAttribute('data-kc-opener')); if (best) best.setAttribute('data-kc-opener', '1'); return !!best; };
 // widest button inside the scope = the ticket's primary action
 const TAG_PRIMARY = () => { let best = null, w = 0; for (const b of document.querySelectorAll('[data-kc-scope] button')) { const r = b.getBoundingClientRect(); if (r.width > w && r.height >= 30) { w = r.width; best = b; } } document.querySelectorAll('[data-kc-primary]').forEach(e => e.removeAttribute('data-kc-primary')); if (best) best.setAttribute('data-kc-primary', '1'); return best ? (best.innerText || '').replace(/\s+/g, ' ').trim() : null; };
 const STYLE_OF = (sel) => { const el = document.querySelector(sel); if (!el) return null; const cs = getComputedStyle(el); let painter = el; for (const k of el.querySelectorAll('*')) { let t = ''; for (const n of k.childNodes) if (n.nodeType === 3) t += n.nodeValue; if (t.trim()) { painter = k; break; } } const r = el.getBoundingClientRect();
@@ -78,6 +78,8 @@ async function scopedExtract(page) { return page.evaluate(L.EXTRACT, { scope: '[
 
 /* ================================================================= segments ==== */
 const SEG = {};
+// output file prefixes carry the shared page-taxonomy IDs
+const OUTNAME = { geo: 'P01-geogate', ticket: 'P06', hoverfocus: 'P06-hoverfocus', search: 'P07-states', auth: 'P11', nav: 'P16', flows: 'P06-P11-flows' };
 
 SEG.geo = async (browser, vp, theme) => {
   const { ctx, page } = await newPage(browser, vp, theme);
@@ -342,7 +344,7 @@ SEG.flows = async (browser, vp, theme) => {
         await page.waitForTimeout(1200);
         const txt = await page.evaluate(() => document.querySelector('[data-kc-scope]').innerText.replace(/\s+/g, ' ').slice(0, 300));
         steps.push({ state: 'amount entered', ticketText: txt });
-        await page.screenshot({ path: shot(`FLOW-${vp}-ticket-amount.png`) });
+        await page.screenshot({ path: shot(`P06-flow-${vp}-ticket-amount.png`) });
         // continue to the gate
         await page.evaluate(MARK_PRE);
         const lbl = await page.evaluate(TAG_PRIMARY);
@@ -351,7 +353,7 @@ SEG.flows = async (browser, vp, theme) => {
         await page.waitForTimeout(3500);
         const layer = await page.evaluate(FIND_NEW_LAYER, 8000);
         steps.push({ state: 'gate', url: page.url(), layer: layer && { box: layer.box, text: layer.text.slice(0, 300) } });
-        await page.screenshot({ path: shot(`FLOW-${vp}-gate.png`) });
+        await page.screenshot({ path: shot(`P06-flow-${vp}-gate.png`) });
       }
     } catch (e) { steps.push({ error: e.message.split('\n')[0] }); }
     r.flows.homeToTicketToGate = steps;
@@ -395,7 +397,7 @@ SEG.flows = async (browser, vp, theme) => {
     try { res = await SEG[s](browser, vp, theme); } catch (e) { res = { segment: s, vp, theme, error: e.message.split('\n')[0].slice(0, 300) }; }
     if (res && res.skipped) continue;
     res.at = new Date().toISOString();
-    fs.writeFileSync(path.join(L.DATA, `interact-${s}-${vp}-${theme}.json`), JSON.stringify(res));
+    fs.writeFileSync(path.join(L.DATA, `${OUTNAME[s]}-${vp}-${theme}.json`), JSON.stringify(res));
     console.log(`${s} ${vp} ${theme}: ${res.error ? 'ERROR ' + res.error : 'ok'} ${Math.round((Date.now() - t0) / 1000)}s`);
   }
   await browser.close();

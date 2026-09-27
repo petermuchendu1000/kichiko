@@ -1,0 +1,479 @@
+{
+ "runs": {
+  "P01": {
+   "id": "P01",
+   "url": "https://polymarket.com/",
+   "status": 200,
+   "conditions": {
+    "offline": false,
+    "latency": 150,
+    "downloadThroughput": 200000,
+    "uploadThroughput": 93750,
+    "downloadMbps": 1.6,
+    "uploadKbps": 750,
+    "cpuSlowdown": 4,
+    "cacheDisabled": true,
+    "viaProxy": true
+   },
+   "windowMs": 34953,
+   "dclWallMs": 4953,
+   "loadWallMs": 24738,
+   "ttfbMs": 261,
+   "navTiming": {
+    "dns": 0,
+    "connect": 117,
+    "requestStart": 119,
+    "responseStart": 261,
+    "responseEnd": 4730,
+    "domContentLoaded": 4950,
+    "load": 24734,
+    "transferSize": 269425,
+    "encodedBodySize": 269125
+   },
+   "fcpMs": 2156,
+   "fpMs": 2024,
+   "lcpMs": 7480,
+   "lcpEntry": {
+    "t": 7480,
+    "size": 18810,
+    "url": null,
+    "el": "P.text-body-base text-pk-content-secondary \"Trading is blocked in the United States on polymarket.com. S\""
+   },
+   "lcpCandidates": [
+    {
+     "t": 2156,
+     "size": 3536,
+     "el": "H3.text-body-base text-pk-content-primary font-[590] w-fit line \"Balance of Power: 2026 Midterms\""
+    },
+    {
+     "t": 3096,
+     "size": 3844,
+     "el": "IMG.size-16 rounded-xl border border-white/11 \"\""
+    },
+    {
+     "t": 7480,
+     "size": 18810,
+     "el": "P.text-body-base text-pk-content-secondary \"Trading is blocked in the United States on polymarket.com. S\""
+    }
+   ],
+   "cls": 0.0066,
+   "clsTotalAllShifts": 0.0099,
+   "shiftCount": 3,
+   "topShifts": [
+    {
+     "t": 24177,
+     "v": 0.0066,
+     "src": [
+      "NAV.pointer-events-none flex z-102 fixed ove",
+      "DIV.pointer-events-auto flex h-15 justify-be"
+     ]
+    },
+    {
+     "t": 21848,
+     "v": 0.0027,
+     "src": [
+      "DIV.flex items-center gap-x-2 shrink min-w-0"
+     ]
+    },
+    {
+     "t": 7408,
+     "v": 0.0006,
+     "src": [
+      "DIV.relative z-50",
+      "DIV.relative z-50"
+     ]
+    }
+   ],
+   "longTasks": {
+    "count": 37,
+    "totalMs": 10044,
+    "blockingMsOver50": 8194,
+    "longestMs": 3844
+   },
+   "geoSheetVisible": true,
+   "transfer": {
+    "totalKB": 4931.6,
+    "byTypeKB": {
+     "js": 3172.8,
+     "css": 90.3,
+     "image": 136.6,
+     "font": 698.8,
+     "document": 274.6,
+     "fetchXhr": 546.7,
+     "other": 11.8
+    },
+    "requestsByType": {
+     "js": 181,
+     "css": 4,
+     "image": 39,
+     "font": 3,
+     "document": 4,
+     "fetchXhr": 54,
+     "other": 8
+    },
+    "requests": 293,
+    "failedRequests": 2,
+    "topHostsKB": [
+     {
+      "host": "polymarket.com",
+      "kb": 4413.2
+     },
+     {
+      "host": "www.googletagmanager.com",
+      "kb": 163.1
+     },
+     {
+      "host": "connect.facebook.net",
+      "kb": 158.8
+     },
+     {
+      "host": "pbs.twimg.com",
+      "kb": 43.9
+     },
+     {
+      "host": "gamma-api.polymarket.com",
+      "kb": 42.1
+     },
+     {
+      "host": "sc-static.net",
+      "kb": 25
+     },
+     {
+      "host": "www.redditstatic.com",
+      "kb": 24.7
+     },
+     {
+      "host": "www.google.com",
+      "kb": 23.1
+     },
+     {
+      "host": "cdn.debugbear.com",
+      "kb": 19.4
+     },
+     {
+      "host": "static.cloudflareinsights.com",
+      "kb": 10.3
+     }
+    ]
+   },
+   "at": "2026-09-27T09:41:07.771Z"
+  },
+  "P03": {
+   "id": "P03",
+   "url": "https://polymarket.com/event/will-the-us-invade-iran-before-2027",
+   "status": 200,
+   "conditions": {
+    "offline": false,
+    "latency": 150,
+    "downloadThroughput": 200000,
+    "uploadThroughput": 93750,
+    "downloadMbps": 1.6,
+    "uploadKbps": 750,
+    "cpuSlowdown": 4,
+    "cacheDisabled": true,
+    "viaProxy": true
+   },
+   "windowMs": 34386,
+   "dclWallMs": 4386,
+   "loadWallMs": 21655,
+   "ttfbMs": 343,
+   "navTiming": {
+    "dns": 0,
+    "connect": 192,
+    "requestStart": 195,
+    "responseStart": 343,
+    "responseEnd": 3824,
+    "domContentLoaded": 4383,
+    "load": 21653,
+    "transferSize": 189075,
+    "encodedBodySize": 188775
+   },
+   "fcpMs": 2104,
+   "fpMs": 2104,
+   "lcpMs": 7844,
+   "lcpEntry": {
+    "t": 7844,
+    "size": 18810,
+    "url": null,
+    "el": "P.text-body-base text-pk-content-secondary \"Trading is blocked in the United States on polymarket.com. S\""
+   },
+   "lcpCandidates": [
+    {
+     "t": 2104,
+     "size": 944,
+     "el": "SPAN.relative z-10 text-heading-base font-semibold \"Trending\""
+    },
+    {
+     "t": 2528,
+     "size": 10212,
+     "el": "H1.!font-semibold text-heading-xl !my-0 w-full \"Will the U.S. invade Iran before 2027?\""
+    },
+    {
+     "t": 7844,
+     "size": 18810,
+     "el": "P.text-body-base text-pk-content-secondary \"Trading is blocked in the United States on polymarket.com. S\""
+    }
+   ],
+   "cls": 0.0279,
+   "clsTotalAllShifts": 0.0402,
+   "shiftCount": 3,
+   "topShifts": [
+    {
+     "t": 25751,
+     "v": 0.0279,
+     "src": [
+      "DIV.flex items-center gap-x-2 shrink min-w-0",
+      "DIV."
+     ]
+    },
+    {
+     "t": 28131,
+     "v": 0.0117,
+     "src": [
+      "NAV.pointer-events-none flex z-102 fixed ove"
+     ]
+    },
+    {
+     "t": 7784,
+     "v": 0.0006,
+     "src": [
+      "DIV.relative inline-flex h-9 justify-center ",
+      "A.inline-flex items-center cursor-pointer "
+     ]
+    }
+   ],
+   "longTasks": {
+    "count": 42,
+    "totalMs": 12434,
+    "blockingMsOver50": 10334,
+    "longestMs": 3666
+   },
+   "geoSheetVisible": true,
+   "transfer": {
+    "totalKB": 4721.6,
+    "byTypeKB": {
+     "js": 3515.2,
+     "css": 90.6,
+     "image": 368.7,
+     "font": 349.6,
+     "document": 196.4,
+     "fetchXhr": 190.9,
+     "other": 10.1
+    },
+    "requestsByType": {
+     "js": 174,
+     "css": 4,
+     "image": 26,
+     "font": 2,
+     "document": 3,
+     "fetchXhr": 30,
+     "other": 5
+    },
+    "requests": 244,
+    "failedRequests": 0,
+    "topHostsKB": [
+     {
+      "host": "polymarket.com",
+      "kb": 4222.3
+     },
+     {
+      "host": "pbs.twimg.com",
+      "kb": 278.7
+     },
+     {
+      "host": "connect.facebook.net",
+      "kb": 158.8
+     },
+     {
+      "host": "cdn.debugbear.com",
+      "kb": 19.5
+     },
+     {
+      "host": "www.google.com",
+      "kb": 10.8
+     },
+     {
+      "host": "static.cloudflareinsights.com",
+      "kb": 10.3
+     },
+     {
+      "host": "api.defi.polymarket.com",
+      "kb": 7.6
+     },
+     {
+      "host": "gamma-api.polymarket.com",
+      "kb": 5.3
+     },
+     {
+      "host": "data-api.polymarket.com",
+      "kb": 4.4
+     },
+     {
+      "host": "clob.polymarket.com",
+      "kb": 2.1
+     }
+    ]
+   },
+   "at": "2026-09-27T09:41:42.617Z"
+  },
+  "P04": {
+   "id": "P04",
+   "url": "https://polymarket.com/event/los-angeles-mayoral-election-117",
+   "status": 200,
+   "conditions": {
+    "offline": false,
+    "latency": 150,
+    "downloadThroughput": 200000,
+    "uploadThroughput": 93750,
+    "downloadMbps": 1.6,
+    "uploadKbps": 750,
+    "cpuSlowdown": 4,
+    "cacheDisabled": true,
+    "viaProxy": true
+   },
+   "windowMs": 35205,
+   "dclWallMs": 5205,
+   "loadWallMs": 21897,
+   "ttfbMs": 367,
+   "navTiming": {
+    "dns": 0,
+    "connect": 218,
+    "requestStart": 219,
+    "responseStart": 367,
+    "responseEnd": 4610,
+    "domContentLoaded": 5203,
+    "load": 21894,
+    "transferSize": 261431,
+    "encodedBodySize": 261131
+   },
+   "fcpMs": 2168,
+   "fpMs": 2060,
+   "lcpMs": 7808,
+   "lcpEntry": {
+    "t": 7808,
+    "size": 18810,
+    "url": null,
+    "el": "P.text-body-base text-pk-content-secondary \"Trading is blocked in the United States on polymarket.com. S\""
+   },
+   "lcpCandidates": [
+    {
+     "t": 2168,
+     "size": 944,
+     "el": "SPAN.relative z-10 text-heading-base font-semibold \"Trending\""
+    },
+    {
+     "t": 2672,
+     "size": 9016,
+     "el": "H1.!font-semibold text-heading-xl !my-0 w-full \"Los Angeles Mayoral Election\""
+    },
+    {
+     "t": 7808,
+     "size": 18810,
+     "el": "P.text-body-base text-pk-content-secondary \"Trading is blocked in the United States on polymarket.com. S\""
+    }
+   ],
+   "cls": 0.0066,
+   "clsTotalAllShifts": 0.0124,
+   "shiftCount": 3,
+   "topShifts": [
+    {
+     "t": 28559,
+     "v": 0.0066,
+     "src": [
+      "NAV.pointer-events-none flex z-102 fixed ove",
+      "DIV.pointer-events-auto flex h-15 justify-be"
+     ]
+    },
+    {
+     "t": 25718,
+     "v": 0.0051,
+     "src": [
+      "DIV.flex items-center gap-x-2 shrink min-w-0",
+      "DIV."
+     ]
+    },
+    {
+     "t": 7753,
+     "v": 0.0007,
+     "src": [
+      "DIV.flex items-center gap-2",
+      "DIV.flex items-center gap-2"
+     ]
+    }
+   ],
+   "longTasks": {
+    "count": 35,
+    "totalMs": 10547,
+    "blockingMsOver50": 8797,
+    "longestMs": 3327
+   },
+   "geoSheetVisible": true,
+   "transfer": {
+    "totalKB": 5115.1,
+    "byTypeKB": {
+     "js": 3523.1,
+     "css": 90.6,
+     "image": 512.4,
+     "font": 349.6,
+     "document": 267,
+     "fetchXhr": 362.8,
+     "other": 9.7
+    },
+    "requestsByType": {
+     "js": 166,
+     "css": 4,
+     "image": 32,
+     "font": 2,
+     "document": 3,
+     "fetchXhr": 46,
+     "other": 9
+    },
+    "requests": 262,
+    "failedRequests": 0,
+    "topHostsKB": [
+     {
+      "host": "polymarket.com",
+      "kb": 4477.8
+     },
+     {
+      "host": "pbs.twimg.com",
+      "kb": 389
+     },
+     {
+      "host": "connect.facebook.net",
+      "kb": 158.8
+     },
+     {
+      "host": "media4.giphy.com",
+      "kb": 19.5
+     },
+     {
+      "host": "cdn.debugbear.com",
+      "kb": 19.4
+     },
+     {
+      "host": "www.google.com",
+      "kb": 10.8
+     },
+     {
+      "host": "static.cloudflareinsights.com",
+      "kb": 10.3
+     },
+     {
+      "host": "data-api.polymarket.com",
+      "kb": 8
+     },
+     {
+      "host": "gamma-api.polymarket.com",
+      "kb": 7.6
+     },
+     {
+      "host": "api.defi.polymarket.com",
+      "kb": 7.5
+     }
+    ]
+   },
+   "at": "2026-09-27T09:42:18.702Z"
+  }
+ }
+}
