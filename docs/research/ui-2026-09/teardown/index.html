@@ -1,0 +1,440 @@
+<title>Kichiko Competitive Teardown</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --ground: #F4F5F6;
+    --surface: #FFFFFF;
+    --ink: #0E0F11;
+    --text-2: #484E56;
+    --text-3: #5F6772;
+    --hairline: #E6E8EA;
+    --hairline-strong: #CACED3;
+    --pip: #1452F0;
+    --pip-text: #2B50E4;
+    --pip-tint: #E7EDFD;
+    --good-bg: #E4F3EA; --good: #1F6B3E;
+    --bad-bg: #FBE7E7; --bad: #A81B1B;
+    --warn-bg: #FBF0DC; --warn: #7A4E0B;
+    --na-bg: #EEF0F2; --na: #484E56;
+    --phone-frame: #0E0F11;
+    --shadow: 0 1px 2px rgba(10,12,16,.05), 0 8px 24px rgba(10,12,16,.06);
+    --font-ui: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --font-num: "Geist Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --ground: #0E0F11; --surface: #17191C; --ink: #F3F5F8; --text-2: #C3C8CF; --text-3: #9AA1AB;
+      --hairline: #2A2E33; --hairline-strong: #3A3F46; --pip: #4E7DF3; --pip-text: #8FB0FA; --pip-tint: #16213D;
+      --good-bg: #12281B; --good: #7ED9A2; --bad-bg: #2E1616; --bad: #FF9C94; --warn-bg: #2C2311; --warn: #F0C170;
+      --na-bg: #22262B; --na: #C3C8CF; --phone-frame: #3A3F46; --shadow: 0 1px 2px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --ground: #0E0F11; --surface: #17191C; --ink: #F3F5F8; --text-2: #C3C8CF; --text-3: #9AA1AB;
+    --hairline: #2A2E33; --hairline-strong: #3A3F46; --pip: #4E7DF3; --pip-text: #8FB0FA; --pip-tint: #16213D;
+    --good-bg: #12281B; --good: #7ED9A2; --bad-bg: #2E1616; --bad: #FF9C94; --warn-bg: #2C2311; --warn: #F0C170;
+    --na-bg: #22262B; --na: #C3C8CF; --phone-frame: #3A3F46; --shadow: 0 1px 2px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--ground); color: var(--ink); font-family: var(--font-ui);
+    font-size: 16px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    padding-inline: 16px; padding-block: 0 64px;
+  }
+  .wrap { max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 56px; }
+  h1, h2, h3 { text-wrap: balance; margin: 0; letter-spacing: -0.02em; }
+  h1 { font-size: clamp(28px, 4.6vw, 44px); line-height: 1.1; font-weight: 700; max-width: 22ch; }
+  h2 { font-size: clamp(22px, 2.8vw, 28px); line-height: 1.2; font-weight: 650; }
+  h3 { font-size: 17px; font-weight: 600; }
+  p { margin: 0; max-width: 68ch; }
+  .num, td.m, .mono { font-family: var(--font-num); font-variant-numeric: tabular-nums; }
+  .eyebrow { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--text-3); }
+  .lede { font-size: 18px; color: var(--text-2); }
+  a { color: var(--pip-text); text-underline-offset: 2px; }
+  a:focus-visible, button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--pip); outline-offset: 2px; border-radius: 4px; }
+
+  header.top { padding-top: 40px; display: flex; flex-direction: column; gap: 16px; }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 13px; color: var(--text-3); }
+
+  .verdict {
+    background: var(--surface); border: 1px solid var(--hairline); border-radius: 16px; box-shadow: var(--shadow);
+    padding: 24px; display: grid; gap: 20px; grid-template-columns: 1fr;
+  }
+  @media (min-width: 860px) { .verdict { grid-template-columns: 1.1fr 1fr; padding: 28px 32px; } }
+  .verdict h2 { font-size: 22px; }
+  .order { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; counter-reset: step; }
+  .order li { display: grid; grid-template-columns: 28px 1fr; gap: 12px; align-items: start; font-size: 15px; }
+  .order li::before {
+    counter-increment: step; content: counter(step); font-family: var(--font-num); font-size: 13px; font-weight: 600;
+    width: 28px; height: 28px; border-radius: 999px; display: grid; place-items: center;
+    background: var(--pip-tint); color: var(--pip-text);
+  }
+  .order b { font-weight: 600; }
+
+  section { display: flex; flex-direction: column; gap: 20px; }
+  .section-head { display: flex; flex-direction: column; gap: 8px; }
+
+  /* Scoreboard */
+  .table-scroll { overflow-x: auto; border: 1px solid var(--hairline); border-radius: 14px; background: var(--surface); box-shadow: var(--shadow); }
+  table { border-collapse: collapse; width: 100%; min-width: 760px; font-size: 14px; }
+  th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--hairline); vertical-align: top; }
+  tr:last-child td { border-bottom: 0; }
+  thead th { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-3); font-weight: 600; background: var(--surface); position: sticky; top: 0; }
+  th.row { font-weight: 500; color: var(--ink); width: 26%; }
+  .cell { display: flex; flex-direction: column; gap: 4px; align-items: flex-start; }
+  .pill { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+  .good { background: var(--good-bg); color: var(--good); }
+  .bad { background: var(--bad-bg); color: var(--bad); }
+  .warn { background: var(--warn-bg); color: var(--warn); }
+  .na { background: var(--na-bg); color: var(--na); }
+  .cell small { color: var(--text-3); font-size: 12.5px; line-height: 1.4; }
+  th.ki, td.ki { background: color-mix(in srgb, var(--pip) 5%, transparent); }
+
+  /* Screen comparisons */
+  .screens { display: flex; flex-direction: column; gap: 40px; }
+  .screen-set { display: flex; flex-direction: column; gap: 14px; }
+  .screen-set > header { display: flex; flex-direction: column; gap: 4px; }
+  .screen-set > header p { color: var(--text-2); font-size: 15px; }
+  .phones {
+    display: grid; grid-auto-flow: column; grid-auto-columns: minmax(250px, 80%); gap: 16px;
+    overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px; overscroll-behavior-x: contain;
+  }
+  @media (min-width: 900px) { .phones { grid-auto-flow: row; grid-template-columns: repeat(3, 1fr); overflow: visible; } }
+  figure { margin: 0; scroll-snap-align: start; display: flex; flex-direction: column; gap: 12px; }
+  .phone {
+    border: 6px solid var(--phone-frame); border-radius: 28px; overflow: hidden; background: #fff;
+    aspect-ratio: 390 / 844; box-shadow: var(--shadow); max-width: 100%;
+  }
+  .phone img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  .phone.bottom img { object-position: bottom; }
+  figcaption { display: flex; flex-direction: column; gap: 6px; font-size: 14px; color: var(--text-2); }
+  figcaption .who { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+  figcaption .who strong { color: var(--ink); font-size: 15px; font-weight: 600; }
+  figcaption .grade { font-family: var(--font-num); font-size: 11.5px; color: var(--text-3); }
+  figcaption ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px; }
+
+  /* Findings */
+  .findings { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 760px) { .findings { grid-template-columns: 1fr 1fr; } }
+  .finding { background: var(--surface); border: 1px solid var(--hairline); border-radius: 14px; padding: 16px 18px; display: flex; flex-direction: column; gap: 8px; }
+  .finding .top-line { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .finding h3 { font-size: 16px; }
+  .finding p { font-size: 14.5px; color: var(--text-2); }
+  .finding code, .phase code { font-family: var(--font-num); font-size: 12.5px; background: var(--na-bg); padding: 1px 5px; border-radius: 4px; color: var(--ink); overflow-wrap: anywhere; }
+
+  .callout {
+    border: 1px solid color-mix(in srgb, var(--bad) 35%, var(--hairline)); background: var(--bad-bg);
+    border-radius: 16px; padding: 20px 22px; display: flex; flex-direction: column; gap: 10px;
+  }
+  .callout h2 { font-size: 20px; color: var(--bad); }
+  .callout p { color: var(--ink); font-size: 15px; }
+  .callout blockquote { margin: 0; padding: 10px 14px; border-radius: 10px; background: var(--surface); font-size: 14px; color: var(--text-2); }
+
+  /* Plan */
+  .phases { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 760px) { .phases { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1040px) { .phases { grid-template-columns: repeat(3, 1fr); } }
+  .phase { background: var(--surface); border: 1px solid var(--hairline); border-radius: 14px; padding: 16px 18px; display: flex; flex-direction: column; gap: 8px; }
+  .phase .tag { font-family: var(--font-num); font-size: 12px; font-weight: 600; color: var(--pip-text); }
+  .phase p { font-size: 14px; color: var(--text-2); }
+  .phase .gate { font-size: 13px; color: var(--ink); border-top: 1px solid var(--hairline); padding-top: 8px; }
+  .phase .gate span { font-weight: 600; }
+
+  .decisions { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 15px; }
+  .decisions li { max-width: 80ch; }
+  .decisions b { font-weight: 600; }
+
+  footer.notes { border-top: 1px solid var(--hairline-strong); padding-top: 20px; font-size: 13px; color: var(--text-3); display: flex; flex-direction: column; gap: 8px; }
+  footer.notes p { max-width: 90ch; }
+  @media (prefers-reduced-motion: reduce) { .phones { scroll-behavior: auto; } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <span class="eyebrow">Kichiko UI program · measured 27 Sep 2026</span>
+    <h1>Lighter and more legible than both giants. Not yet the most honest ticket.</h1>
+    <p class="lede">Polymarket, Kalshi and Kichiko captured on the same screens at 390×844 and 1440×900, in both themes, with computed styles, axe scans and throttled performance. Each finding below comes from a screenshot, a measurement or a line of our code.</p>
+    <div class="meta-row">
+      <span>Polymarket: live site</span>
+      <span>Kalshi: official demo site (production blocked this server)</span>
+      <span>Kichiko: live production data</span>
+    </div>
+  </header>
+
+  <div class="verdict" aria-labelledby="verdict-h">
+    <div class="section-head">
+      <span class="eyebrow">Do we start with the landing page?</span>
+      <h2 id="verdict-h">No. Fix what is unlawful, then what is untrue, then the ticket.</h2>
+      <p style="color:var(--text-2);font-size:15px">A landing page sends strangers to the home page and the ticket. Right now both carry defects that traffic would multiply. Landing comes after the design tokens settle, as Phase 4. A dated campaign or demo moves it up to right after Phase 1, but never ahead of the legal fixes.</p>
+    </div>
+    <ol class="order">
+      <li><span><b>Legal exposure.</b> Two live markets concern a pending Kenyan court case (L.N. 112 Reg. 45(7)(a)). The hero button reads “Predict &amp; Earn”.</span></li>
+      <li><span><b>Numbers that are not true.</b> Charts fetch the oldest 200 or 1,000 price points, so they end months ago.</span></li>
+      <li><span><b>Foundation.</b> Follow the phone's theme, a sunlight-proof contrast floor, 44/48 px targets, a 150 KB JavaScript budget.</span></li>
+      <li><span><b>The ticket.</b> Empty stake, KSh 20 minimum, “You pay / If Yes you get / If No you lose”, fee shown as one KSh figure.</span></li>
+      <li><span><b>Discovery, then landing.</b> Denser feed, fixed chart axis, search that works from a link.</span></li>
+    </ol>
+  </div>
+
+  <section aria-labelledby="score-h">
+    <div class="section-head">
+      <span class="eyebrow">Scoreboard · mobile unless stated</span>
+      <h2 id="score-h">Where each product stands, measured</h2>
+    </div>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Scoreboard table, scrolls sideways on small screens">
+      <table>
+        <thead>
+          <tr><th scope="col">Measure</th><th scope="col">Polymarket</th><th scope="col">Kalshi (demo)</th><th scope="col" class="ki">Kichiko</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row" class="row">Text failing WCAG AA contrast</th>
+            <td><div class="cell"><span class="pill bad">20.1–22.0% light</span><small>4.0–4.1% dark · grey #8b929b on white = 3.14:1</small></div></td>
+            <td><div class="cell"><span class="pill bad">CTA 2.32:1</span><small>White on #0AC285 · critical axe issues on every page</small></div></td>
+            <td class="ki"><div class="cell"><span class="pill good">0.2–0.4% light</span><small>0.0–0.1% dark · but the ticket's payout text is 2.18:1</small></div></td>
+          </tr>
+          <tr>
+            <th scope="row" class="row">Controls at least 44 px</th>
+            <td class="m"><div class="cell"><span class="pill bad">13.0%</span><small>41.5% under 24 px</small></div></td>
+            <td class="m"><div class="cell"><span class="pill bad">7–10%</span><small>Row Yes/No 167×32, ticket pills 96×28</small></div></td>
+            <td class="m ki"><div class="cell"><span class="pill warn">31.5%</span><small>23.7% under 24 px · 158 on one multi-outcome page</small></div></td>
+          </tr>
+          <tr>
+            <th scope="row" class="row">Home page weight, throttled phone</th>
+            <td class="m"><div class="cell"><span class="pill bad">4,932 KB</span><small>JavaScript 3,173 KB · LCP 7.5 s</small></div></td>
+            <td><div class="cell"><span class="pill na">Not measured</span><small>Bot challenge on production</small></div></td>
+            <td class="m ki"><div class="cell"><span class="pill warn">515 KB</span><small>JavaScript 250 KB (market page 400) · budget 150</small></div></td>
+          </tr>
+          <tr>
+            <th scope="row" class="row">Pinch-zoom</th>
+            <td><div class="cell"><span class="pill bad">Disabled</span><small>maximum-scale=1 on 52 of 56 captures</small></div></td>
+            <td><div class="cell"><span class="pill na">Not measured</span></div></td>
+            <td class="ki"><div class="cell"><span class="pill good">Allowed</span></div></td>
+          </tr>
+          <tr>
+            <th scope="row" class="row">Price notation</th>
+            <td><div class="cell"><span class="pill bad">¢ and $</span><small>Yes 16¢ + No 85¢ = 101¢</small></div></td>
+            <td><div class="cell"><span class="pill bad">¢, % and “1.15x”</span><small>Yes 86¢ + No 15¢ = 101¢; API asks sum to $1.05</small></div></td>
+            <td class="ki"><div class="cell"><span class="pill warn">KSh and %, with leaks</span><small>¢ in the limit row and order book; KSh / Ksh / KSH</small></div></td>
+          </tr>
+          <tr>
+            <th scope="row" class="row">Fee shown in the ticket</th>
+            <td><div class="cell"><span class="pill bad">Nowhere</span></div></td>
+            <td><div class="cell"><span class="pill warn">Inside the price</span><small>Tooltip “Includes a fee of $0.07” (2025 recording)</small></div></td>
+            <td class="ki"><div class="cell"><span class="pill bad">Nowhere</span></div></td>
+          </tr>
+          <tr>
+            <th scope="row" class="row">Stake when the ticket opens</th>
+            <td><div class="cell"><span class="pill good">Empty</span><small>Chips +$1 / +$5 / +$10 / +$100</small></div></td>
+            <td><div class="cell"><span class="pill na">Not established</span><small>Presets $50 / $100 / $250 (2025)</small></div></td>
+            <td class="ki"><div class="cell"><span class="pill bad">Pre-filled KSh 130</span><small>Chips are converted US dollars</small></div></td>
+          </tr>
+          <tr>
+            <th scope="row" class="row">Invalid amount (0, −5, 99,999,999)</th>
+            <td><div class="cell"><span class="pill bad">No feedback</span><small>Trade stays enabled, no aria-invalid</small></div></td>
+            <td><div class="cell"><span class="pill na">Not measured</span></div></td>
+            <td class="ki"><div class="cell"><span class="pill warn">No inline error seen</span><small>To be tested properly in Phase 2</small></div></td>
+          </tr>
+          <tr>
+            <th scope="row" class="row">Sign-up pressure</th>
+            <td><div class="cell"><span class="pill warn">Geo gate every load</span><small>US exit IP</small></div></td>
+            <td><div class="cell"><span class="pill bad">Modal opens by itself</span><small>7.5–10.6 s after load on 44 of 60 captures</small></div></td>
+            <td class="ki"><div class="cell"><span class="pill good">Only at commit</span></div></td>
+          </tr>
+          <tr>
+            <th scope="row" class="row">Theme</th>
+            <td><div class="cell"><span class="pill good">Switch + follows OS</span></div></td>
+            <td><div class="cell"><span class="pill good">Follows OS</span></div></td>
+            <td class="ki"><div class="cell"><span class="pill warn">Forced dark</span><small>Ignores the phone's setting</small></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="screens-h">
+    <div class="section-head">
+      <span class="eyebrow">Same screen, three products · 390×844</span>
+      <h2 id="screens-h">Side by side</h2>
+      <p style="color:var(--text-2)">Kalshi screens come from its official demo site, which uses mock prices, so read them for layout and styling only. On a phone, swipe each row sideways.</p>
+    </div>
+
+    <div class="screens">
+      <div class="screen-set">
+        <header><h3>Home</h3><p>What a stranger sees first.</p></header>
+        <div class="phones">
+          <figure>
+            <div class="phone"><img src="img/home-pm.jpg" alt="Polymarket mobile home: US banner, search, topic chips, market cards with Yes and No chips, bottom tab bar" loading="lazy" width="780" height="1688"></div>
+            <figcaption><span class="who"><strong>Polymarket</strong><span class="grade">live · M1</span></span>
+              <ul><li>About 2.5 markets above the fold; cards 358×180.</li><li>Yes/No chips 40×27 px at 4.36:1 and 4.28:1 in light, both below AA.</li></ul></figcaption>
+          </figure>
+          <figure>
+            <div class="phone"><img src="img/home-ka.jpg" alt="Kalshi demo mobile home: carousel card with two teams and outlined percentage pills, Top events, Politics" loading="lazy" width="780" height="1688"></div>
+            <figcaption><span class="who"><strong>Kalshi</strong><span class="grade">demo · D</span></span>
+              <ul><li>Condensed display face; outcome rows with a colour underline and an outlined % pill.</li><li>A sign-up modal opens by itself 7.5–10.6 s after load.</li></ul></figcaption>
+          </figure>
+          <figure>
+            <div class="phone"><img src="img/home-ki.jpg" alt="Kichiko mobile home: one hero market with a four-candidate chart and a Predict and Earn button fills the screen" loading="lazy" width="780" height="1688"></div>
+            <figcaption><span class="who"><strong>Kichiko</strong><span class="grade">live data · M1</span></span>
+              <ul><li>One auto-rotating hero fills the fold.</li><li>“Predict &amp; Earn”: earn framing is prohibited in Kenyan gambling advertising.</li><li>Chart axis 0–60% and dates 24–30 Apr on 27 Sep (1,000-row cap).</li></ul></figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="screen-set">
+        <header><h3>Market page</h3><p>Where the decision is made.</p></header>
+        <div class="phones">
+          <figure>
+            <div class="phone"><img src="img/market-pm.jpg" alt="Polymarket market page: 16% chance, auto-scaled chart, Yes 16 cents and No 85 cents buttons" loading="lazy" width="780" height="1688"></div>
+            <figcaption><span class="who"><strong>Polymarket</strong><span class="grade">live · M1</span></span>
+              <ul><li>“16% chance ▲2%”; chart axis auto-scaled to 15–60%.</li><li>Yes 16¢ + No 85¢ = 101¢.</li></ul></figcaption>
+          </figure>
+          <figure>
+            <div class="phone"><img src="img/market-ka.jpg" alt="Kalshi demo market page for the SAVE Act: 1.9% chance down 6.8, unlabelled step chart, range tabs, No 97.4 cents, Order book and Market Rules" loading="lazy" width="780" height="1688"></div>
+            <figcaption><span class="who"><strong>Kalshi</strong><span class="grade">demo · D · mock prices</span></span>
+              <ul><li>“1.9% chance ▼6.8”; step chart with no axis labels; ALL selected by default.</li><li>Sub-cent pricing (“No 97.4¢”); market rules sit on the page, below the order book.</li></ul></figcaption>
+          </figure>
+          <figure>
+            <div class="phone"><img src="img/market-ki.jpg" alt="Kichiko market page: fixed 0 to 100 percent chart ending in July, 78% chance, Buy Yes 78.0% and Buy No 22.0%" loading="lazy" width="780" height="1688"></div>
+            <figcaption><span class="who"><strong>Kichiko</strong><span class="grade">live data · M1</span></span>
+              <ul><li>Fixed 0–100% axis, which is right.</li><li>Chart built from the oldest 200 points, so it ends in July; month labels repeat.</li><li>“Buy Yes 78.0%”, one decimal; 1H and 6H ranges.</li></ul></figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="screen-set">
+        <header><h3>Order ticket, amount entered</h3><p>The money screen. Every serious Kichiko defect sits here.</p></header>
+        <div class="phones">
+          <figure>
+            <div class="phone bottom"><img src="img/ticket-pm.jpg" alt="Polymarket ticket sheet: $10, Yes and No toggle, To win $0.00, 0 cents, chips +$1 to +$100, Trade" loading="lazy" width="780" height="1068"></div>
+            <figcaption><span class="who"><strong>Polymarket</strong><span class="grade">live · M1 · sheet only</span></span>
+              <ul><li>“To win $0.00 · 0¢”; no fee line.</li><li>No error for 0, −5, abc or 99,999,999; no focus ring.</li></ul></figcaption>
+          </figure>
+          <figure>
+            <div class="phone"><img src="img/ticket-ka.jpg" alt="Kalshi demo ticket sheet: YES 86 cents selected, $25 entered, Max payout $28.77, green Sign up to trade button" loading="lazy" width="780" height="1688"></div>
+            <figcaption><span class="who"><strong>Kalshi</strong><span class="grade">demo · D</span></span>
+              <ul><li>$25 → “Max payout $28.77”, fee inside the price.</li><li>“Sign up to trade”: white on #0AC285 = 2.32:1.</li></ul></figcaption>
+          </figure>
+          <figure>
+            <div class="phone"><img src="img/ticket-ki.jpg" alt="Kichiko ticket sheet: KSh 500, Yes selected, To win Ksh 636.56, chips +KSh130 +KSh648 +KSh1.3k +KSh13.0k, Log in to trade" loading="lazy" width="780" height="1688"></div>
+            <figcaption><span class="who"><strong>Kichiko</strong><span class="grade">live data · M1</span></span>
+              <ul><li>Chips are converted US dollars: +KSh130 / 648 / 1.3k / 13.0k.</li><li>Opens pre-filled with KSh 130; law sets the minimum at KSh 20.</li><li>“To win” green 2.18:1; “KSh” and “Ksh” in one sheet; no fee, no “if No you lose”.</li></ul></figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="screen-set">
+        <header><h3>Multi-outcome market</h3><p>Many candidates, many small targets.</p></header>
+        <div class="phones">
+          <figure>
+            <div class="phone"><img src="img/multi-pm.jpg" alt="Polymarket multi-outcome event page with candidate rows and Buy buttons" loading="lazy" width="780" height="1688"></div>
+            <figcaption><span class="who"><strong>Polymarket</strong><span class="grade">live · M1</span></span>
+              <ul><li>Buy buttons 173×44; row “59%” next to a “58.6¢” button.</li><li>Legend yellow #f6c030 at 1.68:1.</li></ul></figcaption>
+          </figure>
+          <figure>
+            <div class="phone"><img src="img/multi-ka.jpg" alt="Kalshi demo multi-outcome page with condensed headline, mock chart and candidate rows" loading="lazy" width="780" height="1688"></div>
+            <figcaption><span class="who"><strong>Kalshi</strong><span class="grade">demo · D · mock prices</span></span>
+              <ul><li>Condensed headline, ALL range, outlined Yes/No row buttons.</li><li>Prices are demo data (three candidates at 99.9%).</li></ul></figcaption>
+          </figure>
+          <figure>
+            <div class="phone"><img src="img/multi-ki.jpg" alt="Kichiko multi-outcome page: four-candidate chart ending in June, William Ruto 46%, Buy Yes 46.4%" loading="lazy" width="780" height="1688"></div>
+            <figcaption><span class="who"><strong>Kichiko</strong><span class="grade">live data · M1</span></span>
+              <ul><li>158 targets under 24 px on this page.</li><li>Headline “46%”, button “46.4%”.</li><li>Chart ends in June: the oldest 1,000 of 1,908 points.</li></ul></figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="screen-set">
+        <header><h3>Dark theme</h3><p>What each product does with the phone's dark setting.</p></header>
+        <div class="phones">
+          <figure>
+            <div class="phone"><img src="img/dark-pm.jpg" alt="Polymarket mobile home in dark theme" loading="lazy" width="780" height="1688"></div>
+            <figcaption><span class="who"><strong>Polymarket</strong><span class="grade">live · M1</span></span>
+              <ul><li>Menu switch and OS setting both work.</li><li>Text failing AA drops from 20–22% to about 4%.</li></ul></figcaption>
+          </figure>
+          <figure>
+            <div class="phone"><img src="img/dark-ka.jpg" alt="Kalshi demo mobile home in dark theme" loading="lazy" width="780" height="1688"></div>
+            <figcaption><span class="who"><strong>Kalshi</strong><span class="grade">demo · D</span></span>
+              <ul><li>Follows the OS.</li><li>Button text flips to dark on #28CC95: 9.48:1.</li></ul></figcaption>
+          </figure>
+          <figure>
+            <div class="phone"><img src="img/dark-ki.jpg" alt="Kichiko mobile home in dark theme" loading="lazy" width="780" height="1688"></div>
+            <figcaption><span class="who"><strong>Kichiko</strong><span class="grade">live data · M1</span></span>
+              <ul><li>Dark is forced by default, whatever the phone says.</li><li>0.0–0.1% of text fails AA. In sunlight, dark greys lose more than light ones.</li></ul></figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="legal-h">
+    <div class="callout">
+      <h2 id="legal-h">Decide this first: two live markets appear to breach Kenyan law</h2>
+      <p><span class="mono">ke-gachagua-appeal-upheld</span> resolves on the outcome of a pending appeal. <span class="mono">ke-gachagua-on-ballot-2027</span> says its outcome “hinges on the courts”. Every market also needs the regulator's prior approval.</p>
+      <blockquote>“A licensee shall not offer or facilitate a prediction market where the underlying event— (a) concerns proceedings pending before a court in Kenya …” (L.N. 112 of 2026, Reg. 45(7), Kenya Gazette Supplement No. 163, 30 June 2026; text read from the regulator's PDF.)</blockquote>
+      <p>Production has not been changed. Removing these is your decision, ideally with counsel.</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="found-h">
+    <div class="section-head">
+      <span class="eyebrow">Kichiko, verified in code or on screen</span>
+      <h2 id="found-h">What the capture found in our own product</h2>
+    </div>
+    <div class="findings">
+      <article class="finding"><div class="top-line"><span class="pill bad">Integrity</span><h3>Charts show the oldest data</h3></div>
+        <p>Market pages order price history oldest-first with <code>.limit(200)</code> (binary) and <code>.limit(1000)</code> (multi-outcome). Home queries hit PostgREST's 1,000-row cap. The API route already does it newest-first.</p></article>
+      <article class="finding"><div class="top-line"><span class="pill bad">Money</span><h3>Quick amounts are US dollars</h3></div>
+        <p><code>[1, 5, 10, 100].map(usdToLocal)</code> in <code>pm-ticket.tsx:560</code>, and line 568 pre-fills the first chip. Replace with KSh 20 / 50 / 100 / 200 and an empty stake.</p></article>
+      <article class="finding"><div class="top-line"><span class="pill bad">Money</span><h3>Cents survive the KES ruling</h3></div>
+        <p><code>formatCents()</code> in the limit row and order book; the error “between 0.1¢ and 99.9¢”; the screen-reader label “Limit price in cents”; three separate percentage formatters.</p></article>
+      <article class="finding"><div class="top-line"><span class="pill warn">Contrast</span><h3>The payout line is the least legible text</h3></div>
+        <p>“To win” in green #42c772 on white is 2.18:1; the “To win” label in dark is 2.03:1; the inactive “No” is 1.91:1. Everything else in the product is almost clean.</p></article>
+      <article class="finding"><div class="top-line"><span class="pill warn">Search</span><h3>Searches can't be linked</h3></div>
+        <p><code>search-view.tsx:91</code> starts the query empty and never reads <code>?q=</code>, so a shared search link opens on “Trending now”.</p></article>
+      <article class="finding"><div class="top-line"><span class="pill good">Lead</span><h3>A page one tenth the weight</h3></div>
+        <p>515–550 KB per page and 250–400 KB of JavaScript, against Polymarket's 4.7–5.1 MB. At KSh 250 per GB that is the difference between about KSh 0.13 and KSh 1.20 per visit.</p></article>
+    </div>
+  </section>
+
+  <section aria-labelledby="plan-h">
+    <div class="section-head">
+      <span class="eyebrow">Work plan v2 · each phase ends on a test</span>
+      <h2 id="plan-h">The order of work</h2>
+    </div>
+    <div class="phases">
+      <div class="phase"><span class="tag">Phase L · now</span><h3>Legal exposure</h3><p>Court-case markets; “Earn” copy; GRA approval reference required to publish; banned-subject check; Uganda age 25; KSh 20 minimum.</p><p class="gate"><span>Exit:</span> no live market fails the check; copy lint green.</p></div>
+      <div class="phase"><span class="tag">Phase 0 · finish</span><h3>Make the ground true</h3><p>Newest-first chart data; one KSh and % formatter; search reads the URL; one spec of record.</p><p class="gate"><span>Exit:</span> notation and chart-freshness tests on every route.</p></div>
+      <div class="phase"><span class="tag">Phase 1</span><h3>Foundation</h3><p>Follow the OS theme; contrast by ratio and sunlight luminance; 44/48 px targets; focus rings; 2 px spacing; JavaScript ≤150 KB.</p><p class="gate"><span>Exit:</span> contrast, target, type and Lighthouse gates at 360×800, both themes.</p></div>
+      <div class="phase"><span class="tag">Phase 2</span><h3>The money path</h3><p>No pre-selected side; empty stake; “You pay / If Yes you get / If No you lose”; the fee as one KSh line; M-Pesa name check; receipts by M-Pesa code.</p><p class="gate"><span>Exit:</span> an e2e order on staging; withdraw ≤ deposit in taps.</p></div>
+      <div class="phase"><span class="tag">Phase 3</span><h3>Discovery</h3><p>Fixed 180 px cards, no auto-rotating hero, fixed 0–100% chart axis, a real empty state, the leaderboard decision.</p><p class="gate"><span>Exit:</span> no ragged cards; feed controls ≥44 px.</p></div>
+      <div class="phase"><span class="tag">Phase 4 · then 5</span><h3>Landing, then responsible play</h3><p>Landing built once, within Kenya's ad rules. Then limits by default, self-exclusion in two taps, outreach to the heaviest losers, Kiswahili.</p><p class="gate"><span>Exit:</span> the same performance budget; Reg. 84 tools live.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="dec-h">
+    <div class="section-head">
+      <span class="eyebrow">Yours to decide</span>
+      <h2 id="dec-h">Decisions that block the plan</h2>
+    </div>
+    <ol class="decisions">
+      <li><b>The two court-case markets.</b> Recommendation: hide both today; counsel confirms.</li>
+      <li><b>Regulator approval.</b> Does Kichiko have GRA approval to offer prediction markets (Reg. 45(5))? If not, every market is exposed.</li>
+      <li><b>Leaderboard.</b> Remove, or replace with an opt-in accuracy board. Recommendation: replace.</li>
+      <li><b>Theme default.</b> Follow the phone's setting (recommended) or keep forced dark.</li>
+      <li><b>Fee model.</b> Any model works if it shows as one all-in KSh figure.</li>
+      <li><b>Bonuses.</b> The law permits free bets; the evidence says they raise losses. Recommendation: none at launch.</li>
+    </ol>
+  </section>
+
+  <footer class="notes">
+    <p><b>Grades.</b> M1 measured from computed styles or geometry on a rendered page · D Kalshi's official demo site, design only, mock prices, production equivalence unverified · live data means Kichiko's production database read with the public key.</p>
+    <p><b>Caveats.</b> Polymarket served this US-based server its geo sheet, which was its largest element on every page. Kichiko timings include a US to Dublin hop; byte counts are exact. Logged-in screens (portfolio, deposit, confirm) were not captured for any product.</p>
+    <p><b>Full evidence</b> in the repository at <span class="mono">docs/research/ui-2026-09/</span>: 41-WORK-PLAN-V2, 40-ELEMENT-MATRIX, captures-v2 (three harnesses, 610 screenshots), research-v2 (two primary-source reviews and the gazetted regulation excerpt).</p>
+  </footer>
+</div>
