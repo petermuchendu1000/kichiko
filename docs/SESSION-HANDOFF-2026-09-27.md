@@ -198,3 +198,49 @@ Phase 0 of the work plan, which depends on none of the above except decision 1:
 - Whether the **PAT carries push scope** — untestable from that session, since the proxy blocked before GitHub saw the token.
 - Settlement defects 2–8 (only defect 1 was positively re-verified).
 - The solvency-guard check on the resolvers errored on a SQL detail and was not retried.
+
+---
+
+## 8. Addendum — second session, 2026-09-27 (pushed, branch `claude/trusting-clarke-vi106v`)
+
+Push access works. Everything below is on the branch.
+
+**Done (verified on a production build + Chromium):**
+- Phase 0.1: all dead Tailwind colour classes resolved; `scripts/check-tailwind-classes.mjs` gates CI. **The audit's "~725 / colourless legal links" was wrong** — true figure 442 + 8, 431 in admin; see erratum in `20-WORK-PLAN.md`. Dark `--primary-foreground` fixed for AA; contrast test covers the HSL bridge.
+- Phase 0.4: `error.tsx`, `global-error.tsx`, `not-found.tsx`, `sitemap.ts`, `robots.ts`, per-segment `loading.tsx`. **A root `app/loading.tsx` turns `notFound()` into 200 soft-404s** — measured; never add one.
+- Phase 0.5: `viewport-fit=cover`.
+- **Decision 1 made by the owner: KES and %.**
+
+**Blocked, and why this session ended:** the container ran on "trusted" network
+access. `polymarket.com`, `kalshi.com`, `web.archive.org`, PubMed, ScienceDirect,
+bi.team, `*.supabase.co`, even `example.com` → gateway 403 on CONNECT; WebFetch is
+blocked the same way. WebSearch works (snippets only). The owner changed the
+environment to Full access, but **network policy is fixed at container start**, so
+a new session is required. First command in the new session:
+`curl -s -o /dev/null -w '%{http_code}\n' https://polymarket.com https://kalshi.com` —
+if either is `000`, the setting did not take; stop and tell the owner.
+
+**Owner's brief for the next session (verbatim intent):** borrow the design strengths
+of Kalshi and Polymarket, resolve their weaknesses, hybrid approach; weigh how each
+handles *every page and element*; deep psychology research ("this matters so much");
+clean, professional, responsive, mobile-first, optimized; Apple-level; redesign
+allowed; zero guesswork / zero assumptions; **screenshots/visuals from both sites
+required**; detailed work plan; answer "do we start with the landing page?".
+
+**Program to run (none of it started):**
+1. Capture Kalshi + Polymarket, every page type (home/feed, category, event single +
+   multi-outcome, ticket states, confirm, search, portfolio/positions logged-out,
+   leaderboard, onboarding/auth, deposit entry, help/legal/responsible-gambling, 404),
+   390×844 dpr3 and 1440×900, both themes where offered; screenshots + computed-style
+   JSON via the committed harness in `experiments/competitor-capture/`. Kalshi served a
+   Vercel bot checkpoint last time: use headed Chromium under `xvfb-run` with a real
+   UA; fall back to dated Wayback snapshots, labelled as such.
+2. Capture Kichiko at the same viewports with live data (needs Supabase reachable +
+   credentials re-supplied per §1.2).
+3. Element-by-element matrix: PM vs Kalshi vs Kichiko → adopt / reject / invent, each
+   with evidence.
+4. Psychology from **primary sources only** (full text, exact n/effect sizes), mapped to
+   elements and to the East African context. Re-verify every rule in `24-PSYCHOLOGY`.
+   Known correction already: BIT 2022's simpler-odds effect held for non-problem
+   gamblers **but not problem gamblers** — rule 1 overstates it.
+5. Supersede `20-WORK-PLAN` with a v2; publish a visual comparison page.
