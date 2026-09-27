@@ -29,6 +29,7 @@ import {
   orderTarget,
   clampLimitCents,
   oppositeSide,
+  limitSharesForAmount,
 } from '@/lib/trading'
 import {
   serializePendingBet,
@@ -41,8 +42,8 @@ import {
 import { openAuthDialog } from '@/components/auth/auth-dialog'
 import { planFunding } from '@/lib/funding'
 import { normalizeOutcomes, isMultiOutcome, type Outcome } from '@/lib/markets/outcomes'
-import { formatCurrency, usdToLocal, localToUsd, type RatesMap } from '@/lib/currency'
-import { quickAmounts, stakeError } from '@/lib/stake'
+import { formatCurrency, usdToLocal, localToUsd, getUsdRate, type RatesMap } from '@/lib/currency'
+import { minStakeLocal, quickAmounts, stakeError } from '@/lib/stake'
 import { formatProbability } from '@/lib/format'
 import { useClobBook, useIsDisplayed } from '@/components/trading/order-book-table'
 import {
@@ -179,6 +180,22 @@ const CLOSED_COPY: Partial<Record<Market['status'], { label: string; body: strin
 // Measured ground truth §9: docs/design/PM-BUY-SHEET-MOBILE-MEASURED-2026-07.md
 // Layout replaces the market body: Limit-price stepper, Shares input + shares
 // quick-adds, "N matching" pill, then Expires / Total / To win rows.
+/**
+ * A market buy fills against resting sell orders. When a side has none, say so
+ * and offer the limit order that can still be placed, instead of showing an
+ * estimate of zero (which reads as a broken ticket).
+ */
+function NoSellersNotice({ label, onUseLimit, className = '' }: { label: string; onUseLimit: () => void; className?: string }) {
+  return (
+    <div role="status" className={`rounded-md bg-surface-2 px-3 py-3 text-sm ${className}`}>
+      <p className="text-text-secondary">No one is selling {label} right now, so a market order can’t fill.</p>
+      <button type="button" onClick={onUseLimit} className="mt-1.5 font-semibold text-pip-text hover:underline">
+        Place a limit order at your price
+      </button>
+    </div>
+  )
+}
+
 function PmLimitBody({
   limitCents,
   setLimitCents,
@@ -513,6 +530,15 @@ export function PmTicket({
       ? market.yes_price
       : market.no_price
 
+  // A limit order on the panel starts at the selected side's current price,
+  // and follows the side and candidate when they change.
+  useEffect(() => {
+    if (!isSheet && orderType === 'limit' && currentPrice > 0) {
+      setLimitCents(String(clampLimitCents(Math.max(1, currentPrice * 100))))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSheet, orderType, side, selectedOptionId])
+
   const limitPrice = orderType === 'limit' ? (parseFloat(limitCents) || 0) / 100 : 0
   const amountNum = parseFloat(amount) || 0
 
@@ -536,7 +562,16 @@ export function PmTicket({
   const clobSellLimitInvalid = orderType === 'limit' && (clobSellPriceCents <= 0 || clobSellPriceCents >= 100)
 
   // Buy-limit inputs (share-denominated with a price), from PmLimitBody.
-  const buyLimitSharesNum = orderType === 'limit' ? Math.max(0, parseInt(shares || '0', 10) || 0) : 0
+  // The sheet's limit form takes a share count; the desktop panel takes a KSh
+  // amount and buys as many shares as it covers at the limit price.
+  // Unrounded local price of one share at the limit (getUsdRate is USD per unit).
+  const limitShareLocal = limitPrice > 0 ? limitPrice / getUsdRate(preferredCurrency, rates) : 0
+  const buyLimitSharesNum =
+    orderType !== 'limit'
+      ? 0
+      : isSheet
+        ? Math.max(0, parseInt(shares || '0', 10) || 0)
+        : limitSharesForAmount(amountNum, limitShareLocal, minStakeLocal(preferredCurrency, rates))
   const buyLimitPriceInvalid = orderType === 'limit' && (limitPrice <= 0 || limitPrice >= 1)
   // shares × price(fraction) is the USD cost; convert to the display/balance
   // currency so the balance gate and funding shortfall compare like-for-like
@@ -549,7 +584,7 @@ export function PmTicket({
   // price (rests when it can't cross); sell = market|limit from the position.
   const clobBuyOk = clob && isOpen && action === 'buy' && !!selectedOutcome && (
     orderType === 'limit'
-      ? buyLimitSharesNum > 0 && !buyLimitPriceInvalid && !buyLimitOverBalance
+      ? buyLimitSharesNum > 0 && !buyLimitPriceInvalid && !buyLimitOverBalance && (isSheet || !belowMin)
       : amountNum > 0 && !belowMin && !overBalance && !!clobBestAsk
   )
   const clobSellOk =
@@ -1060,7 +1095,14 @@ export function PmTicket({
 
   // Polymarket's action button reads simply "Trade" (the To-win figure lives in
   // the preview summary just above it).
-  const tradeLabel = !user ? 'Log in to trade' : 'Trade'
+  const noSellers = clob && action === 'buy' && orderType === 'market' && !!clobBook && !clobBestAsk
+  const sideLabel = isMulti && !indepMulti ? selectedOutcome?.label ?? '' : side === 'yes' ? yesLabel : noLabel
+  const useLimit = () => {
+    setOrderType('limit')
+    setError('')
+  }
+  const needsAmount = action === 'buy' && amountNum <= 0 && (orderType === 'market' || !isSheet)
+  const tradeLabel = !user ? 'Log in to trade' : needsAmount ? 'Enter an amount' : 'Trade'
 
   // ---- Mobile Buy sheet (Polymarket 1:1) ------------------------------------
   // Measured ground truth: docs/design/PM-BUY-SHEET-MOBILE-MEASURED-2026-07.md
@@ -1234,7 +1276,9 @@ export function PmTicket({
         {/* Payout preview — reserved slot (present even when empty so the Trade
             button never shifts), matching PM: "To win $X" (tinted) + avg ¢. */}
         <div className="flex min-h-[40px] flex-col items-center justify-center gap-0.5">
-          {clob && amountNum > 0 && (
+          {noSellers ? (
+            <NoSellersNotice label={sideLabel} onUseLimit={useLimit} className="w-full text-center" />
+          ) : clob && amountNum > 0 && (
             <>
               <div className="flex items-center gap-1.5">
                 <span className="text-base font-medium text-[#484E56]">To win</span>
@@ -1243,7 +1287,7 @@ export function PmTicket({
                 </span>
               </div>
               <span className="text-xs font-medium tabular-nums text-text-muted">
-                {clobBestAsk ? `${formatProbability(clobBestAsk / 100)} · ${clobBuyEstShares.toFixed(1)} shares` : 'No resting liquidity'}
+                {clobBestAsk ? `${formatProbability(clobBestAsk / 100)} · ${clobBuyEstShares.toFixed(1)} shares` : 'Checking prices…'}
               </span>
             </>
           )}
@@ -1366,7 +1410,7 @@ export function PmTicket({
             ))}
           </div>
 
-          {!isMulti && (
+          {(!isMulti || clob) && (
             <div className="relative -mb-px pb-2.5">
               <button
                 type="button"
@@ -1729,8 +1773,8 @@ export function PmTicket({
               </button>
             )}
 
-            {/* Limit price row (binary limit orders only) — Polymarket − ¢ + stepper. */}
-            {!isMulti && orderType === 'limit' && (
+            {/* Limit price row — binary markets and every order-book market. */}
+            {(!isMulti || clob) && orderType === 'limit' && (
               <div className="mt-3 flex items-center justify-between rounded-md border border-hairline px-3 py-2">
                 <label htmlFor="pm-limit" className="text-sm text-text-secondary">
                   Limit price
@@ -1815,14 +1859,38 @@ export function PmTicket({
 
             {/* CLOB buy estimate — priced off the live best ask (the server
                 reconfirms against the book and never overspends). */}
-            {clob && amountNum > 0 && (
+            {noSellers && <NoSellersNotice label={sideLabel} onUseLimit={useLimit} className="mt-4" />}
+            {clob && orderType === 'limit' && amountNum > 0 && !buyLimitPriceInvalid && (
+              <div className="mt-4 space-y-1.5 rounded-md bg-surface-2 px-3 py-3 text-sm">
+                <div className="flex items-center justify-between text-text-muted">
+                  <span>At your price</span>
+                  <span className="tabular-nums">
+                    {formatProbability(limitPrice)} · {buyLimitSharesNum.toFixed(2)} shares
+                  </span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-text-secondary">Total</span>
+                  <span className="font-semibold tabular-nums text-text-primary">
+                    {formatCurrency(buyLimitCostLocal, preferredCurrency)}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between border-t border-hairline pt-1.5">
+                  <span className="text-text-secondary">To win if filled</span>
+                  <span className={`text-base font-bold tabular-nums ${outcomeTone}`}>
+                    {formatCurrency(usdToLocal(buyLimitSharesNum, preferredCurrency, rates), preferredCurrency)}
+                  </span>
+                </div>
+                <p className="pt-1 text-xs text-text-muted">Rests on the book until someone sells at your price or better.</p>
+              </div>
+            )}
+            {clob && orderType === 'market' && amountNum > 0 && !noSellers && (
               <div className="mt-4 space-y-1.5 rounded-md bg-surface-2 px-3 py-3 text-sm">
                 <div className="flex items-center justify-between text-text-muted">
                   <span>Est. price</span>
                   <span className="tabular-nums">
                     {clobBestAsk
                       ? `${formatProbability(clobBestAsk / 100)} · ${clobBuyEstShares.toFixed(1)} shares`
-                      : 'No resting liquidity'}
+                      : 'Checking prices…'}
                   </span>
                 </div>
                 <div className="flex items-center justify-between">

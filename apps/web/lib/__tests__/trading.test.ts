@@ -4,6 +4,7 @@ import {
   optionsResolverRpc,
   clampLimitCents,
   oppositeSide,
+  limitSharesForAmount,
 } from '@/lib/trading'
 
 describe('orderTarget — Phase C ticket → /api/orders body shaping', () => {
@@ -88,5 +89,27 @@ describe('oppositeSide — ticket ⇄ swap affordance', () => {
   it('is an involution (double-swap returns original)', () => {
     expect(oppositeSide(oppositeSide('yes'))).toBe('yes')
     expect(oppositeSide(oppositeSide('no'))).toBe('no')
+  })
+})
+
+describe('limitSharesForAmount', () => {
+  // 46% of $1 at 129.62 KES/USD
+  const per = 0.46 * 129.62
+  it('buys the most whole cents of a share the amount covers, never more', () => {
+    const n = limitSharesForAmount(50, per, 20)
+    expect(n).toBe(0.83)
+    expect(n * per).toBeLessThanOrEqual(50)
+  })
+  it('rounds up just enough to meet the minimum when the amount meets it', () => {
+    const n = limitSharesForAmount(20, per, 20)
+    expect(n * per).toBeGreaterThanOrEqual(20)
+    expect((n - 0.01) * per).toBeLessThan(20)
+  })
+  it('leaves an amount below the minimum below it (the ticket shows the minimum notice)', () => {
+    expect(limitSharesForAmount(15, per, 20) * per).toBeLessThan(20)
+  })
+  it('is zero without an amount or a price', () => {
+    expect(limitSharesForAmount(0, per, 20)).toBe(0)
+    expect(limitSharesForAmount(50, 0, 20)).toBe(0)
   })
 })

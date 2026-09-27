@@ -77,3 +77,18 @@ export function optionsResolverRpc(
   }
   return independent ? 'resolve_market_options_binary' : 'resolve_market_options'
 }
+
+/**
+ * Shares a local-currency amount buys on a limit order at `perShareLocal`
+ * (the limit price in local currency). Rounds down to 0.01 share so the cost
+ * never exceeds the amount, except when rounding down would drop an amount that
+ * meets the legal minimum below it: then it rounds up just far enough to meet it.
+ */
+export function limitSharesForAmount(amountLocal: number, perShareLocal: number, minLocal: number): number {
+  if (!(amountLocal > 0) || !(perShareLocal > 0)) return 0
+  let shares = Math.floor((amountLocal / perShareLocal) * 100 + 1e-9) / 100
+  if (amountLocal >= minLocal && shares * perShareLocal < minLocal) {
+    shares = Math.ceil((minLocal / perShareLocal) * 100 - 1e-9) / 100
+  }
+  return shares
+}
