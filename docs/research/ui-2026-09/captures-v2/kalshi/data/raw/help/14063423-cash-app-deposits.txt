@@ -1,0 +1,37 @@
+URL: https://help.kalshi.com/en/articles/14063423-cash-app-deposits
+HTTP: 200
+Fetched: 2026-09-27T08:40:39Z
+Sitemap lastmod: 2026-09-15T04:00:42Z
+Title: 
+
+How to deposit
+
+- Select "Add funds"
+
+- Select the "Cash App" option
+
+- Scan the QR code with your phone (desktop) or confirm in the Cash App (mobile)
+
+- Enter the amount you want to deposit
+
+- Review the transfer and add funds
+
+Important information
+
+Cash App deposits are subject to a fee.
+
+Cash App is available for US users only . Withdrawals are not available via Cash App. To withdraw your funds, use another method such as debit card, bank transfer, or crypto.
+
+Troubleshooting
+
+If your Cash App deposit doesn't go through, the issue typically originates from Cash App's payment processor rather than Kalshi. It stops at the Cash App payment step before reaching Kalshi, and the specific reason is shown in your Cash App Activity feed. Common reasons include:
+
+- Not enough available balance in your Cash App or linked debit card
+
+- A Cash App sending or spending limit
+
+- A verification step Cash App needs you to complete- Suspicious Activity Flags: Transactions flagged as unusual or suspicious by Cash App’s system
+
+- Repeated Attempts: Multiple identical deposit attempts in a short period can trigger a temporary cooldown
+
+Check your Cash App Activity feed for the specific reason, or contact Cash App support through the in-app chat. You can also fund your account another way in the meantime, such as debit card, bank transfer, or crypto. Get help from Cash App . Avoid making multiple identical deposit attempts in a short period, as this can trigger a cooldown period. If a cooldown is triggered, wait for it to pass before retrying.

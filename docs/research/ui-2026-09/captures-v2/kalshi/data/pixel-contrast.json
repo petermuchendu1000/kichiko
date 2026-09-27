@@ -1,0 +1,3227 @@
+{
+ "P01_D_desktop": [
+  {
+   "label": "MARKETS",
+   "kind": "a",
+   "box": [
+    196.5,
+    14,
+    101.8,
+    36
+   ],
+   "radius": "100px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#1F1F1F",
+   "pixelRatio": 16.48,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "PERPS",
+   "kind": "a",
+   "box": [
+    298.3,
+    14,
+    78.27,
+    36
+   ],
+   "radius": "100px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#1F1F1F",
+   "pixelRatio": 16.48,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "LIVE 18",
+   "kind": "a",
+   "box": [
+    376.56,
+    14,
+    87.31,
+    36
+   ],
+   "radius": "100px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#1F1F1F",
+   "pixelRatio": 16.48,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "PRO",
+   "kind": "button",
+   "box": [
+    463.88,
+    14,
+    62.47,
+    36
+   ],
+   "radius": "100px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#1F1F1F",
+   "pixelRatio": 16.48,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "MORE",
+   "kind": "button",
+   "box": [
+    526.34,
+    14,
+    91.06,
+    36
+   ],
+   "radius": "100px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#1F1F1F",
+   "pixelRatio": 16.48,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Trade on anything",
+   "kind": "input[text]",
+   "box": [
+    789.66,
+    13,
+    400,
+    38
+   ],
+   "radius": "100px",
+   "pixelBg": "#EDEDED",
+   "pixelFg": "#6F6F6F",
+   "pixelRatio": 4.29,
+   "domBg": "#00000012",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Log in",
+   "kind": "button",
+   "box": [
+    1205.66,
+    12,
+    63.73,
+    40
+   ],
+   "radius": "100px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#30C285",
+   "pixelRatio": 2.29,
+   "domBg": "#00000000",
+   "domColor": "#0AC285",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Sign up",
+   "kind": "button",
+   "box": [
+    1277.39,
+    12,
+    71.11,
+    40
+   ],
+   "radius": "100px",
+   "pixelBg": "#28CC95",
+   "pixelFg": "#FFFFFF",
+   "pixelRatio": 2.07,
+   "domBg": "#28CC95",
+   "domColor": "#FFFFFF",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Trending",
+   "kind": "a",
+   "box": [
+    76.5,
+    68,
+    64.92,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#1F1F1F",
+   "pixelRatio": 16.48,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Elections",
+   "kind": "a",
+   "box": [
+    157.42,
+    68,
+    65.44,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#8E8E8E",
+   "pixelRatio": 3.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Politics",
+   "kind": "a",
+   "box": [
+    238.86,
+    68,
+    51.83,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#8E9AB6",
+   "pixelRatio": 2.82,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Sports",
+   "kind": "a",
+   "box": [
+    306.69,
+    68,
+    47.16,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#8E8E8E",
+   "pixelRatio": 3.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Culture",
+   "kind": "a",
+   "box": [
+    369.84,
+    68,
+    53.36,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#8E8E8E",
+   "pixelRatio": 3.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Crypto",
+   "kind": "a",
+   "box": [
+    439.2,
+    68,
+    49.63,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#8E8E8E",
+   "pixelRatio": 3.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Commodities",
+   "kind": "a",
+   "box": [
+    504.83,
+    68,
+    96.33,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#8E8E8E",
+   "pixelRatio": 3.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Climate",
+   "kind": "a",
+   "box": [
+    617.16,
+    68,
+    55.56,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#DAB696",
+   "pixelRatio": 1.89,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Economics",
+   "kind": "a",
+   "box": [
+    688.72,
+    68,
+    78.72,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#8E8E8E",
+   "pixelRatio": 3.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Mentions",
+   "kind": "a",
+   "box": [
+    783.44,
+    68,
+    66.45,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#8E8E8E",
+   "pixelRatio": 3.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Finance",
+   "kind": "a",
+   "box": [
+    865.89,
+    68,
+    56.2,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#8E8E8E",
+   "pixelRatio": 3.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Tech & Science",
+   "kind": "a",
+   "box": [
+    938.09,
+    68,
+    109.33,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#8E8E8E",
+   "pixelRatio": 3.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "FOOTBALL",
+   "kind": "a",
+   "box": [
+    102,
+    156,
+    106.73,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FDFDFD",
+   "pixelFg": "#0243CA",
+   "pixelRatio": 7.77,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "KC Chiefs vs MIA Dolphins",
+   "kind": "a",
+   "box": [
+    102,
+    202,
+    655,
+    36
+   ],
+   "radius": "0px",
+   "pixelBg": "#FDFDFD",
+   "pixelFg": "#191919",
+   "pixelRatio": 17.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "85%",
+   "kind": "button",
+   "box": [
+    382,
+    288,
+    80,
+    36
+   ],
+   "radius": "100px",
+   "pixelBg": "#FDFDFD",
+   "pixelFg": "#191919",
+   "pixelRatio": 17.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "15px/22px 500"
+  },
+  {
+   "label": "15%",
+   "kind": "button",
+   "box": [
+    382,
+    336,
+    80,
+    36
+   ],
+   "radius": "100px",
+   "pixelBg": "#FDFDFD",
+   "pixelFg": "#191919",
+   "pixelRatio": 17.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "15px/22px 500"
+  },
+  {
+   "label": "Spread and Total",
+   "kind": "a",
+   "box": [
+    355.23,
+    388,
+    106.77,
+    24
+   ],
+   "radius": "0px",
+   "pixelBg": "#FDFDFD",
+   "pixelFg": "#191919",
+   "pixelRatio": 17.28,
+   "domBg": "#00000000",
+   "domColor": "#0000008C",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "SEA Seahawks vs WSH Commanders",
+   "kind": "a",
+   "box": [
+    932,
+    202,
+    655,
+    36
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#000000",
+   "pixelRatio": 21.0,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Previous slide",
+   "kind": "button",
+   "box": [
+    796,
+    156,
+    34,
+    34
+   ],
+   "radius": "50%",
+   "pixelBg": "#FDFDFD",
+   "pixelFg": "#191919",
+   "pixelRatio": 17.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Next slide",
+   "kind": "button",
+   "box": [
+    894,
+    156,
+    34,
+    34
+   ],
+   "radius": "50%",
+   "pixelBg": "#FDFDFD",
+   "pixelFg": "#191919",
+   "pixelRatio": 17.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Market integrity",
+   "kind": "a",
+   "box": [
+    138,
+    588,
+    191.97,
+    18
+   ],
+   "radius": "0px",
+   "pixelBg": "#FDFDFD",
+   "pixelFg": "#191919",
+   "pixelRatio": 17.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Markets over Monopolies",
+   "kind": "a",
+   "box": [
+    436.67,
+    588,
+    192.83,
+    18
+   ],
+   "radius": "0px",
+   "pixelBg": "#FDFDFD",
+   "pixelFg": "#191919",
+   "pixelRatio": 17.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Responsible trading",
+   "kind": "a",
+   "box": [
+    735.34,
+    588,
+    189.52,
+    18
+   ],
+   "radius": "0px",
+   "pixelBg": "#FDFDFD",
+   "pixelFg": "#191919",
+   "pixelRatio": 17.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Politics",
+   "kind": "a",
+   "box": [
+    77,
+    671,
+    880,
+    60
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#1F1F1F",
+   "pixelRatio": 16.48,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "CONGRESS",
+   "kind": "a",
+   "box": [
+    94,
+    767,
+    111.11,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FDFDFD",
+   "pixelFg": "#727272",
+   "pixelRatio": 4.73,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Will the Clarity Act become law?",
+   "kind": "a",
+   "box": [
+    94,
+    810,
+    398,
+    22
+   ],
+   "radius": "0px",
+   "pixelBg": "#FDFDFD",
+   "pixelFg": "#191919",
+   "pixelRatio": 17.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "29%",
+   "kind": "button",
+   "box": [
+    412,
+    859,
+    80,
+    36
+   ],
+   "radius": "100px",
+   "pixelBg": "#FDFDFD",
+   "pixelFg": "#191919",
+   "pixelRatio": 17.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "15px/22px 500"
+  },
+  {
+   "label": "Will members of Congress be banned from ",
+   "kind": "a",
+   "box": [
+    542,
+    810,
+    398,
+    44
+   ],
+   "radius": "0px",
+   "pixelBg": "#FDFDFD",
+   "pixelFg": "#191919",
+   "pixelRatio": 17.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "PERPETUALS Gold and silver with leverage",
+   "kind": "a",
+   "box": [
+    1006,
+    132,
+    342,
+    88
+   ],
+   "radius": "16px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#181819",
+   "pixelRatio": 17.74,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Dismiss gold and silver promotion",
+   "kind": "button",
+   "box": [
+    1307,
+    143,
+    28,
+    28
+   ],
+   "radius": "3.35544e+07px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#B2B2B2",
+   "pixelRatio": 2.12,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Trending",
+   "kind": "a",
+   "box": [
+    1022,
+    350,
+    310,
+    28
+   ],
+   "radius": "0px",
+   "pixelBg": "#FDFDFD",
+   "pixelFg": "#1F1F1F",
+   "pixelRatio": 16.2,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Midterms: Congress Balance of Power? Dem",
+   "kind": "a",
+   "box": [
+    1014,
+    407,
+    326,
+    58
+   ],
+   "radius": "8px",
+   "pixelBg": "#FDFDFD",
+   "pixelFg": "#1F1F1F",
+   "pixelRatio": 16.2,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "2028 Democratic presidential nominee Jon",
+   "kind": "a",
+   "box": [
+    1014,
+    473,
+    326,
+    58
+   ],
+   "radius": "8px",
+   "pixelBg": "#FDFDFD",
+   "pixelFg": "#1F1F1F",
+   "pixelRatio": 16.2,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "BTC price on Friday at 5pm EDT? $85,000 ",
+   "kind": "a",
+   "box": [
+    1014,
+    539,
+    326,
+    58
+   ],
+   "radius": "8px",
+   "pixelBg": "#FDFDFD",
+   "pixelFg": "#1F1F1F",
+   "pixelRatio": 16.2,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "2026 Primaries",
+   "kind": "a",
+   "box": [
+    1022,
+    647,
+    310,
+    28
+   ],
+   "radius": "0px",
+   "pixelBg": "#FDFDFD",
+   "pixelFg": "#1F1F1F",
+   "pixelRatio": 16.2,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "LA-04 Republican nominee? Mike Johnson 1",
+   "kind": "a",
+   "box": [
+    1014,
+    704,
+    326,
+    58
+   ],
+   "radius": "8px",
+   "pixelBg": "#FDFDFD",
+   "pixelFg": "#1F1F1F",
+   "pixelRatio": 16.2,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "LA-05 Republican nominee? Misti Cordell ",
+   "kind": "a",
+   "box": [
+    1014,
+    770,
+    326,
+    58
+   ],
+   "radius": "8px",
+   "pixelBg": "#FDFDFD",
+   "pixelFg": "#1F1F1F",
+   "pixelRatio": 16.2,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "LA-02 Democratic nominee? Troy Carter 9%",
+   "kind": "a",
+   "box": [
+    1014,
+    836,
+    326,
+    58
+   ],
+   "radius": "8px",
+   "pixelBg": "#FDFDFD",
+   "pixelFg": "#1F1F1F",
+   "pixelRatio": 16.2,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  }
+ ],
+ "P01_D_mobile": [
+  {
+   "label": "Log in",
+   "kind": "button",
+   "box": [
+    223.16,
+    16,
+    63.73,
+    32
+   ],
+   "radius": "100px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#0AC285",
+   "pixelRatio": 2.32,
+   "domBg": "#00000000",
+   "domColor": "#0AC285",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Sign up",
+   "kind": "button",
+   "box": [
+    294.89,
+    16,
+    71.11,
+    32
+   ],
+   "radius": "100px",
+   "pixelBg": "#28CC95",
+   "pixelFg": "#FFFFFF",
+   "pixelRatio": 2.07,
+   "domBg": "#28CC95",
+   "domColor": "#FFFFFF",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Trending",
+   "kind": "a",
+   "box": [
+    24,
+    68,
+    64.92,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#191919",
+   "pixelRatio": 17.58,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Elections",
+   "kind": "a",
+   "box": [
+    104.92,
+    68,
+    65.44,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#8C8C8C",
+   "pixelRatio": 3.36,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Politics",
+   "kind": "a",
+   "box": [
+    186.36,
+    68,
+    51.83,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#8C8C8C",
+   "pixelRatio": 3.36,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Sports",
+   "kind": "a",
+   "box": [
+    254.19,
+    68,
+    47.16,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#8C8C8C",
+   "pixelRatio": 3.36,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Culture",
+   "kind": "a",
+   "box": [
+    317.34,
+    68,
+    53.36,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#8C8C8C",
+   "pixelRatio": 3.36,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Crypto",
+   "kind": "a",
+   "box": [
+    386.7,
+    68,
+    49.63,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#000000",
+   "pixelFg": "#FFFFFF",
+   "pixelRatio": 21.0,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "NFL",
+   "kind": "a",
+   "box": [
+    72,
+    126,
+    39.45,
+    18
+   ],
+   "radius": "0px",
+   "pixelBg": "#FDF4EE",
+   "pixelFg": "#726D6A",
+   "pixelRatio": 4.71,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "KC Chiefs 86%",
+   "kind": "div[button]",
+   "box": [
+    24,
+    238,
+    308,
+    38
+   ],
+   "radius": "0px",
+   "pixelBg": "#FDFDFD",
+   "pixelFg": "#E31839",
+   "pixelRatio": 4.63,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "86%",
+   "kind": "button",
+   "box": [
+    252,
+    238,
+    80,
+    38
+   ],
+   "radius": "100px",
+   "pixelBg": "#FDFDFD",
+   "pixelFg": "#191919",
+   "pixelRatio": 17.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "MIA Dolphins 14%",
+   "kind": "div[button]",
+   "box": [
+    24,
+    284,
+    308,
+    38
+   ],
+   "radius": "0px",
+   "pixelBg": "#FDFDFD",
+   "pixelFg": "#191919",
+   "pixelRatio": 17.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "14%",
+   "kind": "button",
+   "box": [
+    252,
+    284,
+    80,
+    38
+   ],
+   "radius": "100px",
+   "pixelBg": "#FDFDFD",
+   "pixelFg": "#191919",
+   "pixelRatio": 17.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Spread and Total",
+   "kind": "a",
+   "box": [
+    225.23,
+    342,
+    106.77,
+    24
+   ],
+   "radius": "0px",
+   "pixelBg": "#FDFDFD",
+   "pixelFg": "#191919",
+   "pixelRatio": 17.28,
+   "domBg": "#00000000",
+   "domColor": "#0000008C",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "SEA Seahawks 77%",
+   "kind": "div[button]",
+   "box": [
+    380,
+    238,
+    308,
+    38
+   ],
+   "radius": "0px",
+   "pixelBg": "#000000",
+   "pixelFg": "#FDFDFD",
+   "pixelRatio": 20.65,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "WSH Commanders 23%",
+   "kind": "div[button]",
+   "box": [
+    380,
+    284,
+    308,
+    38
+   ],
+   "radius": "0px",
+   "pixelBg": "#000000",
+   "pixelFg": "#FDFDFD",
+   "pixelRatio": 20.65,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Politics",
+   "kind": "a",
+   "box": [
+    8,
+    641,
+    374,
+    36
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#1F1F1F",
+   "pixelRatio": 16.48,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "CONGRESS",
+   "kind": "a",
+   "box": [
+    25,
+    705,
+    111.11,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FDFDFD",
+   "pixelFg": "#727272",
+   "pixelRatio": 4.73,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Will crypto market structure legislation",
+   "kind": "a",
+   "box": [
+    25,
+    748,
+    340,
+    44
+   ],
+   "radius": "0px",
+   "pixelBg": "#FDFDFD",
+   "pixelFg": "#191919",
+   "pixelRatio": 17.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "99%",
+   "kind": "button",
+   "box": [
+    285,
+    808,
+    80,
+    36
+   ],
+   "radius": "100px",
+   "pixelBg": "#FDFDFD",
+   "pixelFg": "#191919",
+   "pixelRatio": 17.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "15px/22px 500"
+  }
+ ],
+ "P03_D_desktop": [
+  {
+   "label": "MARKETS",
+   "kind": "a",
+   "box": [
+    196.5,
+    14,
+    101.8,
+    36
+   ],
+   "radius": "100px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#1F1F1F",
+   "pixelRatio": 16.48,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "PERPS",
+   "kind": "a",
+   "box": [
+    298.3,
+    14,
+    78.27,
+    36
+   ],
+   "radius": "100px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#1F1F1F",
+   "pixelRatio": 16.48,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "LIVE 34",
+   "kind": "a",
+   "box": [
+    376.56,
+    14,
+    87.31,
+    36
+   ],
+   "radius": "100px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#1F1F1F",
+   "pixelRatio": 16.48,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "PRO",
+   "kind": "button",
+   "box": [
+    463.88,
+    14,
+    62.47,
+    36
+   ],
+   "radius": "100px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#1F1F1F",
+   "pixelRatio": 16.48,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "MORE",
+   "kind": "button",
+   "box": [
+    526.34,
+    14,
+    91.06,
+    36
+   ],
+   "radius": "100px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#1F1F1F",
+   "pixelRatio": 16.48,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Trade on anything",
+   "kind": "input[text]",
+   "box": [
+    789.66,
+    13,
+    400,
+    38
+   ],
+   "radius": "100px",
+   "pixelBg": "#EDEDED",
+   "pixelFg": "#6F6F6F",
+   "pixelRatio": 4.29,
+   "domBg": "#00000012",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Log in",
+   "kind": "button",
+   "box": [
+    1205.66,
+    12,
+    63.73,
+    40
+   ],
+   "radius": "100px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#30C285",
+   "pixelRatio": 2.29,
+   "domBg": "#00000000",
+   "domColor": "#0AC285",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Sign up",
+   "kind": "button",
+   "box": [
+    1277.39,
+    12,
+    71.11,
+    40
+   ],
+   "radius": "100px",
+   "pixelBg": "#28CC95",
+   "pixelFg": "#FFFFFF",
+   "pixelRatio": 2.07,
+   "domBg": "#28CC95",
+   "domColor": "#FFFFFF",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Trending",
+   "kind": "a",
+   "box": [
+    76.5,
+    68,
+    64.05,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#A6928E",
+   "pixelRatio": 2.95,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Elections",
+   "kind": "a",
+   "box": [
+    156.55,
+    68,
+    65.44,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#8E8E8E",
+   "pixelRatio": 3.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Politics",
+   "kind": "a",
+   "box": [
+    237.98,
+    68,
+    51.83,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#8E9AB6",
+   "pixelRatio": 2.82,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Sports",
+   "kind": "a",
+   "box": [
+    305.81,
+    68,
+    47.16,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#8E8E8E",
+   "pixelRatio": 3.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Culture",
+   "kind": "a",
+   "box": [
+    368.97,
+    68,
+    53.36,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#8E8E8E",
+   "pixelRatio": 3.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Crypto",
+   "kind": "a",
+   "box": [
+    438.33,
+    68,
+    49.63,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#8E8E8E",
+   "pixelRatio": 3.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Commodities",
+   "kind": "a",
+   "box": [
+    503.95,
+    68,
+    96.33,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#8E8E8E",
+   "pixelRatio": 3.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Climate",
+   "kind": "a",
+   "box": [
+    616.28,
+    68,
+    55.56,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#928E92",
+   "pixelRatio": 3.23,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Economics",
+   "kind": "a",
+   "box": [
+    687.84,
+    68,
+    78.72,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#8E8E8E",
+   "pixelRatio": 3.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Mentions",
+   "kind": "a",
+   "box": [
+    782.56,
+    68,
+    66.45,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#8E8E8E",
+   "pixelRatio": 3.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Finance",
+   "kind": "a",
+   "box": [
+    865.02,
+    68,
+    56.2,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#8E8E8E",
+   "pixelRatio": 3.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Tech & Science",
+   "kind": "a",
+   "box": [
+    937.22,
+    68,
+    109.33,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#8E8E8E",
+   "pixelRatio": 3.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "CONGRESS",
+   "kind": "a",
+   "box": [
+    181,
+    141,
+    81.67,
+    20
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#737373",
+   "pixelRatio": 4.74,
+   "domBg": "#00000000",
+   "domColor": "#0000008C",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "6H",
+   "kind": "button",
+   "box": [
+    722.25,
+    536,
+    30.58,
+    24
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#B7B7BF",
+   "pixelRatio": 1.99,
+   "domBg": "#00000000",
+   "domColor": "#0000004D",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "1D",
+   "kind": "button",
+   "box": [
+    768.83,
+    536,
+    30.11,
+    24
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#B7B7B7",
+   "pixelRatio": 2.01,
+   "domBg": "#00000000",
+   "domColor": "#0000004D",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "1W",
+   "kind": "button",
+   "box": [
+    814.94,
+    536,
+    33.22,
+    24
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#B7B7C7",
+   "pixelRatio": 1.98,
+   "domBg": "#00000000",
+   "domColor": "#0000004D",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "1M",
+   "kind": "button",
+   "box": [
+    864.16,
+    536,
+    32.38,
+    24
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#B7B7BF",
+   "pixelRatio": 1.99,
+   "domBg": "#00000000",
+   "domColor": "#0000004D",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "ALL",
+   "kind": "button",
+   "box": [
+    912.53,
+    536,
+    36.47,
+    24
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#AF5F27",
+   "pixelRatio": 4.68,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Library of Congress",
+   "kind": "a",
+   "box": [
+    243.64,
+    864,
+    140.42,
+    19
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#191919",
+   "pixelRatio": 17.58,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "15px/24px 400"
+  },
+  {
+   "label": "BUY",
+   "kind": "button[tab]",
+   "box": [
+    1014,
+    149.5,
+    29.72,
+    20
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#191919",
+   "pixelRatio": 17.58,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "13px/20px 600"
+  },
+  {
+   "label": "SELL",
+   "kind": "button[tab]",
+   "box": [
+    1059.72,
+    149.5,
+    34.78,
+    20
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#B2B2B2",
+   "pixelRatio": 2.12,
+   "domBg": "#00000000",
+   "domColor": "#0000004D",
+   "font": "13px/20px 600"
+  },
+  {
+   "label": "DOLLARS",
+   "kind": "button",
+   "box": [
+    1231.77,
+    141.5,
+    116.23,
+    36
+   ],
+   "radius": "100px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#191919",
+   "pixelRatio": 17.58,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "YES --",
+   "kind": "button",
+   "box": [
+    1016,
+    278,
+    96,
+    28
+   ],
+   "radius": "100px",
+   "pixelBg": "#0AC285",
+   "pixelFg": "#FFFFFF",
+   "pixelRatio": 2.32,
+   "domBg": "#00000000",
+   "domColor": "#FFFFFF",
+   "font": "13px/20px 600"
+  },
+  {
+   "label": "NO 97.4\u00a2",
+   "kind": "button",
+   "box": [
+    1112,
+    278,
+    96,
+    28
+   ],
+   "radius": "100px",
+   "pixelBg": "#F2F2F2",
+   "pixelFg": "#181818",
+   "pixelRatio": 15.86,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "13px/20px 600"
+  },
+  {
+   "label": "3.25% Interest",
+   "kind": "button",
+   "box": [
+    1243.14,
+    280,
+    88.86,
+    24
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#737373",
+   "pixelRatio": 4.74,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "0",
+   "kind": "input[text]",
+   "box": [
+    1302.17,
+    334,
+    12.83,
+    24
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#B2B2B2",
+   "pixelRatio": 2.12,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "18px/24px 600"
+  },
+  {
+   "label": "Sign up to trade",
+   "kind": "button",
+   "box": [
+    1014,
+    468,
+    318,
+    44
+   ],
+   "radius": "100px",
+   "pixelBg": "#0AC285",
+   "pixelFg": "#FFFFFF",
+   "pixelRatio": 2.32,
+   "domBg": "#0AC285",
+   "domColor": "#FFFFFF",
+   "font": "15px/22px 500"
+  }
+ ],
+ "P03_D_mobile": [
+  {
+   "label": "Log in",
+   "kind": "button",
+   "box": [
+    223.16,
+    16,
+    63.73,
+    32
+   ],
+   "radius": "100px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#0AC285",
+   "pixelRatio": 2.32,
+   "domBg": "#00000000",
+   "domColor": "#0AC285",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Sign up",
+   "kind": "button",
+   "box": [
+    294.89,
+    16,
+    71.11,
+    32
+   ],
+   "radius": "100px",
+   "pixelBg": "#28CC95",
+   "pixelFg": "#FFFFFF",
+   "pixelRatio": 2.07,
+   "domBg": "#28CC95",
+   "domColor": "#FFFFFF",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Trending",
+   "kind": "a",
+   "box": [
+    24,
+    68,
+    64.05,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#8C8C8C",
+   "pixelRatio": 3.36,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Elections",
+   "kind": "a",
+   "box": [
+    104.05,
+    68,
+    65.44,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#8C8C8C",
+   "pixelRatio": 3.36,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Politics",
+   "kind": "a",
+   "box": [
+    185.48,
+    68,
+    51.83,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#8C8C8C",
+   "pixelRatio": 3.36,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Sports",
+   "kind": "a",
+   "box": [
+    253.31,
+    68,
+    47.16,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#8C8C8C",
+   "pixelRatio": 3.36,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Culture",
+   "kind": "a",
+   "box": [
+    316.47,
+    68,
+    53.36,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#8C8C8C",
+   "pixelRatio": 3.36,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Crypto",
+   "kind": "a",
+   "box": [
+    385.83,
+    68,
+    49.63,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#000000",
+   "pixelFg": "#FFFFFF",
+   "pixelRatio": 21.0,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "CONGRESS",
+   "kind": "a",
+   "box": [
+    24,
+    118,
+    81.67,
+    20
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#737373",
+   "pixelRatio": 4.74,
+   "domBg": "#00000000",
+   "domColor": "#0000008C",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "6H",
+   "kind": "button",
+   "box": [
+    147.25,
+    531,
+    30.58,
+    24
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#B7B7B7",
+   "pixelRatio": 2.01,
+   "domBg": "#00000000",
+   "domColor": "#0000004D",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "1D",
+   "kind": "button",
+   "box": [
+    193.83,
+    531,
+    30.11,
+    24
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#B7B7B7",
+   "pixelRatio": 2.01,
+   "domBg": "#00000000",
+   "domColor": "#0000004D",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "1W",
+   "kind": "button",
+   "box": [
+    239.94,
+    531,
+    33.22,
+    24
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#B7B7B7",
+   "pixelRatio": 2.01,
+   "domBg": "#00000000",
+   "domColor": "#0000004D",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "1M",
+   "kind": "button",
+   "box": [
+    289.16,
+    531,
+    32.38,
+    24
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#B7B7B7",
+   "pixelRatio": 2.01,
+   "domBg": "#00000000",
+   "domColor": "#0000004D",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "ALL",
+   "kind": "button",
+   "box": [
+    337.53,
+    531,
+    36.47,
+    24
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#1F1F1F",
+   "pixelRatio": 16.48,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Yes",
+   "kind": "button",
+   "box": [
+    24,
+    611,
+    167,
+    32
+   ],
+   "radius": "100px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#0AC285",
+   "pixelRatio": 2.32,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "No 97.4\u00a2",
+   "kind": "button",
+   "box": [
+    199,
+    611,
+    167,
+    32
+   ],
+   "radius": "100px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#D91616",
+   "pixelRatio": 5.15,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  }
+ ],
+ "P11_D-modal_desktop": [
+  {
+   "label": "MARKETS",
+   "kind": "a",
+   "box": [
+    196.5,
+    14,
+    101.8,
+    36
+   ],
+   "radius": "100px",
+   "pixelBg": "#999999",
+   "pixelFg": "#121212",
+   "pixelRatio": 6.58,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "PERPS",
+   "kind": "a",
+   "box": [
+    298.3,
+    14,
+    78.27,
+    36
+   ],
+   "radius": "100px",
+   "pixelBg": "#999999",
+   "pixelFg": "#121212",
+   "pixelRatio": 6.58,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "LIVE 23",
+   "kind": "a",
+   "box": [
+    376.56,
+    14,
+    87.31,
+    36
+   ],
+   "radius": "100px",
+   "pixelBg": "#999999",
+   "pixelFg": "#121212",
+   "pixelRatio": 6.58,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "PRO",
+   "kind": "button",
+   "box": [
+    463.88,
+    14,
+    62.47,
+    36
+   ],
+   "radius": "100px",
+   "pixelBg": "#999999",
+   "pixelFg": "#121212",
+   "pixelRatio": 6.58,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "MORE",
+   "kind": "button",
+   "box": [
+    526.34,
+    14,
+    91.06,
+    36
+   ],
+   "radius": "100px",
+   "pixelBg": "#999999",
+   "pixelFg": "#121212",
+   "pixelRatio": 6.58,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Trade on anything",
+   "kind": "input[text]",
+   "box": [
+    789.66,
+    13,
+    400,
+    38
+   ],
+   "radius": "100px",
+   "pixelBg": "#8E8E8E",
+   "pixelFg": "#636363",
+   "pixelRatio": 1.83,
+   "domBg": "#00000012",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Log in",
+   "kind": "button",
+   "box": [
+    1205.66,
+    12,
+    63.73,
+    40
+   ],
+   "radius": "100px",
+   "pixelBg": "#999999",
+   "pixelFg": "#1C7450",
+   "pixelRatio": 2.01,
+   "domBg": "#00000000",
+   "domColor": "#0AC285",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Sign up",
+   "kind": "button",
+   "box": [
+    1277.39,
+    12,
+    71.11,
+    40
+   ],
+   "radius": "100px",
+   "pixelBg": "#187A59",
+   "pixelFg": "#999999",
+   "pixelRatio": 1.86,
+   "domBg": "#28CC95",
+   "domColor": "#FFFFFF",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Trending",
+   "kind": "a",
+   "box": [
+    76.5,
+    68,
+    64.92,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#999999",
+   "pixelFg": "#121212",
+   "pixelRatio": 6.58,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Elections",
+   "kind": "a",
+   "box": [
+    157.42,
+    68,
+    65.44,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#999999",
+   "pixelFg": "#555555",
+   "pixelRatio": 2.62,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Politics",
+   "kind": "a",
+   "box": [
+    238.86,
+    68,
+    51.83,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#999999",
+   "pixelFg": "#555C6D",
+   "pixelRatio": 2.35,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Sports",
+   "kind": "a",
+   "box": [
+    306.69,
+    68,
+    47.16,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#999999",
+   "pixelFg": "#555555",
+   "pixelRatio": 2.62,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Culture",
+   "kind": "a",
+   "box": [
+    369.84,
+    68,
+    53.36,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#999999",
+   "pixelFg": "#555555",
+   "pixelRatio": 2.62,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Crypto",
+   "kind": "a",
+   "box": [
+    439.2,
+    68,
+    49.63,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#999999",
+   "pixelFg": "#555555",
+   "pixelRatio": 2.62,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Commodities",
+   "kind": "a",
+   "box": [
+    504.83,
+    68,
+    96.33,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#999999",
+   "pixelFg": "#555555",
+   "pixelRatio": 2.62,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Climate",
+   "kind": "a",
+   "box": [
+    617.16,
+    68,
+    55.56,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#999999",
+   "pixelFg": "#836D5A",
+   "pixelRatio": 1.71,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Economics",
+   "kind": "a",
+   "box": [
+    688.72,
+    68,
+    78.72,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#999999",
+   "pixelFg": "#555555",
+   "pixelRatio": 2.62,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Mentions",
+   "kind": "a",
+   "box": [
+    783.44,
+    68,
+    66.45,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#999999",
+   "pixelFg": "#555555",
+   "pixelRatio": 2.62,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Finance",
+   "kind": "a",
+   "box": [
+    865.89,
+    68,
+    56.2,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#999999",
+   "pixelFg": "#555555",
+   "pixelRatio": 2.62,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Tech & Science",
+   "kind": "a",
+   "box": [
+    938.09,
+    68,
+    109.33,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#999999",
+   "pixelFg": "#555555",
+   "pixelRatio": 2.62,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "FOOTBALL",
+   "kind": "a",
+   "box": [
+    102,
+    156,
+    106.73,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#989898",
+   "pixelFg": "#012879",
+   "pixelRatio": 4.6,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "KC Chiefs vs MIA Dolphins",
+   "kind": "a",
+   "box": [
+    102,
+    202,
+    655,
+    36
+   ],
+   "radius": "0px",
+   "pixelBg": "#989898",
+   "pixelFg": "#FFFFFF",
+   "pixelRatio": 2.88,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "86%",
+   "kind": "button",
+   "box": [
+    382,
+    288,
+    80,
+    36
+   ],
+   "radius": "100px",
+   "pixelBg": "#989898",
+   "pixelFg": "#121212",
+   "pixelRatio": 6.49,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "15px/22px 500"
+  },
+  {
+   "label": "14%",
+   "kind": "button",
+   "box": [
+    382,
+    336,
+    80,
+    36
+   ],
+   "radius": "100px",
+   "pixelBg": "#989898",
+   "pixelFg": "#121217",
+   "pixelRatio": 6.47,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "15px/22px 500"
+  },
+  {
+   "label": "Spread and Total",
+   "kind": "a",
+   "box": [
+    355.23,
+    388,
+    106.77,
+    24
+   ],
+   "radius": "0px",
+   "pixelBg": "#989898",
+   "pixelFg": "#121212",
+   "pixelRatio": 6.49,
+   "domBg": "#00000000",
+   "domColor": "#0000008C",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "SEA Seahawks vs WSH Commanders",
+   "kind": "a",
+   "box": [
+    932,
+    202,
+    655,
+    36
+   ],
+   "radius": "0px",
+   "pixelBg": "#999999",
+   "pixelFg": "#000000",
+   "pixelRatio": 7.37,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Previous slide",
+   "kind": "button",
+   "box": [
+    796,
+    156,
+    34,
+    34
+   ],
+   "radius": "50%",
+   "pixelBg": "#989898",
+   "pixelFg": "#0F0F0F",
+   "pixelRatio": 6.64,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Next slide",
+   "kind": "button",
+   "box": [
+    894,
+    156,
+    34,
+    34
+   ],
+   "radius": "50%",
+   "pixelBg": "#989898",
+   "pixelFg": "#0F0F0F",
+   "pixelRatio": 6.64,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Market integrity",
+   "kind": "a",
+   "box": [
+    138,
+    588,
+    191.97,
+    18
+   ],
+   "radius": "0px",
+   "pixelBg": "#989898",
+   "pixelFg": "#121212",
+   "pixelRatio": 6.49,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Markets over Monopolies",
+   "kind": "a",
+   "box": [
+    436.67,
+    588,
+    192.83,
+    18
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#989898",
+   "pixelRatio": 2.88,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Responsible trading",
+   "kind": "a",
+   "box": [
+    735.34,
+    588,
+    189.52,
+    18
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#919191",
+   "pixelRatio": 3.15,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Politics",
+   "kind": "a",
+   "box": [
+    77,
+    671,
+    880,
+    60
+   ],
+   "radius": "0px",
+   "pixelBg": "#999999",
+   "pixelFg": "#FFFFFF",
+   "pixelRatio": 2.85,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "CONGRESS",
+   "kind": "a",
+   "box": [
+    94,
+    767,
+    111.11,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#989898",
+   "pixelFg": "#464646",
+   "pixelRatio": 3.27,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Will the Clarity Act become law?",
+   "kind": "a",
+   "box": [
+    94,
+    810,
+    398,
+    22
+   ],
+   "radius": "0px",
+   "pixelBg": "#989898",
+   "pixelFg": "#121212",
+   "pixelRatio": 6.49,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "29%",
+   "kind": "button",
+   "box": [
+    412,
+    859,
+    80,
+    36
+   ],
+   "radius": "100px",
+   "pixelBg": "#989898",
+   "pixelFg": "#121212",
+   "pixelRatio": 6.49,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "15px/22px 500"
+  },
+  {
+   "label": "Will members of Congress be banned from ",
+   "kind": "a",
+   "box": [
+    542,
+    810,
+    398,
+    44
+   ],
+   "radius": "0px",
+   "pixelBg": "#989898",
+   "pixelFg": "#121212",
+   "pixelRatio": 6.49,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "PERPETUALS Gold and silver with leverage",
+   "kind": "a",
+   "box": [
+    1006,
+    132,
+    342,
+    88
+   ],
+   "radius": "16px",
+   "pixelBg": "#999999",
+   "pixelFg": "#121212",
+   "pixelRatio": 6.58,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Dismiss gold and silver promotion",
+   "kind": "button",
+   "box": [
+    1307,
+    143,
+    28,
+    28
+   ],
+   "radius": "3.35544e+07px",
+   "pixelBg": "#999999",
+   "pixelFg": "#6B6B6B",
+   "pixelRatio": 1.87,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Trending",
+   "kind": "a",
+   "box": [
+    1022,
+    350,
+    310,
+    28
+   ],
+   "radius": "0px",
+   "pixelBg": "#989898",
+   "pixelFg": "#121212",
+   "pixelRatio": 6.49,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Midterms: Congress Balance of Power? Dem",
+   "kind": "a",
+   "box": [
+    1014,
+    407,
+    326,
+    58
+   ],
+   "radius": "8px",
+   "pixelBg": "#989898",
+   "pixelFg": "#121212",
+   "pixelRatio": 6.49,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "2028 Democratic presidential nominee Jon",
+   "kind": "a",
+   "box": [
+    1014,
+    473,
+    326,
+    58
+   ],
+   "radius": "8px",
+   "pixelBg": "#989898",
+   "pixelFg": "#121212",
+   "pixelRatio": 6.49,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "BTC price on Friday at 5pm EDT? $85,000 ",
+   "kind": "a",
+   "box": [
+    1014,
+    539,
+    326,
+    58
+   ],
+   "radius": "8px",
+   "pixelBg": "#989898",
+   "pixelFg": "#121212",
+   "pixelRatio": 6.49,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "2026 Primaries",
+   "kind": "a",
+   "box": [
+    1022,
+    647,
+    310,
+    28
+   ],
+   "radius": "0px",
+   "pixelBg": "#989898",
+   "pixelFg": "#121212",
+   "pixelRatio": 6.49,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "LA-04 Republican nominee? Mike Johnson 1",
+   "kind": "a",
+   "box": [
+    1014,
+    704,
+    326,
+    58
+   ],
+   "radius": "8px",
+   "pixelBg": "#989898",
+   "pixelFg": "#121212",
+   "pixelRatio": 6.49,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "LA-05 Republican nominee? Misti Cordell ",
+   "kind": "a",
+   "box": [
+    1014,
+    770,
+    326,
+    58
+   ],
+   "radius": "8px",
+   "pixelBg": "#989898",
+   "pixelFg": "#121212",
+   "pixelRatio": 6.49,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "LA-02 Democratic nominee? Troy Carter 9%",
+   "kind": "a",
+   "box": [
+    1014,
+    836,
+    326,
+    58
+   ],
+   "radius": "8px",
+   "pixelBg": "#989898",
+   "pixelFg": "#121212",
+   "pixelRatio": 6.49,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Close",
+   "kind": "button",
+   "box": [
+    860.5,
+    210,
+    40,
+    40
+   ],
+   "radius": "8px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#191919",
+   "pixelRatio": 17.58,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Continue with Google",
+   "kind": "button",
+   "box": [
+    536.5,
+    370,
+    352,
+    48
+   ],
+   "radius": "8px",
+   "pixelBg": "#191919",
+   "pixelFg": "#FFFFFF",
+   "pixelRatio": 17.58,
+   "domBg": "#000000E6",
+   "domColor": "#FFFFFF",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Continue with Apple",
+   "kind": "button",
+   "box": [
+    536.5,
+    434,
+    352,
+    48
+   ],
+   "radius": "8px",
+   "pixelBg": "#191919",
+   "pixelFg": "#FFFFFF",
+   "pixelRatio": 17.58,
+   "domBg": "#000000E6",
+   "domColor": "#FFFFFF",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Sign up with Email",
+   "kind": "button",
+   "box": [
+    536.5,
+    498,
+    352,
+    48
+   ],
+   "radius": "8px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#191919",
+   "pixelRatio": 17.58,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  }
+ ],
+ "P11_D-modal_mobile": [
+  {
+   "label": "Log in",
+   "kind": "button",
+   "box": [
+    223.16,
+    16,
+    63.73,
+    32
+   ],
+   "radius": "100px",
+   "pixelBg": "#999999",
+   "pixelFg": "#067450",
+   "pixelRatio": 2.04,
+   "domBg": "#00000000",
+   "domColor": "#0AC285",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Sign up",
+   "kind": "button",
+   "box": [
+    294.89,
+    16,
+    71.11,
+    32
+   ],
+   "radius": "100px",
+   "pixelBg": "#187A59",
+   "pixelFg": "#999999",
+   "pixelRatio": 1.86,
+   "domBg": "#28CC95",
+   "domColor": "#FFFFFF",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Trending",
+   "kind": "a",
+   "box": [
+    24,
+    68,
+    64.92,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#999999",
+   "pixelFg": "#0F0F0F",
+   "pixelRatio": 6.73,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Elections",
+   "kind": "a",
+   "box": [
+    104.92,
+    68,
+    65.44,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#999999",
+   "pixelFg": "#545454",
+   "pixelRatio": 2.66,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Politics",
+   "kind": "a",
+   "box": [
+    186.36,
+    68,
+    51.83,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#999999",
+   "pixelFg": "#545454",
+   "pixelRatio": 2.66,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Sports",
+   "kind": "a",
+   "box": [
+    254.19,
+    68,
+    47.16,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#999999",
+   "pixelFg": "#545454",
+   "pixelRatio": 2.66,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Culture",
+   "kind": "a",
+   "box": [
+    317.34,
+    68,
+    53.36,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#999999",
+   "pixelFg": "#545454",
+   "pixelRatio": 2.66,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Crypto",
+   "kind": "a",
+   "box": [
+    386.7,
+    68,
+    49.63,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#000000",
+   "pixelFg": "#999999",
+   "pixelRatio": 7.37,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "NFL",
+   "kind": "a",
+   "box": [
+    72,
+    126,
+    39.45,
+    18
+   ],
+   "radius": "0px",
+   "pixelBg": "#989390",
+   "pixelFg": "#44413F",
+   "pixelRatio": 3.33,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "KC Chiefs 86%",
+   "kind": "div[button]",
+   "box": [
+    24,
+    238,
+    308,
+    38
+   ],
+   "radius": "0px",
+   "pixelBg": "#989898",
+   "pixelFg": "#880E22",
+   "pixelRatio": 3.41,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "86%",
+   "kind": "button",
+   "box": [
+    252,
+    238,
+    80,
+    38
+   ],
+   "radius": "100px",
+   "pixelBg": "#989898",
+   "pixelFg": "#0F0F0F",
+   "pixelRatio": 6.64,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "MIA Dolphins 14%",
+   "kind": "div[button]",
+   "box": [
+    24,
+    284,
+    308,
+    38
+   ],
+   "radius": "0px",
+   "pixelBg": "#989898",
+   "pixelFg": "#0F0F0F",
+   "pixelRatio": 6.64,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "14%",
+   "kind": "button",
+   "box": [
+    252,
+    284,
+    80,
+    38
+   ],
+   "radius": "100px",
+   "pixelBg": "#989898",
+   "pixelFg": "#0F0F0F",
+   "pixelRatio": 6.64,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "SEA Seahawks 77%",
+   "kind": "div[button]",
+   "box": [
+    380,
+    238,
+    308,
+    38
+   ],
+   "radius": "0px",
+   "pixelBg": "#000000",
+   "pixelFg": "#989898",
+   "pixelRatio": 7.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "WSH Commanders 23%",
+   "kind": "div[button]",
+   "box": [
+    380,
+    284,
+    308,
+    38
+   ],
+   "radius": "0px",
+   "pixelBg": "#000000",
+   "pixelFg": "#989898",
+   "pixelRatio": 7.28,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Politics",
+   "kind": "a",
+   "box": [
+    8,
+    641,
+    374,
+    36
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#191919",
+   "pixelRatio": 17.58,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "CONGRESS",
+   "kind": "a",
+   "box": [
+    25,
+    705,
+    111.11,
+    30
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#737373",
+   "pixelRatio": 4.74,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Will the Clarity Act become law?",
+   "kind": "a",
+   "box": [
+    25,
+    748,
+    340,
+    22
+   ],
+   "radius": "0px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#737373",
+   "pixelRatio": 4.74,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Close",
+   "kind": "button",
+   "box": [
+    338,
+    336,
+    40,
+    40
+   ],
+   "radius": "8px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#191919",
+   "pixelRatio": 17.58,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Continue with Google",
+   "kind": "button",
+   "box": [
+    24,
+    496,
+    342,
+    48
+   ],
+   "radius": "8px",
+   "pixelBg": "#191919",
+   "pixelFg": "#FFFFFF",
+   "pixelRatio": 17.58,
+   "domBg": "#000000E6",
+   "domColor": "#FFFFFF",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Continue with Apple",
+   "kind": "button",
+   "box": [
+    24,
+    560,
+    342,
+    48
+   ],
+   "radius": "8px",
+   "pixelBg": "#191919",
+   "pixelFg": "#FFFFFF",
+   "pixelRatio": 17.58,
+   "domBg": "#000000E6",
+   "domColor": "#FFFFFF",
+   "font": "16px/24px 400"
+  },
+  {
+   "label": "Sign up with Email",
+   "kind": "button",
+   "box": [
+    24,
+    624,
+    342,
+    48
+   ],
+   "radius": "8px",
+   "pixelBg": "#FFFFFF",
+   "pixelFg": "#191919",
+   "pixelRatio": 17.58,
+   "domBg": "#00000000",
+   "domColor": "#000000E6",
+   "font": "16px/24px 400"
+  }
+ ]
+}

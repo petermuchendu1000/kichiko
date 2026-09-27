@@ -1,0 +1,57 @@
+URL: https://help.kalshi.com/en/articles/13823816-collateral-return
+HTTP: 200
+Fetched: 2026-09-27T08:39:23Z
+Sitemap lastmod: 2026-05-17T02:12:02Z
+Title: 
+
+Collateral return is a mechanism that affects trading in mutually exclusive and directional market groups. This feature can be enabled and is disabled by default for new users. To opt in and receive collateral returns you can go to your account settings here and turn on Collateral return:
+
+*In this photo, collateral return is toggled off. When the icon is green, the option is enabled.
+
+This advanced feature gives you cash back early when you buy hedged positions. Enabling this feature may make you unable to sell positions for which you’ve already had collateral returned. Your current positions won’t be affected; this setting only applies to future positions.
+
+Note: The collateral return flag ( netting_enabled ) is “enabled" (or disabled) at the first moment a user places their first order in a given event, even before any trade actually fills (this includes any cancelled/unfilled resting orders). From that instant, the event-level position is initialized and its collateral eligibility logic is locked in as true or false for netting_enabled . Collateral return eligibility is determined at each event level. Once this is initialized, there is no way to retroactively enable or disable collateral return for a given event. We apologize for any inconvenience or confusion caused by this; as it is a current limitation.
+
+Mutually exclusive collateral return
+
+A hypothetical example of a mutually exclusive market group is “Who will be confirmed as the Secretary of State?” with the markets:
+
+- “Will Hillary Clinton be confirmed as Secretary of State?”
+
+- “Will Rex Tillerson be confirmed as Secretary of State?”
+
+- “Will John Kerry be confirmed as Secretary of State?”
+
+There can only be one confirmed Secretary of State, so there are only four possibilities at settlement: exactly one of the three markets resolves to Yes, or all three markets resolve to No. In this example, you buy No in “Hillary Clinton” for 60¢ and No in “John Kerry” for 70¢. You've invested a total of $1.30, but you'd be paid out $1 by at least one of your positions:
+
+- If Hillary Clinton is confirmed, your John Kerry position will be correct.
+
+- If Rex Tillerson is confirmed, both your positions will be correct.
+
+- If John Kerry is confirmed, your Hillary Clinton position will be correct.
+
+- If none of the three are confirmed, both your positions will be correct.
+
+Therefore, the maximum amount you could lose at settlement is $1.30 - $1 = $0.30. Instead of taking the full $1.30 of your available funds, we take only $0.30 and mark down your position value by the returned $1, leading to an invested value of $0.30. If you hold both contracts until settlement, then you will receive $1 if both your positions were correct (neither Hillary Clinton nor John Kerry is confirmed) and $0 if one of them is.
+
+It’s important to remember that collateral return applies only to trades involving the non-mutually exclusive sides of mutually exclusive multi-market events. In the above examples and in most cases you’ll see on Kalshi, it would apply only when buying and selling No positions.
+
+Directional collateral return
+
+A hypothetical example of a direction market group is “TSA check-ins today?” with the markets:
+
+- "Will there be above 1,000,000 TSA check-ins today?"
+
+- "Will there be above 2,000,000 TSA check-ins today?"
+
+- "Will there be above 3,000,000 TSA check-ins today?"
+
+If it is true that there are above 3,000,000 TSA check-ins today then it must be true that there were above 2,000,000 TSA check-ins today. In this example, you buy Yes for "above 1,000,000 check-ins" for 80¢ and No for "above 3,000,000 check-ins" for 70¢. You've invested a total of $1.50, but you'd be paid out $1 by at least one of your positions:
+
+- If there are 500,000 TSA check-ins today, your No for "above 3,000,000 check-ins" will be correct.
+
+- If there are 2,000,000 TSA check-ins today, both your positions will be correct.
+
+- If there are 4,000,000 TSA check-ins today, your Yes for "above 1,000,000 check-ins" will be correct.
+
+Therefore, the maximum amount you could lose at settlement is $1.50 - $1 = $0.50. Instead of taking the full $1.50 of your available funds, we take only $0.50 and mark down your position value by the returned $1, leading to an invested value of $0.50. If you hold both contracts until settlement, then you will receive $1 if both your positions are correct (there are 2,000,000 TSA check-ins today).

@@ -6,3 +6,6 @@
 2026-09-27T08:36:36Z event-KXIPO-26 200 50710 https://api.elections.kalshi.com/trade-api/v2/events/KXIPO-26?with_nested_markets=true
 2026-09-27T08:36:39Z series-KXIPO 200 1226 https://api.elections.kalshi.com/trade-api/v2/series/KXIPO
 2026-09-27T08:36:42Z markets-KXIPO-26 200 49949 https://api.elections.kalshi.com/trade-api/v2/markets?event_ticker=KXIPO-26&limit=200
+2026-09-27T08:50:52Z events-KXNFLGAME 200 10023 https://api.elections.kalshi.com/trade-api/v2/events?series_ticker=KXNFLGAME&status=open&limit=2&with_nested_markets=true
+2026-09-27T08:50:55Z orderbook-KXIPO-26-DISCORD 200 246 https://api.elections.kalshi.com/trade-api/v2/markets/KXIPO-26-DISCORD/orderbook?depth=5
+2026-09-27T08:50:58Z series-KXNFLGAME 200 1554 https://api.elections.kalshi.com/trade-api/v2/series/KXNFLGAME

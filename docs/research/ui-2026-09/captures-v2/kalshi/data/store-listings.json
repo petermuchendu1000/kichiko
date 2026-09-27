@@ -1,0 +1,189 @@
+{
+ "retrieved_utc": "2026-09-27T08:33Z",
+ "grade": "S",
+ "ios": {
+  "source_urls": [
+   "https://itunes.apple.com/lookup?id=1632713844&country=us",
+   "https://apps.apple.com/us/app/kalshi-trade-football-more/id1632713844"
+  ],
+  "name": "Kalshi: Trade Football & more",
+  "seller": "KALSHI INC.",
+  "developer_shown_on_page": "KalshiEX LLC",
+  "version": "9.10.12",
+  "currentVersionReleaseDate": "2026-09-25T00:51:34Z",
+  "firstReleaseDate": "2022-09-16T07:00:00Z",
+  "averageUserRating_api": 4.81942,
+  "userRatingCount_api": 551995,
+  "rating_shown_on_page": "4.8 out of 5, 554K Ratings",
+  "age": "18+",
+  "chart_shown": "#1 Finance",
+  "size": "127 MB",
+  "minimumOs": "15.0",
+  "genres": [
+   "Finance",
+   "Sports"
+  ],
+  "whats_new": "Kalshi is America's #1 prediction market platform. Get in on the action by trading on real-world events like elections, sports, crypto, and weather. This update includes bug fixes and performance upgrades.",
+  "version_history_shown": [
+   {
+    "version": "9.10.12",
+    "shown_date": "2d ago"
+   },
+   {
+    "version": "9.10.11",
+    "shown_date": "3d ago"
+   },
+   {
+    "version": "9.10.10",
+    "shown_date": "5d ago"
+   },
+   {
+    "version": "9.10.9",
+    "shown_date": "Sep 16"
+   },
+   {
+    "version": "9.10.8",
+    "shown_date": "Sep 15"
+   },
+   {
+    "version": "9.10.7",
+    "shown_date": "Sep 13"
+   },
+   {
+    "version": "9.10.5",
+    "shown_date": "Sep 11"
+   },
+   {
+    "version": "9.10.4",
+    "shown_date": "Sep 10"
+   },
+   {
+    "version": "9.10.3",
+    "shown_date": "Sep 9"
+   },
+   {
+    "version": "9.10.2",
+    "shown_date": "Sep 6"
+   },
+   {
+    "version": "9.10.1",
+    "shown_date": "Sep 5"
+   },
+   {
+    "version": "9.10.0",
+    "shown_date": "Sep 4"
+   },
+   {
+    "version": "9.9.123",
+    "shown_date": "Sep 3"
+   },
+   {
+    "version": "9.9.122",
+    "shown_date": "Aug 31"
+   },
+   {
+    "version": "9.9.120",
+    "shown_date": "Aug 31"
+   },
+   {
+    "version": "9.9.119",
+    "shown_date": "Aug 26"
+   },
+   {
+    "version": "9.9.118",
+    "shown_date": "Aug 26"
+   },
+   {
+    "version": "9.9.116",
+    "shown_date": "Aug 24"
+   },
+   {
+    "version": "9.9.114",
+    "shown_date": "Aug 20"
+   },
+   {
+    "version": "9.9.113",
+    "shown_date": "Aug 19"
+   },
+   {
+    "version": "9.9.112",
+    "shown_date": "Aug 17"
+   },
+   {
+    "version": "9.9.111",
+    "shown_date": "Aug 14"
+   },
+   {
+    "version": "9.9.109",
+    "shown_date": "Aug 11"
+   },
+   {
+    "version": "9.9.108",
+    "shown_date": "Aug 11"
+   },
+   {
+    "version": "9.9.107",
+    "shown_date": "Aug 10"
+   }
+  ],
+  "subtitle": "America's #1 Prediction Market. Trade football, crypto, weather & more.",
+  "screenshots": [
+   {
+    "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/22/e2/2c/22e22c8b-097c-eaf8-d9a0-8f6253ad1941/ASO_Marshawn_Screen01_1260x2736_1.jpg/320x480bb.jpg",
+    "file": "kalshi_P04_S_ios-appstore_01-promo-poster.jpg"
+   },
+   {
+    "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/89/bd/c0/89bdc0ce-d289-8b87-4e04-4550df181f5a/01_Trade_real-world_U2028football_events_1290x2796_dark.jpg/320x480bb.jpg",
+    "file": "kalshi_P01_S_ios-appstore_02-home-feed.jpg"
+   },
+   {
+    "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/76/14/d6/7614d6f9-19e1-921a-7c21-b724ab848856/02_Markets_update_in_real_time_1290x2796_dark.jpg/320x480bb.jpg",
+    "file": "kalshi_P05_S_ios-appstore_03-game-page.jpg"
+   },
+   {
+    "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/34/0b/58/340b581e-ccaa-b9ef-206a-0f3d822d89c7/03_Take_a_position_U2028on_any_outcome_1290x2796_dark.jpg/320x480bb.jpg",
+    "file": "kalshi_P04_S_ios-appstore_04-weather-bracket.jpg"
+   },
+   {
+    "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/93/87/b7/9387b7bd-d464-26dc-cfc3-d68b87f6c7ff/04_Understand_what_U2019s_next_1290x2796_dark.jpg/320x480bb.jpg",
+    "file": "kalshi_P04_S_ios-appstore_05-election-multi.jpg"
+   },
+   {
+    "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/70/46/dc/7046dc2f-801f-2b7a-7c85-6e8d87340ed9/05_Turn_your_view_into_a_position_1290x2796_dark.jpg/320x480bb.jpg",
+    "file": "kalshi_P10_S_ios-appstore_06-position-closed-share.jpg"
+   }
+  ],
+  "screenshot_note": "downloaded at the asset native size named in the filename (1290x2796 or 1260x2736) by changing only the mzstatic size suffix; images unaltered",
+  "description": "Kalshi is the largest legal and federally regulated prediction market app in the U.S., where you can make money by predicting real-world events, including soccer, baseball, golf, and other sports. Trade real outcomes in a federally regulated prediction market. Perfect for sports trading, event trading, forecasting, futures-style markets, and real-world predictions.\n\nIt\u2019s like trading stocks \u2014 but instead, you trade on events you understand. Predict whether an event will happen or not, and earn money if you\u2019re right.\nJoin 10M+ users trading thousands of prediction markets across finance, weather, culture, sports, and more. \n\nFINANCIAL MARKETS\nDaily S&P 500, Nasdaq 100, WTI oil\n\nECONOMIC MARKETS\nFed interest rates, Inflation (CPI), GDP, Recession, Gas prices, Mortgage rates\n\nCLIMATE MARKETS\nHurricane strength, Daily city temperatures, Tornado numbers\n\nCULTURE MARKETS\nBillboard 100, Oscars, Grammys, Emmys, #1 Hits\n\nHOW KALSHI WORKS\nKalshi is the largest federally regulated prediction exchange where you buy and sell contracts based on event outcomes. Example: NASA announces a manned mission to the moon. Contract prices reflect trader probability estimates. If you think the event will happen, you buy contracts. Contracts cost between 1\u00a2 and 99\u00a2 and can be sold anytime. At market close, each correct contract is worth $1.\n\nTRADE SPORTS\nKalshi lets you trade on real sports outcomes across football, baseball, basketball, golf, MMA, tennis, and more.\nTrade pro and college sports with highly liquid prediction markets. \n\nHOW IS KALSHI REGULATED?\nKalshi is federally regulated as a Designated Contract Market (DCM) by the Commodity Futures Trading Commission (CFTC). Kalshi\u2019s affiliate, Kalshi Klear LLC, is a CFTC-regulated clearinghouse that holds member funds and clears trades.\n\nTRADE YOUR CONVICTIONS\nFind prediction markets that match your views. If you think a recession is coming, trade recession and S&P markets. Put your money behind your forecasts.\n\nREDUCE FINANCIAL RISK\nHedge against events that could impact your finances. If you hold stocks, trade Fed and inflation markets to help protect your portfolio.\n\nKALSHI VS. STOCKS\nEvent contracts are direct. You trade the outcome of an event, not the future stock price of a company. Profits are not tied to company performance. No pattern day trading restrictions. Trade as much or as little as you want, anytime. In stock trading, you can be right and still lose money due to market sentiment or news. Prediction markets remove that layer.\n\nKALSHI VS. OPTIONS\nEvent contracts are simpler. Options pricing depends on multiple complex factors. Kalshi contracts reflect straightforward event probabilities. No time decay. If the event odds stay the same, contract value stays stable.\n\nHOW MUCH MONEY DO I NEED TO START?\nOpen and maintain a Kalshi account for free. Prediction markets require less capital than traditional trading, making it easier to diversify without risking large amounts.\n\nADVANCED TOOLS & API ACCESS\nBuild trading algorithms in Python with starter code and a dedicated package. Start in minutes with documentation. Access open-source tools from the Kalshi developer community.\n\n18+ only. Restrictions and eligibility requirements apply. Trading event contracts and trading leveraged products, including perpetual futures, involves significant risk and is not appropriate for everyone. Please carefully consider if it is appropriate for you in light of your personal financial circumstances. Kalshi products are not available in all jurisdictions. See kalshi.com/regulatory for more information.\nAdditional perpetual contract offerings are subject to applicable regulatory review and approval, and availability may vary.\nLeverage amplifies both potential gains and potential losses, and losses can exceed the amount deposited. Leverage limits are determined by KalshiEX LLC or the FCM based on its own risk assessment and each customer's individual risk profile, and are subject to change."
+ },
+ "android": {
+  "source_url": "https://play.google.com/store/apps/details?id=com.kalshi.mobile&hl=en_US&gl=US",
+  "name": "Kalshi: Trade Football & more",
+  "developer": "KalshiEX LLC",
+  "rating_shown": "4.7 stars, 122K reviews",
+  "ratingValue_ld": 4.673010349273682,
+  "ratingCount_ld": 121739,
+  "downloads_shown": "1M+",
+  "content_rating": "Adults only 18+ (Cash Rewards; Users Interact, In-App Purchases)",
+  "updated_on": "Sep 22, 2026",
+  "chart": "#2 top free finance",
+  "whats_new": "NOT SHOWN on the listing page as fetched (no What\u2019s new block in HTML)",
+  "screenshots": [
+   "https://play-lh.googleusercontent.com/hva69EZ3FUScLsErYKlP3Cvh5Me9ZC70uS9eXvB-9fKuetwGZGIkKxgZ9yynklk3R2GiWDCQRY0M6-tG1mUk=w1080-h2340",
+   "https://play-lh.googleusercontent.com/bB414D4yKihZboOwMSKo14gJEoiixg0gduccy_y35srx8ox9mdOUXbIc6Ywml7wpdCvgKiq5HkuukP2-S8DuBw=w1080-h2340",
+   "https://play-lh.googleusercontent.com/ErSaLFdh7U9gCSHRwWRvpGLIpDLXB4LgMqfnb8HSqJDjVRqNmD9BcWpNxcVHEPJKMaaX0CABt57nDSVUEVGd=w1080-h2340",
+   "https://play-lh.googleusercontent.com/_da5r2VcQt2RAuxrg9U0cpOxt_lVs0CYeYI4Y9yH8-DL9TfGbc0OQpsnHyiHB0IT4JmVAEjeblwy1D-Y3im8Gvc=w1080-h2340",
+   "https://play-lh.googleusercontent.com/EzLTvgK1i6NDlNBvuUIKY-94w9iINAZAAwyWcwQdj1JmnNVJ0OyasLKZUXIXMfI9ReeNh72Or6iyo6QOSAFpKw=w1080-h2340",
+   "https://play-lh.googleusercontent.com/-217338LvY8j6aQizLEU23doESThnb2xAuiiByozQWIpRW0QQp4842sZ0NpMP23-RnA3Qu0_DAKd3UxlYBeD=w1080-h2340"
+  ],
+  "screenshot_files": [
+   "kalshi_P04_S_play_01-promo-poster.png",
+   "kalshi_P01_S_play_02-home-feed.jpg",
+   "kalshi_P05_S_play_03-game-page.jpg",
+   "kalshi_P04_S_play_04-weather-bracket.jpg",
+   "kalshi_P04_S_play_05-election-multi.jpg",
+   "kalshi_P10_S_play_06-position-closed-share.jpg"
+  ],
+  "note": "Play screenshots 2-6 are the same artwork as iOS 2-6; screenshot 1 differs (promo code 2KSIGNUP \"Up to $2,000 on us\" vs iOS BEAST55 \"Trade $25, get $55\"). Fetched at =w1080-h2340 (listing served =w526-h296 thumbnails)."
+ }
+}

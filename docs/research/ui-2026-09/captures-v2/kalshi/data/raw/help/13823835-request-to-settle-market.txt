@@ -1,0 +1,9 @@
+URL: https://help.kalshi.com/en/articles/13823835-request-to-settle-market
+HTTP: 200
+Fetched: 2026-09-27T08:40:01Z
+Sitemap lastmod: 2026-03-24T15:55:10Z
+Title: 
+
+When you believe a market needs to be settled, you can request for it to be settled through the platform. Start by clicking on the options icon located in the lower right corner of the specific market you're interested in. This will bring up several options, including the 'Request to Settle' feature. By selecting this option, you will be asked to choose which strike(s) you think should be settled. Once you've submitted your request, our markets team will thoroughly review all the settlement requests. This process ensures that the market functions efficiently and fairly for all participants. Your proactive participation aids in maintaining the integrity and fluidity of the market environment.
+
+*Markets will be reviewed if settlement is requested.

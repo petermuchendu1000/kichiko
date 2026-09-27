@@ -230,5 +230,261 @@
   "lastmod": "2026-03-10T20:27:10Z",
   "title": "",
   "chars": 644
+ },
+ "13823814-quick-order-sale": {
+  "url": "https://help.kalshi.com/en/articles/13823814-quick-order-sale",
+  "http": "200",
+  "fetched": "2026-09-27T08:39:16Z",
+  "lastmod": "2026-03-10T20:27:20Z",
+  "title": "",
+  "chars": 567
+ },
+ "13823815-limit-order-sale": {
+  "url": "https://help.kalshi.com/en/articles/13823815-limit-order-sale",
+  "http": "200",
+  "fetched": "2026-09-27T08:39:19Z",
+  "lastmod": "2026-03-10T20:27:11Z",
+  "title": "",
+  "chars": 645
+ },
+ "13823816-collateral-return": {
+  "url": "https://help.kalshi.com/en/articles/13823816-collateral-return",
+  "http": "200",
+  "fetched": "2026-09-27T08:39:23Z",
+  "lastmod": "2026-05-17T02:12:02Z",
+  "title": "",
+  "chars": 4415
+ },
+ "13823818-flip-selling": {
+  "url": "https://help.kalshi.com/en/articles/13823818-flip-selling",
+  "http": "200",
+  "fetched": "2026-09-27T08:39:26Z",
+  "lastmod": "2026-03-10T20:27:12Z",
+  "title": "",
+  "chars": 1537
+ },
+ "13823820-combos": {
+  "url": "https://help.kalshi.com/en/articles/13823820-combos",
+  "http": "200",
+  "fetched": "2026-09-27T08:39:29Z",
+  "lastmod": "2026-09-18T14:35:26Z",
+  "title": "",
+  "chars": 4761
+ },
+ "13823821-market-faqs": {
+  "url": "https://help.kalshi.com/en/articles/13823821-market-faqs",
+  "http": "200",
+  "fetched": "2026-09-27T08:39:33Z",
+  "lastmod": "2026-04-12T15:44:11Z",
+  "title": "",
+  "chars": 5847
+ },
+ "13823822-market-rules": {
+  "url": "https://help.kalshi.com/en/articles/13823822-market-rules",
+  "http": "200",
+  "fetched": "2026-09-27T08:39:36Z",
+  "lastmod": "2026-03-17T21:12:20Z",
+  "title": "",
+  "chars": 1123
+ },
+ "13823823-rules-summary": {
+  "url": "https://help.kalshi.com/en/articles/13823823-rules-summary",
+  "http": "200",
+  "fetched": "2026-09-27T08:39:40Z",
+  "lastmod": "2026-03-10T20:27:27Z",
+  "title": "",
+  "chars": 693
+ },
+ "13823825-timeline-and-payout": {
+  "url": "https://help.kalshi.com/en/articles/13823825-timeline-and-payout",
+  "http": "200",
+  "fetched": "2026-09-27T08:39:43Z",
+  "lastmod": "2026-03-10T20:27:04Z",
+  "title": "",
+  "chars": 574
+ },
+ "13823826-market-outcomes": {
+  "url": "https://help.kalshi.com/en/articles/13823826-market-outcomes",
+  "http": "200",
+  "fetched": "2026-09-27T08:39:47Z",
+  "lastmod": "2026-03-17T21:20:09Z",
+  "title": "",
+  "chars": 884
+ },
+ "13823828-the-orderbook": {
+  "url": "https://help.kalshi.com/en/articles/13823828-the-orderbook",
+  "http": "200",
+  "fetched": "2026-09-27T08:39:50Z",
+  "lastmod": "2026-03-10T20:27:15Z",
+  "title": "",
+  "chars": 1279
+ },
+ "13823829-forecast-graph": {
+  "url": "https://help.kalshi.com/en/articles/13823829-forecast-graph",
+  "http": "200",
+  "fetched": "2026-09-27T08:39:55Z",
+  "lastmod": "2026-03-10T20:27:24Z",
+  "title": "",
+  "chars": 555
+ },
+ "13823830-price-graph": {
+  "url": "https://help.kalshi.com/en/articles/13823830-price-graph",
+  "http": "200",
+  "fetched": "2026-09-27T08:39:58Z",
+  "lastmod": "2026-03-17T20:49:50Z",
+  "title": "",
+  "chars": 869
+ },
+ "13823835-request-to-settle-market": {
+  "url": "https://help.kalshi.com/en/articles/13823835-request-to-settle-market",
+  "http": "200",
+  "fetched": "2026-09-27T08:40:01Z",
+  "lastmod": "2026-03-24T15:55:10Z",
+  "title": "",
+  "chars": 755
+ },
+ "13823836-how-are-prices-determined": {
+  "url": "https://help.kalshi.com/en/articles/13823836-how-are-prices-determined",
+  "http": "200",
+  "fetched": "2026-09-27T08:40:05Z",
+  "lastmod": "2026-03-10T20:24:46Z",
+  "title": "",
+  "chars": 3019
+ },
+ "13823842-finding-markets": {
+  "url": "https://help.kalshi.com/en/articles/13823842-finding-markets",
+  "http": "200",
+  "fetched": "2026-09-27T08:40:08Z",
+  "lastmod": "2026-03-10T21:29:27Z",
+  "title": "",
+  "chars": 937
+ },
+ "13823843-what-is-kalshi-social": {
+  "url": "https://help.kalshi.com/en/articles/13823843-what-is-kalshi-social",
+  "http": "200",
+  "fetched": "2026-09-27T08:40:12Z",
+  "lastmod": "2026-07-09T21:04:21Z",
+  "title": "",
+  "chars": 2376
+ },
+ "13823844-portfolio": {
+  "url": "https://help.kalshi.com/en/articles/13823844-portfolio",
+  "http": "200",
+  "fetched": "2026-09-27T08:40:15Z",
+  "lastmod": "2026-08-25T22:18:56Z",
+  "title": "",
+  "chars": 3829
+ },
+ "13823845-cash": {
+  "url": "https://help.kalshi.com/en/articles/13823845-cash",
+  "http": "200",
+  "fetched": "2026-09-27T08:40:18Z",
+  "lastmod": "2026-03-10T20:27:06Z",
+  "title": "",
+  "chars": 1275
+ },
+ "13823847-apy-on-kalshi": {
+  "url": "https://help.kalshi.com/en/articles/13823847-apy-on-kalshi",
+  "http": "200",
+  "fetched": "2026-09-27T08:40:22Z",
+  "lastmod": "2026-03-17T23:49:43Z",
+  "title": "",
+  "chars": 1895
+ },
+ "13823848-trading-history": {
+  "url": "https://help.kalshi.com/en/articles/13823848-trading-history",
+  "http": "200",
+  "fetched": "2026-09-27T08:40:25Z",
+  "lastmod": "2026-03-10T20:27:22Z",
+  "title": "",
+  "chars": 561
+ },
+ "14022613-paypal-deposits": {
+  "url": "https://help.kalshi.com/en/articles/14022613-paypal-deposits",
+  "http": "200",
+  "fetched": "2026-09-27T08:40:29Z",
+  "lastmod": "2026-04-17T18:04:52Z",
+  "title": "",
+  "chars": 579
+ },
+ "14022615-venmo-deposits": {
+  "url": "https://help.kalshi.com/en/articles/14022615-venmo-deposits",
+  "http": "200",
+  "fetched": "2026-09-27T08:40:32Z",
+  "lastmod": "2026-09-02T19:29:31Z",
+  "title": "",
+  "chars": 558
+ },
+ "14026044-can-i-trade-on-kalshi-from-outside-the-united-states": {
+  "url": "https://help.kalshi.com/en/articles/14026044-can-i-trade-on-kalshi-from-outside-the-united-states",
+  "http": "200",
+  "fetched": "2026-09-27T08:40:36Z",
+  "lastmod": "2026-03-20T14:29:24Z",
+  "title": "",
+  "chars": 1605
+ },
+ "14063423-cash-app-deposits": {
+  "url": "https://help.kalshi.com/en/articles/14063423-cash-app-deposits",
+  "http": "200",
+  "fetched": "2026-09-27T08:40:39Z",
+  "lastmod": "2026-09-15T04:00:42Z",
+  "title": "",
+  "chars": 1550
+ },
+ "14894380-inner-circle": {
+  "url": "https://help.kalshi.com/en/articles/14894380-inner-circle",
+  "http": "200",
+  "fetched": "2026-09-27T08:40:42Z",
+  "lastmod": "2026-05-04T15:27:09Z",
+  "title": "",
+  "chars": 1162
+ },
+ "15426429-how-to-deposit-funds-via-real-time-payments-rtp": {
+  "url": "https://help.kalshi.com/en/articles/15426429-how-to-deposit-funds-via-real-time-payments-rtp",
+  "http": "200",
+  "fetched": "2026-09-27T08:40:46Z",
+  "lastmod": "2026-08-24T21:49:54Z",
+  "title": "",
+  "chars": 1591
+ },
+ "15521632-auto-sell-take-profit": {
+  "url": "https://help.kalshi.com/en/articles/15521632-auto-sell-take-profit",
+  "http": "200",
+  "fetched": "2026-09-27T08:40:49Z",
+  "lastmod": "2026-06-16T19:31:45Z",
+  "title": "",
+  "chars": 2152
+ },
+ "15581140-document-verification-on-kalshi": {
+  "url": "https://help.kalshi.com/en/articles/15581140-document-verification-on-kalshi",
+  "http": "200",
+  "fetched": "2026-09-27T08:40:53Z",
+  "lastmod": "2026-07-08T17:28:37Z",
+  "title": "",
+  "chars": 4795
+ },
+ "15891133-what-is-live-chat-on-kalshi-social": {
+  "url": "https://help.kalshi.com/en/articles/15891133-what-is-live-chat-on-kalshi-social",
+  "http": "200",
+  "fetched": "2026-09-27T08:40:57Z",
+  "lastmod": "2026-07-10T02:59:30Z",
+  "title": "",
+  "chars": 807
+ },
+ "16071417-perps-fees-explained": {
+  "url": "https://help.kalshi.com/en/articles/16071417-perps-fees-explained",
+  "http": "200",
+  "fetched": "2026-09-27T08:41:01Z",
+  "lastmod": "2026-07-24T16:41:55Z",
+  "title": "",
+  "chars": 1446
+ },
+ "16083491-how-to-add-your-social-security-number": {
+  "url": "https://help.kalshi.com/en/articles/16083491-how-to-add-your-social-security-number",
+  "http": "200",
+  "fetched": "2026-09-27T08:41:04Z",
+  "lastmod": "2026-08-25T21:33:04Z",
+  "title": "",
+  "chars": 2083
  }
 }

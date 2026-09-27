@@ -1,0 +1,2941 @@
+{
+ "P01_D_desktop": {
+  "url": "https://demo.kalshi.co/",
+  "finalUrl": "https://demo.kalshi.co/",
+  "http": 200,
+  "capturedUtc": "2026-09-27T08:58:48.998Z",
+  "signupModalAfterMs": 9265,
+  "action": null,
+  "actionError": null,
+  "hydration": {
+   "reactFiberOnNodes": true,
+   "nextData": false,
+   "nextRouter": true,
+   "nextF": true,
+   "scripts": 264,
+   "visibleElements": 1096,
+   "bodyTextChars": 4693
+  },
+  "docHeight": 3926,
+  "bodyBg": "#FFFFFF",
+  "rootFontSize": "16px",
+  "fontsLoaded": [
+   "kalshiSans 400 normal",
+   "kalshiSans 500 normal",
+   "kalshiSans 600 normal",
+   "kalshiCondensed 500 normal"
+  ],
+  "familiesByTextNodes": {
+   "kalshiCondensed": 4,
+   "kalshiSans": 307
+  },
+  "fontSizesPx": [
+   11.0,
+   12.0,
+   13.0,
+   15.0,
+   16.0,
+   24.0,
+   30.0
+  ],
+  "topStyles": [
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "400",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "count": 52,
+    "sample": "1 of 7"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "15px",
+    "weight": "500",
+    "lineHeight": "22px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "count": 42,
+    "sample": "Elections"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "500",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "count": 32,
+    "sample": "86%"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "500",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0000008C",
+    "count": 26,
+    "sample": "x"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "400",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0000008C",
+    "count": 22,
+    "sample": "KC Chiefs"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "12px",
+    "weight": "500",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0AC285",
+    "count": 18,
+    "sample": "\u25b2"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "12px",
+    "weight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "count": 16,
+    "sample": "Spread and Total"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "15px",
+    "weight": "400",
+    "lineHeight": "22px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "count": 14,
+    "sample": "KC Chiefs"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "12px",
+    "weight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0000008C",
+    "count": 14,
+    "sample": "Market"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "15px",
+    "weight": "600",
+    "lineHeight": "22px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "count": 10,
+    "sample": "Trending"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\"",
+    "size": "11px",
+    "weight": "400",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "count": 10,
+    "sample": "Sep 16"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "12px",
+    "weight": "500",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#D91616",
+    "count": 7,
+    "sample": "18"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "11px",
+    "weight": "600",
+    "lineHeight": "18px",
+    "letterSpacing": "0.88px",
+    "transform": "uppercase",
+    "color": "#0000008C",
+    "count": 7,
+    "sample": "Football"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "11px",
+    "weight": "600",
+    "lineHeight": "18px",
+    "letterSpacing": "0.88px",
+    "transform": "uppercase",
+    "color": "#0000004D",
+    "count": 6,
+    "sample": "New markets"
+   }
+  ],
+  "contrast": {
+   "textNodes": 311,
+   "failAA": 35,
+   "failAAWithoutBgImage": 34,
+   "worst": [
+    {
+     "text": "\u00b7",
+     "size": "15px",
+     "weight": "400",
+     "fg": "#00000033",
+     "bg": "#FDFDFD",
+     "bgImage": false,
+     "ratio": 1.6,
+     "large": false,
+     "passAA": false,
+     "sel": "span.text-fill-x30"
+    },
+    {
+     "text": "Sign up",
+     "size": "13px",
+     "weight": "500",
+     "fg": "#FFFFFF",
+     "bg": "#28CC95",
+     "bgImage": false,
+     "ratio": 2.07,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-emphasis-x20"
+    },
+    {
+     "text": "New markets",
+     "size": "11px",
+     "weight": "600",
+     "fg": "#0000004D",
+     "bg": "#F7F7F7",
+     "bgImage": false,
+     "ratio": 2.11,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-overline-x10"
+    },
+    {
+     "text": "Trading on Kalshi involves risk and may not be app",
+     "size": "12px",
+     "weight": "400",
+     "fg": "#0000004D",
+     "bg": "#F7F7F7",
+     "bgImage": false,
+     "ratio": 2.11,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.font-normal"
+    },
+    {
+     "text": "\u2013\u2013",
+     "size": "12px",
+     "weight": "500",
+     "fg": "#0000004D",
+     "bg": "#FDFDFD",
+     "bgImage": false,
+     "ratio": 2.12,
+     "large": false,
+     "passAA": false,
+     "sel": "span"
+    },
+    {
+     "text": "Show more",
+     "size": "13px",
+     "weight": "500",
+     "fg": "#0AC285",
+     "bg": "#F7F7F7",
+     "bgImage": false,
+     "ratio": 2.16,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-emphasis-x20"
+    },
+    {
+     "text": "\u25b2",
+     "size": "12px",
+     "weight": "500",
+     "fg": "#0AC285",
+     "bg": "#FDFDFD",
+     "bgImage": false,
+     "ratio": 2.28,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-emphasis-x10"
+    },
+    {
+     "text": "Log in",
+     "size": "13px",
+     "weight": "500",
+     "fg": "#0AC285",
+     "bg": "#FFFFFF",
+     "bgImage": false,
+     "ratio": 2.32,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-emphasis-x20"
+    }
+   ]
+  },
+  "touch": {
+   "lt24": 13,
+   "24to32": 36,
+   "32to44": 64,
+   "gte44": 19
+  },
+  "touchShareGte44": 0.144,
+  "touchShareLt24": 0.098,
+  "interactiveCount": 127,
+  "radius": [
+   {
+    "v": "6px",
+    "n": 32
+   },
+   {
+    "v": "8px",
+    "n": 22
+   },
+   {
+    "v": "16px",
+    "n": 36
+   },
+   {
+    "v": "50%",
+    "n": 2
+   },
+   {
+    "v": "100px",
+    "n": 50
+   },
+   {
+    "v": "3.35544e+07px",
+    "n": 6
+   }
+  ],
+  "paddingTop10": [
+   {
+    "v": "8px",
+    "n": 117
+   },
+   {
+    "v": "16px",
+    "n": 73
+   },
+   {
+    "v": "6px",
+    "n": 72
+   },
+   {
+    "v": "4px",
+    "n": 34
+   },
+   {
+    "v": "12px",
+    "n": 18
+   },
+   {
+    "v": "24px",
+    "n": 14
+   },
+   {
+    "v": "1px",
+    "n": 4
+   },
+   {
+    "v": "20px",
+    "n": 2
+   },
+   {
+    "v": "32px",
+    "n": 2
+   },
+   {
+    "v": "40px",
+    "n": 1
+   }
+  ],
+  "gapTop8": [
+   {
+    "v": "12px",
+    "n": 171
+   },
+   {
+    "v": "16px",
+    "n": 84
+   },
+   {
+    "v": "4px",
+    "n": 71
+   },
+   {
+    "v": "8px",
+    "n": 36
+   },
+   {
+    "v": "24px",
+    "n": 28
+   },
+   {
+    "v": "6px",
+    "n": 10
+   },
+   {
+    "v": "19px",
+    "n": 8
+   },
+   {
+    "v": "32px",
+    "n": 2
+   }
+  ],
+  "shadows": [
+   {
+    "v": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+    "n": 14
+   }
+  ],
+  "bgPaletteTop": [
+   [
+    "#FFFFFF",
+    4
+   ],
+   [
+    "#99999905",
+    13
+   ],
+   [
+    "#00000008",
+    2
+   ],
+   [
+    "#00000012",
+    3
+   ],
+   [
+    "#08C5841F",
+    3
+   ],
+   [
+    "#28CC95",
+    1
+   ],
+   [
+    "#0000000F",
+    5
+   ],
+   [
+    "#0AC285",
+    5
+   ],
+   [
+    "#D91616",
+    1
+   ],
+   [
+    "#E31839",
+    2
+   ]
+  ],
+  "textPaletteTop": [
+   [
+    "#000000E6",
+    193
+   ],
+   [
+    "#0000008C",
+    76
+   ],
+   [
+    "#0AC285",
+    20
+   ],
+   [
+    "#0000004D",
+    10
+   ],
+   [
+    "#D91616",
+    7
+   ],
+   [
+    "#00000033",
+    3
+   ],
+   [
+    "#FFFFFF",
+    1
+   ],
+   [
+    "#8458F3",
+    1
+   ]
+  ],
+  "copy": {
+   "title": "Kalshi - Prediction Market for Trading the Future",
+   "h1": [],
+   "ctaLabels": [
+    "PRO",
+    "MORE",
+    "Log in",
+    "Sign up",
+    "85%",
+    "15%",
+    "76%",
+    "24%",
+    "0%",
+    "Previous slide",
+    "Next slide",
+    "29%",
+    "14%",
+    "43%",
+    "6%",
+    "61%",
+    "31%",
+    "3%",
+    "97%",
+    "Dismiss gold and silver promotion",
+    "Show more"
+   ],
+   "priceFormats": [
+    "1.15x",
+    "85%",
+    "6.29x",
+    "15%",
+    "$3,339,315 vol",
+    "86%",
+    "14%",
+    "0%",
+    "25%",
+    "50%",
+    "75%",
+    "100%",
+    "1.29x",
+    "76%",
+    "3.80x",
+    "24%",
+    "$4,964,660 vol",
+    "$0 vol",
+    "3.33x",
+    "29%",
+    "6.67x",
+    "$10,073,779 vol",
+    "2.27x",
+    "43%",
+    "16.7x",
+    "6%",
+    "$295,943 vol",
+    "$47.5",
+    "1.54x",
+    "61%",
+    "$50",
+    "3.23x",
+    "31%",
+    "$115,260 vol",
+    "33.3x",
+    "3%",
+    "1.03x",
+    "97%",
+    "$13,871,356 vol",
+    "$792,242,813 vol",
+    "62%",
+    "17%",
+    "$85,000",
+    "46%",
+    "5%",
+    "9%",
+    "1%",
+    "2%",
+    "36%",
+    "65%",
+    "64%",
+    "$227,333,220 vol",
+    "$140,167,983 vol",
+    "13%",
+    "$97,452,470 vol",
+    "57%"
+   ],
+   "priceFormatCounts": {
+    "cents": 0,
+    "percent": 37,
+    "chance": 0,
+    "dollarsVol": 11,
+    "multiplier": 12
+   },
+   "feeAndDisclaimer": [
+    "Responsible trading",
+    "Midterms: Congress Balance of Power?",
+    "Data Terms of Service",
+    "Trading on Kalshi involves risk and may not be appropriate for all. Members risk losing their cost to enter any transaction, including fees. You should carefully consider whether trading on Kalshi is appropriate for you in light of your investment experience and financial resources. Any trading decisions you make are solely your responsibility and at your own risk. Information is provided for convenience only on an \"AS IS\" basis. Past performance is not necessarily indicative of future results. Kalshi is subject to U.S. regulatory oversight by the CFTC."
+   ]
+  },
+  "axe": {
+   "nodesByImpact": {
+    "critical": 4,
+    "serious": 30,
+    "moderate": 80,
+    "minor": 0
+   },
+   "rules": {
+    "aria-progressbar-name": 14,
+    "button-name": 1,
+    "color-contrast": 15,
+    "image-alt": 3,
+    "landmark-no-duplicate-contentinfo": 1,
+    "landmark-one-main": 1,
+    "landmark-unique": 1,
+    "link-name": 1,
+    "page-has-heading-one": 1,
+    "region": 76
+   }
+  },
+  "tokenCount": 125
+ },
+ "P01_D_mobile": {
+  "url": "https://demo.kalshi.co/",
+  "finalUrl": "https://demo.kalshi.co/",
+  "http": 200,
+  "capturedUtc": "2026-09-27T08:58:29.629Z",
+  "signupModalAfterMs": 8961,
+  "action": null,
+  "actionError": null,
+  "hydration": {
+   "reactFiberOnNodes": true,
+   "nextData": false,
+   "nextRouter": true,
+   "nextF": true,
+   "scripts": 250,
+   "visibleElements": 1510,
+   "bodyTextChars": 5178
+  },
+  "docHeight": 9077,
+  "bodyBg": "#FFFFFF",
+  "rootFontSize": "16px",
+  "fontsLoaded": [
+   "kalshiSans 400 normal",
+   "kalshiSans 500 normal",
+   "kalshiSans 600 normal",
+   "kalshiCondensed 500 normal"
+  ],
+  "familiesByTextNodes": {
+   "kalshiCondensed": 14,
+   "kalshiSans": 401
+  },
+  "fontSizesPx": [
+   11.0,
+   12.0,
+   13.0,
+   15.0,
+   24.0
+  ],
+  "topStyles": [
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "15px",
+    "weight": "500",
+    "lineHeight": "22px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "count": 90,
+    "sample": "Elections"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "400",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "count": 51,
+    "sample": "How high will BTC get in September?"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "500",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0000008C",
+    "count": 47,
+    "sample": "--"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "12px",
+    "weight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "count": 40,
+    "sample": "Spread and Total"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "15px",
+    "weight": "400",
+    "lineHeight": "22px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "count": 38,
+    "sample": "KC Chiefs"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "500",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "count": 28,
+    "sample": "%"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "400",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0000008C",
+    "count": 20,
+    "sample": "Above $87,500.00"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "11px",
+    "weight": "600",
+    "lineHeight": "18px",
+    "letterSpacing": "0.88px",
+    "transform": "uppercase",
+    "color": "#0000008C",
+    "count": 19,
+    "sample": "NFL"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "15px",
+    "weight": "600",
+    "lineHeight": "22px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "count": 17,
+    "sample": "Trending"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "12px",
+    "weight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0000008C",
+    "count": 14,
+    "sample": "Sep 27"
+   },
+   {
+    "family": "kalshiCondensed, \"kalshiCondensed Fallback\", sans-serif",
+    "size": "24px",
+    "weight": "500",
+    "lineHeight": "28px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "count": 12,
+    "sample": "KC Chiefs vs MIA Dolphins"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "12px",
+    "weight": "500",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#D91616",
+    "count": 10,
+    "sample": "\u25bc"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "12px",
+    "weight": "500",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0AC285",
+    "count": 8,
+    "sample": "\u25b2"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "11px",
+    "weight": "600",
+    "lineHeight": "18px",
+    "letterSpacing": "0.88px",
+    "transform": "uppercase",
+    "color": "#0000004D",
+    "count": 6,
+    "sample": "New markets"
+   }
+  ],
+  "contrast": {
+   "textNodes": 415,
+   "failAA": 23,
+   "failAAWithoutBgImage": 23,
+   "worst": [
+    {
+     "text": "Sign up",
+     "size": "13px",
+     "weight": "500",
+     "fg": "#FFFFFF",
+     "bg": "#28CC95",
+     "bgImage": false,
+     "ratio": 2.07,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-emphasis-x20"
+    },
+    {
+     "text": "New markets",
+     "size": "11px",
+     "weight": "600",
+     "fg": "#0000004D",
+     "bg": "#F7F7F7",
+     "bgImage": false,
+     "ratio": 2.11,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-overline-x10"
+    },
+    {
+     "text": "Trading on Kalshi involves risk and may not be app",
+     "size": "12px",
+     "weight": "400",
+     "fg": "#0000004D",
+     "bg": "#F7F7F7",
+     "bgImage": false,
+     "ratio": 2.11,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.font-normal"
+    },
+    {
+     "text": "\u2013\u2013",
+     "size": "12px",
+     "weight": "500",
+     "fg": "#0000004D",
+     "bg": "#FDFDFD",
+     "bgImage": false,
+     "ratio": 2.12,
+     "large": false,
+     "passAA": false,
+     "sel": "span"
+    },
+    {
+     "text": "Show more",
+     "size": "13px",
+     "weight": "500",
+     "fg": "#0AC285",
+     "bg": "#F7F7F7",
+     "bgImage": false,
+     "ratio": 2.16,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-emphasis-x20"
+    },
+    {
+     "text": "\u25b2",
+     "size": "12px",
+     "weight": "500",
+     "fg": "#0AC285",
+     "bg": "#FDFDFD",
+     "bgImage": false,
+     "ratio": 2.28,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-emphasis-x10"
+    },
+    {
+     "text": "Log in",
+     "size": "13px",
+     "weight": "500",
+     "fg": "#0AC285",
+     "bg": "#FFFFFF",
+     "bgImage": false,
+     "ratio": 2.32,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-emphasis-x20"
+    }
+   ]
+  },
+  "touch": {
+   "lt24": 26,
+   "24to32": 50,
+   "32to44": 98,
+   "gte44": 20
+  },
+  "touchShareGte44": 0.103,
+  "touchShareLt24": 0.134,
+  "interactiveCount": 172,
+  "radius": [
+   {
+    "v": "6px",
+    "n": 57
+   },
+   {
+    "v": "8px",
+    "n": 30
+   },
+   {
+    "v": "16px",
+    "n": 48
+   },
+   {
+    "v": "100px",
+    "n": 163
+   }
+  ],
+  "paddingTop10": [
+   {
+    "v": "8px",
+    "n": 165
+   },
+   {
+    "v": "16px",
+    "n": 113
+   },
+   {
+    "v": "6px",
+    "n": 72
+   },
+   {
+    "v": "12px",
+    "n": 33
+   },
+   {
+    "v": "4px",
+    "n": 29
+   },
+   {
+    "v": "1px",
+    "n": 16
+   },
+   {
+    "v": "24px",
+    "n": 7
+   },
+   {
+    "v": "40px",
+    "n": 1
+   },
+   {
+    "v": "64px",
+    "n": 1
+   }
+  ],
+  "gapTop8": [
+   {
+    "v": "12px",
+    "n": 354
+   },
+   {
+    "v": "4px",
+    "n": 108
+   },
+   {
+    "v": "16px",
+    "n": 88
+   },
+   {
+    "v": "8px",
+    "n": 66
+   },
+   {
+    "v": "24px",
+    "n": 34
+   },
+   {
+    "v": "11px",
+    "n": 18
+   }
+  ],
+  "shadows": [
+   {
+    "v": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+    "n": 32
+   },
+   {
+    "v": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 0px 4px 0px, rgba(0, 0, 0, 0.05) 0px 4px 8px 0px",
+    "n": 3
+   }
+  ],
+  "bgPaletteTop": [
+   [
+    "#FFFFFF",
+    4
+   ],
+   [
+    "#99999905",
+    27
+   ],
+   [
+    "#00000008",
+    2
+   ],
+   [
+    "#08C5841F",
+    3
+   ],
+   [
+    "#28CC95",
+    1
+   ],
+   [
+    "#0AC285",
+    15
+   ],
+   [
+    "#265CFF",
+    12
+   ],
+   [
+    "#D91616",
+    4
+   ],
+   [
+    "#00000012",
+    2
+   ],
+   [
+    "#003EA6",
+    2
+   ]
+  ],
+  "textPaletteTop": [
+   [
+    "#000000E6",
+    278
+   ],
+   [
+    "#0000008C",
+    104
+   ],
+   [
+    "#0000004D",
+    12
+   ],
+   [
+    "#0AC285",
+    10
+   ],
+   [
+    "#D91616",
+    10
+   ],
+   [
+    "#FFFFFF",
+    1
+   ]
+  ],
+  "copy": {
+   "title": "Kalshi - Prediction Market for Trading the Future",
+   "h1": [],
+   "ctaLabels": [
+    "Log in",
+    "Sign up",
+    "KC Chiefs 86%",
+    "86%",
+    "MIA Dolphins 14%",
+    "14%",
+    "SEA Seahawks 77%",
+    "77%",
+    "WSH Commanders 23%",
+    "23%",
+    "Ariana Grande 0%",
+    "0%",
+    "Bruno Mars 0%",
+    "Go to slide 1",
+    "Go to slide 2",
+    "Go to slide 3",
+    "Go to slide 4",
+    "Go to slide 5",
+    "Go to slide 6",
+    "Go to slide 7",
+    "99%",
+    "1%",
+    "2%",
+    "3%",
+    "32%",
+    "59%",
+    "17%",
+    "16%",
+    "45%",
+    "20%",
+    "91%",
+    "8%",
+    "61%",
+    "39%",
+    "4%",
+    "90%",
+    "85%",
+    "50%",
+    "66%",
+    "95%",
+    "10%",
+    "73%",
+    "Show more"
+   ],
+   "priceFormats": [
+    "86%",
+    "14%",
+    "$4,095,339 vol",
+    "77%",
+    "23%",
+    "$4,964,651 vol",
+    "0%",
+    "$0 vol",
+    "$2,567,788,819 vol",
+    "99%",
+    "93.5x",
+    "1%",
+    "$1,100,977 vol",
+    "2%",
+    "3%",
+    "$22,545 vol",
+    "$40",
+    "32%",
+    "$45",
+    "59%",
+    "$52,617 vol",
+    "1.01x",
+    "$14,833,226 vol",
+    "$87,500.00",
+    "22%",
+    "21%",
+    "17%",
+    "5.56x",
+    "5.90x",
+    "16%",
+    "$7,744,514,172 vol",
+    "2.14x",
+    "45%",
+    "4.73x",
+    "20%",
+    "$839,729,743 vol",
+    "1.09x",
+    "91%",
+    "11.7x",
+    "8%",
+    "$20,871,354 vol",
+    "1.60x",
+    "61%",
+    "2.46x",
+    "39%",
+    "$16,216,003 vol",
+    "5%",
+    "1.03x",
+    "4%",
+    "$233,890 vol",
+    "90%",
+    "$492 vol",
+    "$243 vol",
+    "$111 vol",
+    "29%",
+    "48%",
+    "85%",
+    "50%",
+    "$13 vol",
+    "66%",
+    "95%",
+    "$39,854,625 vol",
+    "10%",
+    "1.10x",
+    "$4,387,910 vol",
+    "9%",
+    "1.57x",
+    "1.34x",
+    "73%",
+    "$343,663 vol",
+    "30%",
+    "$9,042,685,202 vol",
+    "$7,744,514,173 vol",
+    "$2,558,984,535 vol",
+    "82%"
+   ],
+   "priceFormatCounts": {
+    "cents": 0,
+    "percent": 54,
+    "chance": 0,
+    "dollarsVol": 23,
+    "multiplier": 15
+   },
+   "feeAndDisclaimer": [
+    "Responsible trading",
+    "Data Terms of Service",
+    "Trading on Kalshi involves risk and may not be appropriate for all. Members risk losing their cost to enter any transaction, including fees. You should carefully consider whether trading on Kalshi is appropriate for you in light of your investment experience and financial resources. Any trading decisions you make are solely your responsibility and at your own risk. Information is provided for convenience only on an \"AS IS\" basis. Past performance is not necessarily indicative of future results. Kalshi is subject to U.S. regulatory oversight by the CFTC."
+   ]
+  },
+  "axe": {
+   "nodesByImpact": {
+    "critical": 2,
+    "serious": 58,
+    "moderate": 126,
+    "minor": 0
+   },
+   "rules": {
+    "aria-progressbar-name": 38,
+    "button-name": 1,
+    "color-contrast": 13,
+    "image-alt": 1,
+    "landmark-no-duplicate-contentinfo": 1,
+    "landmark-one-main": 1,
+    "landmark-unique": 1,
+    "link-name": 1,
+    "nested-interactive": 6,
+    "page-has-heading-one": 1,
+    "region": 122
+   }
+  },
+  "tokenCount": 125
+ },
+ "P03_D_desktop": {
+  "url": "https://demo.kalshi.co/markets/kxsaveact/will-the-save-act-become-law/kxsaveact-27",
+  "finalUrl": "https://demo.kalshi.co/markets/kxsaveact/will-the-save-act-become-law/kxsaveact-27",
+  "http": 200,
+  "capturedUtc": "2026-09-27T08:57:51.645Z",
+  "signupModalAfterMs": 9283,
+  "action": null,
+  "actionError": null,
+  "hydration": {
+   "reactFiberOnNodes": true,
+   "nextData": false,
+   "nextRouter": true,
+   "nextF": true,
+   "scripts": 289,
+   "visibleElements": 753,
+   "bodyTextChars": 3226
+  },
+  "docHeight": 2700,
+  "bodyBg": "#FFFFFF",
+  "rootFontSize": "16px",
+  "fontsLoaded": [
+   "kalshiSans 400 normal",
+   "kalshiSans 500 normal",
+   "kalshiSans 600 normal",
+   "kalshiCondensed 500 normal"
+  ],
+  "familiesByTextNodes": {
+   "kalshiCondensed": 29,
+   "kalshiSans": 167
+  },
+  "fontSizesPx": [
+   11.0,
+   12.0,
+   13.0,
+   15.0,
+   16.0,
+   18.0,
+   24.0,
+   30.0
+  ],
+  "topStyles": [
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "400",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "count": 43,
+    "sample": "$14,833,026 vol"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "15px",
+    "weight": "500",
+    "lineHeight": "22px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "count": 21,
+    "sample": "Trending"
+   },
+   {
+    "family": "kalshiCondensed, \"kalshiCondensed Fallback\", sans-serif",
+    "size": "24px",
+    "weight": "500",
+    "lineHeight": "24px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "count": 20,
+    "sample": "9"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "500",
+    "lineHeight": "13px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#D91616",
+    "count": 20,
+    "sample": "9"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "400",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0000008C",
+    "count": 15,
+    "sample": "Mar 13, 2025 \u00b7 12:27am EDT"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\"",
+    "size": "11px",
+    "weight": "400",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "count": 10,
+    "sample": "Jul 2025"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "600",
+    "lineHeight": "20px",
+    "letterSpacing": "1.04px",
+    "transform": "uppercase",
+    "color": "#000000E6",
+    "count": 8,
+    "sample": "MARKETS"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "15px",
+    "weight": "400",
+    "lineHeight": "22px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "count": 7,
+    "sample": "."
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "11px",
+    "weight": "600",
+    "lineHeight": "18px",
+    "letterSpacing": "0.88px",
+    "transform": "uppercase",
+    "color": "#0000004D",
+    "count": 7,
+    "sample": "New markets"
+   },
+   {
+    "family": "kalshiCondensed, \"kalshiCondensed Fallback\", sans-serif",
+    "size": "24px",
+    "weight": "500",
+    "lineHeight": "28px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "count": 6,
+    "sample": "."
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "500",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "count": 6,
+    "sample": "chance"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "500",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0AC285",
+    "count": 5,
+    "sample": "Log in"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "500",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0000004D",
+    "count": 4,
+    "sample": "6H"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "12px",
+    "weight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0000008C",
+    "count": 4,
+    "sample": "The following are prohibited from trading this contract:"
+   }
+  ],
+  "contrast": {
+   "textNodes": 196,
+   "failAA": 24,
+   "failAAWithoutBgImage": 24,
+   "worst": [
+    {
+     "text": "YES --",
+     "size": "13px",
+     "weight": "600",
+     "fg": "#FFFFFF",
+     "bg": "#F2F2F2",
+     "bgImage": false,
+     "ratio": 1.12,
+     "large": false,
+     "passAA": false,
+     "sel": "span.flex.items-center"
+    },
+    {
+     "text": "Sign up",
+     "size": "13px",
+     "weight": "500",
+     "fg": "#FFFFFF",
+     "bg": "#28CC95",
+     "bgImage": false,
+     "ratio": 2.07,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-emphasis-x20"
+    },
+    {
+     "text": "New markets",
+     "size": "11px",
+     "weight": "600",
+     "fg": "#0000004D",
+     "bg": "#F7F7F7",
+     "bgImage": false,
+     "ratio": 2.11,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-overline-x10"
+    },
+    {
+     "text": "Trading on Kalshi involves risk and may not be app",
+     "size": "12px",
+     "weight": "400",
+     "fg": "#0000004D",
+     "bg": "#F7F7F7",
+     "bgImage": false,
+     "ratio": 2.11,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.font-normal"
+    },
+    {
+     "text": "6H",
+     "size": "13px",
+     "weight": "500",
+     "fg": "#0000004D",
+     "bg": "#FFFFFF",
+     "bgImage": false,
+     "ratio": 2.12,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-emphasis-x20"
+    },
+    {
+     "text": "Activity",
+     "size": "24px",
+     "weight": "500",
+     "fg": "#0000004D",
+     "bg": "#FFFFFF",
+     "bgImage": false,
+     "ratio": 2.12,
+     "large": true,
+     "passAA": false,
+     "sel": "button#event-social-activity-tab.appearance-none.cursor-pointer[role=tab]"
+    },
+    {
+     "text": "$",
+     "size": "18px",
+     "weight": "600",
+     "fg": "#0000004D",
+     "bg": "#FFFFFF",
+     "bgImage": false,
+     "ratio": 2.12,
+     "large": false,
+     "passAA": false,
+     "sel": "span.typ-body-x30.shrink-0"
+    },
+    {
+     "text": "Show more",
+     "size": "13px",
+     "weight": "500",
+     "fg": "#0AC285",
+     "bg": "#F7F7F7",
+     "bgImage": false,
+     "ratio": 2.16,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-emphasis-x20"
+    }
+   ]
+  },
+  "touch": {
+   "lt24": 14,
+   "24to32": 26,
+   "32to44": 59,
+   "gte44": 10
+  },
+  "touchShareGte44": 0.092,
+  "touchShareLt24": 0.128,
+  "interactiveCount": 106,
+  "radius": [
+   {
+    "v": "6px",
+    "n": 9
+   },
+   {
+    "v": "8px",
+    "n": 19
+   },
+   {
+    "v": "16px",
+    "n": 1
+   },
+   {
+    "v": "24px",
+    "n": 1
+   },
+   {
+    "v": "100px",
+    "n": 20
+   }
+  ],
+  "paddingTop10": [
+   {
+    "v": "6px",
+    "n": 84
+   },
+   {
+    "v": "4px",
+    "n": 49
+   },
+   {
+    "v": "16px",
+    "n": 42
+   },
+   {
+    "v": "12px",
+    "n": 41
+   },
+   {
+    "v": "8px",
+    "n": 28
+   },
+   {
+    "v": "24px",
+    "n": 27
+   },
+   {
+    "v": "6.5px",
+    "n": 10
+   },
+   {
+    "v": "2px",
+    "n": 7
+   },
+   {
+    "v": "20px",
+    "n": 1
+   },
+   {
+    "v": "32px",
+    "n": 1
+   }
+  ],
+  "gapTop8": [
+   {
+    "v": "16px",
+    "n": 48
+   },
+   {
+    "v": "8px",
+    "n": 42
+   },
+   {
+    "v": "4px",
+    "n": 34
+   },
+   {
+    "v": "6px",
+    "n": 24
+   },
+   {
+    "v": "12px",
+    "n": 14
+   },
+   {
+    "v": "24px",
+    "n": 12
+   },
+   {
+    "v": "56px",
+    "n": 6
+   },
+   {
+    "v": "32px",
+    "n": 4
+   }
+  ],
+  "shadows": [],
+  "bgPaletteTop": [
+   [
+    "#FFFFFF",
+    8
+   ],
+   [
+    "#00000008",
+    2
+   ],
+   [
+    "#00000012",
+    10
+   ],
+   [
+    "#0AC285",
+    2
+   ],
+   [
+    "#000000E6",
+    2
+   ],
+   [
+    "#0000000D",
+    1
+   ],
+   [
+    "#28CC95",
+    2
+   ],
+   [
+    "#0000001A",
+    3
+   ]
+  ],
+  "textPaletteTop": [
+   [
+    "#000000E6",
+    126
+   ],
+   [
+    "#D91616",
+    23
+   ],
+   [
+    "#0000008C",
+    21
+   ],
+   [
+    "#0000004D",
+    15
+   ],
+   [
+    "#0AC285",
+    6
+   ],
+   [
+    "#FFFFFF",
+    5
+   ]
+  ],
+  "copy": {
+   "title": "Will the \"SAVE Act\" (H.R. 22) become law? Odds & Predictions 2027",
+   "h1": [
+    "Will the \u201cSAVE Act\u201d (H.R. 22) become law?"
+   ],
+   "ctaLabels": [
+    "PRO",
+    "MORE",
+    "Log in",
+    "Sign up",
+    "6H",
+    "1D",
+    "1W",
+    "1M",
+    "ALL",
+    "View full rules",
+    "Help center",
+    "Report Insider Trading",
+    "Timeline and payout",
+    "Insider trading is prohibited",
+    "Show more",
+    "Social",
+    "Activity",
+    "GIF",
+    "Add a position",
+    "Post",
+    "BUY",
+    "SELL",
+    "DOLLARS",
+    "YES --",
+    "NO 97.4\u00a2",
+    "3.25% Interest",
+    "Sign up to trade"
+   ],
+   "priceFormats": [
+    "0%",
+    "25%",
+    "50%",
+    "75%",
+    "100%",
+    "$14,833,026 vol",
+    "97.4\u00a2",
+    "3.25%",
+    "0% chance",
+    "$0"
+   ],
+   "priceFormatCounts": {
+    "cents": 1,
+    "percent": 8,
+    "chance": 1,
+    "dollarsVol": 1,
+    "multiplier": 0
+   },
+   "feeAndDisclaimer": [
+    "Data Terms of Service",
+    "Trading on Kalshi involves risk and may not be appropriate for all. Members risk losing their cost to enter any transaction, including fees. You should carefully consider whether trading on Kalshi is appropriate for you in light of your investment experience and financial resources. Any trading decisions you make are solely your responsibility and at your own risk. Information is provided for convenience only on an \"AS IS\" basis. Past performance is not necessarily indicative of future results. Kalshi is subject to U.S. regulatory oversight by the CFTC."
+   ]
+  },
+  "axe": {
+   "nodesByImpact": {
+    "critical": 11,
+    "serious": 27,
+    "moderate": 40,
+    "minor": 0
+   },
+   "rules": {
+    "aria-allowed-attr": 1,
+    "aria-prohibited-attr": 3,
+    "button-name": 5,
+    "color-contrast": 23,
+    "image-alt": 5,
+    "landmark-no-duplicate-contentinfo": 1,
+    "landmark-one-main": 1,
+    "landmark-unique": 1,
+    "link-name": 1,
+    "region": 37
+   }
+  },
+  "tokenCount": 125
+ },
+ "P03_D_mobile": {
+  "url": "https://demo.kalshi.co/markets/kxsaveact/will-the-save-act-become-law/kxsaveact-27",
+  "finalUrl": "https://demo.kalshi.co/markets/kxsaveact/will-the-save-act-become-law/kxsaveact-27",
+  "http": 200,
+  "capturedUtc": "2026-09-27T08:57:36.545Z",
+  "signupModalAfterMs": 8431,
+  "action": null,
+  "actionError": null,
+  "hydration": {
+   "reactFiberOnNodes": true,
+   "nextData": false,
+   "nextRouter": true,
+   "nextF": true,
+   "scripts": 280,
+   "visibleElements": 612,
+   "bodyTextChars": 2980
+  },
+  "docHeight": 4577,
+  "bodyBg": "#FFFFFF",
+  "rootFontSize": "16px",
+  "fontsLoaded": [
+   "kalshiSans 400 normal",
+   "kalshiSans 500 normal",
+   "kalshiSans 600 normal",
+   "kalshiCondensed 500 normal"
+  ],
+  "familiesByTextNodes": {
+   "kalshiCondensed": 27,
+   "kalshiSans": 140
+  },
+  "fontSizesPx": [
+   11.0,
+   12.0,
+   13.0,
+   15.0,
+   24.0,
+   30.0
+  ],
+  "topStyles": [
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "400",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "count": 43,
+    "sample": "$14,833,026 vol"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "15px",
+    "weight": "500",
+    "lineHeight": "22px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "count": 21,
+    "sample": "Trending"
+   },
+   {
+    "family": "kalshiCondensed, \"kalshiCondensed Fallback\", sans-serif",
+    "size": "24px",
+    "weight": "500",
+    "lineHeight": "24px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "count": 20,
+    "sample": "9"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "500",
+    "lineHeight": "13px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#D91616",
+    "count": 20,
+    "sample": "9"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "400",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0000008C",
+    "count": 12,
+    "sample": "Mar 13, 2025 \u00b7 12:27am EDT"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "11px",
+    "weight": "600",
+    "lineHeight": "18px",
+    "letterSpacing": "0.88px",
+    "transform": "uppercase",
+    "color": "#0000004D",
+    "count": 7,
+    "sample": "New markets"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "15px",
+    "weight": "400",
+    "lineHeight": "22px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "count": 6,
+    "sample": "."
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "500",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "count": 6,
+    "sample": "chance"
+   },
+   {
+    "family": "kalshiCondensed, \"kalshiCondensed Fallback\", sans-serif",
+    "size": "24px",
+    "weight": "500",
+    "lineHeight": "28px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "count": 5,
+    "sample": "."
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "500",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0AC285",
+    "count": 5,
+    "sample": "Log in"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "500",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0000004D",
+    "count": 4,
+    "sample": "6H"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "12px",
+    "weight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0000008C",
+    "count": 3,
+    "sample": "The following are prohibited from trading this contract:"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "15px",
+    "weight": "500",
+    "lineHeight": "22px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0AC285",
+    "count": 2,
+    "sample": "Yes"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "15px",
+    "weight": "500",
+    "lineHeight": "22px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#D91616",
+    "count": 2,
+    "sample": "No"
+   }
+  ],
+  "contrast": {
+   "textNodes": 167,
+   "failAA": 21,
+   "failAAWithoutBgImage": 21,
+   "worst": [
+    {
+     "text": "Sign up",
+     "size": "13px",
+     "weight": "500",
+     "fg": "#FFFFFF",
+     "bg": "#28CC95",
+     "bgImage": false,
+     "ratio": 2.07,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-emphasis-x20"
+    },
+    {
+     "text": "New markets",
+     "size": "11px",
+     "weight": "600",
+     "fg": "#0000004D",
+     "bg": "#F7F7F7",
+     "bgImage": false,
+     "ratio": 2.11,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-overline-x10"
+    },
+    {
+     "text": "Trading on Kalshi involves risk and may not be app",
+     "size": "12px",
+     "weight": "400",
+     "fg": "#0000004D",
+     "bg": "#F7F7F7",
+     "bgImage": false,
+     "ratio": 2.11,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.font-normal"
+    },
+    {
+     "text": "6H",
+     "size": "13px",
+     "weight": "500",
+     "fg": "#0000004D",
+     "bg": "#FFFFFF",
+     "bgImage": false,
+     "ratio": 2.12,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-emphasis-x20"
+    },
+    {
+     "text": "Activity",
+     "size": "24px",
+     "weight": "500",
+     "fg": "#0000004D",
+     "bg": "#FFFFFF",
+     "bgImage": false,
+     "ratio": 2.12,
+     "large": true,
+     "passAA": false,
+     "sel": "button#event-social-activity-tab.appearance-none.cursor-pointer[role=tab]"
+    },
+    {
+     "text": "Show more",
+     "size": "13px",
+     "weight": "500",
+     "fg": "#0AC285",
+     "bg": "#F7F7F7",
+     "bgImage": false,
+     "ratio": 2.16,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-emphasis-x20"
+    },
+    {
+     "text": "Log in",
+     "size": "13px",
+     "weight": "500",
+     "fg": "#0AC285",
+     "bg": "#FFFFFF",
+     "bgImage": false,
+     "ratio": 2.32,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-emphasis-x20"
+    },
+    {
+     "text": "Yes",
+     "size": "15px",
+     "weight": "500",
+     "fg": "#0AC285",
+     "bg": "#FFFFFF",
+     "bgImage": false,
+     "ratio": 2.32,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-emphasis-x30"
+    }
+   ]
+  },
+  "touch": {
+   "lt24": 11,
+   "24to32": 23,
+   "32to44": 53,
+   "gte44": 7
+  },
+  "touchShareGte44": 0.074,
+  "touchShareLt24": 0.117,
+  "interactiveCount": 94,
+  "radius": [
+   {
+    "v": "6px",
+    "n": 7
+   },
+   {
+    "v": "8px",
+    "n": 12
+   },
+   {
+    "v": "24px",
+    "n": 1
+   },
+   {
+    "v": "100px",
+    "n": 12
+   }
+  ],
+  "paddingTop10": [
+   {
+    "v": "6px",
+    "n": 84
+   },
+   {
+    "v": "4px",
+    "n": 45
+   },
+   {
+    "v": "12px",
+    "n": 43
+   },
+   {
+    "v": "8px",
+    "n": 26
+   },
+   {
+    "v": "24px",
+    "n": 24
+   },
+   {
+    "v": "16px",
+    "n": 17
+   },
+   {
+    "v": "6.5px",
+    "n": 10
+   },
+   {
+    "v": "2px",
+    "n": 3
+   },
+   {
+    "v": "20px",
+    "n": 1
+   },
+   {
+    "v": "40px",
+    "n": 1
+   }
+  ],
+  "gapTop8": [
+   {
+    "v": "16px",
+    "n": 48
+   },
+   {
+    "v": "8px",
+    "n": 30
+   },
+   {
+    "v": "4px",
+    "n": 20
+   },
+   {
+    "v": "24px",
+    "n": 12
+   },
+   {
+    "v": "6px",
+    "n": 8
+   },
+   {
+    "v": "12px",
+    "n": 8
+   },
+   {
+    "v": "56px",
+    "n": 6
+   },
+   {
+    "v": "3.5px",
+    "n": 2
+   }
+  ],
+  "shadows": [],
+  "bgPaletteTop": [
+   [
+    "#FFFFFF",
+    6
+   ],
+   [
+    "#00000008",
+    2
+   ],
+   [
+    "#000000E6",
+    2
+   ],
+   [
+    "#00000012",
+    10
+   ],
+   [
+    "#28CC95",
+    2
+   ],
+   [
+    "#0000001A",
+    3
+   ]
+  ],
+  "textPaletteTop": [
+   [
+    "#000000E6",
+    104
+   ],
+   [
+    "#D91616",
+    24
+   ],
+   [
+    "#0000008C",
+    16
+   ],
+   [
+    "#0000004D",
+    13
+   ],
+   [
+    "#0AC285",
+    7
+   ],
+   [
+    "#FFFFFF",
+    3
+   ]
+  ],
+  "copy": {
+   "title": "Will the \"SAVE Act\" (H.R. 22) become law? Odds & Predictions 2027",
+   "h1": [
+    "Will the \u201cSAVE Act\u201d (H.R. 22) become law?"
+   ],
+   "ctaLabels": [
+    "Log in",
+    "Sign up",
+    "6H",
+    "1D",
+    "1W",
+    "1M",
+    "ALL",
+    "Yes",
+    "No 97.4\u00a2",
+    "View full rules",
+    "Help center",
+    "Report Insider Trading",
+    "Timeline and payout",
+    "Insider trading is prohibited",
+    "Show more",
+    "Social",
+    "Activity",
+    "GIF",
+    "Position",
+    "Post"
+   ],
+   "priceFormats": [
+    "$14,833,026 vol",
+    "97.4\u00a2"
+   ],
+   "priceFormatCounts": {
+    "cents": 1,
+    "percent": 0,
+    "chance": 0,
+    "dollarsVol": 1,
+    "multiplier": 0
+   },
+   "feeAndDisclaimer": [
+    "Data Terms of Service",
+    "Trading on Kalshi involves risk and may not be appropriate for all. Members risk losing their cost to enter any transaction, including fees. You should carefully consider whether trading on Kalshi is appropriate for you in light of your investment experience and financial resources. Any trading decisions you make are solely your responsibility and at your own risk. Information is provided for convenience only on an \"AS IS\" basis. Past performance is not necessarily indicative of future results. Kalshi is subject to U.S. regulatory oversight by the CFTC."
+   ]
+  },
+  "axe": {
+   "nodesByImpact": {
+    "critical": 4,
+    "serious": 23,
+    "moderate": 26,
+    "minor": 0
+   },
+   "rules": {
+    "aria-allowed-attr": 1,
+    "aria-prohibited-attr": 1,
+    "button-name": 2,
+    "color-contrast": 21,
+    "image-alt": 1,
+    "landmark-no-duplicate-contentinfo": 1,
+    "landmark-one-main": 1,
+    "landmark-unique": 1,
+    "link-name": 1,
+    "region": 23
+   }
+  },
+  "tokenCount": 125
+ },
+ "P11_D-modal_mobile": {
+  "url": "https://demo.kalshi.co/",
+  "finalUrl": "https://demo.kalshi.co/",
+  "http": 200,
+  "capturedUtc": "2026-09-27T08:59:07.533Z",
+  "signupModalAfterMs": 8850,
+  "action": null,
+  "actionError": null,
+  "hydration": {
+   "reactFiberOnNodes": true,
+   "nextData": false,
+   "nextRouter": true,
+   "nextF": true,
+   "scripts": 246,
+   "visibleElements": 1579,
+   "bodyTextChars": 5514
+  },
+  "docHeight": 9055,
+  "bodyBg": "#FFFFFF",
+  "rootFontSize": "16px",
+  "fontsLoaded": [
+   "kalshiSans 400 normal",
+   "kalshiSans 500 normal",
+   "kalshiSans 600 normal",
+   "kalshiCondensed 500 normal"
+  ],
+  "familiesByTextNodes": {
+   "kalshiCondensed": 15,
+   "kalshiSans": 432
+  },
+  "fontSizesPx": [
+   11.0,
+   12.0,
+   13.0,
+   15.0,
+   24.0,
+   30.0
+  ],
+  "topStyles": [
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "15px",
+    "weight": "500",
+    "lineHeight": "22px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "count": 91,
+    "sample": "Elections"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "500",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0000008C",
+    "count": 64,
+    "sample": "x"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "400",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "count": 51,
+    "sample": "Midterms: Congress Balance of Power?"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "12px",
+    "weight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "count": 40,
+    "sample": "Spread and Total"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "15px",
+    "weight": "400",
+    "lineHeight": "22px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "count": 38,
+    "sample": "KC Chiefs"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "500",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "count": 31,
+    "sample": "%"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "400",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0000008C",
+    "count": 22,
+    "sample": "Democrats sweep"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "11px",
+    "weight": "600",
+    "lineHeight": "18px",
+    "letterSpacing": "0.88px",
+    "transform": "uppercase",
+    "color": "#0000008C",
+    "count": 19,
+    "sample": "NFL"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "12px",
+    "weight": "500",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0AC285",
+    "count": 18,
+    "sample": "\u25b2"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "15px",
+    "weight": "600",
+    "lineHeight": "22px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "count": 17,
+    "sample": "Trending"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "12px",
+    "weight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0000008C",
+    "count": 15,
+    "sample": "Sep 27"
+   },
+   {
+    "family": "kalshiCondensed, \"kalshiCondensed Fallback\", sans-serif",
+    "size": "24px",
+    "weight": "500",
+    "lineHeight": "28px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "count": 12,
+    "sample": "KC Chiefs vs MIA Dolphins"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "12px",
+    "weight": "500",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#D91616",
+    "count": 6,
+    "sample": "\u25bc"
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "11px",
+    "weight": "600",
+    "lineHeight": "18px",
+    "letterSpacing": "0.88px",
+    "transform": "uppercase",
+    "color": "#0000004D",
+    "count": 6,
+    "sample": "New markets"
+   }
+  ],
+  "contrast": {
+   "textNodes": 447,
+   "failAA": 31,
+   "failAAWithoutBgImage": 31,
+   "worst": [
+    {
+     "text": "Sign up",
+     "size": "13px",
+     "weight": "500",
+     "fg": "#FFFFFF",
+     "bg": "#28CC95",
+     "bgImage": false,
+     "ratio": 2.07,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-emphasis-x20"
+    },
+    {
+     "text": "New markets",
+     "size": "11px",
+     "weight": "600",
+     "fg": "#0000004D",
+     "bg": "#F7F7F7",
+     "bgImage": false,
+     "ratio": 2.11,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-overline-x10"
+    },
+    {
+     "text": "Trading on Kalshi involves risk and may not be app",
+     "size": "12px",
+     "weight": "400",
+     "fg": "#0000004D",
+     "bg": "#F7F7F7",
+     "bgImage": false,
+     "ratio": 2.11,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.font-normal"
+    },
+    {
+     "text": "\u2013\u2013",
+     "size": "12px",
+     "weight": "500",
+     "fg": "#0000004D",
+     "bg": "#FDFDFD",
+     "bgImage": false,
+     "ratio": 2.12,
+     "large": false,
+     "passAA": false,
+     "sel": "span"
+    },
+    {
+     "text": "Show more",
+     "size": "13px",
+     "weight": "500",
+     "fg": "#0AC285",
+     "bg": "#F7F7F7",
+     "bgImage": false,
+     "ratio": 2.16,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-emphasis-x20"
+    },
+    {
+     "text": "\u25b2",
+     "size": "12px",
+     "weight": "500",
+     "fg": "#0AC285",
+     "bg": "#FDFDFD",
+     "bgImage": false,
+     "ratio": 2.28,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-emphasis-x10"
+    },
+    {
+     "text": "Log in",
+     "size": "13px",
+     "weight": "500",
+     "fg": "#0AC285",
+     "bg": "#FFFFFF",
+     "bgImage": false,
+     "ratio": 2.32,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-emphasis-x20"
+    }
+   ]
+  },
+  "touch": {
+   "lt24": 27,
+   "24to32": 51,
+   "32to44": 99,
+   "gte44": 22
+  },
+  "touchShareGte44": 0.111,
+  "touchShareLt24": 0.136,
+  "interactiveCount": 183,
+  "radius": [
+   {
+    "v": "6px",
+    "n": 57
+   },
+   {
+    "v": "8px",
+    "n": 34
+   },
+   {
+    "v": "16px",
+    "n": 49
+   },
+   {
+    "v": "100px",
+    "n": 164
+   }
+  ],
+  "paddingTop10": [
+   {
+    "v": "8px",
+    "n": 170
+   },
+   {
+    "v": "16px",
+    "n": 120
+   },
+   {
+    "v": "6px",
+    "n": 72
+   },
+   {
+    "v": "12px",
+    "n": 39
+   },
+   {
+    "v": "4px",
+    "n": 29
+   },
+   {
+    "v": "1px",
+    "n": 16
+   },
+   {
+    "v": "24px",
+    "n": 9
+   },
+   {
+    "v": "40px",
+    "n": 1
+   },
+   {
+    "v": "48px",
+    "n": 1
+   },
+   {
+    "v": "64px",
+    "n": 1
+   }
+  ],
+  "gapTop8": [
+   {
+    "v": "12px",
+    "n": 354
+   },
+   {
+    "v": "4px",
+    "n": 114
+   },
+   {
+    "v": "16px",
+    "n": 90
+   },
+   {
+    "v": "8px",
+    "n": 68
+   },
+   {
+    "v": "24px",
+    "n": 34
+   },
+   {
+    "v": "11px",
+    "n": 18
+   }
+  ],
+  "shadows": [
+   {
+    "v": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+    "n": 32
+   },
+   {
+    "v": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 0px 4px 0px, rgba(0, 0, 0, 0.05) 0px 4px 8px 0px",
+    "n": 3
+   },
+   {
+    "v": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 0px 8px 0px, rgba(0, 0, 0, 0.1) 0px -8px 16px 0px",
+    "n": 1
+   }
+  ],
+  "bgPaletteTop": [
+   [
+    "#FFFFFF",
+    5
+   ],
+   [
+    "#99999905",
+    27
+   ],
+   [
+    "#00000008",
+    2
+   ],
+   [
+    "#00000066",
+    1
+   ],
+   [
+    "#000000E6",
+    9
+   ],
+   [
+    "#08C5841F",
+    3
+   ],
+   [
+    "#0AC285",
+    15
+   ],
+   [
+    "#28CC95",
+    1
+   ],
+   [
+    "#D91616",
+    3
+   ],
+   [
+    "#00000012",
+    3
+   ]
+  ],
+  "textPaletteTop": [
+   [
+    "#000000E6",
+    283
+   ],
+   [
+    "#0000008C",
+    125
+   ],
+   [
+    "#0AC285",
+    20
+   ],
+   [
+    "#0000004D",
+    10
+   ],
+   [
+    "#D91616",
+    6
+   ],
+   [
+    "#FFFFFF",
+    3
+   ]
+  ],
+  "copy": {
+   "title": "Kalshi - Prediction Market for Trading the Future",
+   "h1": [],
+   "ctaLabels": [
+    "Log in",
+    "Sign up",
+    "KC Chiefs 86%",
+    "86%",
+    "MIA Dolphins 14%",
+    "14%",
+    "SEA Seahawks 77%",
+    "77%",
+    "WSH Commanders 23%",
+    "23%",
+    "Ariana Grande 0%",
+    "0%",
+    "Bruno Mars 0%",
+    "Go to slide 1",
+    "Go to slide 2",
+    "Go to slide 3",
+    "Go to slide 4",
+    "Go to slide 5",
+    "Go to slide 6",
+    "Go to slide 7",
+    "29%",
+    "43%",
+    "6%",
+    "61%",
+    "31%",
+    "3%",
+    "97%",
+    "17%",
+    "16%",
+    "45%",
+    "20%",
+    "91%",
+    "8%",
+    "40%",
+    "9%",
+    "90%",
+    "59%",
+    "33%",
+    "69%",
+    "68%",
+    "28%",
+    "94%",
+    "1%",
+    "49%",
+    "56%",
+    "Show more",
+    "Close",
+    "Continue with Google",
+    "Continue with Apple",
+    "Sign up with Email"
+   ],
+   "priceFormats": [
+    "86%",
+    "14%",
+    "$2,234,453 vol",
+    "77%",
+    "23%",
+    "$1,136,856 vol",
+    "0%",
+    "$0 vol",
+    "$792,242,813 vol",
+    "3.33x",
+    "29%",
+    "6.67x",
+    "$10,073,779 vol",
+    "2.27x",
+    "43%",
+    "16.7x",
+    "6%",
+    "$295,943 vol",
+    "$47.5",
+    "1.54x",
+    "61%",
+    "$50",
+    "3.23x",
+    "31%",
+    "$115,260 vol",
+    "33.3x",
+    "3%",
+    "1.03x",
+    "97%",
+    "$13,871,356 vol",
+    "62%",
+    "17%",
+    "$85,000",
+    "46%",
+    "5.88x",
+    "6.25x",
+    "16%",
+    "$227,333,235 vol",
+    "2.22x",
+    "45%",
+    "5.00x",
+    "20%",
+    "$66,262,035 vol",
+    "1.10x",
+    "91%",
+    "12.5x",
+    "8%",
+    "$37,806,455 vol",
+    "1.64x",
+    "2.50x",
+    "40%",
+    "$14,922,156 vol",
+    "15%",
+    "5%",
+    "9%",
+    "4.17x",
+    "10.0x",
+    "$1,119,745 vol",
+    "5.90x",
+    "1.06x",
+    "90%",
+    "$398,338 vol",
+    "1.46x",
+    "59%",
+    "2.34x",
+    "33%",
+    "$10,118 vol",
+    "1.43x",
+    "69%",
+    "$2,449,726 vol",
+    "1%",
+    "2%",
+    "68%",
+    "28%",
+    "$106,116 vol",
+    "94%",
+    "100x",
+    "$9,984,403 vol",
+    "1.05x",
+    "15.6x",
+    "$31,479,865 vol",
+    "2.04x",
+    "49%",
+    "1.79x",
+    "56%",
+    "$17,294 vol",
+    "36%",
+    "65%",
+    "64%",
+    "$227,333,220 vol",
+    "$140,167,983 vol",
+    "13%",
+    "$97,452,470 vol",
+    "57%"
+   ],
+   "priceFormatCounts": {
+    "cents": 0,
+    "percent": 55,
+    "chance": 0,
+    "dollarsVol": 23,
+    "multiplier": 32
+   },
+   "feeAndDisclaimer": [
+    "Responsible trading",
+    "Midterms: Congress Balance of Power?",
+    "Data Terms of Service",
+    "Trading on Kalshi involves risk and may not be appropriate for all. Members risk losing their cost to enter any transaction, including fees. You should carefully consider whether trading on Kalshi is appropriate for you in light of your investment experience and financial resources. Any trading decisions you make are solely your responsibility and at your own risk. Information is provided for convenience only on an \"AS IS\" basis. Past performance is not necessarily indicative of future results. Kalshi is subject to U.S. regulatory oversight by the CFTC.",
+    "By continuing, you acknowledge and agree to Kalshi\u2019s legal terms, which we recommend reviewing"
+   ]
+  },
+  "axe": {
+   "nodesByImpact": {
+    "critical": 2,
+    "serious": 60,
+    "moderate": 128,
+    "minor": 0
+   },
+   "rules": {
+    "aria-progressbar-name": 38,
+    "button-name": 1,
+    "color-contrast": 15,
+    "image-alt": 1,
+    "landmark-no-duplicate-contentinfo": 1,
+    "landmark-unique": 1,
+    "link-name": 1,
+    "nested-interactive": 6,
+    "region": 126
+   }
+  },
+  "tokenCount": 125
+ }
+}

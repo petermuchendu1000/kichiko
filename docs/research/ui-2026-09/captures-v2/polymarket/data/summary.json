@@ -1,0 +1,3957 @@
+{
+ "generatedAt": "2026-09-27T08:45:02.882Z",
+ "captures": {
+  "P01-desktop-dark": {
+   "url": "https://polymarket.com/",
+   "httpStatus": 200,
+   "textLength": 10341,
+   "gate": true,
+   "dataTheme": "dark",
+   "pageBg": "#0c0e13",
+   "docHeight": 3363,
+   "horizontalOverflow": false,
+   "title": "Polymarket | The World’s Largest Prediction Market™",
+   "structureTop": [
+    "y0 h116 w1425 <nav navigation sticky> Main",
+    "y116 h40 w1425 <div> To trade in the US, go to polymarket.us",
+    "y156 h3207 w1425 <div> Polymarket | The World’s Largest Prediction Market™",
+    "  y156 h2543 w1425 <div> Polymarket | The World’s Largest Prediction Market™",
+    "  y2699 h664 w1425 <div> Markets by category and topics"
+   ],
+   "fixedBars": [
+    "sticky y0 h116 \"/ Go to polymarket.us Trending Combos Perps Breaki\""
+   ],
+   "type": {
+    "styles": 73,
+    "families": [
+     "inter",
+     "Geist Mono",
+     "Arial"
+    ],
+    "sizes": [
+     12,
+     13,
+     14,
+     15,
+     16,
+     18,
+     20,
+     24
+    ],
+    "weights": [
+     "400",
+     "440",
+     "450",
+     "490",
+     "500",
+     "540",
+     "580",
+     "590",
+     "600"
+    ],
+    "top": [
+     "13px/490/lh 16px/ls -0.1px/#b6bbc4 x97 \"Nithya Raman\"",
+     "12px/500/lh 16px/ls -0.1px/#999ea7 x90 \"・\"",
+     "12px/400/lh 18px/ls normal/#ffffff x49 \"Dec\"",
+     "13px/400/lh 16px/ls -0.1px/#ffffff x45 \"Opinion | The ‘Mansion Tax’ That Hits the Middle Class\"",
+     "12px/400/lh 16px/ls -0.1px/#b6bbc4 x45 \"WSJ\"",
+     "15px/600/lh 22.5px/ls normal/#ffffff x40 \"62%\"",
+     "14px/440/lh 20px/ls -0.09px/#ffffff x40 \"Democrats Sweep\"",
+     "13px/490/lh 16px/ls -0.1px/#53e67f x40 \"Yes\""
+    ],
+    "headings": [
+     "H1: Polymarket | The World’s Largest Prediction Market™",
+     "H2: Featured markets",
+     "H3: Los Angeles Mayoral Election",
+     "H3: Balance of Power: 2026 Midterms",
+     "H3: ",
+     "H3: "
+    ]
+   },
+   "contrast": {
+    "textNodes": 834,
+    "aaFailNodes": 55,
+    "failPct": 6.6,
+    "failGroups": 25,
+    "worst": [
+     "1.92:1 #8f2424 on #1c1f27 14px/600 x1 \"USC\"",
+     "1.95:1 #1a41b7 on #1c1f27 14px/600 x1 \"LGD Gaming\"",
+     "1.95:1 #991616 on #1c1f27 14px/600 x1 \"Stanford\"",
+     "1.96:1 #0040c0 on #1c1f27 14px/600 x1 \"Bills\"",
+     "2.26:1 #aa1830 on #1c1f27 14px/600 x2 \"Ole Miss\"",
+     "2.35:1 #595959 on #1c1f27 14px/600 x1 \"Missouri\""
+    ]
+   },
+   "interactive": {
+    "n": 459,
+    "touch": {
+     "ge44": 85,
+     "from24to43": 269,
+     "lt24": 105,
+     "n": 459,
+     "byMinDimension": true
+    },
+    "topHeights": [
+     "27px x82",
+     "20px x72",
+     "28px x61",
+     "40px x58",
+     "74px x39",
+     "36px x37"
+    ],
+    "namelessCount": 16
+   },
+   "spacing": {
+    "pad": [
+     "12 x243",
+     "8 x188",
+     "14 x160",
+     "10 x150",
+     "4 x51",
+     "3 x18",
+     "2 x15",
+     "24 x13",
+     "16 x12",
+     "20 x12"
+    ],
+    "gap": [
+     "8 x722",
+     "6 x424",
+     "4 x206",
+     "16 x174",
+     "12 x64",
+     "2 x21",
+     "24 x8",
+     "32 x2"
+    ],
+    "grid": {
+     "2px": 99.2,
+     "4px": 68.2,
+     "8px": 45.1
+    }
+   },
+   "radii": [
+    "7.2px x164",
+    "5.2px x86",
+    "pillpx x74",
+    "2px x45",
+    "15.2px x36",
+    "6px x19",
+    "9.2px x8",
+    "11.2px x5"
+   ],
+   "copy": {
+    "ctas": [
+     "Add to favorites x39",
+     "Rewards x23",
+     "Scroll right x2",
+     "Earn 3.25% holding rewards x2",
+     "Help",
+     "Open user menu",
+     "Open more navigation links",
+     "Maine Senate",
+     "Balance of Power",
+     "Explore all",
+     "Toggle filters",
+     "Toggle watchlist",
+     "All",
+     "Trump",
+     "Fed"
+    ],
+    "numberFormats": [
+     "9% x106 e.g. 59% | 43%",
+     "$9M x25 e.g. $14M | $15M",
+     "$9K x10 e.g. $757K | $659K",
+     "9.9% x4 e.g. 58.6% | 1.5%",
+     "$9M Vol x3 e.g. $15M Vol | $14M Vol",
+     "$9M today x2 e.g. $2M today",
+     "$9K today x2 e.g. $690K today | $574K today",
+     "$9.9–$9.9T x2 e.g. $2.0–$2.25T | $1.75–$2.0T",
+     "$9.9K today x1 e.g. $80.9K today",
+     "↑ $9 x1 e.g. ↑ $95",
+     "↓ $9 x1 e.g. ↓ $90"
+    ],
+    "fee": [],
+    "disclaimers": [
+     {
+      "text": "Terms of Use",
+      "count": 1
+     },
+     {
+      "text": "Polymarket operates globally through separate legal entities. is operated by QCX LLC d/b/a Polymarket US, a CFTC-regulated Designated Contract Market. This international platform is not regulated by the CFTC and operates",
+      "count": 1
+     },
+     {
+      "text": "Terms of Service",
+      "count": 1
+     }
+    ],
+    "empty": [],
+    "error": []
+   },
+   "axe": {
+    "rules": 3,
+    "byImpact": {
+     "critical": 11,
+     "serious": 30,
+     "moderate": 1
+    },
+    "ids": [
+     "button-name(critical,11)",
+     "color-contrast(serious,30)",
+     "meta-viewport(moderate,1)"
+    ]
+   },
+   "internalLinksOfInterest": []
+  },
+  "P01-desktop-light": {
+   "url": "https://polymarket.com/",
+   "httpStatus": 200,
+   "textLength": 9721,
+   "gate": true,
+   "dataTheme": "light",
+   "pageBg": "#ffffff",
+   "docHeight": 3363,
+   "horizontalOverflow": false,
+   "title": "Polymarket | The World’s Largest Prediction Market™",
+   "structureTop": [
+    "y0 h116 w1425 <nav navigation sticky> Main",
+    "y116 h40 w1425 <div> To trade in the US, go to polymarket.us",
+    "y156 h3207 w1425 <div> Polymarket | The World’s Largest Prediction Market™",
+    "  y156 h2543 w1425 <div> Polymarket | The World’s Largest Prediction Market™",
+    "  y2699 h664 w1425 <div> Markets by category and topics"
+   ],
+   "fixedBars": [
+    "sticky y0 h116 \"/ Go to polymarket.us Trending Combos Perps Breaki\""
+   ],
+   "type": {
+    "styles": 76,
+    "families": [
+     "inter",
+     "Geist Mono",
+     "Arial"
+    ],
+    "sizes": [
+     12,
+     13,
+     14,
+     15,
+     16,
+     18,
+     20,
+     24
+    ],
+    "weights": [
+     "400",
+     "440",
+     "450",
+     "490",
+     "500",
+     "540",
+     "580",
+     "590",
+     "600"
+    ],
+    "top": [
+     "13px/490/lh 16px/ls -0.1px/#6b727b x100 \"Nithya Raman\"",
+     "12px/500/lh 16px/ls -0.1px/#8b929b x60 \"・\"",
+     "13px/400/lh 16px/ls -0.1px/#23272d x45 \"Opinion | The ‘Mansion Tax’ That Hits the Middle Class\"",
+     "12px/400/lh 16px/ls -0.1px/#6b727b x45 \"WSJ\"",
+     "12px/400/lh 18px/ls normal/#23272d x42 \"Dec\"",
+     "15px/600/lh 22.5px/ls normal/#23272d x40 \"62%\"",
+     "14px/440/lh 20px/ls -0.09px/#23272d x40 \"Democrats Sweep\"",
+     "13px/490/lh 16px/ls -0.1px/#007e26 x40 \"Yes\""
+    ],
+    "headings": [
+     "H1: Polymarket | The World’s Largest Prediction Market™",
+     "H2: Featured markets",
+     "H3: Los Angeles Mayoral Election",
+     "H3: Balance of Power: 2026 Midterms",
+     "H3: Fed Decision in October?",
+     "H3: "
+    ]
+   },
+   "contrast": {
+    "textNodes": 810,
+    "aaFailNodes": 229,
+    "failPct": 28.3,
+    "failGroups": 25,
+    "worst": [
+     "1.13:1 #fff1c0 on #ffffff 13px/600 x1 \"+ $186\"",
+     "1.44:1 #badaff on #ffffff 13px/600 x1 \"+ $100\"",
+     "1.69:1 #9ecbff on #ffffff 13px/600 x1 \"+ $20\"",
+     "1.8:1 #abb2bb on #eaebef 13px/600 x1 \"/\"",
+     "1.87:1 #c4c41c on #ffffff 14px/600 x1 \"Natus\"",
+     "1.92:1 #87bfff on #ffffff 13px/600 x1 \"+ $10\""
+    ]
+   },
+   "interactive": {
+    "n": 461,
+    "touch": {
+     "ge44": 85,
+     "from24to43": 271,
+     "lt24": 105,
+     "n": 461,
+     "byMinDimension": true
+    },
+    "topHeights": [
+     "27px x82",
+     "20px x72",
+     "28px x61",
+     "40px x60",
+     "36px x37",
+     "32px x24"
+    ],
+    "namelessCount": 16
+   },
+   "spacing": {
+    "pad": [
+     "12 x243",
+     "8 x220",
+     "14 x160",
+     "10 x120",
+     "4 x52",
+     "3 x18",
+     "2 x15",
+     "24 x13",
+     "16 x12",
+     "20 x12"
+    ],
+    "gap": [
+     "8 x722",
+     "6 x404",
+     "4 x206",
+     "16 x174",
+     "12 x72",
+     "2 x51",
+     "24 x8",
+     "32 x2"
+    ],
+    "grid": {
+     "2px": 99.2,
+     "4px": 69.2,
+     "8px": 46
+    }
+   },
+   "radii": [
+    "7.2px x164",
+    "pillpx x82",
+    "5.2px x82",
+    "15.2px x36",
+    "2px x30",
+    "6px x19",
+    "50px x12",
+    "9.2px x8"
+   ],
+   "copy": {
+    "ctas": [
+     "Add to favorites x39",
+     "Rewards x23",
+     "Scroll right x2",
+     "Earn 3.25% holding rewards x2",
+     "Help",
+     "Open user menu",
+     "Open more navigation links",
+     "LA Mayor",
+     "Fed October",
+     "Explore all",
+     "Toggle filters",
+     "Toggle watchlist",
+     "All",
+     "Trump",
+     "Fed"
+    ],
+    "numberFormats": [
+     "9% x107 e.g. 59% | 43%",
+     "$9M x25 e.g. $14M | $15M",
+     "$9K x10 e.g. $757K | $659K",
+     "+ $9 x5 e.g. + $186 | + $100",
+     "9.9% x4 e.g. 58.6% | 1.5%",
+     "$9M Vol x3 e.g. $15M Vol | $14M Vol",
+     "<9% x3 e.g. <1%",
+     "$9M today x2 e.g. $2M today",
+     "$9K today x2 e.g. $690K today | $572K today",
+     "$9.9–$9.9T x2 e.g. $2.0–$2.25T | $1.75–$2.0T",
+     "$9.9K today x1 e.g. $80.9K today",
+     "↑ $9 x1 e.g. ↑ $95"
+    ],
+    "fee": [],
+    "disclaimers": [
+     {
+      "text": "No matter the result, its an honor to gamble with you fellow degens",
+      "count": 3
+     },
+     {
+      "text": "Terms of Use",
+      "count": 1
+     },
+     {
+      "text": "Polymarket operates globally through separate legal entities. is operated by QCX LLC d/b/a Polymarket US, a CFTC-regulated Designated Contract Market. This international platform is not regulated by the CFTC and operates",
+      "count": 1
+     },
+     {
+      "text": "Terms of Service",
+      "count": 1
+     }
+    ],
+    "empty": [
+     {
+      "text": "No matter the result, its an honor to gamble with you fellow degens",
+      "count": 3
+     }
+    ],
+    "error": []
+   },
+   "axe": {
+    "rules": 3,
+    "byImpact": {
+     "critical": 11,
+     "serious": 115,
+     "moderate": 1
+    },
+    "ids": [
+     "button-name(critical,11)",
+     "color-contrast(serious,115)",
+     "meta-viewport(moderate,1)"
+    ]
+   },
+   "internalLinksOfInterest": []
+  },
+  "P01-mobile-dark": {
+   "url": "https://polymarket.com/",
+   "httpStatus": 200,
+   "textLength": 5139,
+   "gate": true,
+   "dataTheme": "dark",
+   "pageBg": "#0c0e13",
+   "docHeight": 8647,
+   "horizontalOverflow": false,
+   "title": "Polymarket | The World’s Largest Prediction Market™",
+   "structureTop": [
+    "y0 h48 w390 <div> To trade in the US, go to polymarket.us",
+    "y48 h104 w390 <nav navigation sticky> Main",
+    "y152 h8495 w390 <div> Polymarket | The World’s Largest Prediction Market™",
+    "  y152 h7139 w390 <div> Polymarket | The World’s Largest Prediction Market™",
+    "  y7291 h1356 w390 <div> Markets by category and topics"
+   ],
+   "fixedBars": [
+    "sticky y48 h104 \"Go to polymarket.us Trending Combos Perps Breaking\"",
+    "fixed y739 h105 bottom \"How it works Home Search Breaking More\""
+   ],
+   "type": {
+    "styles": 57,
+    "families": [
+     "inter"
+    ],
+    "sizes": [
+     11,
+     12,
+     13,
+     14,
+     15,
+     16
+    ],
+    "weights": [
+     "400",
+     "440",
+     "490",
+     "500",
+     "590",
+     "600"
+    ],
+    "top": [
+     "13px/490/lh 16px/ls -0.1px/#b6bbc4 x89 \"Vol.\"",
+     "15px/600/lh 22.5px/ls normal/#ffffff x40 \"62%\"",
+     "14px/440/lh 20px/ls -0.09px/#ffffff x40 \"Democrats Sweep\"",
+     "13px/490/lh 16px/ls -0.1px/#53e67f x40 \"Yes\"",
+     "13px/490/lh 16px/ls -0.1px/#ff7767 x40 \"No\"",
+     "13px/490/lh 16px/ls -0.1px/#b6bbc4 x35 \"$14M\"",
+     "14px/500/lh 20px/ls normal/#ffffff x34 \"Trump\"",
+     "14px/500/lh 20px/ls -0.09px/#ffffff x32 \"2\""
+    ],
+    "headings": [
+     "H1: Polymarket | The World’s Largest Prediction Market™",
+     "H3: Balance of Power: 2026 Midterms",
+     "H3: BTC Up or Down 5m",
+     "H3: Fed Decision in October?",
+     "H3: US-Iran ceasefire continues through...?",
+     "H3: US announces end of Iranian blockade by...?"
+    ]
+   },
+   "contrast": {
+    "textNodes": 521,
+    "aaFailNodes": 55,
+    "failPct": 10.6,
+    "failGroups": 25,
+    "worst": [
+     "1.92:1 #8f2424 on #1c1f27 14px/600 x1 \"USC\"",
+     "1.95:1 #1a41b7 on #1c1f27 14px/600 x1 \"LGD Gaming\"",
+     "1.95:1 #991616 on #1c1f27 14px/600 x1 \"Stanford\"",
+     "1.96:1 #0040c0 on #1c1f27 14px/600 x1 \"Bills\"",
+     "2.26:1 #aa1830 on #1c1f27 14px/600 x2 \"Ole Miss\"",
+     "2.35:1 #595959 on #1c1f27 14px/600 x1 \"Missouri\""
+    ]
+   },
+   "interactive": {
+    "n": 365,
+    "touch": {
+     "ge44": 38,
+     "from24to43": 235,
+     "lt24": 92,
+     "n": 365,
+     "byMinDimension": true
+    },
+    "topHeights": [
+     "27px x80",
+     "20px x68",
+     "28px x61",
+     "40px x42",
+     "36px x28",
+     "32px x20"
+    ],
+    "namelessCount": 0
+   },
+   "spacing": {
+    "pad": [
+     "12 x236",
+     "8 x176",
+     "14 x160",
+     "4 x50",
+     "10 x40",
+     "16 x16",
+     "6 x2",
+     "20 x2",
+     "40 x2",
+     "48 x2"
+    ],
+    "gap": [
+     "8 x647",
+     "6 x196",
+     "4 x191",
+     "16 x130",
+     "12 x13",
+     "2 x5",
+     "20 x2",
+     "24 x2"
+    ],
+    "grid": {
+     "2px": 99.9,
+     "4px": 78.5,
+     "8px": 52.2
+    }
+   },
+   "radii": [
+    "7.2px x157",
+    "5.2px x80",
+    "pillpx x49",
+    "15.2px x36",
+    "6px x19",
+    "9.2px x4",
+    "11.2px x1"
+   ],
+   "copy": {
+    "ctas": [
+     "Add to favorites x36",
+     "Rewards x23",
+     "Earn 3.25% holding rewards x2",
+     "Dismiss",
+     "Toggle filters",
+     "Toggle watchlist",
+     "All",
+     "Trump",
+     "Fed",
+     "CFB",
+     "Brazil",
+     "Presidents Cup",
+     "White House Press Ban",
+     "Laver Cup",
+     "Senate Elections"
+    ],
+    "numberFormats": [
+     "9% x70 e.g. 62% | 32%",
+     "$9M x25 e.g. $14M | $15M",
+     "$9K x10 e.g. $757K | $659K",
+     "9.9% x2 e.g. 5.2% | 5.3%",
+     "$9.9–$9.9T x2 e.g. $2.0–$2.25T | $1.75–$2.0T",
+     "↑ $9 x1 e.g. ↑ $95",
+     "↓ $9 x1 e.g. ↓ $90"
+    ],
+    "fee": [],
+    "disclaimers": [
+     {
+      "text": "Terms of Use",
+      "count": 1
+     },
+     {
+      "text": "Polymarket operates globally through separate legal entities. is operated by QCX LLC d/b/a Polymarket US, a CFTC-regulated Designated Contract Market. This international platform is not regulated by the CFTC and operates",
+      "count": 1
+     },
+     {
+      "text": "Terms of Service",
+      "count": 1
+     }
+    ],
+    "empty": [],
+    "error": []
+   },
+   "axe": {
+    "rules": 3,
+    "byImpact": {
+     "serious": 33,
+     "moderate": 1
+    },
+    "ids": [
+     "color-contrast(serious,31)",
+     "meta-viewport(moderate,1)",
+     "target-size(serious,2)"
+    ]
+   },
+   "internalLinksOfInterest": []
+  },
+  "P01-mobile-light": {
+   "url": "https://polymarket.com/",
+   "httpStatus": 200,
+   "textLength": 5139,
+   "gate": true,
+   "dataTheme": "light",
+   "pageBg": "#ffffff",
+   "docHeight": 8647,
+   "horizontalOverflow": false,
+   "title": "Polymarket | The World’s Largest Prediction Market™",
+   "structureTop": [
+    "y0 h48 w390 <div> To trade in the US, go to polymarket.us",
+    "y48 h104 w390 <nav navigation sticky> Main",
+    "y152 h8495 w390 <div> Polymarket | The World’s Largest Prediction Market™",
+    "  y152 h7139 w390 <div> Polymarket | The World’s Largest Prediction Market™",
+    "  y7291 h1356 w390 <div> Markets by category and topics"
+   ],
+   "fixedBars": [
+    "sticky y48 h104 \"Go to polymarket.us Trending Combos Perps Breaking\"",
+    "fixed y739 h105 bottom \"How it works Home Search Breaking More\""
+   ],
+   "type": {
+    "styles": 57,
+    "families": [
+     "inter"
+    ],
+    "sizes": [
+     11,
+     12,
+     13,
+     14,
+     15,
+     16
+    ],
+    "weights": [
+     "400",
+     "440",
+     "490",
+     "500",
+     "590",
+     "600"
+    ],
+    "top": [
+     "13px/490/lh 16px/ls -0.1px/#6b727b x89 \"Vol.\"",
+     "15px/600/lh 22.5px/ls normal/#23272d x40 \"62%\"",
+     "14px/440/lh 20px/ls -0.09px/#23272d x40 \"Democrats Sweep\"",
+     "13px/490/lh 16px/ls -0.1px/#007e26 x40 \"Yes\"",
+     "13px/490/lh 16px/ls -0.1px/#df0c10 x40 \"No\"",
+     "13px/490/lh 16px/ls -0.1px/#6b727b x35 \"$14M\"",
+     "14px/500/lh 20px/ls normal/#23272d x34 \"Trump\"",
+     "14px/500/lh 20px/ls -0.09px/#23272d x32 \"2\""
+    ],
+    "headings": [
+     "H1: Polymarket | The World’s Largest Prediction Market™",
+     "H3: Balance of Power: 2026 Midterms",
+     "H3: BTC Up or Down 5m",
+     "H3: Fed Decision in October?",
+     "H3: US-Iran ceasefire continues through...?",
+     "H3: US announces end of Iranian blockade by...?"
+    ]
+   },
+   "contrast": {
+    "textNodes": 521,
+    "aaFailNodes": 142,
+    "failPct": 27.3,
+    "failGroups": 15,
+    "worst": [
+     "1.87:1 #c4c41c on #ffffff 14px/600 x1 \"Natus\"",
+     "1.97:1 #b5b9bd on #ffffff 13px/490 x27 \"·\"",
+     "2.58:1 #c49a5f on #ffffff 14px/600 x1 \"Tennessee\"",
+     "2.83:1 #a99960 on #ffffff 14px/600 x1 \"Oklahoma\"",
+     "2.91:1 #9a9a6a on #ffffff 14px/600 x1 \"Georgia\"",
+     "3.14:1 #8b929b on #ffffff 12px/500 x14 \"Predictions & odds\""
+    ]
+   },
+   "interactive": {
+    "n": 365,
+    "touch": {
+     "ge44": 38,
+     "from24to43": 235,
+     "lt24": 92,
+     "n": 365,
+     "byMinDimension": true
+    },
+    "topHeights": [
+     "27px x80",
+     "20px x68",
+     "28px x61",
+     "40px x42",
+     "36px x28",
+     "32px x20"
+    ],
+    "namelessCount": 0
+   },
+   "spacing": {
+    "pad": [
+     "12 x236",
+     "8 x176",
+     "14 x160",
+     "4 x50",
+     "10 x40",
+     "16 x16",
+     "6 x2",
+     "20 x2",
+     "40 x2",
+     "48 x2"
+    ],
+    "gap": [
+     "8 x647",
+     "6 x196",
+     "4 x191",
+     "16 x130",
+     "12 x13",
+     "2 x5",
+     "20 x2",
+     "24 x2"
+    ],
+    "grid": {
+     "2px": 99.9,
+     "4px": 78.5,
+     "8px": 52.2
+    }
+   },
+   "radii": [
+    "7.2px x157",
+    "5.2px x80",
+    "pillpx x49",
+    "15.2px x36",
+    "6px x19",
+    "9.2px x4",
+    "11.2px x1"
+   ],
+   "copy": {
+    "ctas": [
+     "Add to favorites x36",
+     "Rewards x23",
+     "Earn 3.25% holding rewards x2",
+     "Dismiss",
+     "Toggle filters",
+     "Toggle watchlist",
+     "All",
+     "Trump",
+     "Fed",
+     "CFB",
+     "Brazil",
+     "Presidents Cup",
+     "White House Press Ban",
+     "Laver Cup",
+     "Senate Elections"
+    ],
+    "numberFormats": [
+     "9% x70 e.g. 62% | 32%",
+     "$9M x25 e.g. $14M | $15M",
+     "$9K x10 e.g. $757K | $659K",
+     "9.9% x2 e.g. 5.2% | 5.3%",
+     "$9.9–$9.9T x2 e.g. $2.0–$2.25T | $1.75–$2.0T",
+     "↑ $9 x1 e.g. ↑ $95",
+     "↓ $9 x1 e.g. ↓ $90"
+    ],
+    "fee": [],
+    "disclaimers": [
+     {
+      "text": "Terms of Use",
+      "count": 1
+     },
+     {
+      "text": "Polymarket operates globally through separate legal entities. is operated by QCX LLC d/b/a Polymarket US, a CFTC-regulated Designated Contract Market. This international platform is not regulated by the CFTC and operates",
+      "count": 1
+     },
+     {
+      "text": "Terms of Service",
+      "count": 1
+     }
+    ],
+    "empty": [],
+    "error": []
+   },
+   "axe": {
+    "rules": 3,
+    "byImpact": {
+     "serious": 115,
+     "moderate": 1
+    },
+    "ids": [
+     "color-contrast(serious,113)",
+     "meta-viewport(moderate,1)",
+     "target-size(serious,2)"
+    ]
+   },
+   "internalLinksOfInterest": []
+  },
+  "P02-desktop-dark": {
+   "url": "https://polymarket.com/politics",
+   "httpStatus": 200,
+   "textLength": 7794,
+   "gate": true,
+   "dataTheme": "dark",
+   "pageBg": "#0c0e13",
+   "docHeight": 3150,
+   "horizontalOverflow": false,
+   "title": "Politics Prediction Markets & Live Odds 2026 | Polymarket",
+   "structureTop": [
+    "y0 h116 w1425 <nav navigation sticky> Main",
+    "y116 h40 w1425 <div> To trade in the US, go to polymarket.us",
+    "y156 h2994 w1425 <div> Politics",
+    "  y156 h2094 w1425 <div> Politics",
+    "  y2250 h900 w1425 <div> Related topics"
+   ],
+   "fixedBars": [
+    "sticky y0 h116 \"Go to polymarket.us Trending Combos Perps Breaking\""
+   ],
+   "type": {
+    "styles": 31,
+    "families": [
+     "inter"
+    ],
+    "sizes": [
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     20,
+     24
+    ],
+    "weights": [
+     "400",
+     "440",
+     "490",
+     "500",
+     "590",
+     "600",
+     "700"
+    ],
+    "top": [
+     "14px/500/lh 20px/ls normal/#ffffff x62 \"Trump\"",
+     "15px/600/lh 22.5px/ls normal/#ffffff x32 \"62%\"",
+     "14px/440/lh 20px/ls -0.09px/#ffffff x32 \"Democrats Sweep\"",
+     "13px/490/lh 16px/ls -0.1px/#53e67f x32 \"Yes\"",
+     "13px/490/lh 16px/ls -0.1px/#ff7767 x32 \"No\"",
+     "14px/600/lh 20px/ls -0.09px/#ffffff x21 \"All\"",
+     "14px/590/lh 20px/ls -0.09px/#ffffff x20 \"Balance of Power: 2026 Midterms\"",
+     "13px/490/lh 16px/ls -0.1px/#b6bbc4 x20 \"Vol.\""
+    ],
+    "headings": [
+     "H1: Politics",
+     "H3: 2026 Midterms Predictions",
+     "H3: Balance of Power: 2026 Midterms",
+     "H3: US-Iran ceasefire continues through...?",
+     "H3: Next French Presidential Election",
+     "H3: Strait of Hormuz traffic returns to normal by September 30?"
+    ]
+   },
+   "contrast": {
+    "textNodes": 388,
+    "aaFailNodes": 5,
+    "failPct": 1.3,
+    "failGroups": 1,
+    "worst": [
+     "1:1 #0c0e13 on #0c0e13 14px/400 x5 \"Polymarket is the world’s largest prediction marke\""
+    ]
+   },
+   "interactive": {
+    "n": 303,
+    "touch": {
+     "ge44": 26,
+     "from24to43": 189,
+     "lt24": 88,
+     "n": 303,
+     "byMinDimension": true
+    },
+    "topHeights": [
+     "20px x77",
+     "27px x64",
+     "28px x41",
+     "36px x30",
+     "40px x27",
+     "42px x20"
+    ],
+    "namelessCount": 1
+   },
+   "spacing": {
+    "pad": [
+     "12 x151",
+     "14 x128",
+     "10 x84",
+     "8 x58",
+     "4 x52",
+     "1 x41",
+     "24 x25",
+     "16 x4",
+     "20 x4",
+     "64 x3"
+    ],
+    "gap": [
+     "8 x408",
+     "6 x176",
+     "4 x116",
+     "16 x110",
+     "12 x24",
+     "10 x20",
+     "2 x9",
+     "20 x2"
+    ],
+    "grid": {
+     "2px": 97.1,
+     "4px": 67.7,
+     "8px": 43.2
+    }
+   },
+   "radii": [
+    "7.2px x70",
+    "5.2px x64",
+    "9.2px x25",
+    "pillpx x23",
+    "15.2px x21",
+    "18px x2",
+    "10px x1",
+    "12px x1"
+   ],
+   "copy": {
+    "ctas": [
+     "Add to favorites x20",
+     "Rewards x18",
+     "View more x4",
+     "Earn 3.25% holding rewards x3",
+     "Help",
+     "Open user menu",
+     "Open more navigation links",
+     "Scroll right",
+     "Toggle filters",
+     "Toggle watchlist",
+     "Show more markets",
+     "What is Polymarket?",
+     "What is a Politics prediction market?",
+     "What topics can I trade on in the Politics category?",
+     "How do Politics odds on Polymarket work?"
+    ],
+    "numberFormats": [
+     "9% x33 e.g. 62% | 32%",
+     "$9M x15 e.g. $14M | $4M",
+     "$9K x4 e.g. $927K | $740K",
+     "<9% x3 e.g. <1%",
+     "9.9K x2 e.g. 4.4K | 1.2K",
+     "$9B x1 e.g. $1B"
+    ],
+    "fee": [],
+    "disclaimers": [
+     {
+      "text": "Terms of Use",
+      "count": 1
+     },
+     {
+      "text": "Polymarket operates globally through separate legal entities. is operated by QCX LLC d/b/a Polymarket US, a CFTC-regulated Designated Contract Market. This international platform is not regulated by the CFTC and operates",
+      "count": 1
+     },
+     {
+      "text": "Terms of Service",
+      "count": 1
+     }
+    ],
+    "empty": [],
+    "error": []
+   },
+   "axe": {
+    "rules": 3,
+    "byImpact": {
+     "serious": 3,
+     "critical": 1,
+     "moderate": 1
+    },
+    "ids": [
+     "aria-hidden-focus(serious,3)",
+     "button-name(critical,1)",
+     "meta-viewport(moderate,1)"
+    ]
+   },
+   "internalLinksOfInterest": []
+  },
+  "P02-desktop-light": {
+   "url": "https://polymarket.com/politics",
+   "httpStatus": 200,
+   "textLength": 7794,
+   "gate": true,
+   "dataTheme": "light",
+   "pageBg": "#ffffff",
+   "docHeight": 3150,
+   "horizontalOverflow": false,
+   "title": "Politics Prediction Markets & Live Odds 2026 | Polymarket",
+   "structureTop": [
+    "y0 h116 w1425 <nav navigation sticky> Main",
+    "y116 h40 w1425 <div> To trade in the US, go to polymarket.us",
+    "y156 h2994 w1425 <div> Politics",
+    "  y156 h2094 w1425 <div> Politics",
+    "  y2250 h900 w1425 <div> Related topics"
+   ],
+   "fixedBars": [
+    "sticky y0 h116 \"Go to polymarket.us Trending Combos Perps Breaking\""
+   ],
+   "type": {
+    "styles": 31,
+    "families": [
+     "inter"
+    ],
+    "sizes": [
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     20,
+     24
+    ],
+    "weights": [
+     "400",
+     "440",
+     "490",
+     "500",
+     "590",
+     "600",
+     "700"
+    ],
+    "top": [
+     "14px/500/lh 20px/ls normal/#23272d x62 \"Trump\"",
+     "15px/600/lh 22.5px/ls normal/#23272d x32 \"62%\"",
+     "14px/440/lh 20px/ls -0.09px/#23272d x32 \"Democrats Sweep\"",
+     "13px/490/lh 16px/ls -0.1px/#007e26 x32 \"Yes\"",
+     "13px/490/lh 16px/ls -0.1px/#df0c10 x32 \"No\"",
+     "14px/600/lh 20px/ls -0.09px/#23272d x21 \"All\"",
+     "14px/590/lh 20px/ls -0.09px/#23272d x20 \"Balance of Power: 2026 Midterms\"",
+     "13px/490/lh 16px/ls -0.1px/#6b727b x20 \"Vol.\""
+    ],
+    "headings": [
+     "H1: Politics",
+     "H3: 2026 Midterms Predictions",
+     "H3: Balance of Power: 2026 Midterms",
+     "H3: US-Iran ceasefire continues through...?",
+     "H3: Next French Presidential Election",
+     "H3: Strait of Hormuz traffic returns to normal by September 30?"
+    ]
+   },
+   "contrast": {
+    "textNodes": 388,
+    "aaFailNodes": 127,
+    "failPct": 32.7,
+    "failGroups": 10,
+    "worst": [
+     "1:1 #ffffff on #ffffff 14px/400 x5 \"Polymarket is the world’s largest prediction marke\"",
+     "2.56:1 #8b929b on #e6e8ec 11px/700 x1 \"4.4K\"",
+     "3.14:1 #8b929b on #ffffff 11px/700 x19 \"312\"",
+     "3.14:1 #8b929b on #ffffff 12px/500 x20 \"Predictions & odds\"",
+     "3.14:1 #8b929b on #ffffff 14px/500 x6 \"·\"",
+     "3.14:1 #8b929b on #ffffff 12px/400 x4 \"Polymarket operates globally through separate lega\""
+    ]
+   },
+   "interactive": {
+    "n": 303,
+    "touch": {
+     "ge44": 26,
+     "from24to43": 189,
+     "lt24": 88,
+     "n": 303,
+     "byMinDimension": true
+    },
+    "topHeights": [
+     "20px x77",
+     "27px x64",
+     "28px x41",
+     "36px x30",
+     "40px x27",
+     "42px x20"
+    ],
+    "namelessCount": 1
+   },
+   "spacing": {
+    "pad": [
+     "12 x151",
+     "14 x128",
+     "10 x84",
+     "8 x58",
+     "4 x52",
+     "1 x41",
+     "24 x25",
+     "16 x4",
+     "20 x4",
+     "64 x3"
+    ],
+    "gap": [
+     "8 x408",
+     "6 x176",
+     "4 x116",
+     "16 x110",
+     "12 x24",
+     "10 x20",
+     "2 x9",
+     "20 x2"
+    ],
+    "grid": {
+     "2px": 97.1,
+     "4px": 67.7,
+     "8px": 43.2
+    }
+   },
+   "radii": [
+    "7.2px x70",
+    "5.2px x64",
+    "9.2px x25",
+    "pillpx x23",
+    "15.2px x21",
+    "18px x2",
+    "10px x1",
+    "12px x1"
+   ],
+   "copy": {
+    "ctas": [
+     "Add to favorites x20",
+     "Rewards x18",
+     "View more x4",
+     "Earn 3.25% holding rewards x3",
+     "Help",
+     "Open user menu",
+     "Open more navigation links",
+     "Scroll right",
+     "Toggle filters",
+     "Toggle watchlist",
+     "Show more markets",
+     "What is Polymarket?",
+     "What is a Politics prediction market?",
+     "What topics can I trade on in the Politics category?",
+     "How do Politics odds on Polymarket work?"
+    ],
+    "numberFormats": [
+     "9% x33 e.g. 62% | 32%",
+     "$9M x15 e.g. $14M | $4M",
+     "$9K x4 e.g. $926K | $740K",
+     "<9% x3 e.g. <1%",
+     "9.9K x2 e.g. 4.4K | 1.2K",
+     "$9B x1 e.g. $1B"
+    ],
+    "fee": [],
+    "disclaimers": [
+     {
+      "text": "Terms of Use",
+      "count": 1
+     },
+     {
+      "text": "Polymarket operates globally through separate legal entities. is operated by QCX LLC d/b/a Polymarket US, a CFTC-regulated Designated Contract Market. This international platform is not regulated by the CFTC and operates",
+      "count": 1
+     },
+     {
+      "text": "Terms of Service",
+      "count": 1
+     }
+    ],
+    "empty": [],
+    "error": []
+   },
+   "axe": {
+    "rules": 4,
+    "byImpact": {
+     "serious": 107,
+     "critical": 1,
+     "moderate": 1
+    },
+    "ids": [
+     "aria-hidden-focus(serious,3)",
+     "button-name(critical,1)",
+     "color-contrast(serious,104)",
+     "meta-viewport(moderate,1)"
+    ]
+   },
+   "internalLinksOfInterest": []
+  },
+  "P02-mobile-dark": {
+   "url": "https://polymarket.com/politics",
+   "httpStatus": 200,
+   "textLength": 7746,
+   "gate": true,
+   "dataTheme": "dark",
+   "pageBg": "#0c0e13",
+   "docHeight": 6970,
+   "horizontalOverflow": false,
+   "title": "Politics Prediction Markets & Live Odds 2026 | Polymarket",
+   "structureTop": [
+    "y0 h48 w390 <div> To trade in the US, go to polymarket.us",
+    "y48 h104 w390 <nav navigation sticky> Main",
+    "y152 h6818 w390 <div> Politics",
+    "  y152 h4734 w390 <div> Politics",
+    "  y4886 h2084 w390 <div> Related topics"
+   ],
+   "fixedBars": [
+    "sticky y48 h104 \"Go to polymarket.us Trending Combos Perps Breaking\"",
+    "fixed y784 h60 bottom \"Home Search Breaking More\""
+   ],
+   "type": {
+    "styles": 32,
+    "families": [
+     "inter"
+    ],
+    "sizes": [
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     18,
+     24
+    ],
+    "weights": [
+     "400",
+     "440",
+     "490",
+     "500",
+     "590",
+     "600"
+    ],
+    "top": [
+     "14px/500/lh 20px/ls normal/#ffffff x62 \"Trump\"",
+     "15px/600/lh 22.5px/ls normal/#ffffff x32 \"62%\"",
+     "14px/440/lh 20px/ls -0.09px/#ffffff x32 \"Democrats Sweep\"",
+     "13px/490/lh 16px/ls -0.1px/#53e67f x32 \"Yes\"",
+     "13px/490/lh 16px/ls -0.1px/#ff7767 x32 \"No\"",
+     "14px/590/lh 20px/ls -0.09px/#ffffff x20 \"Balance of Power: 2026 Midterms\"",
+     "13px/490/lh 16px/ls -0.1px/#b6bbc4 x20 \"Vol.\"",
+     "13px/490/lh 16px/ls -0.1px/#b6bbc4 x20 \"$14M\""
+    ],
+    "headings": [
+     "H1: Politics",
+     "H3: 2026 Midterms Predictions",
+     "H3: Balance of Power: 2026 Midterms",
+     "H3: US-Iran ceasefire continues through...?",
+     "H3: Next French Presidential Election",
+     "H3: Strait of Hormuz traffic returns to normal by September 30?"
+    ]
+   },
+   "contrast": {
+    "textNodes": 371,
+    "aaFailNodes": 6,
+    "failPct": 1.6,
+    "failGroups": 2,
+    "worst": [
+     "1:1 #0c0e13 on #0c0e13 14px/400 x5 \"Polymarket is the world’s largest prediction marke\"",
+     "3.32:1 #3262ff on #141f42 14px/500 x1 \"All\""
+    ]
+   },
+   "interactive": {
+    "n": 302,
+    "touch": {
+     "ge44": 30,
+     "from24to43": 191,
+     "lt24": 81,
+     "n": 302,
+     "byMinDimension": true
+    },
+    "topHeights": [
+     "20px x71",
+     "27px x64",
+     "28px x41",
+     "40px x31",
+     "36px x30",
+     "32px x21"
+    ],
+    "namelessCount": 0
+   },
+   "spacing": {
+    "pad": [
+     "12 x158",
+     "14 x128",
+     "8 x65",
+     "4 x49",
+     "10 x40",
+     "20 x21",
+     "16 x17",
+     "48 x3",
+     "6 x2",
+     "40 x2"
+    ],
+    "gap": [
+     "8 x401",
+     "6 x134",
+     "4 x121",
+     "16 x110",
+     "12 x24",
+     "2 x5",
+     "20 x4",
+     "24 x2"
+    ],
+    "grid": {
+     "2px": 99.9,
+     "4px": 76,
+     "8px": 46.9
+    }
+   },
+   "radii": [
+    "7.2px x69",
+    "5.2px x64",
+    "pillpx x23",
+    "15.2px x21",
+    "6px x20",
+    "9.2px x4"
+   ],
+   "copy": {
+    "ctas": [
+     "Add to favorites x20",
+     "Rewards x18",
+     "View more x4",
+     "Earn 3.25% holding rewards x3",
+     "Dismiss",
+     "Toggle filters",
+     "Toggle watchlist",
+     "Show more markets",
+     "What is Polymarket?",
+     "What is a Politics prediction market?",
+     "What topics can I trade on in the Politics category?",
+     "How do Politics odds on Polymarket work?",
+     "Which Politics markets are most active right now?",
+     "English",
+     "Search"
+    ],
+    "numberFormats": [
+     "9% x33 e.g. 62% | 32%",
+     "$9M x15 e.g. $14M | $4M",
+     "$9K x4 e.g. $926K | $740K",
+     "<9% x3 e.g. <1%",
+     "$9B x1 e.g. $1B"
+    ],
+    "fee": [],
+    "disclaimers": [
+     {
+      "text": "Terms of Use",
+      "count": 1
+     },
+     {
+      "text": "Polymarket operates globally through separate legal entities. is operated by QCX LLC d/b/a Polymarket US, a CFTC-regulated Designated Contract Market. This international platform is not regulated by the CFTC and operates",
+      "count": 1
+     },
+     {
+      "text": "Terms of Service",
+      "count": 1
+     }
+    ],
+    "empty": [],
+    "error": []
+   },
+   "axe": {
+    "rules": 2,
+    "byImpact": {
+     "serious": 3,
+     "moderate": 1
+    },
+    "ids": [
+     "aria-hidden-focus(serious,3)",
+     "meta-viewport(moderate,1)"
+    ]
+   },
+   "internalLinksOfInterest": []
+  },
+  "P02-mobile-light": {
+   "url": "https://polymarket.com/politics",
+   "httpStatus": 200,
+   "textLength": 7746,
+   "gate": true,
+   "dataTheme": "light",
+   "pageBg": "#ffffff",
+   "docHeight": 6970,
+   "horizontalOverflow": false,
+   "title": "Politics Prediction Markets & Live Odds 2026 | Polymarket",
+   "structureTop": [
+    "y0 h48 w390 <div> To trade in the US, go to polymarket.us",
+    "y48 h104 w390 <nav navigation sticky> Main",
+    "y152 h6818 w390 <div> Politics",
+    "  y152 h4734 w390 <div> Politics",
+    "  y4886 h2084 w390 <div> Related topics"
+   ],
+   "fixedBars": [
+    "sticky y48 h104 \"Go to polymarket.us Trending Combos Perps Breaking\"",
+    "fixed y784 h60 bottom \"Home Search Breaking More\""
+   ],
+   "type": {
+    "styles": 32,
+    "families": [
+     "inter"
+    ],
+    "sizes": [
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     18,
+     24
+    ],
+    "weights": [
+     "400",
+     "440",
+     "490",
+     "500",
+     "590",
+     "600"
+    ],
+    "top": [
+     "14px/500/lh 20px/ls normal/#23272d x62 \"Trump\"",
+     "15px/600/lh 22.5px/ls normal/#23272d x32 \"62%\"",
+     "14px/440/lh 20px/ls -0.09px/#23272d x32 \"Democrats Sweep\"",
+     "13px/490/lh 16px/ls -0.1px/#007e26 x32 \"Yes\"",
+     "13px/490/lh 16px/ls -0.1px/#df0c10 x32 \"No\"",
+     "14px/590/lh 20px/ls -0.09px/#23272d x20 \"Balance of Power: 2026 Midterms\"",
+     "13px/490/lh 16px/ls -0.1px/#6b727b x20 \"Vol.\"",
+     "13px/490/lh 16px/ls -0.1px/#6b727b x20 \"$14M\""
+    ],
+    "headings": [
+     "H1: Politics",
+     "H3: 2026 Midterms Predictions",
+     "H3: Balance of Power: 2026 Midterms",
+     "H3: US-Iran ceasefire continues through...?",
+     "H3: Next French Presidential Election",
+     "H3: Strait of Hormuz traffic returns to normal by September 30?"
+    ]
+   },
+   "contrast": {
+    "textNodes": 371,
+    "aaFailNodes": 108,
+    "failPct": 29.1,
+    "failGroups": 9,
+    "worst": [
+     "1:1 #ffffff on #ffffff 14px/400 x5 \"Polymarket is the world’s largest prediction marke\"",
+     "3.14:1 #8b929b on #ffffff 12px/500 x20 \"Predictions & odds\"",
+     "3.14:1 #8b929b on #ffffff 14px/500 x6 \"·\"",
+     "3.14:1 #8b929b on #ffffff 12px/400 x4 \"Polymarket operates globally through separate lega\"",
+     "4.28:1 #df0c10 on #fce9e9 13px/490 x32 \"No\"",
+     "4.28:1 #df0c10 on #fce9e9 14px/600 x4 \"No\""
+    ]
+   },
+   "interactive": {
+    "n": 302,
+    "touch": {
+     "ge44": 30,
+     "from24to43": 191,
+     "lt24": 81,
+     "n": 302,
+     "byMinDimension": true
+    },
+    "topHeights": [
+     "20px x71",
+     "27px x64",
+     "28px x41",
+     "40px x31",
+     "36px x30",
+     "32px x21"
+    ],
+    "namelessCount": 0
+   },
+   "spacing": {
+    "pad": [
+     "12 x158",
+     "14 x128",
+     "8 x65",
+     "4 x49",
+     "10 x40",
+     "20 x21",
+     "16 x17",
+     "48 x3",
+     "6 x2",
+     "40 x2"
+    ],
+    "gap": [
+     "8 x401",
+     "6 x134",
+     "4 x121",
+     "16 x110",
+     "12 x24",
+     "2 x5",
+     "20 x4",
+     "24 x2"
+    ],
+    "grid": {
+     "2px": 99.9,
+     "4px": 76,
+     "8px": 46.9
+    }
+   },
+   "radii": [
+    "7.2px x69",
+    "5.2px x64",
+    "pillpx x23",
+    "15.2px x21",
+    "6px x20",
+    "9.2px x4"
+   ],
+   "copy": {
+    "ctas": [
+     "Add to favorites x20",
+     "Rewards x18",
+     "View more x4",
+     "Earn 3.25% holding rewards x3",
+     "Dismiss",
+     "Toggle filters",
+     "Toggle watchlist",
+     "Show more markets",
+     "What is Polymarket?",
+     "What is a Politics prediction market?",
+     "What topics can I trade on in the Politics category?",
+     "How do Politics odds on Polymarket work?",
+     "Which Politics markets are most active right now?",
+     "English",
+     "Search"
+    ],
+    "numberFormats": [
+     "9% x33 e.g. 62% | 32%",
+     "$9M x15 e.g. $14M | $4M",
+     "$9K x4 e.g. $926K | $740K",
+     "<9% x3 e.g. <1%",
+     "$9B x1 e.g. $1B"
+    ],
+    "fee": [],
+    "disclaimers": [
+     {
+      "text": "Terms of Use",
+      "count": 1
+     },
+     {
+      "text": "Polymarket operates globally through separate legal entities. is operated by QCX LLC d/b/a Polymarket US, a CFTC-regulated Designated Contract Market. This international platform is not regulated by the CFTC and operates",
+      "count": 1
+     },
+     {
+      "text": "Terms of Service",
+      "count": 1
+     }
+    ],
+    "empty": [],
+    "error": []
+   },
+   "axe": {
+    "rules": 3,
+    "byImpact": {
+     "serious": 89,
+     "moderate": 1
+    },
+    "ids": [
+     "aria-hidden-focus(serious,3)",
+     "color-contrast(serious,86)",
+     "meta-viewport(moderate,1)"
+    ]
+   },
+   "internalLinksOfInterest": []
+  },
+  "P03-desktop-dark": {
+   "url": "https://polymarket.com/event/will-the-us-invade-iran-before-2027",
+   "httpStatus": 200,
+   "textLength": 9965,
+   "gate": true,
+   "dataTheme": "dark",
+   "pageBg": "#0c0e13",
+   "docHeight": 4344,
+   "horizontalOverflow": false,
+   "title": "Will the U.S. invade Iran before 2027? Trading Odds & Predictions | Polymarket",
+   "structureTop": [
+    "y0 h116 w1425 <nav navigation sticky> Main",
+    "y116 h40 w1425 <div> To trade in the US, go to polymarket.us",
+    "y156 h4188 w1425 <div> Note on Middle East Markets",
+    "  y156 h3288 w1425 <div> Note on Middle East Markets",
+    "  y3444 h900 w1425 <div> Related topics"
+   ],
+   "fixedBars": [
+    "sticky y0 h116 \"Go to polymarket.us Trending Combos Perps Breaking\""
+   ],
+   "type": {
+    "styles": 55,
+    "families": [
+     "inter",
+     "Geist Mono",
+     "Arial"
+    ],
+    "sizes": [
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     18,
+     24,
+     40
+    ],
+    "weights": [
+     "400",
+     "490",
+     "500",
+     "540",
+     "600",
+     "700"
+    ],
+    "top": [
+     "14px/500/lh 20px/ls normal/#ffffff x64 \"Newest\"",
+     "12px/500/lh 16px/ls normal/#999ea7 x20 \"Predictions & odds\"",
+     "14px/600/lh 16px/ls -0.09px/#b6bbc4 x19 \"Trending\"",
+     "12px/400/lh 18px/ls normal/#ffffff x15 \"Dec\"",
+     "14px/500/lh 20px/ls normal/#b6bbc4 x13 \"Will the U.S. invade Iran before 2027?\"",
+     "14px/600/lh 20px/ls -0.09px/#ffffff x12 \"Market Opened:\"",
+     "14px/400/lh 20px/ls -0.09px/#ffffff x11 \"This market will resolve to \"Yes\" if the United States comme\"",
+     "12px/600/lh 12px/ls normal/#009431 x11 \"0\""
+    ],
+    "headings": [
+     "H1: Will the U.S. invade Iran before 2027?",
+     "H3: Order Book",
+     "H2: Frequently Asked Questions",
+     "H3: What is the \"Will the U.S. invade Iran before 2027?\" prediction market?",
+     "H3: How much trading activity has \"Will the U.S. invade Iran before 2027?\" generated on Polymarket?",
+     "H3: How do I trade on \"Will the U.S. invade Iran before 2027?\"?"
+    ]
+   },
+   "contrast": {
+    "textNodes": 274,
+    "aaFailNodes": 12,
+    "failPct": 4.4,
+    "failGroups": 8,
+    "worst": [
+     "1:1 #0c0e13 on #0c0e13 14px/400 x5 \"\"Will the U.S. invade Iran before 2027?\" is a pred\"",
+     "1:1 #1c1f27 on #1c1f27 40px/600 x1 \"$\"",
+     "2.33:1 #99b1ff on #3262ff 14px/600 x1 \"Post\"",
+     "2.72:1 #adc0ff on #3262ff 14px/500 x1 \"Use code for $50\"",
+     "3.39:1 #3262ff on #1c1f27 14px/400 x1 \"0x65070be91...\"",
+     "3.62:1 #b3d6bd on #007723 15px/600 x1 \"Yes\""
+    ]
+   },
+   "interactive": {
+    "n": 208,
+    "touch": {
+     "ge44": 33,
+     "from24to43": 96,
+     "lt24": 79,
+     "n": 208,
+     "byMinDimension": true
+    },
+    "topHeights": [
+     "20px x63",
+     "36px x30",
+     "48px x23",
+     "24px x21",
+     "32px x14",
+     "28px x10"
+    ],
+    "namelessCount": 20
+   },
+   "spacing": {
+    "pad": [
+     "4 x89",
+     "10 x60",
+     "24 x35",
+     "6 x31",
+     "16 x28",
+     "12 x23",
+     "8 x15",
+     "32 x13",
+     "2 x5",
+     "14 x5"
+    ],
+    "gap": [
+     "6 x114",
+     "8 x95",
+     "4 x69",
+     "12 x61",
+     "16 x26",
+     "2 x17",
+     "10 x7",
+     "20 x6"
+    ],
+    "grid": {
+     "2px": 99.6,
+     "4px": 66.2,
+     "8px": 31
+    }
+   },
+   "radii": [
+    "7.2px x25",
+    "9.2px x20",
+    "pillpx x18",
+    "11.2px x9",
+    "15.2px x5",
+    "50px x3",
+    "4px x2",
+    "18px x2"
+   ],
+   "copy": {
+    "ctas": [
+     "0 x9",
+     "View more x4",
+     "1",
+     "Help",
+     "Open user menu",
+     "Open more navigation links",
+     "Scroll right",
+     "Add to favorites",
+     "View past events",
+     "1H",
+     "6H",
+     "1D",
+     "1W",
+     "1M",
+     "ALL"
+    ],
+    "numberFormats": [
+     "9% x9 e.g. 0% | 15%",
+     "+$9 x4 e.g. +$1 | +$5",
+     "9¢ x2 e.g. 16¢ | 85¢",
+     "9% chance x1 e.g. 16% chance",
+     "$9,9,9 Vol. x1 e.g. $69,753,899 Vol.",
+     "9M x1 e.g. 1M",
+     "9.9K No x1 e.g. 9.3K No",
+     "Download the US app and get $9 to trade x1 e.g. Download the US app and get $50 to trade",
+     "Use code for $9 x1 e.g. Use code for $50"
+    ],
+    "fee": [],
+    "disclaimers": [
+     {
+      "text": "Terms of Use",
+      "count": 2
+     },
+     {
+      "text": "Polymarket operates globally through separate legal entities. is operated by QCX LLC d/b/a Polymarket US, a CFTC-regulated Designated Contract Market. This international platform is not regulated by the CFTC and operates",
+      "count": 1
+     },
+     {
+      "text": "Terms of Service",
+      "count": 1
+     }
+    ],
+    "empty": [],
+    "error": [
+     {
+      "text": "WATCH: The IRGC used FPV drones to kill a squad of terrorists in Saravan, Balochistan Province The IRGC Special Ground Forces 110th ‘Salman Al-Farsi’ Brigade is clearing the area.",
+      "count": 1
+     }
+    ]
+   },
+   "axe": {
+    "rules": 8,
+    "byImpact": {
+     "serious": 10,
+     "critical": 18,
+     "moderate": 1
+    },
+    "ids": [
+     "aria-hidden-focus(serious,3)",
+     "aria-required-children(critical,1)",
+     "aria-valid-attr-value(critical,1)",
+     "button-name(critical,16)",
+     "color-contrast(serious,3)",
+     "link-name(serious,3)",
+     "meta-viewport(moderate,1)",
+     "nested-interactive(serious,1)"
+    ]
+   },
+   "internalLinksOfInterest": []
+  },
+  "P03-desktop-light": {
+   "url": "https://polymarket.com/event/will-the-us-invade-iran-before-2027",
+   "httpStatus": 200,
+   "textLength": 9965,
+   "gate": true,
+   "dataTheme": "light",
+   "pageBg": "#ffffff",
+   "docHeight": 4344,
+   "horizontalOverflow": false,
+   "title": "Will the U.S. invade Iran before 2027? Trading Odds & Predictions | Polymarket",
+   "structureTop": [
+    "y0 h116 w1425 <nav navigation sticky> Main",
+    "y116 h40 w1425 <div> To trade in the US, go to polymarket.us",
+    "y156 h4188 w1425 <div> Note on Middle East Markets",
+    "  y156 h3288 w1425 <div> Note on Middle East Markets",
+    "  y3444 h900 w1425 <div> Related topics"
+   ],
+   "fixedBars": [
+    "sticky y0 h116 \"Go to polymarket.us Trending Combos Perps Breaking\""
+   ],
+   "type": {
+    "styles": 58,
+    "families": [
+     "inter",
+     "Geist Mono",
+     "Arial"
+    ],
+    "sizes": [
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     18,
+     24,
+     40
+    ],
+    "weights": [
+     "400",
+     "490",
+     "500",
+     "540",
+     "600",
+     "700"
+    ],
+    "top": [
+     "14px/500/lh 20px/ls normal/#23272d x64 \"Newest\"",
+     "12px/500/lh 16px/ls normal/#8b929b x20 \"Predictions & odds\"",
+     "14px/600/lh 16px/ls -0.09px/#6b727b x19 \"Trending\"",
+     "12px/400/lh 18px/ls normal/#23272d x15 \"Dec\"",
+     "14px/500/lh 20px/ls normal/#6b727b x13 \"Will the U.S. invade Iran before 2027?\"",
+     "14px/600/lh 20px/ls -0.09px/#23272d x12 \"Market Opened:\"",
+     "14px/400/lh 20px/ls -0.09px/#23272d x11 \"This market will resolve to \"Yes\" if the United States comme\"",
+     "12px/600/lh 12px/ls normal/#009c39 x11 \"0\""
+    ],
+    "headings": [
+     "H1: Will the U.S. invade Iran before 2027?",
+     "H3: Order Book",
+     "H2: Frequently Asked Questions",
+     "H3: What is the \"Will the U.S. invade Iran before 2027?\" prediction market?",
+     "H3: How much trading activity has \"Will the U.S. invade Iran before 2027?\" generated on Polymarket?",
+     "H3: How do I trade on \"Will the U.S. invade Iran before 2027?\"?"
+    ]
+   },
+   "contrast": {
+    "textNodes": 274,
+    "aaFailNodes": 59,
+    "failPct": 21.5,
+    "failGroups": 17,
+    "worst": [
+     "1:1 #ffffff on #ffffff 14px/400 x5 \"\"Will the U.S. invade Iran before 2027?\" is a pred\"",
+     "1:1 #ffffff on #ffffff 40px/600 x1 \"$\"",
+     "2.4:1 #97aeff on #2e5cff 14px/600 x1 \"Post\"",
+     "2.82:1 #abbeff on #2e5cff 14px/500 x1 \"Use code for $50\"",
+     "2.89:1 #04af52 on #ffffff 16px/600 x1 \"Yes\"",
+     "3.08:1 #919396 on #ffffff 15px/600 x1 \"No\""
+    ]
+   },
+   "interactive": {
+    "n": 208,
+    "touch": {
+     "ge44": 33,
+     "from24to43": 96,
+     "lt24": 79,
+     "n": 208,
+     "byMinDimension": true
+    },
+    "topHeights": [
+     "20px x63",
+     "36px x30",
+     "48px x23",
+     "24px x21",
+     "32px x14",
+     "28px x10"
+    ],
+    "namelessCount": 20
+   },
+   "spacing": {
+    "pad": [
+     "4 x89",
+     "10 x60",
+     "24 x35",
+     "6 x31",
+     "16 x28",
+     "12 x23",
+     "8 x15",
+     "32 x13",
+     "2 x5",
+     "14 x5"
+    ],
+    "gap": [
+     "6 x114",
+     "8 x95",
+     "4 x69",
+     "12 x61",
+     "16 x26",
+     "2 x17",
+     "10 x7",
+     "20 x6"
+    ],
+    "grid": {
+     "2px": 99.6,
+     "4px": 66.2,
+     "8px": 31
+    }
+   },
+   "radii": [
+    "7.2px x25",
+    "9.2px x20",
+    "pillpx x18",
+    "11.2px x9",
+    "15.2px x5",
+    "50px x3",
+    "4px x2",
+    "18px x2"
+   ],
+   "copy": {
+    "ctas": [
+     "0 x9",
+     "View more x4",
+     "1",
+     "Help",
+     "Open user menu",
+     "Open more navigation links",
+     "Scroll right",
+     "Add to favorites",
+     "View past events",
+     "1H",
+     "6H",
+     "1D",
+     "1W",
+     "1M",
+     "ALL"
+    ],
+    "numberFormats": [
+     "9% x9 e.g. 0% | 15%",
+     "+$9 x4 e.g. +$1 | +$5",
+     "9¢ x2 e.g. 16¢ | 85¢",
+     "9% chance x1 e.g. 16% chance",
+     "$9,9,9 Vol. x1 e.g. $69,753,899 Vol.",
+     "9M x1 e.g. 1M",
+     "9.9K No x1 e.g. 9.3K No",
+     "Download the US app and get $9 to trade x1 e.g. Download the US app and get $50 to trade",
+     "Use code for $9 x1 e.g. Use code for $50"
+    ],
+    "fee": [],
+    "disclaimers": [
+     {
+      "text": "Terms of Use",
+      "count": 2
+     },
+     {
+      "text": "Polymarket operates globally through separate legal entities. is operated by QCX LLC d/b/a Polymarket US, a CFTC-regulated Designated Contract Market. This international platform is not regulated by the CFTC and operates",
+      "count": 1
+     },
+     {
+      "text": "Terms of Service",
+      "count": 1
+     }
+    ],
+    "empty": [],
+    "error": [
+     {
+      "text": "WATCH: The IRGC used FPV drones to kill a squad of terrorists in Saravan, Balochistan Province The IRGC Special Ground Forces 110th ‘Salman Al-Farsi’ Brigade is clearing the area.",
+      "count": 1
+     }
+    ]
+   },
+   "axe": {
+    "rules": 8,
+    "byImpact": {
+     "serious": 27,
+     "critical": 18,
+     "moderate": 1
+    },
+    "ids": [
+     "aria-hidden-focus(serious,3)",
+     "aria-required-children(critical,1)",
+     "aria-valid-attr-value(critical,1)",
+     "button-name(critical,16)",
+     "color-contrast(serious,20)",
+     "link-name(serious,3)",
+     "meta-viewport(moderate,1)",
+     "nested-interactive(serious,1)"
+    ]
+   },
+   "internalLinksOfInterest": []
+  },
+  "P03-mobile-dark": {
+   "url": "https://polymarket.com/event/will-the-us-invade-iran-before-2027",
+   "httpStatus": 200,
+   "textLength": 9151,
+   "gate": true,
+   "dataTheme": "dark",
+   "pageBg": "#0c0e13",
+   "docHeight": 5931,
+   "horizontalOverflow": false,
+   "title": "Will the U.S. invade Iran before 2027? Trading Odds & Predictions | Polymarket",
+   "structureTop": [
+    "y0 h48 w390 <div> To trade in the US, go to polymarket.us",
+    "y48 h104 w390 <nav navigation sticky> Main",
+    "y152 h5779 w390 <div> Note on Middle East Markets",
+    "  y152 h3775 w390 <div> Note on Middle East Markets",
+    "  y3927 h2004 w390 <div> Related topics"
+   ],
+   "fixedBars": [
+    "sticky y48 h104 \"Go to polymarket.us Trending Combos Perps Breaking\"",
+    "sticky y245 h92 \"Politics · Military Strikes Will the U.S. invade I\"",
+    "fixed y659 h185 bottom \"Yes 16¢ No 85¢ How it works Home Search Breaking M\""
+   ],
+   "type": {
+    "styles": 48,
+    "families": [
+     "inter",
+     "Arial"
+    ],
+    "sizes": [
+     11,
+     12,
+     13,
+     14,
+     16,
+     20
+    ],
+    "weights": [
+     "400",
+     "490",
+     "500",
+     "540",
+     "600",
+     "700"
+    ],
+    "top": [
+     "14px/500/lh 20px/ls normal/#ffffff x64 \"Newest\"",
+     "12px/500/lh 16px/ls normal/#999ea7 x20 \"Predictions & odds\"",
+     "14px/600/lh 16px/ls -0.09px/#b6bbc4 x19 \"Trending\"",
+     "14px/500/lh 20px/ls normal/#b6bbc4 x12 \"Related topics\"",
+     "14px/600/lh 20px/ls -0.09px/#ffffff x11 \"Prince-of-Persia\"",
+     "12px/600/lh 12px/ls normal/#009431 x11 \"0\"",
+     "14px/400/lh 20px/ls -0.09px/#ffffff x10 \"This market will resolve to \"Yes\" if the United States comme\"",
+     "13px/500/lh 16px/ls -0.1px/#b6bbc4 x10 \"1d ago\""
+    ],
+    "headings": [
+     "H3: Note on Middle East Markets",
+     "H1: Will the U.S. invade Iran before 2027?",
+     "H3: Order Book",
+     "H3: Related",
+     "H2: Frequently Asked Questions",
+     "H3: What is the \"Will the U.S. invade Iran before 2027?\" prediction market?"
+    ]
+   },
+   "contrast": {
+    "textNodes": 258,
+    "aaFailNodes": 12,
+    "failPct": 4.7,
+    "failGroups": 8,
+    "worst": [
+     "1:1 #0c0e13 on #0c0e13 14px/400 x5 \"\"Will the U.S. invade Iran before 2027?\" is a pred\"",
+     "2.33:1 #99b1ff on #3262ff 14px/600 x1 \"Post\"",
+     "2.92:1 #f5b6b7 on #df0b10 14px/600 x1 \"No\"",
+     "3.39:1 #3262ff on #1c1f27 14px/400 x1 \"0x65070be91...\"",
+     "3.62:1 #b3d6bd on #007723 14px/600 x1 \"Yes\"",
+     "3.68:1 #df0b10 on #220e13 12px/600 x1 \"9.3K No\""
+    ]
+   },
+   "interactive": {
+    "n": 195,
+    "touch": {
+     "ge44": 35,
+     "from24to43": 81,
+     "lt24": 79,
+     "n": 195,
+     "byMinDimension": true
+    },
+    "topHeights": [
+     "20px x64",
+     "36px x26",
+     "48px x23",
+     "24px x22",
+     "28px x10",
+     "18px x9"
+    ],
+    "namelessCount": 17
+   },
+   "spacing": {
+    "pad": [
+     "4 x92",
+     "10 x40",
+     "12 x30",
+     "16 x29",
+     "6 x27",
+     "20 x17",
+     "8 x15",
+     "24 x12",
+     "32 x11",
+     "2 x9"
+    ],
+    "gap": [
+     "6 x108",
+     "8 x77",
+     "4 x69",
+     "12 x53",
+     "16 x16",
+     "10 x11",
+     "2 x9",
+     "9 x2"
+    ],
+    "grid": {
+     "2px": 99.7,
+     "4px": 67,
+     "8px": 26.3
+    }
+   },
+   "radii": [
+    "7.2px x25",
+    "pillpx x13",
+    "9.2px x13",
+    "11.2px x10",
+    "15.2px x4",
+    "50px x3",
+    "4px x2"
+   ],
+   "copy": {
+    "ctas": [
+     "0 x9",
+     "Show more x4",
+     "View more x4",
+     "1",
+     "Dismiss",
+     "Note on Middle East Markets",
+     "Share",
+     "Add to favorites",
+     "View past events",
+     "1H",
+     "1D",
+     "1W",
+     "1M",
+     "MAX",
+     "Expand Order Book section"
+    ],
+    "numberFormats": [
+     "9% x9 e.g. 0% | 15%",
+     "9¢ x2 e.g. 16¢ | 85¢",
+     "9% chance x1 e.g. 16% chance",
+     "$9,9,9 Vol. x1 e.g. $69,753,899 Vol.",
+     "9M x1 e.g. 1M",
+     "$9 x1 e.g. $0",
+     "9.9K No x1 e.g. 9.3K No"
+    ],
+    "fee": [],
+    "disclaimers": [
+     {
+      "text": "Terms of Use",
+      "count": 1
+     },
+     {
+      "text": "Polymarket operates globally through separate legal entities. is operated by QCX LLC d/b/a Polymarket US, a CFTC-regulated Designated Contract Market. This international platform is not regulated by the CFTC and operates",
+      "count": 1
+     },
+     {
+      "text": "Terms of Service",
+      "count": 1
+     }
+    ],
+    "empty": [],
+    "error": [
+     {
+      "text": "WATCH: The IRGC used FPV drones to kill a squad of terrorists in Saravan, Balochistan Province The IRGC Special Ground Forces 110th ‘Salman Al-Farsi’ Brigade is clearing the area.",
+      "count": 1
+     }
+    ]
+   },
+   "axe": {
+    "rules": 8,
+    "byImpact": {
+     "serious": 11,
+     "critical": 15,
+     "moderate": 1
+    },
+    "ids": [
+     "aria-hidden-focus(serious,3)",
+     "aria-required-children(critical,1)",
+     "aria-valid-attr-value(critical,1)",
+     "button-name(critical,13)",
+     "color-contrast(serious,3)",
+     "link-name(serious,3)",
+     "meta-viewport(moderate,1)",
+     "target-size(serious,2)"
+    ]
+   },
+   "internalLinksOfInterest": []
+  },
+  "P03-mobile-light": {
+   "url": "https://polymarket.com/event/will-the-us-invade-iran-before-2027",
+   "httpStatus": 200,
+   "textLength": 9151,
+   "gate": true,
+   "dataTheme": "light",
+   "pageBg": "#ffffff",
+   "docHeight": 5931,
+   "horizontalOverflow": false,
+   "title": "Will the U.S. invade Iran before 2027? Trading Odds & Predictions | Polymarket",
+   "structureTop": [
+    "y0 h48 w390 <div> To trade in the US, go to polymarket.us",
+    "y48 h104 w390 <nav navigation sticky> Main",
+    "y152 h5779 w390 <div> Note on Middle East Markets",
+    "  y152 h3775 w390 <div> Note on Middle East Markets",
+    "  y3927 h2004 w390 <div> Related topics"
+   ],
+   "fixedBars": [
+    "sticky y48 h104 \"Go to polymarket.us Trending Combos Perps Breaking\"",
+    "sticky y245 h92 \"Politics · Military Strikes Will the U.S. invade I\"",
+    "fixed y659 h185 bottom \"Yes 16¢ No 85¢ How it works Home Search Breaking M\""
+   ],
+   "type": {
+    "styles": 49,
+    "families": [
+     "inter",
+     "Arial"
+    ],
+    "sizes": [
+     11,
+     12,
+     13,
+     14,
+     16,
+     20
+    ],
+    "weights": [
+     "400",
+     "490",
+     "500",
+     "540",
+     "600",
+     "700"
+    ],
+    "top": [
+     "14px/500/lh 20px/ls normal/#23272d x64 \"Newest\"",
+     "12px/500/lh 16px/ls normal/#8b929b x20 \"Predictions & odds\"",
+     "14px/600/lh 16px/ls -0.09px/#6b727b x19 \"Trending\"",
+     "14px/500/lh 20px/ls normal/#6b727b x12 \"Related topics\"",
+     "14px/600/lh 20px/ls -0.09px/#23272d x11 \"Prince-of-Persia\"",
+     "12px/600/lh 12px/ls normal/#009c39 x11 \"0\"",
+     "14px/400/lh 20px/ls -0.09px/#23272d x10 \"This market will resolve to \"Yes\" if the United States comme\"",
+     "13px/500/lh 16px/ls -0.1px/#6b727b x10 \"1d ago\""
+    ],
+    "headings": [
+     "H3: Note on Middle East Markets",
+     "H1: Will the U.S. invade Iran before 2027?",
+     "H3: Order Book",
+     "H3: Related",
+     "H2: Frequently Asked Questions",
+     "H3: What is the \"Will the U.S. invade Iran before 2027?\" prediction market?"
+    ]
+   },
+   "contrast": {
+    "textNodes": 258,
+    "aaFailNodes": 52,
+    "failPct": 20.2,
+    "failGroups": 11,
+    "worst": [
+     "1:1 #ffffff on #ffffff 14px/400 x5 \"\"Will the U.S. invade Iran before 2027?\" is a pred\"",
+     "2.4:1 #97aeff on #2e5cff 14px/600 x1 \"Post\"",
+     "2.92:1 #f5b6b7 on #df0c10 14px/600 x1 \"No\"",
+     "3.14:1 #8b929b on #ffffff 12px/500 x20 \"Predictions & odds\"",
+     "3.14:1 #8b929b on #ffffff 14px/500 x6 \"·\"",
+     "3.14:1 #8b929b on #ffffff 12px/400 x4 \"Polymarket operates globally through separate lega\""
+    ]
+   },
+   "interactive": {
+    "n": 195,
+    "touch": {
+     "ge44": 35,
+     "from24to43": 81,
+     "lt24": 79,
+     "n": 195,
+     "byMinDimension": true
+    },
+    "topHeights": [
+     "20px x64",
+     "36px x26",
+     "48px x23",
+     "24px x22",
+     "28px x10",
+     "18px x9"
+    ],
+    "namelessCount": 17
+   },
+   "spacing": {
+    "pad": [
+     "4 x92",
+     "10 x40",
+     "12 x30",
+     "16 x29",
+     "6 x27",
+     "20 x17",
+     "8 x15",
+     "24 x12",
+     "32 x11",
+     "2 x9"
+    ],
+    "gap": [
+     "6 x108",
+     "8 x77",
+     "4 x69",
+     "12 x53",
+     "16 x16",
+     "10 x11",
+     "2 x9",
+     "9 x2"
+    ],
+    "grid": {
+     "2px": 99.7,
+     "4px": 67,
+     "8px": 26.3
+    }
+   },
+   "radii": [
+    "7.2px x25",
+    "pillpx x13",
+    "9.2px x13",
+    "11.2px x10",
+    "15.2px x4",
+    "50px x3",
+    "4px x2"
+   ],
+   "copy": {
+    "ctas": [
+     "0 x9",
+     "Show more x4",
+     "View more x4",
+     "1",
+     "Dismiss",
+     "Note on Middle East Markets",
+     "Share",
+     "Add to favorites",
+     "View past events",
+     "1H",
+     "1D",
+     "1W",
+     "1M",
+     "MAX",
+     "Expand Order Book section"
+    ],
+    "numberFormats": [
+     "9% x9 e.g. 0% | 15%",
+     "9¢ x2 e.g. 16¢ | 85¢",
+     "9% chance x1 e.g. 16% chance",
+     "$9,9,9 Vol. x1 e.g. $69,753,899 Vol.",
+     "9M x1 e.g. 1M",
+     "$9 x1 e.g. $0",
+     "9.9K No x1 e.g. 9.3K No"
+    ],
+    "fee": [],
+    "disclaimers": [
+     {
+      "text": "Terms of Use",
+      "count": 1
+     },
+     {
+      "text": "Polymarket operates globally through separate legal entities. is operated by QCX LLC d/b/a Polymarket US, a CFTC-regulated Designated Contract Market. This international platform is not regulated by the CFTC and operates",
+      "count": 1
+     },
+     {
+      "text": "Terms of Service",
+      "count": 1
+     }
+    ],
+    "empty": [],
+    "error": [
+     {
+      "text": "WATCH: The IRGC used FPV drones to kill a squad of terrorists in Saravan, Balochistan Province The IRGC Special Ground Forces 110th ‘Salman Al-Farsi’ Brigade is clearing the area.",
+      "count": 1
+     }
+    ]
+   },
+   "axe": {
+    "rules": 8,
+    "byImpact": {
+     "serious": 23,
+     "critical": 15,
+     "moderate": 1
+    },
+    "ids": [
+     "aria-hidden-focus(serious,3)",
+     "aria-required-children(critical,1)",
+     "aria-valid-attr-value(critical,1)",
+     "button-name(critical,13)",
+     "color-contrast(serious,15)",
+     "link-name(serious,3)",
+     "meta-viewport(moderate,1)",
+     "target-size(serious,2)"
+    ]
+   },
+   "internalLinksOfInterest": []
+  },
+  "P04-desktop-dark": {
+   "url": "https://polymarket.com/event/los-angeles-mayoral-election-117",
+   "httpStatus": 200,
+   "textLength": 10432,
+   "gate": true,
+   "dataTheme": "dark",
+   "pageBg": "#0c0e13",
+   "docHeight": 5555,
+   "horizontalOverflow": false,
+   "title": "Los Angeles Mayoral Election Predictions & Odds 2026 | Polymarket",
+   "structureTop": [
+    "y0 h116 w1425 <nav navigation sticky> Main",
+    "y116 h40 w1425 <div> To trade in the US, go to polymarket.us",
+    "y156 h5399 w1425 <div> Los Angeles Mayoral Election",
+    "  y156 h4499 w1425 <div> Los Angeles Mayoral Election",
+    "  y4655 h900 w1425 <div> Related topics"
+   ],
+   "fixedBars": [
+    "sticky y0 h116 \"Go to polymarket.us Trending Combos Perps Breaking\""
+   ],
+   "type": {
+    "styles": 68,
+    "families": [
+     "inter",
+     "Geist Mono",
+     "Arial"
+    ],
+    "sizes": [
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     18,
+     24,
+     26,
+     28,
+     40
+    ],
+    "weights": [
+     "400",
+     "490",
+     "500",
+     "540",
+     "600"
+    ],
+    "top": [
+     "14px/500/lh 20px/ls normal/#ffffff x64 \"Newest\"",
+     "12px/500/lh 16px/ls normal/#999ea7 x20 \"Predictions & odds\"",
+     "14px/600/lh 16px/ls -0.09px/#b6bbc4 x19 \"Trending\"",
+     "14px/600/lh 20px/ls -0.09px/#ffffff x16 \"Market Opened:\"",
+     "12px/400/lh 18px/ls normal/#ffffff x15 \"Dec\"",
+     "13px/500/lh 16px/ls -0.1px/#b6bbc4 x14 \"16h ago\"",
+     "12px/600/lh 16px/ls -0.09px/#b6bbc4 x14 \"1\"",
+     "14px/500/lh 20px/ls normal/#b6bbc4 x13 \"Los Angeles Mayoral Election\""
+    ],
+    "headings": [
+     "H1: Los Angeles Mayoral Election",
+     "H2: Frequently Asked Questions",
+     "H3: What is the \"Los Angeles Mayoral Election\" prediction market?",
+     "H3: How much trading activity has \"Los Angeles Mayoral Election\" generated on Polymarket?",
+     "H3: How do I trade on \"Los Angeles Mayoral Election\"?",
+     "H3: What are the current odds for \"Los Angeles Mayoral Election\"?"
+    ]
+   },
+   "contrast": {
+    "textNodes": 311,
+    "aaFailNodes": 30,
+    "failPct": 9.6,
+    "failGroups": 13,
+    "worst": [
+     "1:1 #0c0e13 on #0c0e13 14px/400 x5 \"\"Los Angeles Mayoral Election\" is a prediction mar\"",
+     "1:1 #1c1f27 on #1c1f27 40px/600 x1 \"$\"",
+     "2.33:1 #99b1ff on #3262ff 14px/600 x1 \"Post\"",
+     "2.72:1 #adc0ff on #3262ff 14px/500 x1 \"Use code for $50\"",
+     "2.96:1 #bf0000 on #0c0e13 12px/600 x1 \"6%\"",
+     "3.03:1 #007723 on #0a1e15 12px/600 x10 \"120.1K Nithya Raman\""
+    ]
+   },
+   "interactive": {
+    "n": 248,
+    "touch": {
+     "ge44": 36,
+     "from24to43": 113,
+     "lt24": 99,
+     "n": 248,
+     "byMinDimension": true
+    },
+    "topHeights": [
+     "20px x67",
+     "24px x32",
+     "36px x30",
+     "48px x27",
+     "28px x14",
+     "32px x14"
+    ],
+    "namelessCount": 26
+   },
+   "spacing": {
+    "pad": [
+     "4 x101",
+     "10 x60",
+     "6 x56",
+     "8 x51",
+     "24 x35",
+     "16 x28",
+     "12 x25",
+     "32 x17",
+     "2 x11",
+     "14 x5"
+    ],
+    "gap": [
+     "6 x150",
+     "8 x109",
+     "4 x102",
+     "12 x66",
+     "16 x30",
+     "2 x17",
+     "10 x7",
+     "20 x6"
+    ],
+    "grid": {
+     "2px": 99.4,
+     "4px": 65.2,
+     "8px": 31.3
+    }
+   },
+   "radii": [
+    "7.2px x56",
+    "9.2px x22",
+    "pillpx x19",
+    "11.2px x12",
+    "50px x4",
+    "15.2px x4",
+    "4px x2",
+    "18px x2"
+   ],
+   "copy": {
+    "ctas": [
+     "sort-markets-by x12",
+     "0 x5",
+     "1 x4",
+     "View more x4",
+     "2 x2",
+     "Rewards x2",
+     "1 Replies x2",
+     "6",
+     "7",
+     "8",
+     "Help",
+     "Open user menu",
+     "Open more navigation links",
+     "Scroll right",
+     "Add to favorites"
+    ],
+    "numberFormats": [
+     "9% x14 e.g. 0% | 20%",
+     "9.9K Nithya Raman x10 e.g. 120.1K Nithya Raman | 16.3K Nithya Raman",
+     "9.9¢ x4 e.g. 58.6¢ | 41.5¢",
+     "+$9 x4 e.g. +$1 | +$5",
+     "$9,9,9 Vol. x3 e.g. $14,562,145 Vol. | $2,158,796 Vol.",
+     "9¢ x2 e.g. 43¢ | 58¢",
+     "9.9% x1 e.g. 58.5%",
+     "9M x1 e.g. 1M",
+     "Download the US app and get $9 to trade x1 e.g. Download the US app and get $50 to trade",
+     "Use code for $9 x1 e.g. Use code for $50"
+    ],
+    "fee": [],
+    "disclaimers": [
+     {
+      "text": "Terms of Use",
+      "count": 2
+     },
+     {
+      "text": "Polymarket operates globally through separate legal entities. is operated by QCX LLC d/b/a Polymarket US, a CFTC-regulated Designated Contract Market. This international platform is not regulated by the CFTC and operates",
+      "count": 1
+     },
+     {
+      "text": "Terms of Service",
+      "count": 1
+     }
+    ],
+    "empty": [],
+    "error": [
+     {
+      "text": "What's the margin of mogging error and have we accounted for mail-in mewing?",
+      "count": 1
+     }
+    ]
+   },
+   "axe": {
+    "rules": 9,
+    "byImpact": {
+     "critical": 25,
+     "serious": 24,
+     "moderate": 1
+    },
+    "ids": [
+     "aria-allowed-attr(critical,2)",
+     "aria-hidden-focus(serious,3)",
+     "aria-required-children(critical,1)",
+     "aria-valid-attr-value(critical,1)",
+     "button-name(critical,21)",
+     "color-contrast(serious,16)",
+     "link-name(serious,4)",
+     "meta-viewport(moderate,1)",
+     "nested-interactive(serious,1)"
+    ]
+   },
+   "internalLinksOfInterest": []
+  },
+  "P04-desktop-light": {
+   "url": "https://polymarket.com/event/los-angeles-mayoral-election-117",
+   "httpStatus": 200,
+   "textLength": 10432,
+   "gate": true,
+   "dataTheme": "light",
+   "pageBg": "#ffffff",
+   "docHeight": 5555,
+   "horizontalOverflow": false,
+   "title": "Los Angeles Mayoral Election Predictions & Odds 2026 | Polymarket",
+   "structureTop": [
+    "y0 h116 w1425 <nav navigation sticky> Main",
+    "y116 h40 w1425 <div> To trade in the US, go to polymarket.us",
+    "y156 h5399 w1425 <div> Los Angeles Mayoral Election",
+    "  y156 h4499 w1425 <div> Los Angeles Mayoral Election",
+    "  y4655 h900 w1425 <div> Related topics"
+   ],
+   "fixedBars": [
+    "sticky y0 h116 \"Go to polymarket.us Trending Combos Perps Breaking\""
+   ],
+   "type": {
+    "styles": 71,
+    "families": [
+     "inter",
+     "Geist Mono",
+     "Arial"
+    ],
+    "sizes": [
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     18,
+     24,
+     26,
+     28,
+     40
+    ],
+    "weights": [
+     "400",
+     "490",
+     "500",
+     "540",
+     "600"
+    ],
+    "top": [
+     "14px/500/lh 20px/ls normal/#23272d x64 \"Newest\"",
+     "12px/500/lh 16px/ls normal/#8b929b x20 \"Predictions & odds\"",
+     "14px/600/lh 16px/ls -0.09px/#6b727b x19 \"Trending\"",
+     "14px/600/lh 20px/ls -0.09px/#23272d x16 \"Market Opened:\"",
+     "12px/400/lh 18px/ls normal/#23272d x15 \"Dec\"",
+     "13px/500/lh 16px/ls -0.1px/#6b727b x14 \"16h ago\"",
+     "12px/600/lh 16px/ls -0.09px/#6b727b x14 \"1\"",
+     "14px/500/lh 20px/ls normal/#6b727b x13 \"Los Angeles Mayoral Election\""
+    ],
+    "headings": [
+     "H1: Los Angeles Mayoral Election",
+     "H2: Frequently Asked Questions",
+     "H3: What is the \"Los Angeles Mayoral Election\" prediction market?",
+     "H3: How much trading activity has \"Los Angeles Mayoral Election\" generated on Polymarket?",
+     "H3: How do I trade on \"Los Angeles Mayoral Election\"?",
+     "H3: What are the current odds for \"Los Angeles Mayoral Election\"?"
+    ]
+   },
+   "contrast": {
+    "textNodes": 311,
+    "aaFailNodes": 61,
+    "failPct": 19.6,
+    "failGroups": 26,
+    "worst": [
+     "1:1 #ffffff on #ffffff 14px/400 x5 \"\"Los Angeles Mayoral Election\" is a prediction mar\"",
+     "1:1 #ffffff on #ffffff 40px/600 x1 \"$\"",
+     "1.68:1 #f6c030 on #ffffff 13px/500 x1 \"Karen Bass\"",
+     "1.68:1 #f6c030 on #ffffff 26px/600 x1 \"43%\"",
+     "2.4:1 #97aeff on #2e5cff 14px/600 x1 \"Post\"",
+     "2.82:1 #abbeff on #2e5cff 14px/500 x1 \"Use code for $50\""
+    ]
+   },
+   "interactive": {
+    "n": 248,
+    "touch": {
+     "ge44": 36,
+     "from24to43": 113,
+     "lt24": 99,
+     "n": 248,
+     "byMinDimension": true
+    },
+    "topHeights": [
+     "20px x67",
+     "24px x32",
+     "36px x30",
+     "48px x27",
+     "28px x14",
+     "32px x14"
+    ],
+    "namelessCount": 26
+   },
+   "spacing": {
+    "pad": [
+     "4 x101",
+     "10 x60",
+     "6 x56",
+     "8 x51",
+     "24 x35",
+     "16 x28",
+     "12 x25",
+     "32 x17",
+     "2 x11",
+     "14 x5"
+    ],
+    "gap": [
+     "6 x150",
+     "8 x109",
+     "4 x102",
+     "12 x66",
+     "16 x30",
+     "2 x17",
+     "10 x7",
+     "20 x6"
+    ],
+    "grid": {
+     "2px": 99.4,
+     "4px": 65.2,
+     "8px": 31.3
+    }
+   },
+   "radii": [
+    "7.2px x56",
+    "9.2px x22",
+    "pillpx x19",
+    "11.2px x12",
+    "50px x4",
+    "15.2px x4",
+    "4px x2",
+    "18px x2"
+   ],
+   "copy": {
+    "ctas": [
+     "sort-markets-by x12",
+     "0 x5",
+     "1 x4",
+     "View more x4",
+     "2 x2",
+     "Rewards x2",
+     "1 Replies x2",
+     "6",
+     "7",
+     "8",
+     "Help",
+     "Open user menu",
+     "Open more navigation links",
+     "Scroll right",
+     "Add to favorites"
+    ],
+    "numberFormats": [
+     "9% x14 e.g. 0% | 20%",
+     "9.9K Nithya Raman x10 e.g. 120.1K Nithya Raman | 16.3K Nithya Raman",
+     "9.9¢ x4 e.g. 58.6¢ | 41.5¢",
+     "+$9 x4 e.g. +$1 | +$5",
+     "$9,9,9 Vol. x3 e.g. $14,562,145 Vol. | $2,158,796 Vol.",
+     "9¢ x2 e.g. 43¢ | 58¢",
+     "9.9% x1 e.g. 58.5%",
+     "9M x1 e.g. 1M",
+     "Download the US app and get $9 to trade x1 e.g. Download the US app and get $50 to trade",
+     "Use code for $9 x1 e.g. Use code for $50"
+    ],
+    "fee": [],
+    "disclaimers": [
+     {
+      "text": "Terms of Use",
+      "count": 2
+     },
+     {
+      "text": "Polymarket operates globally through separate legal entities. is operated by QCX LLC d/b/a Polymarket US, a CFTC-regulated Designated Contract Market. This international platform is not regulated by the CFTC and operates",
+      "count": 1
+     },
+     {
+      "text": "Terms of Service",
+      "count": 1
+     }
+    ],
+    "empty": [],
+    "error": [
+     {
+      "text": "What's the margin of mogging error and have we accounted for mail-in mewing?",
+      "count": 1
+     }
+    ]
+   },
+   "axe": {
+    "rules": 9,
+    "byImpact": {
+     "critical": 25,
+     "serious": 38,
+     "moderate": 1
+    },
+    "ids": [
+     "aria-allowed-attr(critical,2)",
+     "aria-hidden-focus(serious,3)",
+     "aria-required-children(critical,1)",
+     "aria-valid-attr-value(critical,1)",
+     "button-name(critical,21)",
+     "color-contrast(serious,30)",
+     "link-name(serious,4)",
+     "meta-viewport(moderate,1)",
+     "nested-interactive(serious,1)"
+    ]
+   },
+   "internalLinksOfInterest": []
+  },
+  "P04-mobile-dark": {
+   "url": "https://polymarket.com/event/los-angeles-mayoral-election-117",
+   "httpStatus": 200,
+   "textLength": 9972,
+   "gate": true,
+   "dataTheme": "dark",
+   "pageBg": "#0c0e13",
+   "docHeight": 7211,
+   "horizontalOverflow": false,
+   "title": "Los Angeles Mayoral Election Predictions & Odds 2026 | Polymarket",
+   "structureTop": [
+    "y0 h48 w390 <div> To trade in the US, go to polymarket.us",
+    "y48 h104 w390 <nav navigation sticky> Main",
+    "y152 h7059 w390 <div> Los Angeles Mayoral Election",
+    "  y152 h5014 w390 <div> Los Angeles Mayoral Election",
+    "  y5166 h2044 w390 <div> Related topics"
+   ],
+   "fixedBars": [
+    "sticky y48 h104 \"Go to polymarket.us Trending Combos Perps Breaking\"",
+    "sticky y168 h92 \"Politics · LA Los Angeles Mayoral Election\"",
+    "fixed y739 h105 bottom \"How it works Home Search Breaking More\""
+   ],
+   "type": {
+    "styles": 53,
+    "families": [
+     "inter",
+     "Arial"
+    ],
+    "sizes": [
+     11,
+     12,
+     13,
+     14,
+     16,
+     20,
+     26,
+     28
+    ],
+    "weights": [
+     "400",
+     "490",
+     "500",
+     "540",
+     "600",
+     "700"
+    ],
+    "top": [
+     "14px/500/lh 20px/ls normal/#ffffff x64 \"Newest\"",
+     "12px/500/lh 16px/ls normal/#999ea7 x20 \"Predictions & odds\"",
+     "14px/600/lh 16px/ls -0.09px/#b6bbc4 x19 \"Trending\"",
+     "14px/600/lh 20px/ls -0.09px/#ffffff x15 \"tiongbu\"",
+     "12px/600/lh 16px/ls -0.09px/#b6bbc4 x14 \"1\"",
+     "14px/500/lh 20px/ls normal/#b6bbc4 x13 \"View resolved\"",
+     "14px/400/lh 20px/ls -0.09px/#ffffff x10 \"The 2026 Los Angeles mayoral election will be held on June 2\"",
+     "12px/600/lh 16px/ls -0.09px/#007723 x10 \"120.1K Nithya Raman\""
+    ],
+    "headings": [
+     "H1: Los Angeles Mayoral Election",
+     "H3: Related",
+     "H2: Frequently Asked Questions",
+     "H3: What is the \"Los Angeles Mayoral Election\" prediction market?",
+     "H3: How much trading activity has \"Los Angeles Mayoral Election\" generated on Polymarket?",
+     "H3: How do I trade on \"Los Angeles Mayoral Election\"?"
+    ]
+   },
+   "contrast": {
+    "textNodes": 277,
+    "aaFailNodes": 25,
+    "failPct": 9,
+    "failGroups": 7,
+    "worst": [
+     "1:1 #0c0e13 on #0c0e13 14px/400 x5 \"\"Los Angeles Mayoral Election\" is a prediction mar\"",
+     "2.33:1 #99b1ff on #3262ff 14px/600 x1 \"Post\"",
+     "3.03:1 #007723 on #0a1e15 12px/600 x10 \"120.1K Nithya Raman\"",
+     "3.39:1 #3262ff on #1c1f27 14px/400 x1 \"0x2f5e3684c...\"",
+     "3.68:1 #df0b10 on #220e13 12px/600 x2 \"600 Karen Bass\"",
+     "3.83:1 #257d5d on #0c0e13 13px/500 x1 \"Nithya Raman\""
+    ]
+   },
+   "interactive": {
+    "n": 228,
+    "touch": {
+     "ge44": 35,
+     "from24to43": 102,
+     "lt24": 91,
+     "n": 228,
+     "byMinDimension": true
+    },
+    "topHeights": [
+     "20px x62",
+     "24px x33",
+     "36px x27",
+     "48px x23",
+     "28px x14",
+     "22px x12"
+    ],
+    "namelessCount": 23
+   },
+   "spacing": {
+    "pad": [
+     "4 x103",
+     "6 x52",
+     "8 x51",
+     "10 x40",
+     "12 x30",
+     "16 x26",
+     "20 x17",
+     "32 x15",
+     "2 x13",
+     "24 x12"
+    ],
+    "gap": [
+     "6 x144",
+     "4 x88",
+     "8 x85",
+     "12 x63",
+     "16 x20",
+     "10 x11",
+     "2 x9",
+     "3.3 x4"
+    ],
+    "grid": {
+     "2px": 99.5,
+     "4px": 65.1,
+     "8px": 27.3
+    }
+   },
+   "radii": [
+    "7.2px x53",
+    "pillpx x15",
+    "11.2px x13",
+    "9.2px x12",
+    "50px x4",
+    "15.2px x3",
+    "4px x2"
+   ],
+   "copy": {
+    "ctas": [
+     "sort-markets-by x12",
+     "0 x5",
+     "1 x4",
+     "View more x4",
+     "Show more x3",
+     "2 x2",
+     "1 Replies x2",
+     "6",
+     "7",
+     "8",
+     "Dismiss",
+     "Add to favorites",
+     "1H",
+     "1D",
+     "1W"
+    ],
+    "numberFormats": [
+     "9% x12 e.g. 0% | 20%",
+     "9.9K Nithya Raman x10 e.g. 120.1K Nithya Raman | 16.3K Nithya Raman",
+     "$9,9,9 Vol. x3 e.g. $14,562,145 Vol. | $2,158,796 Vol.",
+     "9.9% x1 e.g. 58.6%",
+     "9M x1 e.g. 1M",
+     "Buy Yes 9.9¢ x1 e.g. Buy Yes 58.6¢",
+     "Buy No 9.9¢ x1 e.g. Buy No 41.5¢",
+     "Buy Yes 9¢ x1 e.g. Buy Yes 43¢",
+     "Buy No 9¢ x1 e.g. Buy No 58¢",
+     "$9,9,9 x1 e.g. $14,562,145"
+    ],
+    "fee": [],
+    "disclaimers": [
+     {
+      "text": "Terms of Use",
+      "count": 1
+     },
+     {
+      "text": "Polymarket operates globally through separate legal entities. is operated by QCX LLC d/b/a Polymarket US, a CFTC-regulated Designated Contract Market. This international platform is not regulated by the CFTC and operates",
+      "count": 1
+     },
+     {
+      "text": "Terms of Service",
+      "count": 1
+     }
+    ],
+    "empty": [],
+    "error": [
+     {
+      "text": "What's the margin of mogging error and have we accounted for mail-in mewing?",
+      "count": 1
+     }
+    ]
+   },
+   "axe": {
+    "rules": 8,
+    "byImpact": {
+     "serious": 21,
+     "critical": 20,
+     "moderate": 1
+    },
+    "ids": [
+     "aria-hidden-focus(serious,3)",
+     "aria-required-children(critical,1)",
+     "aria-valid-attr-value(critical,1)",
+     "button-name(critical,18)",
+     "color-contrast(serious,11)",
+     "link-name(serious,4)",
+     "meta-viewport(moderate,1)",
+     "target-size(serious,3)"
+    ]
+   },
+   "internalLinksOfInterest": []
+  },
+  "P04-mobile-light": {
+   "url": "https://polymarket.com/event/los-angeles-mayoral-election-117",
+   "httpStatus": 200,
+   "textLength": 9972,
+   "gate": true,
+   "dataTheme": "light",
+   "pageBg": "#ffffff",
+   "docHeight": 7211,
+   "horizontalOverflow": false,
+   "title": "Los Angeles Mayoral Election Predictions & Odds 2026 | Polymarket",
+   "structureTop": [
+    "y0 h48 w390 <div> To trade in the US, go to polymarket.us",
+    "y48 h104 w390 <nav navigation sticky> Main",
+    "y152 h7059 w390 <div> Los Angeles Mayoral Election",
+    "  y152 h5014 w390 <div> Los Angeles Mayoral Election",
+    "  y5166 h2044 w390 <div> Related topics"
+   ],
+   "fixedBars": [
+    "sticky y48 h104 \"Go to polymarket.us Trending Combos Perps Breaking\"",
+    "sticky y168 h92 \"Politics · LA Los Angeles Mayoral Election\"",
+    "fixed y739 h105 bottom \"How it works Home Search Breaking More\""
+   ],
+   "type": {
+    "styles": 53,
+    "families": [
+     "inter",
+     "Arial"
+    ],
+    "sizes": [
+     11,
+     12,
+     13,
+     14,
+     16,
+     20,
+     26,
+     28
+    ],
+    "weights": [
+     "400",
+     "490",
+     "500",
+     "540",
+     "600",
+     "700"
+    ],
+    "top": [
+     "14px/500/lh 20px/ls normal/#23272d x64 \"Newest\"",
+     "12px/500/lh 16px/ls normal/#8b929b x20 \"Predictions & odds\"",
+     "14px/600/lh 16px/ls -0.09px/#6b727b x19 \"Trending\"",
+     "14px/600/lh 20px/ls -0.09px/#23272d x15 \"tiongbu\"",
+     "12px/600/lh 16px/ls -0.09px/#6b727b x14 \"1\"",
+     "14px/500/lh 20px/ls normal/#6b727b x13 \"View resolved\"",
+     "14px/400/lh 20px/ls -0.09px/#23272d x10 \"The 2026 Los Angeles mayoral election will be held on June 2\"",
+     "12px/600/lh 16px/ls -0.09px/#007e26 x10 \"120.1K Nithya Raman\""
+    ],
+    "headings": [
+     "H1: Los Angeles Mayoral Election",
+     "H3: Related",
+     "H2: Frequently Asked Questions",
+     "H3: What is the \"Los Angeles Mayoral Election\" prediction market?",
+     "H3: How much trading activity has \"Los Angeles Mayoral Election\" generated on Polymarket?",
+     "H3: How do I trade on \"Los Angeles Mayoral Election\"?"
+    ]
+   },
+   "contrast": {
+    "textNodes": 277,
+    "aaFailNodes": 48,
+    "failPct": 17.3,
+    "failGroups": 12,
+    "worst": [
+     "1:1 #ffffff on #ffffff 14px/400 x5 \"\"Los Angeles Mayoral Election\" is a prediction mar\"",
+     "1.68:1 #f6c030 on #ffffff 13px/500 x1 \"Karen Bass\"",
+     "1.68:1 #f6c030 on #ffffff 26px/600 x1 \"43%\"",
+     "2.4:1 #97aeff on #2e5cff 14px/600 x1 \"Post\"",
+     "3.14:1 #8b929b on #ffffff 12px/400 x6 \"$2,158,796 Vol.\"",
+     "3.14:1 #8b929b on #ffffff 12px/500 x20 \"Predictions & odds\""
+    ]
+   },
+   "interactive": {
+    "n": 228,
+    "touch": {
+     "ge44": 35,
+     "from24to43": 102,
+     "lt24": 91,
+     "n": 228,
+     "byMinDimension": true
+    },
+    "topHeights": [
+     "20px x62",
+     "24px x33",
+     "36px x27",
+     "48px x23",
+     "28px x14",
+     "22px x12"
+    ],
+    "namelessCount": 23
+   },
+   "spacing": {
+    "pad": [
+     "4 x103",
+     "6 x52",
+     "8 x51",
+     "10 x40",
+     "12 x30",
+     "16 x26",
+     "20 x17",
+     "32 x15",
+     "2 x13",
+     "24 x12"
+    ],
+    "gap": [
+     "6 x144",
+     "4 x88",
+     "8 x85",
+     "12 x63",
+     "16 x20",
+     "10 x11",
+     "2 x9",
+     "3.3 x4"
+    ],
+    "grid": {
+     "2px": 99.5,
+     "4px": 65.1,
+     "8px": 27.3
+    }
+   },
+   "radii": [
+    "7.2px x53",
+    "pillpx x15",
+    "11.2px x13",
+    "9.2px x12",
+    "50px x4",
+    "15.2px x3",
+    "4px x2"
+   ],
+   "copy": {
+    "ctas": [
+     "sort-markets-by x12",
+     "0 x5",
+     "1 x4",
+     "View more x4",
+     "Show more x3",
+     "2 x2",
+     "1 Replies x2",
+     "6",
+     "7",
+     "8",
+     "Dismiss",
+     "Add to favorites",
+     "1H",
+     "1D",
+     "1W"
+    ],
+    "numberFormats": [
+     "9% x12 e.g. 0% | 20%",
+     "9.9K Nithya Raman x10 e.g. 120.1K Nithya Raman | 16.3K Nithya Raman",
+     "$9,9,9 Vol. x3 e.g. $14,562,145 Vol. | $2,158,796 Vol.",
+     "9.9% x1 e.g. 58.6%",
+     "9M x1 e.g. 1M",
+     "Buy Yes 9.9¢ x1 e.g. Buy Yes 58.6¢",
+     "Buy No 9.9¢ x1 e.g. Buy No 41.5¢",
+     "Buy Yes 9¢ x1 e.g. Buy Yes 43¢",
+     "Buy No 9¢ x1 e.g. Buy No 58¢",
+     "$9,9,9 x1 e.g. $14,562,145"
+    ],
+    "fee": [],
+    "disclaimers": [
+     {
+      "text": "Terms of Use",
+      "count": 1
+     },
+     {
+      "text": "Polymarket operates globally through separate legal entities. is operated by QCX LLC d/b/a Polymarket US, a CFTC-regulated Designated Contract Market. This international platform is not regulated by the CFTC and operates",
+      "count": 1
+     },
+     {
+      "text": "Terms of Service",
+      "count": 1
+     }
+    ],
+    "empty": [],
+    "error": [
+     {
+      "text": "What's the margin of mogging error and have we accounted for mail-in mewing?",
+      "count": 1
+     }
+    ]
+   },
+   "axe": {
+    "rules": 8,
+    "byImpact": {
+     "serious": 32,
+     "critical": 20,
+     "moderate": 1
+    },
+    "ids": [
+     "aria-hidden-focus(serious,3)",
+     "aria-required-children(critical,1)",
+     "aria-valid-attr-value(critical,1)",
+     "button-name(critical,18)",
+     "color-contrast(serious,22)",
+     "link-name(serious,4)",
+     "meta-viewport(moderate,1)",
+     "target-size(serious,3)"
+    ]
+   },
+   "internalLinksOfInterest": []
+  },
+  "P07-desktop-dark": {
+   "url": "https://polymarket.com/search?_q=ballon",
+   "httpStatus": 200,
+   "textLength": 3781,
+   "gate": true,
+   "dataTheme": "dark",
+   "pageBg": "#0c0e13",
+   "docHeight": 3139,
+   "horizontalOverflow": false,
+   "title": "Polymarket | The World's Largest Prediction Market",
+   "structureTop": [
+    "y0 h116 w1425 <nav navigation sticky> Main",
+    "y116 h40 w1425 <div> To trade in the US, go to polymarket.us",
+    "y156 h2983 w1425 <div> 500 results for ballon",
+    "  y156 h2319 w1425 <div> 500 results for ballon",
+    "  y2475 h664 w1425 <div> Markets by category and topics"
+   ],
+   "fixedBars": [
+    "sticky y0 h116 \"/ Go to polymarket.us Trending Combos Perps Breaki\""
+   ],
+   "type": {
+    "styles": 26,
+    "families": [
+     "inter",
+     "Geist Mono"
+    ],
+    "sizes": [
+     12,
+     13,
+     14,
+     16,
+     20,
+     24
+    ],
+    "weights": [
+     "400",
+     "490",
+     "500",
+     "540",
+     "600"
+    ],
+    "top": [
+     "13px/500/lh 16px/ls -0.1px/#999ea7 x61 \"$39M Vol.\"",
+     "14px/540/lh 20px/ls -0.09px/#b6bbc4 x40 \"Sports\"",
+     "14px/500/lh 20px/ls normal/#ffffff x34 \"Trump\"",
+     "20px/600/lh 24px/ls -0.2px/#b6bbc4 x30 \"0\"",
+     "24px/500/lh 28px/ls -0.36px/#ffffff x20 \"56%\"",
+     "16px/400/lh 24px/ls normal/#b6bbc4 x20 \"·\"",
+     "16px/500/lh 20px/ls -0.18px/#ffffff x20 \"Ballon d'Or Winner 2026\"",
+     "13px/400/lh 16px/ls -0.1px/#b6bbc4 x20 \"Harry Kane\""
+    ],
+    "headings": [
+     "H1: 500 results for ballon",
+     "H3: Markets by category and topics",
+     "H3: Support & Social",
+     "H3: Polymarket"
+    ]
+   },
+   "contrast": {
+    "textNodes": 321,
+    "aaFailNodes": 1,
+    "failPct": 0.3,
+    "failGroups": 1,
+    "worst": [
+     "3.44:1 #7d8189 on #2b2f36 13px/600 x1 \"/\""
+    ]
+   },
+   "interactive": {
+    "n": 151,
+    "touch": {
+     "ge44": 39,
+     "from24to43": 34,
+     "lt24": 78,
+     "n": 151,
+     "byMinDimension": true
+    },
+    "topHeights": [
+     "20px x66",
+     "48px x20",
+     "104px x20",
+     "36px x15",
+     "32px x13",
+     "18px x5"
+    ],
+    "namelessCount": 0
+   },
+   "spacing": {
+    "pad": [
+     "2 x62",
+     "4 x46",
+     "10 x44",
+     "16 x42",
+     "12 x25",
+     "24 x10",
+     "8 x7",
+     "32 x4",
+     "6 x2",
+     "20 x2"
+    ],
+    "gap": [
+     "6 x160",
+     "8 x126",
+     "4 x92",
+     "16 x88",
+     "2 x47",
+     "5 x40",
+     "10 x40",
+     "12 x7"
+    ],
+    "grid": {
+     "2px": 95.4,
+     "4px": 54.1,
+     "8px": 33.9
+    }
+   },
+   "radii": [
+    "7.2px x62",
+    "11.2px x61",
+    "9.2px x11",
+    "pillpx x3",
+    "18px x2",
+    "4px x1",
+    "10px x1",
+    "12px x1"
+   ],
+   "copy": {
+    "ctas": [
+     "Help",
+     "Open user menu",
+     "Open more navigation links",
+     "Scroll right",
+     "Toggle watchlist",
+     "Show more markets",
+     "Trending",
+     "Liquidity",
+     "Volume",
+     "Newest",
+     "Ending Soon",
+     "Competitive",
+     "Active",
+     "Resolved",
+     "All"
+    ],
+    "numberFormats": [
+     "9% x20 e.g. 56% | 100%",
+     "$9 Vol. x16 e.g. $824 Vol. | $121 Vol.",
+     "$9.9K Liq. x14 e.g. $4.5K Liq. | $62.4K Liq.",
+     "$9 Liq. x5 e.g. $306 Liq. | $938 Liq.",
+     "$9K Vol. x2 e.g. $133K Vol. | $100K Vol.",
+     "$9M Vol. x1 e.g. $39M Vol.",
+     "$9K today x1 e.g. $338K today",
+     "$9M Liq. x1 e.g. $8M Liq.",
+     "$9.9K Vol. x1 e.g. $12.7K Vol."
+    ],
+    "fee": [],
+    "disclaimers": [
+     {
+      "text": "Terms of Use",
+      "count": 1
+     },
+     {
+      "text": "Polymarket operates globally through separate legal entities. is operated by QCX LLC d/b/a Polymarket US, a CFTC-regulated Designated Contract Market. This international platform is not regulated by the CFTC and operates",
+      "count": 1
+     },
+     {
+      "text": "Terms of Service",
+      "count": 1
+     }
+    ],
+    "empty": [],
+    "error": []
+   },
+   "axe": {
+    "rules": 2,
+    "byImpact": {
+     "moderate": 1,
+     "serious": 2
+    },
+    "ids": [
+     "meta-viewport(moderate,1)",
+     "target-size(serious,2)"
+    ]
+   },
+   "internalLinksOfInterest": []
+  },
+  "P07-desktop-light": {
+   "url": "https://polymarket.com/search?_q=ballon",
+   "httpStatus": 200,
+   "textLength": 3781,
+   "gate": true,
+   "dataTheme": "light",
+   "pageBg": "#ffffff",
+   "docHeight": 3139,
+   "horizontalOverflow": false,
+   "title": "Polymarket | The World's Largest Prediction Market",
+   "structureTop": [
+    "y0 h116 w1425 <nav navigation sticky> Main",
+    "y116 h40 w1425 <div> To trade in the US, go to polymarket.us",
+    "y156 h2983 w1425 <div> 500 results for ballon",
+    "  y156 h2319 w1425 <div> 500 results for ballon",
+    "  y2475 h664 w1425 <div> Markets by category and topics"
+   ],
+   "fixedBars": [
+    "sticky y0 h116 \"/ Go to polymarket.us Trending Combos Perps Breaki\""
+   ],
+   "type": {
+    "styles": 26,
+    "families": [
+     "inter",
+     "Geist Mono"
+    ],
+    "sizes": [
+     12,
+     13,
+     14,
+     16,
+     20,
+     24
+    ],
+    "weights": [
+     "400",
+     "490",
+     "500",
+     "540",
+     "600"
+    ],
+    "top": [
+     "13px/500/lh 16px/ls -0.1px/#8b929b x61 \"$39M Vol.\"",
+     "14px/540/lh 20px/ls -0.09px/#6b727b x40 \"Sports\"",
+     "14px/500/lh 20px/ls normal/#23272d x34 \"Trump\"",
+     "20px/600/lh 24px/ls -0.2px/#6b727b x30 \"0\"",
+     "24px/500/lh 28px/ls -0.36px/#23272d x20 \"56%\"",
+     "16px/400/lh 24px/ls normal/#6b727b x20 \"·\"",
+     "16px/500/lh 20px/ls -0.18px/#23272d x20 \"Ballon d'Or Winner 2026\"",
+     "13px/400/lh 16px/ls -0.1px/#6b727b x20 \"Harry Kane\""
+    ],
+    "headings": [
+     "H1: 500 results for ballon",
+     "H3: Markets by category and topics",
+     "H3: Support & Social",
+     "H3: Polymarket"
+    ]
+   },
+   "contrast": {
+    "textNodes": 321,
+    "aaFailNodes": 88,
+    "failPct": 27.4,
+    "failGroups": 6,
+    "worst": [
+     "1.8:1 #abb2bb on #eaebef 13px/600 x1 \"/\"",
+     "2.14:1 #abb2bb on #ffffff 13px/500 x2 \"1,053\"",
+     "3.14:1 #8b929b on #ffffff 13px/500 x61 \"$39M Vol.\"",
+     "3.14:1 #8b929b on #ffffff 12px/500 x14 \"Predictions & odds\"",
+     "3.14:1 #8b929b on #ffffff 14px/500 x6 \"·\"",
+     "3.14:1 #8b929b on #ffffff 12px/400 x4 \"Polymarket operates globally through separate lega\""
+    ]
+   },
+   "interactive": {
+    "n": 151,
+    "touch": {
+     "ge44": 39,
+     "from24to43": 34,
+     "lt24": 78,
+     "n": 151,
+     "byMinDimension": true
+    },
+    "topHeights": [
+     "20px x66",
+     "48px x20",
+     "104px x20",
+     "36px x15",
+     "32px x13",
+     "18px x5"
+    ],
+    "namelessCount": 0
+   },
+   "spacing": {
+    "pad": [
+     "2 x62",
+     "4 x46",
+     "10 x44",
+     "16 x42",
+     "12 x25",
+     "24 x10",
+     "8 x7",
+     "32 x4",
+     "6 x2",
+     "20 x2"
+    ],
+    "gap": [
+     "6 x160",
+     "8 x126",
+     "4 x92",
+     "16 x88",
+     "2 x47",
+     "5 x40",
+     "10 x40",
+     "12 x7"
+    ],
+    "grid": {
+     "2px": 95.4,
+     "4px": 54.1,
+     "8px": 33.9
+    }
+   },
+   "radii": [
+    "7.2px x62",
+    "11.2px x61",
+    "9.2px x11",
+    "pillpx x3",
+    "18px x2",
+    "4px x1",
+    "10px x1",
+    "12px x1"
+   ],
+   "copy": {
+    "ctas": [
+     "Help",
+     "Open user menu",
+     "Open more navigation links",
+     "Scroll right",
+     "Toggle watchlist",
+     "Show more markets",
+     "Trending",
+     "Liquidity",
+     "Volume",
+     "Newest",
+     "Ending Soon",
+     "Competitive",
+     "Active",
+     "Resolved",
+     "All"
+    ],
+    "numberFormats": [
+     "9% x20 e.g. 56% | 100%",
+     "$9 Vol. x16 e.g. $824 Vol. | $121 Vol.",
+     "$9.9K Liq. x14 e.g. $4.5K Liq. | $62.4K Liq.",
+     "$9 Liq. x5 e.g. $306 Liq. | $938 Liq.",
+     "$9K Vol. x2 e.g. $133K Vol. | $100K Vol.",
+     "$9M Vol. x1 e.g. $39M Vol.",
+     "$9K today x1 e.g. $338K today",
+     "$9M Liq. x1 e.g. $8M Liq.",
+     "$9.9K Vol. x1 e.g. $12.7K Vol."
+    ],
+    "fee": [],
+    "disclaimers": [
+     {
+      "text": "Terms of Use",
+      "count": 1
+     },
+     {
+      "text": "Polymarket operates globally through separate legal entities. is operated by QCX LLC d/b/a Polymarket US, a CFTC-regulated Designated Contract Market. This international platform is not regulated by the CFTC and operates",
+      "count": 1
+     },
+     {
+      "text": "Terms of Service",
+      "count": 1
+     }
+    ],
+    "empty": [],
+    "error": []
+   },
+   "axe": {
+    "rules": 3,
+    "byImpact": {
+     "serious": 82,
+     "moderate": 1
+    },
+    "ids": [
+     "color-contrast(serious,80)",
+     "meta-viewport(moderate,1)",
+     "target-size(serious,2)"
+    ]
+   },
+   "internalLinksOfInterest": []
+  },
+  "P07-mobile-dark": {
+   "url": "https://polymarket.com/search?_q=ballon",
+   "httpStatus": 200,
+   "textLength": 3695,
+   "gate": true,
+   "dataTheme": "dark",
+   "pageBg": "#0c0e13",
+   "docHeight": 4489,
+   "horizontalOverflow": false,
+   "title": "Polymarket | The World's Largest Prediction Market",
+   "structureTop": [
+    "y0 h48 w390 <div> To trade in the US, go to polymarket.us",
+    "y48 h104 w390 <nav navigation sticky> Main",
+    "y152 h4337 w390 <div> 500 results for ballon",
+    "  y152 h2981 w390 <div> 500 results for ballon",
+    "  y3133 h1356 w390 <div> Markets by category and topics"
+   ],
+   "fixedBars": [
+    "sticky y48 h104 \"Go to polymarket.us Trending Combos Perps Breaking\"",
+    "fixed y716 h128 bottom \"Filter Home Search Breaking More\""
+   ],
+   "type": {
+    "styles": 22,
+    "families": [
+     "inter"
+    ],
+    "sizes": [
+     11,
+     12,
+     13,
+     14,
+     16,
+     20,
+     24
+    ],
+    "weights": [
+     "400",
+     "490",
+     "500",
+     "540",
+     "600"
+    ],
+    "top": [
+     "13px/500/lh 16px/ls -0.1px/#999ea7 x61 \"$39M Vol.\"",
+     "14px/540/lh 20px/ls -0.09px/#b6bbc4 x40 \"Sports\"",
+     "14px/500/lh 20px/ls normal/#ffffff x34 \"Trump\"",
+     "20px/600/lh 24px/ls -0.2px/#b6bbc4 x30 \"0\"",
+     "24px/500/lh 28px/ls -0.36px/#ffffff x20 \"56%\"",
+     "16px/400/lh 24px/ls normal/#b6bbc4 x20 \"·\"",
+     "16px/500/lh 20px/ls -0.18px/#ffffff x20 \"Ballon d'Or Winner 2026\"",
+     "13px/400/lh 16px/ls -0.1px/#b6bbc4 x20 \"Harry Kane\""
+    ],
+    "headings": [
+     "H1: 500 results for ballon",
+     "H3: Markets by category and topics",
+     "H3: Support & Social",
+     "H3: Polymarket"
+    ]
+   },
+   "contrast": {
+    "textNodes": 312,
+    "aaFailNodes": 0,
+    "failPct": 0,
+    "failGroups": 0,
+    "worst": []
+   },
+   "interactive": {
+    "n": 141,
+    "touch": {
+     "ge44": 45,
+     "from24to43": 19,
+     "lt24": 77,
+     "n": 141,
+     "byMinDimension": true
+    },
+    "topHeights": [
+     "20px x66",
+     "48px x20",
+     "36px x13",
+     "127px x8",
+     "147px x8",
+     "18px x5"
+    ],
+    "namelessCount": 0
+   },
+   "spacing": {
+    "pad": [
+     "2 x60",
+     "16 x55",
+     "4 x40",
+     "10 x40",
+     "64 x20",
+     "12 x13",
+     "8 x8",
+     "24 x4",
+     "6 x2",
+     "20 x2"
+    ],
+    "gap": [
+     "6 x158",
+     "8 x95",
+     "4 x94",
+     "16 x86",
+     "2 x43",
+     "5 x40",
+     "10 x40",
+     "12 x7"
+    ],
+    "grid": {
+     "2px": 95.1,
+     "4px": 53.5,
+     "8px": 34
+    }
+   },
+   "radii": [
+    "7.2px x61",
+    "11.2px x60",
+    "pillpx x4"
+   ],
+   "copy": {
+    "ctas": [
+     "Dismiss",
+     "Toggle watchlist",
+     "Show more markets",
+     "View more",
+     "English",
+     "Filter",
+     "Search",
+     "More menu"
+    ],
+    "numberFormats": [
+     "9% x20 e.g. 56% | 100%",
+     "$9 Vol. x16 e.g. $824 Vol. | $121 Vol.",
+     "$9.9K Liq. x14 e.g. $4.5K Liq. | $62.4K Liq.",
+     "$9 Liq. x5 e.g. $306 Liq. | $938 Liq.",
+     "$9K Vol. x2 e.g. $133K Vol. | $100K Vol.",
+     "$9M Vol. x1 e.g. $39M Vol.",
+     "$9K today x1 e.g. $338K today",
+     "$9M Liq. x1 e.g. $8M Liq.",
+     "$9.9K Vol. x1 e.g. $12.7K Vol."
+    ],
+    "fee": [],
+    "disclaimers": [
+     {
+      "text": "Terms of Use",
+      "count": 1
+     },
+     {
+      "text": "Polymarket operates globally through separate legal entities. is operated by QCX LLC d/b/a Polymarket US, a CFTC-regulated Designated Contract Market. This international platform is not regulated by the CFTC and operates",
+      "count": 1
+     },
+     {
+      "text": "Terms of Service",
+      "count": 1
+     }
+    ],
+    "empty": [],
+    "error": []
+   },
+   "axe": {
+    "rules": 2,
+    "byImpact": {
+     "moderate": 1,
+     "serious": 2
+    },
+    "ids": [
+     "meta-viewport(moderate,1)",
+     "target-size(serious,2)"
+    ]
+   },
+   "internalLinksOfInterest": []
+  },
+  "P07-mobile-light": {
+   "url": "https://polymarket.com/search?_q=ballon",
+   "httpStatus": 200,
+   "textLength": 3695,
+   "gate": true,
+   "dataTheme": "light",
+   "pageBg": "#ffffff",
+   "docHeight": 4489,
+   "horizontalOverflow": false,
+   "title": "Polymarket | The World's Largest Prediction Market",
+   "structureTop": [
+    "y0 h48 w390 <div> To trade in the US, go to polymarket.us",
+    "y48 h104 w390 <nav navigation sticky> Main",
+    "y152 h4337 w390 <div> 500 results for ballon",
+    "  y152 h2981 w390 <div> 500 results for ballon",
+    "  y3133 h1356 w390 <div> Markets by category and topics"
+   ],
+   "fixedBars": [
+    "sticky y48 h104 \"Go to polymarket.us Trending Combos Perps Breaking\"",
+    "fixed y716 h128 bottom \"Filter Home Search Breaking More\""
+   ],
+   "type": {
+    "styles": 22,
+    "families": [
+     "inter"
+    ],
+    "sizes": [
+     11,
+     12,
+     13,
+     14,
+     16,
+     20,
+     24
+    ],
+    "weights": [
+     "400",
+     "490",
+     "500",
+     "540",
+     "600"
+    ],
+    "top": [
+     "13px/500/lh 16px/ls -0.1px/#8b929b x61 \"$39M Vol.\"",
+     "14px/540/lh 20px/ls -0.09px/#6b727b x40 \"Sports\"",
+     "14px/500/lh 20px/ls normal/#23272d x34 \"Trump\"",
+     "20px/600/lh 24px/ls -0.2px/#6b727b x30 \"0\"",
+     "24px/500/lh 28px/ls -0.36px/#23272d x20 \"56%\"",
+     "16px/400/lh 24px/ls normal/#6b727b x20 \"·\"",
+     "16px/500/lh 20px/ls -0.18px/#23272d x20 \"Ballon d'Or Winner 2026\"",
+     "13px/400/lh 16px/ls -0.1px/#6b727b x20 \"Harry Kane\""
+    ],
+    "headings": [
+     "H1: 500 results for ballon",
+     "H3: Markets by category and topics",
+     "H3: Support & Social",
+     "H3: Polymarket"
+    ]
+   },
+   "contrast": {
+    "textNodes": 312,
+    "aaFailNodes": 87,
+    "failPct": 27.9,
+    "failGroups": 5,
+    "worst": [
+     "2.14:1 #abb2bb on #ffffff 13px/500 x2 \"1,053\"",
+     "3.14:1 #8b929b on #ffffff 13px/500 x61 \"$39M Vol.\"",
+     "3.14:1 #8b929b on #ffffff 12px/500 x14 \"Predictions & odds\"",
+     "3.14:1 #8b929b on #ffffff 14px/500 x6 \"·\"",
+     "3.14:1 #8b929b on #ffffff 12px/400 x4 \"Polymarket operates globally through separate lega\""
+    ]
+   },
+   "interactive": {
+    "n": 141,
+    "touch": {
+     "ge44": 45,
+     "from24to43": 19,
+     "lt24": 77,
+     "n": 141,
+     "byMinDimension": true
+    },
+    "topHeights": [
+     "20px x66",
+     "48px x20",
+     "36px x13",
+     "127px x8",
+     "147px x8",
+     "18px x5"
+    ],
+    "namelessCount": 0
+   },
+   "spacing": {
+    "pad": [
+     "2 x60",
+     "16 x55",
+     "4 x40",
+     "10 x40",
+     "64 x20",
+     "12 x13",
+     "8 x8",
+     "24 x4",
+     "6 x2",
+     "20 x2"
+    ],
+    "gap": [
+     "6 x158",
+     "8 x95",
+     "4 x94",
+     "16 x86",
+     "2 x43",
+     "5 x40",
+     "10 x40",
+     "12 x7"
+    ],
+    "grid": {
+     "2px": 95.1,
+     "4px": 53.5,
+     "8px": 34
+    }
+   },
+   "radii": [
+    "7.2px x61",
+    "11.2px x60",
+    "pillpx x4"
+   ],
+   "copy": {
+    "ctas": [
+     "Dismiss",
+     "Toggle watchlist",
+     "Show more markets",
+     "View more",
+     "English",
+     "Filter",
+     "Search",
+     "More menu"
+    ],
+    "numberFormats": [
+     "9% x20 e.g. 56% | 100%",
+     "$9 Vol. x16 e.g. $824 Vol. | $121 Vol.",
+     "$9.9K Liq. x14 e.g. $4.5K Liq. | $62.4K Liq.",
+     "$9 Liq. x5 e.g. $306 Liq. | $938 Liq.",
+     "$9K Vol. x2 e.g. $133K Vol. | $100K Vol.",
+     "$9M Vol. x1 e.g. $39M Vol.",
+     "$9K today x1 e.g. $338K today",
+     "$9M Liq. x1 e.g. $8M Liq.",
+     "$9.9K Vol. x1 e.g. $12.7K Vol."
+    ],
+    "fee": [],
+    "disclaimers": [
+     {
+      "text": "Terms of Use",
+      "count": 1
+     },
+     {
+      "text": "Polymarket operates globally through separate legal entities. is operated by QCX LLC d/b/a Polymarket US, a CFTC-regulated Designated Contract Market. This international platform is not regulated by the CFTC and operates",
+      "count": 1
+     },
+     {
+      "text": "Terms of Service",
+      "count": 1
+     }
+    ],
+    "empty": [],
+    "error": []
+   },
+   "axe": {
+    "rules": 3,
+    "byImpact": {
+     "serious": 20,
+     "moderate": 1
+    },
+    "ids": [
+     "color-contrast(serious,18)",
+     "meta-viewport(moderate,1)",
+     "target-size(serious,2)"
+    ]
+   },
+   "internalLinksOfInterest": []
+  }
+ }
+}

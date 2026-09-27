@@ -1,0 +1,2896 @@
+{
+ "tag": "P08_D_desktop",
+ "target": {
+  "id": "leaderboard",
+  "page": "P08",
+  "source": "D",
+  "url": "https://demo.kalshi.co/social/leaderboard"
+ },
+ "vp": "desktop",
+ "startedUtc": "2026-09-27T09:05:12.204Z",
+ "consoleErrors": [
+  "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+  "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+  "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+  "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+  "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+ ],
+ "responses": [
+  {
+   "url": "https://demo.kalshi.co/social/leaderboard",
+   "status": 200
+  },
+  {
+   "url": "https://apps.rokt.com/wsdk/plugins/dcui/index.html",
+   "status": 200
+  },
+  {
+   "url": "https://apps.rokt.com/wsdk/controller/index.2.14466.0.html",
+   "status": 200
+  },
+  {
+   "url": "https://15537244.fls.doubleclick.net/activityi;src=15537244;type=unive0;cat=kalsh0;rcb=8;ord=3465276236938;npa=0;auiddc=987875414.1790499917;uaa=x86;uab=64;uafvl=Chromium%3B141.0.7390.37%7CNot%253FA_B",
+   "status": 403
+  }
+ ],
+ "httpStatus": 200,
+ "signupModalAppearedAfterMs": null,
+ "fullPageClippedTo": 1454,
+ "docHeight": 1454,
+ "measure": {
+  "url": "https://demo.kalshi.co/social/leaderboard",
+  "viewport": {
+   "w": 1440,
+   "h": 900,
+   "dpr": 1
+  },
+  "docHeight": 1454,
+  "colorScheme": "light",
+  "htmlClass": "kalshisans_b2794dd-module__q5KPJG__variable kalshicondensed_7a0c562e-module__QUSyua__variable graphikwidesuper_9f434a42-module__DSUzfq__variable graphikwidesemibold_839bd37e-module__QN7kBG__variable overscroll-y-none",
+  "bodyBg": "#FFFFFF",
+  "rootFontSize": "16px",
+  "bodyFont": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+  "fontsLoaded": [
+   "kalshiSans 400 normal",
+   "kalshiSans 500 normal",
+   "kalshiSans 600 normal",
+   "kalshiCondensed 500 normal"
+  ],
+  "hydration": {
+   "reactFiberOnNodes": true,
+   "nextData": false,
+   "nextRouter": true,
+   "nextF": true,
+   "scripts": 253,
+   "visibleElements": 399,
+   "bodyTextChars": 2154
+  },
+  "structure": [
+   {
+    "tag": "div",
+    "role": null,
+    "sel": "div.sticky.top-0",
+    "top": 0,
+    "h": 107,
+    "w": 1425,
+    "x": 0,
+    "position": "sticky",
+    "text": "MARKETS PERPS LIVE 14 PRO MORE Log in Sign up Trending Elections Politics Sports Culture C"
+   },
+   {
+    "tag": "nav",
+    "role": null,
+    "sel": "nav.flex.min-h-7[data-testid=navbar-top]",
+    "top": 0,
+    "h": 107,
+    "w": 1425,
+    "x": 0,
+    "position": "static",
+    "text": "MARKETS PERPS LIVE 14 PRO MORE Log in Sign up Trending Elections Politics Sports Culture C"
+   },
+   {
+    "tag": "form",
+    "role": null,
+    "sel": "form",
+    "top": 13,
+    "h": 38,
+    "w": 400,
+    "x": 789.66,
+    "position": "static",
+    "text": ""
+   },
+   {
+    "tag": "h2",
+    "role": null,
+    "sel": "h2.m-0.font-kalshi-condensed",
+    "top": 131,
+    "h": 36,
+    "w": 135.52,
+    "x": 96.5,
+    "position": "static",
+    "text": "Leaderboard"
+   },
+   {
+    "tag": "h2",
+    "role": null,
+    "sel": "h2.m-0.font-kalshi-condensed",
+    "top": 131,
+    "h": 36,
+    "w": 81.09,
+    "x": 248.02,
+    "position": "static",
+    "text": "Activity"
+   },
+   {
+    "tag": "h2",
+    "role": null,
+    "sel": "h2.m-0.font-kalshi-condensed",
+    "top": 249,
+    "h": 28,
+    "w": 378.66,
+    "x": 96.5,
+    "position": "static",
+    "text": "Profit"
+   },
+   {
+    "tag": "h2",
+    "role": null,
+    "sel": "h2.m-0.font-kalshi-condensed",
+    "top": 249,
+    "h": 28,
+    "w": 378.67,
+    "x": 523.16,
+    "position": "static",
+    "text": "Volume"
+   },
+   {
+    "tag": "h2",
+    "role": null,
+    "sel": "h2.m-0.font-kalshi-condensed",
+    "top": 249,
+    "h": 28,
+    "w": 378.66,
+    "x": 949.83,
+    "position": "static",
+    "text": "Predictions"
+   },
+   {
+    "tag": "h2",
+    "role": null,
+    "sel": "h2.m-0.font-kalshi-condensed",
+    "top": 456,
+    "h": 28,
+    "w": 197.41,
+    "x": 613.8,
+    "position": "static",
+    "text": "Unlock the leaderboard"
+   },
+   {
+    "tag": "footer",
+    "role": null,
+    "sel": "footer.bg-fill-x60.dark:bg-surface-x20",
+    "top": 961,
+    "h": 493,
+    "w": 1425,
+    "x": 0,
+    "position": "static",
+    "text": "PRODUCT Kalshi Pro Perpetual Futures Markets Incentive program Institutions API & develope"
+   }
+  ],
+  "typography": [
+   {
+    "family": "kalshiCondensed, \"kalshiCondensed Fallback\", sans-serif",
+    "size": "30px",
+    "weight": "500",
+    "lineHeight": "36px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "colorRaw": "rgba(0, 0, 0, 0.9)",
+    "fontVariantNumeric": "lining-nums proportional-nums",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Leaderboard",
+      "sel": "h2.m-0.font-kalshi-condensed",
+      "top": 131
+     }
+    ]
+   },
+   {
+    "family": "kalshiCondensed, \"kalshiCondensed Fallback\", sans-serif",
+    "size": "30px",
+    "weight": "500",
+    "lineHeight": "36px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#00000033",
+    "colorRaw": "rgba(0, 0, 0, 0.2)",
+    "fontVariantNumeric": "lining-nums proportional-nums",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Activity",
+      "sel": "h2.m-0.font-kalshi-condensed",
+      "top": 131
+     }
+    ]
+   },
+   {
+    "family": "kalshiCondensed, \"kalshiCondensed Fallback\", sans-serif",
+    "size": "24px",
+    "weight": "500",
+    "lineHeight": "28px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "colorRaw": "rgba(0, 0, 0, 0.9)",
+    "fontVariantNumeric": "lining-nums proportional-nums",
+    "count": 4,
+    "samples": [
+     {
+      "text": "Profit",
+      "sel": "h2.m-0.font-kalshi-condensed",
+      "top": 249
+     },
+     {
+      "text": "Volume",
+      "sel": "h2.m-0.font-kalshi-condensed",
+      "top": 249
+     },
+     {
+      "text": "Predictions",
+      "sel": "h2.m-0.font-kalshi-condensed",
+      "top": 249
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "15px",
+    "weight": "500",
+    "lineHeight": "22px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "colorRaw": "rgba(0, 0, 0, 0.9)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 13,
+    "samples": [
+     {
+      "text": "Trending",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
+      "top": 72
+     },
+     {
+      "text": "Elections",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
+      "top": 72
+     },
+     {
+      "text": "Politics",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
+      "top": 72
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "15px",
+    "weight": "500",
+    "lineHeight": "22px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#FFFFFF",
+    "colorRaw": "rgb(255, 255, 255)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Sign up",
+      "sel": "a.appearance-none.inline-flex",
+      "top": 576
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "400",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0000008C",
+    "colorRaw": "rgba(0, 0, 0, 0.55)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 44,
+    "samples": [
+     {
+      "text": "Weekly",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 197
+     },
+     {
+      "text": "All categories",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 197
+     },
+     {
+      "text": "$96,979",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 307
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "600",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "colorRaw": "rgba(0, 0, 0, 0.9)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 36,
+    "samples": [
+     {
+      "text": "BaronVonBid",
+      "sel": "span.font-kalshi-sans.typ-body-x20",
+      "top": 307
+     },
+     {
+      "text": "quiet.badger5137",
+      "sel": "span.font-kalshi-sans.typ-body-x20",
+      "top": 363
+     },
+     {
+      "text": "soupwins",
+      "sel": "span.font-kalshi-sans.typ-body-x20",
+      "top": 419
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "400",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "colorRaw": "rgba(0, 0, 0, 0.9)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 18,
+    "samples": [
+     {
+      "text": "Kalshi Pro",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 1040
+     },
+     {
+      "text": "Perpetual Futures",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 1076
+     },
+     {
+      "text": "Markets",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 1112
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "600",
+    "lineHeight": "20px",
+    "letterSpacing": "1.04px",
+    "transform": "uppercase",
+    "color": "#000000E6",
+    "colorRaw": "rgba(0, 0, 0, 0.9)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 5,
+    "samples": [
+     {
+      "text": "MARKETS",
+      "sel": "span.font-kalshi-sans.typ-overline-x20",
+      "top": 22
+     },
+     {
+      "text": "PERPS",
+      "sel": "span.font-kalshi-sans.typ-overline-x20",
+      "top": 22
+     },
+     {
+      "text": "LIVE",
+      "sel": "span.font-kalshi-sans.typ-overline-x20",
+      "top": 22
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "500",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0AC285",
+    "colorRaw": "rgb(10, 194, 133)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Log in",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x20",
+      "top": 22
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "500",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#FFFFFF",
+    "colorRaw": "rgb(255, 255, 255)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Sign up",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x20",
+      "top": 22
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "12px",
+    "weight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#0000004D",
+    "colorRaw": "rgba(0, 0, 0, 0.3)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 37,
+    "samples": [
+     {
+      "text": "7",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 308
+     },
+     {
+      "text": "11",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 364
+     },
+     {
+      "text": "12",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 420
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "12px",
+    "weight": "500",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#D91616",
+    "colorRaw": "rgb(217, 22, 22)",
+    "fontVariantNumeric": "tabular-nums",
+    "count": 1,
+    "samples": [
+     {
+      "text": "14",
+      "sel": "span.text-red-x10.tabular-nums",
+      "top": 24
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "11px",
+    "weight": "600",
+    "lineHeight": "18px",
+    "letterSpacing": "0.88px",
+    "transform": "uppercase",
+    "color": "#0000004D",
+    "colorRaw": "rgba(0, 0, 0, 0.3)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 3,
+    "samples": [
+     {
+      "text": "Product",
+      "sel": "span.font-kalshi-sans.typ-overline-x10",
+      "top": 1000
+     },
+     {
+      "text": "Company",
+      "sel": "span.font-kalshi-sans.typ-overline-x10",
+      "top": 1000
+     },
+     {
+      "text": "Help",
+      "sel": "span.font-kalshi-sans.typ-overline-x10",
+      "top": 1000
+     }
+    ]
+   }
+  ],
+  "contrast": {
+   "textNodes": 166,
+   "failAA": 44,
+   "failAAWithoutBgImage": 44,
+   "worstUnique": [
+    {
+     "text": "Activity",
+     "size": "30px",
+     "weight": "500",
+     "fg": "#00000033",
+     "bg": "#FFFFFF",
+     "bgImage": false,
+     "ratio": 1.61,
+     "large": true,
+     "passAA": false,
+     "sel": "h2.m-0.font-kalshi-condensed"
+    },
+    {
+     "text": "Sign up",
+     "size": "13px",
+     "weight": "500",
+     "fg": "#FFFFFF",
+     "bg": "#28CC95",
+     "bgImage": false,
+     "ratio": 2.07,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-emphasis-x20"
+    },
+    {
+     "text": "Product",
+     "size": "11px",
+     "weight": "600",
+     "fg": "#0000004D",
+     "bg": "#F7F7F7",
+     "bgImage": false,
+     "ratio": 2.11,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-overline-x10"
+    },
+    {
+     "text": "Trading on Kalshi involves risk and may not be app",
+     "size": "12px",
+     "weight": "400",
+     "fg": "#0000004D",
+     "bg": "#F7F7F7",
+     "bgImage": false,
+     "ratio": 2.11,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.font-normal"
+    },
+    {
+     "text": "7",
+     "size": "12px",
+     "weight": "400",
+     "fg": "#0000004D",
+     "bg": "#FFFFFF",
+     "bgImage": false,
+     "ratio": 2.12,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.font-normal"
+    },
+    {
+     "text": "Log in",
+     "size": "13px",
+     "weight": "500",
+     "fg": "#0AC285",
+     "bg": "#FFFFFF",
+     "bgImage": false,
+     "ratio": 2.32,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-emphasis-x20"
+    },
+    {
+     "text": "Sign up",
+     "size": "15px",
+     "weight": "500",
+     "fg": "#FFFFFF",
+     "bg": "#0AC285",
+     "bgImage": false,
+     "ratio": 2.32,
+     "large": false,
+     "passAA": false,
+     "sel": "a.appearance-none.inline-flex"
+    }
+   ],
+   "pairs": [
+    {
+     "pair": "#000000E6 on #FFFFFF",
+     "ratio": 17.58,
+     "count": 59,
+     "sample": "MARKETS",
+     "bgImage": false
+    },
+    {
+     "pair": "#0000008C on #FFFFFF",
+     "ratio": 4.74,
+     "count": 39,
+     "sample": "Weekly",
+     "bgImage": false
+    },
+    {
+     "pair": "#0000004D on #FFFFFF",
+     "ratio": 2.12,
+     "count": 36,
+     "sample": "7",
+     "bgImage": false
+    },
+    {
+     "pair": "#000000E6 on #F7F7F7",
+     "ratio": 16.55,
+     "count": 18,
+     "sample": "Kalshi Pro",
+     "bgImage": false
+    },
+    {
+     "pair": "#0000008C on #F7F7F7",
+     "ratio": 4.66,
+     "count": 5,
+     "sample": "© 2026 Kalshi Inc. · All rights reserved",
+     "bgImage": false
+    },
+    {
+     "pair": "#0000004D on #F7F7F7",
+     "ratio": 2.11,
+     "count": 4,
+     "sample": "Product",
+     "bgImage": false
+    },
+    {
+     "pair": "#D91616 on #FFFFFF",
+     "ratio": 5.15,
+     "count": 1,
+     "sample": "14",
+     "bgImage": false
+    },
+    {
+     "pair": "#0AC285 on #FFFFFF",
+     "ratio": 2.32,
+     "count": 1,
+     "sample": "Log in",
+     "bgImage": false
+    },
+    {
+     "pair": "#FFFFFF on #28CC95",
+     "ratio": 2.07,
+     "count": 1,
+     "sample": "Sign up",
+     "bgImage": false
+    },
+    {
+     "pair": "#00000033 on #FFFFFF",
+     "ratio": 1.61,
+     "count": 1,
+     "sample": "Activity",
+     "bgImage": false
+    },
+    {
+     "pair": "#FFFFFF on #0AC285",
+     "ratio": 2.32,
+     "count": 1,
+     "sample": "Sign up",
+     "bgImage": false
+    }
+   ]
+  },
+  "interactive": [
+   {
+    "kind": "a",
+    "label": "",
+    "ariaLabel": null,
+    "sel": "a.flex.flex-col[data-testid=navbar-logo]",
+    "top": 24,
+    "x": 76.5,
+    "w": 112,
+    "h": 16,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "MARKETS",
+    "ariaLabel": null,
+    "sel": "a.flex.items-center",
+    "top": 14,
+    "x": 196.5,
+    "w": 101.8,
+    "h": 36,
+    "radius": "100px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "0px 16px 0px 16px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "PERPS",
+    "ariaLabel": null,
+    "sel": "a.flex.items-center",
+    "top": 14,
+    "x": 298.3,
+    "w": 78.27,
+    "h": 36,
+    "radius": "100px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "0px 16px 0px 16px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "LIVE 14",
+    "ariaLabel": null,
+    "sel": "a.flex.items-center",
+    "top": 14,
+    "x": 376.56,
+    "w": 87.31,
+    "h": 36,
+    "radius": "100px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "0px 16px 0px 16px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "PRO",
+    "ariaLabel": "Kalshi Pro",
+    "sel": "button.m-0.flex",
+    "top": 14,
+    "x": 463.88,
+    "w": 62.47,
+    "h": 36,
+    "radius": "100px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "0px 16px 0px 16px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "MORE",
+    "ariaLabel": null,
+    "sel": "button#radix-_R_5iph5fiv5tiraiv5b_.appearance-none.border-0",
+    "top": 14,
+    "x": 526.34,
+    "w": 91.06,
+    "h": 36,
+    "radius": "100px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "0px 16px 0px 16px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "input[text]",
+    "label": "Trade on anything",
+    "ariaLabel": null,
+    "sel": "input.font-kalshi-sans.rounded-x30",
+    "top": 13,
+    "x": 789.66,
+    "w": 400,
+    "h": 38,
+    "radius": "100px",
+    "bg": "#00000012",
+    "bgRaw": "rgba(0, 0, 0, 0.07)",
+    "effectiveBg": "#EDEDED",
+    "color": "#000000E6",
+    "border": "1px solid #00000000",
+    "padding": "0px 0px 0px 44px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "text",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "",
+    "ariaLabel": null,
+    "sel": "button.inline-flex.justify-center",
+    "top": 12,
+    "x": 1197.66,
+    "w": 16,
+    "h": 40,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#28CC95",
+    "border": "0px none #28CC95",
+    "padding": "8px 8px 8px 8px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Log in",
+    "ariaLabel": null,
+    "sel": "button.inline-flex.justify-center",
+    "top": 12,
+    "x": 1205.66,
+    "w": 63.73,
+    "h": 40,
+    "radius": "100px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#0AC285",
+    "border": "1px solid #0000001A",
+    "padding": "8px 12px 8px 12px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Sign up",
+    "ariaLabel": null,
+    "sel": "button.inline-flex.justify-center",
+    "top": 12,
+    "x": 1277.39,
+    "w": 71.11,
+    "h": 40,
+    "radius": "100px",
+    "bg": "#28CC95",
+    "bgRaw": "rgb(40, 204, 149)",
+    "effectiveBg": "#28CC95",
+    "color": "#FFFFFF",
+    "border": "0px none #FFFFFF",
+    "padding": "8px 12px 8px 12px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Trending",
+    "ariaLabel": null,
+    "sel": "a.group.flex",
+    "top": 68,
+    "x": 76.5,
+    "w": 64.05,
+    "h": 30,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "4px 0px 4px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Elections",
+    "ariaLabel": null,
+    "sel": "a.group.flex",
+    "top": 68,
+    "x": 156.55,
+    "w": 65.44,
+    "h": 30,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "4px 0px 4px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Politics",
+    "ariaLabel": null,
+    "sel": "a.group.flex",
+    "top": 68,
+    "x": 237.98,
+    "w": 51.83,
+    "h": 30,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "4px 0px 4px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Sports",
+    "ariaLabel": null,
+    "sel": "a.group.flex",
+    "top": 68,
+    "x": 305.81,
+    "w": 47.16,
+    "h": 30,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "4px 0px 4px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Culture",
+    "ariaLabel": null,
+    "sel": "a.group.flex",
+    "top": 68,
+    "x": 368.97,
+    "w": 53.36,
+    "h": 30,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "4px 0px 4px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Crypto",
+    "ariaLabel": null,
+    "sel": "a.group.flex",
+    "top": 68,
+    "x": 438.33,
+    "w": 49.63,
+    "h": 30,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "4px 0px 4px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Commodities",
+    "ariaLabel": null,
+    "sel": "a.group.flex",
+    "top": 68,
+    "x": 503.95,
+    "w": 96.33,
+    "h": 30,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "4px 0px 4px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Climate",
+    "ariaLabel": null,
+    "sel": "a.group.flex",
+    "top": 68,
+    "x": 616.28,
+    "w": 55.56,
+    "h": 30,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "4px 0px 4px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Economics",
+    "ariaLabel": null,
+    "sel": "a.group.flex",
+    "top": 68,
+    "x": 687.84,
+    "w": 78.72,
+    "h": 30,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "4px 0px 4px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Mentions",
+    "ariaLabel": null,
+    "sel": "a.group.flex",
+    "top": 68,
+    "x": 782.56,
+    "w": 66.45,
+    "h": 30,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "4px 0px 4px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Finance",
+    "ariaLabel": null,
+    "sel": "a.group.flex",
+    "top": 68,
+    "x": 865.02,
+    "w": 56.2,
+    "h": 30,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "4px 0px 4px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Tech & Science",
+    "ariaLabel": null,
+    "sel": "a.group.flex",
+    "top": 68,
+    "x": 937.22,
+    "w": 109.33,
+    "h": 30,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "4px 0px 4px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Sign up",
+    "ariaLabel": null,
+    "sel": "a.appearance-none.inline-flex",
+    "top": 576,
+    "x": 537.5,
+    "w": 350,
+    "h": 44,
+    "radius": "100px",
+    "bg": "#0AC285",
+    "bgRaw": "rgb(10, 194, 133)",
+    "effectiveBg": "#0AC285",
+    "color": "#FFFFFF",
+    "border": "0px solid #00000000",
+    "padding": "0px 16px 0px 16px",
+    "shadow": null,
+    "font": "15px/22px 500",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Log in",
+    "ariaLabel": null,
+    "sel": "a.appearance-none.inline-flex",
+    "top": 628,
+    "x": 537.5,
+    "w": 350,
+    "h": 44,
+    "radius": "100px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#000000E6",
+    "border": "1px solid #0000001A",
+    "padding": "0px 16px 0px 16px",
+    "shadow": null,
+    "font": "15px/22px 500",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "X (Twitter)",
+    "ariaLabel": "X (Twitter)",
+    "sel": "a.text-text-x20.hover:text-text-x10",
+    "top": 1041,
+    "x": 124.5,
+    "w": 20,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#0000008C",
+    "border": "0px solid #0000008C",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Instagram",
+    "ariaLabel": "Instagram",
+    "sel": "a.text-text-x20.hover:text-text-x10",
+    "top": 1041,
+    "x": 156.5,
+    "w": 20,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#0000008C",
+    "border": "0px solid #0000008C",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "TikTok",
+    "ariaLabel": "TikTok",
+    "sel": "a.text-text-x20.hover:text-text-x10",
+    "top": 1041,
+    "x": 188.5,
+    "w": 20,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#0000008C",
+    "border": "0px solid #0000008C",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Discord",
+    "ariaLabel": "Discord",
+    "sel": "a.text-text-x20.hover:text-text-x10",
+    "top": 1041,
+    "x": 220.5,
+    "w": 20,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#0000008C",
+    "border": "0px solid #0000008C",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Reddit",
+    "ariaLabel": "Reddit",
+    "sel": "a.text-text-x20.hover:text-text-x10",
+    "top": 1041,
+    "x": 252.5,
+    "w": 20,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#0000008C",
+    "border": "0px solid #0000008C",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "LinkedIn",
+    "ariaLabel": "LinkedIn",
+    "sel": "a.text-text-x20.hover:text-text-x10",
+    "top": 1041,
+    "x": 284.5,
+    "w": 20,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#0000008C",
+    "border": "0px solid #0000008C",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Kalshi Pro",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 1029,
+    "x": 450.5,
+    "w": 267.33,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Perpetual Futures",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 1065,
+    "x": 450.5,
+    "w": 267.33,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Markets",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 1101,
+    "x": 450.5,
+    "w": 267.33,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Incentive program",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 1137,
+    "x": 450.5,
+    "w": 267.33,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Institutions",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 1173,
+    "x": 450.5,
+    "w": 267.33,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "API & developers",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 1209,
+    "x": 450.5,
+    "w": 267.33,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "About",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 1029,
+    "x": 741.83,
+    "w": 267.33,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Kalshi Research",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 1065,
+    "x": 741.83,
+    "w": 267.33,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Blog",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 1101,
+    "x": 741.83,
+    "w": 267.33,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Careers",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 1137,
+    "x": 741.83,
+    "w": 267.33,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Policy Center",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 1173,
+    "x": 741.83,
+    "w": 267.33,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Brand Kit",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 1209,
+    "x": 741.83,
+    "w": 267.33,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Help Center",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 1029,
+    "x": 1033.16,
+    "w": 267.34,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "FAQ",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 1065,
+    "x": 1033.16,
+    "w": 267.34,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Fee schedule",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 1101,
+    "x": 1033.16,
+    "w": 267.34,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Trading hours",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 1137,
+    "x": 1033.16,
+    "w": 267.34,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Regulatory",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 1173,
+    "x": 1033.16,
+    "w": 267.34,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Trust Center",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.break-words",
+    "top": 1209,
+    "x": 1033.16,
+    "w": 267.34,
+    "h": 36,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#000000E6",
+    "border": "0px solid #000000E6",
+    "padding": "6px 0px 6px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Privacy",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.hover:underline",
+    "top": 1318,
+    "x": 750.25,
+    "w": 43.89,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#0000008C",
+    "border": "0px solid #0000008C",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Data Terms of Service",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.hover:underline",
+    "top": 1318,
+    "x": 818.14,
+    "w": 132.66,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#0000008C",
+    "border": "0px solid #0000008C",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Trading Prohibitions",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.hover:underline",
+    "top": 1318,
+    "x": 974.8,
+    "w": 121.91,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#0000008C",
+    "border": "0px solid #0000008C",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "FAQ for Finance Professionals",
+    "ariaLabel": null,
+    "sel": "a.cursor-pointer.hover:underline",
+    "top": 1318,
+    "x": 1120.7,
+    "w": 179.8,
+    "h": 24,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#F7F7F7",
+    "color": "#0000008C",
+    "border": "0px solid #0000008C",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   }
+  ],
+  "interactiveCount": 52,
+  "touchTargets": {
+   "byMinSide": {
+    "lt24": 8,
+    "24to32": 16,
+    "32to44": 26,
+    "gte44": 2
+   },
+   "byHeight": {
+    "16": 1,
+    "24": 10,
+    "30": 12,
+    "36": 23,
+    "38": 1,
+    "40": 3,
+    "44": 2
+   }
+  },
+  "spacing": {
+   "padding": [
+    {
+     "v": "4px",
+     "n": 24
+    },
+    {
+     "v": "6px",
+     "n": 36
+    },
+    {
+     "v": "8px",
+     "n": 50
+    },
+    {
+     "v": "12px",
+     "n": 81
+    },
+    {
+     "v": "16px",
+     "n": 23
+    },
+    {
+     "v": "24px",
+     "n": 11
+    },
+    {
+     "v": "32px",
+     "n": 1
+    },
+    {
+     "v": "40px",
+     "n": 1
+    },
+    {
+     "v": "44px",
+     "n": 1
+    }
+   ],
+   "margin": [
+    {
+     "v": "-24px",
+     "n": 1
+    },
+    {
+     "v": "-4px",
+     "n": 2
+    },
+    {
+     "v": "8px",
+     "n": 1
+    },
+    {
+     "v": "12px",
+     "n": 5
+    },
+    {
+     "v": "16px",
+     "n": 4
+    },
+    {
+     "v": "24px",
+     "n": 1
+    },
+    {
+     "v": "52.5px",
+     "n": 2
+    },
+    {
+     "v": "72.5px",
+     "n": 2
+    },
+    {
+     "v": "100.688px",
+     "n": 1
+    },
+    {
+     "v": "102.422px",
+     "n": 1
+    },
+    {
+     "v": "107.938px",
+     "n": 1
+    },
+    {
+     "v": "108.5px",
+     "n": 2
+    },
+    {
+     "v": "114.109px",
+     "n": 1
+    },
+    {
+     "v": "119.453px",
+     "n": 1
+    },
+    {
+     "v": "120.438px",
+     "n": 1
+    },
+    {
+     "v": "121.328px",
+     "n": 1
+    },
+    {
+     "v": "125.516px",
+     "n": 1
+    },
+    {
+     "v": "127.969px",
+     "n": 1
+    },
+    {
+     "v": "130.703px",
+     "n": 1
+    },
+    {
+     "v": "131.156px",
+     "n": 1
+    },
+    {
+     "v": "135.047px",
+     "n": 1
+    },
+    {
+     "v": "136.031px",
+     "n": 1
+    },
+    {
+     "v": "140.781px",
+     "n": 1
+    },
+    {
+     "v": "141.688px",
+     "n": 1
+    },
+    {
+     "v": "143.016px",
+     "n": 1
+    },
+    {
+     "v": "145px",
+     "n": 1
+    },
+    {
+     "v": "146.828px",
+     "n": 1
+    },
+    {
+     "v": "149.531px",
+     "n": 1
+    },
+    {
+     "v": "150.188px",
+     "n": 1
+    },
+    {
+     "v": "151.625px",
+     "n": 1
+    },
+    {
+     "v": "158.828px",
+     "n": 1
+    },
+    {
+     "v": "160.547px",
+     "n": 1
+    },
+    {
+     "v": "162.422px",
+     "n": 1
+    },
+    {
+     "v": "164.781px",
+     "n": 1
+    },
+    {
+     "v": "166.234px",
+     "n": 1
+    },
+    {
+     "v": "167.109px",
+     "n": 1
+    },
+    {
+     "v": "168.969px",
+     "n": 1
+    },
+    {
+     "v": "172.234px",
+     "n": 1
+    },
+    {
+     "v": "172.438px",
+     "n": 1
+    },
+    {
+     "v": "173.625px",
+     "n": 1
+    },
+    {
+     "v": "174.422px",
+     "n": 1
+    },
+    {
+     "v": "176.812px",
+     "n": 1
+    },
+    {
+     "v": "185.312px",
+     "n": 1
+    },
+    {
+     "v": "188.031px",
+     "n": 1
+    },
+    {
+     "v": "192.062px",
+     "n": 1
+    }
+   ],
+   "gap": [
+    {
+     "v": "4px",
+     "n": 2
+    },
+    {
+     "v": "6px",
+     "n": 14
+    },
+    {
+     "v": "8px",
+     "n": 16
+    },
+    {
+     "v": "12px",
+     "n": 76
+    },
+    {
+     "v": "16px",
+     "n": 4
+    },
+    {
+     "v": "24px",
+     "n": 4
+    },
+    {
+     "v": "32px",
+     "n": 2
+    },
+    {
+     "v": "48px",
+     "n": 1
+    }
+   ]
+  },
+  "radius": [
+   {
+    "v": "6px",
+    "n": 1
+   },
+   {
+    "v": "8px",
+    "n": 2
+   },
+   {
+    "v": "16px",
+    "n": 3
+   },
+   {
+    "v": "100px",
+    "n": 10
+   },
+   {
+    "v": "3.35544e+07px",
+    "n": 36
+   }
+  ],
+  "borderWidth": [
+   {
+    "v": "1px",
+    "n": 6
+   }
+  ],
+  "shadows": [
+   {
+    "v": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 0px 12px 0px, rgba(0, 0, 0, 0.05) 0px 12px 24px 0px",
+    "n": 1
+   }
+  ],
+  "palette": {
+   "backgrounds": [
+    {
+     "hex": "#FFFFFF",
+     "n": 3,
+     "area": 2354825,
+     "raw": "rgb(255, 255, 255)",
+     "sample": "div#top-level-layout.bg-surface-x10.text-text-x10"
+    },
+    {
+     "hex": "#00000066",
+     "n": 1,
+     "area": 1216950,
+     "raw": "rgba(0, 0, 0, 0.4)",
+     "sample": "div.absolute.inset-0"
+    },
+    {
+     "hex": "#00000008",
+     "n": 1,
+     "area": 702525,
+     "raw": "rgba(0, 0, 0, 0.03)",
+     "sample": "footer.bg-fill-x60.dark:bg-surface-x20"
+    },
+    {
+     "hex": "#00000033",
+     "n": 36,
+     "area": 36864,
+     "raw": "rgba(0, 0, 0, 0.2)",
+     "sample": "div.size-4.shrink-0"
+    },
+    {
+     "hex": "#00000012",
+     "n": 2,
+     "area": 16376,
+     "raw": "rgba(0, 0, 0, 0.07)",
+     "sample": "input.font-kalshi-sans.rounded-x30"
+    },
+    {
+     "hex": "#0AC285",
+     "n": 1,
+     "area": 15400,
+     "raw": "rgb(10, 194, 133)",
+     "sample": "a.appearance-none.inline-flex"
+    },
+    {
+     "hex": "#28CC95",
+     "n": 1,
+     "area": 2844,
+     "raw": "rgb(40, 204, 149)",
+     "sample": "button.inline-flex.justify-center"
+    },
+    {
+     "hex": "#0CC18329",
+     "n": 1,
+     "area": 2304,
+     "raw": "rgba(10, 194, 133, 0.16)",
+     "sample": "div.flex.size-6"
+    }
+   ],
+   "text": [
+    {
+     "hex": "#000000E6",
+     "n": 77,
+     "raw": "rgba(0, 0, 0, 0.9)",
+     "sample": "MARKETS"
+    },
+    {
+     "hex": "#0000008C",
+     "n": 44,
+     "raw": "rgba(0, 0, 0, 0.55)",
+     "sample": "Weekly"
+    },
+    {
+     "hex": "#0000004D",
+     "n": 40,
+     "raw": "rgba(0, 0, 0, 0.3)",
+     "sample": "7"
+    },
+    {
+     "hex": "#FFFFFF",
+     "n": 2,
+     "raw": "rgb(255, 255, 255)",
+     "sample": "Sign up"
+    },
+    {
+     "hex": "#D91616",
+     "n": 1,
+     "raw": "rgb(217, 22, 22)",
+     "sample": "14"
+    },
+    {
+     "hex": "#0AC285",
+     "n": 1,
+     "raw": "rgb(10, 194, 133)",
+     "sample": "Log in"
+    },
+    {
+     "hex": "#00000033",
+     "n": 1,
+     "raw": "rgba(0, 0, 0, 0.2)",
+     "sample": "Activity"
+    }
+   ]
+  },
+  "copy": {
+   "title": "Kalshi - Prediction Market for Trading the Future",
+   "h1": [],
+   "h2h3": [
+    "Leaderboard",
+    "Activity",
+    "Profit",
+    "Volume",
+    "Predictions",
+    "Unlock the leaderboard"
+   ],
+   "ctaLabels": [
+    "PRO",
+    "MORE",
+    "Log in",
+    "Sign up"
+   ],
+   "navLabels": [
+    "MARKETS",
+    "PERPS",
+    "LIVE 14",
+    "PRO",
+    "MORE",
+    "Menu",
+    "Log in",
+    "Sign up",
+    "Trending",
+    "Elections",
+    "Politics",
+    "Sports",
+    "Culture",
+    "Crypto",
+    "Commodities",
+    "Climate",
+    "Economics",
+    "Mentions",
+    "Finance",
+    "Tech & Science"
+   ],
+   "priceFormats": [
+    "$96,979",
+    "$76,058",
+    "$73,875",
+    "$55,476",
+    "$44,847",
+    "$43,495",
+    "$42,343",
+    "$34,381",
+    "$30,925",
+    "$29,542",
+    "$25,311",
+    "$25,008"
+   ],
+   "priceFormatCounts": {
+    "cents": 0,
+    "percent": 0,
+    "chance": 0,
+    "dollarsVol": 1,
+    "multiplier": 0
+   },
+   "feeAndDisclaimer": [
+    "Data Terms of Service",
+    "Trading on Kalshi involves risk and may not be appropriate for all. Members risk losing their cost to enter any transaction, including fees. You should carefully consider whether trading on Kalshi is appropriate for you in light of your investment experience and financial resources. Any trading decisions you make are solely your responsibility and at your own risk. Information is provided for convenience only on an \"AS IS\" basis. Past performance is not necessarily indicative of future results. Kalshi is subject to U.S. regulatory oversight by the CFTC."
+   ],
+   "footerText": "PRODUCT Kalshi Pro Perpetual Futures Markets Incentive program Institutions API & developers COMPANY About Kalshi Research Blog Careers Policy Center Brand Kit HELP Help Center FAQ Fee schedule Trading hours Regulatory Trust Center © 2026 Kalshi Inc. · All rights reserved Privacy Data Terms of Service Trading Prohibitions FAQ for Finance Professionals Trading on Kalshi involves risk and may not be appropriate for all. Members risk losing their cost to enter any transaction, including fees. You should carefully consider whether trading on Kalshi is appropriate for you in light of your investment experience and financial resources. Any trading decisions you make are solely your responsibility and at your own risk. Information is provided for convenience only on an \"AS IS\" basis. Past performance is not necessarily indicative of future results. Kalshi is subject to U.S. regulatory oversight by the CFTC."
+  },
+  "rootTokens": {
+   "count": 125,
+   "colors": {
+    "--text-x10": {
+     "authored": "#000000e6",
+     "srgb": "#000000E6"
+    },
+    "--text-x20": {
+     "authored": "#0000008c",
+     "srgb": "#0000008C"
+    },
+    "--text-x30": {
+     "authored": "#0000004d",
+     "srgb": "#0000004D"
+    },
+    "--text-white": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--text-black": {
+     "authored": "#000000e6",
+     "srgb": "#000000E6"
+    },
+    "--text-inverse": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--placeholder-text": {
+     "authored": "#0000008c",
+     "srgb": "#0000008C"
+    },
+    "--fill-x10": {
+     "authored": "#000000e6",
+     "srgb": "#000000E6"
+    },
+    "--fill-x20": {
+     "authored": "#00000059",
+     "srgb": "#00000059"
+    },
+    "--fill-x30": {
+     "authored": "#0003",
+     "srgb": "#00000033"
+    },
+    "--fill-x40": {
+     "authored": "#0000001a",
+     "srgb": "#0000001A"
+    },
+    "--fill-x50": {
+     "authored": "#00000012",
+     "srgb": "#00000012"
+    },
+    "--fill-x55": {
+     "authored": "#0000000d",
+     "srgb": "#0000000D"
+    },
+    "--fill-x60": {
+     "authored": "#00000008",
+     "srgb": "#00000008"
+    },
+    "--fill-white": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--fill-inverse": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--surface-x10": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--surface-x20": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--surface-x30": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--surface-x40": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--surface-inverse": {
+     "authored": "#1a1a1a",
+     "srgb": "#1A1A1A"
+    },
+    "--surface-overlay": {
+     "authored": "#0006",
+     "srgb": "#00000066"
+    },
+    "--surface-foreground": {
+     "authored": "#0000000d",
+     "srgb": "#0000000D"
+    },
+    "--surface-foreground-opaque": {
+     "authored": "#f7f7f7",
+     "srgb": "#F7F7F7"
+    },
+    "--sell-x10": {
+     "authored": "#000000e6",
+     "srgb": "#000000E6"
+    },
+    "--sell-x20": {
+     "authored": "#0000000d",
+     "srgb": "#0000000D"
+    },
+    "--sell-x30": {
+     "authored": "#0000001a",
+     "srgb": "#0000001A"
+    },
+    "--sell-x40": {
+     "authored": "#00000073",
+     "srgb": "#00000073"
+    },
+    "--sell-x50": {
+     "authored": "#0009",
+     "srgb": "#00000099"
+    },
+    "--purple-x10": {
+     "authored": "#a0f",
+     "srgb": "#AA00FF"
+    },
+    "--purple-x20": {
+     "authored": "#aa00ff1f",
+     "srgb": "#AD00FF1F"
+    },
+    "--purple-x30": {
+     "authored": "#aa00ff29",
+     "srgb": "#A800FF29"
+    },
+    "--purple-x40": {
+     "authored": "#8f00d6",
+     "srgb": "#8F00D6"
+    },
+    "--purple-x50": {
+     "authored": "#609",
+     "srgb": "#660099"
+    },
+    "--perps-purple-x10": {
+     "authored": "#7839ff",
+     "srgb": "#7839FF"
+    },
+    "--perps-purple-x20": {
+     "authored": "#7839ff1a",
+     "srgb": "#763BFF1A"
+    },
+    "--blue-x10": {
+     "authored": "#265cff",
+     "srgb": "#265CFF"
+    },
+    "--blue-x20": {
+     "authored": "#265cff1f",
+     "srgb": "#295AFF1F"
+    },
+    "--blue-x30": {
+     "authored": "#265cff29",
+     "srgb": "#255DFF29"
+    },
+    "--blue-x40": {
+     "authored": "#204dd6",
+     "srgb": "#204DD6"
+    },
+    "--blue-x50": {
+     "authored": "#173799",
+     "srgb": "#173799"
+    },
+    "--teal-x10": {
+     "authored": "#00b5d9",
+     "srgb": "#00B5D9"
+    },
+    "--teal-x20": {
+     "authored": "#00b5d91f",
+     "srgb": "#00B5D61F"
+    },
+    "--teal-x30": {
+     "authored": "#00b5d929",
+     "srgb": "#00B4DA29"
+    },
+    "--teal-x40": {
+     "authored": "#0098b6",
+     "srgb": "#0098B6"
+    },
+    "--teal-x50": {
+     "authored": "#006d82",
+     "srgb": "#006D82"
+    },
+    "--green-x10": {
+     "authored": "#0ac285",
+     "srgb": "#0AC285"
+    },
+    "--green-x20": {
+     "authored": "#0ac2851f",
+     "srgb": "#08C5841F"
+    },
+    "--green-x30": {
+     "authored": "#0ac28529",
+     "srgb": "#0CC18329"
+    },
+    "--green-x40": {
+     "authored": "#08a370",
+     "srgb": "#08A370"
+    },
+    "--green-x50": {
+     "authored": "#067450",
+     "srgb": "#067450"
+    },
+    "--yellow-x10": {
+     "authored": "#ffd600",
+     "srgb": "#FFD600"
+    },
+    "--yellow-x20": {
+     "authored": "#ffd6001f",
+     "srgb": "#FFD6001F"
+    },
+    "--yellow-x30": {
+     "authored": "#ffd60029",
+     "srgb": "#FFD30029"
+    },
+    "--yellow-x40": {
+     "authored": "#d6b400",
+     "srgb": "#D6B400"
+    },
+    "--yellow-x50": {
+     "authored": "#998000",
+     "srgb": "#998000"
+    },
+    "--orange-x10": {
+     "authored": "#ff6a00",
+     "srgb": "#FF6A00"
+    },
+    "--orange-x20": {
+     "authored": "#ff6a001f",
+     "srgb": "#FF6B001F"
+    },
+    "--orange-x30": {
+     "authored": "#ff6a0029",
+     "srgb": "#FF6A0029"
+    },
+    "--orange-x40": {
+     "authored": "#d65900",
+     "srgb": "#D65900"
+    },
+    "--orange-x50": {
+     "authored": "#994000",
+     "srgb": "#994000"
+    },
+    "--red-x10": {
+     "authored": "#d91616",
+     "srgb": "#D91616"
+    },
+    "--red-x20": {
+     "authored": "#d916161f",
+     "srgb": "#D619191F"
+    },
+    "--red-x30": {
+     "authored": "#d9161629",
+     "srgb": "#DA191929"
+    },
+    "--red-x40": {
+     "authored": "#d91616",
+     "srgb": "#D91616"
+    },
+    "--red-x50": {
+     "authored": "#820d3e",
+     "srgb": "#820D3E"
+    },
+    "--brand-primary": {
+     "authored": "#28cc95",
+     "srgb": "#28CC95"
+    },
+    "--brand-secondary": {
+     "authored": "#003221",
+     "srgb": "#003221"
+    },
+    "--custom-fill": {
+     "authored": "#00000008",
+     "srgb": "#00000008"
+    },
+    "--container-x10": {
+     "authored": "#000000e6",
+     "srgb": "#000000E6"
+    },
+    "--container-x20": {
+     "authored": "#00000059",
+     "srgb": "#00000059"
+    },
+    "--container-x30": {
+     "authored": "#0000000d",
+     "srgb": "#0000000D"
+    },
+    "--container-x40": {
+     "authored": "#80808005",
+     "srgb": "#99999905"
+    },
+    "--core-black": {
+     "authored": "#000",
+     "srgb": "#000000"
+    },
+    "--core-white": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--core-inverse": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--stroke-x10": {
+     "authored": "#000000e6",
+     "srgb": "#000000E6"
+    },
+    "--stroke-x20": {
+     "authored": "#0003",
+     "srgb": "#00000033"
+    },
+    "--stroke-x30": {
+     "authored": "#0000001a",
+     "srgb": "#0000001A"
+    },
+    "--stroke-x40": {
+     "authored": "#0000000f",
+     "srgb": "#0000000F"
+    },
+    "--surface-transparent": {
+     "authored": "#fff0",
+     "srgb": "#00000000"
+    },
+    "--special-gold": {
+     "authored": "#e5bd45",
+     "srgb": "#E5BD45"
+    },
+    "--special-silver": {
+     "authored": "#98a7b2",
+     "srgb": "#98A7B2"
+    },
+    "--special-bronze": {
+     "authored": "#b28474",
+     "srgb": "#B28474"
+    },
+    "--special-tradeslip-bg": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--cfb-gridiron-ink": {
+     "authored": "#6fb8f0",
+     "srgb": "#6FB8F0"
+    },
+    "--bprogress-color": {
+     "authored": "#0ac285",
+     "srgb": "#0AC285"
+    }
+   },
+   "all": {
+    "--text-x10": "#000000e6",
+    "--text-x20": "#0000008c",
+    "--text-x30": "#0000004d",
+    "--text-white": "#fff",
+    "--text-black": "#000000e6",
+    "--text-inverse": "#fff",
+    "--placeholder-text": "#0000008c",
+    "--fill-x10": "#000000e6",
+    "--fill-x20": "#00000059",
+    "--fill-x30": "#0003",
+    "--fill-x40": "#0000001a",
+    "--fill-x50": "#00000012",
+    "--fill-x55": "#0000000d",
+    "--fill-x60": "#00000008",
+    "--fill-white": "#fff",
+    "--fill-inverse": "#fff",
+    "--surface-x10": "#fff",
+    "--surface-x20": "#fff",
+    "--surface-x30": "#fff",
+    "--surface-x40": "#fff",
+    "--surface-inverse": "#1a1a1a",
+    "--surface-overlay": "#0006",
+    "--surface-foreground": "#0000000d",
+    "--surface-foreground-opaque": "#f7f7f7",
+    "--sell-x10": "#000000e6",
+    "--sell-x20": "#0000000d",
+    "--sell-x30": "#0000001a",
+    "--sell-x40": "#00000073",
+    "--sell-x50": "#0009",
+    "--purple-x10": "#a0f",
+    "--purple-x20": "#aa00ff1f",
+    "--purple-x30": "#aa00ff29",
+    "--purple-x40": "#8f00d6",
+    "--purple-x50": "#609",
+    "--perps-purple-x10": "#7839ff",
+    "--perps-purple-x20": "#7839ff1a",
+    "--blue-x10": "#265cff",
+    "--blue-x20": "#265cff1f",
+    "--blue-x30": "#265cff29",
+    "--blue-x40": "#204dd6",
+    "--blue-x50": "#173799",
+    "--teal-x10": "#00b5d9",
+    "--teal-x20": "#00b5d91f",
+    "--teal-x30": "#00b5d929",
+    "--teal-x40": "#0098b6",
+    "--teal-x50": "#006d82",
+    "--green-x10": "#0ac285",
+    "--green-x20": "#0ac2851f",
+    "--green-x30": "#0ac28529",
+    "--green-x40": "#08a370",
+    "--green-x50": "#067450",
+    "--yellow-x10": "#ffd600",
+    "--yellow-x20": "#ffd6001f",
+    "--yellow-x30": "#ffd60029",
+    "--yellow-x40": "#d6b400",
+    "--yellow-x50": "#998000",
+    "--orange-x10": "#ff6a00",
+    "--orange-x20": "#ff6a001f",
+    "--orange-x30": "#ff6a0029",
+    "--orange-x40": "#d65900",
+    "--orange-x50": "#994000",
+    "--red-x10": "#d91616",
+    "--red-x20": "#d916161f",
+    "--red-x30": "#d9161629",
+    "--red-x40": "#d91616",
+    "--red-x50": "#820d3e",
+    "--brand-primary": "#28cc95",
+    "--brand-secondary": "#003221",
+    "--custom-fill": "#00000008",
+    "--content-width": "1320px",
+    "--trader-drawer-width": "360px",
+    "--trader-drawer-width-lg": "300px",
+    "--announcement-height": "0px",
+    "--nv-banner-height": "0px",
+    "--top-banner-height": "0px",
+    "--top-navbar-height": "107px",
+    "--header-height": "calc(0px + 107px + 0px + 0px)",
+    "--container-x10": "#000000e6",
+    "--container-x20": "#00000059",
+    "--container-x30": "#0000000d",
+    "--container-x40": "#80808005",
+    "--core-black": "#000",
+    "--core-white": "#fff",
+    "--core-inverse": "#fff",
+    "--stroke-x10": "#000000e6",
+    "--stroke-x20": "#0003",
+    "--stroke-x30": "#0000001a",
+    "--stroke-x40": "#0000000f",
+    "--surface-transparent": "#fff0",
+    "--special-gold": "#e5bd45",
+    "--special-silver": "#98a7b2",
+    "--special-bronze": "#b28474",
+    "--special-tradeslip-bg": "#fff",
+    "--tw-bg-opacity": "1",
+    "--tw-gradient-from": "var(--fill-x50) var(--tw-gradient-from-position)",
+    "--tw-gradient-to": "var(--fill-x50) var(--tw-gradient-to-position)",
+    "--tw-gradient-stops": "var(--tw-gradient-from), var(--fill-x40) var(--tw-gradient-via-position), var(--tw-gradient-to)",
+    "--tw-text-opacity": "1",
+    "--tw-shadow": "0 0 #0000",
+    "--tw-shadow-colored": "0 0 #0000",
+    "--tw-invert": "invert(100%)",
+    "--lightningcss-light": "",
+    "--lightningcss-dark": "initial",
+    "--cfb-gridiron-ink": "#6fb8f0",
+    "--perp-live-trade-filter": "drop-shadow(0 1px 1px #000000bf)",
+    "--toast-icon-margin-start": "4px",
+    "--toast-icon-margin-end": "-3px",
+    "--toast-svg-margin-start": "0px",
+    "--toast-svg-margin-end": "-1px",
+    "--toast-button-margin-start": "0",
+    "--toast-button-margin-end": "auto",
+    "--toast-close-button-start": "unset",
+    "--toast-close-button-end": "0",
+    "--toast-close-button-transform": "translate(35%, -35%)",
+    "--bprogress-color": "#0ac285",
+    "--bprogress-height": "2px",
+    "--bprogress-spinner-size": "18px",
+    "--bprogress-spinner-animation-duration": "400ms",
+    "--bprogress-spinner-border-size": "2px",
+    "--bprogress-box-shadow": "0 0 10px #0ac285, 0 0 5px #0ac285",
+    "--bprogress-z-index": "99999",
+    "--bprogress-spinner-top": "15px",
+    "--bprogress-spinner-bottom": "auto",
+    "--bprogress-spinner-right": "15px",
+    "--bprogress-spinner-left": "auto"
+   }
+  }
+ },
+ "axe": {
+  "version": "4.12.1",
+  "violationRules": 5,
+  "nodesByImpact": {
+   "critical": 6,
+   "serious": 8,
+   "moderate": 8,
+   "minor": 0
+  },
+  "rules": {
+   "button-name": {
+    "impact": "critical",
+    "nodes": 1,
+    "help": "Buttons must have discernible text"
+   },
+   "color-contrast": {
+    "impact": "serious",
+    "nodes": 7,
+    "help": "Elements must meet minimum color contrast ratio thresholds"
+   },
+   "image-alt": {
+    "impact": "critical",
+    "nodes": 5,
+    "help": "Images must have alternative text"
+   },
+   "link-name": {
+    "impact": "serious",
+    "nodes": 1,
+    "help": "Links must have discernible text"
+   },
+   "region": {
+    "impact": "moderate",
+    "nodes": 8,
+    "help": "All page content should be contained by landmarks"
+   }
+  },
+  "passes": 38,
+  "incomplete": 1
+ },
+ "finishedUtc": "2026-09-27T09:05:35.829Z",
+ "finalUrl": "https://demo.kalshi.co/social/leaderboard"
+}

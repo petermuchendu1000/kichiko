@@ -1,0 +1,13 @@
+URL: https://help.kalshi.com/en/articles/13823828-the-orderbook
+HTTP: 200
+Fetched: 2026-09-27T08:39:50Z
+Sitemap lastmod: 2026-03-10T20:27:15Z
+Title: 
+
+The order book displays all the resting orders available on the market. It displays the quantity of resting orders available as well as their corresponding prices. A resting order is an offer to purchase contracts at a certain price that is not matched immediately.
+
+In the event contract below, the order book displays all the resting orders and their corresponding price. As the order book shows, there are 5,010 contracts available to buy on the Yes side for $0.74 each and 75,000 contracts available to sell on the Yes side for $0.71 each. This means someone is bidding as high as $0.71 for Yes shares and someone is selling as low as $0.74 for Yes shares.
+
+In the event contract below, the order book displays all the resting orders and their corresponding price. As the order book shows, there are 75,000 contracts available to buy on the No side for $0.29 each and 5,010 contracts available to sell on the No side for $0.26 each. This means someone is bidding as high as $0.26 for No shares and someone is selling as low as $0.29 for No shares.
+
+On Kalshi, the order book can be toggled to display resting orders in terms of bids, the maximum price a buyer is willing to pay for that contract, or asks, the minimum price that a member is willing to sell that contract for.

@@ -1,0 +1,107 @@
+[
+ {
+  "id": "t-default",
+  "page": "P06",
+  "source": "D",
+  "suffix": "1-default",
+  "url": "https://demo.kalshi.co/markets/kxnflgame/professional-football-game/kxnflgame-26sep27kcmia",
+  "probe": {
+   "desktop": {
+    "minX": 980,
+    "maxTop": 900
+   },
+   "mobile": {
+    "dialog": true
+   }
+  }
+ },
+ {
+  "id": "t-side",
+  "page": "P06",
+  "source": "D",
+  "suffix": "2-side-yes",
+  "url": "https://demo.kalshi.co/markets/kxnflgame/professional-football-game/kxnflgame-26sep27kcmia",
+  "action": "ticketYes",
+  "probe": {
+   "desktop": {
+    "minX": 980,
+    "maxTop": 900
+   },
+   "mobile": {
+    "dialog": true
+   }
+  }
+ },
+ {
+  "id": "t-amount",
+  "page": "P06",
+  "source": "D",
+  "suffix": "3-amount-25",
+  "url": "https://demo.kalshi.co/markets/kxnflgame/professional-football-game/kxnflgame-26sep27kcmia",
+  "action": "ticketAmount",
+  "probe": {
+   "desktop": {
+    "minX": 980,
+    "maxTop": 900
+   },
+   "mobile": {
+    "dialog": true
+   }
+  }
+ },
+ {
+  "id": "t-cta",
+  "page": "P06",
+  "source": "D",
+  "suffix": "4-cta-pressed",
+  "url": "https://demo.kalshi.co/markets/kxnflgame/professional-football-game/kxnflgame-26sep27kcmia",
+  "action": "ticketCta",
+  "probe": {
+   "desktop": {
+    "minX": 980,
+    "maxTop": 900
+   },
+   "mobile": {
+    "dialog": true
+   }
+  }
+ },
+ {
+  "id": "menu",
+  "page": "P16",
+  "source": "D",
+  "suffix": "menu-open",
+  "url": "https://demo.kalshi.co/",
+  "action": "openMenu"
+ },
+ {
+  "id": "search",
+  "page": "P07",
+  "source": "D",
+  "url": "https://demo.kalshi.co/",
+  "action": "searchQuery"
+ },
+ {
+  "id": "profile",
+  "page": "P09",
+  "source": "D",
+  "url": "https://demo.kalshi.co/ideas/feed",
+  "action": "clickFirstAuthor"
+ },
+ {
+  "id": "dark-home",
+  "page": "P01",
+  "source": "D",
+  "suffix": "prefers-dark",
+  "url": "https://demo.kalshi.co/",
+  "colorScheme": "dark"
+ },
+ {
+  "id": "dark-event",
+  "page": "P03",
+  "source": "D",
+  "suffix": "prefers-dark",
+  "url": "https://demo.kalshi.co/markets/kxsaveact/will-the-save-act-become-law/kxsaveact-27",
+  "colorScheme": "dark"
+ }
+]

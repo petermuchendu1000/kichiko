@@ -43,7 +43,8 @@ async function resolveLiveGame(browser) {
       seen.add(href);
       const text = (c.innerText || '').replace(/\s+/g, ' ').trim();
       const scheduled = /\b\d{1,2}:\d{2}\s?(AM|PM)\b/i.test(text);
-      const liveTok = /\bLIVE\b|\b(Q[1-4]|OT|HT|TB\d?|1st|2nd|3rd|[1-9]th|Half|Set \d|Inning|Top \d|Bot \d|\d+')\b/.test(text);
+      // in-play tokens seen on polymarket sports cards: LIVE, period codes (S2 = set 2, Q3, P1, H2), TB (tiebreak), OT/HT, minute marks
+      const liveTok = /\bLIVE\b|\b([SQPH][1-9]|OT|HT|TB\d?|1st|2nd|3rd|[1-9]th|Half|Set \d|Inning|Top \d|Bot \d)\b|\d+'/.test(text);
       out.push({ href, text: text.slice(0, 160), scheduled, liveTok });
     }
     return out;

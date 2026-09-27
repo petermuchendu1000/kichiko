@@ -1,0 +1,23 @@
+[
+ {"id":"home","page":"P01","source":"D","url":"https://demo.kalshi.co/"},
+ {"id":"signup-modal","page":"P11","source":"D","suffix":"modal","url":"https://demo.kalshi.co/","keepModal":true},
+ {"id":"event-binary","page":"P03","source":"D","url":"https://demo.kalshi.co/markets/kxsaveact/will-the-save-act-become-law/kxsaveact-27"},
+ {"id":"event-multi","page":"P04","source":"D","url":"https://demo.kalshi.co/markets/kxpresnomd/democratic-primary-winner/kxpresnomd-28"},
+ {"id":"category","page":"P02","source":"D","url":"https://demo.kalshi.co/category/politics"},
+ {"id":"browse","page":"P02","source":"D","suffix":"browse","url":"https://demo.kalshi.co/browse"},
+ {"id":"game","page":"P05","source":"D","url":"https://demo.kalshi.co/markets/kxnflgame/professional-football-game/kxnflgame-26sep27kcmia"},
+ {"id":"live-list","page":"P05","source":"D","suffix":"calendar","url":"https://demo.kalshi.co/calendar"},
+ {"id":"settled","page":"P18","source":"D","url":"https://demo.kalshi.co/markets/kxnflgame/professional-football-game/kxnflgame-26sep24atlgb"},
+ {"id":"social-feed","page":"P17","source":"D","url":"https://demo.kalshi.co/ideas/feed"},
+ {"id":"leaderboard","page":"P08","source":"D","url":"https://demo.kalshi.co/social/leaderboard"},
+ {"id":"portfolio","page":"P10","source":"D","url":"https://demo.kalshi.co/portfolio"},
+ {"id":"signup","page":"P11","source":"D","suffix":"signup","url":"https://demo.kalshi.co/sign-up"},
+ {"id":"responsible","page":"P14","source":"D","suffix":"responsible","url":"https://demo.kalshi.co/policy-center/responsible-trading"},
+ {"id":"fees","page":"P14","source":"D","suffix":"fee-schedule","url":"https://demo.kalshi.co/fee-schedule"},
+ {"id":"regulatory","page":"P14","source":"D","suffix":"regulatory","url":"https://demo.kalshi.co/regulatory"},
+ {"id":"faq","page":"P13","source":"D","suffix":"faq","url":"https://demo.kalshi.co/faq"},
+ {"id":"help","page":"P13","source":"M1","suffix":"helpcenter","url":"https://help.kalshi.com/en/"},
+ {"id":"help-article","page":"P13","source":"M1","suffix":"helpcenter-article","url":"https://help.kalshi.com/en/articles/13823805-fees"},
+ {"id":"blog","page":"P13","source":"D","suffix":"blog","url":"https://demo.kalshi.co/blog"},
+ {"id":"notfound","page":"P15","source":"D","url":"https://demo.kalshi.co/this-page-does-not-exist-kichiko-capture"}
+]

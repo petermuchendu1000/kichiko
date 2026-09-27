@@ -1,0 +1,43 @@
+URL: https://help.kalshi.com/en/articles/15521632-auto-sell-take-profit
+HTTP: 200
+Fetched: 2026-09-27T08:40:49Z
+Sitemap lastmod: 2026-06-16T19:31:45Z
+Title: 
+
+What is auto sell?
+
+After a buy order fills on a market, Kalshi may ask if you would like to set up an automatic sell at a higher price you choose. This is optional: you drag a slider to pick your target price and tap Submit to set it up.
+​
+​
+
+Once it is set, if the market later reaches your target price, your contracts sell automatically at that price. This lets you take profit at a level you picked without having to watch the market.
+
+Why did my position sell when I was not watching?
+
+Auto sell only sells your contracts because an auto-sell order was set up earlier. Kalshi never closes your position on its own.
+
+If a position closed while you were away, an auto sell (or another resting sell order) was set and the market reached its target price. A few things that help explain it:
+
+- The order rests on the exchange, so it can fill even when the app is closed. That is why a position can sell while you are away from your phone.
+
+- The lowest target you can choose is at or above your purchase price, so an auto sell does not close your position below what you paid for it.
+
+- An auto sell closes your contracts at the target you chose. If the market later settles in your favor, holding to settlement might have paid more, but your auto sell had already sold at the price you set.
+
+- It can fill partially if there are not enough buyers at your target, so a position may shrink rather than close all at once.
+
+View, edit, or cancel an auto sell
+
+Your auto sell appears under Orders as a resting limit sell. You can edit the price or cancel it there at any time before it fills.
+
+Turn the prompt off
+
+If you do not want to be asked after each buy, you can turn the prompt off:
+
+- On mobile: open Settings, find the Trade mechanics section, and turn off Auto-sell prompt after buy.
+
+- On the web: open Settings from your account menu and turn off Auto-sell prompt after buy under your trade preferences.
+
+- You can also choose "Don't show this again" on the prompt itself. This setting syncs across web and mobile.
+
+Turning the prompt off does not change any auto-sell orders you have already placed. You can still manage those under Orders.

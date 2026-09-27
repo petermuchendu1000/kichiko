@@ -1,0 +1,47 @@
+URL: https://help.kalshi.com/en/articles/13823844-portfolio
+HTTP: 200
+Fetched: 2026-09-27T08:40:15Z
+Sitemap lastmod: 2026-08-25T22:18:56Z
+Title: 
+
+Your portfolio represents a detailed overview of your financial assets and is composed of a combination of the cash funds you have on hand in your account, as well as the current market value of any open trading positions you are actively engaged in or resting orders you have placed. The value of your portfolio can fluctuate due to changes within the markets you are trading in.
+
+Additionally, it is important to distinguish between portfolio value and cash balance. Portfolio value reflects the live market value of your open positions, while cash balance represents your available cash, including realized gains from closed positions.
+
+Navigating Your Portfolio
+
+In your portfolio, you have access to important details about your trading activities that can help you track your trades efficiently. This includes specifics such as the number of contracts you have purchased, which allows you to effectively track your trading volume and analyze your market exposure at any given time. Additionally, you can view the average price at which these contracts were purchased. This provides vital insight into your cost basis and aids in assessing your overall financial strategy and management of investment costs.
+
+Your portfolio provides you with the current value of your position, giving you a real-time assessment of how your trades are performing compared to their initial purchase price.
+
+For example, if you buy 10 contracts at $0.50, your portfolio value would be $5. If the price rises to $0.75, the portfolio value increases to $7.50. Conversely, if the price drops to $0.25, the portfolio value decreases to $2.50.
+
+Finally, your portfolio includes the total payout you can expect if the market resolves in your favor. This helps traders evaluate the potential returns on your investments, allowing you to strategize and forecast future financial outcomes based on trading activities.
+
+Why does my portfolio value keep changing?
+
+Your portfolio value is the sum of your cash balance plus the current market value of all your open positions. Since market prices move constantly based on trading activity, your portfolio value will fluctuate even if you have not placed any new trades.
+
+It is also important to note that your cash balance does not fluctuate with market prices; it only reflects realized gains from closed positions, unlike portfolio value which is affected by open positions.
+
+Market prices can change rapidly due to new information or trading activity, which may affect your portfolio value. Displayed odds reflect the last trade price but do not guarantee execution at that price.
+
+The "current value" of a position reflects what you would receive if you cashed it out (sold it) at the current market price. This depends on available liquidity in the market.
+
+Displayed odds may not reflect the actual price at which you can sell, as they depend on live bids in the order book.
+
+Additionally, the cash-out amount may differ from the portfolio value due to market liquidity and trade execution prices. When you sell, your order matches against available liquidity, which may not reflect the exact portfolio value.
+
+Why can't I cash out my position?
+
+Cashing out (selling) a position requires a buyer on the other side. If a market has low liquidity, there may not be anyone willing to buy at the current price. You can:
+
+The Cash Out feature submits a quick order to sell at the best available price, moving funds from your portfolio to your cash balance. Limited liquidity may prevent selling all contracts at once, so consider trying smaller quantities or waiting for more buyers.
+
+- Place a limit order at your desired price and wait for a match
+
+- Lower your asking price to match available bids
+
+- Hold the position until the market settles
+
+- Try selling smaller quantities if liquidity is limited

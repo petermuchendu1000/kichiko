@@ -1,0 +1,11 @@
+URL: https://help.kalshi.com/en/articles/13823815-limit-order-sale
+HTTP: 200
+Fetched: 2026-09-27T08:39:19Z
+Sitemap lastmod: 2026-03-10T20:27:11Z
+Title: 
+
+Selling a limit order requires the same steps as purchasing one. Once you own contracts on a given market, you are able to create a limit order sale where you specify a certain price (or higher) that you are willing to sell at.
+
+You first select the amount of contracts from your position you wish to create a limit order for and then select the limit price you are willing to sell them at. Once those are completed, you can submit the limit sale, and if a trader is willing to make a bid for the contracts at your price or higher, then the limit order sale will execute.
+
+*Limit order sell used to set specific price you are willing to sell at.

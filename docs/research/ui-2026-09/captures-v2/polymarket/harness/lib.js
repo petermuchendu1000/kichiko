@@ -151,13 +151,30 @@ const EXTRACT = function (opts) {
     return true;
   }
   function ownText(el) { let t = ''; for (const n of el.childNodes) if (n.nodeType === 3) t += n.nodeValue; return t.replace(/\s+/g, ' ').trim(); }
-  function clipped(el) { // hidden by an overflow:hidden ancestor with 0 size or offscreen (sr-only)
+  const clipCache = new Map();
+  function clipped(el) { // sr-only, or fully clipped away by an overflow != visible ancestor (collapsed accordion, carousel item off-track)
+    if (clipCache.has(el)) return clipCache.get(el);
     const r = el.getBoundingClientRect();
-    if (r.width <= 1 && r.height <= 1) return true;
+    let res = false;
+    if (r.width <= 1 && r.height <= 1) res = true;
     const cs = getComputedStyle(el);
-    if (cs.clip && cs.clip !== 'auto' && /rect\(0/.test(cs.clip)) return true;
-    if (cs.clipPath && /inset\(50%\)/.test(cs.clipPath)) return true;
-    return false;
+    if (!res && cs.clip && cs.clip !== 'auto' && /rect\(0/.test(cs.clip)) res = true;
+    if (!res && cs.clipPath && /inset\(50%\)/.test(cs.clipPath)) res = true;
+    if (!res) {
+      let x1 = r.left, y1 = r.top, x2 = r.right, y2 = r.bottom, n = el.parentElement;
+      while (n && n !== document.documentElement) {
+        const c = getComputedStyle(n);
+        if (c.overflowX !== 'visible' || c.overflowY !== 'visible') {
+          const q = n.getBoundingClientRect();
+          if (c.overflowX !== 'visible') { x1 = Math.max(x1, q.left); x2 = Math.min(x2, q.right); }
+          if (c.overflowY !== 'visible') { y1 = Math.max(y1, q.top); y2 = Math.min(y2, q.bottom); }
+          if (x2 - x1 < 1 || y2 - y1 < 1) { res = true; break; }
+        }
+        if (c.position === 'fixed') break;
+        n = n.parentElement;
+      }
+    }
+    clipCache.set(el, res); return res;
   }
   function accName(el) {
     const lb = el.getAttribute('aria-labelledby');
@@ -176,7 +193,8 @@ const EXTRACT = function (opts) {
     return el.title || '';
   }
 
-  const all = Array.from(document.body.querySelectorAll('*'));
+  const ROOTEL = (opts.scope && document.querySelector(opts.scope)) || document.body;
+  const all = Array.from(ROOTEL.querySelectorAll('*'));
   const vis = [];
   for (const el of all) {
     if (/^(SCRIPT|STYLE|NOSCRIPT|TEMPLATE|META|LINK)$/.test(el.tagName)) continue;
@@ -202,30 +220,32 @@ const EXTRACT = function (opts) {
     };
   }
   const sections = [];
+  function unwrap(el) { let k = kids(el), g = 0; while (k.length === 1 && g++ < 15) { el = k[0]; k = kids(el); } return { el, k }; }
   function walk(el, depth) {
-    let k = kids(el);
-    // descend through single-child wrappers
-    let guard = 0;
-    while (k.length === 1 && guard++ < 12) { el = k[0]; k = kids(el); }
+    const k = unwrap(el).k; // descend through single-child wrappers
     for (const c of k) {
-      const r = c.getBoundingClientRect(); const cs = getComputedStyle(c);
-      const big = r.height > vh * 1.6 && depth < 3 && kids(c).length > 1 && !/^(HEADER|NAV|FOOTER)$/.test(c.tagName);
+      const r = c.getBoundingClientRect();
+      const inner = unwrap(c);
+      const big = r.height > vh * 1.2 && depth < 4 && inner.k.length > 1 && !/^(HEADER|NAV|FOOTER)$/.test(c.tagName);
       if (big) { sections.push({ depth, box: docBox(r), ...label(c), expanded: true }); walk(c, depth + 1); }
       else sections.push({ depth, box: docBox(r), ...label(c) });
     }
   }
-  walk(document.body, 0);
+  walk(ROOTEL, 0);
   sections.sort((a, b) => a.box.y - b.box.y || a.depth - b.depth);
 
   /* 2. typography + 3. contrast (per text node's parent element) */
   const typo = new Map(), contrastGroups = new Map(), failures = [];
-  let textNodes = 0, textFail = 0;
+  let textNodes = 0, textFail = 0, clippedText = 0;
   for (const { el, cs, r } of vis) {
     const t = ownText(el);
-    if (!t || clipped(el)) continue;
+    if (!t) continue;
+    if (clipped(el)) { clippedText++; continue; }
     textNodes++;
-    const color = resolve(cs.color);
-    const colHex = hexA(cs.color);
+    // painted text colour: -webkit-text-fill-color wins over color when set
+    const fillCss = cs.webkitTextFillColor && cs.webkitTextFillColor !== cs.color ? cs.webkitTextFillColor : cs.color;
+    const color = resolve(fillCss);
+    const colHex = hexA(fillCss);
     const key = [cs.fontFamily, cs.fontSize, cs.fontWeight, cs.lineHeight, cs.letterSpacing, colHex, cs.textTransform].join('|');
     if (!typo.has(key)) typo.set(key, { family: cs.fontFamily, size: cs.fontSize, weight: cs.fontWeight, lineHeight: cs.lineHeight, letterSpacing: cs.letterSpacing, textTransform: cs.textTransform !== 'none' ? cs.textTransform : undefined, color: colHex, colorCss: cs.color, count: 0, examples: [] });
     const ty = typo.get(key); ty.count++; if (ty.examples.length < 3 && !ty.examples.includes(t.slice(0, 60))) ty.examples.push(t.slice(0, 60));
@@ -250,7 +270,7 @@ const EXTRACT = function (opts) {
   const INTER = 'a[href],button,input,select,textarea,summary,[role=button],[role=link],[role=tab],[role=checkbox],[role=radio],[role=switch],[role=menuitem],[role=option],[role=combobox],[role=slider],[tabindex]:not([tabindex="-1"])';
   const inter = [];
   const touch = { ge44: 0, from24to43: 0, lt24: 0, n: 0, byMinDimension: true };
-  for (const el of document.body.querySelectorAll(INTER)) {
+  for (const el of ROOTEL.querySelectorAll(INTER)) {
     const cs = getComputedStyle(el), r = el.getBoundingClientRect();
     if (!visible(el, cs, r) || clipped(el)) continue;
     if (el.tagName === 'INPUT' && el.type === 'hidden') continue;
@@ -310,14 +330,14 @@ const EXTRACT = function (opts) {
   }
   const sortH = h => Object.entries(h).map(([v, c]) => ({ px: v === 'pill' ? 'pill' : Number(v), count: c })).sort((a, b) => b.count - a.count);
   return {
-    url: location.href, title: document.title,
+    url: location.href, title: document.title, scope: opts.scope ? { selector: opts.scope, found: ROOTEL !== document.body, box: docBox(ROOTEL.getBoundingClientRect()), text: (ROOTEL.innerText || '').replace(/\s+/g, ' ').trim().slice(0, 1500) } : undefined,
     viewport: { w: vw, h: vh, dpr: devicePixelRatio }, scroll: { w: document.documentElement.scrollWidth, h: document.documentElement.scrollHeight, horizontalOverflow: document.documentElement.scrollWidth > vw },
     root: { htmlFontSize: rootCs.fontSize, colorScheme: rootCs.colorScheme, dataTheme: document.documentElement.getAttribute('data-theme'), htmlClass: document.documentElement.className.toString().slice(0, 120), pageBg: hex(pageBg), pageBgCss, bodyColor: hexA(getComputedStyle(document.body).color), bodyFont: getComputedStyle(document.body).fontFamily },
     counts: { visibleElements: vis.length, textNodes, interactive: inter.length },
     structure: sections.slice(0, 120),
     fixedBars,
     typography: Array.from(typo.values()).sort((a, b) => parseFloat(b.size) - parseFloat(a.size) || b.count - a.count),
-    contrast: { textNodes, aaFailures: textFail, failRate: textNodes ? R(textFail / textNodes) : null,
+    contrast: { textNodes, excludedClippedTextNodes: clippedText, aaFailures: textFail, failRate: textNodes ? R(textFail / textNodes) : null,
       groups: Array.from(contrastGroups.values()).sort((a, b) => a.ratio - b.ratio), failures },
     interactive: inter,
     touchTargets: touch,
@@ -329,7 +349,7 @@ const EXTRACT = function (opts) {
       fee: grab(/\bfees?\b/i), disclaimers: grab(/risk|not (?:available|investment|financial)|restricted|jurisdiction|terms of|prohibited|regulat|licen|gambl|18\+|21\+|responsib/i),
       empty: grab(/^no .{0,60}(yet|found|results?|markets?|positions?|activity|trades?)|nothing (?:here|to show)|empty/i),
       error: grab(/error|invalid|insufficient|minimum|maximum|exceeds?|failed|not found|went wrong|try again|blocked|unavailable/i),
-      headings: Array.from(document.querySelectorAll('h1,h2,h3')).filter(h => h.getBoundingClientRect().height > 0).map(h => h.tagName + ': ' + h.innerText.replace(/\s+/g, ' ').trim().slice(0, 100)).slice(0, 40),
+      headings: Array.from(ROOTEL.querySelectorAll('h1,h2,h3')).filter(h => h.getBoundingClientRect().height > 0).map(h => h.tagName + ': ' + h.innerText.replace(/\s+/g, ' ').trim().slice(0, 100)).slice(0, 40),
     },
   };
 };

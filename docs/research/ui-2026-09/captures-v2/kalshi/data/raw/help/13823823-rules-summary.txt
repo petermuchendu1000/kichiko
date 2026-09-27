@@ -1,0 +1,11 @@
+URL: https://help.kalshi.com/en/articles/13823823-rules-summary
+HTTP: 200
+Fetched: 2026-09-27T08:39:40Z
+Sitemap lastmod: 2026-03-10T20:27:27Z
+Title: 
+
+Each market includes a rules summary that can be filtered by different strikes. This summary outlines the value being measured, the timeline for the prediction market, and the verification source used by Kalshi for determining outcomes. It is always important to read the rules summary for a market before trading on it, as it contains the essential information traders should be aware of before trading.
+
+Example of a rules summary within a given market.
+
+Note: This is just a summary of the market and the information related to it. Rules summaries do not contain the entire text of the full rules. The full rules to any market can be viewed below the summary by selecting "View full rules."

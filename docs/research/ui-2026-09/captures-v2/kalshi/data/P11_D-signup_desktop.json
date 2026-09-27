@@ -1,0 +1,1080 @@
+{
+ "tag": "P11_D-signup_desktop",
+ "target": {
+  "id": "signup",
+  "page": "P11",
+  "source": "D",
+  "suffix": "signup",
+  "url": "https://demo.kalshi.co/sign-up"
+ },
+ "vp": "desktop",
+ "startedUtc": "2026-09-27T09:06:44.734Z",
+ "consoleErrors": [
+  "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+  "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+  "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+  "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+  "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+ ],
+ "responses": [
+  {
+   "url": "https://demo.kalshi.co/sign-up",
+   "status": 200
+  },
+  {
+   "url": "https://apps.rokt.com/wsdk/controller/index.2.14466.0.html",
+   "status": 200
+  },
+  {
+   "url": "https://apps.rokt.com/wsdk/plugins/dcui/index.html",
+   "status": 200
+  },
+  {
+   "url": "https://15537244.fls.doubleclick.net/activityi;src=15537244;type=unive0;cat=kalsh0;rcb=17;ord=7857316870624;npa=0;auiddc=740886096.1790500009;uaa=x86;uab=64;uafvl=Chromium%3B141.0.7390.37%7CNot%253FA_",
+   "status": 403
+  }
+ ],
+ "httpStatus": 200,
+ "signupModalAppearedAfterMs": null,
+ "fullPageClippedTo": 900,
+ "docHeight": 900,
+ "measure": {
+  "url": "https://demo.kalshi.co/sign-up",
+  "viewport": {
+   "w": 1440,
+   "h": 900,
+   "dpr": 1
+  },
+  "docHeight": 900,
+  "colorScheme": "light",
+  "htmlClass": "kalshisans_b2794dd-module__q5KPJG__variable kalshicondensed_7a0c562e-module__QUSyua__variable graphikwidesuper_9f434a42-module__DSUzfq__variable graphikwidesemibold_839bd37e-module__QN7kBG__variable overscroll-y-none dark",
+  "bodyBg": "#0A0C0F",
+  "rootFontSize": "16px",
+  "bodyFont": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+  "fontsLoaded": [
+   "kalshiSans 400 normal",
+   "kalshiSans 500 normal",
+   "kalshiSans 700 normal",
+   "kalshiCondensed 500 normal"
+  ],
+  "hydration": {
+   "reactFiberOnNodes": true,
+   "nextData": false,
+   "nextRouter": true,
+   "nextF": true,
+   "scripts": 182,
+   "visibleElements": 79,
+   "bodyTextChars": 284
+  },
+  "structure": [
+   {
+    "tag": "h2",
+    "role": null,
+    "sel": "h2.m-0.font-kalshi-condensed",
+    "top": 261,
+    "h": 36,
+    "w": 311.39,
+    "x": 913.05,
+    "position": "static",
+    "text": "Create your account."
+   }
+  ],
+  "typography": [
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "32px",
+    "weight": "500",
+    "lineHeight": "40px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#01201A",
+    "colorRaw": "rgb(1, 32, 26)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Trade on anything.",
+      "sel": "span.text-[#01201A].text-[32px]",
+      "top": 413
+     }
+    ]
+   },
+   {
+    "family": "kalshiCondensed, \"kalshiCondensed Fallback\"",
+    "size": "30px",
+    "weight": "500",
+    "lineHeight": "36px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#FFFFFF",
+    "colorRaw": "rgb(255, 255, 255)",
+    "fontVariantNumeric": "lining-nums proportional-nums",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Create your account.",
+      "sel": "h2.m-0.font-kalshi-condensed",
+      "top": 261
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "18px",
+    "weight": "500",
+    "lineHeight": "26px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#FFFFFF59",
+    "colorRaw": "rgba(255, 255, 255, 0.35)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Featured in",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x40",
+      "top": 489
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "15px",
+    "weight": "500",
+    "lineHeight": "22px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#FFFFFF",
+    "colorRaw": "rgb(255, 255, 255)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 2,
+    "samples": [
+     {
+      "text": "Continue with Apple",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
+      "top": 494
+     },
+     {
+      "text": "Continue with Email",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
+      "top": 554
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "15px",
+    "weight": "400",
+    "lineHeight": "22px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#FFFFFF",
+    "colorRaw": "rgb(255, 255, 255)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Join thousands trading on real-world events.",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 297
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "15px",
+    "weight": "500",
+    "lineHeight": "22px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#000000E6",
+    "colorRaw": "rgba(0, 0, 0, 0.9)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Continue with Google",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x30",
+      "top": 434
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "500",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#FFFFFF",
+    "colorRaw": "rgb(255, 255, 255)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Already have an account?",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x20",
+      "top": 603
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "13px",
+    "weight": "700",
+    "lineHeight": "20px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#FFFFFF",
+    "colorRaw": "rgb(255, 255, 255)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 1,
+    "samples": [
+     {
+      "text": "Log in",
+      "sel": "a.font-bold.text-white",
+      "top": 620
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "12px",
+    "weight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#FFFFFF",
+    "colorRaw": "rgb(255, 255, 255)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 1,
+    "samples": [
+     {
+      "text": "By continuing, you acknowledge and agree to Kalshi’s legal t",
+      "sel": "span.font-kalshi-sans.font-normal",
+      "top": 365
+     }
+    ]
+   },
+   {
+    "family": "kalshiSans, \"kalshiSans Fallback\", sans-serif",
+    "size": "12px",
+    "weight": "500",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "transform": "none",
+    "color": "#FFFFFF",
+    "colorRaw": "rgb(255, 255, 255)",
+    "fontVariantNumeric": "lining-nums tabular-nums",
+    "count": 1,
+    "samples": [
+     {
+      "text": "which we recommend reviewing",
+      "sel": "span.font-kalshi-sans.typ-emphasis-x10",
+      "top": 365
+     }
+    ]
+   }
+  ],
+  "contrast": {
+   "textNodes": 11,
+   "failAA": 2,
+   "failAAWithoutBgImage": 0,
+   "worstUnique": [
+    {
+     "text": "Trade on anything.",
+     "size": "32px",
+     "weight": "500",
+     "fg": "#01201A",
+     "bg": "#0A0C0F",
+     "bgImage": true,
+     "ratio": 1.14,
+     "large": true,
+     "passAA": false,
+     "sel": "span.text-[#01201A].text-[32px]"
+    },
+    {
+     "text": "Featured in",
+     "size": "18px",
+     "weight": "500",
+     "fg": "#FFFFFF59",
+     "bg": "#0A0C0F",
+     "bgImage": true,
+     "ratio": 3.15,
+     "large": false,
+     "passAA": false,
+     "sel": "span.font-kalshi-sans.typ-emphasis-x40"
+    }
+   ],
+   "pairs": [
+    {
+     "pair": "#FFFFFF on #0A0C0F",
+     "ratio": 19.58,
+     "count": 8,
+     "sample": "Create your account.",
+     "bgImage": false
+    },
+    {
+     "pair": "#01201A on #0A0C0F",
+     "ratio": 1.14,
+     "count": 1,
+     "sample": "Trade on anything.",
+     "bgImage": true
+    },
+    {
+     "pair": "#FFFFFF59 on #0A0C0F",
+     "ratio": 3.15,
+     "count": 1,
+     "sample": "Featured in",
+     "bgImage": true
+    },
+    {
+     "pair": "#000000E6 on #FFFFFF",
+     "ratio": 17.58,
+     "count": 1,
+     "sample": "Continue with Google",
+     "bgImage": false
+    }
+   ]
+  },
+  "interactive": [
+   {
+    "kind": "button",
+    "label": "Continue with Google",
+    "ariaLabel": null,
+    "sel": "button.inline-flex.justify-center",
+    "top": 423,
+    "x": 860.75,
+    "w": 416,
+    "h": 44,
+    "radius": "8px",
+    "bg": "#FFFFFF",
+    "bgRaw": "rgb(255, 255, 255)",
+    "effectiveBg": "#FFFFFF",
+    "color": "#FFFFFFE6",
+    "border": "1px solid #FFFFFF",
+    "padding": "12px 16px 12px 16px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Continue with Apple",
+    "ariaLabel": null,
+    "sel": "button.inline-flex.justify-center",
+    "top": 483,
+    "x": 860.75,
+    "w": 416,
+    "h": 44,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#0A0C0F",
+    "color": "#000000E6",
+    "border": "1px solid #FFFFFF40",
+    "padding": "12px 16px 12px 16px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "button",
+    "label": "Continue with Email",
+    "ariaLabel": null,
+    "sel": "button.inline-flex.justify-center",
+    "top": 543,
+    "x": 860.75,
+    "w": 416,
+    "h": 44,
+    "radius": "8px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#0A0C0F",
+    "color": "#000000E6",
+    "border": "1px solid #FFFFFF40",
+    "padding": "12px 16px 12px 16px",
+    "shadow": null,
+    "font": "16px/24px 400",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   },
+   {
+    "kind": "a",
+    "label": "Log in",
+    "ariaLabel": null,
+    "sel": "a.font-bold.text-white",
+    "top": 620,
+    "x": 1130.72,
+    "w": 38.28,
+    "h": 17,
+    "radius": "0px",
+    "bg": "#00000000",
+    "bgRaw": "rgba(0, 0, 0, 0)",
+    "effectiveBg": "#0A0C0F",
+    "color": "#FFFFFF",
+    "border": "0px solid #FFFFFF",
+    "padding": "0px 0px 0px 0px",
+    "shadow": null,
+    "font": "13px/20px 700",
+    "cursor": "pointer",
+    "disabled": false,
+    "pressed": null,
+    "selected": null
+   }
+  ],
+  "interactiveCount": 4,
+  "touchTargets": {
+   "byMinSide": {
+    "lt24": 1,
+    "24to32": 0,
+    "32to44": 0,
+    "gte44": 3
+   },
+   "byHeight": {
+    "17": 1,
+    "44": 3
+   }
+  },
+  "spacing": {
+   "padding": [
+    {
+     "v": "12px",
+     "n": 6
+    },
+    {
+     "v": "16px",
+     "n": 15
+    },
+    {
+     "v": "32px",
+     "n": 3
+    },
+    {
+     "v": "48px",
+     "n": 2
+    }
+   ],
+   "margin": [
+    {
+     "v": "4px",
+     "n": 1
+    },
+    {
+     "v": "8px",
+     "n": 1
+    }
+   ],
+   "gap": [
+    {
+     "v": "4px",
+     "n": 2
+    },
+    {
+     "v": "16px",
+     "n": 4
+    },
+    {
+     "v": "40px",
+     "n": 2
+    }
+   ]
+  },
+  "radius": [
+   {
+    "v": "8px",
+    "n": 3
+   }
+  ],
+  "borderWidth": [
+   {
+    "v": "1px",
+    "n": 3
+   }
+  ],
+  "shadows": [],
+  "palette": {
+   "backgrounds": [
+    {
+     "hex": "#0A0C0F",
+     "n": 1,
+     "area": 641250,
+     "raw": "rgb(10, 12, 15)",
+     "sample": "div.w-1/2.h-full"
+    },
+    {
+     "hex": "#FFFFFF",
+     "n": 1,
+     "area": 18304,
+     "raw": "rgb(255, 255, 255)",
+     "sample": "button.inline-flex.justify-center"
+    }
+   ],
+   "text": [
+    {
+     "hex": "#FFFFFF",
+     "n": 8,
+     "raw": "rgb(255, 255, 255)",
+     "sample": "Create your account."
+    },
+    {
+     "hex": "#01201A",
+     "n": 1,
+     "raw": "rgb(1, 32, 26)",
+     "sample": "Trade on anything."
+    },
+    {
+     "hex": "#FFFFFF59",
+     "n": 1,
+     "raw": "rgba(255, 255, 255, 0.35)",
+     "sample": "Featured in"
+    },
+    {
+     "hex": "#000000E6",
+     "n": 1,
+     "raw": "rgba(0, 0, 0, 0.9)",
+     "sample": "Continue with Google"
+    }
+   ]
+  },
+  "copy": {
+   "title": "Join Kalshi | Sign Up for Market Predictions & Trade Events",
+   "h1": [],
+   "h2h3": [
+    "Create your account."
+   ],
+   "ctaLabels": [
+    "Continue with Google",
+    "Continue with Apple",
+    "Continue with Email"
+   ],
+   "navLabels": [],
+   "priceFormats": [],
+   "priceFormatCounts": {
+    "cents": 0,
+    "percent": 0,
+    "chance": 0,
+    "dollarsVol": 0,
+    "multiplier": 0
+   },
+   "feeAndDisclaimer": [
+    "By continuing, you acknowledge and agree to Kalshi’s legal terms, which we recommend reviewing"
+   ],
+   "footerText": null
+  },
+  "rootTokens": {
+   "count": 125,
+   "colors": {
+    "--text-x10": {
+     "authored": "#ffffffe6",
+     "srgb": "#FFFFFFE6"
+    },
+    "--text-x20": {
+     "authored": "#ffffff8c",
+     "srgb": "#FFFFFF8C"
+    },
+    "--text-x30": {
+     "authored": "#ffffff4d",
+     "srgb": "#FFFFFF4D"
+    },
+    "--text-white": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--text-black": {
+     "authored": "#000000e6",
+     "srgb": "#000000E6"
+    },
+    "--text-inverse": {
+     "authored": "#000000e6",
+     "srgb": "#000000E6"
+    },
+    "--placeholder-text": {
+     "authored": "#ffffff59",
+     "srgb": "#FFFFFF59"
+    },
+    "--fill-x10": {
+     "authored": "#ffffffe6",
+     "srgb": "#FFFFFFE6"
+    },
+    "--fill-x20": {
+     "authored": "#ffffff59",
+     "srgb": "#FFFFFF59"
+    },
+    "--fill-x30": {
+     "authored": "#ffffff40",
+     "srgb": "#FFFFFF40"
+    },
+    "--fill-x40": {
+     "authored": "#ffffff29",
+     "srgb": "#FFFFFF29"
+    },
+    "--fill-x50": {
+     "authored": "#ffffff1f",
+     "srgb": "#FFFFFF1F"
+    },
+    "--fill-x55": {
+     "authored": "#ffffff16",
+     "srgb": "#FFFFFF16"
+    },
+    "--fill-x60": {
+     "authored": "#ffffff0d",
+     "srgb": "#FFFFFF0D"
+    },
+    "--fill-white": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--fill-inverse": {
+     "authored": "#000000e6",
+     "srgb": "#000000E6"
+    },
+    "--surface-x10": {
+     "authored": "#0a0c0f",
+     "srgb": "#0A0C0F"
+    },
+    "--surface-x20": {
+     "authored": "#13161a",
+     "srgb": "#13161A"
+    },
+    "--surface-x30": {
+     "authored": "#1b2029",
+     "srgb": "#1B2029"
+    },
+    "--surface-x40": {
+     "authored": "#333",
+     "srgb": "#333333"
+    },
+    "--surface-inverse": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--surface-overlay": {
+     "authored": "#00000080",
+     "srgb": "#00000080"
+    },
+    "--surface-foreground": {
+     "authored": "#1f1f1f",
+     "srgb": "#1F1F1F"
+    },
+    "--surface-foreground-opaque": {
+     "authored": "#202020",
+     "srgb": "#202020"
+    },
+    "--sell-x10": {
+     "authored": "#ffffffe6",
+     "srgb": "#FFFFFFE6"
+    },
+    "--sell-x20": {
+     "authored": "#ffffff0d",
+     "srgb": "#FFFFFF0D"
+    },
+    "--sell-x30": {
+     "authored": "#ffffff1a",
+     "srgb": "#FFFFFF1A"
+    },
+    "--sell-x40": {
+     "authored": "#ffffff73",
+     "srgb": "#FFFFFF73"
+    },
+    "--sell-x50": {
+     "authored": "#fff9",
+     "srgb": "#FFFFFF99"
+    },
+    "--purple-x10": {
+     "authored": "#d24dff",
+     "srgb": "#D24DFF"
+    },
+    "--purple-x20": {
+     "authored": "#d24dff1f",
+     "srgb": "#D64AFF1F"
+    },
+    "--purple-x30": {
+     "authored": "#d24dff29",
+     "srgb": "#D34BFF29"
+    },
+    "--purple-x40": {
+     "authored": "#df81ff",
+     "srgb": "#DF81FF"
+    },
+    "--purple-x50": {
+     "authored": "#e69bff",
+     "srgb": "#E69BFF"
+    },
+    "--perps-purple-x10": {
+     "authored": "#ae88ff",
+     "srgb": "#AE88FF"
+    },
+    "--perps-purple-x20": {
+     "authored": "#ae88ff1a",
+     "srgb": "#B189FF1A"
+    },
+    "--blue-x10": {
+     "authored": "#408fff",
+     "srgb": "#408FFF"
+    },
+    "--blue-x20": {
+     "authored": "#408fff1f",
+     "srgb": "#428CFF1F"
+    },
+    "--blue-x30": {
+     "authored": "#408fff29",
+     "srgb": "#3E8FFF29"
+    },
+    "--blue-x40": {
+     "authored": "#6eaaff",
+     "srgb": "#6EAAFF"
+    },
+    "--blue-x50": {
+     "authored": "#8cbcff",
+     "srgb": "#8CBCFF"
+    },
+    "--teal-x10": {
+     "authored": "#00cbcc",
+     "srgb": "#00CBCC"
+    },
+    "--teal-x20": {
+     "authored": "#00cbcc1f",
+     "srgb": "#00CECE1F"
+    },
+    "--teal-x30": {
+     "authored": "#00cbcc29",
+     "srgb": "#00CDCD29"
+    },
+    "--teal-x40": {
+     "authored": "#3dd7d8",
+     "srgb": "#3DD7D8"
+    },
+    "--teal-x50": {
+     "authored": "#66e0e0",
+     "srgb": "#66E0E0"
+    },
+    "--green-x10": {
+     "authored": "#28cc95",
+     "srgb": "#28CC95"
+    },
+    "--green-x20": {
+     "authored": "#28cc951f",
+     "srgb": "#29CE941F"
+    },
+    "--green-x30": {
+     "authored": "#28cc9529",
+     "srgb": "#25CD9529"
+    },
+    "--green-x40": {
+     "authored": "#5cd8ae",
+     "srgb": "#5CD8AE"
+    },
+    "--green-x50": {
+     "authored": "#7ee0bf",
+     "srgb": "#7EE0BF"
+    },
+    "--yellow-x10": {
+     "authored": "#ffe14d",
+     "srgb": "#FFE14D"
+    },
+    "--yellow-x20": {
+     "authored": "#ffe14d1f",
+     "srgb": "#FFDE4A1F"
+    },
+    "--yellow-x30": {
+     "authored": "#ffe14d29",
+     "srgb": "#FFE04B29"
+    },
+    "--yellow-x40": {
+     "authored": "#ffe878",
+     "srgb": "#FFE878"
+    },
+    "--yellow-x50": {
+     "authored": "#ffed94",
+     "srgb": "#FFED94"
+    },
+    "--orange-x10": {
+     "authored": "#ff9500",
+     "srgb": "#FF9500"
+    },
+    "--orange-x20": {
+     "authored": "#ff95001f",
+     "srgb": "#FF94001F"
+    },
+    "--orange-x30": {
+     "authored": "#ff950029",
+     "srgb": "#FF950029"
+    },
+    "--orange-x40": {
+     "authored": "#ffae3d",
+     "srgb": "#FFAE3D"
+    },
+    "--orange-x50": {
+     "authored": "#ffbf66",
+     "srgb": "#FFBF66"
+    },
+    "--red-x10": {
+     "authored": "#ff4d6a",
+     "srgb": "#FF4D6A"
+    },
+    "--red-x20": {
+     "authored": "#ff4d6a1f",
+     "srgb": "#FF4A6B1F"
+    },
+    "--red-x30": {
+     "authored": "#ff4d6a29",
+     "srgb": "#FF4B6A29"
+    },
+    "--red-x40": {
+     "authored": "#ff788e",
+     "srgb": "#FF788E"
+    },
+    "--red-x50": {
+     "authored": "#ff94a6",
+     "srgb": "#FF94A6"
+    },
+    "--brand-primary": {
+     "authored": "#28cc95",
+     "srgb": "#28CC95"
+    },
+    "--brand-secondary": {
+     "authored": "#00412b",
+     "srgb": "#00412B"
+    },
+    "--custom-fill": {
+     "authored": "#ffffff0f",
+     "srgb": "#FFFFFF0F"
+    },
+    "--container-x10": {
+     "authored": "#ffffffe6",
+     "srgb": "#FFFFFFE6"
+    },
+    "--container-x20": {
+     "authored": "#ffffff59",
+     "srgb": "#FFFFFF59"
+    },
+    "--container-x30": {
+     "authored": "#ffffff1a",
+     "srgb": "#FFFFFF1A"
+    },
+    "--container-x40": {
+     "authored": "#ffffff05",
+     "srgb": "#FFFFFF05"
+    },
+    "--core-black": {
+     "authored": "#000",
+     "srgb": "#000000"
+    },
+    "--core-white": {
+     "authored": "#fff",
+     "srgb": "#FFFFFF"
+    },
+    "--core-inverse": {
+     "authored": "#000",
+     "srgb": "#000000"
+    },
+    "--stroke-x10": {
+     "authored": "#ffffffe6",
+     "srgb": "#FFFFFFE6"
+    },
+    "--stroke-x20": {
+     "authored": "#ffffff40",
+     "srgb": "#FFFFFF40"
+    },
+    "--stroke-x30": {
+     "authored": "#ffffff24",
+     "srgb": "#FFFFFF24"
+    },
+    "--stroke-x40": {
+     "authored": "#ffffff14",
+     "srgb": "#FFFFFF14"
+    },
+    "--surface-transparent": {
+     "authored": "#0000",
+     "srgb": "#00000000"
+    },
+    "--special-gold": {
+     "authored": "#e5bd45",
+     "srgb": "#E5BD45"
+    },
+    "--special-silver": {
+     "authored": "#98a7b2",
+     "srgb": "#98A7B2"
+    },
+    "--special-bronze": {
+     "authored": "#b28474",
+     "srgb": "#B28474"
+    },
+    "--special-tradeslip-bg": {
+     "authored": "#000000bf",
+     "srgb": "#000000BF"
+    },
+    "--cfb-gridiron-ink": {
+     "authored": "#6fb8f0",
+     "srgb": "#6FB8F0"
+    },
+    "--bprogress-color": {
+     "authored": "#28cc95",
+     "srgb": "#28CC95"
+    }
+   },
+   "all": {
+    "--text-x10": "#ffffffe6",
+    "--text-x20": "#ffffff8c",
+    "--text-x30": "#ffffff4d",
+    "--text-white": "#fff",
+    "--text-black": "#000000e6",
+    "--text-inverse": "#000000e6",
+    "--placeholder-text": "#ffffff59",
+    "--fill-x10": "#ffffffe6",
+    "--fill-x20": "#ffffff59",
+    "--fill-x30": "#ffffff40",
+    "--fill-x40": "#ffffff29",
+    "--fill-x50": "#ffffff1f",
+    "--fill-x55": "#ffffff16",
+    "--fill-x60": "#ffffff0d",
+    "--fill-white": "#fff",
+    "--fill-inverse": "#000000e6",
+    "--surface-x10": "#0a0c0f",
+    "--surface-x20": "#13161a",
+    "--surface-x30": "#1b2029",
+    "--surface-x40": "#333",
+    "--surface-inverse": "#fff",
+    "--surface-overlay": "#00000080",
+    "--surface-foreground": "#1f1f1f",
+    "--surface-foreground-opaque": "#202020",
+    "--sell-x10": "#ffffffe6",
+    "--sell-x20": "#ffffff0d",
+    "--sell-x30": "#ffffff1a",
+    "--sell-x40": "#ffffff73",
+    "--sell-x50": "#fff9",
+    "--purple-x10": "#d24dff",
+    "--purple-x20": "#d24dff1f",
+    "--purple-x30": "#d24dff29",
+    "--purple-x40": "#df81ff",
+    "--purple-x50": "#e69bff",
+    "--perps-purple-x10": "#ae88ff",
+    "--perps-purple-x20": "#ae88ff1a",
+    "--blue-x10": "#408fff",
+    "--blue-x20": "#408fff1f",
+    "--blue-x30": "#408fff29",
+    "--blue-x40": "#6eaaff",
+    "--blue-x50": "#8cbcff",
+    "--teal-x10": "#00cbcc",
+    "--teal-x20": "#00cbcc1f",
+    "--teal-x30": "#00cbcc29",
+    "--teal-x40": "#3dd7d8",
+    "--teal-x50": "#66e0e0",
+    "--green-x10": "#28cc95",
+    "--green-x20": "#28cc951f",
+    "--green-x30": "#28cc9529",
+    "--green-x40": "#5cd8ae",
+    "--green-x50": "#7ee0bf",
+    "--yellow-x10": "#ffe14d",
+    "--yellow-x20": "#ffe14d1f",
+    "--yellow-x30": "#ffe14d29",
+    "--yellow-x40": "#ffe878",
+    "--yellow-x50": "#ffed94",
+    "--orange-x10": "#ff9500",
+    "--orange-x20": "#ff95001f",
+    "--orange-x30": "#ff950029",
+    "--orange-x40": "#ffae3d",
+    "--orange-x50": "#ffbf66",
+    "--red-x10": "#ff4d6a",
+    "--red-x20": "#ff4d6a1f",
+    "--red-x30": "#ff4d6a29",
+    "--red-x40": "#ff788e",
+    "--red-x50": "#ff94a6",
+    "--brand-primary": "#28cc95",
+    "--brand-secondary": "#00412b",
+    "--custom-fill": "#ffffff0f",
+    "--content-width": "1320px",
+    "--trader-drawer-width": "360px",
+    "--trader-drawer-width-lg": "300px",
+    "--announcement-height": "0px",
+    "--nv-banner-height": "0px",
+    "--top-banner-height": "0px",
+    "--top-navbar-height": "107px",
+    "--header-height": "calc(0px + 107px + 0px + 0px)",
+    "--container-x10": "#ffffffe6",
+    "--container-x20": "#ffffff59",
+    "--container-x30": "#ffffff1a",
+    "--container-x40": "#ffffff05",
+    "--core-black": "#000",
+    "--core-white": "#fff",
+    "--core-inverse": "#000",
+    "--stroke-x10": "#ffffffe6",
+    "--stroke-x20": "#ffffff40",
+    "--stroke-x30": "#ffffff24",
+    "--stroke-x40": "#ffffff14",
+    "--surface-transparent": "#0000",
+    "--special-gold": "#e5bd45",
+    "--special-silver": "#98a7b2",
+    "--special-bronze": "#b28474",
+    "--special-tradeslip-bg": "#000000bf",
+    "--tw-bg-opacity": "1",
+    "--tw-gradient-from": "var(--fill-x50) var(--tw-gradient-from-position)",
+    "--tw-gradient-to": "var(--fill-x50) var(--tw-gradient-to-position)",
+    "--tw-gradient-stops": "var(--tw-gradient-from), var(--fill-x40) var(--tw-gradient-via-position), var(--tw-gradient-to)",
+    "--tw-text-opacity": "1",
+    "--tw-shadow": "0 0 #0000",
+    "--tw-shadow-colored": "0 0 #0000",
+    "--tw-invert": "invert(100%)",
+    "--lightningcss-light": "",
+    "--lightningcss-dark": "initial",
+    "--cfb-gridiron-ink": "#6fb8f0",
+    "--perp-live-trade-filter": "drop-shadow(0 1px 1px #000000bf)",
+    "--toast-icon-margin-start": "4px",
+    "--toast-icon-margin-end": "-3px",
+    "--toast-svg-margin-start": "0px",
+    "--toast-svg-margin-end": "-1px",
+    "--toast-button-margin-start": "0",
+    "--toast-button-margin-end": "auto",
+    "--toast-close-button-start": "unset",
+    "--toast-close-button-end": "0",
+    "--toast-close-button-transform": "translate(35%, -35%)",
+    "--bprogress-color": "#28cc95",
+    "--bprogress-height": "2px",
+    "--bprogress-spinner-size": "18px",
+    "--bprogress-spinner-animation-duration": "400ms",
+    "--bprogress-spinner-border-size": "2px",
+    "--bprogress-box-shadow": "0 0 10px #28cc95, 0 0 5px #28cc95",
+    "--bprogress-z-index": "99999",
+    "--bprogress-spinner-top": "15px",
+    "--bprogress-spinner-bottom": "auto",
+    "--bprogress-spinner-right": "15px",
+    "--bprogress-spinner-left": "auto"
+   }
+  }
+ },
+ "axe": {
+  "version": "4.12.1",
+  "violationRules": 2,
+  "nodesByImpact": {
+   "critical": 5,
+   "serious": 0,
+   "moderate": 10,
+   "minor": 0
+  },
+  "rules": {
+   "image-alt": {
+    "impact": "critical",
+    "nodes": 5,
+    "help": "Images must have alternative text"
+   },
+   "region": {
+    "impact": "moderate",
+    "nodes": 10,
+    "help": "All page content should be contained by landmarks"
+   }
+  },
+  "passes": 33,
+  "incomplete": 1
+ },
+ "finishedUtc": "2026-09-27T09:07:06.873Z",
+ "finalUrl": "https://demo.kalshi.co/sign-up"
+}

@@ -1,0 +1,45 @@
+URL: https://help.kalshi.com/en/articles/14894380-inner-circle
+HTTP: 200
+Fetched: 2026-09-27T08:40:42Z
+Sitemap lastmod: 2026-05-04T15:27:09Z
+Title: 
+
+Inner Circle controls who can see your social trading activity that you haven't made public, including positions, trade history, and P&L.
+
+Stop receiving join requests
+
+In the mobile app:
+
+- Go to Profile .
+
+- Tap Settings .
+
+- Scroll to Inner Circle .
+
+- Toggle Active off.
+
+Note: Turning Inner Circle off blocks new requests. It does not automatically remove existing members or clear old pending requests.
+
+Check who is in your Inner Circle
+
+- Open your Profile .
+
+- Tap the Inner Circle / count pill.
+
+- You'll land on Your Inner Circle .
+
+On Your Inner Circle :
+
+- Pending requests appear first, with Accept and Decline actions.
+
+- Current members appear below pending requests. Tap the remove / X button to remove a member or pending request.
+
+How requests work
+
+- Tapping Decline on a request will not add that person.
+
+- A user only becomes a member if you tap Accept on their request or add them manually.
+
+- You'll receive notifications for new requests and accepted requests.
+
+Worried someone was added after you tapped Decline? Open Your Inner Circle and check the members list. If the account appears there, tap the remove / X button to remove them.
