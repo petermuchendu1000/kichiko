@@ -2,6 +2,20 @@
 Target: `/home/claude/kichiko/apps/web` — Next.js 15.5.22 App Router, React 18.3, Tailwind 3.4.15
 Date of audit: 2026-09-27. Evidence-based; every claim cites a file path. `node_modules` is NOT installed, so nothing was built or run — findings come from source reading and static counts.
 
+> **Erratum, 2026-09-27 (same day, verified by compiling with Tailwind 3.4.19).**
+> The dead-class figure below is wrong in part. Tailwind **deep-merges**
+> `theme.extend.colors.green`, so the numeric `green-*`/`red-*`/`amber-*` ramps
+> were never deleted: those 283 uses compile to stock Tailwind colours (off-palette,
+> but visible). Consequently the legal-page links (`[&_a]:text-green-700` → `#15803d`)
+> and the `/offline` Retry button (`bg-green-600`) were **never** colourless or unfilled.
+> The shadcn-bridge half was right: **442 dead uses**, 431 of them in the admin console.
+> The accurate total was 21 unresolvable classes / 442 uses, plus 8 more
+> (opacity modifiers on `var()` colours, e.g. `bg-[var(--red)]/10`, which Tailwind
+> 3.4 never compiles) that static grep could not see. User-facing casualties: the
+> mobile trade bar and order-ticket dropdown rendered with **transparent** backgrounds,
+> the chart-settings toggle track was invisible, the auth error alert had no tint.
+> All fixed; `scripts/check-tailwind-classes.mjs` now fails CI on any recurrence.
+
 ## 0. Scale snapshot
 
 | Metric | Value | How measured |

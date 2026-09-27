@@ -353,7 +353,7 @@ export function PriceChart({ data, currentYes = 0.5, volumeUsd = 0, resolutionDa
                   className="flex w-full items-center justify-between rounded-[4px] px-2.5 py-2 text-left text-sm text-text-primary transition-colors hover:bg-surface-2"
                 >
                   <span>{label}</span>
-                  <span className={`relative h-4 w-7 flex-none rounded-full transition-colors ${opts[k] ? 'bg-pip-500' : 'bg-surface-3'}`}>
+                  <span className={`relative h-4 w-7 flex-none rounded-full transition-colors ${opts[k] ? 'bg-pip-500' : 'bg-hairline-strong'}`}>
                     <span className={`absolute top-0.5 h-3 w-3 rounded-full bg-white transition-transform ${opts[k] ? 'translate-x-3.5' : 'translate-x-0.5'}`} />
                   </span>
                 </button>

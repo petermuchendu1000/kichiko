@@ -510,7 +510,7 @@ export function CreateWizard({ user }: { user: User }) {
                 </dl>
 
                 {!allValid && (
-                  <p className="mt-4 flex items-center gap-1.5 rounded-md border border-[color:var(--warn)]/30 bg-brass-100 p-3 text-xs text-brass-600">
+                  <p className="mt-4 flex items-center gap-1.5 rounded-md border border-[color-mix(in_srgb,var(--warn)_30%,transparent)] bg-brass-100 p-3 text-xs text-brass-600">
                     <IconWarning size={13} /> Some required fields need attention — fix the rows marked above.
                   </p>
                 )}

@@ -12,6 +12,22 @@ style / geometry, this session or a named prior harness), **M2** API snapshot,
 
 ---
 
+> **Erratum, 2026-09-27 (same day, verified by compiling with Tailwind 3.4.19).**
+> The dead-class figure below is wrong in part. Tailwind **deep-merges**
+> `theme.extend.colors.green`, so the numeric `green-*`/`red-*`/`amber-*` ramps
+> were never deleted: those 283 uses compile to stock Tailwind colours (off-palette,
+> but visible). Consequently the legal-page links (`[&_a]:text-green-700` → `#15803d`)
+> and the `/offline` Retry button (`bg-green-600`) were **never** colourless or unfilled.
+> The shadcn-bridge half was right: **442 dead uses**, 431 of them in the admin console.
+> The accurate total was 21 unresolvable classes / 442 uses, plus 8 more
+> (opacity modifiers on `var()` colours, e.g. `bg-[var(--red)]/10`, which Tailwind
+> 3.4 never compiles) that static grep could not see. User-facing casualties: the
+> mobile trade bar and order-ticket dropdown rendered with **transparent** backgrounds,
+> the chart-settings toggle track was invisible, the auth error alert had no tint.
+> All fixed; `scripts/check-tailwind-classes.mjs` now fails CI on any recurrence.
+
+---
+
 ## 0. Verdict: do we start with the landing page?
 
 **No.** Start with foundation truth, then the money path. Landing is Phase 4.
@@ -76,7 +92,7 @@ source of truth*.
 
 ### The deficits that matter, ranked by user impact
 
-1. **~725 dead Tailwind classes** — colourless legal links, unfilled buttons, transparent panels. **V** [22]
+1. ~~**~725 dead Tailwind classes**~~ **442 dead uses (shadcn bridge) + 8 var-opacity classes; fixed 2026-09-27** — see erratum above. Transparent admin panels, trade bar, ticket dropdown. **V** (compiled)
 2. **Zero UI tests.** 94 vitest files, **0 `*.test.tsx`**, no RTL/jsdom, `environment: 'node'`. The 1,877-LOC order ticket has no rendering test and e2e never places an order. **V** [22]
 3. **No `error.tsx` / `loading.tsx` / `not-found.tsx` / `global-error.tsx` anywhere** across 54 pages. 8 `notFound()` calls fall to Next's default; admin pages `throw` with no boundary. **V** [22]
 4. **No focus trap in 8 `role="dialog"` surfaces** — Tab escapes the trade sheet and the deposit/withdraw sheets. **V** [22]
@@ -221,7 +237,7 @@ opinion**. No phase starts before its entry condition holds.
 
 Entry: none. This is first.
 
-- **0.1 Kill the dead classes.** Map the shadcn HSL bridge into Tailwind names (smaller, reversible diff) and restore or migrate the 283 numeric-ramp uses. Then add a CI check that fails on any Tailwind class not resolvable to a token. Fixes colourless legal links and the `/offline` button as a side effect.
+- **0.1 Kill the dead classes.** ✅ **Done 2026-09-27** — bridge mapped, dark `--primary` fixed for AA, CI check + contrast tests added. Map the shadcn HSL bridge into Tailwind names (smaller, reversible diff) and restore or migrate the 283 numeric-ramp uses. Then add a CI check that fails on any Tailwind class not resolvable to a token. Fixes colourless legal links and the `/offline` button as a side effect.
 - **0.2 Collapse 23 contradictions into one spec of record.** Produce `docs/design/SPEC-OF-RECORD.md`; add a supersession header to every doc it replaces. The four token positions, the KES-vs-¢ notation conflict, `--navbar-height` 116 vs 104, detail H1 24 vs 28–32, ticket 372 vs 340, and the Σ price = 1 conflict (a coherence guard would reject the 22 live independent markets converted 2026-07-11) all get a single ruling with a reason.
 - **0.3 Re-capture the stale July numbers.** Hero, detail header / navbar height, timeframe set, buy sheet, related rows. The harness from [23] is committed under `experiments/competitor-capture/` and extends directly. Retry Kalshi on a different approach.
 - **0.4 Add the missing shell.** `error.tsx`, `loading.tsx`, `not-found.tsx`, `global-error.tsx`, plus `sitemap.ts` / `robots.ts`.
@@ -319,7 +335,7 @@ These are genuinely yours; I will not guess them.
 3. **Is there an acquisition event that forces landing earlier?** (§0)
 4. **Uganda's minimum gambling age may be 25, not 18** — Lotteries and Gaming Act 2016, per a secondary review [24]. **U, and it must be verified against primary legislation before any Ugandan launch**, because it changes age-gating logic. Flagging rather than assuming.
 5. **Rewards surface:** four unretracted positions (omitted / parity target / recommended / already a live string) [21].
-6. **Push access for the repo** is currently blocked at the sandbox proxy, so I cannot commit any of this. Until that is authorised I deliver patches.
+6. ~~**Push access for the repo** is currently blocked at the sandbox proxy.~~ **Resolved 2026-09-27** — pushed from a session with the repo attached. Whether the repo should stay *public* remains open (handoff §2).
 
 ---
 

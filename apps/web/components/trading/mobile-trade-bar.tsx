@@ -183,7 +183,7 @@ export function MobileTradeBar({
           candidate is selected; binary markets always show the Yes/No pair. */}
       {(!isMulti || selected) && (
       <div
-        className="fixed inset-x-0 z-40 border-t border-hairline bg-[color:var(--surface-1)]/95 px-4 py-3 backdrop-blur lg:hidden"
+        className="fixed inset-x-0 z-40 border-t border-hairline bg-[color-mix(in_srgb,var(--surface)_95%,transparent)] px-4 py-3 backdrop-blur lg:hidden"
         style={{ bottom: 'calc(3.5rem + env(safe-area-inset-bottom))' }}
       >
         {/* Direct-action buttons: the entry tap IS the decision (Buy YES/NO or

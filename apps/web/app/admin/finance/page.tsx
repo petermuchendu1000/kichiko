@@ -98,7 +98,7 @@ export default async function FinancePage() {
           <Link
             key={c.label}
             href={c.href}
-            className="admin-panel group flex items-start gap-3.5 p-4 transition-colors hover:border-[var(--green)]/40"
+            className="admin-panel group flex items-start gap-3.5 p-4 transition-colors hover:border-[color-mix(in_srgb,var(--green)_40%,transparent)]"
           >
             <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-[var(--bg-tertiary)] text-[var(--text-secondary)] transition-colors group-hover:text-[var(--green)]">
               {c.icon}

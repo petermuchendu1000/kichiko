@@ -1377,7 +1377,7 @@ export function PmTicket({
                 <IconChevronDown size={14} className={`transition-transform ${typeMenu ? 'rotate-180' : ''}`} />
               </button>
               {typeMenu && (
-                <div className="absolute right-0 z-20 mt-1 w-32 overflow-hidden rounded-md border border-hairline bg-surface-1 shadow-lg" role="listbox">
+                <div className="absolute right-0 z-20 mt-1 w-32 overflow-hidden rounded-md border border-hairline bg-surface shadow-lg" role="listbox">
                   {(['market', 'limit'] as OrderType[]).map((t) => (
                     <button
                       key={t}

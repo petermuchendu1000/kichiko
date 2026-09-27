@@ -37,7 +37,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
         <div className="min-w-0 flex-1">
           {/* Top bar */}
-          <header className="sticky top-0 z-10 flex h-14 items-center justify-between gap-4 border-b bg-[var(--surface)]/85 px-4 backdrop-blur md:px-8">
+          <header className="sticky top-0 z-10 flex h-14 items-center justify-between gap-4 border-b bg-[color-mix(in_srgb,var(--surface)_85%,transparent)] px-4 backdrop-blur md:px-8">
             <div className="flex items-center gap-2 text-xs text-[var(--text-muted)]">
               <span className="hidden items-center gap-1.5 sm:flex">
                 <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" aria-hidden />

@@ -100,7 +100,8 @@
     --radius-sm:var(--r-sm); --radius:var(--r-sm); --radius-lg:var(--r-md);
     --radius-xl:var(--r-md); --radius-2xl:var(--r-lg);
 
-    /* shadcn HSL bridge (kept for any radix/shadcn primitives) */
+    /* shadcn HSL bridge — mapped to Tailwind names (background, foreground, card,
+       primary, muted) in tailwind.config.ts; contrast asserted in a11y-contrast.test.ts */
     --background:210 20% 97%; --foreground:220 26% 5%;
     --card:0 0% 100%; --card-foreground:220 26% 5%;
     --popover:0 0% 100%; --popover-foreground:220 26% 5%;
@@ -144,7 +145,9 @@
     --background:220 26% 5%; --foreground:210 20% 96%;
     --card:220 22% 8%; --card-foreground:210 20% 96%;
     --popover:220 22% 8%; --popover-foreground:210 20% 96%;
-    --primary:222 86% 63%; --primary-foreground:0 0% 100%;
+    /* a11y: white on 222 86% 63% was 3.68:1 (fails AA); dark ink on 65% = 5.77:1.
+       65% (was 63%) also lifts text-primary on bg-muted from 4.49:1 to 4.86:1. */
+    --primary:222 86% 65%; --primary-foreground:220 26% 5%;
     --secondary:219 19% 13%; --secondary-foreground:210 20% 96%;
     --muted:219 19% 13%; --muted-foreground:214 14% 66%;
     --accent:219 19% 13%; --accent-foreground:210 20% 96%;

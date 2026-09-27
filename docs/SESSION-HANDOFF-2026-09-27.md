@@ -156,7 +156,7 @@ Four parallel streams, all committed under `docs/research/ui-2026-09/`:
 The three findings that drive the plan:
 
 1. **The UI is structurally complete** — 54 routes, 73 API handlers, no stubs, zero `TODO`s, all live data, a real token system ("Pip") with measured contrast arithmetic backed by a CSS-parsing test. This is a precision programme, not a build.
-2. **~725 dead Tailwind classes ship today.** `extend.colors` drops the numeric `green`/`red`/`amber` ramps (283 uses, 41 files) and the shadcn HSL bridge is never mapped (442 uses). **Every link in Terms, Privacy, Responsible-play and Help currently renders with no colour.**
+2. **~725 dead Tailwind classes ship today.** *(Corrected same day: 442 + 8, and the legal-link claim was wrong — see the erratum in `20-WORK-PLAN.md`. Fixed.)* `extend.colors` drops the numeric `green`/`red`/`amber` ramps (283 uses, 41 files) and the shadcn HSL bridge is never mapped (442 uses). **Every link in Terms, Privacy, Responsible-play and Help currently renders with no colour.**
 3. **The edge over Polymarket is accessibility, measured.** Their YES tint is **4.36:1** and NO tint **4.28:1** — both fail WCAG AA, and that is their most-rendered semantic treatment. Price-delta green is 2.89:1. **89.8% of mobile home touch targets are under 44px**; the primary feed affordance is a 27px chip. Kichiko's tokens already pass AA in both themes with an enforcing test, and Polymarket served no dark mode at all.
 
 Adopt from them: a **2px** spacing grid (6/10/14px carry 23.6% of usage, so "4px grid"
