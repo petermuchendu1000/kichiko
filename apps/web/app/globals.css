@@ -21,7 +21,9 @@
     /* Brand blue = Polymarket measured #1452F0 (rgb 20,82,240). Ramp rebalanced
        to that hue: 600 hover-dark, 400 lighter, 300/100 light tints. */
     --pip-600:#1249D8; --pip-500:#1452F0; --pip-400:#4E7DF3; --pip-300:#7D9FF6; --pip-100:#E7EDFD;
-    --pip-text:var(--pip-500); /* pip blue used AS TEXT; lightened under .dark for WCAG AA */
+    /* pip blue used AS TEXT; lightened under .dark for WCAG AA. Light uses 600: 500 was
+       3.94:1 on the active tab pill's count badge (#C1D1FB); 600 is 4.64:1 there. */
+    --pip-text:var(--pip-600);
     /* ---- Accent — Brass (emphasis only, <=5% of surface) ---- */
     --brass-600:#B57E22; --brass-500:#D9A036; --brass-100:#F7ECD4;
 
