@@ -4,7 +4,10 @@
 > D1–D3 became migration `105_order_guards_and_leaderboard_grant.sql`, with harness cases O10–O12
 > in `scripts/ops/clob/test_place_order_for.py`. D1 refuses **buys** on hidden markets (P0186) and
 > keeps sells open so holders can exit; D2 raises P0185; D3 also revokes from PUBLIC (production's
-> ACL showed `=X/postgres`, i.e. PUBLIC could execute). D4 still needs the owner's decisions.
+> ACL showed `=X/postgres`, i.e. PUBLIC could execute). **Applied to production 2026-09-27 11:10
+> UTC** by the Deploy Staging workflow on the merge to `main`; verification in
+> [50](50-EXECUTION-LOG.md). The "not applied" notes below describe the state before that.
+> D4 still needs the owner's decisions.
 
 Written 2026-09-27 while executing work plan v2. Each item closes a gap that app code cannot
 close, because the database is the only layer every client goes through. **None is applied to

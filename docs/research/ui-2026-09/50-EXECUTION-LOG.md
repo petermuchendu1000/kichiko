@@ -23,13 +23,36 @@ Production changes are listed first, with how to reverse them.
 - **Not done, needs a decision:** the 95 open orders and 56 positions are untouched. Hiding is
   money-neutral. Whether to cancel orders (releasing reserved funds) and void or resolve the markets
   is for the owner and counsel.
-- **Known gap:** `place_order_for` does not check `is_hidden` (migration 104 checks the account,
-  option and wallet), so a caller who knows the market id can still place orders through the API.
-  A migration that rejects orders on hidden markets is proposed below, not applied.
+- **Gap closed by migration 105 (below):** `place_order_for` now refuses buys on hidden markets.
+  Sells stay open so holders can exit.
 - **To reverse:** in the admin moderation console choose Restore on each market, or call
   `admin_moderate_content('market', '<id>', 'restore')` as a moderator.
 
-## Code (branch `claude/trusting-clarke-vi106v`; reaches users only when merged and deployed)
+### Migration 105 — applied 2026-09-27 11:10 UTC
+
+`105_order_guards_and_leaderboard_grant.sql` (D1–D3 of [51](51-PROPOSED-DB-CHANGES.md)).
+
+- **How it was applied:** PR #131 merged to `main` as `3ca49ef`. The push to `main` ran the
+  **Deploy Staging** workflow, which ran `supabase db push` at 11:10:52–59 UTC. Its
+  `SUPABASE_PROJECT_ID` is this project (`uzkphkvzoeypcljntlih`), so **a merge to `main` migrates
+  the production database**. The workflow's Fly steps were skipped (no Fly credentials), so no app
+  code was deployed.
+- **Proven before applying:** CI job "CLOB invariants" on the PR head ran O10–O12 against an
+  ephemeral Postgres with every migration: 20 of 20 passed.
+- **Verified in production afterwards:**
+
+  | Check | Result |
+  |---|---|
+  | Ledger `supabase_migrations.schema_migrations` | `105 order_guards_and_leaderboard_grant` |
+  | Buy on hidden `ke-gachagua-appeal-upheld` (rolled-back transaction) | `P0186 This market is not open for trading` |
+  | KSh 19 market buy on a visible order-book market (rolled back) | `P0185 The minimum stake is KSh 20` |
+  | `get_leaderboard` ACL | `{postgres=X/postgres,service_role=X/postgres}` |
+  | Anon key `POST /rest/v1/rpc/get_leaderboard` | HTTP 401, `42501 permission denied` |
+  | Orders left behind by the checks | 0 |
+- **To reverse:** re-create `place_order_for` from migration 104, and
+  `GRANT EXECUTE ON FUNCTION public.get_leaderboard(text, text, integer) TO anon, authenticated;`.
+
+## Code (merged to `main` as `3ca49ef`; reaches users when the app is deployed)
 
 ### L.2 — Promotional money framing removed; copy lint added
 - Hero CTA "Predict & Earn" → "View market" (`components/layout/hero-section.tsx`).
@@ -53,8 +76,7 @@ Production changes are listed first, with how to reverse them.
   sitemap, Lighthouse URL list; smoke test expects 410; e2e journey asserts no profit/win-rate text.
 - "Biggest win" removed from public trader profiles.
 - `lib/leaderboard.ts` and its tests kept for the accuracy board.
-- **Gap:** the `get_leaderboard` RPC is still executable by `anon` directly through PostgREST.
-  Closing it needs `REVOKE EXECUTE … FROM anon, authenticated` (proposed migration, not applied).
+- The `get_leaderboard` RPC is closed to `anon` and `authenticated` (migration 105, applied).
 
 ### 0.6 — Charts use complete, newest-anchored history (`556d8e4`)
 See the commit. Verified on a production build against live data: the 2027-presidency chart's
@@ -65,8 +87,8 @@ code.
 ### Ticket, stake, notation, theme, search
 - **Minimum stake KSh 20** (Act s.71(1), verified): `lib/stake.ts`; inline notice in all three
   ticket layouts ("The minimum stake is KSh 20."), submit disabled below it, and the order API
-  returns 400 `below_minimum_stake` for a KES market buy under 20. Binding enforcement for every
-  currency and order type needs the database check (proposed migration).
+  returns 400 `below_minimum_stake` for a KES market buy under 20. The database enforces it for
+  every currency and order type (migration 105, P0185, applied).
 - **Quick amounts** KSh 20 / 50 / 100 / 200, **set** the stake (were additive USD conversions),
   44 px tall. **No pre-filled stake** on the desktop rail or after "Place another trade".
 - **KSh spelling** everywhere via `formatCurrency` (Intl en-KE rendered "Ksh").
