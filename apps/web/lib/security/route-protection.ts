@@ -58,3 +58,15 @@ export function requiresAuth(pathname: string, method: string): boolean {
   if (!isReadMethod(method) && WRITE_PROTECTED_PREFIXES.some((r) => pathname.startsWith(r))) return true
   return false
 }
+
+/**
+ * Public reads whose handler never looks at the caller, so the middleware can
+ * skip session work for them. The order book is polled every 4s by every open
+ * market page; with this project's HS256 session tokens the session check falls
+ * back to a Supabase Auth round trip, which used to precede every poll.
+ */
+const SESSIONLESS_READS = [/^\/api\/markets\/[^/]+\/book$/]
+
+export function isSessionlessRead(pathname: string, method: string): boolean {
+  return isReadMethod(method) && SESSIONLESS_READS.some((re) => re.test(pathname))
+}

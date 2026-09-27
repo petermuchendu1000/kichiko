@@ -10,8 +10,9 @@
 // divider → bids (green, desc), dual %+¢ price, cumulative TOTAL, left-anchored
 // depth bars, Asks/Bids pills, TRADE YES heading. Live from GET
 // /api/markets/[id]/book (public, cached ~2s), polled while visible.
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore, type RefObject } from 'react'
 import { dualPriceLabel, formatCents, type BookLevel, type ClobBook } from '@/lib/clob'
+import { bookPoller, EMPTY_SNAPSHOT } from '@/lib/book-poller'
 import { formatVolume } from '@/lib/utils'
 import { IconRefresh } from '@/components/ui/icons'
 
@@ -19,9 +20,9 @@ const num = (n: number, d = 2) =>
   n.toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d })
 
 /**
- * Fetch and (while `active`) 4s-poll one (market, option, side) CLOB book.
- * Returns the shaped book + loading/error + a manual `reload`. Polling stops
- * when `active` is false (tab hidden / section collapsed) to save requests.
+ * One (market, option, side) CLOB book, polled every 4s while `active`.
+ * Every component asking for the same book shares one request and one snapshot
+ * (lib/book-poller.ts); polls never overlap and pause in background tabs.
  */
 export function useClobBook(
   marketRef: string,
@@ -29,40 +30,37 @@ export function useClobBook(
   side: 'yes' | 'no' = 'yes',
   active = true,
 ) {
-  const [book, setBook] = useState<ClobBook | null>(null)
-  const [error, setError] = useState<string | null>(null)
-  const [loading, setLoading] = useState(true)
-  const pollRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const url = `/api/markets/${encodeURIComponent(marketRef)}/book?option=${optionId}&side=${side}`
+  const live = active && !!optionId
+  const subscribe = useCallback(
+    (onChange: () => void) => (live ? bookPoller.subscribe(url, onChange) : () => {}),
+    [live, url],
+  )
+  const snap = useSyncExternalStore(
+    subscribe,
+    () => bookPoller.getSnapshot(url),
+    () => EMPTY_SNAPSHOT,
+  )
+  const reload = useCallback(() => bookPoller.reload(url), [url])
+  return { book: snap.book, loading: snap.loading, error: snap.error, reload }
+}
 
-  const reload = useCallback(async () => {
-    try {
-      const res = await fetch(
-        `/api/markets/${encodeURIComponent(marketRef)}/book?option=${optionId}&side=${side}`,
-        { cache: 'no-store' },
-      )
-      if (!res.ok) throw new Error(`HTTP ${res.status}`)
-      setBook((await res.json()) as ClobBook)
-      setError(null)
-    } catch {
-      setError('Could not load the order book')
-    } finally {
-      setLoading(false)
-    }
-  }, [marketRef, optionId, side])
-
+/**
+ * False while `ref`'s element is not displayed (e.g. inside a `hidden lg:block`
+ * wrapper on a phone), so a mounted-but-hidden component can stop polling.
+ */
+export function useIsDisplayed(ref: RefObject<HTMLElement | null>): boolean {
+  const [shown, setShown] = useState(true)
   useEffect(() => {
-    if (!active) {
-      if (pollRef.current) clearInterval(pollRef.current)
-      return
-    }
-    reload()
-    pollRef.current = setInterval(reload, 4000)
-    return () => {
-      if (pollRef.current) clearInterval(pollRef.current)
-    }
-  }, [active, reload])
-
-  return { book, loading, error, reload }
+    const el = ref.current
+    if (!el || typeof ResizeObserver === 'undefined') return
+    const check = () => setShown(el.getClientRects().length > 0)
+    check()
+    const ro = new ResizeObserver(check)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [ref])
+  return shown
 }
 
 /**
