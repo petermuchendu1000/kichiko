@@ -15,7 +15,7 @@ import {
 import { securityHeaders } from '@/lib/security/headers'
 import { safeRedirectPath } from '@/lib/security/sanitize'
 import { REQUEST_ID_HEADER, resolveRequestId } from '@/lib/observability/request-id'
-import { requiresAuth, isAdminRoute } from '@/lib/security/route-protection'
+import { requiresAuth, isAdminRoute, isSessionlessRead } from '@/lib/security/route-protection'
 
 const ADMIN_PORTAL_ROLE_SET = new Set<string>(ADMIN_PORTAL_ROLES)
 
@@ -78,6 +78,12 @@ export async function middleware(request: NextRequest) {
         requestId
       )
     }
+  }
+
+  // Public polling reads (the order book) never use the session: skip the
+  // cookie refresh and JWT check, which can cost an Auth round trip.
+  if (isSessionlessRead(pathname, request.method)) {
+    return applySecurityHeaders(NextResponse.next({ request: { headers: request.headers } }), requestId)
   }
 
   let response = NextResponse.next({

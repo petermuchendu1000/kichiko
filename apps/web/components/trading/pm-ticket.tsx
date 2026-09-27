@@ -44,7 +44,7 @@ import { normalizeOutcomes, isMultiOutcome, type Outcome } from '@/lib/markets/o
 import { formatCurrency, usdToLocal, localToUsd, type RatesMap } from '@/lib/currency'
 import { quickAmounts, stakeError } from '@/lib/stake'
 import { formatProbability } from '@/lib/format'
-import { useClobBook } from '@/components/trading/order-book-table'
+import { useClobBook, useIsDisplayed } from '@/components/trading/order-book-table'
 import {
   clampPriceCents,
   formatCents,
@@ -434,7 +434,11 @@ export function PmTicket({
   // Top-of-book for the SELECTED candidate + side, polled only while this is a
   // CLOB market. Reuses the exact public book hook the drawer/ladder use, so the
   // ticket's buy/sell price estimates can never drift from the visible book.
-  const { book: clobBook } = useClobBook(market.slug, selectedOptionId, side, clob && !!selectedOptionId)
+  // The desktop panel stays mounted on phones inside a `hidden lg:block` wrapper;
+  // it must not keep polling there while the bottom sheet is the live ticket.
+  const rootRef = useRef<HTMLDivElement>(null)
+  const displayed = useIsDisplayed(rootRef)
+  const { book: clobBook } = useClobBook(market.slug, selectedOptionId, side, clob && !!selectedOptionId && displayed)
   // The user's sellable holding in the selected candidate + side. CLOB exits are
   // per-candidate-per-side, so available = shares − reserved_shares (shares
   // already escrowed by resting sell orders). undefined = not yet loaded.
@@ -1298,7 +1302,7 @@ export function PmTicket({
   }
 
   return (
-    <div className="card overflow-hidden">
+    <div ref={rootRef} className="card overflow-hidden">
       {/* Context header: market identity + selected outcome */}
       <div className="flex items-center gap-3 border-b border-hairline p-4">
         <EntityAvatar name={market.title} imageUrl={market.cover_image_url} size={48} shape="squircle" radius={7} />

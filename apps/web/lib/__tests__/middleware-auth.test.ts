@@ -31,6 +31,18 @@ describe('middleware session check', () => {
     const res = await middleware(req('/api/payments/withdraw', 'POST'))
     expect(res.status).toBe(401)
   })
+  it('the public order-book poll skips session work entirely', async () => {
+    const res = await middleware(req('/api/markets/ke-2027-president/book'))
+    expect(res.status).toBe(200)
+    expect(auth.getClaims).not.toHaveBeenCalled()
+    expect(auth.getUser).not.toHaveBeenCalled()
+    expect(res.headers.get('x-frame-options') ?? res.headers.get('content-security-policy')).toBeTruthy()
+  })
+  it('other market reads still refresh the session', async () => {
+    auth.getClaims.mockResolvedValue({ data: null, error: null })
+    await middleware(req('/api/markets/ke-2027-president'))
+    expect(auth.getClaims).toHaveBeenCalled()
+  })
   it('an invalid session on a gated page redirects to sign-in', async () => {
     auth.getClaims.mockResolvedValue({ data: null, error: null })
     const res = await middleware(req('/portfolio'))
