@@ -129,7 +129,6 @@ export function Navbar() {
 
   const navLinks = [
     { href: '/markets', label: 'Events', icon: <IconMarkets size={15}/> },
-    { href: '/leaderboard', label: 'Leaders', icon: <IconTrophy size={15}/> },
   ]
 
   const isActive = (href: string) => pathname === href || pathname.startsWith(href + '/')

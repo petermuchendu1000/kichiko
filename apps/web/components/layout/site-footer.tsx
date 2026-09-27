@@ -31,7 +31,6 @@ const COLUMNS: FooterColumn[] = [
     heading: 'Events',
     links: [
       { href: '/markets', label: 'All events' },
-      { href: '/leaderboard', label: 'Leaderboard' },
       { href: '/markets/create', label: 'Create an event' },
       { href: '/search', label: 'Search' },
     ],

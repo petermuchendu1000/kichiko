@@ -1,40 +1,16 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
-import { parseLeaderboardParams, type LeaderboardEntry } from '@/lib/leaderboard'
-import { presetHeaders } from '@/lib/http/cache-headers'
-
-// Leaderboard reflects live standings; render dynamically.
-export const dynamic = 'force-dynamic'
+import { NextResponse } from 'next/server'
 
 /**
- * GET /api/leaderboard
- * Ranked traders by metric (volume|winrate|pnl) and period (all|week|month).
- * All-time reads the `leaderboard` materialized view; week/month aggregate
- * from transactions via the `get_leaderboard` RPC.
+ * GET /api/leaderboard — gone.
+ *
+ * The public profit/volume/win-rate ranking was removed (work plan v2 §6.3; see
+ * app/leaderboard/page.tsx). Serving the same ranking here would keep the winner
+ * feed public through the API. The ranking logic in lib/leaderboard.ts stays for
+ * the opt-in accuracy board that replaces it.
  */
-export async function GET(req: NextRequest) {
-  const { searchParams } = new URL(req.url)
-  const { metric, period, limit } = parseLeaderboardParams(searchParams)
-
-  const supabase = await createClient()
-
-  const { data, error } = await supabase.rpc('get_leaderboard', {
-    p_metric: metric,
-    p_period: period,
-    p_limit: limit,
-  })
-
-  if (error) {
-    console.error('leaderboard query failed:', error)
-    return NextResponse.json({ error: 'Failed to load the leaderboard' }, { status: 500 })
-  }
-
-  const payload = (data ?? {}) as { data?: LeaderboardEntry[] }
-  const rows = Array.isArray(payload.data) ? payload.data : []
-
-  // Public, non-user data → briefly edge-cacheable with stale-while-revalidate.
+export async function GET() {
   return NextResponse.json(
-    { data: rows, metric, period, count: rows.length },
-    { headers: presetHeaders('leaderboard') }
+    { error: 'The leaderboard is paused while it is rebuilt as an opt-in accuracy board.' },
+    { status: 410, headers: { 'Cache-Control': 'public, max-age=3600' } },
   )
 }

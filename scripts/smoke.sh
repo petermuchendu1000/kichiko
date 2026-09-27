@@ -33,7 +33,7 @@ check_status "GET /api/health" "$BASE_URL/api/health" 200
 
 echo "[2/3] Public read endpoints return 200"
 check_status "GET /api/markets"     "$BASE_URL/api/markets"     200
-check_status "GET /api/leaderboard" "$BASE_URL/api/leaderboard" 200
+check_status "GET /api/leaderboard (paused)" "$BASE_URL/api/leaderboard" 410
 
 echo "[3/3] Cron endpoints reject unauthenticated calls (401)"
 for c in close-markets resolve-market update-exchange-rates \

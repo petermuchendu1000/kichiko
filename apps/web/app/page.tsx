@@ -376,7 +376,7 @@ export default async function HomePage() {
             {[
               { n: '01', h: 'See the chance', p: `Every event shows a chance from 0% to 100%. It is how likely people think “Yes” is. The price tracks the chance, so a Yes at 65% costs about KSh ${exampleBuyKes}.` },
               { n: '02', h: 'Choose Yes or No', p: 'Buy Yes if you think it will happen. Buy No if you think it will not. Deposit in seconds with M-Pesa.' },
-              { n: '03', h: 'Get paid if you are right', p: `When the event ends, every correct Yes or No pays KSh ${sharePayoutKes}. A Yes you bought at 65% (about KSh ${exampleBuyKes}) pays KSh ${sharePayoutKes}, so you make about KSh ${exampleProfitKes}. If you are wrong, it pays nothing. Withdraw to M-Pesa.` },
+              { n: '03', h: 'Get paid if you are right', p: `When the event ends, every correct Yes or No pays KSh ${sharePayoutKes}. A Yes you bought at 65% (about KSh ${exampleBuyKes}) pays KSh ${sharePayoutKes}, so you make about KSh ${exampleProfitKes}. If you are wrong, it pays nothing and you lose the KSh ${exampleBuyKes} you paid. Withdraw to M-Pesa.` },
             ].map(s => (
               <div key={s.n} className="card p-6">
                 <div className="w-10 h-10 rounded-lg grid place-items-center font-mono font-semibold"
@@ -396,8 +396,8 @@ export default async function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="card p-6">
               <span className="w-11 h-11 rounded-lg grid place-items-center mb-4" style={{ background: 'var(--pip-100)', color: 'var(--pip-text)' }}><IconTrendUp size={20} /></span>
-              <h3 className="text-[1.05rem] font-semibold tracking-[-0.01em]" style={{ color: 'var(--text)' }}>Take your profit early</h3>
-              <p className="mt-2 text-[0.92rem] leading-relaxed" style={{ color: 'var(--text-2)' }}>You do not have to wait for the event to end. If the price moves your way, sell your Yes or No any time and keep the profit.</p>
+              <h3 className="text-[1.05rem] font-semibold tracking-[-0.01em]" style={{ color: 'var(--text)' }}>Sell before the end</h3>
+              <p className="mt-2 text-[0.92rem] leading-relaxed" style={{ color: 'var(--text-2)' }}>You do not have to wait for the event to end. You can sell your Yes or No at the current price, which may be more or less than you paid.</p>
             </div>
             <div className="card p-6">
               <span className="w-11 h-11 rounded-lg grid place-items-center mb-4" style={{ background: 'var(--pip-100)', color: 'var(--pip-text)' }}><IconCheck size={20} /></span>

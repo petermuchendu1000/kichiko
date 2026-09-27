@@ -127,13 +127,13 @@ export function PositionSummary({ market, options }: PositionSummaryProps) {
                   <dd className="font-mono text-text-primary">{pos.shares.toFixed(2)}</dd>
                 </div>
                 <div className="flex justify-between">
-                  <dt className="text-text-muted">Avg entry</dt>
+                  <dt className="text-text-muted">Avg price</dt>
                   <dd className="font-mono text-text-primary">
-                    {Math.round(pos.avg_entry_price * 100)}&#162;
+                    {Math.round(pos.avg_entry_price * 100)}%
                   </dd>
                 </div>
                 <div className="flex justify-between">
-                  <dt className="text-text-muted">Invested</dt>
+                  <dt className="text-text-muted">You paid</dt>
                   <dd className="font-mono text-text-primary">
                     {formatUSD(pos.total_invested_usd)}
                   </dd>

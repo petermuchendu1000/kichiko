@@ -12,7 +12,6 @@ export const revalidate = 3600
 const STATIC_PATHS: Array<{ path: string; changeFrequency: 'hourly' | 'daily' | 'monthly'; priority: number }> = [
   { path: '/', changeFrequency: 'hourly', priority: 1 },
   { path: '/markets', changeFrequency: 'hourly', priority: 0.9 },
-  { path: '/leaderboard', changeFrequency: 'daily', priority: 0.5 },
   { path: '/help', changeFrequency: 'monthly', priority: 0.3 },
   { path: '/legal/terms', changeFrequency: 'monthly', priority: 0.2 },
   { path: '/legal/privacy', changeFrequency: 'monthly', priority: 0.2 },

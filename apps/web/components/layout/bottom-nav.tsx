@@ -21,7 +21,7 @@ import { useAuth } from '@/hooks/use-auth'
 import { createClient } from '@/lib/supabase/client'
 import {
   IconHome, IconSearch, IconFire, IconMenu, IconX,
-  IconMarkets, IconTrophy, IconPortfolio, IconBell, IconUser,
+  IconMarkets, IconPortfolio, IconBell, IconUser,
   IconSettings, IconShield, IconLogOut, IconWallet,
 } from '@/components/ui/icons'
 import { ThemeToggle } from '@/components/ui/theme-toggle'
@@ -160,7 +160,6 @@ function MoreSheet({
 
   const links: { href: string; label: string; icon: React.ReactNode; auth?: boolean }[] = [
     { href: '/markets', label: 'Events', icon: <IconMarkets size={18} /> },
-    { href: '/leaderboard', label: 'Leaderboard', icon: <IconTrophy size={18} /> },
     { href: '/portfolio', label: 'Portfolio', icon: <IconPortfolio size={18} />, auth: true },
     { href: '/notifications', label: 'Notifications', icon: <IconBell size={18} />, auth: true },
     { href: '/profile', label: 'Profile', icon: <IconUser size={18} />, auth: true },

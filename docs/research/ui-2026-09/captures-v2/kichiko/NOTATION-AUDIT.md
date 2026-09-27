@@ -18,3 +18,11 @@ screenshots from this capture. Grade **V** (verified against code) unless noted.
 
 A `$1` hit in the home page's served HTML was checked and is React's RSC serialisation
 (`"$1"` element reference), **not** visible text — not a finding.
+
+### Added during execution (2026-09-27)
+
+| # | Finding | Where | Status |
+|---|---|---|---|
+| N10 | Average price rendered as `52¢` via the HTML entity `&#162;` — missed by the first grep, which searched for the `¢` glyph | `components/trading/position-summary.tsx:132` | Fixed: whole-number `%` |
+| N11 | "Invested" label (investment framing, banned in promotional copy) | `position-summary.tsx:136`, `portfolio/holdings-table.tsx:154` | Fixed: "You paid" |
+| N12 | `formatUSD()` is misnamed: it converts to and renders **KSh** (`lib/utils.ts:29`). Not a notation violation | many | Rename in the Phase 0.7 formatter clean-up |

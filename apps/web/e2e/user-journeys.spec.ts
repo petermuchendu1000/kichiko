@@ -42,10 +42,12 @@ test.describe('Public journeys', () => {
     expect(await text(page)).toBeTruthy()
   })
 
-  test('leaderboard renders ranked players', async ({ page }) => {
-    await page.goto('/leaderboard', { waitUntil: 'domcontentloaded' })
-    await page.waitForLoadState('networkidle', { timeout: 8000 }).catch(() => {})
-    expect(await text(page)).toBeTruthy()
+  test('leaderboard is paused and ranks nobody by profit', async ({ page }) => {
+    const res = await page.goto('/leaderboard', { waitUntil: 'domcontentloaded' })
+    expect(res?.status()).toBeLessThan(400)
+    const body = await text(page)
+    expect(body).toContain('The leaderboard is paused')
+    expect(body).not.toMatch(/profit|P&L|win rate/i)
   })
 
   test('legal pages load (terms, privacy, responsible play)', async ({ page }) => {
