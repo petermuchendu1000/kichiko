@@ -3,7 +3,8 @@
  "viewport": "mobile",
  "theme": "dark",
  "url": "http://127.0.0.1:3100/markets?category=elections",
- "capturedAt": "2026-09-27T08:39:06.928Z",
+ "capturedAt": "2026-09-27T09:05:12.317Z",
+ "waitStrategy": "load + 2.5s + scroll-settle",
  "status": 200,
  "finalUrl": "http://127.0.0.1:3100/markets?category=elections",
  "measure": {

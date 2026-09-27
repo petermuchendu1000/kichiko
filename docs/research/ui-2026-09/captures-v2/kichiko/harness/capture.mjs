@@ -52,7 +52,6 @@ const SCENARIOS = [
   { id: 'P10-portfolio-loggedout', url: '/portfolio' },
   { id: 'P11-auth-register', url: '/auth/register' },
   { id: 'P11-auth-login', url: '/auth/login' },
-  { id: 'P11-auth-dialog', url: '/', act: 'authDialog' },
   { id: 'P13-help', url: '/help' },
   { id: 'P14-responsible-play', url: '/legal/responsible-play' },
   { id: 'P14-terms', url: '/legal/terms' },
@@ -95,11 +94,6 @@ const ACTIONS = {
     await page.waitForTimeout(1200)
     return `clicked "${(await submit.innerText().catch(() => '?')).trim()}"`
   },
-  async authDialog(page) {
-    await page.getByRole('button', { name: /Get started|Sign up/i }).first().click()
-    await page.waitForTimeout(1000)
-    return 'Get started clicked'
-  },
   async moreMenu(page) {
     await page.getByRole('navigation', { name: 'Primary' }).getByRole('button', { name: /More/i }).click()
     await page.waitForTimeout(800)
@@ -130,7 +124,11 @@ for (const s of SCENARIOS) {
       const page = await ctx.newPage()
       const rec = { id: s.id, viewport: vp, theme, url: BASE + s.url, capturedAt: new Date().toISOString() }
       try {
-        const res = await page.goto(BASE + s.url, { waitUntil: 'networkidle', timeout: 60000 })
+        // networkidle is unreliable here (live polling + a contended CPU): wait for
+        // `load`, then settle. Recorded so the method is visible in each JSON.
+        const res = await page.goto(BASE + s.url, { waitUntil: 'load', timeout: 90000 })
+        await page.waitForTimeout(2500)
+        rec.waitStrategy = 'load + 2.5s + scroll-settle'
         rec.status = res?.status()
         rec.finalUrl = page.url()
         await settle(page)

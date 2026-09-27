@@ -1,0 +1,1892 @@
+[
+ {
+  "tag": "P01-home-desktop-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 60,
+   "from24to43": 144,
+   "lt24": 23
+  },
+  "axe": 4,
+  "h1": 8,
+  "formats": {
+   "ksh": 29,
+   "percent": 126,
+   "cents": 0,
+   "dollar": 2
+  }
+ },
+ {
+  "tag": "P01-home-desktop-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/",
+  "action": null,
+  "error": null,
+  "contrastFail": 1,
+  "targets": {
+   "ge44": 60,
+   "from24to43": 144,
+   "lt24": 23
+  },
+  "axe": 5,
+  "h1": 8,
+  "formats": {
+   "ksh": 29,
+   "percent": 126,
+   "cents": 0,
+   "dollar": 2
+  }
+ },
+ {
+  "tag": "P01-home-mobile-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 64,
+   "from24to43": 137,
+   "lt24": 23
+  },
+  "axe": 4,
+  "h1": 8,
+  "formats": {
+   "ksh": 17,
+   "percent": 126,
+   "cents": 0,
+   "dollar": 2
+  }
+ },
+ {
+  "tag": "P01-home-mobile-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/",
+  "action": null,
+  "error": null,
+  "contrastFail": 1,
+  "targets": {
+   "ge44": 64,
+   "from24to43": 137,
+   "lt24": 23
+  },
+  "axe": 5,
+  "h1": 8,
+  "formats": {
+   "ksh": 17,
+   "percent": 126,
+   "cents": 0,
+   "dollar": 2
+  }
+ },
+ {
+  "tag": "P02-browse-desktop-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 36,
+   "from24to43": 97,
+   "lt24": 13
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 60,
+   "cents": 0,
+   "dollar": 2
+  }
+ },
+ {
+  "tag": "P02-browse-desktop-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 36,
+   "from24to43": 97,
+   "lt24": 13
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 60,
+   "cents": 0,
+   "dollar": 2
+  }
+ },
+ {
+  "tag": "P02-browse-mobile-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 40,
+   "from24to43": 89,
+   "lt24": 13
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 60,
+   "cents": 0,
+   "dollar": 2
+  }
+ },
+ {
+  "tag": "P02-browse-mobile-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 40,
+   "from24to43": 89,
+   "lt24": 13
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 60,
+   "cents": 0,
+   "dollar": 2
+  }
+ },
+ {
+  "tag": "P02-category-desktop-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets?category=elections",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 17,
+   "from24to43": 48,
+   "lt24": 14
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 12,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P02-category-desktop-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets?category=elections",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 17,
+   "from24to43": 48,
+   "lt24": 14
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 12,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P02-category-mobile-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets?category=elections",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 21,
+   "from24to43": 40,
+   "lt24": 14
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 12,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P02-category-mobile-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets?category=elections",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 21,
+   "from24to43": 40,
+   "lt24": 14
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 12,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P03-event-binary-desktop-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets/ke-hashtag-number-one-2026",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 26,
+   "from24to43": 37,
+   "lt24": 15
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 2,
+   "percent": 18,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P03-event-binary-desktop-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets/ke-hashtag-number-one-2026",
+  "action": null,
+  "error": null,
+  "contrastFail": 1,
+  "targets": {
+   "ge44": 26,
+   "from24to43": 37,
+   "lt24": 15
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 2,
+   "percent": 18,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P03-event-binary-mobile-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets/ke-hashtag-number-one-2026",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 27,
+   "from24to43": 23,
+   "lt24": 14
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 3,
+   "percent": 15,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P03-event-binary-mobile-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets/ke-hashtag-number-one-2026",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 27,
+   "from24to43": 23,
+   "lt24": 14
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 3,
+   "percent": 15,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P04-event-multi-desktop-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets/ke-2027-president",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 39,
+   "from24to43": 74,
+   "lt24": 87
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 6,
+   "percent": 36,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P04-event-multi-desktop-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets/ke-2027-president",
+  "action": null,
+  "error": null,
+  "contrastFail": 1,
+  "targets": {
+   "ge44": 39,
+   "from24to43": 74,
+   "lt24": 87
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 6,
+   "percent": 36,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P04-event-multi-mobile-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets/ke-2027-president",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 40,
+   "from24to43": 60,
+   "lt24": 158
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 7,
+   "percent": 33,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P04-event-multi-mobile-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets/ke-2027-president",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 40,
+   "from24to43": 60,
+   "lt24": 158
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 7,
+   "percent": 33,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P06-ticket-amount-desktop-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets/ke-hashtag-number-one-2026",
+  "action": "Yes + amount 500",
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 26,
+   "from24to43": 37,
+   "lt24": 15
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 2,
+   "percent": 18,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P06-ticket-amount-desktop-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets/ke-hashtag-number-one-2026",
+  "action": "Yes + amount 500",
+  "error": null,
+  "contrastFail": 1,
+  "targets": {
+   "ge44": 26,
+   "from24to43": 37,
+   "lt24": 15
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 2,
+   "percent": 18,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P06-ticket-amount-mobile-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets/ke-hashtag-number-one-2026",
+  "action": "Yes + amount 500",
+  "error": null,
+  "contrastFail": 1,
+  "targets": {
+   "ge44": 30,
+   "from24to43": 30,
+   "lt24": 15
+  },
+  "axe": 2,
+  "h1": 1,
+  "formats": {
+   "ksh": 7,
+   "percent": 17,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P06-ticket-amount-mobile-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets/ke-hashtag-number-one-2026",
+  "action": "Yes + amount 500",
+  "error": null,
+  "contrastFail": 4,
+  "targets": {
+   "ge44": 30,
+   "from24to43": 30,
+   "lt24": 15
+  },
+  "axe": 4,
+  "h1": 1,
+  "formats": {
+   "ksh": 7,
+   "percent": 17,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P06-ticket-invalid-desktop-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets/ke-hashtag-number-one-2026",
+  "action": "Yes + amount 99,999,999",
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 26,
+   "from24to43": 37,
+   "lt24": 15
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 2,
+   "percent": 18,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P06-ticket-invalid-desktop-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets/ke-hashtag-number-one-2026",
+  "action": "Yes + amount 99,999,999",
+  "error": null,
+  "contrastFail": 1,
+  "targets": {
+   "ge44": 26,
+   "from24to43": 37,
+   "lt24": 15
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 2,
+   "percent": 18,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P06-ticket-invalid-mobile-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets/ke-hashtag-number-one-2026",
+  "action": "Yes + amount 99,999,999",
+  "error": null,
+  "contrastFail": 1,
+  "targets": {
+   "ge44": 30,
+   "from24to43": 30,
+   "lt24": 15
+  },
+  "axe": 2,
+  "h1": 1,
+  "formats": {
+   "ksh": 7,
+   "percent": 17,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P06-ticket-invalid-mobile-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets/ke-hashtag-number-one-2026",
+  "action": "Yes + amount 99,999,999",
+  "error": null,
+  "contrastFail": 4,
+  "targets": {
+   "ge44": 30,
+   "from24to43": 30,
+   "lt24": 15
+  },
+  "axe": 4,
+  "h1": 1,
+  "formats": {
+   "ksh": 7,
+   "percent": 17,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P06-ticket-submit-gate-desktop-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets/ke-hashtag-number-one-2026",
+  "action": "clicked \"Sign in\"",
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 27,
+   "from24to43": 44,
+   "lt24": 16
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 2,
+   "percent": 18,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P06-ticket-submit-gate-desktop-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets/ke-hashtag-number-one-2026",
+  "action": "clicked \"Sign in\"",
+  "error": null,
+  "contrastFail": 1,
+  "targets": {
+   "ge44": 27,
+   "from24to43": 44,
+   "lt24": 16
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 2,
+   "percent": 18,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P06-ticket-submit-gate-mobile-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets/ke-hashtag-number-one-2026",
+  "action": "clicked \"Log in to trade\"",
+  "error": null,
+  "contrastFail": 1,
+  "targets": {
+   "ge44": 31,
+   "from24to43": 37,
+   "lt24": 16
+  },
+  "axe": 2,
+  "h1": 1,
+  "formats": {
+   "ksh": 7,
+   "percent": 17,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P06-ticket-submit-gate-mobile-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets/ke-hashtag-number-one-2026",
+  "action": "clicked \"Log in to trade\"",
+  "error": null,
+  "contrastFail": 4,
+  "targets": {
+   "ge44": 31,
+   "from24to43": 37,
+   "lt24": 16
+  },
+  "axe": 4,
+  "h1": 1,
+  "formats": {
+   "ksh": 7,
+   "percent": 17,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P06-ticket-yes-desktop-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets/ke-hashtag-number-one-2026",
+  "action": "Yes selected",
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 26,
+   "from24to43": 37,
+   "lt24": 15
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 2,
+   "percent": 18,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P06-ticket-yes-desktop-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets/ke-hashtag-number-one-2026",
+  "action": "Yes selected",
+  "error": null,
+  "contrastFail": 1,
+  "targets": {
+   "ge44": 26,
+   "from24to43": 37,
+   "lt24": 15
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 2,
+   "percent": 18,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P06-ticket-yes-mobile-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets/ke-hashtag-number-one-2026",
+  "action": "Yes selected",
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 30,
+   "from24to43": 30,
+   "lt24": 15
+  },
+  "axe": 1,
+  "h1": 1,
+  "formats": {
+   "ksh": 7,
+   "percent": 16,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P06-ticket-yes-mobile-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets/ke-hashtag-number-one-2026",
+  "action": "Yes selected",
+  "error": null,
+  "contrastFail": 3,
+  "targets": {
+   "ge44": 30,
+   "from24to43": 30,
+   "lt24": 15
+  },
+  "axe": 3,
+  "h1": 1,
+  "formats": {
+   "ksh": 7,
+   "percent": 16,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P07-search-empty-desktop-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/search?q=zqxjvbw",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 34,
+   "from24to43": 28,
+   "lt24": 13
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 18,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P07-search-empty-desktop-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/search?q=zqxjvbw",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 34,
+   "from24to43": 28,
+   "lt24": 13
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 18,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P07-search-empty-mobile-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/search?q=zqxjvbw",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 38,
+   "from24to43": 22,
+   "lt24": 13
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 18,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P07-search-empty-mobile-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/search?q=zqxjvbw",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 38,
+   "from24to43": 22,
+   "lt24": 13
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 18,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P07-search-open-desktop-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/search",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 34,
+   "from24to43": 28,
+   "lt24": 13
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 18,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P07-search-open-desktop-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/search",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 34,
+   "from24to43": 28,
+   "lt24": 13
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 18,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P07-search-open-mobile-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/search",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 38,
+   "from24to43": 22,
+   "lt24": 13
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 18,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P07-search-open-mobile-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/search",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 38,
+   "from24to43": 22,
+   "lt24": 13
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 18,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P07-search-results-desktop-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/search?q=ruto",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 34,
+   "from24to43": 28,
+   "lt24": 13
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 18,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P07-search-results-desktop-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/search?q=ruto",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 34,
+   "from24to43": 28,
+   "lt24": 13
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 18,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P07-search-results-mobile-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/search?q=ruto",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 38,
+   "from24to43": 22,
+   "lt24": 13
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 18,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P07-search-results-mobile-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/search?q=ruto",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 38,
+   "from24to43": 22,
+   "lt24": 13
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 18,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P08-leaderboard-desktop-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/leaderboard",
+  "action": null,
+  "error": null,
+  "contrastFail": 2,
+  "targets": {
+   "ge44": 16,
+   "from24to43": 83,
+   "lt24": 19
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 135,
+   "percent": 66,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P08-leaderboard-desktop-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/leaderboard",
+  "action": null,
+  "error": null,
+  "contrastFail": 3,
+  "targets": {
+   "ge44": 16,
+   "from24to43": 83,
+   "lt24": 19
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 135,
+   "percent": 66,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P08-leaderboard-mobile-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/leaderboard",
+  "action": null,
+  "error": null,
+  "contrastFail": 2,
+  "targets": {
+   "ge44": 20,
+   "from24to43": 77,
+   "lt24": 18
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 135,
+   "percent": 66,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P08-leaderboard-mobile-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/leaderboard",
+  "action": null,
+  "error": null,
+  "contrastFail": 3,
+  "targets": {
+   "ge44": 20,
+   "from24to43": 77,
+   "lt24": 18
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 135,
+   "percent": 66,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P09-profile-desktop-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/traders/8aab2b56-ea6d-5033-a279-c94d2b5fa238",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 13,
+   "from24to43": 27,
+   "lt24": 38
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 52,
+   "percent": 100,
+   "cents": 0,
+   "dollar": 6
+  }
+ },
+ {
+  "tag": "P09-profile-desktop-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/traders/8aab2b56-ea6d-5033-a279-c94d2b5fa238",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 13,
+   "from24to43": 27,
+   "lt24": 38
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 52,
+   "percent": 100,
+   "cents": 0,
+   "dollar": 6
+  }
+ },
+ {
+  "tag": "P09-profile-mobile-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/traders/8aab2b56-ea6d-5033-a279-c94d2b5fa238",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 17,
+   "from24to43": 43,
+   "lt24": 16
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 52,
+   "percent": 50,
+   "cents": 0,
+   "dollar": 6
+  }
+ },
+ {
+  "tag": "P09-profile-mobile-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/traders/8aab2b56-ea6d-5033-a279-c94d2b5fa238",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 17,
+   "from24to43": 43,
+   "lt24": 16
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 52,
+   "percent": 50,
+   "cents": 0,
+   "dollar": 6
+  }
+ },
+ {
+  "tag": "P10-portfolio-loggedout-desktop-dark",
+  "status": 200,
+  "finalUrl": "http://localhost:3100/auth/login?next=%2Fportfolio",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 2,
+   "from24to43": 13,
+   "lt24": 15
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 0,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P10-portfolio-loggedout-desktop-light",
+  "status": 200,
+  "finalUrl": "http://localhost:3100/auth/login?next=%2Fportfolio",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 2,
+   "from24to43": 13,
+   "lt24": 15
+  },
+  "axe": null,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 0,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P10-portfolio-loggedout-mobile-dark",
+  "status": 200,
+  "finalUrl": "http://localhost:3100/auth/login?next=%2Fportfolio",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 6,
+   "from24to43": 9,
+   "lt24": 15
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 0,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P10-portfolio-loggedout-mobile-light",
+  "status": 200,
+  "finalUrl": "http://localhost:3100/auth/login?next=%2Fportfolio",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 6,
+   "from24to43": 9,
+   "lt24": 15
+  },
+  "axe": null,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 0,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P11-auth-login-desktop-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/auth/login",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 2,
+   "from24to43": 13,
+   "lt24": 15
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 0,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P11-auth-login-desktop-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/auth/login",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 2,
+   "from24to43": 13,
+   "lt24": 15
+  },
+  "axe": null,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 0,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P11-auth-login-mobile-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/auth/login",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 6,
+   "from24to43": 9,
+   "lt24": 15
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 0,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P11-auth-login-mobile-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/auth/login",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 6,
+   "from24to43": 9,
+   "lt24": 15
+  },
+  "axe": null,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 0,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P11-auth-register-desktop-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/auth/register",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 1,
+   "from24to43": 15,
+   "lt24": 15
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 0,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P11-auth-register-desktop-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/auth/register",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 1,
+   "from24to43": 15,
+   "lt24": 15
+  },
+  "axe": null,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 0,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P11-auth-register-mobile-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/auth/register",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 5,
+   "from24to43": 11,
+   "lt24": 15
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 0,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P11-auth-register-mobile-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/auth/register",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 5,
+   "from24to43": 11,
+   "lt24": 15
+  },
+  "axe": null,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 0,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P13-help-desktop-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/help",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 17,
+   "from24to43": 14,
+   "lt24": 17
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 1,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P13-help-desktop-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/help",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 17,
+   "from24to43": 14,
+   "lt24": 17
+  },
+  "axe": null,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 1,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P13-help-mobile-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/help",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 21,
+   "from24to43": 8,
+   "lt24": 17
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 1,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P13-help-mobile-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/help",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 21,
+   "from24to43": 8,
+   "lt24": 17
+  },
+  "axe": null,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 1,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P14-responsible-play-desktop-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/legal/responsible-play",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 13,
+   "from24to43": 14,
+   "lt24": 16
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 0,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P14-responsible-play-desktop-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/legal/responsible-play",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 13,
+   "from24to43": 14,
+   "lt24": 16
+  },
+  "axe": null,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 0,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P14-responsible-play-mobile-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/legal/responsible-play",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 17,
+   "from24to43": 8,
+   "lt24": 16
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 0,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P14-responsible-play-mobile-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/legal/responsible-play",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 17,
+   "from24to43": 8,
+   "lt24": 16
+  },
+  "axe": null,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 0,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P14-terms-desktop-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/legal/terms",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 13,
+   "from24to43": 14,
+   "lt24": 16
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 0,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P14-terms-desktop-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/legal/terms",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 13,
+   "from24to43": 14,
+   "lt24": 16
+  },
+  "axe": null,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 0,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P14-terms-mobile-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/legal/terms",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 17,
+   "from24to43": 8,
+   "lt24": 16
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 0,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P14-terms-mobile-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/legal/terms",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 17,
+   "from24to43": 8,
+   "lt24": 16
+  },
+  "axe": null,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 0,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P15-404-desktop-dark",
+  "status": 404,
+  "finalUrl": "http://127.0.0.1:3100/this-page-does-not-exist",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 15,
+   "from24to43": 14,
+   "lt24": 13
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 0,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P15-404-desktop-light",
+  "status": 404,
+  "finalUrl": "http://127.0.0.1:3100/this-page-does-not-exist",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 15,
+   "from24to43": 14,
+   "lt24": 13
+  },
+  "axe": null,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 0,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P15-404-mobile-dark",
+  "status": 404,
+  "finalUrl": "http://127.0.0.1:3100/this-page-does-not-exist",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 19,
+   "from24to43": 8,
+   "lt24": 13
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 0,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P15-404-mobile-light",
+  "status": 404,
+  "finalUrl": "http://127.0.0.1:3100/this-page-does-not-exist",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 19,
+   "from24to43": 8,
+   "lt24": 13
+  },
+  "axe": null,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 0,
+   "cents": 0,
+   "dollar": 0
+  }
+ },
+ {
+  "tag": "P16-more-menu-mobile-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/",
+  "action": "More sheet opened",
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 67,
+   "from24to43": 141,
+   "lt24": 23
+  },
+  "axe": 4,
+  "h1": 8,
+  "formats": {
+   "ksh": 17,
+   "percent": 126,
+   "cents": 0,
+   "dollar": 2
+  }
+ },
+ {
+  "tag": "P16-more-menu-mobile-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/",
+  "action": "More sheet opened",
+  "error": null,
+  "contrastFail": 1,
+  "targets": {
+   "ge44": 67,
+   "from24to43": 141,
+   "lt24": 23
+  },
+  "axe": null,
+  "h1": 8,
+  "formats": {
+   "ksh": 17,
+   "percent": 126,
+   "cents": 0,
+   "dollar": 2
+  }
+ },
+ {
+  "tag": "P17-newest-desktop-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets?sort=newest",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 36,
+   "from24to43": 85,
+   "lt24": 13
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 50,
+   "cents": 0,
+   "dollar": 2
+  }
+ },
+ {
+  "tag": "P17-newest-desktop-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets?sort=newest",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 36,
+   "from24to43": 85,
+   "lt24": 13
+  },
+  "axe": null,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 50,
+   "cents": 0,
+   "dollar": 2
+  }
+ },
+ {
+  "tag": "P17-newest-mobile-dark",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets?sort=newest",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 40,
+   "from24to43": 77,
+   "lt24": 13
+  },
+  "axe": 0,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 50,
+   "cents": 0,
+   "dollar": 2
+  }
+ },
+ {
+  "tag": "P17-newest-mobile-light",
+  "status": 200,
+  "finalUrl": "http://127.0.0.1:3100/markets?sort=newest",
+  "action": null,
+  "error": null,
+  "contrastFail": 0,
+  "targets": {
+   "ge44": 40,
+   "from24to43": 77,
+   "lt24": 13
+  },
+  "axe": null,
+  "h1": 1,
+  "formats": {
+   "ksh": 0,
+   "percent": 50,
+   "cents": 0,
+   "dollar": 2
+  }
+ }
+]
