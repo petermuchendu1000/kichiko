@@ -1151,7 +1151,6 @@ export function PmTicket({
     )
   }
 
-  const outcomeTone = isMulti && !indepMulti ? 'text-pip-500' : side === 'yes' ? 'text-yes' : 'text-no'
 
   // Polymarket's action button reads simply "Trade" (the To-win figure lives in
   // the preview summary just above it).
@@ -1932,23 +1931,18 @@ export function PmTicket({
               <div className="mt-4 space-y-1.5 rounded-md bg-surface-2 px-3 py-3 text-sm">
                 <div className="flex items-center justify-between text-text-muted">
                   <span>At your price</span>
-                  <span className="tabular-nums">
-                    {formatProbability(limitPrice)} · {buyLimitSharesNum.toFixed(2)} shares
-                  </span>
+                  <span className="tabular-nums">{formatProbability(limitPrice)}</span>
                 </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-text-secondary">Total</span>
-                  <span className="font-semibold tabular-nums text-text-primary">
-                    {formatCurrency(buyLimitCostLocal, preferredCurrency)}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between border-t border-hairline pt-1.5">
-                  <span className="text-text-secondary">To win if filled</span>
-                  <span className={`text-base font-bold tabular-nums ${outcomeTone}`}>
-                    {formatCurrency(usdToLocal(buyLimitSharesNum, preferredCurrency, rates), preferredCurrency)}
-                  </span>
-                </div>
-                <p className="pt-1 text-xs text-text-muted">Rests on the book until someone sells at your price or better.</p>
+                {/* Same block as a market buy (D5): a limit order's downside is
+                    identical once it fills, so it is stated the same way. */}
+                <OutcomeBlock
+                  payLocal={buyLimitCostLocal}
+                  winLocal={usdToLocal(buyLimitSharesNum, preferredCurrency, rates)}
+                  sideLabel={sideLabel}
+                  currency={preferredCurrency}
+                  className="pt-1"
+                />
+                <p className="pt-1 text-xs text-text-muted">Nothing is paid or lost until it fills. Rests on the book until someone sells at your price or better.</p>
               </div>
             )}
             {clob && orderType === 'market' && amountNum > 0 && !noSellers && (
