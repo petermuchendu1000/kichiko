@@ -6,6 +6,8 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/use-auth'
 import { useWallets } from '@/hooks/use-wallets'
 import { createClient } from '@/lib/supabase/client'
+import { amountInWords } from '@/lib/money-words'
+import type { FundingStep } from '@/lib/payments/funding-steps'
 import { CURRENCIES, type CurrencyCode } from '@/types'
 import { depositPresets, phonePlaceholder, phonePrefill, isValidPhone, depositRequestBody, withdrawRequestBody } from '@/lib/payments/deposit-ux'
 import { readJson } from '@/lib/http/client'
@@ -320,7 +322,8 @@ function DepositSheet({ onClose, initialAmount, resumeOrder = false }: { onClose
   const [phoneError, setPhoneError] = useState('')
   const presets = depositPresets(preferredCurrency)
   const curSymbol = CURRENCIES[preferredCurrency]?.symbol ?? preferredCurrency
-  const [step, setStep] = useState<'form' | 'loading' | 'success'>('form')
+  // Shared with WithdrawSheet so the two flows cannot diverge in length (E5).
+  const [step, setStep] = useState<FundingStep>('form')
   const [error, setError] = useState('')
   // STK-push confirmation state (friction #8): after the push we don't dead-end
   // on "Check your phone" — we poll the deposit status and reflect the real
@@ -390,6 +393,16 @@ function DepositSheet({ onClose, initialAmount, resumeOrder = false }: { onClose
     return () => clearTimeout(t)
   }, [confirm, resumeOrder, onClose])
 
+  const review = () => {
+    if (!amount || !phone) return
+    if (!isValidPhone(phone, preferredCurrency)) {
+      setPhoneError(`Enter a valid ${preferredCurrency} mobile number, e.g. ${phonePlaceholder(preferredCurrency)}`)
+      return
+    }
+    setPhoneError(''); setError('')
+    setStep('review')
+  }
+
   const submit = async () => {
     if (!amount || !phone) return
     // Validate the phone up-front so the user gets an inline hint instead of a
@@ -444,7 +457,52 @@ function DepositSheet({ onClose, initialAmount, resumeOrder = false }: { onClose
         {/* Handle */}
         <div className="w-10 h-1 bg-[var(--border)] rounded-full mx-auto mb-5" />
 
-        {step === 'loading' ? (
+        {step === 'review' ? (
+          /* The same read-back as WithdrawSheet: numerals AND words, and the
+             number that is about to be charged. A mistyped deposit is far
+             less costly than a mistyped withdrawal, but keeping the two flows
+             identical in length is what Reg. 84 / 67(3) actually require. */
+          <div className="py-2">
+            <h3 className="font-display text-lg font-bold mb-1" style={{ color: 'var(--text-primary)' }}>Check before you pay</h3>
+            <p className="text-sm mb-5" style={{ color: 'var(--text-secondary)' }}>
+              You will get an M-Pesa prompt on this number.
+            </p>
+
+            <dl className="rounded-lg border border-[var(--border)] divide-y divide-[color:var(--border)]">
+              <div className="flex items-baseline justify-between gap-3 px-3 py-3">
+                <dt className="text-sm" style={{ color: 'var(--text-secondary)' }}>Amount</dt>
+                <dd className="text-[20px] font-semibold tabular-nums" style={{ color: 'var(--text-primary)' }}>
+                  {curSymbol} {Math.floor(parseFloat(amount) || 0).toLocaleString()}
+                </dd>
+              </div>
+              <div className="px-3 py-3">
+                <dt className="text-sm mb-0.5" style={{ color: 'var(--text-secondary)' }}>In words</dt>
+                <dd className="text-base font-medium" style={{ color: 'var(--text-primary)' }}>
+                  {amountInWords(parseFloat(amount) || 0, preferredCurrency)}
+                </dd>
+              </div>
+              <div className="flex items-baseline justify-between gap-3 px-3 py-3">
+                <dt className="text-sm" style={{ color: 'var(--text-secondary)' }}>From this number</dt>
+                <dd className="text-[20px] font-semibold tabular-nums" style={{ color: 'var(--text-primary)' }}>{phone}</dd>
+              </div>
+            </dl>
+
+            {error && (
+              <p role="alert" aria-live="assertive" className="mt-3 rounded-lg border border-[color-mix(in_srgb,var(--red)_25%,transparent)] bg-[color-mix(in_srgb,var(--red)_10%,transparent)] px-3 py-2 text-sm text-[var(--red)]">
+                {error}
+              </p>
+            )}
+
+            <div className="mt-5 grid grid-cols-2 gap-3">
+              <button className="btn btn-secondary btn-lg w-full" onClick={() => setStep('form')}>
+                Change
+              </button>
+              <button className="btn btn-primary btn-lg w-full" onClick={submit}>
+                Send prompt
+              </button>
+            </div>
+          </div>
+        ) : step === 'loading' ? (
           <StkPushLoader phase="sending" phone={phone} />
         ) : step === 'success' ? (
           <div className="text-center py-6">
@@ -564,11 +622,11 @@ function DepositSheet({ onClose, initialAmount, resumeOrder = false }: { onClose
             )}
             <button
               className="btn btn-primary btn-lg w-full"
-              onClick={submit}
+              onClick={review}
               disabled={!amount || !phone}
             >
               <IconDeposit size={16} />
-              Pay {amount && !isNaN(parseFloat(amount)) ? `${curSymbol} ${parseFloat(amount).toLocaleString()}` : 'Now'}
+              Review {amount && !isNaN(parseFloat(amount)) ? `${curSymbol} ${parseFloat(amount).toLocaleString()}` : 'deposit'}
             </button>
 
             <p className="text-center text-xs mt-4" style={{ color: 'var(--text-muted)' }}>
@@ -590,8 +648,15 @@ function WithdrawSheet({ onClose, balance, currency }: { onClose: () => void; ba
   const { refreshWallets } = useWallets()
   const router = useRouter()
   const [amount, setAmount] = useState('')
-  const [phone, setPhone] = useState('')
-  const [step, setStep] = useState<'form' | 'loading' | 'success'>('form')
+  // Prefilled with the dial code, like DepositSheet. Withdraw had neither the
+  // prefill nor the validation its sibling has had all along.
+  const [phone, setPhone] = useState(() => phonePrefill(currency))
+  const [phoneError, setPhoneError] = useState('')
+  // 'review' is the step this flow never had. Ruling E2: money left on the
+  // strength of one tap against a free-text number, and 70% of Kenyan
+  // mobile-money losses are accidental sends (FinAccess 2024, n=20,871).
+  // Typed from the shared machine so deposit and withdraw stay equal (E5).
+  const [step, setStep] = useState<FundingStep>('form')
   const [error, setError] = useState('')
   const [needsKyc, setNeedsKyc] = useState(false)
   const symbol = CURRENCIES[currency]?.symbol ?? ''
@@ -602,6 +667,20 @@ function WithdrawSheet({ onClose, balance, currency }: { onClose: () => void; ba
     document.addEventListener('keydown', onKey)
     return () => document.removeEventListener('keydown', onKey)
   }, [onClose])
+
+  // Form -> review. The server only checks the number is WELL-FORMED
+  // (checkProviderDestination), not that it is yours, so a typo that happens
+  // to be a valid Kenyan number is a real payment to a stranger. This is the
+  // last point at which that is recoverable.
+  const review = () => {
+    if (!amount || !phone) return
+    if (!isValidPhone(phone, currency)) {
+      setPhoneError(`Enter a valid ${currency} mobile number, e.g. ${phonePlaceholder(currency)}`)
+      return
+    }
+    setPhoneError(''); setError('')
+    setStep('review')
+  }
 
   const submit = async () => {
     if (!amount || !phone) return
@@ -647,7 +726,57 @@ function WithdrawSheet({ onClose, balance, currency }: { onClose: () => void; ba
       <div className="modal-sheet animate-slide-up" role="dialog" aria-modal="true">
         <div className="w-10 h-1 bg-[var(--border)] rounded-full mx-auto mb-5" />
 
-        {step === 'success' ? (
+        {step === 'review' ? (
+          /* Read it back before it goes. Amount in numerals AND words, and the
+             destination unmasked — this is the screen where a wrong digit is
+             still free to fix, so nothing here is abbreviated or dimmed. */
+          <div className="py-2">
+            <h3 className="font-display text-lg font-bold mb-1" style={{ color: 'var(--text-primary)' }}>Check before you send</h3>
+            <p className="text-sm mb-5" style={{ color: 'var(--text-secondary)' }}>
+              Money sent to the wrong number cannot be recovered.
+            </p>
+
+            <dl className="rounded-lg border border-[var(--border)] divide-y divide-[color:var(--border)]">
+              <div className="flex items-baseline justify-between gap-3 px-3 py-3">
+                <dt className="text-sm" style={{ color: 'var(--text-secondary)' }}>Amount</dt>
+                <dd className="text-[20px] font-semibold tabular-nums" style={{ color: 'var(--text-primary)' }}>
+                  {symbol}{Math.floor(amt).toLocaleString()} {currency}
+                </dd>
+              </div>
+              <div className="px-3 py-3">
+                <dt className="text-sm mb-0.5" style={{ color: 'var(--text-secondary)' }}>In words</dt>
+                <dd className="text-base font-medium" style={{ color: 'var(--text-primary)' }}>
+                  {amountInWords(amt, currency)}
+                </dd>
+              </div>
+              <div className="flex items-baseline justify-between gap-3 px-3 py-3">
+                <dt className="text-sm" style={{ color: 'var(--text-secondary)' }}>To this number</dt>
+                <dd className="text-[20px] font-semibold tabular-nums" style={{ color: 'var(--text-primary)' }}>{phone}</dd>
+              </div>
+            </dl>
+
+            {error && (
+              <div role="alert" aria-live="assertive" className="mt-3 rounded-lg border border-[color-mix(in_srgb,var(--red)_25%,transparent)] bg-[color-mix(in_srgb,var(--red)_10%,transparent)] px-3 py-2 text-sm text-[var(--red)]">
+                {error}
+              </div>
+            )}
+
+            {/* Equal weight, equal size ([32] rule 2): the way back must not be
+                harder to find than the way on. */}
+            <div className="mt-5 grid grid-cols-2 gap-3">
+              <button className="btn btn-secondary btn-lg w-full" onClick={() => setStep('form')}>
+                Change
+              </button>
+              <button className="btn btn-primary btn-lg w-full" onClick={submit}>
+                Send
+              </button>
+            </div>
+          </div>
+        ) : step === 'loading' ? (
+          <div className="py-10 text-center">
+            <p className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>Sending…</p>
+          </div>
+        ) : step === 'success' ? (
           <div className="text-center py-6">
             <div className="w-16 h-16 rounded-full bg-[var(--green-dim)] flex items-center justify-center mx-auto mb-4">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--green)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -689,7 +818,13 @@ function WithdrawSheet({ onClose, balance, currency }: { onClose: () => void; ba
 
             <div className="mb-5">
               <label htmlFor="wd-phone" className="text-xs font-semibold uppercase tracking-wide mb-2 block" style={{ color: 'var(--text-muted)' }}>Phone Number</label>
-              <input id="wd-phone" className="input" type="tel" placeholder="+254 700 000 000" value={phone} onChange={e => setPhone(e.target.value)} />
+              <input id="wd-phone" className="input" type="tel" placeholder={phonePlaceholder(currency)} value={phone}
+                aria-invalid={phoneError ? true : undefined}
+                aria-describedby={phoneError ? 'wd-phone-error' : undefined}
+                onChange={e => { setPhone(e.target.value); if (phoneError) setPhoneError('') }} />
+              {phoneError && (
+                <p id="wd-phone-error" role="status" className="mt-1.5 text-sm font-medium text-[var(--red)]">{phoneError}</p>
+              )}
             </div>
 
             {error && (
@@ -703,9 +838,9 @@ function WithdrawSheet({ onClose, balance, currency }: { onClose: () => void; ba
               </div>
             )}
 
-            <button className="btn btn-primary btn-lg w-full" onClick={submit}
-              disabled={step === 'loading' || !amount || !phone || amt <= 0 || amt > balance}>
-              {step === 'loading' ? 'Processing…' : amt > balance ? 'Amount exceeds balance' : 'Withdraw'}
+            <button className="btn btn-primary btn-lg w-full" onClick={review}
+              disabled={!amount || !phone || amt <= 0 || amt > balance}>
+              {amt > balance ? 'Amount exceeds balance' : 'Review withdrawal'}
             </button>
             {balance <= 0 && (
               <p className="mt-3 text-center text-xs" style={{ color: 'var(--text-muted)' }}>

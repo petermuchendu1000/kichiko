@@ -57,11 +57,23 @@ export function TransactionHistory({ transactions }: TransactionHistoryProps) {
                 <span className="flex h-8 w-8 flex-none items-center justify-center rounded-sm bg-surface-2 text-text-secondary">
                   <Icon size={15} />
                 </span>
-                <div>
+                <div className="min-w-0">
                   <p className="text-sm font-medium capitalize text-text-primary">
                     {tx.type.replace(/_/g, ' ')}
                   </p>
                   <p className="text-xs text-text-muted">{formatDate(tx.created_at)}</p>
+                  {/* Ruling E3: the provider's own reference — for M-Pesa, the
+                      code Safaricom texts the payer. credit_deposit has always
+                      written it to payment_reference; nothing ever showed it,
+                      so the one identifier people actually reconcile money by
+                      lived only in the admin console. Monospaced and
+                      selectable, because its job is to be compared against an
+                      SMS and quoted to support. */}
+                  {tx.payment_reference && (
+                    <p className="mt-0.5 select-all font-mono text-xs tracking-tight text-text-muted">
+                      {tx.payment_reference}
+                    </p>
+                  )}
                 </div>
               </div>
               <div className="text-right">
