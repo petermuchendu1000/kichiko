@@ -83,6 +83,22 @@ function MarketAvatar({ title }: { title: string }) {
   )
 }
 
+/**
+ * A binary market's only outcome restates its question, so the row rendered the
+ * same sentence twice: "Arbantone song hits 10M YouTube views in 2026?" as the
+ * title and "Arbantone song hits 10M YouTube views in 2026" as the label
+ * beneath it. Multi-outcome rows are unaffected — their label is a real option
+ * ("WhatsApp"), which the title does not contain.
+ *
+ * Compared on alphanumerics only, so trailing punctuation and casing cannot
+ * make an echo look distinct. Same rule as the market card's rowEchoesTitle.
+ */
+function labelEchoesTitle(label: string | null, title: string | null): boolean {
+  if (!label || !title) return false
+  const norm = (t: string) => t.toLowerCase().replace(/[^a-z0-9]/g, '')
+  return norm(label) === norm(title)
+}
+
 function MarketCell({ row }: { row: PositionRow }) {
   const entry = row.current_price ?? row.avg_entry_price
   return (
@@ -96,7 +112,9 @@ function MarketCell({ row }: { row: PositionRow }) {
           {row.market_title}
         </Link>
         <div className="mt-1 flex items-center gap-2 text-xs text-text-muted">
-          {row.option_label && <span className="truncate font-medium text-text-secondary">{row.option_label}</span>}
+          {row.option_label && !labelEchoesTitle(row.option_label, row.market_title) && (
+            <span className="truncate font-medium text-text-secondary">{row.option_label}</span>
+          )}
           <OutcomeChip side={row.side} price={entry} />
           <span className="tabular-nums">{shares(row.shares)} shares</span>
         </div>
@@ -143,7 +161,9 @@ function MobilePositions({ rows, status }: { rows: PositionRow[]; status: Status
               {r.market_title}
             </Link>
             <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-text-muted">
-              {r.option_label && <span className="truncate font-medium text-text-secondary">{r.option_label}</span>}
+              {r.option_label && !labelEchoesTitle(r.option_label, r.market_title) && (
+                <span className="truncate font-medium text-text-secondary">{r.option_label}</span>
+              )}
               <OutcomeChip side={r.side} price={r.current_price ?? r.avg_entry_price} />
               <span className="tabular-nums">{shares(r.shares)} shares</span>
             </div>

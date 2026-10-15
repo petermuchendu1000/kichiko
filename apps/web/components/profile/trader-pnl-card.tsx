@@ -74,8 +74,14 @@ function PnlChart({ points, positive, range }: ChartProps) {
   }, [geom, points.length])
 
   if (!geom) {
+    // An empty state must not reserve the chart's height. At h-[148px] this
+    // placeholder made the P/L card 288px tall, which (as the taller of the two
+    // header cards) stretched the profile card beside it to match and left a
+    // measured 105px of dead space under its content. Sized to its own copy
+    // instead; the full 148px returns with the chart as soon as there is
+    // history to draw.
     return (
-      <div className="flex h-[148px] items-center justify-center text-xs text-text-muted">
+      <div className="flex min-h-[44px] items-center justify-center py-2 text-xs text-text-muted">
         Not enough price history to chart this range yet.
       </div>
     )
