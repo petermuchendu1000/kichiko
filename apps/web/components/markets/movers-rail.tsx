@@ -9,7 +9,7 @@
 import Link from 'next/link'
 import type { Market } from '@/types'
 import { EntityAvatar } from '@/components/ui/entity-avatar'
-import { CategoryIcon, IconTrendUp, IconArrowDown, IconFire } from '@/components/ui/icons'
+import { CategoryIcon, IconTrendUp, IconArrowDown } from '@/components/ui/icons'
 import { ProbSparkline } from '@/components/markets/prob-sparkline'
 import { ProbLines } from '@/components/markets/prob-lines'
 import type { PriceSeries } from '@/lib/markets/price-history'
@@ -64,10 +64,13 @@ export function MoversRail({ movers, hotTopics, seriesByMarket, optionSeriesByMa
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-      {/* Breaking — biggest probability moves */}
+      {/* Ruling A12 / B5. "Breaking" and "Hot topics 🔥" are Polymarket's
+          attention machinery; both panels now say what they actually rank.
+          The sub-labels were already accurate — it was only the titles that
+          were selling. */}
       {movers.length > 0 && (
         <div className="market-card !p-0 overflow-hidden">
-          <PanelHead icon={<IconTrendUp size={15} />} title="Breaking" sub="Biggest probability moves" />
+          <PanelHead icon={<IconTrendUp size={15} />} title="Biggest moves" sub="Largest probability change, 24h" />
           <ul className="flex flex-col">
             {movers.map(({ market, change }, i) => {
               const up = change >= 0
@@ -104,7 +107,7 @@ export function MoversRail({ movers, hotTopics, seriesByMarket, optionSeriesByMa
       {/* Hot topics — ranked by 24h volume */}
       {hotTopics.length > 0 && (
         <div className="market-card !p-0 overflow-hidden">
-          <PanelHead icon={<IconFire size={15} />} title="Hot topics" sub="Ranked by 24h volume" />
+          <PanelHead icon={<IconTrendUp size={15} />} title="Most traded" sub="Ranked by 24h volume" />
           <ul className="flex flex-col">
             {hotTopics.map((market, i) => {
               const yesPct = Math.round(market.yes_price * 100)

@@ -16,7 +16,7 @@
 //   │  ── $X Vol ───────────────────── Ends <date> · Kichiko ──────│
 //   └───────────────────────────────────────────────────────────────┘
 //
-// Beside the carousel sits a static rail (promo · Breaking News · Hot topics).
+// Beside the carousel sits a static rail (promo · Biggest moves · Most traded).
 // Slides + rail are server-rendered (0 chart JS); only the thin carousel
 // controller and the share/save buttons are client components.
 import Link from 'next/link'
@@ -507,8 +507,12 @@ function BreakingNews({ items }: { items: BreakingItem[] }) {
   return (
     <div className="rounded-xl p-4" style={{ background: 'var(--surface)', border: '1px solid var(--hairline)' }}>
       <div className="mb-1 flex items-center justify-between">
+        {/* Ruling A12 / B5. This panel is movers.map() — markets ranked by
+            probability change. "Breaking News" was never news, and since the
+            market pages now carry actual journalism (MarketNews), the label
+            was about to collide with the real thing. */}
         <h3 className="flex items-center gap-1 text-[15px] font-bold" style={{ color: 'var(--text)' }}>
-          Breaking News <IconChevronRight size={15} style={{ color: 'var(--text-3)' }} />
+          Biggest moves <IconChevronRight size={15} style={{ color: 'var(--text-3)' }} />
         </h3>
       </div>
       <ol className="flex flex-col">
@@ -554,7 +558,7 @@ function HotTopics({ topics }: { topics: Market[] }) {
   return (
     <div className="rounded-xl p-4" style={{ background: 'var(--surface)', border: '1px solid var(--hairline)' }}>
       <div className="mb-2 flex items-center justify-between">
-        <h3 className="text-[13px] font-bold" style={{ color: 'var(--text)' }}>Hot topics</h3>
+        <h3 className="text-[13px] font-bold" style={{ color: 'var(--text)' }}>Most traded</h3>
         <Link href="/markets?sort=volume" className="flex items-center gap-0.5 text-[12px] font-semibold" style={{ color: 'var(--pip-text)' }}>
           See all <IconChevronRight size={12} />
         </Link>

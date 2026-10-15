@@ -23,6 +23,16 @@ export function HeroCarousel({ slides, titles, autoPlayMs = 7000 }: HeroCarousel
   const n = slides.length
   const [active, setActive] = useState(0)
   const [reduced, setReduced] = useState(false)
+  // WCAG 2.2.2 (Pause, Stop, Hide). Autoplay that runs past five seconds
+  // beside other content needs a mechanism to stop it. Pausing on hover and
+  // focus is not that mechanism: there is no hover on a phone, and nothing
+  // tells anyone it exists. prefers-reduced-motion is respected below, but it
+  // is an OS setting most people have never opened, not an in-page control.
+  //
+  // `stopped` is the explicit, persistent choice; `pausedRef` stays as the
+  // transient hover/drag courtesy. Once someone stops the rotation it stays
+  // stopped — a control that silently resumes has not really stopped anything.
+  const [stopped, setStopped] = useState(false)
   const pausedRef = useRef(false)
   const drag = useRef<{ x: number; y: number } | null>(null)
   // Set when a horizontal swipe just fired, so the click it would otherwise
@@ -30,8 +40,11 @@ export function HeroCarousel({ slides, titles, autoPlayMs = 7000 }: HeroCarousel
   const swipedRef = useRef(false)
 
   const go = useCallback((i: number) => setActive(((i % n) + n) % n), [n])
-  const next = useCallback(() => go(active + 1), [active, go])
-  const prev = useCallback(() => go(active - 1), [active, go])
+  // Any deliberate navigation stops the carousel: having just chosen a slide,
+  // nobody wants it swapped out from under them a few seconds later.
+  const goManual = useCallback((i: number) => { setStopped(true); go(i) }, [go])
+  const next = useCallback(() => goManual(active + 1), [active, goManual])
+  const prev = useCallback(() => goManual(active - 1), [active, goManual])
 
   // Honor reduced-motion (no autoplay, no slide transition).
   useEffect(() => {
@@ -45,15 +58,18 @@ export function HeroCarousel({ slides, titles, autoPlayMs = 7000 }: HeroCarousel
 
   // Autoplay — paused on hover/focus, when reduced-motion, or the tab is hidden.
   useEffect(() => {
-    if (n <= 1 || autoPlayMs <= 0 || reduced) return
+    if (n <= 1 || autoPlayMs <= 0 || reduced || stopped) return
     const id = window.setInterval(() => {
       if (!pausedRef.current && !document.hidden) setActive((a) => (a + 1) % n)
     }, autoPlayMs)
     return () => window.clearInterval(id)
-  }, [n, autoPlayMs, reduced])
+  }, [n, autoPlayMs, reduced, stopped])
 
   const prevIdx = (active - 1 + n) % n
   const nextIdx = (active + 1) % n
+
+  const isRotationToggle = (el: EventTarget | null) =>
+    el instanceof HTMLElement && !!el.closest('[data-rotation-toggle]')
 
   const pause = () => { pausedRef.current = true }
   const resume = () => { pausedRef.current = false }
@@ -104,8 +120,14 @@ export function HeroCarousel({ slides, titles, autoPlayMs = 7000 }: HeroCarousel
       aria-label="Featured markets"
       onMouseEnter={pause}
       onMouseLeave={resume}
-      onFocusCapture={pause}
-      onBlurCapture={resume}
+      // The play/stop toggle is inside this region, so focusing it used to
+      // trip the courtesy focus-pause — and because focus then STAYS on the
+      // button, the matching blur never came. Pressing resume flipped the
+      // state and changed the label while the carousel sat frozen: a control
+      // that reported success and did nothing. Focus on the control that
+      // governs rotation must not be what freezes it.
+      onFocusCapture={(e) => { if (!isRotationToggle(e.target)) pause() }}
+      onBlurCapture={(e) => { if (!isRotationToggle(e.target)) resume() }}
       onKeyDown={(e) => {
         if (e.key === 'ArrowRight') { e.preventDefault(); next() }
         else if (e.key === 'ArrowLeft') { e.preventDefault(); prev() }
@@ -155,6 +177,40 @@ export function HeroCarousel({ slides, titles, autoPlayMs = 7000 }: HeroCarousel
       {n > 1 && (
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-1.5" role="tablist" aria-label="Choose featured market">
+            {/* The 2.2.2 mechanism. Rendered only when something is actually
+                moving: with reduced-motion on, or a single slide, there is
+                nothing to stop and a dead control would just be noise. */}
+            {autoPlayMs > 0 && !reduced && (
+              <button
+                type="button"
+                data-rotation-toggle=""
+                onClick={() => {
+                  // An explicit resume clears the transient pause too,
+                  // otherwise a lingering hover or this button's own focus
+                  // would keep the carousel still.
+                  pausedRef.current = false
+                  setStopped((v) => !v)
+                }}
+                aria-pressed={stopped}
+                className="mr-1.5 grid h-11 w-11 place-items-center rounded-full transition-colors"
+                style={{ color: 'var(--text-3)' }}
+                title={stopped ? 'Resume automatic rotation' : 'Stop automatic rotation'}
+              >
+                <span className="sr-only">
+                  {stopped ? 'Resume automatic rotation of featured markets' : 'Stop automatic rotation of featured markets'}
+                </span>
+                {stopped ? (
+                  <svg width="13" height="13" viewBox="0 0 12 12" aria-hidden="true" fill="currentColor">
+                    <path d="M3 1.8v8.4a.6.6 0 0 0 .92.5l6.5-4.2a.6.6 0 0 0 0-1l-6.5-4.2A.6.6 0 0 0 3 1.8Z" />
+                  </svg>
+                ) : (
+                  <svg width="13" height="13" viewBox="0 0 12 12" aria-hidden="true" fill="currentColor">
+                    <rect x="2" y="1.5" width="3" height="9" rx="1" />
+                    <rect x="7" y="1.5" width="3" height="9" rx="1" />
+                  </svg>
+                )}
+              </button>
+            )}
             {dots.map((i) => (
               <button
                 key={i}
@@ -162,7 +218,7 @@ export function HeroCarousel({ slides, titles, autoPlayMs = 7000 }: HeroCarousel
                 role="tab"
                 aria-selected={i === active}
                 aria-label={`Show market ${i + 1}: ${titles[i] ?? ''}`}
-                onClick={() => go(i)}
+                onClick={() => goManual(i)}
                 // Enlarged, comfortable touch target (~28px tall) while the
                 // visible pill stays 6px; -my keeps it from inflating the row.
                 className="grid place-items-center py-2.5 -my-2.5"

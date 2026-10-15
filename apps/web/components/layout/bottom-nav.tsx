@@ -2,13 +2,12 @@
 
 // components/layout/bottom-nav.tsx
 // ------------------------------------------------------------
-// Mobile bottom navigation bar (Polymarket-parity): Home · Search · Breaking ·
-// More. Fixed to the thumb zone on phones/tablets (lg:hidden) — the desktop
+// Mobile bottom navigation bar: Home · Search · New · More. Fixed to the thumb zone on phones/tablets (lg:hidden) — the desktop
 // experience keeps the top navbar + right-rail ticket instead.
 //
 //   - Home     -> "/"                     (landing / feed)
 //   - Search   -> "/search"               (search surface)
-//   - Breaking -> "/markets?sort=newest"  (freshest markets = "breaking")
+//   - New      -> "/markets?sort=newest"  (most recently listed)
 //   - More     -> opens a bottom sheet of secondary destinations
 //
 // The market detail page also renders a sticky trade bar (mobile-trade-bar);
@@ -20,7 +19,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/use-auth'
 import { createClient } from '@/lib/supabase/client'
 import {
-  IconHome, IconSearch, IconFire, IconMenu, IconX,
+  IconHome, IconSearch, IconClock, IconMenu, IconX,
   IconMarkets, IconPortfolio, IconBell, IconUser,
   IconSettings, IconShield, IconLogOut, IconWallet,
 } from '@/components/ui/icons'
@@ -61,9 +60,16 @@ export function BottomNav() {
       match: (p) => p.startsWith('/search'),
     },
     {
+      // Ruling A12. The tab was labelled "Breaking" with a flame while
+      // routing to ?sort=newest — these are the most recently listed markets,
+      // not breaking news, so the label was inaccurate as well as loud.
+      // Attention framing is the specific mechanism the research warns about
+      // here (attention-driven lists precede negative returns, Barber;
+      // gamification selects lower-literacy users, Chapkovski), and a clock
+      // says what the sort actually does.
       key: 'breaking',
-      label: 'Breaking',
-      icon: <IconFire size={22} />,
+      label: 'New',
+      icon: <IconClock size={22} />,
       href: '/markets?sort=newest',
       match: (p) => p === '/markets' || p.startsWith('/markets?'),
     },
