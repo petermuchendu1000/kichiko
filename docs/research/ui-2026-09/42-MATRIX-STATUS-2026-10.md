@@ -171,10 +171,28 @@ fail quietly: "5,000" and "50,000" differ by one glyph. Withdraw also gained the
 dial-code prefill and `isValidPhone` that deposit has always had and it never
 did.
 
-**Blocked:** binding withdrawals to the verified owner's number. **1 of 74
-profiles has a phone number** `[DB]`, so enforcing it today would lock 73 people
-out of their own money. It needs phone verification first — the same shape as
-the age gate in L.4.
+**Closed 2026-10-15.** Binding withdrawals to a verified number no longer waits
+on anything: a completed deposit is an STK push the holder authorised on the
+handset carrying that SIM, with their own M-Pesa PIN, so deposit history *is*
+the proof. `lib/payments/verified-phones.ts` derives it, the withdraw sheet
+offers those numbers as chips, and the route enforces it behind
+`flags.withdraw_verified_phone_only`.
+
+An SMS code was the obvious route and was rejected on evidence: the Africa's
+Talking sender exists, no API key does, and a payout control that has never run
+is not a control.
+
+The flag **ships off**, which is a measurement rather than caution. On this
+database 0 of 9 withdrawals would pass, because the seeder gives every deposit
+its own random number — one account shows 47 distinct "verified" numbers across
+47 deposits. Real history does not look like that, but enforcement cannot be
+demonstrated against data that does not model phone reuse. The setting's help
+carries the query to run before switching it on.
+
+`profiles.phone_number` is deliberately **not** backfilled: 60 of the 61 funded
+accounts have more than one distinct deposit number here, so picking one would
+be inventing a fact. The derived set is the better model regardless — people
+hold more than one number, which a single column cannot express.
 
 **E5 nearly broke on E2.** Adding a step to withdraw made cashing out one tap
 longer than paying in, which Reg. 84 and 67(3) forbid. Deposit therefore takes
@@ -232,8 +250,19 @@ and splitting the ticket and chart is a piece of work in its own right.
 
 ### 2.6 Remaining
 
-C6 (needs a resolved market), **F2/F3** (blocked on the same missing phone
-verification as E2's second half), G2, and sections I and J.
+C6 (needs a resolved market to exist), G2, and sections I and J.
+
+**F2/F3 — a correction.** These were recorded as sharing E2's phone blocker.
+That was wrong, and phone verification does not move them. F2 is a per-country
+age rule, and its blocker is that **no date of birth is captured anywhere**:
+the KYC wizard's five steps are email, phone, ID document, selfie, address. F3
+is the ordering — KYC before any deposit — which would stop today's unverified
+users funding their accounts.
+
+Both are the product decision recorded as D4 in
+[51-PROPOSED-DB-CHANGES](51-PROPOSED-DB-CHANGES.md), not engineering work
+waiting on a dependency. A DOB field is trivial; deciding to block existing
+depositors is not.
 
 Of those, **B1's auto-rotating hero is the only outright WCAG failure left**
 (2.2.2 Pause, Stop, Hide), and **F2/F3** share the blocker that stops E2's
