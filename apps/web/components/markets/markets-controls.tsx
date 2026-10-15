@@ -126,7 +126,7 @@ export function MarketsControls({ q, status, sort, hasQuery }: MarketsControlsPr
                 type="button"
                 onClick={() => setStatus(s.value)}
                 aria-pressed={active}
-                className="px-3 py-1.5 text-[13px] font-medium rounded-[6px] transition-colors"
+                className="status-toggle px-3 py-1.5 text-[13px] font-medium rounded-[6px] transition-colors"
                 style={
                   active
                     ? { background: 'var(--surface)', color: 'var(--text)', boxShadow: 'var(--e1)' }
@@ -144,8 +144,10 @@ export function MarketsControls({ q, status, sort, hasQuery }: MarketsControlsPr
           <label htmlFor="markets-sort" className="sr-only">Sort markets</label>
           <select
             id="markets-sort"
-            className="input pr-8 appearance-none cursor-pointer text-[13px] font-medium"
-            style={{ minHeight: 40, paddingTop: 0, paddingBottom: 0 }}
+            // Height lives in .select-compact, not an inline style: an inline
+            // minHeight:40 outranks every stylesheet rule, so the touch-target
+            // media query could not raise it to 44px.
+            className="input select-compact pr-8 appearance-none cursor-pointer text-[13px] font-medium"
             value={sort}
             onChange={(e) => setSort(e.target.value as SearchSort)}
           >

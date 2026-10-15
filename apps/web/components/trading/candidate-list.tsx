@@ -236,7 +236,8 @@ export function CandidateList({
             <button
               type="button"
               onClick={() => setSortMenu((v) => !v)}
-              className="flex items-center gap-1.5 rounded-pill border border-hairline bg-surface-2 px-2.5 py-1 text-xs font-semibold text-text-secondary transition-colors hover:text-text-primary"
+              // min-h-11 = 44px (ruling A4); rendered 26px tall.
+              className="flex min-h-11 items-center gap-1.5 rounded-pill border border-hairline bg-surface-2 px-2.5 py-1 text-xs font-semibold text-text-secondary transition-colors hover:text-text-primary"
               aria-haspopup="listbox"
               aria-expanded={sortMenu}
             >

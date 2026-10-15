@@ -99,7 +99,8 @@ export function MarketRules({
               aria-selected={active}
               aria-controls={`${baseId}-panel-${t.key}`}
               onClick={() => setTab(t.key)}
-              className={`-mb-px flex items-center gap-1.5 border-b-2 px-3 pb-2.5 pt-1 text-sm font-semibold transition-colors ${
+              // min-h-11 = 44px (ruling A4); these rendered 36px tall.
+              className={`-mb-px flex min-h-11 items-center gap-1.5 border-b-2 px-3 pb-2.5 pt-1 text-sm font-semibold transition-colors ${
                 active
                   ? 'border-pip-500 text-text-primary'
                   : 'border-transparent text-text-muted hover:text-text-secondary'

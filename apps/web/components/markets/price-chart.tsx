@@ -195,7 +195,7 @@ export function PriceChart({ data, currentYes = 0.5, volumeUsd = 0, resolutionDa
         <div
           role="tablist"
           aria-label="Chart timeframe"
-          className="inline-flex h-9 items-center"
+          className="inline-flex min-h-11 items-center"
         >
           {TIMEFRAMES.map((tf) => {
             const active = tf.key === timeframe
@@ -206,7 +206,8 @@ export function PriceChart({ data, currentYes = 0.5, volumeUsd = 0, resolutionDa
                 role="tab"
                 aria-selected={active}
                 onClick={() => setTimeframe(tf.key)}
-                className={`rounded-md px-1.5 py-1 text-sm font-semibold transition-colors ${
+                // 44px target (ruling A4); was 28x28.
+                className={`inline-flex min-h-11 min-w-11 items-center justify-center rounded-md px-2 text-sm font-semibold transition-colors ${
                   active ? 'text-text-primary' : 'text-text-muted hover:bg-surface-2 hover:text-text-primary'
                 }`}
               >

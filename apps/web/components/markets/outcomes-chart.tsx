@@ -77,13 +77,30 @@ export function OutcomesChart({ options, data, volumeUsd, closesAt, colorMap, sh
   }, [ranked, colorMap])
 
   // Visible timeframe toggles: PM's drawer drops 6H and shows ALL as "MAX".
-  const timeframes = useMemo(
-    () =>
-      (compactTimeframes ? TIMEFRAMES.filter((t) => t.key !== '6H') : TIMEFRAMES).map((t) =>
-        compactTimeframes && t.key === 'ALL' ? { ...t, label: 'MAX' } : t,
-      ),
-    [compactTimeframes],
-  )
+  //
+  // A range is offered only when it actually contains something to draw. Our
+  // ticks are sparse — a market may not trade for a day — so 1H and 6H on a
+  // months-long Kenyan market drew an empty panel, which reads as "the price
+  // vanished" rather than "nothing traded in the last hour". Removing 1H
+  // outright (ruling B4) would have been wrong for the recurring BTC windows,
+  // where the whole market lives inside an hour and 1H is the only useful
+  // range. Asking the data which ranges have at least two points serves both.
+  const timeframes = useMemo(() => {
+    const now = Date.now()
+    const times = data
+      .map((p) => (p.recordedAt ? new Date(p.recordedAt).getTime() : NaN))
+      .filter((t) => Number.isFinite(t))
+    const usable = (ms: number | null) => {
+      if (ms === null) return true                       // ALL always offered
+      return times.filter((t) => t >= now - ms).length >= 2
+    }
+    const base = compactTimeframes ? TIMEFRAMES.filter((t) => t.key !== '6H') : TIMEFRAMES
+    const shown = base.filter((t) => usable(t.ms))
+    // Never collapse to a single control; ALL alone needs no tab row.
+    return shown.map((t) =>
+      compactTimeframes && t.key === 'ALL' ? { ...t, label: 'MAX' } : t,
+    )
+  }, [compactTimeframes, data])
 
   // Pivot per-option ticks into one row per timestamp: { time, [optionId]: price }.
   // Built once WITHOUT the timeframe filter, forward-filled so lines stay
@@ -251,7 +268,10 @@ export function OutcomesChart({ options, data, volumeUsd, closesAt, colorMap, sh
                 role="tab"
                 aria-selected={active}
                 onClick={() => setTimeframe(tf.key)}
-                className={`flex-none whitespace-nowrap rounded-md px-1.5 py-1 text-sm font-semibold transition-colors ${
+                // min-h-11/min-w-11 = 44px (ruling A4). These were 28x28, below
+                // both the 44px target and WCAG 2.5.8's 24px floor, on a
+                // control sitting directly above the money path.
+                className={`inline-flex min-h-11 min-w-11 flex-none items-center justify-center whitespace-nowrap rounded-md px-2 text-sm font-semibold transition-colors ${
                   active ? 'text-text-primary' : 'text-text-muted hover:bg-surface-2 hover:text-text-primary'
                 }`}
               >

@@ -419,7 +419,7 @@ export function MarketComments({ marketId, options, resolutionType }: MarketComm
               disabled={pending}
               aria-pressed={liked}
               aria-label={liked ? `Unlike (${comment.like_count})` : 'Like comment'}
-              className={`flex items-center gap-1 transition-colors hover:text-no disabled:opacity-60 ${
+              className={`comment-action flex items-center gap-1 transition-colors hover:text-no disabled:opacity-60 ${
                 liked ? 'text-no' : ''
               }`}
             >
@@ -437,7 +437,7 @@ export function MarketComments({ marketId, options, resolutionType }: MarketComm
                 }}
                 aria-expanded={replyingTo === comment.id}
                 aria-label="Reply to comment"
-                className="flex items-center gap-1 transition-colors hover:text-text-primary"
+                className="comment-action flex items-center gap-1 transition-colors hover:text-text-primary"
               >
                 <IconComments size={14} />
                 Reply
@@ -447,7 +447,7 @@ export function MarketComments({ marketId, options, resolutionType }: MarketComm
                 type="button"
                 onClick={() => shareComment(comment.id)}
                 aria-label="Share comment"
-                className="flex items-center gap-1 transition-colors hover:text-text-primary"
+                className="comment-action flex items-center gap-1 transition-colors hover:text-text-primary"
               >
                 <IconShare size={14} />
                 Share
@@ -505,7 +505,8 @@ export function MarketComments({ marketId, options, resolutionType }: MarketComm
               role="tab"
               aria-selected={active}
               onClick={() => setTab(t.key)}
-              className={`flex-none whitespace-nowrap pb-2 pt-1 text-base font-semibold transition-colors ${
+              // min-h-11 = 44px (ruling A4); rendered 36px.
+              className={`inline-flex min-h-11 flex-none items-center whitespace-nowrap pb-2 pt-1 text-base font-semibold transition-colors ${
                 active ? 'text-text-primary' : 'text-text-muted hover:text-text-secondary'
               }`}
             >

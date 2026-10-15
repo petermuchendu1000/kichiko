@@ -516,6 +516,31 @@
   /* Square icon-only button (header action cluster, chart controls). */
   .btn-icon-sm { min-height:34px; width:34px; padding:0; border-radius:var(--radius-sm); }
 
+  /* Touch gets a 44px target; a mouse keeps the compact 34px chrome.
+     Measured on the market page at 390x844: Share and Save rendered 34x34,
+     "Sign in" 72x34 and "Get started" 99x34 — every one under the 44px floor
+     (ruling A4), on the page where money is committed. WCAG 2.5.8 sets 24px
+     as the absolute minimum; 44px is Apple's touch guidance and the figure
+     this project adopted. Applied by pointer type rather than viewport so a
+     small window on a desktop does not get finger-sized chrome. */
+  @media (hover: none), (pointer: coarse) {
+    .btn-sm { min-height:44px; }
+    .btn-icon-sm { min-height:44px; width:44px; }
+    /* Comment Like / Reply / Share rendered 35x16 and 50x16 — the largest
+       cluster of undersized targets on the market page. The row keeps its
+       12px type; only the hit area grows, and the negative inline margin
+       keeps the three controls visually where they were. */
+    .comment-action { min-height:44px; padding-inline:6px; margin-inline:-6px; }
+    /* Form controls and filter pills. `.input` measured 43px — one pixel
+       short, which no eye catches and a gate does. Native selects are listed
+       explicitly because the locale switcher (93x28) and the comment sort
+       (84x26) carry no shared class. */
+    .input, select { min-height:44px; }
+    .tab-pill { min-height:44px; }
+    /* Open / Resolved / All segmented control (32px). */
+    .status-toggle { min-height:44px; min-width:44px; display:inline-flex; align-items:center; justify-content:center; }
+  }
+
   /* ---- Inputs ---- */
   .input {
     width:100%; background:var(--field);
@@ -523,6 +548,14 @@
     padding:10px 14px; font-size:14px; color:var(--text);
     outline:none; transition:border-color var(--dur), box-shadow var(--dur); font-family:inherit;
   }
+  /* Compact native select (sort rails). Defined after .input so it wins, with
+     its own coarse-pointer override — the touch rule higher up in this layer
+     would otherwise be overridden by this very block. */
+  .select-compact { min-height:40px; padding-top:0; padding-bottom:0; }
+  @media (hover: none), (pointer: coarse) {
+    .select-compact { min-height:44px; }
+  }
+
   .input:focus { border-color:var(--pip-500); box-shadow:0 0 0 3px var(--pip-100); }
   .input::placeholder { color:var(--text-3); }
 
