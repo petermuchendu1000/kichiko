@@ -1,6 +1,10 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { LegalPage } from '@/components/content/legal-page'
+import { HowItWorks } from '@/components/content/how-it-works'
+import { createClient } from '@/lib/supabase/server'
+import { buildRatesMap, usdToLocal } from '@/lib/currency'
+import { formatCompact } from '@/lib/format'
 
 export const metadata: Metadata = {
   title: 'Help & Support',
@@ -14,7 +18,46 @@ const GUIDES: { href: string; label: string; desc: string }[] = [
   { href: '/notifications', label: 'Notifications', desc: 'Choose how we reach you.' },
 ]
 
-export default function HelpPage() {
+// Live figures, never hardcoded. A share settles at $1 — ~KSh 130 at the live
+// rate, not KSh 100 — so the worked example has to be derived, not written down.
+async function getFigures() {
+  const supabase = await createClient()
+  const [{ data: fxRows }, { data: settings }, activeCount, { data: volRows }, { data: cats }] =
+    await Promise.all([
+      supabase.from('exchange_rates').select('from_currency, rate').eq('to_currency', 'USD'),
+      supabase.from('platform_settings').select('platform_fee_rate').limit(1),
+      supabase.from('markets').select('id', { count: 'exact', head: true }).eq('status', 'active'),
+      supabase.from('markets').select('total_volume_usd').eq('status', 'active').limit(1000),
+      supabase.from('markets').select('category').eq('status', 'active').limit(1000),
+    ])
+  const rates = buildRatesMap(fxRows ?? [])
+  const kesPerUsd = usdToLocal(1, 'KES', rates)
+  const sharePayoutKes = Math.round(kesPerUsd)
+  const exampleBuyKes = Math.round(0.65 * kesPerUsd)
+  const feeRate = Number(
+    (settings?.[0] as { platform_fee_rate?: number } | undefined)?.platform_fee_rate ?? 0.02,
+  )
+  const totalVolumeKes =
+    (volRows ?? []).reduce((sum, m: { total_volume_usd: number | null }) => sum + (m.total_volume_usd ?? 0), 0) * kesPerUsd
+  const open = activeCount.count ?? 0
+  const topics = new Set((cats ?? []).map((c: { category: string }) => c.category)).size
+  const platformFeePct = Number((feeRate * 100).toFixed(2).replace(/\.?0+$/, ''))
+  return {
+    exampleBuyKes,
+    sharePayoutKes,
+    exampleProfitKes: sharePayoutKes - exampleBuyKes,
+    platformFeePct,
+    stats: [
+      { n: open > 0 ? `${open}` : '-', l: 'Events open now' },
+      { n: totalVolumeKes > 0 ? `KSh ${formatCompact(totalVolumeKes)}` : '-', l: 'Money traded so far' },
+      { n: topics > 0 ? `${topics}` : '-', l: 'Topics' },
+      { n: `${platformFeePct}%`, l: 'Our fee' },
+    ],
+  }
+}
+
+export default async function HelpPage() {
+  const figures = await getFigures()
   return (
     <LegalPage title="Help & Support">
       <p>
@@ -45,6 +88,14 @@ export default function HelpPage() {
         are matched on a live order book), and you can never lose more than you
         stake.
       </p>
+
+      {/* The full walkthrough, moved off the landing page where it ran 2,823px
+          in front of the markets. Polymarket's landing carries no explainer at
+          all; theirs lives on a separate docs site behind a footer link. This
+          is the destination that already covered the same four topics. */}
+      <div className="not-prose my-10">
+        <HowItWorks {...figures} />
+      </div>
 
       <h2>Money</h2>
       <p>

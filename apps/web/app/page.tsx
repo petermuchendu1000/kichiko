@@ -1,5 +1,4 @@
 import { createClient } from '@/lib/supabase/server'
-import { FALLBACK_USD_RATES } from '@/lib/currency'
 import { HeroSection } from '@/components/layout/hero-section'
 import { MoversRail } from '@/components/markets/movers-rail'
 import { HomeExplore } from '@/components/markets/home-explore'
@@ -11,12 +10,8 @@ import { getSpotlightActivity } from '@/lib/markets/spotlight-activity'
 import { safeJsonLd } from '@/lib/seo/jsonld'
 import { hideSettling } from '@/lib/markets/settling'
 import type { Market } from '@/types'
-import {
-  IconArrowRight, IconShield, IconCheck, IconTrendUp, IconWallet,
-  IconPercent, IconEye, IconMpesa,
-} from '@/components/ui/icons'
+import { IconArrowRight } from '@/components/ui/icons'
 import Link from 'next/link'
-import { cookies } from 'next/headers'
 
 // Live market data — render dynamically per request (no static prerender)
 export const dynamic = 'force-dynamic'
@@ -25,7 +20,7 @@ export const dynamic = 'force-dynamic'
 async function getData() {
   const supabase = await createClient()
 
-  const [{ data: featured }, { data: trending }, { data: recent }, { data: moversPool }, { data: allActiveRaw }, active, volume] = await Promise.all([
+  const [{ data: featured }, { data: trending }, { data: recent }, { data: moversPool }, { data: allActiveRaw }] = await Promise.all([
     supabase.from('markets').select('*').eq('status', 'active').eq('is_featured', true)
       .order('featured_order', { ascending: true }).limit(3),
     supabase.from('markets').select('*').eq('status', 'active').eq('is_trending', true)
@@ -36,11 +31,7 @@ async function getData() {
       .order('volume_24h_usd', { ascending: false, nullsFirst: false }).limit(30),
     supabase.from('markets').select('*').eq('status', 'active')
       .order('total_volume_usd', { ascending: false }).limit(120),
-    supabase.from('markets').select('id', { count: 'exact', head: true }).eq('status', 'active'),
-    supabase.from('markets').select('total_volume_usd').eq('status', 'active').limit(1000),
   ])
-
-  const totalVolume = (volume.data ?? []).reduce((s: number, m: { total_volume_usd: number | null }) => s + (m.total_volume_usd ?? 0), 0)
 
   // Drop active-but-past-close rows so a just-closed window never flashes as a
   // "Settling…" dead-end card in any of the home shelves.
@@ -54,25 +45,11 @@ async function getData() {
   const categoryCounts: Record<string, number> = { all: allActive.length }
   for (const m of allActive) categoryCounts[m.category] = (categoryCounts[m.category] ?? 0) + 1
 
-  // ---- Live, DB-backed figures for the marketing/stats blocks ----
-  // KES-native display of aggregate volume: pull the live KES->USD rate from the
-  // public `exchange_rates` table and invert it. Falls back to a sane rate only
-  // if the table read comes back empty.
-  const { data: kesRateRows } = await supabase
-    .from('exchange_rates').select('rate')
-    .eq('from_currency', 'KES').eq('to_currency', 'USD').limit(1)
-  const kesRate = Number(kesRateRows?.[0]?.rate ?? 0)
-  // KES->USD is a live market rate; invert to KES-per-USD (~129). If the row is
-  // somehow missing, fall back to the last-known-good KES rate (never a literal).
-  const kesPerUsd = kesRate > 0 ? 1 / kesRate : 1 / FALLBACK_USD_RATES.KES
-  // Real platform fee, read straight off live market rows (every market carries
-  // `platform_fee_rate`; the whole catalogue is on one rate). No hardcoded %.
-  const feeRate = Number((allActive[0] as unknown as { platform_fee_rate?: number } | undefined)?.platform_fee_rate ?? 0.02)
-  const platformFeePct = Number.isFinite(feeRate) && feeRate > 0
-    ? +(feeRate * 100).toFixed((feeRate * 100) % 1 === 0 ? 0 : 2)
-    : 2
-  // Breadth: how many distinct categories the live catalogue spans.
-  const categoryCount = Object.keys(categoryCounts).filter((k) => k !== 'all').length
+  // The stats strip, the worked KSh example and the explainer that used them
+  // now live on /help (components/content/how-it-works.tsx), which reads its
+  // own figures. Dropping them here also retires three queries this page ran on
+  // every render purely to feed that strip: a 1,000-row total_volume_usd scan,
+  // an exact active-market count, and an exchange_rates read.
 
   // One batched lookup of leading options across everything we'll render
   // (including the full Explore set), so multiple_choice cards show their
@@ -150,11 +127,6 @@ async function getData() {
     featured: featuredList,
     trending: trendingList,
     recent: recentList,
-    activeCount: active.count ?? 0,
-    totalVolume,
-    kesPerUsd,
-    platformFeePct,
-    categoryCount,
     topByMarket,
     countByMarket,
     seriesByMarket,
@@ -171,33 +143,11 @@ async function getData() {
   }
 }
 
-function fmtCompact(n: number) {
-  if (n >= 1_000_000_000) return `${(n / 1_000_000_000).toFixed(1)}B`
-  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`
-  if (n >= 1_000) return `${(n / 1_000).toFixed(1)}K`
-  return `${Math.round(n)}`
-}
 
 export default async function HomePage() {
-  const { featured, trending, recent, activeCount, totalVolume, kesPerUsd, platformFeePct, categoryCount, topByMarket, countByMarket, seriesByMarket, movers, hotTopics, breaking, allActive, categoryCounts, heroMarkets, heroSeries, heroComments, heroActivity, optionSeries } =
+  const { featured, trending, recent, topByMarket, countByMarket, seriesByMarket, movers, hotTopics, breaking, allActive, categoryCounts, heroMarkets, heroSeries, heroComments, heroActivity, optionSeries } =
     await getData()
 
-  // Drives whether the explainer stack renders (see the comment at its wrapper).
-  //
-  // Deliberately a COOKIE CHECK, not supabase.auth.getUser(). getUser() makes a
-  // round trip to the auth server on every render; measured here it took the
-  // landing page from ~5s to ~180s, and even a healthy round trip is latency
-  // added to an otherwise data-only page. Reading the cookie costs nothing.
-  //
-  // A cookie is spoofable and getUser() is not, which is exactly why this is
-  // safe HERE and nowhere else: the flag decides whether marketing copy renders.
-  // It gates no data, no permission and no mutation, so the worst a forged
-  // cookie achieves is hiding an explainer from the person who forged it. Any
-  // use that guards real access must call getUser().
-  const authCookies = await cookies()
-  const isSignedIn = authCookies
-    .getAll()
-    .some((c) => /^sb-.*-auth-token(\.\d+)?$/.test(c.name) && !!c.value)
 
   // Build the hero carousel items, pairing each market with its per-option
   // probability series. Markets missing a series are skipped so every slide
@@ -234,20 +184,6 @@ export default async function HomePage() {
   // All four figures are live from the database (no hardcoded marketing numbers):
   // active-market count, aggregate volume converted to KES via the live FX rate,
   // the number of categories the catalogue spans, and the real platform fee.
-  const totalVolumeKes = totalVolume * kesPerUsd
-  // Per-share settlement in KES, derived at the LIVE FX rate (one share = $1).
-  // Explainer copy interpolates these so the numbers always match reality
-  // (~KSh 129/share today) instead of a hardcoded, now-inaccurate "KSh 100".
-  const sharePayoutKes = Math.round(kesPerUsd)
-  const exampleBuyKes = Math.round(0.65 * kesPerUsd) // a Yes bought at 65%
-  const exampleProfitKes = sharePayoutKes - exampleBuyKes
-  const stats = [
-    { n: activeCount > 0 ? `${activeCount}` : '-', l: 'Events open now' },
-    { n: totalVolumeKes > 0 ? `KSh ${fmtCompact(totalVolumeKes)}` : '-', l: 'Money traded so far' },
-    { n: categoryCount > 0 ? `${categoryCount}` : '-', l: 'Topics' },
-    { n: `${platformFeePct}%`, l: 'Our fee' },
-  ]
-
   // Structured data (SEO): Organization + WebSite with a sitelinks search box.
   // Fully additive, no visual cost \u2014 improves rich-result eligibility.
   const siteUrl = (process.env.NEXT_PUBLIC_APP_URL ?? 'https://kichiko.co.ke').replace(/\/$/, '')
@@ -323,145 +259,7 @@ export default async function HomePage() {
           </Section>
         )}
 
-        {/* The explainer stack — how it works, buy/sell, pricing, trust, CTA —
-            is onboarding for a category most Kenyan visitors have not met
-            before, so it earns its place for a first-time visitor. It is 2,835px,
-            about 40% of the page, and a signed-in trader scrolls past all of it
-            on every single visit to reach markets they already understand.
-            Render it for signed-out visitors only; the "How it works" link in
-            the footer still reaches it for everyone. */}
-        {!isSignedIn && (
-        <div className="mx-auto max-w-6xl">
-        {/* How it works */}
-        <section id="how-it-works" className="py-12 sm:py-16 scroll-mt-20">
-          <SectionHead eyebrow="How it works" title="Three easy steps" />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              { n: '01', h: 'See the chance', p: `Every event shows a chance from 0% to 100%. It is how likely people think “Yes” is. The price tracks the chance, so a Yes at 65% costs about KSh ${exampleBuyKes}.` },
-              { n: '02', h: 'Choose Yes or No', p: 'Buy Yes if you think it will happen. Buy No if you think it will not. Deposit in seconds with M-Pesa.' },
-              { n: '03', h: 'Get paid if you are right', p: `When the event ends, every correct Yes or No pays KSh ${sharePayoutKes}. A Yes you bought at 65% (about KSh ${exampleBuyKes}) pays KSh ${sharePayoutKes}, so you make about KSh ${exampleProfitKes}. If you are wrong, it pays nothing and you lose the KSh ${exampleBuyKes} you paid. Withdraw to M-Pesa.` },
-            ].map(s => (
-              <div key={s.n} className="card p-6">
-                <div className="w-10 h-10 rounded-lg grid place-items-center font-mono font-semibold"
-                  style={{ background: 'var(--pip-100)', color: 'var(--pip-text)', border: '1px solid color-mix(in srgb, var(--pip-500) 22%, transparent)' }}>
-                  {s.n}
-                </div>
-                <h3 className="mt-4 text-[1.15rem] font-semibold tracking-[-0.01em]" style={{ color: 'var(--text)' }}>{s.h}</h3>
-                <p className="mt-2 text-[0.95rem] leading-relaxed" style={{ color: 'var(--text-2)' }}>{s.p}</p>
-              </div>
-            ))}
-          </div>
-        </section>
 
-        {/* Buy or sell any time */}
-        <section className="py-12 sm:py-16">
-          <SectionHead eyebrow="Your choice" title="Buy or sell any time" />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="card p-6">
-              <span className="w-11 h-11 rounded-lg grid place-items-center mb-4" style={{ background: 'var(--pip-100)', color: 'var(--pip-text)' }}><IconTrendUp size={20} /></span>
-              <h3 className="text-[1.05rem] font-semibold tracking-[-0.01em]" style={{ color: 'var(--text)' }}>Sell before the end</h3>
-              <p className="mt-2 text-[0.92rem] leading-relaxed" style={{ color: 'var(--text-2)' }}>You do not have to wait for the event to end. You can sell your Yes or No at the current price, which may be more or less than you paid.</p>
-            </div>
-            <div className="card p-6">
-              <span className="w-11 h-11 rounded-lg grid place-items-center mb-4" style={{ background: 'var(--pip-100)', color: 'var(--pip-text)' }}><IconCheck size={20} /></span>
-              <h3 className="text-[1.05rem] font-semibold tracking-[-0.01em]" style={{ color: 'var(--text)' }}>Or wait for the result</h3>
-              <p className="mt-2 text-[0.92rem] leading-relaxed" style={{ color: 'var(--text-2)' }}>Prefer to wait? Hold your Yes or No until the event is decided. If you are right, it pays KSh {sharePayoutKes}.</p>
-            </div>
-          </div>
-        </section>
-
-        {/* Plain-language order-book pricing */}
-        <section className="py-12 sm:py-16">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <SectionHead eyebrow="Fair prices" title="People set the price, not us" align="left" />
-              <p className="text-[1.02rem] leading-relaxed" style={{ color: 'var(--text-2)' }}>
-                The price comes from people <strong style={{ color: 'var(--text)' }}>buying and selling</strong>,
-                like a real market. You buy and sell with other people, not us. The price simply shows what
-                people think will happen right now.
-              </p>
-              <div className="mt-8 card p-2">
-                {[
-                  // Interpolated, NOT hardcoded. A share settles at $1, which is KSh
-                  // {sharePayoutKes} (~130) at the live rate — not KSh 100 — so a 65%
-                  // Yes costs ~KSh 84. This string still claimed "KSh 65 means a 65%
-                  // chance", which only holds at a KSh 100 payout, and contradicted the
-                  // two neighbouring blocks on this same page ("costs about KSh 84" and
-                  // "bought at 65% (about KSh 84) pays KSh 130"). The comment above
-                  // sharePayoutKes records that this copy was migrated off a hardcoded
-                  // "KSh 100"; this line was missed.
-                  { icon: <IconPercent size={18} />, t: 'The price is the chance', s: `A “Yes” costing about KSh ${exampleBuyKes} means about a 65% chance.` },
-                  { icon: <IconTrendUp size={18} />, t: 'Set your own price', s: 'Buy from someone now, or place your own price and wait.' },
-                  { icon: <IconShield size={18} />, t: 'The other side is a person', s: `You buy from and sell to other people, not us. We only take one small fee of ${platformFeePct}%.` },
-                ].map((r, i, a) => (
-                  <div key={r.t} className="flex items-center gap-4 p-4"
-                    style={i < a.length - 1 ? { borderBottom: '1px solid var(--hairline)' } : undefined}>
-                    <span className="w-11 h-11 flex-none rounded-lg grid place-items-center" style={{ background: 'var(--surface-2)', color: 'var(--pip-text)' }}>{r.icon}</span>
-                    <div>
-                      <strong className="block font-semibold tracking-[-0.01em]" style={{ color: 'var(--text)' }}>{r.t}</strong>
-                      <span className="text-sm" style={{ color: 'var(--text-2)' }}>{r.s}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <PriceCurveVisual />
-          </div>
-        </section>
-
-        {/* Trust & transparency */}
-        <section className="py-12 sm:py-16">
-          <SectionHead eyebrow="Trust" title="Safe, clear, and fair" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {[
-              { icon: <IconShield size={20} />, h: 'Safe and 18+', p: 'We check who you are, and you must be 18 or older. Ask us any time to set a limit, take a break, or close your account.' },
-              { icon: <IconEye size={20} />, h: 'Clear rules', p: 'Every event tells you how the answer will be decided, before you buy. No surprises.' },
-              { icon: <IconMpesa size={20} />, h: 'Your money is yours', p: 'Deposit and withdraw fast with M-Pesa, in Kenyan Shillings.' },
-              { icon: <IconWallet size={20} />, h: 'One small fee', p: `Just one fee of ${platformFeePct}%. You see it before you buy. Nothing is hidden.` },
-            ].map(t => (
-              <div key={t.h} className="card p-6">
-                <span className="w-11 h-11 rounded-lg grid place-items-center mb-4" style={{ background: 'var(--pip-100)', color: 'var(--pip-text)' }}>{t.icon}</span>
-                <h3 className="text-[1.05rem] font-semibold tracking-[-0.01em]" style={{ color: 'var(--text)' }}>{t.h}</h3>
-                <p className="mt-2 text-[0.92rem] leading-relaxed" style={{ color: 'var(--text-2)' }}>{t.p}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Stats */}
-        <section className="py-10 sm:py-14">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map(s => (
-              <div key={s.l}>
-                <div className="font-mono font-semibold tracking-[-0.03em]" style={{ fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', color: 'var(--text)' }}>{s.n}</div>
-                <div className="mt-1.5 text-sm" style={{ color: 'var(--text-2)' }}>{s.l}</div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* CTA band */}
-        <section className="pb-24">
-          <div className="rounded-2xl px-8 py-14 sm:py-20 text-center relative overflow-hidden"
-            style={{ background: 'var(--ink-950)', color: '#F3F5F8' }}>
-            <div aria-hidden className="pointer-events-none absolute inset-0"
-              style={{ background: 'radial-gradient(700px 300px at 50% 0, rgba(43,80,228,.35), transparent 65%)' }} />
-            <h2 className="relative font-display font-bold tracking-[-0.02em]" style={{ fontSize: 'clamp(1.8rem, 4.5vw, 2.6rem)' }}>
-              Ready to try?
-            </h2>
-            <p className="relative mt-4 mx-auto max-w-[46ch]" style={{ color: 'var(--ink-300)' }}>
-              Look at all the events for free. No account needed. Sign up in a minute to make your first prediction.
-            </p>
-            <div className="relative mt-8 flex flex-wrap gap-3 justify-center">
-              <Link href="/markets" className="btn btn-primary btn-lg">See the events <IconArrowRight size={16} /></Link>
-              <Link href="/auth/register" className="btn btn-lg" style={{ background: 'transparent', color: '#fff', boxShadow: 'inset 0 0 0 1px rgba(255,255,255,.25)' }}>
-                Create a free account
-              </Link>
-            </div>
-          </div>
-        </section>
-        </div>
-        )}
 
       </div>
     </div>
@@ -495,38 +293,5 @@ function Section({ eyebrow, title, href, children }: { eyebrow: string; title: s
   )
 }
 
-function SectionHead({ eyebrow, title, align = 'center' }: { eyebrow: string; title: string; align?: 'center' | 'left' }) {
-  return (
-    <div className={`mb-6 sm:mb-8 ${align === 'center' ? 'text-center mx-auto max-w-2xl' : 'max-w-xl'}`}>
-      <div className="text-[12px] font-semibold uppercase tracking-[0.12em]" style={{ color: 'var(--pip-text)' }}>{eyebrow}</div>
-      <h2 className="mt-2 font-display font-bold tracking-[-0.02em]" style={{ fontSize: 'clamp(1.45rem, 3vw, 1.85rem)', color: 'var(--text)' }}>{title}</h2>
-    </div>
-  )
-}
 
-function PriceCurveVisual() {
-  // A calm, static illustration of a smooth probability curve — brand blue, no fake labels.
-  const pts = [8, 18, 14, 28, 34, 30, 46, 52, 48, 62, 70, 66]
-  const w = 320, h = 200
-  const step = w / (pts.length - 1)
-  const y = (p: number) => h - (p / 100) * h
-  const line = pts.map((p, i) => `${i === 0 ? 'M' : 'L'}${(i * step).toFixed(1)},${y(p).toFixed(1)}`).join(' ')
-  const area = `${line} L${w},${h} L0,${h} Z`
-  return (
-    <div className="card p-6">
-      <div className="flex items-center justify-between mb-4">
-        <span className="text-sm font-medium" style={{ color: 'var(--text-2)' }}>The chance over time</span>
-        <span className="font-mono text-sm font-semibold" style={{ color: 'var(--pip-text)' }}>66%</span>
-      </div>
-      <svg viewBox={`0 0 ${w} ${h}`} className="w-full" style={{ height: 'auto' }} aria-hidden="true">
-        {[0, 0.25, 0.5, 0.75, 1].map(g => (
-          <line key={g} x1="0" x2={w} y1={h * g} y2={h * g} stroke="var(--hairline)" strokeWidth="1" />
-        ))}
-        <path d={area} fill="var(--pip-500)" opacity="0.09" />
-        <path d={line} fill="none" stroke="var(--pip-500)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-        <circle cx={w} cy={y(66)} r="4" fill="var(--pip-500)" />
-      </svg>
-    </div>
-  )
-}
 
