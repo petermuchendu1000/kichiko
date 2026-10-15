@@ -193,6 +193,12 @@ export default async function HomePage() {
   const { featured, trending, recent, activeCount, totalVolume, kesPerUsd, platformFeePct, categoryCount, topByMarket, countByMarket, seriesByMarket, movers, hotTopics, breaking, allActive, categoryCounts, heroMarkets, heroSeries, heroComments, heroActivity, optionSeries } =
     await getData()
 
+  // Drives whether the explainer stack renders (see the comment at its wrapper).
+  // getUser() validates with the auth server rather than trusting a cookie.
+  const authClient = await createClient()
+  const { data: { user: currentUser } } = await authClient.auth.getUser()
+  const isSignedIn = !!currentUser
+
   // Build the hero carousel items, pairing each market with its per-option
   // probability series. Markets missing a series are skipped so every slide
   // always has real curves to draw.
@@ -368,9 +374,17 @@ export default async function HomePage() {
 
         {/* Marketing / explainer blocks stay at a readable width inside the
             wide market-grid container above. */}
+        {/* The explainer stack — how it works, buy/sell, pricing, trust, CTA —
+            is onboarding for a category most Kenyan visitors have not met
+            before, so it earns its place for a first-time visitor. It is 2,835px,
+            about 40% of the page, and a signed-in trader scrolls past all of it
+            on every single visit to reach markets they already understand.
+            Render it for signed-out visitors only; the "How it works" link in
+            the footer still reaches it for everyone. */}
+        {!isSignedIn && (
         <div className="mx-auto max-w-6xl">
         {/* How it works */}
-        <section id="how-it-works" className="py-16 sm:py-24 scroll-mt-20">
+        <section id="how-it-works" className="py-12 sm:py-16 scroll-mt-20">
           <SectionHead eyebrow="How it works" title="Three easy steps" />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
@@ -391,7 +405,7 @@ export default async function HomePage() {
         </section>
 
         {/* Buy or sell any time */}
-        <section className="py-16 sm:py-24">
+        <section className="py-12 sm:py-16">
           <SectionHead eyebrow="Your choice" title="Buy or sell any time" />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="card p-6">
@@ -408,7 +422,7 @@ export default async function HomePage() {
         </section>
 
         {/* Plain-language order-book pricing */}
-        <section className="py-16 sm:py-24">
+        <section className="py-12 sm:py-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <SectionHead eyebrow="Fair prices" title="People set the price, not us" align="left" />
@@ -439,7 +453,7 @@ export default async function HomePage() {
         </section>
 
         {/* Trust & transparency */}
-        <section className="py-16 sm:py-24">
+        <section className="py-12 sm:py-16">
           <SectionHead eyebrow="Trust" title="Safe, clear, and fair" />
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {[
@@ -458,7 +472,7 @@ export default async function HomePage() {
         </section>
 
         {/* Stats */}
-        <section className="py-14 sm:py-20">
+        <section className="py-10 sm:py-14">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map(s => (
               <div key={s.l}>
@@ -490,6 +504,7 @@ export default async function HomePage() {
           </div>
         </section>
         </div>
+        )}
 
       </div>
     </div>
@@ -499,12 +514,18 @@ export default async function HomePage() {
 /* ---------- section primitives ---------- */
 
 function Section({ eyebrow, title, href, children }: { eyebrow: string; title: string; href?: string; children: React.ReactNode }) {
+  // Market rails run at trading-surface density, not marketing-page rhythm.
+  // Measured on polymarket.com: their largest section heading is ~20px and they
+  // carry no uppercase eyebrow at all. Ours were 27.2px over a stacked uppercase
+  // eyebrow, spending two lines and ~56px per rail across six rails. The eyebrow
+  // keeps its words (some carry real information, e.g. "Most active · 24h") but
+  // sits inline beside the title as quiet meta.
   return (
-    <section className="py-10 sm:py-12">
-      <div className="flex items-end justify-between gap-4 mb-6">
-        <div>
-          <div className="text-[12px] font-semibold uppercase tracking-[0.12em]" style={{ color: 'var(--pip-text)' }}>{eyebrow}</div>
-          <h2 className="mt-1.5 font-display text-[1.4rem] sm:text-[1.7rem] font-bold tracking-[-0.02em]" style={{ color: 'var(--text)' }}>{title}</h2>
+    <section className="py-7 sm:py-9">
+      <div className="mb-4 flex items-baseline justify-between gap-4">
+        <div className="flex min-w-0 items-baseline gap-2.5">
+          <h2 className="flex-none font-display text-[1.25rem] font-bold tracking-[-0.02em]" style={{ color: 'var(--text)' }}>{title}</h2>
+          <span className="truncate text-[12px] font-medium" style={{ color: 'var(--text-3)' }}>{eyebrow}</span>
         </div>
         {href && (
           <Link href={href} className="flex-none flex items-center gap-1 text-[13px] font-semibold" style={{ color: 'var(--pip-text)' }}>
@@ -519,9 +540,9 @@ function Section({ eyebrow, title, href, children }: { eyebrow: string; title: s
 
 function SectionHead({ eyebrow, title, align = 'center' }: { eyebrow: string; title: string; align?: 'center' | 'left' }) {
   return (
-    <div className={`mb-8 sm:mb-12 ${align === 'center' ? 'text-center mx-auto max-w-2xl' : 'max-w-xl'}`}>
+    <div className={`mb-6 sm:mb-8 ${align === 'center' ? 'text-center mx-auto max-w-2xl' : 'max-w-xl'}`}>
       <div className="text-[12px] font-semibold uppercase tracking-[0.12em]" style={{ color: 'var(--pip-text)' }}>{eyebrow}</div>
-      <h2 className="mt-2 font-display font-bold tracking-[-0.02em]" style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.1rem)', color: 'var(--text)' }}>{title}</h2>
+      <h2 className="mt-2 font-display font-bold tracking-[-0.02em]" style={{ fontSize: 'clamp(1.45rem, 3vw, 1.85rem)', color: 'var(--text)' }}>{title}</h2>
     </div>
   )
 }
