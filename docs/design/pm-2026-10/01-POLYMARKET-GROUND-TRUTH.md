@@ -65,11 +65,22 @@ red channel from what they actually paint. Kichiko is correct — leave it.
 | Token | Value | Kichiko |
 |---|---|---|
 | `--page-max-width` | **1350px** | `--maxw:1200px` / `--maxw-wide:1320px` ⚠️ narrower |
-| `--navbar-height` | **116px** | n/a |
-| `--navbar-collapsed-height` | **68px** | n/a ⚠️ no collapse behaviour |
+| `--navbar-height` | **116px** | 102px (57 + 45) |
+| `--navbar-collapsed-height` | **68px** | — (see correction below) |
 | `--radius` | `.7rem` = 11.2px | `--r-lg:11.2px` ✅ |
 
-The nav **collapses 116px → 68px on scroll**. Kichiko has no equivalent.
+**Correction (2026-10-15, re-measured).** An earlier revision of this document
+claimed the nav "collapses 116px → 68px on scroll". That was inferred from the
+existence of `--navbar-collapsed-height` and was never observed. Re-measured at
+scroll offsets 0 / 80 / 200 / 600 / 1400 on the landing page and 0 / 300 / 900 /
+1800 on a market page, the header holds **116px throughout**, rows `[1, 68, 48]`,
+`position: sticky`. The collapsed-height token is not applied on either page.
+There is no collapse to copy.
+
+Kichiko's nav is **102px** (57px bar + 45px category rail), the same two-row
+shape and already tighter. Hit-testing and clicks verified; `backdrop-filter`
+is computed and supported, so content ghosting in headless screenshots is a
+compositing artifact of the capture, not a defect.
 
 ### Typography — the density signal
 
@@ -281,7 +292,7 @@ circular arc gauge), **binary Yes/No card** (77% + green Yes / red No buttons),
 | Future segment | dashed @40% | no | ❌ missing |
 | Hover readout | inline, no box | floating Recharts tooltip | ❌ occludes data |
 | Time-scrub dimming | yes | no | ❌ missing |
-| Nav collapse | 116→68px | none | ❌ missing |
+| Nav collapse | **not observed** | none | ✅ nothing to copy |
 | Page max-width | 1350px | 1200/1320px | ⚠️ narrower |
 | SVG axis font | **Arial (their bug)** | — | 🎯 free win |
 
@@ -292,6 +303,13 @@ circular arc gauge), **binary Yes/No card** (77% + green Yes / red No buttons),
 Parity is the floor. These are the places their design leaves value on the table.
 
 1. **Fix the Arial axis bug.** Free, immediate, visible.
+**Correction (2026-10-15).** §5 originally said their multi-outcome rows carry
+no buy buttons. That is true of the **hero** tile only. Their *grid* cards do
+carry Yes/No: real `<a href>` links, 40×27px, radius 5.2px, padding `0 14px`,
+green@15% / red@9%, holding two absolutely-positioned spans on one centre point
+— action label at `opacity:1`, price at `opacity:0` — that crossfade on hover.
+See `02-LANDING-AND-CARDS.md` §3.4.
+
 2. **Keep the inline hover readout, add a committed state.** Their readout evaporates
    on mouse-out. A click should *pin* the scrub position so a value can be read,
    compared, screenshotted, or linked — hover is lost on touch devices entirely.
