@@ -24,6 +24,7 @@ import { createClient } from '@/lib/supabase/server'
 import { EntityAvatar } from '@/components/ui/entity-avatar'
 import { getLeadingOptions } from '@/lib/markets/leading-options'
 import { hideSettling } from '@/lib/markets/settling'
+import { labelEchoesTitle } from '@/lib/markets/label-echo'
 import type { Market, MarketCategory } from '@/types'
 
 interface RelatedMarketsProps {
@@ -78,7 +79,11 @@ export async function RelatedMarkets({ marketId, category }: RelatedMarketsProps
             : Math.round((market.yes_price ?? 0) * 100)
           // PM shows the leading OUTCOME name under the % (e.g. "JD Vance").
           // Multi → leading candidate label; binary carries no sublabel in PM.
-          const subLabel = isMulti ? lead?.label ?? null : null
+          // A one-outcome market labels its option after the question, so the
+          // sublabel repeated the title above it (truncated). See
+          // lib/markets/label-echo.ts.
+          const rawSubLabel = isMulti ? lead?.label ?? null : null
+          const subLabel = labelEchoesTitle(rawSubLabel, market.title) ? null : rawSubLabel
 
           return (
             <Link

@@ -15,6 +15,7 @@ import { useEffect, useMemo, useRef, useState, useCallback } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { formatUSD } from '@/lib/utils'
+import { labelEchoesTitle } from '@/lib/markets/label-echo'
 
 interface PositionRow {
   position_id: string
@@ -81,22 +82,6 @@ function MarketAvatar({ title }: { title: string }) {
       style={{ background: `linear-gradient(135deg, hsl(${hue} 62% 52%), hsl(${(hue + 40) % 360} 62% 42%))` }}
     />
   )
-}
-
-/**
- * A binary market's only outcome restates its question, so the row rendered the
- * same sentence twice: "Arbantone song hits 10M YouTube views in 2026?" as the
- * title and "Arbantone song hits 10M YouTube views in 2026" as the label
- * beneath it. Multi-outcome rows are unaffected — their label is a real option
- * ("WhatsApp"), which the title does not contain.
- *
- * Compared on alphanumerics only, so trailing punctuation and casing cannot
- * make an echo look distinct. Same rule as the market card's rowEchoesTitle.
- */
-function labelEchoesTitle(label: string | null, title: string | null): boolean {
-  if (!label || !title) return false
-  const norm = (t: string) => t.toLowerCase().replace(/[^a-z0-9]/g, '')
-  return norm(label) === norm(title)
 }
 
 function MarketCell({ row }: { row: PositionRow }) {

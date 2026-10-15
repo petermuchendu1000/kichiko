@@ -29,6 +29,7 @@ import { IconArrowUp, IconArrowDown, IconBookmark, IconGift } from '@/components
 import { EntityAvatar } from '@/components/ui/entity-avatar'
 import type { CardOption } from '@/lib/markets/card-options'
 import { useClientClock } from '@/hooks/use-client-clock'
+import { labelEchoesTitle } from '@/lib/markets/label-echo'
 
 /** @deprecated superseded by `options`; kept so older callers still compile. */
 export interface CardLeadingOption {
@@ -262,9 +263,7 @@ export function MarketCard({
   // hashtag hits #1 on X in 2026?" -> row "Kenyan politi…") spends a whole row
   // on a truncated copy of the title directly above it. Suppress the label in
   // that case and let the row carry just the number and the actions.
-  const normalise = (t: string) => t.toLowerCase().replace(/[^a-z0-9]/g, '')
-  const rowEchoesTitle =
-    rows.length === 1 && !!rows[0].label && normalise(rows[0].label) === normalise(market.title)
+  const rowEchoesTitle = rows.length === 1 && labelEchoesTitle(rows[0].label, market.title)
   const moreCount = (optionCount ?? rows.length) - rows.length
   // Only show per-row circular avatars when at least one candidate has an image
   // (PM shows them for people/teams, hides them for plain outcomes like dates).

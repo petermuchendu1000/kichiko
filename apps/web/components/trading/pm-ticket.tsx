@@ -803,7 +803,19 @@ export function PmTicket({
   // PM ticket prices render to one decimal (e.g. 19.8¢, 80.3¢); trailing .0 is
   // dropped so round prices read cleanly (20¢). Matches live PM order ticket.
   // Whole-number probability with honest edges (work plan v2, PR-1).
-  const cents = (p: number) => formatProbability(p)
+  // Price, not probability — the same distinction the outcome board draws (see
+  // priceLabel in components/trading/candidate-list.tsx). Polymarket's ticket
+  // reads "Yes 63¢ / No 38¢"; ours showed "Yes 26% / No 74%", so after the
+  // board moved to shillings the SAME PAGE said "Buy Yes KSh 34" in the list
+  // and "Yes 26%" in the ticket for one outcome. Whole shillings here too: the
+  // sub-unit digits are false precision on a market order.
+  //
+  // (This helper was named `cents` and returned formatProbability's "26%" —
+  // the identical misnaming found in candidate-list.)
+  // Reuses this component's existing rates/preferredCurrency rather than
+  // subscribing to useRates() a second time.
+  const cents = (p: number) =>
+    formatCurrency(usdToLocal(p, preferredCurrency, rates), preferredCurrency, { decimals: 0 })
 
   const goToAuth = (mode: 'login' | 'register') => {
     const bet = {
