@@ -71,24 +71,45 @@
     --chart-yes:#1F8F4E; --chart-no:#D92D2D; --chart-brand:var(--pip-500);
     --field:var(--paper);
 
-    /* ---- Elevation (subtle, structure with lines not shadows) ---- */
-    --e1:0 1px 2px rgba(10,12,16,.05);
-    --e2:0 4px 16px rgba(10,12,16,.08);
-    --e3:0 16px 48px rgba(10,12,16,.16);
+    /* ---- Elevation ----
+       Measured on polymarket.com 2026-10: their card treatment is NOT a drop
+       shadow. It is a 1px hairline RING at 6% plus two very soft blurs at 2.5%
+       (--shadow-pk-minimal-soft, 36 uses on their landing page). The ring is
+       what makes the surface read crisp; a plain downward shadow reads flat
+       next to it. See docs/design/pm-2026-10 §1.
+       --e1 is the resting card, --e2 the hover/raised state, --e3 modals. */
+    --ring-hairline:0 0 0 1px rgba(10,12,16,.06);
+    --e1:var(--ring-hairline), 0 2px 6px -0.5px rgba(10,12,16,.025), 0 2px 10px 0 rgba(10,12,16,.025);
+    --e2:var(--ring-hairline), 0 1px 1px -0.5px rgba(10,12,16,.04), 0 3px 3px -1.5px rgba(10,12,16,.04), 0 6px 14px -3px rgba(10,12,16,.04);
+    --e3:var(--ring-hairline), 0 4px 24px 0 rgba(10,12,16,.05), 0 20px 48px -12px rgba(10,12,16,.12);
 
-    /* ---- Radius (restrained) ---- */
-    --r-sm:7.2px; --r-md:9.2px; --r-lg:11.2px; --r-pill:999px;
+    /* ---- Radius ----
+       PM runs a SIX-step scale, by frequency: 7.2px (172 uses), 5.2px (134),
+       2px (105), 15.2px (37), 9.2px (31), 11.2px (19), plus pill. Three steps
+       forces unrelated elements onto the same corner; these are the measured
+       stops. See docs/design/pm-2026-10 §1. */
+    --r-2xs:2px; --r-xs:5.2px; --r-sm:7.2px; --r-md:9.2px; --r-lg:11.2px;
+    --r-xl:15.2px; --r-pill:999px;
 
-    /* ---- Motion ---- */
-    --dur-micro:120ms; --dur:200ms; --dur-in:280ms;
+    /* ---- Motion ----
+       753 of ~800 transitions on PM's landing page are the SAME one:
+       150ms cubic-bezier(.4,0,.2,1). One canonical micro-transition is the
+       discipline; --dur drops 200ms -> 150ms to match. --dur-micro (120ms) and
+       --dur-in (280ms) stay for the rarer tap-feedback and enter cases, which
+       they also use sparingly. See docs/design/pm-2026-10 §1. */
+    --dur-micro:120ms; --dur:150ms; --dur-in:280ms;
     --ease-out:cubic-bezier(.2,0,0,1); --ease-move:cubic-bezier(.4,0,.2,1);
+    /* The default: reach for this before inventing a duration/easing pair. */
+    --transition:var(--dur) var(--ease-move);
 
     /* ---- Type ---- */
     --font-ui:var(--font-inter),-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     --font-mono:var(--font-geist-mono),ui-monospace,SFMono-Regular,Menlo,monospace;
 
     /* ---- Layout ---- */
-    --maxw:1200px; --maxw-wide:1320px;
+    /* PM's --page-max-width is 1350px; --maxw-wide matches it, --maxw stays
+       narrower for reading-width content. */
+    --maxw:1200px; --maxw-wide:1350px;
     --margin:clamp(20px,5vw,48px);
     --section-y:clamp(64px,9vw,128px);
 
@@ -145,9 +166,12 @@
        Light-mode --yes-700/#177C54, --no-700/#B23446, --pip-500/#2B50E4 only reach
        ~3:1 as text on the dark palette; these dark values clear 4.5:1 everywhere. */
     --yes-700:#3FBE8A; --no-700:#EF8092; --pip-text:#8FB0FA;
-    --e1:0 1px 2px rgba(0,0,0,.4);
-    --e2:0 6px 20px rgba(0,0,0,.5);
-    --e3:0 20px 56px rgba(0,0,0,.6);
+    /* Dark: a black ring is invisible on a dark canvas, so the hairline flips
+       to a low-alpha WHITE ring and the blurs stay black to keep the lift. */
+    --ring-hairline:0 0 0 1px rgba(255,255,255,.08);
+    --e1:var(--ring-hairline), 0 2px 6px -0.5px rgba(0,0,0,.4);
+    --e2:var(--ring-hairline), 0 6px 20px rgba(0,0,0,.5);
+    --e3:var(--ring-hairline), 0 20px 56px rgba(0,0,0,.6);
 
     /* legacy aliases refresh under dark */
     --bg-secondary:var(--surface); --bg-tertiary:var(--surface-2);
@@ -274,24 +298,28 @@
      footer to the bottom via justify-between, so bodies align across the grid. */
   .market-card {
     position:relative;
-    display:flex; flex-direction:column; justify-content:space-between;
+    /* flex-start, not space-between: in a grid every card stretches to the
+       tallest in its row, and space-between then floated the body of a
+       one-outcome card into the middle with dead air above and below it. The
+       footer carries margin-top:auto instead, so content stacks from the top
+       and the footer still sits on the floor. */
+    display:flex; flex-direction:column; justify-content:flex-start;
     min-height:180px; height:100%;
     padding-top:12px;                 /* pt-3 */
     background:var(--surface);
-    /* Polymarket parity (measured from live DOM + pixel-sampled): a crisp 1px
-       neutral-100 (#e6e8ea) hairline for edge definition PLUS a soft two-layer
-       shadow (Tailwind shadow-md @ black/4) for float. The border is the "top
-       line" that makes PM cards look polished; the shadow lifts them off the
-       white page. Border + shadow TOGETHER — neither alone. */
-    border:1px solid var(--hairline-soft);
-    border-radius:14px;               /* PM rounded-xl ≈ 15px */
-    box-shadow:0 4px 6px -1px rgba(0,0,0,.04), 0 2px 4px -2px rgba(0,0,0,.04);
+    /* Elevation comes from the shared --e1/--e2 tokens (a 1px hairline ring at
+       6% plus two soft blurs — see the Elevation block above). This used to
+       hard-code its own border + shadow pair, which meant the card ignored the
+       token scale and kept a black shadow that was invisible in dark mode. The
+       ring IS the border, so no separate border declaration. */
+    border-radius:var(--r-xl);        /* 15.2px — PM's measured card corner */
+    box-shadow:var(--e1);
     overflow:hidden;
-    transition:transform var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out), border-color var(--dur);
+    transition:transform var(--dur) var(--ease-move), box-shadow var(--dur) var(--ease-move);
     cursor:pointer;
     isolation:isolate;
   }
-  .market-card:hover { transform:translateY(-1px); box-shadow:0 4px 6px -1px rgba(0,0,0,.08), 0 2px 4px -2px rgba(0,0,0,.08); }
+  .market-card:hover { transform:translateY(-1px); box-shadow:var(--e2); }
 
   /* ---- Market-card candidate-row Yes/No micro-buttons ----
      The side label AND its price live INSIDE the button ("Yes 52%" / "No 48%"),

@@ -170,7 +170,7 @@ function LivePill() {
 
 /** One candidate row on a multi-outcome board (PM parity). */
 function BoardRow({
-  option, yesLabel, noLabel, sideHref, showAvatar, borderTop,
+  option, yesLabel, noLabel, sideHref, showAvatar, borderTop, hideLabel = false,
 }: {
   option: CardOption
   yesLabel: string
@@ -178,6 +178,8 @@ function BoardRow({
   sideHref: (side: 'yes' | 'no', optionId?: string) => string
   showAvatar: boolean
   borderTop: boolean
+  /** The option label merely restates the card title — omit it. */
+  hideLabel?: boolean
 }) {
   const pct = Math.round(option.price * 100)
   const noPct = 100 - pct
@@ -187,15 +189,30 @@ function BoardRow({
       style={{ borderTop: borderTop ? '1px solid var(--hairline-soft)' : 'none' }}
     >
       <span className="pointer-events-none flex min-w-0 flex-1 items-center gap-2">
-        {showAvatar && <EntityAvatar name={option.label} imageUrl={option.imageUrl} size={20} shape="circle" />}
-        <span className="truncate text-[14px] font-normal" style={{ color: 'var(--text-primary)' }}>{option.label}</span>
+        {showAvatar && !hideLabel && <EntityAvatar name={option.label} imageUrl={option.imageUrl} size={20} shape="circle" />}
+        {!hideLabel && (
+          <span className="truncate text-[14px] font-normal" style={{ color: 'var(--text-primary)' }}>{option.label}</span>
+        )}
       </span>
-      <span className="flex flex-none items-center gap-1.5">
+      {/* The probability is DATA and shows once, as plain text; Yes/No are
+          ACTIONS and carry no number. Measured on polymarket.com 2026-10, a
+          card row reads "Label ···· 77% [Yes][No]". Carrying the percentage
+          inside both chips (our previous "Yes 78% / No 22%") printed the same
+          fact twice — they are complements that always sum to 100 — in two
+          tinted fills, which cost ~90px of row width and truncated most
+          labels. One number, stated once, in the row's strongest weight. */}
+      <span className="flex flex-none items-center gap-2">
+        <span
+          className="pointer-events-none text-[14px] font-bold tabular-nums"
+          style={{ color: 'var(--text-primary)' }}
+        >
+          {pct}%
+        </span>
         <Link href={sideHref('yes', option.id || undefined)} className="mbtn mbtn-yes pointer-events-auto" aria-label={`Buy ${yesLabel} on ${option.label} — ${pct}% chance`}>
-          {yesLabel} <span className="mbtn-pct">{pct}%</span>
+          {yesLabel}
         </Link>
         <Link href={sideHref('no', option.id || undefined)} className="mbtn mbtn-no pointer-events-auto" aria-label={`Buy ${noLabel} on ${option.label} — ${noPct}% chance`}>
-          {noLabel} <span className="mbtn-pct">{noPct}%</span>
+          {noLabel}
         </Link>
       </span>
     </div>
@@ -235,6 +252,13 @@ export function MarketCard({
       : leadingOption
         ? [{ id: '', label: leadingOption.label, price: leadingOption.price, imageUrl: null }]
         : []
+  // A market whose only outcome restates the question ("Kenyan political
+  // hashtag hits #1 on X in 2026?" -> row "Kenyan politi…") spends a whole row
+  // on a truncated copy of the title directly above it. Suppress the label in
+  // that case and let the row carry just the number and the actions.
+  const normalise = (t: string) => t.toLowerCase().replace(/[^a-z0-9]/g, '')
+  const rowEchoesTitle =
+    rows.length === 1 && !!rows[0].label && normalise(rows[0].label) === normalise(market.title)
   const moreCount = (optionCount ?? rows.length) - rows.length
   // Only show per-row circular avatars when at least one candidate has an image
   // (PM shows them for people/teams, hides them for plain outcomes like dates).
@@ -277,6 +301,7 @@ export function MarketCard({
               sideHref={sideHref}
               showAvatar={rowsHaveImages}
               borderTop={i > 0}
+              hideLabel={rowEchoesTitle}
             />
           ))}
           {moreCount > 0 && (
@@ -312,7 +337,7 @@ export function MarketCard({
           (Vol.) + the bookmark. Time-to-close, comments and trader counts live
           on the detail page, keeping the grid clean and scannable. Up/Down
           windows swap Vol. for a Live ping + the closing countdown. */}
-      <div className="pointer-events-none relative z-10 flex items-center justify-between px-3 pb-2.5 pt-2 text-[12px]" style={{ color: 'var(--text-secondary)' }}>
+      <div className="pointer-events-none relative z-10 mt-auto flex items-center justify-between px-3 pb-2.5 pt-2 text-[12px]" style={{ color: 'var(--text-secondary)' }}>
         <div className="flex min-w-0 items-center gap-1.5">
           {isLive ? (
             now == null ? (

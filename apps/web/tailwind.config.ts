@@ -86,28 +86,40 @@ const config: Config = {
         yes: { DEFAULT: 'var(--yes-text)', 700: 'var(--yes-700)' },
         no: { DEFAULT: 'var(--no-text)', 700: 'var(--no-700)' },
       },
+      // Six measured stops (see globals.css --r-*). `xl` was an alias of `lg`
+      // at 11.2px, which collapsed two scale steps into one; it now carries
+      // PM's 15.2px so the scale actually has six distinct corners.
       borderRadius: {
+        '2xs': '2px',
+        xs:  '5.2px',
         sm:  '7.2px',
         DEFAULT: '9.2px',
         md:  '9.2px',
         lg:  '11.2px',
-        xl:  '11.2px',
+        xl:  '15.2px',
         '2xl': '16px',
         pill: '999px',
       },
+      // Point every elevation utility at the THEME-AWARE vars rather than
+      // hard-coded rgba, so shadow-e1/shadow-md pick up the hairline ring and
+      // flip correctly under .dark. Hard-coded black shadows were invisible on
+      // the dark canvas. See globals.css --e1/--e2/--e3.
       boxShadow: {
-        e1: '0 1px 2px rgba(10,12,16,.05)',
-        e2: '0 4px 16px rgba(10,12,16,.08)',
-        e3: '0 16px 48px rgba(10,12,16,.16)',
-        sm: '0 1px 2px rgba(10,12,16,.05)',
-        DEFAULT: '0 1px 2px rgba(10,12,16,.05)',
-        md: '0 4px 16px rgba(10,12,16,.08)',
-        lg: '0 16px 48px rgba(10,12,16,.16)',
+        e1: 'var(--e1)',
+        e2: 'var(--e2)',
+        e3: 'var(--e3)',
+        ring: 'var(--ring-hairline)',
+        sm: 'var(--e1)',
+        DEFAULT: 'var(--e1)',
+        md: 'var(--e2)',
+        lg: 'var(--e3)',
       },
       transitionTimingFunction: {
         out: 'cubic-bezier(.2,0,0,1)',
         move: 'cubic-bezier(.4,0,.2,1)',
       },
+      // The canonical micro-transition (PM: 753/800 transitions are 150ms).
+      transitionDuration: { DEFAULT: '150ms', micro: '120ms', in: '280ms' },
       animation: {
         'fade-in':   'fadeIn 0.2s ease',
         'slide-up':  'slideUp 0.28s cubic-bezier(.2,0,0,1)',
