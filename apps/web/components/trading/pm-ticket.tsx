@@ -19,7 +19,7 @@
 // (previewBet / previewOptionBet / previewOptionBinaryBet) so the preview equals
 // execution, and orders post to /api/orders with orderTarget() — one source of
 // truth shared with the pro panel. Original Kichiko copy + tokens throughout.
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useCallback, useId, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/use-auth'
 import { useWallets } from '@/hooks/use-wallets'
@@ -413,12 +413,31 @@ export function PmTicket({
 
   const isMulti = isMultiOutcome(market, options)
   const indepMulti = isMulti && independent
+  // Whether a Yes/No choice is actually OFFERED. The D2 gate below must only
+  // apply where the person can act on it: a grouped multi-outcome market
+  // renders no toggle, and requiring a choice that has no control would be a
+  // dead end rather than a safeguard. Every live market is `independent`, so
+  // this is true today; it is written down because that can change.
+  const sideSelectable = !isMulti || independent
   const outcomes: Outcome[] = useMemo(() => normalizeOutcomes(market, options), [market, options])
 
   const [action, setAction] = useState<Action>('buy')
   const [orderType, setOrderType] = useState<OrderType>('market')
   const [typeMenu, setTypeMenu] = useState(false)
+  const baseTicketId = useId()
   const [side, setSide] = useState<Side>(initialSide ?? 'yes')
+  // Ruling D2. `side` still holds a value so the 60-odd price lookups below
+  // keep working, but until the person actually picks one, nothing is armed
+  // and nothing can be submitted. Opening from a neutral control (the trade
+  // bar's Buy, or a market page with no ?side=) used to arrive with Yes
+  // already selected, and a pre-selected default measurably moves the choice
+  // — d=0.68, and strongest on the low-probability side, which is the one a
+  // prediction market is most likely to be showing.
+  const [sideChosen, setSideChosen] = useState<boolean>(initialSide !== undefined)
+  const chooseSide = useCallback((s: Side) => {
+    setSide(s)
+    setSideChosen(true)
+  }, [])
   const [selectedOptionId, setSelectedOptionId] = useState<string>(() =>
     isMulti ? initialOptionId ?? outcomes[0]?.id ?? '' : '',
   )
@@ -547,6 +566,33 @@ export function PmTicket({
   // Legal minimum stake (Act s.71(1): KSh 20), shown inline as soon as it applies.
   const belowMin = stakeError(amountNum, preferredCurrency, currencyInfo?.symbol ?? 'KSh', rates)
 
+  // Ruling D7 (WCAG 3.3.1 / 3.3.3). Two gaps this closes:
+  //
+  //  • Going over the balance disabled the button but said nothing until the
+  //    person pressed it. A control that will not work should say why while
+  //    they are still typing, not after they commit.
+  //  • The amount input carried no aria-invalid and nothing tied the message
+  //    to it, so a screen reader announced a disabled button with no stated
+  //    reason. One id, referenced from every layout's input.
+  // An unarmed toggle plus a dead button is the same silence D7 removes, so
+  // the reason is stated here too.
+  const stakeNotice =
+    (sideSelectable && !sideChosen && amountNum > 0
+      ? `Choose ${yesLabel} or ${noLabel} to continue.`
+      : null) ??
+    belowMin ??
+    (overBalance
+      ? `That is more than your ${formatCurrency(balance, preferredCurrency)} balance.`
+      : null)
+  // aria-invalid describes the AMOUNT field. "Choose Yes or No" is a reason
+  // the order cannot go yet, not a fault in the number typed, so it shows in
+  // the notice without marking the input invalid.
+  const stakeInvalid = Boolean(belowMin || overBalance)
+  const stakeNoticeId = `${baseTicketId}-stake-notice`
+  // Only point at the message when one is rendered; a dangling
+  // aria-describedby is its own defect.
+  const stakeDescribedBy = stakeNotice && !error ? stakeNoticeId : undefined
+
   // ---- CLOB estimates (from the live top-of-book) ---------------------------
   const clobBestBid = clobBook?.best_bid ?? null // cents
   const clobBestAsk = clobBook?.best_ask ?? null // cents
@@ -583,7 +629,7 @@ export function PmTicket({
 
   // CLOB submit gates. Market buy = amount/best-ask; LIMIT buy = shares + valid
   // price (rests when it can't cross); sell = market|limit from the position.
-  const clobBuyOk = clob && isOpen && action === 'buy' && !!selectedOutcome && (
+  const clobBuyOk = clob && isOpen && action === 'buy' && (sideChosen || !sideSelectable) && !!selectedOutcome && (
     orderType === 'limit'
       ? buyLimitSharesNum > 0 && !buyLimitPriceInvalid && !buyLimitOverBalance && (isSheet || !belowMin)
       : amountNum > 0 && !belowMin && !overBalance && !!clobBestAsk
@@ -651,6 +697,7 @@ export function PmTicket({
     restoredRef.current = true
     setTouched(true)
     setSide(pending.side)
+    setSideChosen(true)
     if (pending.optionId && isMulti) setSelectedOptionId(pending.optionId)
     // Preserve the economic STAKE, not the raw number. A guest defaults to KES
     // and may have settled their new account on a different currency; convert
@@ -722,7 +769,7 @@ export function PmTicket({
       if (detail?.marketId !== market.id || !detail.optionId) return
       if (outcomes.some((o) => o.id === detail.optionId)) {
         setSelectedOptionId(detail.optionId)
-        if (detail.side) setSide(detail.side)
+        if (detail.side) { setSide(detail.side); setSideChosen(true) }
         setError('')
       }
     }
@@ -1120,7 +1167,7 @@ export function PmTicket({
   // ---- Mobile Buy sheet (Polymarket 1:1) ------------------------------------
   // Measured ground truth: docs/design/PM-BUY-SHEET-MOBILE-MEASURED-2026-07.md
   if (isSheet) {
-    const showToggle = !isMulti || indepMulti
+    const showToggle = sideSelectable
     const sym = currencyInfo?.symbol ?? 'KSh' // KES-pegged app; never fall back to $
     const chipLabel = (c: number) => `${sym} ${c.toLocaleString('en-KE')}`
     return (
@@ -1204,7 +1251,7 @@ export function PmTicket({
                 <button
                   type="button"
                   aria-label={`Switch to ${side === 'yes' ? noLabel : yesLabel}`}
-                  onClick={() => { setSide(side === 'yes' ? 'no' : 'yes'); setError('') }}
+                  onClick={() => { chooseSide(side === 'yes' ? 'no' : 'yes'); setError('') }}
                   className="flex-none text-text-muted transition-colors hover:text-text-primary"
                 >
                   <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
@@ -1238,6 +1285,8 @@ export function PmTicket({
             )}
             <input
               aria-label="Trade amount"
+              aria-invalid={stakeInvalid || undefined}
+              aria-describedby={stakeDescribedBy}
               inputMode="decimal"
               value={amount}
               onChange={(e) => {
@@ -1257,7 +1306,7 @@ export function PmTicket({
         {showToggle && (
           <div className="flex justify-center">
             <div ref={toggleTrackRef} className="relative flex w-max items-center rounded-full bg-[color:var(--surface-2)] p-1">
-              {thumb && (
+              {thumb && sideChosen && (
                 <span
                   aria-hidden
                   className="absolute bottom-1 top-1 rounded-full bg-[color:var(--surface)] shadow-sm transition-all duration-200 ease-out"
@@ -1267,18 +1316,18 @@ export function PmTicket({
               <button
                 ref={yesToggleRef}
                 type="button"
-                onClick={() => { setSide('yes'); setError('') }}
-                aria-pressed={side === 'yes'}
-                className={`relative z-10 rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${side === 'yes' ? 'text-text-primary' : 'text-ink-300'}`}
+                onClick={() => { chooseSide('yes'); setError('') }}
+                aria-pressed={sideChosen && side === 'yes'}
+                className={`relative z-10 rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${sideChosen && side === 'yes' ? 'text-text-primary' : 'text-ink-300'}`}
               >
                 {yesLabel}
               </button>
               <button
                 ref={noToggleRef}
                 type="button"
-                onClick={() => { setSide('no'); setError('') }}
-                aria-pressed={side === 'no'}
-                className={`relative z-10 rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${side === 'no' ? 'text-text-primary' : 'text-ink-300'}`}
+                onClick={() => { chooseSide('no'); setError('') }}
+                aria-pressed={sideChosen && side === 'no'}
+                className={`relative z-10 rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${sideChosen && side === 'no' ? 'text-text-primary' : 'text-ink-300'}`}
               >
                 {noLabel}
               </button>
@@ -1323,7 +1372,9 @@ export function PmTicket({
         </>
         )}
 
-        {!error && belowMin && <p role="status" className="-mt-2 text-center text-sm font-medium text-no">{belowMin}</p>}
+        {!error && stakeNotice && (
+                  <p id={stakeNoticeId} role="status" className="-mt-2 text-center text-sm font-medium text-no">{stakeNotice}</p>
+                )}
 
         {error && <TradeError error={error} action={errorAction} retryAfter={retryAfter} onRetry={handleTrade} className="-mt-2 text-center" />}
 
@@ -1383,7 +1434,7 @@ export function PmTicket({
               <button
                 type="button"
                 onClick={() => {
-                  setSide(oppositeSide(side))
+                  chooseSide(oppositeSide(side))
                   setError('')
                 }}
                 aria-label={`Switch to ${oppositeSide(side) === 'yes' ? 'Yes' : 'No'}`}
@@ -1481,7 +1532,7 @@ export function PmTicket({
                     key={s}
                     type="button"
                     onClick={() => {
-                      setSide(s)
+                      chooseSide(s)
                       setSellSize('')
                       setError('')
                     }}
@@ -1665,7 +1716,9 @@ export function PmTicket({
                     </div>
                   )}
 
-                  {!error && belowMin && <p role="status" className="mt-3 text-sm font-medium text-no">{belowMin}</p>}
+                  {!error && stakeNotice && (
+                  <p id={stakeNoticeId} role="status" className="mt-3 text-sm font-medium text-no">{stakeNotice}</p>
+                )}
 
                   {error && <TradeError error={error} action={errorAction} retryAfter={retryAfter} onRetry={handleTrade} className="mt-3" />}
 
@@ -1747,8 +1800,8 @@ export function PmTicket({
               <div className="grid grid-cols-2 gap-2">
                 <button
                   type="button"
-                  onClick={() => setSide('yes')}
-                  aria-pressed={side === 'yes'}
+                  onClick={() => chooseSide('yes')}
+                  aria-pressed={sideChosen && side === 'yes'}
                   className="flex items-center justify-center gap-1.5 rounded-lg py-3 text-[15px] font-semibold transition-colors"
                   style={
                     side === 'yes'
@@ -1761,8 +1814,8 @@ export function PmTicket({
                 </button>
                 <button
                   type="button"
-                  onClick={() => setSide('no')}
-                  aria-pressed={side === 'no'}
+                  onClick={() => chooseSide('no')}
+                  aria-pressed={sideChosen && side === 'no'}
                   className="flex items-center justify-center gap-1.5 rounded-lg py-3 text-[15px] font-semibold transition-colors"
                   style={
                     side === 'no'
@@ -1836,6 +1889,8 @@ export function PmTicket({
                 <span className="text-[40px] font-semibold leading-none">{currencyInfo?.symbol}</span>
                 <input
                   aria-label="Trade amount"
+              aria-invalid={stakeInvalid || undefined}
+              aria-describedby={stakeDescribedBy}
                   inputMode="decimal"
                   value={amount}
                   onChange={(e) => {
@@ -1916,7 +1971,9 @@ export function PmTicket({
               </div>
             )}
 
-            {!error && belowMin && <p role="status" className="mt-3 text-sm font-medium text-no">{belowMin}</p>}
+            {!error && stakeNotice && (
+                  <p id={stakeNoticeId} role="status" className="mt-3 text-sm font-medium text-no">{stakeNotice}</p>
+                )}
 
             {error && <TradeError error={error} action={errorAction} retryAfter={retryAfter} onRetry={handleTrade} className="mt-3" />}
 
