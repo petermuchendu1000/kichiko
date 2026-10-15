@@ -33,6 +33,9 @@ walking the matrix. The matrix is the plan; this is its status.
 | A4 | **Every control ≥44×44 on money routes** | **done + gated** | M |
 | B4 | Fixed 0–100% axis, default All, no dead ranges | done | M |
 | C1 | Hero probability ≥28px, integer | done | M — 28px |
+| C3 | **Resolution source on every market (BINDING)** | **done** — 28 of 36; 8 named below | DB |
+| D1 D2 D5 D7 D9 D10 | the money path | **done** — see §2.3 | M |
+| D8 D11 | pressed state, auth round-trip | already satisfied | V |
 
 ### A4, in detail
 
@@ -58,27 +61,31 @@ Two findings worth carrying forward:
 
 ---
 
-## 2. Open, in priority order
+## 2. Worked since, and what remains
 
-### 2.1 C3 — resolution source is missing on every market (BINDING)
+### 2.1 C3 — CLOSED 2026-10-15. 28 of 36 sourced; the 8 below still have no independent authority
 
-**All 36 active markets have `resolution_source` NULL** `[DB]`. Close times and
-resolution criteria are present; the independent authority that decides the
-outcome is not, on any market.
+Every active market had `resolution_source` NULL. The UI had always rendered
+the field; the data was never populated. `scripts/backfill_resolution_sources.py`
+now fills it for **28 of 36**, and the panel reads "Resolution source:
+iebc.or.ke" so the authority survives a link that will not open.
 
-The UI already renders it (`market-rules.tsx`, `contract-specs.tsx` both take a
-`resolutionSource` prop and link it) — the data was simply never populated.
+The source was not chosen editorially: each market's own criteria already named
+it ("declared winner … by the IEBC", "BTC/USD (Coinbase spot)"), so the script
+maps the named authority to its public record and fetches every URL before
+storing it. Three verdicts, because they are not the same failure — *bot-walled*
+(403 to an automated client; Coinbase serves humans, so it is stored),
+*cert-chain* (`www.iebc.or.ke` omits its intermediate certificate: desktop
+browsers recover via AIA, **older Android does not**), and *dead* (404 or no
+connection, never stored — this caught five wrong URLs).
 
-The matrix marks C3 **BINDING**: L.N. 112 Reg. 45(1) and 23(1) (rules available
-before the wager) and Reg. 45(6) (an independent, approved resolution
-mechanism). This is the largest open gap in the product and it is not a design
-question.
-
-Most markets have an obvious authority, and it is usually the body already on
-the cover after the October imagery work — IEBC for elections, CAF for AFCON,
-CBK for rates and FX, KNBS for inflation, the Met Department for weather. That
-mapping is a starting point, **not** something to write unreviewed: each value
-asserts who decides where real money goes.
+**The 8 left NULL are the finding that remains.** Their criteria name no
+independent authority at all: "major-media confirmed", "a reputable 2026
+year-end analytics report", "the leading 2026 Kenyan music awards", "appear
+jointly at a political event". Writing a source would assert a resolver the
+rules do not. Those criteria need rewriting before a source can exist, which is
+a Reg. 45(6) question rather than data entry. `NO_INDEPENDENT_SOURCE` lists each
+with its reason.
 
 ### 2.2 A3 — money figures below the 7:1 floor
 
@@ -96,16 +103,44 @@ No plain-text failures remain, which matches the 0.4% figure in the original
 audit. The gate the matrix asks for — extending `a11y-contrast.test.ts` to every
 token pair used in the ticket — is still unwritten.
 
-### 2.3 Section D — the money path, largely untouched
+### 2.3 Section D — closed
 
-D1 (URL-encoded ticket state), D2 (no pre-selected side), D5 (the three-line
-`You pay / If Yes / If No` block, BINDING), D6 (fee as a visible KSh line), D7
-(inline validation), D8 (pressed state), D9 (`shares` still rendered `[M]`),
-D10 (limit price in %), D11 (return to ticket after auth).
+| # | Ruling | Outcome |
+|---|---|---|
+| D1 | URL-encoded ticket state | **done** — choosing a side writes `?side=`/`?option=` via `replaceState`; history stays flat |
+| D2 | No pre-selected side | **done** — `sideChosen` gates arming and submit, only where a toggle is offered |
+| D5 | Three-line money block (BINDING) | **done** — `components/trading/outcome-block.tsx`, both layouts and both order types |
+| D6 | Fee as a visible KSh line | **not applicable, see below** |
+| D7 | Inline validation | **done** — `aria-invalid`, `aria-describedby`, over-balance stated while typing |
+| D8 | Pressed state | already satisfied — `.btn:active` |
+| D9 | No `shares`/`contracts` on the default path | **done** — remains only in prose that defines the word |
+| D10 | Limit price in % | **done**; the *integer* half rejected, see below |
+| D11 | Return to the ticket after auth | already satisfied, more thoroughly than asked |
 
-D5 and D6 are the two that change what a person understands before committing
-money, and D6 has the strongest evidence behind it of anything in the matrix
-(all-in pricing, StubHub field experiment).
+**D6 — there is no fee to show.** All 36 active markets run
+`pricing_engine = 'clob'`, and the live `place_order_for` contains zero
+occurrences of "fee" `[DB]`. The 2% `platform_fee_rate` on every market belongs
+to the legacy AMM path (`place_bet`) and is dead data that contradicts the live
+engine — a trap for anyone reading that column. The all-in principle the ruling
+is drawn from is already satisfied: what you pay is what you pay. Adding a fee
+line would have misstated the cost.
+
+**D10 — the integer half would break order placement.** `tick_size` is `0.0010`
+on all 36 markets `[DB]`, so the book trades in 0.1% increments and the
+stepper's 0.1 matches it exactly. Rounding the input to whole percent would stop
+people placing orders at valid prices and make it impossible to improve an order
+by a single tick. Integer % is right for a displayed *probability* (PR-1); a
+limit price is an order parameter, not a readout.
+
+**D11 — already built.** `lib/pending-bet.ts` carries a built ticket across the
+auth round-trip on two carriers: localStorage for same-device, plus a base64url
+param that rides inside the auth `next` path so an email confirmation opened on
+another device still rebuilds the exact ticket. With a freshness window and
+market scoping. The matrix listed it as unverified, not missing.
+
+**Not verified in a browser:** the neutral open itself (the harness could not
+surface the mobile trade bar) and the limit panel (the rail does not expose it
+signed out). Both rest on type-checked code paths rather than a browser run.
 
 ### 2.4 Section E — confirm, receipt, deposit, withdraw
 
