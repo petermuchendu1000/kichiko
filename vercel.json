@@ -3,5 +3,43 @@
   "buildCommand": "cd apps/web && npm run build",
   "outputDirectory": "apps/web/.next",
   "installCommand": "cd apps/web && npm install",
-  "devCommand": "cd apps/web && npm run dev"
+  "devCommand": "cd apps/web && npm run dev",
+  "crons": [
+    {
+      "path": "/api/cron/ingest-news",
+      "schedule": "7 * * * *"
+    },
+    {
+      "path": "/api/cron/update-exchange-rates",
+      "schedule": "0 */6 * * *"
+    },
+    {
+      "path": "/api/cron/close-markets",
+      "schedule": "*/5 * * * *"
+    },
+    {
+      "path": "/api/cron/resolve-market",
+      "schedule": "*/15 * * * *"
+    },
+    {
+      "path": "/api/cron/send-notifications",
+      "schedule": "* * * * *"
+    },
+    {
+      "path": "/api/cron/refresh-market-stats",
+      "schedule": "*/10 * * * *"
+    },
+    {
+      "path": "/api/cron/btc-windows",
+      "schedule": "* * * * *"
+    },
+    {
+      "path": "/api/cron/deposit-sweep",
+      "schedule": "*/5 * * * *"
+    },
+    {
+      "path": "/api/cron/payouts",
+      "schedule": "*/10 * * * *"
+    }
+  ]
 }
