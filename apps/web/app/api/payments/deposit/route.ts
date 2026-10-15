@@ -85,6 +85,33 @@ export async function POST(req: NextRequest) {
       )
     }
 
+    // Responsible play, before a provider is asked for any money (migration
+    // 110): the break stops deposits as well as buys — money should not flow
+    // in while someone has asked to stop — and the deposit limit counts what
+    // has been requested in the window, not only what has landed.
+    //
+    // An error here refuses the deposit. "Could not check" must never read as
+    // "no limit in force"; and a deposit is not urgent, so a retry costs the
+    // person nothing but a moment.
+    // deposit_gate returns a jsonb scalar, so `data` is the object itself —
+    // no .single() (the same shape the orders route gets from place_order_for).
+    const { data: gateJson, error: gateError } = await adminClient
+      .rpc('deposit_gate' as never, { p_user_id: user.id, p_amount_local: amount, p_currency: currency } as never)
+    const gateRow = gateJson as unknown as { ok: boolean; code?: string; message?: string } | null
+    if (gateError) {
+      console.error('Deposit gate error:', gateError)
+      return NextResponse.json(
+        { error: 'Could not check your account limits. Please try again.', code: 'limits_unverified' },
+        { status: 503 },
+      )
+    }
+    if (gateRow && gateRow.ok === false) {
+      return NextResponse.json(
+        { error: gateRow.message ?? 'Deposits are closed on your account.', code: gateRow.code ?? 'deposit_blocked' },
+        { status: 403 },
+      )
+    }
+
     // Get user wallet
     const { data: wallet } = await adminClient
       .from('wallets')

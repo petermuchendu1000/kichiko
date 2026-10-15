@@ -39,11 +39,19 @@ export function TakeABreak() {
   const [chosen, setChosen] = useState<Duration | null>(null)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
+  // This page is public, so most readers are not signed in. Offering the
+  // chooser to them only to answer "Not signed in" on confirm wastes the one
+  // moment someone decided to stop.
+  const [signedOut, setSignedOut] = useState(false)
 
   useEffect(() => {
     let on = true
     fetch('/api/account/play-break')
-      .then((r) => (r.ok ? r.json() : null))
+      .then(async (r) => {
+        if (!on) return
+        if (r.status === 401) { setSignedOut(true); return null }
+        return r.ok ? r.json() : null
+      })
       .then((b) => { if (on) { setActive(b?.break ?? null); setLoading(false) } })
       .catch(() => { if (on) setLoading(false) })
     return () => { on = false }
@@ -73,6 +81,17 @@ export function TakeABreak() {
   }
 
   if (loading) return null
+
+  if (signedOut) {
+    return (
+      <p className="text-sm" style={{ color: 'var(--text-2)' }}>
+        <a href="/auth/login?next=/legal/responsible-play" className="font-medium text-pip-text hover:underline">
+          Sign in
+        </a>{' '}
+        to start a break on your account.
+      </p>
+    )
+  }
 
   if (active) {
     return (

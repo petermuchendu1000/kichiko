@@ -52,44 +52,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: `The minimum stake is KSh ${MIN_STAKE_KES}.`, code: 'below_minimum_stake' }, { status: 400 })
     }
 
-    // Ruling I3 / L.N. 112 Reg. 84: a break stops PLAY, not PAYOUT.
-    //
-    // Only 'buy' is gated. Selling is how someone exits a position they
-    // already hold, and withdrawing is how they get their money; blocking
-    // either would trap funds at the exact moment a person has asked to stop,
-    // which is the opposite of what the regulation is for.
-    if (o.action === 'buy') {
-      const { data: brk, error: brkError } = await supabase
-        .rpc('active_play_break' as never, { p_user_id: userId } as never)
-        .maybeSingle<{ kind: string; ends_at: string | null }>()
-      // "Could not check" must never read as "no break in force" — the same
-      // rule the GET on /api/account/play-break follows. A self-exclusion that
-      // lapses on a transient error is not a self-exclusion. This costs no
-      // availability: an order needs the database either way.
-      if (brkError) {
-        return NextResponse.json(
-          { error: 'Could not verify your account. Please try again.', code: 'play_break_unverified' },
-          { status: 503 },
-        )
-      }
-      // Only the two kinds the table allows count as a break. A row of any
-      // other shape is not one, and must not become a silent trading block.
-      if (brk && (brk.kind === 'break' || brk.kind === 'self_exclusion')) {
-        const until = brk.ends_at
-          ? `until ${new Date(brk.ends_at).toLocaleDateString('en-KE', { day: 'numeric', month: 'long', year: 'numeric' })}`
-          : 'indefinitely'
-        return NextResponse.json(
-          {
-            error:
-              brk.kind === 'self_exclusion'
-                ? 'You have self-excluded, so new positions are closed. You can still sell what you hold and withdraw your money.'
-                : `You are on a break ${until}, so new positions are closed. You can still sell what you hold and withdraw your money.`,
-            code: 'play_break_active',
-          },
-          { status: 403 },
-        )
-      }
-    }
+    // The responsible-play gates — the break (ruling I3) and the loss limit
+    // (ruling I2) — are enforced inside place_order_for, in the same
+    // transaction as the wallet debit, and surface here as P0187 and P0188.
+    // They shipped as a second round trip from this route and were folded
+    // back in by migration 110: a check that is a round trip away from the
+    // debit lets two orders sent together both pass one that only one should.
 
     // FLAG_* environment overrides live in the app, not the database: pass the
     // ones that are set (an unset one leaves the stored value in charge)
@@ -120,7 +88,14 @@ export async function POST(req: NextRequest) {
 
     if (error) {
       const mapped = clobErrorFor(error)
-      if (mapped) return NextResponse.json({ error: mapped.error, ...(mapped.code ? { code: mapped.code } : {}) }, { status: mapped.status })
+      if (mapped) {
+        // A `dynamic` mapping defers to the database's message, which carries
+        // the figure or date that makes it useful (how much the limit has
+        // left, when the break ends). Falls back to the static text if the
+        // message is missing.
+        const text = mapped.dynamic && error.message ? error.message : mapped.error
+        return NextResponse.json({ error: text, ...(mapped.code ? { code: mapped.code } : {}) }, { status: mapped.status })
+      }
       console.error('CLOB order error:', error)
       return NextResponse.json({ error: 'Failed to place order' }, { status: 500 })
     }

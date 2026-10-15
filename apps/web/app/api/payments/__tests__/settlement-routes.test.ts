@@ -26,9 +26,9 @@ const admin = createAdminClient as unknown as Mock
 const initiate = initiateDeposit as unknown as Mock
 const adminRpc = vi.fn()
 let settlement: Record<string, unknown> | null
-// Ruling I3: what active_play_break answers. Nobody is on a break unless a
-// test puts them on one.
-let playBreak: { data: unknown; error: unknown }
+// Ruling I2/I3: what deposit_gate answers. Deposits are open unless a test
+// closes them (migration 110 checks the break and the deposit limit there).
+let depositGate: { data: unknown; error: unknown }
 
 const req = (url: string, body: unknown) =>
   new Request(url, { method: 'POST', body: JSON.stringify(body), headers: { 'content-type': 'application/json' } }) as unknown as NextRequest
@@ -44,11 +44,10 @@ function builder(table: string) {
 beforeEach(() => {
   vi.clearAllMocks()
   settlement = { country: 'UG', currency: 'UGX', wallet_id: 'w-ugx', locked: false }
-  playBreak = { data: null, error: null }
+  depositGate = { data: { ok: true, limit_checked: true }, error: null }
   const rpc = vi.fn((name: string) => {
     if (name === 'user_settlement') return Promise.resolve({ data: settlement ? [settlement] : [], error: null })
     if (name === 'get_my_profile') return { maybeSingle: async () => ({ data: { account_status: 'active' }, error: null }) }
-    if (name === 'active_play_break') return { maybeSingle: async () => playBreak }
     // An unnamed RPC answers with nothing. The previous fallback handed every
     // caller a profile row, which made each new gate read as "condition met".
     return { maybeSingle: async () => ({ data: null, error: null }) }
@@ -61,7 +60,9 @@ beforeEach(() => {
     rpc, from: builder,
   })
   adminRpc.mockImplementation(async (name: string) =>
-    name === 'clob_get_book' ? { data: { best_ask: 50 }, error: null } : { data: { success: true }, error: null })
+    name === 'clob_get_book' ? { data: { best_ask: 50 }, error: null }
+      : name === 'deposit_gate' ? depositGate
+      : { data: { success: true }, error: null })
   admin.mockResolvedValue({ rpc: adminRpc, from: builder })
   initiate.mockResolvedValue({ success: true, reference: 'r1' })
 })
@@ -101,30 +102,46 @@ describe('POST /api/orders', () => {
     expect(res.status).toBe(401)
     expect(adminRpc).not.toHaveBeenCalled()
   })
-  // Ruling I3 / L.N. 112 Reg. 84: a break stops PLAY, not PAYOUT.
-  it('403 while a timed break is in force, and the order never reaches the book', async () => {
-    playBreak = { data: { kind: 'break', ends_at: '2027-01-12T00:00:00Z' }, error: null }
+  // Ruling I3 / I2, L.N. 112 Reg. 84. Both gates are enforced inside
+  // place_order_for (migration 110), in the transaction that debits the
+  // wallet, and reach the client as P0187 and P0188. What this route owes
+  // them is the database's own message: it names the date the break ends and
+  // the money the limit has left, which a static string cannot.
+  it('403 play_break_active on P0187, carrying the message with the end date', async () => {
+    adminRpc.mockResolvedValueOnce({
+      data: null,
+      error: { code: 'P0187', message: 'You are on a break until 22 October 2026, so new positions are closed. You can still sell what you hold and withdraw your money.' },
+    })
     const res = await ordersPOST(req('https://x/api/orders', ORDER))
     expect(res.status).toBe(403)
     const body = await res.json()
     expect(body.code).toBe('play_break_active')
-    // The message has to say what still works, or it reads as "your money is stuck".
+    expect(body.error).toContain('22 October 2026')
+    // It has to say what still works, or it reads as "your money is stuck".
     expect(body.error).toContain('sell what you hold')
-    expect(adminRpc).not.toHaveBeenCalled()
   })
-  it('a self-exclusion blocks a buy but NOT a sell: exiting a position stays open', async () => {
-    playBreak = { data: { kind: 'self_exclusion', ends_at: null }, error: null }
-    expect((await ordersPOST(req('https://x/api/orders', ORDER))).status).toBe(403)
-    const sell = await ordersPOST(req('https://x/api/orders', { ...ORDER, action: 'sell' }))
-    expect(sell.status).toBe(200)
-    expect(adminRpc.mock.calls.map((c) => c[0])).toEqual(['place_order_for'])
-  })
-  it('503 rather than 200 when the break cannot be checked: unverified is not "no break"', async () => {
-    playBreak = { data: null, error: { message: 'connection reset' } }
+  it('403 loss_limit_reached on P0188, carrying the figures', async () => {
+    adminRpc.mockResolvedValueOnce({
+      data: null,
+      error: { code: 'P0188', message: 'This order would put KSh 1,298 at risk. Your loss limit leaves KSh 100 in the last 24 hours.' },
+    })
     const res = await ordersPOST(req('https://x/api/orders', ORDER))
-    expect(res.status).toBe(503)
-    expect((await res.json()).code).toBe('play_break_unverified')
-    expect(adminRpc).not.toHaveBeenCalled()
+    expect(res.status).toBe(403)
+    const body = await res.json()
+    expect(body.code).toBe('loss_limit_reached')
+    expect(body.error).toContain('KSh 100')
+  })
+  it('a code with no message still answers in words, not an empty string', async () => {
+    adminRpc.mockResolvedValueOnce({ data: null, error: { code: 'P0187', message: '' } })
+    const res = await ordersPOST(req('https://x/api/orders', ORDER))
+    expect(res.status).toBe(403)
+    expect((await res.json()).error).toContain('break')
+  })
+  it('a static mapping is NOT replaced by the database message', async () => {
+    adminRpc.mockResolvedValueOnce({ data: null, error: { code: 'P0190', message: 'Account is not active' } })
+    const res = await ordersPOST(req('https://x/api/orders', ORDER))
+    expect(res.status).toBe(403)
+    expect((await res.json()).code).toBe('account_inactive')
   })
   it('FLAG_* environment overrides are passed to the database', async () => {
     process.env.FLAG_CLOB = 'true'
@@ -146,6 +163,29 @@ describe('POST /api/payments/deposit', () => {
   it('409 when the client asserts another currency', async () => {
     const res = await depositPOST(req('https://x/api/payments/deposit', { amount: 500, currency: 'KES', phone: '254700000000', provider: 'mpesa' }))
     expect(res.status).toBe(409)
+    expect(initiate).not.toHaveBeenCalled()
+  })
+  // Ruling I2/I3: money in is gated too. The break says so in the migration's
+  // own COMMENT — "blocks buying and depositing" — and a deposit limit that
+  // only counted deposits already landed would let ten STK pushes through at
+  // once (migration 110).
+  it('403 and no provider call when deposit_gate closes the account', async () => {
+    depositGate = {
+      data: { ok: false, code: 'play_break_active', message: 'You are on a break until 22 October 2026, so deposits are closed. You can still withdraw your money at any time.' },
+      error: null,
+    }
+    const res = await depositPOST(req('https://x/api/payments/deposit', { amount: 5000, phone: '256700000000', provider: 'mtn_momo' }))
+    expect(res.status).toBe(403)
+    const body = await res.json()
+    expect(body.code).toBe('play_break_active')
+    expect(body.error).toContain('withdraw your money')
+    expect(initiate).not.toHaveBeenCalled()
+  })
+  it('503 rather than 200 when the gate cannot be checked: unverified is not "no limit"', async () => {
+    depositGate = { data: null, error: { message: 'connection reset' } }
+    const res = await depositPOST(req('https://x/api/payments/deposit', { amount: 5000, phone: '256700000000', provider: 'mtn_momo' }))
+    expect(res.status).toBe(503)
+    expect((await res.json()).code).toBe('limits_unverified')
     expect(initiate).not.toHaveBeenCalled()
   })
   it('a UG user cannot deposit through M-Pesa (Kenya only): 400 from the provider binding', async () => {

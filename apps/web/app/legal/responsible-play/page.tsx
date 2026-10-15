@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { LegalPage } from '@/components/content/legal-page'
 import { TakeABreak } from '@/components/account/take-a-break'
+import { PlayLimits } from '@/components/account/play-limits'
 
 export const metadata: Metadata = {
   title: 'Responsible Play',
@@ -34,10 +35,15 @@ export default function ResponsiblePlayPage() {
         point of it.
       </p>
       <TakeABreak />
+
+      <h2>Your limits</h2>
       <p>
-        For deposit or loss limits, contact us via the <a href="/help">Help</a>{' '}
-        page while we finish building them.
+        Cap what you can add, and cap how far down you can go. Lowering a limit
+        takes effect the moment you save it. Raising one &mdash; or removing it
+        &mdash; takes 24 hours and then has to be confirmed, so the decision is
+        never made in the heat of a position.
       </p>
+      <PlayLimits />
 
       <h2>Warning signs</h2>
       <ul>
@@ -49,8 +55,9 @@ export default function ResponsiblePlayPage() {
       <h2>Getting help</h2>
       <p>
         If gambling is causing harm to you or someone you know, please reach out
-        to a local support organisation, and contact us to apply account limits.
-        You are not alone and help is available.
+        to a local support organisation. The limits and the break above are
+        yours to set without asking anyone, and we will help if you would
+        rather talk to a person. You are not alone and help is available.
       </p>
 
       <h2>See also</h2>

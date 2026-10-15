@@ -153,7 +153,18 @@ export type ClobOrderInput = z.infer<typeof clobOrderSchema>
 // SQLSTATE → HTTP mapping for clob_place_order / clob_cancel_order. Single
 // source of truth so the route stays declarative (mirrors BET_ERRORS).
 // ---------------------------------------------------------------------------
-export type ClobError = { status: number; error: string; code?: string }
+export type ClobError = {
+  status: number
+  error: string
+  code?: string
+  /**
+   * Use the database's own message instead of the one above. Only for errors
+   * whose text carries a figure or a date the route cannot know — a break's
+   * end date, the money a limit has left. The messages are written in
+   * migration 110 for a reader, not for a log.
+   */
+  dynamic?: true
+}
 
 export const CLOB_ERRORS: Record<string, ClobError> = {
   // place_order_for (migration 090): the checks the route used to make itself
@@ -185,6 +196,18 @@ export const CLOB_ERRORS: Record<string, ClobError> = {
   // Migration 105: statutory minimum stake (Act s.71(1)) and hidden (taken-down) markets.
   P0185: { status: 400, error: 'The minimum stake is KSh 20.', code: 'below_minimum_stake' },
   P0186: { status: 409, error: 'This market is not open for trading.', code: 'market_hidden' },
+  // Migration 110: the responsible-play gates (L.N. 112 Reg. 84). Both carry
+  // the database's message — it names the date the break ends, or the money
+  // the limit has left, and says in both cases that selling and withdrawing
+  // stay open.
+  P0187: {
+    status: 403, code: 'play_break_active', dynamic: true,
+    error: 'New positions are closed while your break is running. You can still sell what you hold and withdraw your money.',
+  },
+  P0188: {
+    status: 403, code: 'loss_limit_reached', dynamic: true,
+    error: 'This order would pass the loss limit you set.',
+  },
   P0107: { status: 409, error: 'This client_order_id was already used for a different order' },
   P0110: { status: 404, error: 'Order not found' },
   P0111: { status: 403, error: 'You can only cancel your own orders' },

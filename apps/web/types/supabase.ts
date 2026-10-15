@@ -1,7 +1,7 @@
 // AUTO-GENERATED from live Supabase schema. Do not edit by hand.
 // Regenerate with: python3 scripts/gen_supabase_types.py <DB_URL>
 //
-// Exception, 106 and 109: news_articles, market_news and play_breaks were added by hand, in this
+// Exception, 106, 109 and 110: news_articles, market_news, play_breaks and play_limits were added by hand, in this
 // file's own style, because the generator needs a direct Postgres connection
 // and the sandbox that introduced them could not open one. They match the
 // shapes the Supabase Management API reports for the live schema. The next
@@ -2036,6 +2036,31 @@ export type Database = {
         Update: {
           ends_at?: string | null
         }
+        Relationships: []
+      }
+      play_limits: {
+        Row: {
+          id: string
+          seq: number
+          user_id: string
+          kind: 'deposit' | 'loss'
+          period: 'day' | 'week' | 'month'
+          // null = no limit. Removing one is a loosening and waits like one.
+          amount: number | null
+          currency: Database["public"]["Enums"]["currency_code"]
+          requested_at: string
+          effective_at: string
+          needs_confirmation: boolean
+          confirmed_at: string | null
+          cancelled_at: string | null
+          created_at: string
+        }
+        // Insert and Update are unreachable from a client: play_limits grants
+        // the owner SELECT only, and every write goes through
+        // set_play_limit / confirm_play_limit / cancel_play_limit, which hold
+        // the 24-hour rule (migration 110).
+        Insert: never
+        Update: never
         Relationships: []
       }
       market_news: {

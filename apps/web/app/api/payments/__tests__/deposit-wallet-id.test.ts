@@ -59,6 +59,10 @@ interface AdminConfig {
 function stubAdmin(cfg: AdminConfig) {
   const captured: { depositInsert: Record<string, unknown> | null } = { depositInsert: null }
   admin.mockResolvedValue({
+    // deposit_gate (migration 110): the break and the deposit limit. Open
+    // here — the gate's own behaviour is covered in settlement-routes.test.ts.
+    rpc: async (name: string) =>
+      name === 'deposit_gate' ? { data: { ok: true, limit_checked: true }, error: null } : { data: null, error: null },
     from(table: string) {
       let inserted: Record<string, unknown> | null = null
       const b: Record<string, unknown> = {}
