@@ -559,6 +559,25 @@ export function PmTicket({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSheet, orderType, side, selectedOptionId])
 
+  // Ruling D1: make the built ticket linkable. The market page already READS
+  // ?side= and ?option= (it validates both against this market's outcomes), so
+  // a URL could always rebuild a ticket — nothing ever wrote one.
+  //
+  // history.replaceState, not router.replace: this must not add a history
+  // entry (Back would then walk through every toggle instead of leaving the
+  // market) and must not re-run the server component for a client-side
+  // choice. It only fires once the person has actually chosen, so a passive
+  // visitor's URL is never rewritten.
+  useEffect(() => {
+    if (!sideChosen || typeof window === 'undefined') return
+    const url = new URL(window.location.href)
+    const before = url.search
+    url.searchParams.set('side', side)
+    if (isMulti && selectedOptionId) url.searchParams.set('option', selectedOptionId)
+    else url.searchParams.delete('option')
+    if (url.search !== before) window.history.replaceState(null, '', url)
+  }, [sideChosen, side, isMulti, selectedOptionId])
+
   const limitPrice = orderType === 'limit' ? (parseFloat(limitCents) || 0) / 100 : 0
   const amountNum = parseFloat(amount) || 0
 
