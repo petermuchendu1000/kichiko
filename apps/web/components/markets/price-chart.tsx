@@ -1,18 +1,19 @@
 'use client'
 
 // components/markets/price-chart.tsx
-// Binary probability history on the Pip system, Polymarket-parity:
-// live Yes/No legend, right-hand % axis, faint watermark, "$Vol · date" footer,
-// and the 1H/6H/1D/1W/1M/ALL segmented control. Never blank — when a market has
-// no recorded history yet we seed a flat baseline at the live crowd estimate so
-// the chart always communicates the current probability (honest "no movement").
+// Binary probability history on the Pip system: live Yes/No legend, right-hand
+// % axis, faint watermark, "$Vol · date" footer and the 1H/6H/1D/1W/1M/ALL
+// segmented control. Never blank — when a market has no recorded history yet we
+// seed a flat baseline at the live crowd estimate so the chart always
+// communicates the current probability (honest "no movement").
+//
+// The plot itself is <ScrubChart> (pure SVG), not Recharts: the interaction
+// model — crosshair scrub with an inline readout instead of a floating tooltip,
+// pinning, touch and keyboard — is the point of the view, and a charting
+// library's tooltip cannot express it. See docs/design/pm-2026-10.
 import { useMemo, useState } from 'react'
-import {
-  AreaChart, Area, XAxis, YAxis, Tooltip,
-  ResponsiveContainer, ReferenceLine, CartesianGrid,
-} from 'recharts'
-import { niceProbScale, CHART_GRID_DASH } from '@/lib/markets/chart-scale'
-import { format } from 'date-fns'
+import { ScrubChart, type ScrubSeries } from './scrub-chart'
+import { niceProbScale } from '@/lib/markets/chart-scale'
 import { formatUSD } from '@/lib/utils'
 
 interface PricePoint {
@@ -53,63 +54,6 @@ const TIMEFRAMES: { key: Timeframe; label: string; ms: number | null }[] = [
   { key: 'ALL', label: 'ALL', ms: null },
 ]
 
-interface TooltipProps {
-  active?: boolean
-  payload?: { value: number; dataKey?: string | number }[]
-  label?: string | number
-}
-
-function CustomTooltip({ active, payload, label }: TooltipProps) {
-  if (!active || !payload?.length) return null
-  // Read each side by its dataKey so the values stay correct regardless of the
-  // order the two series are drawn in.
-  const yesRaw = payload.find((p) => p.dataKey === 'yes')?.value
-  const noRaw = payload.find((p) => p.dataKey === 'no')?.value
-  const yes = Math.round((yesRaw ?? 0) * 100)
-  const no = noRaw != null ? Math.round(noRaw * 100) : 100 - yes
-  return (
-    <div
-      className="rounded-md border border-hairline px-3 py-2 text-sm shadow-lg"
-      style={{ background: 'var(--surface)' }}
-    >
-      <p className="mb-1 text-xs text-text-muted">
-        {label ? format(new Date(label), 'MMM d, HH:mm') : ''}
-      </p>
-      <div className="flex gap-3 font-mono">
-        <span className="font-medium text-yes">YES {yes}%</span>
-        <span className="font-medium text-no">NO {no}%</span>
-      </div>
-    </div>
-  )
-}
-
-/** Polymarket-style "live" endpoint: a solid dot at the leading edge of a line
- *  with a soft halo ring that expands and fades on a loop (simulates a live
- *  feed). Rendered only at the LAST datapoint of a series; every other point
- *  renders nothing. Reuses the measured `.pm-endpoint-pulse` keyframes from
- *  globals.css (scale→3.95, opacity 0.34→0, 2s ease-out) so the whole app's
- *  live dots animate identically, with zero client JS beyond React. */
-function makeLiveEndpoint(lastIndex: number, color: string) {
-  function LiveEndpoint(props: { cx?: number; cy?: number; index?: number }) {
-    const { cx, cy, index } = props
-    if (index !== lastIndex || cx == null || cy == null) return <g key={`e-${index}`} />
-    return (
-      <g key={`e-${index}`} style={{ pointerEvents: 'none' }}>
-        <circle
-          cx={cx}
-          cy={cy}
-          r={4}
-          fill={color}
-          className="pm-endpoint-pulse"
-          style={{ transformBox: 'fill-box', transformOrigin: '50% 50%' }}
-        />
-        <circle cx={cx} cy={cy} r={3.5} fill={color} />
-      </g>
-    )
-  }
-  return LiveEndpoint
-}
-
 export function PriceChart({ data, currentYes = 0.5, volumeUsd = 0, resolutionDate }: PriceChartProps) {
   const [timeframe, setTimeframe] = useState<Timeframe>('ALL')
   // Polymarket "Chart Options" sheet (screenshot 6): reader-controlled axes,
@@ -122,21 +66,22 @@ export function PriceChart({ data, currentYes = 0.5, volumeUsd = 0, resolutionDa
     hGrid: true,
     vGrid: false,
     annotations: true,
+    confidence: true,
   })
   const toggle = (k: keyof typeof opts) => setOpts((o) => ({ ...o, [k]: !o[k] }))
 
   const chartData = useMemo(() => {
     const rows = (data ?? [])
       .filter((d) => d.recorded_at)
-      .map((d) => ({ time: d.recorded_at as string, yes: d.yes_price, no: d.no_price }))
+      .map((d) => ({ time: d.recorded_at as string, yes: d.yes_price, no: d.no_price, volume: d.volume_usd }))
 
     // Seed a flat baseline at the live estimate when there is no real history,
     // so the plot is never empty (Polymarket always shows a line).
     if (rows.length === 0) {
       const now = Date.now()
       return [
-        { time: new Date(now - 24 * HOUR).toISOString(), yes: currentYes, no: 1 - currentYes },
-        { time: new Date(now).toISOString(), yes: currentYes, no: 1 - currentYes },
+        { time: new Date(now - 24 * HOUR).toISOString(), yes: currentYes, no: 1 - currentYes, volume: null },
+        { time: new Date(now).toISOString(), yes: currentYes, no: 1 - currentYes, volume: null },
       ]
     }
 
@@ -161,8 +106,35 @@ export function PriceChart({ data, currentYes = 0.5, volumeUsd = 0, resolutionDa
     return niceProbScale(m)
   }, [chartData])
 
+  // Map the row shape onto the chart's series shape. `conf` is the per-point
+  // liquidity confidence: volume_usd scaled so a thin book widens the band.
+  // CONFIDENCE_FULL is the volume at which we stop widening — above it the
+  // book is deep enough that the printed price is the whole story.
+  const scrubSeries = useMemo<ScrubSeries[]>(() => {
+    const CONFIDENCE_FULL = 5_000
+    const conf = (v: number | null | undefined) =>
+      Math.max(0, Math.min(1, (v ?? 0) / CONFIDENCE_FULL))
+    const pts = chartData.map((r) => ({
+      t: new Date(r.time).getTime(),
+      vol: r.volume ?? null,
+    }))
+    return [
+      {
+        key: 'no',
+        label: 'No',
+        color: 'var(--chart-no)',
+        points: chartData.map((r, i) => ({ t: pts[i].t, v: r.no ?? 0, conf: conf(pts[i].vol) })),
+      },
+      {
+        key: 'yes',
+        label: 'Yes',
+        color: 'var(--chart-yes)',
+        points: chartData.map((r, i) => ({ t: pts[i].t, v: r.yes ?? 0, conf: conf(pts[i].vol) })),
+      },
+    ]
+  }, [chartData])
+
   const isSeeded = (data ?? []).filter((d) => d.recorded_at).length === 0
-  const lastIndex = chartData.length - 1
   const latestYes = Math.round((chartData[chartData.length - 1]?.yes ?? currentYes) * 100)
   const firstYes = Math.round((chartData[0]?.yes ?? currentYes) * 100)
   const direction =
@@ -187,87 +159,18 @@ export function PriceChart({ data, currentYes = 0.5, volumeUsd = 0, resolutionDa
         </span>
       </div>
 
-      <div className="relative h-56" role="img" aria-label={`Market price history. ${summary}`}>
-        <p className="sr-only">{summary}</p>
-        {/* Faint brand watermark inside the plot (Polymarket does the same) */}
-        {opts.annotations && (
-          <span
-            aria-hidden
-            className="pointer-events-none absolute right-3 top-2 select-none font-display text-sm font-semibold text-text-muted opacity-30"
-          >
-            Kichiko
-          </span>
-        )}
-        <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={chartData} margin={{ top: 8, right: 0, left: 0, bottom: 0 }}>
-            <defs>
-              <linearGradient id="yesGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="var(--yes)" stopOpacity={0.28} />
-                <stop offset="95%" stopColor="var(--yes)" stopOpacity={0} />
-              </linearGradient>
-              <linearGradient id="noGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="var(--no)" stopOpacity={0.16} />
-                <stop offset="95%" stopColor="var(--no)" stopOpacity={0} />
-              </linearGradient>
-            </defs>
-            <CartesianGrid
-              strokeDasharray={CHART_GRID_DASH}
-              stroke="var(--chart-grid)"
-              horizontal={opts.hGrid}
-              vertical={opts.vGrid}
-            />
-            <XAxis
-              dataKey="time"
-              hide={!opts.xAxis}
-              tickFormatter={(v) => format(new Date(v), 'MMM d')}
-              tick={{ fontSize: 10, fill: 'var(--text-muted)' }}
-              tickLine={false}
-              axisLine={false}
-              minTickGap={40}
-            />
-            <YAxis
-              orientation="right"
-              hide={!opts.yAxis}
-              domain={opts.autoscale ? [0, yMax] : [0, 1]}
-              ticks={opts.autoscale ? yTicks : [0, 0.25, 0.5, 0.75, 1]}
-              tickFormatter={(v) => `${Math.round(v * 100)}%`}
-              tick={{ fontSize: 10, fill: 'var(--text-muted)' }}
-              tickLine={false}
-              axisLine={false}
-              width={34}
-            />
-            <Tooltip content={<CustomTooltip />} />
-            {opts.annotations && 0.5 <= yMax && <ReferenceLine y={0.5} stroke="var(--chart-grid)" strokeDasharray={CHART_GRID_DASH} />}
-            {/* TWO lines for a binary market (Kalshi parity): one per side,
-                each driven by that side's own order flow (yes_price / no_price
-                from price_history). They are complementary under our LMSR
-                (Yes+No=1), so buying Yes lifts the Yes line and presses the No
-                line down, and vice-versa. Draw No first so Yes sits on top. */}
-            <Area
-              type="monotone"
-              dataKey="no"
-              name="No"
-              stroke="var(--no)"
-              strokeWidth={2}
-              fill="url(#noGradient)"
-              dot={makeLiveEndpoint(lastIndex, 'var(--no)')}
-              activeDot={{ r: 4, fill: 'var(--no)' }}
-              isAnimationActive={false}
-            />
-            <Area
-              type="monotone"
-              dataKey="yes"
-              name="Yes"
-              stroke="var(--yes)"
-              strokeWidth={2}
-              fill="url(#yesGradient)"
-              dot={makeLiveEndpoint(lastIndex, 'var(--yes)')}
-              activeDot={{ r: 4, fill: 'var(--yes)' }}
-              isAnimationActive={false}
-            />
-          </AreaChart>
-        </ResponsiveContainer>
-      </div>
+      <ScrubChart
+        series={scrubSeries}
+        height={224}
+        yMax={opts.autoscale ? yMax : 1}
+        yTicks={opts.autoscale ? yTicks : [0, 0.25, 0.5, 0.75, 1]}
+        showGrid={opts.hGrid}
+        showXAxis={opts.xAxis}
+        showYAxis={opts.yAxis}
+        showConfidence={opts.confidence}
+        watermark={opts.annotations ? 'Kichiko' : undefined}
+        ariaLabel={`Market price history. ${summary}`}
+      />
 
       {/* Footer: volume + date (left) · timeframe presets (right). Wraps on
           narrow mobile so the Vol chip and toggles never collide (<400px). */}
@@ -342,6 +245,7 @@ export function PriceChart({ data, currentYes = 0.5, volumeUsd = 0, resolutionDa
                   ['hGrid', 'Horizontal Grid'],
                   ['vGrid', 'Vertical Grid'],
                   ['annotations', 'Annotations'],
+                  ['confidence', 'Liquidity band'],
                 ] as [keyof typeof opts, string][]
               ).map(([k, label]) => (
                 <button

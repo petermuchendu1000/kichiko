@@ -84,6 +84,9 @@ Inter variable, with an explicit feature string Kichiko does not set:
 open `g`, straight-tail `l`, disambiguated `1`/`I`). This is what makes their
 numerals and lowercase read "fintech" rather than "default Inter".
 
+**Kichiko already sets this**, identically, at `app/globals.css:179` — verified
+after the capture. Parity, not a gap.
+
 Measured size frequency across the landing page:
 
 | Size | Uses | Role |
@@ -269,14 +272,14 @@ circular arc gauge), **binary Yes/No card** (77% + green Yes / red No buttons),
 | Brand blue | `#1452f0` rendered | `#1452F0` | ✅ parity |
 | Radius scale | 6 steps | 3 steps | ⚠️ coarser |
 | Elevation | ring + 2 soft blurs | plain drop shadow | ❌ flatter |
-| Inter features | 9 variants set | not set | ❌ missing |
-| Type density | 13/12px dominant | to verify | ⚠️ |
+| Inter features | 9 variants set | identical, `globals.css:179` | ✅ parity |
+| Type density | 13/12px dominant | 13px footer, 10px axis | ⚠️ axis too small |
 | Motion | 1 canonical 150ms | 3 durations, 2 eases | ⚠️ unfocused |
 | Chart engine | visx (SVG primitives) | Recharts | ❌ less control |
 | Chart series palette | dedicated bright set | semantic set | ❌ muddier |
 | Knockout halo | yes | no | ❌ missing |
 | Future segment | dashed @40% | no | ❌ missing |
-| Hover readout | inline, no box | to verify | ❌ likely tooltip |
+| Hover readout | inline, no box | floating Recharts tooltip | ❌ occludes data |
 | Time-scrub dimming | yes | no | ❌ missing |
 | Nav collapse | 116→68px | none | ❌ missing |
 | Page max-width | 1350px | 1200/1320px | ⚠️ narrower |

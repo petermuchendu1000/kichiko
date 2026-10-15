@@ -59,6 +59,16 @@
        line, observed stroke rgb(174,180,188) / dasharray 1px 3px). A dedicated
        token keeps the plot grid distinct from structural hairlines. */
     --chart-grid:var(--ink-300);
+    /* ---- Chart SERIES palette (distinct from the chip semantics) ----
+       Measured on polymarket.com 2026-10: their chart paints series in a
+       BRIGHTER palette than their market chips (#ff5952 vs the semantic
+       #e23939), because a 1.75px stroke needs more chroma than a filled chip
+       to read at the same strength. We adopt the separation but NOT their
+       values: their chart green #42c772 is only 2.18:1 on white and fails
+       WCAG 1.4.11 (3:1 for informational graphics). These clear it in both
+       themes — 4.12:1 and 4.81:1 on white here, 8.81:1 and 6.21:1 on the
+       dark canvas below. See docs/design/pm-2026-10 §2.2. */
+    --chart-yes:#1F8F4E; --chart-no:#D92D2D; --chart-brand:var(--pip-500);
     --field:var(--paper);
 
     /* ---- Elevation (subtle, structure with lines not shadows) ---- */
@@ -125,6 +135,9 @@
     /* Dark-mode dotted gridline: a touch lighter than the structural hairline
        so the fine dotted plot grid stays legible on the dark canvas. */
     --chart-grid:var(--ink-600);
+    /* Chart series on the dark canvas: here the bright end of the ramp is both
+       safe and desirable (8.81:1 / 6.21:1 on --ink-950). */
+    --chart-yes:#42C772; --chart-no:#FF5952;
     --field:var(--ink-800);
     --pip-100:rgba(20,82,240,.16); --yes-tint:rgba(31,157,107,.16); --no-tint:rgba(209,73,91,.16);
     --brass-100:rgba(217,160,54,.16);
