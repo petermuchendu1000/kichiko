@@ -26,6 +26,15 @@ const KEY_PAGES: { name: string; path: string }[] = [
   { name: 'Search', path: '/search' },
   { name: 'Sign in', path: '/auth/login' },
   { name: 'Sign up', path: '/auth/register' },
+  // Section J of the element matrix — the shell pages, which no gate scanned
+  // until the section was verified rather than assumed. /help carried a
+  // serious one when it was first measured: the legal-page layout coloured
+  // every descendant link green, including the primary button inside it, so
+  // "See the events" rendered green on blue at 1.19:1. These pages are
+  // static, so unlike the DB-backed ones above they cannot flake on SSR.
+  { name: 'Help centre (in-app, ruling J3)', path: '/help' },
+  { name: 'Responsible play (rulings I2/I3)', path: '/legal/responsible-play' },
+  { name: '404 (ruling J1)', path: '/this-page-does-not-exist' },
 ]
 
 const WCAG_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']

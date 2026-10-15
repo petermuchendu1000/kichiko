@@ -539,7 +539,11 @@
        cluster of undersized targets on the market page. The row keeps its
        12px type; only the hit area grows, and the negative inline margin
        keeps the three controls visually where they were. */
-    .comment-action { min-height:44px; padding-inline:6px; margin-inline:-6px; }
+    /* min-WIDTH as well as height: Like is an icon and a count, which
+       measured 39px wide once the height was fixed — a control can miss the
+       44px rule on either axis, and a one-digit count is the narrowest case
+       there is. */
+    .comment-action { min-height:44px; min-width:44px; justify-content:center; padding-inline:6px; margin-inline:-6px; }
     /* Form controls and filter pills. `.input` measured 43px — one pixel
        short, which no eye catches and a gate does. Native selects are listed
        explicitly because the locale switcher (93x28) and the comment sort

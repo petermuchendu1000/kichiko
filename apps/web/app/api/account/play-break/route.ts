@@ -18,7 +18,11 @@ export const dynamic = 'force-dynamic'
 
 // The offered lengths. 24h is the statutory floor for a break; "indefinite"
 // is self-exclusion, which the regulation names separately.
-export const BREAK_OPTIONS = {
+//
+// Not exported: a route file may only export handlers and Next's own config
+// keys, and an extra export fails the generated route types (TS2344) as soon
+// as .next/types is rebuilt — which is after the change that added it.
+const BREAK_OPTIONS = {
   '24h': 24,
   '7d': 24 * 7,
   '30d': 24 * 30,

@@ -9,7 +9,11 @@ export function ChartSkeleton({ label = 'Loading chart…' }: { label?: string }
       role="img"
       aria-label={label}
     >
-      <span className="text-xs text-gray-400 dark:text-gray-500">{label}</span>
+      {/* gray-400 on the gray-100 fill measured 2.3:1 (axe, serious): the one
+          piece of text on this box was the least legible thing on the page.
+          gray-600 on gray-100 is 7.6:1; the dark pair was no better at
+          gray-500 on gray-800, so it moves with it. */}
+      <span className="text-xs text-gray-600 dark:text-gray-300">{label}</span>
     </div>
   )
 }

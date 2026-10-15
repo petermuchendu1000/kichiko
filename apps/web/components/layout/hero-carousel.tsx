@@ -176,10 +176,15 @@ export function HeroCarousel({ slides, titles, autoPlayMs = 7000 }: HeroCarousel
       {/* Controls: pagination dots (left) + prev/next title pills (right). */}
       {n > 1 && (
         <div className="flex items-center justify-between gap-3">
-          <div className="flex items-center gap-1.5" role="tablist" aria-label="Choose featured market">
+          <div className="flex items-center gap-1.5">
             {/* The 2.2.2 mechanism. Rendered only when something is actually
                 moving: with reduced-motion on, or a single slide, there is
-                nothing to stop and a dead control would just be noise. */}
+                nothing to stop and a dead control would just be noise.
+
+                It sits OUTSIDE the tablist below, not in it: a tablist may
+                only contain tabs, and this button is not one. Inside, axe
+                failed aria-required-children as critical — "Element has
+                children which are not allowed: button" — on the home page. */}
             {autoPlayMs > 0 && !reduced && (
               <button
                 type="button"
@@ -211,6 +216,7 @@ export function HeroCarousel({ slides, titles, autoPlayMs = 7000 }: HeroCarousel
                 )}
               </button>
             )}
+            <div className="flex items-center gap-1.5" role="tablist" aria-label="Choose featured market">
             {dots.map((i) => (
               <button
                 key={i}
@@ -232,6 +238,7 @@ export function HeroCarousel({ slides, titles, autoPlayMs = 7000 }: HeroCarousel
                 />
               </button>
             ))}
+            </div>
           </div>
 
           <div className="flex items-center gap-2">

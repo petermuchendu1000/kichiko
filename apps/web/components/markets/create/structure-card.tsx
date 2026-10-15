@@ -22,7 +22,7 @@ export function StructureCard({ title, desc, icon, selected, disabled, badge, on
       onClick={onClick}
       disabled={disabled}
       aria-pressed={selected}
-      className={`relative flex w-full flex-col items-start gap-3 rounded-md border p-5 text-left transition-all ${
+      className={`relative flex w-full flex-col items-start gap-3 rounded-md border p-5 text-left transition-[color,background-color,border-color,box-shadow] duration-150 ${
         disabled
           ? 'cursor-not-allowed border-hairline bg-surface-2 opacity-70'
           : selected

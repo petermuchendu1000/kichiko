@@ -31,6 +31,13 @@ test.describe('visible focus indicator (ruling A6)', () => {
       const bare: string[] = []
       for (let i = 0; i < TAB_STOPS; i++) {
         await page.keyboard.press('Tab')
+        // Sample AFTER any transition has run. The first version of this gate
+        // read the computed style immediately and reported the desktop "Events"
+        // link as having no indicator: it carried `transition-all`, so its
+        // outline animated 0 -> 2px over 150ms and t+0 caught it at zero. The
+        // link was fixed to transition-colors, but a gate that can only see
+        // instant rings would fail the next component that eases anything.
+        await page.waitForTimeout(220)
         const probe = await page.evaluate(() => {
           const el = document.activeElement as HTMLElement | null
           if (!el || el === document.body) return null

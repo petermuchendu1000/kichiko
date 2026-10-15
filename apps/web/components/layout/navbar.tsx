@@ -150,13 +150,19 @@ export function Navbar() {
             </span>
           </Link>
 
-          {/* Desktop nav links */}
+          {/* Desktop nav links.
+              transition-colors, not transition-all: `all` animates the focus
+              outline too, so tabbing to this link grew its ring from 0 to 2px
+              over 150ms (measured: 0px at t+0, 1px at t+50, 2px at t+120).
+              The ring arrived, late and faint — which is not what WCAG 2.4.11
+              asks of an indicator, and it is the one thing on this page that
+              should never fade in. */}
           <div className="hidden md:flex items-center gap-1">
             {navLinks.map(link => (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[13px] font-medium transition-all ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[13px] font-medium transition-colors ${
                   isActive(link.href)
                     ? 'bg-[var(--pip-100)] text-[var(--pip-text)]'
                     : 'text-[var(--text-secondary)] hover:text-[var(--text)] hover:bg-[var(--surface-2)]'
@@ -578,7 +584,7 @@ function DepositSheet({ onClose, initialAmount, resumeOrder = false }: { onClose
                     <button
                       key={val}
                       onClick={() => setAmount(val)}
-                      className={`py-2 rounded-lg text-sm font-semibold border transition-all ${
+                      className={`py-2 rounded-lg text-sm font-semibold border transition-colors ${
                         amount === val
                           ? 'bg-[var(--pip-500)] text-white border-[var(--pip-500)]'
                           : 'border-[var(--border)] text-[var(--text-secondary)] hover:border-[var(--pip-400)]'
