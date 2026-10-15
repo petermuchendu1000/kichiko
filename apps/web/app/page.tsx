@@ -1,8 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { FALLBACK_USD_RATES } from '@/lib/currency'
 import { HeroSection } from '@/components/layout/hero-section'
-import { MarketCard } from '@/components/markets/market-card'
-import { FeaturedCarousel } from '@/components/markets/featured-carousel'
 import { MoversRail } from '@/components/markets/movers-rail'
 import { HomeExplore } from '@/components/markets/home-explore'
 import { getCardOptions, type CardOption } from '@/lib/markets/card-options'
@@ -12,10 +10,10 @@ import { getSpotlightComments } from '@/lib/markets/spotlight-comments'
 import { getSpotlightActivity } from '@/lib/markets/spotlight-activity'
 import { safeJsonLd } from '@/lib/seo/jsonld'
 import { hideSettling } from '@/lib/markets/settling'
-import type { Market, MarketCategory } from '@/types'
+import type { Market } from '@/types'
 import {
   IconArrowRight, IconShield, IconCheck, IconTrendUp, IconWallet,
-  IconPercent, IconEye, IconMpesa, CategoryIcon,
+  IconPercent, IconEye, IconMpesa,
 } from '@/components/ui/icons'
 import Link from 'next/link'
 import { cookies } from 'next/headers'
@@ -23,16 +21,6 @@ import { cookies } from 'next/headers'
 // Live market data — render dynamically per request (no static prerender)
 export const dynamic = 'force-dynamic'
 
-const BROWSE_CATEGORIES: { key: MarketCategory; label: string }[] = [
-  { key: 'politics', label: 'Politics' },
-  { key: 'economics', label: 'Economy' },
-  { key: 'sports', label: 'Sports' },
-  { key: 'crypto', label: 'Crypto' },
-  { key: 'technology', label: 'Technology' },
-  { key: 'weather', label: 'Climate' },
-  { key: 'business', label: 'Business' },
-  { key: 'entertainment', label: 'Culture' },
-]
 
 async function getData() {
   const supabase = await createClient()
@@ -241,13 +229,7 @@ export default async function HomePage() {
     return { options: top, leadingOption: top?.[0], optionCount: countByMarket.get(m.id) }
   }
 
-  const featuredGrid = featured.slice(0, 3)
-  const trendingGrid = trending.filter(m => !featuredGrid.some(f => f.id === m.id)).slice(0, 8)
 
-  // Carousel set: featured first, then trending fills it out (deduped, capped).
-  const carouselMarkets = [...featured, ...trending]
-    .filter((m, i, arr) => arr.findIndex(x => x.id === m.id) === i)
-    .slice(0, 8)
 
   // All four figures are live from the database (no hardcoded marketing numbers):
   // active-market count, aggregate volume converted to KES via the live FX rate,
@@ -311,40 +293,6 @@ export default async function HomePage() {
 
       <div className="max-w-[1350px] mx-auto px-4 lg:px-6">
 
-        {/* Category browse */}
-        <Section eyebrow="Browse" title="Events on every topic">
-          <div className="flex flex-wrap gap-2.5">
-            {BROWSE_CATEGORIES.map(c => (
-              <Link
-                key={c.key}
-                href={`/markets?category=${c.key}`}
-                className="group inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium transition-all"
-                style={{ background: 'var(--surface)', border: '1px solid var(--hairline)', color: 'var(--text)' }}
-              >
-                <CategoryIcon category={c.key} size={15} className="transition-colors group-hover:text-[var(--pip-text)]" style={{ color: 'var(--text-3)' }} />
-                {c.label}
-              </Link>
-            ))}
-          </div>
-        </Section>
-
-        {/* Featured events */}
-        {carouselMarkets.length > 0 && (
-          <Section eyebrow="Editor's picks" title="Featured events" href="/markets?sort=featured">
-            <FeaturedCarousel>
-              {carouselMarkets.map(m => (
-                <div
-                  key={m.id}
-                  data-carousel-item
-                  className="snap-start flex-none w-[300px] sm:w-[340px]"
-                >
-                  <MarketCard market={m} {...cardExtras(m)} />
-                </div>
-              ))}
-            </FeaturedCarousel>
-          </Section>
-        )}
-
         {/* Breaking + Hot topics rail */}
         {(movers.length > 0 || hotTopics.length > 0) && (
           <Section eyebrow="Live now" title="Movers & hot topics" href="/markets?sort=volume">
@@ -352,9 +300,20 @@ export default async function HomePage() {
           </Section>
         )}
 
-        {/* Explore — in-place category-filtered feed */}
+        {/* The landing's ONE market grid, Polymarket's "All markets" shape:
+            every active market behind the chip rail HomeExplore already
+            renders. Measured 2026-10-15, five rails filled 41 card slots with
+            22 distinct markets — 12 of them appeared more than once and two
+            appeared four times. Every removed rail was a strict subset of this
+            grid or of the hero: `carouselMarkets` and `heroPool` are built from
+            the SAME featured+trending queries (the hero is the first 4 of the
+            same deduped array the carousel showed 8 of), and `trendingGrid` is
+            a slice of that same `trending` result. The category-link rail
+            duplicated both the global SubNav and this grid's own chip rail.
+            Trending and New remain one click away in the SubNav; featured
+            markets still lead the hero. */}
         {allActive.length > 0 && (
-          <Section eyebrow="Explore" title="All events" href="/markets">
+          <Section eyebrow="Every active market" title="All events" href="/markets">
             <HomeExplore
               markets={allActive}
               options={exploreOptions}
@@ -364,28 +323,6 @@ export default async function HomePage() {
           </Section>
         )}
 
-        {/* Trending markets */}
-        <Section eyebrow="Most active · 24h" title="Trending now" href="/markets?sort=volume">
-          {trendingGrid.length === 0 ? (
-            <EmptyState />
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-              {trendingGrid.map(m => <MarketCard key={m.id} market={m} {...cardExtras(m)} />)}
-            </div>
-          )}
-        </Section>
-
-        {/* Just added */}
-        {recent.length > 0 && (
-          <Section eyebrow="Newest" title="Just added" href="/markets?sort=newest">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-              {recent.slice(0, 8).map(m => <MarketCard key={m.id} market={m} compact {...cardExtras(m)} />)}
-            </div>
-          </Section>
-        )}
-
-        {/* Marketing / explainer blocks stay at a readable width inside the
-            wide market-grid container above. */}
         {/* The explainer stack — how it works, buy/sell, pricing, trust, CTA —
             is onboarding for a category most Kenyan visitors have not met
             before, so it earns its place for a first-time visitor. It is 2,835px,
@@ -585,15 +522,3 @@ function PriceCurveVisual() {
   )
 }
 
-function EmptyState() {
-  return (
-    <div className="card p-14 text-center">
-      <div className="w-12 h-12 rounded-lg grid place-items-center mx-auto mb-4" style={{ background: 'var(--pip-100)', color: 'var(--pip-text)' }}>
-        <IconTrendUp size={22} />
-      </div>
-      <h3 className="font-semibold mb-1" style={{ color: 'var(--text)' }}>No events yet</h3>
-      <p className="text-sm mb-6" style={{ color: 'var(--text-2)' }}>New events are coming soon. Check back later.</p>
-      <Link href="/markets" className="btn btn-secondary">See all events</Link>
-    </div>
-  )
-}
