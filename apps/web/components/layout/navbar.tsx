@@ -7,6 +7,7 @@ import { useAuth } from '@/hooks/use-auth'
 import { useWallets } from '@/hooks/use-wallets'
 import { createClient } from '@/lib/supabase/client'
 import { amountInWords } from '@/lib/money-words'
+import { phoneKey } from '@/lib/payments/verified-phones'
 import type { FundingStep } from '@/lib/payments/funding-steps'
 import { CURRENCIES, type CurrencyCode } from '@/types'
 import { depositPresets, phonePlaceholder, phonePrefill, isValidPhone, depositRequestBody, withdrawRequestBody } from '@/lib/payments/deposit-ux'
@@ -652,6 +653,11 @@ function WithdrawSheet({ onClose, balance, currency }: { onClose: () => void; ba
   // prefill nor the validation its sibling has had all along.
   const [phone, setPhone] = useState(() => phonePrefill(currency))
   const [phoneError, setPhoneError] = useState('')
+  // Numbers this account has proven it holds, by completing a deposit from
+  // them (lib/payments/verified-phones). Offered as choices so the common
+  // case is a tap rather than typing a number from memory — which is where
+  // the mistyped digit comes from.
+  const [knownPhones, setKnownPhones] = useState<string[]>([])
   // 'review' is the step this flow never had. Ruling E2: money left on the
   // strength of one tap against a free-text number, and 70% of Kenyan
   // mobile-money losses are accidental sends (FinAccess 2024, n=20,871).
@@ -667,6 +673,21 @@ function WithdrawSheet({ onClose, balance, currency }: { onClose: () => void; ba
     document.addEventListener('keydown', onKey)
     return () => document.removeEventListener('keydown', onKey)
   }, [onClose])
+
+  useEffect(() => {
+    let active = true
+    fetch('/api/payments/verified-phones')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((b) => {
+        if (!active || !b?.phones?.length) return
+        setKnownPhones(b.phones)
+        // Prefill the most recent, but only while the field is untouched —
+        // never overwrite something already typed.
+        setPhone((cur) => (cur === phonePrefill(currency) || cur === '' ? b.phones[0] : cur))
+      })
+      .catch(() => {})
+    return () => { active = false }
+  }, [currency])
 
   // Form -> review. The server only checks the number is WELL-FORMED
   // (checkProviderDestination), not that it is yours, so a typo that happens
@@ -824,6 +845,30 @@ function WithdrawSheet({ onClose, balance, currency }: { onClose: () => void; ba
                 onChange={e => { setPhone(e.target.value); if (phoneError) setPhoneError('') }} />
               {phoneError && (
                 <p id="wd-phone-error" role="status" className="mt-1.5 text-sm font-medium text-[var(--red)]">{phoneError}</p>
+              )}
+              {knownPhones.length > 0 && (
+                <div className="mt-2">
+                  <p className="mb-1.5 text-xs" style={{ color: 'var(--text-muted)' }}>
+                    {knownPhones.length === 1 ? 'The number you deposit from' : 'Numbers you deposit from'}
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {knownPhones.slice(0, 4).map((n) => (
+                      <button
+                        key={n}
+                        type="button"
+                        onClick={() => { setPhone(n); setPhoneError('') }}
+                        aria-pressed={phoneKey(phone) === n}
+                        className="min-h-11 rounded-pill border px-3 text-sm font-medium tabular-nums transition-colors"
+                        style={{
+                          borderColor: phoneKey(phone) === n ? 'var(--pip-500)' : 'var(--border)',
+                          color: phoneKey(phone) === n ? 'var(--text-primary)' : 'var(--text-secondary)',
+                        }}
+                      >
+                        {n}
+                      </button>
+                    ))}
+                  </div>
+                </div>
               )}
             </div>
 

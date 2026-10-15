@@ -23,6 +23,7 @@ import { z } from 'zod'
 import { claimPayout, dispatchPayout } from '@/lib/payments/payouts'
 import { checkWithdrawalProviderCurrency, checkProviderAmount, checkProviderDestination } from '@/lib/payments/provider-currency'
 import { platformGate, booleanSetting, numberSetting } from '@/lib/platform-gate'
+import { verifiedPhoneKeys, checkWithdrawalDestination } from '@/lib/payments/verified-phones'
 import {
   computeWithdrawalFee,
   withdrawalNetAmount,
@@ -58,7 +59,7 @@ export async function POST(req: NextRequest) {
     // Kill switch + maintenance, and the KYC gate settings: read with the
     // service role (audit 6.7: the non-public gate flag was invisible to the
     // user's client, so the gate could never turn on).
-    const gate = await platformGate('withdrawals', ['flags.withdraw_kyc_gate', 'limits.kyc_required_usd'])
+    const gate = await platformGate('withdrawals', ['flags.withdraw_kyc_gate', 'limits.kyc_required_usd', 'flags.withdraw_verified_phone_only'])
     if (!gate.ok) return NextResponse.json({ error: gate.error, code: gate.code }, { status: gate.status })
 
     const body = await req.json().catch(() => null)
@@ -88,6 +89,32 @@ export async function POST(req: NextRequest) {
     const destCheck = checkProviderDestination(prov, phone_number)
     if (!destCheck.ok) {
       return NextResponse.json({ error: destCheck.error }, { status: 400 })
+    }
+
+    // Ruling E2: pay out only to a number this account has PROVEN it holds.
+    // checkProviderDestination above only says the number is well formed, so
+    // on its own a typo that happens to be a valid Kenyan number is a real
+    // payment to a stranger — and 70% of Kenyan mobile-money losses are
+    // accidental sends (FinAccess 2024, n=20,871).
+    //
+    // Proof comes from deposits: an STK push is authorised on the handset
+    // holding that SIM, with the holder's own M-Pesa PIN. Dark-launched,
+    // because switching it on before real deposit history exists refuses
+    // every withdrawal — see the setting's help for the query to run first.
+    if (booleanSetting('flags.withdraw_verified_phone_only', gate.stored)) {
+      const { data: funded } = await supabase
+        .from('deposits')
+        .select('phone_number')
+        .eq('user_id', user.id)
+        .eq('status', 'completed')
+      const verified = verifiedPhoneKeys((funded ?? []).map((d) => d.phone_number))
+      const owned = checkWithdrawalDestination(phone_number, verified)
+      if (!owned.ok) {
+        return NextResponse.json(
+          { error: owned.error, code: 'unverified_destination' },
+          { status: 400 },
+        )
+      }
     }
 
     // Account-status gate (self-scoped read).
