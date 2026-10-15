@@ -43,6 +43,7 @@ import { openAuthDialog } from '@/components/auth/auth-dialog'
 import { planFunding } from '@/lib/funding'
 import { normalizeOutcomes, isMultiOutcome, type Outcome } from '@/lib/markets/outcomes'
 import { formatCurrency, usdToLocal, localToUsd, getUsdRate, type RatesMap } from '@/lib/currency'
+import { OutcomeBlock } from './outcome-block'
 import { minStakeLocal, quickAmounts, stakeError } from '@/lib/stake'
 import { formatProbability } from '@/lib/format'
 import { useClobBook, useIsDisplayed } from '@/components/trading/order-book-table'
@@ -1287,19 +1288,19 @@ export function PmTicket({
 
         {/* Payout preview — reserved slot (present even when empty so the Trade
             button never shifts), matching PM: "To win $X" (tinted) + avg ¢. */}
-        <div className="flex min-h-[40px] flex-col items-center justify-center gap-0.5">
+        <div className="flex min-h-[40px] flex-col justify-center gap-1">
           {noSellers ? (
             <NoSellersNotice label={sideLabel} onUseLimit={useLimit} className="w-full text-center" />
           ) : clob && amountNum > 0 && (
             <>
-              <div className="flex items-center gap-1.5">
-                <span className="text-base font-medium text-[#484E56]">To win</span>
-                <span className={`text-[18px] font-semibold tabular-nums ${side === 'yes' ? 'text-[#42C772]' : 'text-[#E23939]'}`}>
-                  {formatCurrency(usdToLocal(clobBuyEstShares, preferredCurrency, rates), preferredCurrency)}
-                </span>
-              </div>
-              <span className="text-xs font-medium tabular-nums text-text-muted">
-                {clobBestAsk ? `${formatProbability(clobBestAsk / 100)} · ${clobBuyEstShares.toFixed(1)} shares` : 'Checking prices…'}
+              <OutcomeBlock
+                payLocal={amountNum}
+                winLocal={usdToLocal(clobBuyEstShares, preferredCurrency, rates)}
+                sideLabel={sideLabel}
+                currency={preferredCurrency}
+              />
+              <span className="text-center text-xs font-medium tabular-nums text-text-muted">
+                {clobBestAsk ? `Price ${formatProbability(clobBestAsk / 100)}` : 'Checking prices…'}
               </span>
             </>
           )}
@@ -1899,24 +1900,19 @@ export function PmTicket({
               <div className="mt-4 space-y-1.5 rounded-md bg-surface-2 px-3 py-3 text-sm">
                 <div className="flex items-center justify-between text-text-muted">
                   <span>Est. price</span>
+                  {/* D9: no "shares" on the default path. The block below
+                      carries what the person actually gets back. */}
                   <span className="tabular-nums">
-                    {clobBestAsk
-                      ? `${formatProbability(clobBestAsk / 100)} · ${clobBuyEstShares.toFixed(1)} shares`
-                      : 'Checking prices…'}
+                    {clobBestAsk ? formatProbability(clobBestAsk / 100) : 'Checking prices…'}
                   </span>
                 </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-text-secondary">Total</span>
-                  <span className="font-semibold tabular-nums text-text-primary">
-                    {formatCurrency(amountNum, preferredCurrency)}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between border-t border-hairline pt-1.5">
-                  <span className="text-text-secondary">To win</span>
-                  <span className={`text-base font-bold tabular-nums ${outcomeTone}`}>
-                    {formatCurrency(usdToLocal(clobBuyEstShares, preferredCurrency, rates), preferredCurrency)}
-                  </span>
-                </div>
+                <OutcomeBlock
+                  payLocal={amountNum}
+                  winLocal={usdToLocal(clobBuyEstShares, preferredCurrency, rates)}
+                  sideLabel={sideLabel}
+                  currency={preferredCurrency}
+                  className="pt-1"
+                />
               </div>
             )}
 

@@ -7,22 +7,15 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function formatCurrency(
-  amount: number,
-  currency: string,
-  locale: string = 'en-KE'
-): string {
-  try {
-    return new Intl.NumberFormat(locale, {
-      style: 'currency',
-      currency,
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 2,
-    }).format(amount)
-  } catch {
-    return `${amount.toLocaleString()} ${currency}`
-  }
-}
+// formatCurrency lives in @/lib/currency, not here.
+//
+// A second implementation used to sit at this spot, formatting KES through
+// Intl's en-KE currency style. That renders "Ksh", so whichever module a
+// component happened to import from decided whether the user saw "KSh 200"
+// or "Ksh 200" — and both spellings reached the same ticket. It had no
+// callers; its only effect was to be imported by mistake, which is exactly
+// what happened when the outcome block was written. Ruling A1 asks for one
+// formatter module, so this is it: @/lib/currency.
 
 // Named for its historical USD role; the pilot displays Kenyan Shillings. All
 // call sites pass USD-stored amounts, which this converts to KES for display.
