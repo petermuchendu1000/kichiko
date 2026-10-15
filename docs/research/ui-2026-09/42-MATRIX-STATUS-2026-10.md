@@ -36,6 +36,8 @@ walking the matrix. The matrix is the plan; this is its status.
 | C3 | **Resolution source on every market (BINDING)** | **done** — 28 of 36; 8 named below | DB |
 | D1 D2 D5 D7 D9 D10 | the money path | **done** — see §2.3 | M |
 | D8 D11 | pressed state, auth round-trip | already satisfied | V |
+| E2 E3 E5 | read-back, M-Pesa code, flow symmetry | **done** — see §2.4 | M, DB |
+| E4 | explicit pending state | already satisfied | V |
 
 ### A4, in detail
 
@@ -142,11 +144,49 @@ market scoping. The matrix listed it as unverified, not missing.
 surface the mobile trade bar) and the limit panel (the rail does not expose it
 signed out). Both rest on type-checked code paths rather than a browser run.
 
-### 2.4 Section E — confirm, receipt, deposit, withdraw
+### 2.4 Section E — worked
 
-E1–E5 are all `INVENT` and all open. E2 carries the strongest local evidence in
-the whole document: **70% of Kenyan mobile-money losses are accidental sends**
-(FinAccess 2024, n=20,871). Nothing has been built against it.
+| # | Ruling | Outcome |
+|---|---|---|
+| E1 | Confirm step on a trade | **declined** — a conversion decision, not a defect; see below |
+| E2 | Read-back before the transfer | **done** (numerals + words + number); the verified-number half is **blocked** |
+| E3 | Receipt shows the M-Pesa code | **done** — the data was always there, nothing rendered it |
+| E4 | Explicit pending state | already satisfied |
+| E5 | Withdraw no harder than deposit | **done**, structurally |
+
+**E2.** Withdrawal had no defence against the one failure this market actually
+suffers. A person typed an amount and a free-text number, tapped once, and the
+money went; `checkProviderDestination` only checks the number is *well-formed*,
+never that it is theirs, so a typo forming a valid Kenyan number is a real
+payment to a stranger. Both flows now read the transfer back — amount in
+numerals **and words**, plus the destination — before anything is sent. Digits
+fail quietly: "5,000" and "50,000" differ by one glyph. Withdraw also gained the
+dial-code prefill and `isValidPhone` that deposit has always had and it never
+did.
+
+**Blocked:** binding withdrawals to the verified owner's number. **1 of 74
+profiles has a phone number** `[DB]`, so enforcing it today would lock 73 people
+out of their own money. It needs phone verification first — the same shape as
+the age gate in L.4.
+
+**E5 nearly broke on E2.** Adding a step to withdraw made cashing out one tap
+longer than paying in, which Reg. 84 and 67(3) forbid. Deposit therefore takes
+the same step — which E2 asks for anyway ("before STK push"). Both sheets now
+type their state as `FundingStep` from one module, so neither can gain or lose a
+step without changing something the other shares. A true tap-count gate needs an
+authenticated session with a funded wallet, and this project has no e2e fixture
+for that; the structural guarantee stands in for it.
+
+**E3 was never a data problem.** `credit_deposit` has always written the
+provider's receipt into `transactions.payment_reference`. Nothing rendered it,
+so the identifier people reconcile money by was visible only in the admin
+console. (Production rows read NULL there because the 1,468 deposits are seeded
+and bypassed the RPC.) *Searchable* by code remains open.
+
+**E1 declined.** A confirm step on every trade is a conversion decision rather
+than a defect fix; Polymarket and Kalshi both submit directly, and the money
+block it would re-show is already on the ticket (D5). Worth a deliberate call,
+not a silent one.
 
 ### 2.5 Remaining
 
@@ -154,6 +194,10 @@ A6 (focus rings + pixel-diff gate), A8 (2px spacing scale), A11 (JS budget —
 we lead 9–10× but are over our own budget), A12 ("Breaking" → "New"), B1 (fixed
 180px mobile cards; hero must not auto-rotate — **WCAG 2.2.2**), B3, C4, C6,
 F2, F3, G2, and sections I and J.
+
+Of those, **B1's auto-rotating hero is the only outright WCAG failure left**
+(2.2.2 Pause, Stop, Hide), and **F2/F3** share the blocker that stops E2's
+second half: no verified phone, no date of birth, no KYC before deposit.
 
 ---
 
