@@ -104,7 +104,8 @@ export default async function HelpPage() {
         may require identity verification.
       </p>
 
-      <h2>Contact support</h2>
+      {/* Anchored so the footer's "Contact us" lands on the address itself. */}
+      <h2 id="contact">Contact support</h2>
       <p>
         Reach us by email at{' '}
         <a href="mailto:support@kichiko.app">support@kichiko.app</a> with

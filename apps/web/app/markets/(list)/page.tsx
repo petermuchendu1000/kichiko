@@ -76,7 +76,20 @@ export async function generateMetadata(
     ? `Live ${label.toLowerCase()} prediction markets on Kichiko — read the crowd’s probability and take a position.`
     : 'Browse live prediction markets across politics, the economy, sports, crypto and more. Read live probabilities and trade on real-world outcomes.'
 
-  return { title, description, alternates: { canonical: '/markets' } }
+  // A category is its own indexable page; every other filter is not.
+  //
+  // This used to canonicalise everything to /markets, which made the distinct
+  // title and description above unreachable: the page told crawlers "index
+  // /markets instead", so `?category=politics` could never rank and listing it
+  // in the sitemap would have contradicted its own canonical.
+  //
+  // Keeping only `category` also collapses the duplicate-content variants the
+  // blanket canonical was there to prevent — ?sort, ?status, ?page and ?q all
+  // fold into the category base, or into /markets when no category is set. A
+  // user's search query is never a canonical URL.
+  const canonical = cat ? `/markets?category=${cat}` : '/markets'
+
+  return { title, description, alternates: { canonical } }
 }
 
 export default async function MarketsPage(

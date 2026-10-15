@@ -12,6 +12,7 @@
 import Link from 'next/link'
 import { LocaleSwitcher } from './locale-switcher'
 import { LogoMark, IconArrowRight } from '@/components/ui/icons'
+import { SEO_CATEGORIES, categoryHref, categoryLinkLabel } from '@/lib/seo/categories'
 
 const YEAR = new Date().getFullYear()
 
@@ -47,10 +48,16 @@ const COLUMNS: FooterColumn[] = [
   {
     heading: 'Help & legal',
     links: [
+      { href: '/help', label: 'Help' },
+      // Anchors to the support address rather than repeating it. A hardcoded
+      // mailto would be a third copy of an address the codebase already
+      // disagrees about: /help says support@kichiko.app, while the
+      // `branding.support_email` admin setting and the outbound mail sender
+      // both say kichiko.co.ke. Linking the page keeps one source of truth.
+      { href: '/help#contact', label: 'Contact us' },
       { href: '/legal/terms', label: 'Terms' },
       { href: '/legal/privacy', label: 'Privacy' },
       { href: '/legal/responsible-play', label: 'Responsible play' },
-      { href: '/help', label: 'Help' },
     ],
   },
 ]
@@ -142,6 +149,31 @@ export function SiteFooter() {
             ))}
           </div>
         </div>
+
+        {/* Markets by category — the SEO topic surface.
+            Polymarket runs 14 "<topic> Predictions & odds" links here; we ran
+            none, so none of our category pages had an internal link pointing
+            at it. Laid out as a wrapped row rather than a fourth column: it
+            keeps the 3-column grid above intact and costs ~70px instead of a
+            full column's height. */}
+        <nav aria-label="Markets by category" className="pb-10 -mt-4">
+          <h2 className="text-[12px] font-semibold uppercase tracking-[0.12em]" style={{ color: 'var(--text)' }}>
+            Markets by category
+          </h2>
+          <ul className="mt-3.5 flex flex-wrap gap-x-5 gap-y-2.5">
+            {SEO_CATEGORIES.map((c) => (
+              <li key={c}>
+                <Link
+                  href={categoryHref(c)}
+                  className="footer-link text-[0.92rem] transition-colors"
+                  style={{ color: 'var(--text-2)' }}
+                >
+                  {categoryLinkLabel(c)}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
 
         {/* Risk / responsible-play disclosure */}
         <div

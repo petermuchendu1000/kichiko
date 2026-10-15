@@ -101,16 +101,49 @@ Our footer is 603px, three groups:
 ### 4.1 Gaps that cost us growth
 
 1. **No SEO topic surface.** They run 14 `<topic> Predictions & odds` links; we
-   run zero. We already have the categories (`politics`, `economics`, `sports`,
-   `crypto`, `technology`, `weather`, `business`, `entertainment`) and the
-   routes (`/markets?category=…`), so the links can be real today. Longer term
-   these want dedicated pages with their own `<title>`/`<meta>`.
-2. **`/leaderboard` exists and is linked from nowhere in the footer, and is
-   absent from `sitemap.ts`.** A built page that search engines are not told
-   about.
-3. **`/traders/[id]` and `/search` are also missing from the sitemap.**
-4. **No social links at all.** They carry five (𝕏, Instagram, Discord, TikTok,
-   News). For a Kenyan launch, WhatsApp and X are the relevant pair.
+   run zero. We already have the categories and the routes
+   (`/markets?category=…`), so the links can be real today. Longer term these
+   want dedicated pages with their own `<title>`/`<meta>`.
+2. **No social links at all.** They carry five (𝕏, Instagram, Discord, TikTok,
+   News). For a Kenyan launch, WhatsApp and X would be the relevant pair.
+
+### 4.1b Corrections — three of these were wrong (2026-10-15)
+
+Written before reading the pages. Recorded rather than deleted, because the
+reasons they are wrong are the useful part.
+
+- **`/leaderboard` is not an oversight, and must not be linked or listed.** The
+  route is deliberately paused and sets `robots: { index: false }`. Ranking
+  people by winnings is a winner feed, and **Kenya's L.N. 112 Reg. 87 keeps
+  winners' identities confidential without written consent**. It returns as an
+  opt-in *accuracy* board. Adding a footer link would promote a placeholder;
+  adding a sitemap entry would contradict the page's own `noindex`.
+- **`/search` must not be in the sitemap either.** It also sets
+  `robots: { index: false }` and is explicitly `Disallow: /search` in
+  `robots.ts`.
+- **`/traders/[id]` is left out on the same legal ground.** The page itself is
+  built to be indexed (public aggregates, no PII, ProfilePage JSON-LD), so an
+  individual profile is fine. Enumerating every trader into a sitemap is the
+  same "winner feed" shape that paused the leaderboard, and that is a product
+  and legal decision, not a sitemap edit.
+
+**What was actually missing** was smaller and blocked by something the gaps
+list did not mention: every `/markets?category=…` URL canonicalised to
+`/markets`. The page already generated a distinct title and description per
+category, but the canonical told crawlers to index `/markets` instead, so the
+category pages could never rank and a sitemap entry would have contradicted
+them. The canonical now keeps the `category` param and drops `q`, `status`,
+`sort` and `page` — which still collapses the duplicate-content variants the
+blanket canonical existed to prevent.
+
+- **No social links** stands, and is **not actionable yet**: no handle,
+  account or URL is configured anywhere in the repo, so any link would be
+  invented. Needs the real accounts first.
+- **Support address is inconsistent.** `/help` renders
+  `support@kichiko.app`; the `branding.support_email` admin setting default and
+  the outbound mail sender both use `kichiko.co.ke`. The footer's "Contact us"
+  therefore links to `/help#contact` rather than adding a third copy of a
+  disputed address. Someone needs to say which mailbox exists.
 
 ### 4.2 Gaps in trust and operations
 
@@ -140,15 +173,17 @@ Our footer is 603px, three groups:
 
 ## 5. Recommended order
 
-| # | Change | Cost | Why |
+| # | Change | Cost | Status |
 |---|---|---|---|
-| 1 | Footer: add topic links, social, leaderboard, contact | small | pure growth and discoverability, all targets already exist |
-| 2 | `sitemap.ts`: add `/leaderboard`, `/search`, trader pages | tiny | built pages search engines cannot see |
-| 3 | Category landing pages with their own metadata | medium | turns footer links into real SEO targets |
+| 1 | Category pages self-canonical | tiny | **done** — prerequisite for 2 and 3 |
+| 2 | `sitemap.ts`: add the 12 category pages | tiny | **done** |
+| 3 | Footer: topic links + Contact | small | **done** |
 | 4 | Market Integrity / Transparency page | small | trust, disproportionate weight for a new money product |
 | 5 | Status page | medium | needs uptime plumbing |
-| 6 | News ingestion + market association | large | the only true functional gap; needs a pipeline and a table |
+| 6 | News ingestion + market association | large | **done** — see `cron/ingest-news` |
+| — | Footer social links | small | **blocked**: no accounts configured anywhere |
+| — | Settle the support address | tiny | **blocked**: needs a human to say which mailbox exists |
 
-Items 1 and 2 are mechanical and carry no design risk. Item 6 is the one that
-would put us ahead rather than at parity — and it is the one nobody in this
-category does well outside Polymarket.
+Items 1–3 are mechanical and carry no design risk. Item 6 was the one that put
+us ahead rather than at parity, and is the one nobody in this category does
+well outside Polymarket.

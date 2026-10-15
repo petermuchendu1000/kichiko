@@ -6,6 +6,7 @@
 import type { MetadataRoute } from 'next'
 import { createClient } from '@supabase/supabase-js'
 import { siteUrl } from '@/lib/seo/site-url'
+import { SEO_CATEGORIES, categoryHref } from '@/lib/seo/categories'
 
 export const revalidate = 3600
 
@@ -36,6 +37,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changeFrequency,
     priority,
   }))
+
+  // Category landing pages. Each has its own title, description, canonical and
+  // result set, so each is a distinct target rather than a filtered view.
+  //
+  // Deliberately NOT listed here: /leaderboard and /search. Both set
+  // `robots: { index: false }` in their own metadata, and /search is also
+  // Disallow-ed in robots.ts — a sitemap entry would contradict the page. The
+  // leaderboard is paused on legal grounds (winners' identities are
+  // confidential without written consent), not by oversight. Trader profiles
+  // are left out for the same reason; see docs/design/pm-2026-10.
+  for (const c of SEO_CATEGORIES) {
+    entries.push({
+      url: `${base}${categoryHref(c)}`,
+      changeFrequency: 'daily',
+      priority: 0.7,
+    })
+  }
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
