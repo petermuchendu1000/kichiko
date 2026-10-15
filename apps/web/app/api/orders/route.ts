@@ -52,6 +52,45 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: `The minimum stake is KSh ${MIN_STAKE_KES}.`, code: 'below_minimum_stake' }, { status: 400 })
     }
 
+    // Ruling I3 / L.N. 112 Reg. 84: a break stops PLAY, not PAYOUT.
+    //
+    // Only 'buy' is gated. Selling is how someone exits a position they
+    // already hold, and withdrawing is how they get their money; blocking
+    // either would trap funds at the exact moment a person has asked to stop,
+    // which is the opposite of what the regulation is for.
+    if (o.action === 'buy') {
+      const { data: brk, error: brkError } = await supabase
+        .rpc('active_play_break' as never, { p_user_id: userId } as never)
+        .maybeSingle<{ kind: string; ends_at: string | null }>()
+      // "Could not check" must never read as "no break in force" — the same
+      // rule the GET on /api/account/play-break follows. A self-exclusion that
+      // lapses on a transient error is not a self-exclusion. This costs no
+      // availability: an order needs the database either way.
+      if (brkError) {
+        return NextResponse.json(
+          { error: 'Could not verify your account. Please try again.', code: 'play_break_unverified' },
+          { status: 503 },
+        )
+      }
+      // Only the two kinds the table allows count as a break. A row of any
+      // other shape is not one, and must not become a silent trading block.
+      if (brk && (brk.kind === 'break' || brk.kind === 'self_exclusion')) {
+        const until = brk.ends_at
+          ? `until ${new Date(brk.ends_at).toLocaleDateString('en-KE', { day: 'numeric', month: 'long', year: 'numeric' })}`
+          : 'indefinitely'
+        return NextResponse.json(
+          {
+            error:
+              brk.kind === 'self_exclusion'
+                ? 'You have self-excluded, so new positions are closed. You can still sell what you hold and withdraw your money.'
+                : `You are on a break ${until}, so new positions are closed. You can still sell what you hold and withdraw your money.`,
+            code: 'play_break_active',
+          },
+          { status: 403 },
+        )
+      }
+    }
+
     // FLAG_* environment overrides live in the app, not the database: pass the
     // ones that are set (an unset one leaves the stored value in charge)
     const envFlags: Record<string, boolean> = {}

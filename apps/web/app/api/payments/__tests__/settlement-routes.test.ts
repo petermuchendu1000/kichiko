@@ -26,6 +26,9 @@ const admin = createAdminClient as unknown as Mock
 const initiate = initiateDeposit as unknown as Mock
 const adminRpc = vi.fn()
 let settlement: Record<string, unknown> | null
+// Ruling I3: what active_play_break answers. Nobody is on a break unless a
+// test puts them on one.
+let playBreak: { data: unknown; error: unknown }
 
 const req = (url: string, body: unknown) =>
   new Request(url, { method: 'POST', body: JSON.stringify(body), headers: { 'content-type': 'application/json' } }) as unknown as NextRequest
@@ -41,10 +44,14 @@ function builder(table: string) {
 beforeEach(() => {
   vi.clearAllMocks()
   settlement = { country: 'UG', currency: 'UGX', wallet_id: 'w-ugx', locked: false }
+  playBreak = { data: null, error: null }
   const rpc = vi.fn((name: string) => {
     if (name === 'user_settlement') return Promise.resolve({ data: settlement ? [settlement] : [], error: null })
     if (name === 'get_my_profile') return { maybeSingle: async () => ({ data: { account_status: 'active' }, error: null }) }
-    return { maybeSingle: async () => ({ data: { account_status: 'active' }, error: null }) }
+    if (name === 'active_play_break') return { maybeSingle: async () => playBreak }
+    // An unnamed RPC answers with nothing. The previous fallback handed every
+    // caller a profile row, which made each new gate read as "condition met".
+    return { maybeSingle: async () => ({ data: null, error: null }) }
   })
   client.mockResolvedValue({
     auth: {
@@ -92,6 +99,31 @@ describe('POST /api/orders', () => {
     client.mockResolvedValueOnce({ auth: { getClaims: async () => ({ data: null, error: { message: 'no session' } }) } })
     const res = await ordersPOST(req('https://x/api/orders', ORDER))
     expect(res.status).toBe(401)
+    expect(adminRpc).not.toHaveBeenCalled()
+  })
+  // Ruling I3 / L.N. 112 Reg. 84: a break stops PLAY, not PAYOUT.
+  it('403 while a timed break is in force, and the order never reaches the book', async () => {
+    playBreak = { data: { kind: 'break', ends_at: '2027-01-12T00:00:00Z' }, error: null }
+    const res = await ordersPOST(req('https://x/api/orders', ORDER))
+    expect(res.status).toBe(403)
+    const body = await res.json()
+    expect(body.code).toBe('play_break_active')
+    // The message has to say what still works, or it reads as "your money is stuck".
+    expect(body.error).toContain('sell what you hold')
+    expect(adminRpc).not.toHaveBeenCalled()
+  })
+  it('a self-exclusion blocks a buy but NOT a sell: exiting a position stays open', async () => {
+    playBreak = { data: { kind: 'self_exclusion', ends_at: null }, error: null }
+    expect((await ordersPOST(req('https://x/api/orders', ORDER))).status).toBe(403)
+    const sell = await ordersPOST(req('https://x/api/orders', { ...ORDER, action: 'sell' }))
+    expect(sell.status).toBe(200)
+    expect(adminRpc.mock.calls.map((c) => c[0])).toEqual(['place_order_for'])
+  })
+  it('503 rather than 200 when the break cannot be checked: unverified is not "no break"', async () => {
+    playBreak = { data: null, error: { message: 'connection reset' } }
+    const res = await ordersPOST(req('https://x/api/orders', ORDER))
+    expect(res.status).toBe(503)
+    expect((await res.json()).code).toBe('play_break_unverified')
     expect(adminRpc).not.toHaveBeenCalled()
   })
   it('FLAG_* environment overrides are passed to the database', async () => {

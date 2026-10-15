@@ -11,6 +11,7 @@ import { CATEGORY_LABELS } from '@/types'
 import type { Outcome } from '@/lib/markets/outcomes'
 import { EntityAvatar } from '@/components/ui/entity-avatar'
 import { CategoryIcon, IconShare, IconLink, IconBookmark } from '@/components/ui/icons'
+import { ResolvedBanner } from './resolved-banner'
 
 interface MarketHeaderProps {
   market: Market
@@ -35,6 +36,17 @@ export function MarketHeader({ market, outcomes, isMulti }: MarketHeaderProps) {
   const category = CATEGORY_LABELS[market.category]
   const yesPercent = Math.round(market.yes_price * 100)
   const isResolved = market.status === 'resolved'
+  // Name the winner the way the reader knows it. A multi-outcome market
+  // settles to an option ("Morocco"), not to "YES" — which is what the old
+  // badge printed for every market regardless of shape.
+  const resolvedLabel = isResolved
+    ? (market.resolved_option_id
+        ? outcomes?.find((o) => o.id === market.resolved_option_id)?.label
+        : undefined) ??
+      (market.resolved_outcome
+        ? market.resolved_outcome.charAt(0).toUpperCase() + market.resolved_outcome.slice(1)
+        : null)
+    : null
   const badge = STATUS_BADGE[market.status]
   const showMulti = !!isMulti && !!outcomes && outcomes.length > 0
   const [saved, setSaved] = useState(false)
@@ -218,16 +230,20 @@ export function MarketHeader({ market, outcomes, isMulti }: MarketHeaderProps) {
               </span>
             )}
 
-            {isResolved && market.resolved_outcome && (
-              <span
-                className={`badge ${market.resolved_outcome === 'yes' ? 'badge-green' : 'badge-red'}`}
-              >
-                Resolved: {market.resolved_outcome.toUpperCase()}
-              </span>
-            )}
+            {/* The outcome used to live here as a badge the size of a
+                category chip. The single most important fact about a settled
+                market now gets the banner below instead (ruling C6). */}
           </div>
         </div>
       </div>
+      {isResolved && resolvedLabel && (
+        <ResolvedBanner
+          outcomeLabel={resolvedLabel}
+          resolvedAt={market.resolved_at}
+          resolutionSource={market.resolution_source}
+          className="mt-4"
+        />
+      )}
       {/* NOTE: the market description + provenance/resolution-source ("market
           info") used to live here, directly under the title. It pushed the
           actionable options (candidate board / order ticket) down and hurt

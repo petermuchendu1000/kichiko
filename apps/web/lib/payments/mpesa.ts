@@ -127,24 +127,10 @@ function getTimestamp(): string {
 }
 
 // Format phone number to 254XXXXXXXXX
-export function formatMpesaPhone(phone: string): string {
-  const cleaned = phone.replace(/\D/g, '')
-
-  if (cleaned.startsWith('254') && cleaned.length === 12) {
-    return cleaned
-  }
-  if (cleaned.startsWith('0') && cleaned.length === 10) {
-    return `254${cleaned.slice(1)}`
-  }
-  if (cleaned.startsWith('7') && cleaned.length === 9) {
-    return `254${cleaned}`
-  }
-  if (cleaned.startsWith('+254')) {
-    return cleaned.slice(1)
-  }
-
-  throw new Error(`Invalid M-Pesa phone number format: ${phone}`)
-}
+// Lives in ./verified-phones, which has no server-only imports so the
+// withdraw sheet can use it too. Re-exported here to keep call sites working.
+export { formatMpesaPhone } from './verified-phones'
+import { formatMpesaPhone } from './verified-phones'
 
 // Initiate STK Push (Lipa na M-Pesa Online)
 export async function initiateMpesaSTKPush({

@@ -1,7 +1,7 @@
 // AUTO-GENERATED from live Supabase schema. Do not edit by hand.
 // Regenerate with: python3 scripts/gen_supabase_types.py <DB_URL>
 //
-// Exception, 106: news_articles and market_news were added by hand, in this
+// Exception, 106 and 109: news_articles, market_news and play_breaks were added by hand, in this
 // file's own style, because the generator needs a direct Postgres connection
 // and the sandbox that introduced them could not open one. They match the
 // shapes the Supabase Management API reports for the live schema. The next
@@ -2011,6 +2011,30 @@ export type Database = {
           lang?: string
           published_at?: string
           ingested_at?: string
+        }
+        Relationships: []
+      }
+      play_breaks: {
+        Row: {
+          id: string
+          user_id: string
+          kind: 'break' | 'self_exclusion'
+          starts_at: string
+          ends_at: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          kind: 'break' | 'self_exclusion'
+          starts_at?: string
+          ends_at?: string | null
+          created_at?: string
+        }
+        // No Update in practice: RLS grants the owner INSERT and SELECT only,
+        // so a break cannot be shortened or cancelled (migration 109).
+        Update: {
+          ends_at?: string | null
         }
         Relationships: []
       }

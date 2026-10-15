@@ -960,3 +960,22 @@ main:focus, main:focus-visible { outline:none; }
   .admin-nav-link[data-active='true'] .admin-nav-icon { color: var(--green); }
   .admin-nav-icon { color: var(--text-muted); flex-shrink: 0; }
 }
+
+/* ---- iOS zoom guard (ruling G2) ------------------------------------------
+   Safari zooms the whole page when a text field under 16px takes focus, and
+   the person loses their place mid-form. The fields that matter are the
+   markets search (.input, 14px) and both money sheets' amount and phone
+   inputs; the sort and locale selects sit at 13px.
+
+   This lives OUTSIDE @layer and carries !important deliberately. The sizes
+   come from Tailwind utilities (`text-[13px]`), which resolve in a later
+   layer than any component rule, so a polite declaration loses — the first
+   attempt at this was written inside @layer components and did nothing.
+   Scoped to coarse pointers, so pointer devices keep the compact chrome. */
+@media (hover: none), (pointer: coarse) {
+  input:not([type='checkbox']):not([type='radio']):not([type='range']),
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}

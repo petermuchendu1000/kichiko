@@ -17,9 +17,21 @@
 // number you have paid in from" is the ordinary rule in mobile money for
 // exactly this reason.
 //
-// This module is pure. The query that feeds it lives with the caller so this
-// stays unit-testable without a database.
-import { formatMpesaPhone } from './mpesa'
+// This module is pure, and must stay that way: the withdraw sheet is a client
+// component, so a single import reaching `mpesa.ts` would pull
+// `lib/supabase/server` into the browser bundle and 500 every page. It owns
+// the normaliser for that reason; `mpesa.ts` imports it from here rather than
+// the other way round.
+
+/** Canonical 2547XXXXXXXX form, or throws if the number is not Kenyan. */
+export function formatMpesaPhone(phone: string): string {
+  const cleaned = phone.replace(/\D/g, '')
+  if (cleaned.startsWith('254') && cleaned.length === 12) return cleaned
+  if (cleaned.startsWith('0') && cleaned.length === 10) return `254${cleaned.slice(1)}`
+  if (cleaned.startsWith('7') && cleaned.length === 9) return `254${cleaned}`
+  if (cleaned.startsWith('+254')) return cleaned.slice(1)
+  throw new Error(`Invalid M-Pesa phone number format: ${phone}`)
+}
 
 /**
  * A comparison key for two renderings of the same number.

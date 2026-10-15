@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { LegalPage } from '@/components/content/legal-page'
+import { TakeABreak } from '@/components/account/take-a-break'
 
 export const metadata: Metadata = {
   title: 'Responsible Play',
@@ -22,11 +23,20 @@ export default function ResponsiblePlayPage() {
         <li><strong>Don&rsquo;t chase losses.</strong> Take breaks; step away when it stops being fun.</li>
       </ul>
 
-      <h2>Tools we offer</h2>
+      <h2>Take a break</h2>
       <p>
-        You can request limits or a cooling-off / self-exclusion period on your
-        account. Contact us via the <a href="/help">Help</a> page and we&rsquo;ll
-        set it up.
+        Stop yourself from opening new positions, straight away. You can still
+        sell what you hold and withdraw your money at any time &mdash; a break
+        stops play, not payouts.
+      </p>
+      <p>
+        A break cannot be shortened or cancelled once it starts. That is the
+        point of it.
+      </p>
+      <TakeABreak />
+      <p>
+        For deposit or loss limits, contact us via the <a href="/help">Help</a>{' '}
+        page while we finish building them.
       </p>
 
       <h2>Warning signs</h2>
