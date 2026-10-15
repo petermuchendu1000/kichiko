@@ -18,6 +18,7 @@ import {
   IconPercent, IconEye, IconMpesa, CategoryIcon,
 } from '@/components/ui/icons'
 import Link from 'next/link'
+import { cookies } from 'next/headers'
 
 // Live market data — render dynamically per request (no static prerender)
 export const dynamic = 'force-dynamic'
@@ -194,10 +195,21 @@ export default async function HomePage() {
     await getData()
 
   // Drives whether the explainer stack renders (see the comment at its wrapper).
-  // getUser() validates with the auth server rather than trusting a cookie.
-  const authClient = await createClient()
-  const { data: { user: currentUser } } = await authClient.auth.getUser()
-  const isSignedIn = !!currentUser
+  //
+  // Deliberately a COOKIE CHECK, not supabase.auth.getUser(). getUser() makes a
+  // round trip to the auth server on every render; measured here it took the
+  // landing page from ~5s to ~180s, and even a healthy round trip is latency
+  // added to an otherwise data-only page. Reading the cookie costs nothing.
+  //
+  // A cookie is spoofable and getUser() is not, which is exactly why this is
+  // safe HERE and nowhere else: the flag decides whether marketing copy renders.
+  // It gates no data, no permission and no mutation, so the worst a forged
+  // cookie achieves is hiding an explainer from the person who forged it. Any
+  // use that guards real access must call getUser().
+  const authCookies = await cookies()
+  const isSignedIn = authCookies
+    .getAll()
+    .some((c) => /^sb-.*-auth-token(\.\d+)?$/.test(c.name) && !!c.value)
 
   // Build the hero carousel items, pairing each market with its per-option
   // probability series. Markets missing a series are skipped so every slide
