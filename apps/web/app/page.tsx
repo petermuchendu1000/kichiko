@@ -382,7 +382,15 @@ export default async function HomePage() {
               </p>
               <div className="mt-8 card p-2">
                 {[
-                  { icon: <IconPercent size={18} />, t: 'The price is the chance', s: 'A “Yes” at KSh 65 means about a 65% chance.' },
+                  // Interpolated, NOT hardcoded. A share settles at $1, which is KSh
+                  // {sharePayoutKes} (~130) at the live rate — not KSh 100 — so a 65%
+                  // Yes costs ~KSh 84. This string still claimed "KSh 65 means a 65%
+                  // chance", which only holds at a KSh 100 payout, and contradicted the
+                  // two neighbouring blocks on this same page ("costs about KSh 84" and
+                  // "bought at 65% (about KSh 84) pays KSh 130"). The comment above
+                  // sharePayoutKes records that this copy was migrated off a hardcoded
+                  // "KSh 100"; this line was missed.
+                  { icon: <IconPercent size={18} />, t: 'The price is the chance', s: `A “Yes” costing about KSh ${exampleBuyKes} means about a 65% chance.` },
                   { icon: <IconTrendUp size={18} />, t: 'Set your own price', s: 'Buy from someone now, or place your own price and wait.' },
                   { icon: <IconShield size={18} />, t: 'The other side is a person', s: `You buy from and sell to other people, not us. We only take one small fee of ${platformFeePct}%.` },
                 ].map((r, i, a) => (

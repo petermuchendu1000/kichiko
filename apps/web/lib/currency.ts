@@ -141,34 +141,40 @@ export function convert(
 export function formatCurrency(
   amount: number,
   currency: CurrencyCode,
-  opts?: { compact?: boolean },
+  opts?: { compact?: boolean; decimals?: number },
 ): string {
   const meta = CURRENCY_META[currency] ?? CURRENCY_META.USD
+  // `decimals` overrides the currency's own precision for display only. It
+  // exists for glanceable price chips, where a share price of "KSh 33.75"
+  // claims sub-shilling accuracy that a market order does not have (the fill
+  // moves) and that M-Pesa cannot transact in. Callers handling real balances
+  // or receipts must omit it and keep meta.decimals.
+  const dp = opts?.decimals ?? meta.decimals
   // Our own symbol + a plain number for every local currency: Intl's en-KE
   // currency style renders KES as "Ksh", which put "KSh 500" and "Ksh 636.56"
   // on the same ticket. KSh / USh / TSh / FRw come from CURRENCY_META.
   if (currency !== 'USD') {
     try {
       const n = new Intl.NumberFormat(meta.locale, {
-        minimumFractionDigits: meta.decimals,
-        maximumFractionDigits: meta.decimals,
+        minimumFractionDigits: dp,
+        maximumFractionDigits: dp,
         notation: opts?.compact ? 'compact' : 'standard',
       }).format(amount)
       return amount < 0 ? `-${meta.symbol} ${n.replace(/^-/, '')}` : `${meta.symbol} ${n}`
     } catch {
-      return `${meta.symbol} ${amount.toLocaleString(undefined, { maximumFractionDigits: meta.decimals })}`
+      return `${meta.symbol} ${amount.toLocaleString(undefined, { maximumFractionDigits: dp })}`
     }
   }
   try {
     return new Intl.NumberFormat(meta.locale, {
       style: 'currency',
       currency,
-      minimumFractionDigits: meta.decimals,
-      maximumFractionDigits: meta.decimals,
+      minimumFractionDigits: dp,
+      maximumFractionDigits: dp,
       notation: opts?.compact ? 'compact' : 'standard',
     }).format(amount)
   } catch {
-    const n = amount.toLocaleString(undefined, { maximumFractionDigits: meta.decimals })
+    const n = amount.toLocaleString(undefined, { maximumFractionDigits: dp })
     return `${meta.symbol}${n}`
   }
 }

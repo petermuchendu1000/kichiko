@@ -9,6 +9,7 @@ import { OutcomesChart } from '@/components/markets/outcomes-chart.lazy'
 import { BtcLiveChart } from '@/components/markets/btc-live-chart.lazy'
 import { PmTicket } from '@/components/trading/pm-ticket'
 import { CandidateList } from '@/components/trading/candidate-list'
+import { buildRatesMap } from '@/lib/currency'
 import { MobileTradeBar } from '@/components/trading/mobile-trade-bar'
 import { MarketDrawer } from '@/components/trading/market-drawer'
 import { PositionSummary } from '@/components/trading/position-summary'
@@ -168,6 +169,16 @@ export default async function MarketPage({
 
   // Increment view count (fire-and-forget).
   const supabase = await createClient()
+
+  // Server-read FX so the outcome board's prices are correct on FIRST paint.
+  // Without this the client hook starts from the compiled bootstrap in
+  // lib/generated/fx-fallback.json — a snapshot taken 2026-07-28 at 129.49
+  // KES/USD — and the shilling prices tick when the live 129.81 map lands.
+  const { data: fxRows } = await supabase
+    .from('exchange_rates')
+    .select('from_currency, rate')
+    .eq('to_currency', 'USD')
+  const fxRates = buildRatesMap(fxRows ?? [])
   void supabase
     .from('markets')
     .update({ view_count: (market.view_count || 0) + 1 })
@@ -311,7 +322,7 @@ export default async function MarketPage({
           {/* Options / outcome board — PM renders the outcome rows AFTER the
               graph (graph first, options second). Verified live at 390px:
               chart footer ~634px, first outcome row ~687px. */}
-          {isMulti && <CandidateList market={market} options={options} independent={independent} clob={clob} />}
+          {isMulti && <CandidateList market={market} options={options} independent={independent} clob={clob} rates={fxRates} />}
 
           {/* Settlement / resolution — Rules / Market context tabs (main column
               for exact left-rail ordering: header → chart → rules → community). */}

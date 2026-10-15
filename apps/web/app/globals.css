@@ -284,7 +284,13 @@
   /* ---- Cards ---- */
   .card {
     background:var(--surface);
-    border:1px solid var(--hairline);
+    /* No border. --e1 already carries a 1px hairline RING at 6% (see the
+       Elevation block), so declaring a border here drew TWO 1px lines on every
+       card — measured on the market-detail ticket as border 1px #e6e8ea sitting
+       inside the ring rgba(10,12,16,.06). Polymarket never does both: across
+       their landing and a market page, border+ring co-occurred 0 times in 398
+       sized boxes (34 ring-only, 5 border-only, 224 flat). The ring IS the
+       border. */
     border-radius:var(--r-md);
     box-shadow:var(--e1);
   }

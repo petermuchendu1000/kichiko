@@ -19,8 +19,11 @@ import { EntityAvatar } from '@/components/ui/entity-avatar'
 import { OrderBookDrawer } from '@/components/trading/order-book-drawer'
 import { normalizeOutcomes, type Outcome } from '@/lib/markets/outcomes'
 import { formatVolume } from '@/lib/utils'
+import { formatCurrency, usdToLocal } from '@/lib/currency'
+import { useRates } from '@/hooks/use-rates'
 import { formatProbability } from '@/lib/format'
-import type { Market, MarketOption } from '@/types'
+import type { RatesMap } from '@/lib/currency'
+import type { CurrencyCode, Market, MarketOption } from '@/types'
 import {
   IconSort,
   IconSearch,
@@ -55,6 +58,8 @@ export function CandidateList({
   options,
   independent = false,
   clob = false,
+  currency = 'KES',
+  rates: ratesProp,
 }: {
   market: Market
   options?: MarketOption[]
@@ -62,6 +67,17 @@ export function CandidateList({
   independent?: boolean
   /** CLOB markets: per-candidate Buy Yes/Buy No + inline Order Book drawer. */
   clob?: boolean
+  /** Settlement currency for the buy-pill prices. Defaults to the product's
+   *  own default (see hooks/use-wallets.ts), so a signed-out visitor costs no
+   *  extra request to render a price. */
+  currency?: CurrencyCode
+  /** Server-read FX map. Supplying it makes the FIRST paint correct: without
+   *  it useRates() starts from the compiled bootstrap in
+   *  lib/generated/fx-fallback.json, which is a point-in-time snapshot
+   *  (129.49 KES/USD, generated 2026-07-28) and drifts from the live DB rate
+   *  (129.81). The prices then tick by a shilling when the live map arrives —
+   *  visible, and on a money surface not acceptable. */
+  rates?: RatesMap
 }) {
   const outcomes = useMemo(() => normalizeOutcomes(market, options), [market, options])
   const kindById = useMemo(() => {
@@ -180,9 +196,33 @@ export function CandidateList({
     }
   }
 
-  // PM parity: cents carry ONE decimal (e.g. 19.9¢ / 80.2¢) and a Yes/No pair
-  // reads as complements summing to 100.0¢ under our pick-one LMSR model.
-  const cents = (p: number) => formatProbability(p)
+  // Probability and PRICE are different quantities that happen to share a
+  // number, and this board was printing both as "%": a row read
+  // "26%  [Buy Yes 26%]  [Buy No 74%]", so nothing told a reader that the first
+  // 26 is a likelihood and the second is what the share costs.
+  //
+  // Polymarket separates them by unit — measured on their market page, a row is
+  // "63%  [Buy Yes 63¢]  [Buy No 38¢]", and across that page ¢ appears 7 times
+  // against % 23 times, never interchangeably. Their ¢ works because a share
+  // settles at $1 = 100¢.
+  //
+  // We go one better for this market. A share settles at $1, which is ~KSh 130,
+  // so the shilling price is what the buyer actually pays with M-Pesa — more
+  // directly actionable than a cent figure that first has to be multiplied by a
+  // dollar. It is also what this product already teaches on the landing page:
+  // "a Yes at 65% costs about KSh 84".
+  //
+  // (The helper this replaced was named `cents` and documented as emitting
+  // "19.9¢ / 80.2¢", but called formatProbability, which returns "26%". The
+  // name, the comment and the output disagreed three ways.)
+  // Server-provided map wins for the first paint; the hook keeps it fresh after.
+  const { rates: liveRates } = useRates()
+  const rates = ratesProp ?? liveRates
+  // Whole shillings: the sub-unit digits were false precision on a market
+  // order (the fill moves) and M-Pesa does not transact in cents. Yes and No
+  // still sum to one share's settlement (34 + 96 = KSh 130).
+  const priceLabel = (p: number) =>
+    formatCurrency(usdToLocal(p, currency, rates), currency, { decimals: 0 })
 
   return (
     <div className="overflow-hidden">
@@ -273,8 +313,8 @@ export function CandidateList({
           const kind = kindById.get(o.id)
           const isWinner = o.isWinner === true
           const isLoser = resolved && o.isWinner === false
-          const yesCents = cents(o.yesPrice ?? o.price)
-          const noCents = cents(o.noPrice ?? 1 - o.price)
+          const yesPrice = priceLabel(o.yesPrice ?? o.price)
+          const noPrice = priceLabel(o.noPrice ?? 1 - o.price)
 
           return (
             // PM card (measured on polymarket.com/event/world-cup-winner, iPhone 13):
@@ -356,19 +396,19 @@ export function CandidateList({
                   <button
                     type="button"
                     onClick={(e) => { e.stopPropagation(); choose(o, true, 'yes') }}
-                    aria-label={`Buy Yes on ${o.label} at ${yesCents}`}
+                    aria-label={`Buy Yes on ${o.label} at ${yesPrice}`}
                     className={`pill-side pill-yes flex-1 lg:w-[136px] lg:flex-none ${active && selectedSide === 'yes' ? 'armed' : ''}`}
                   >
-                    Buy Yes {yesCents}
+                    Buy Yes {yesPrice}
                   </button>
                   {independent || clob ? (
                     <button
                       type="button"
                       onClick={(e) => { e.stopPropagation(); choose(o, true, 'no') }}
-                      aria-label={`Buy No on ${o.label} at ${noCents}`}
+                      aria-label={`Buy No on ${o.label} at ${noPrice}`}
                       className={`pill-side pill-no flex-1 lg:w-[136px] lg:flex-none ${active && selectedSide === 'no' ? 'armed' : ''}`}
                     >
-                      Buy No {noCents}
+                      Buy No {noPrice}
                     </button>
                   ) : null}
                 </div>
