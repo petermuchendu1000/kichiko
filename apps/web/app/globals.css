@@ -327,9 +327,62 @@
      remaining row width. Auto-width, tinted at rest, solid fill on hover. */
   .mbtn {
     display:inline-flex; align-items:center; justify-content:center; gap:5px;
-    height:28px; padding:0 9px; border-radius:6px;
+    height:28px; padding:0 7px; border-radius:var(--r-xs);
     font-size:12.5px; font-weight:600; line-height:1; white-space:nowrap;
-    transition:background var(--dur), color var(--dur);
+    transition:background var(--dur) var(--ease-move), color var(--dur) var(--ease-move);
+  }
+
+  /* ---- Chip label <-> price swap -------------------------------------------
+     Measured on polymarket.com 2026-10: a card-row chip holds TWO absolutely
+     positioned spans on the same centre point — the action label at opacity 1
+     and the price at opacity 0 — and crossfades between them on row hover
+     (150ms). The chip keeps a fixed width either way, so the row never reflows.
+
+     We reproduce the crossfade and then fix what it leaves out. Hover is a
+     desktop-only input: on a phone their price is simply unreachable, and that
+     matters more for us than for them. So:
+       • pointer devices  -> crossfade on row hover (their behaviour)
+       • keyboard         -> the same reveal on :focus-visible, which theirs
+                             does not do, so the price is reachable by tab
+       • touch / no-hover -> no crossfade at all; label and price render side
+                             by side, permanently, because nothing can trigger
+                             a hover and a hidden price would be a dead feature
+     The grid stack is what lets the two states share one cell without the
+     absolute positioning their version needs. */
+  .mbtn-swap { display:grid; place-items:center; }
+  .mbtn-swap > * { grid-area:1 / 1; transition:opacity var(--dur) var(--ease-move); }
+  .mbtn-price { opacity:0; }
+  .mbtn-label { opacity:1; }
+
+  /* The trigger is the CARD, not the row. The card lays a full-bleed overlay
+     <Link> beneath its content for click-anywhere navigation, and the row's
+     label carries pointer-events:none, so a cursor over the label falls
+     through to that overlay and `.board-row:hover` never matches — measured,
+     the price stayed at opacity 0 under a real hover. Hovering the card is
+     unambiguous, and revealing every price in the card at once is arguably
+     better than one row at a time. */
+  @media (hover: hover) and (pointer: fine) {
+    .market-card:hover .mbtn-label,
+    .mbtn:focus-visible .mbtn-label { opacity:0; }
+    .market-card:hover .mbtn-price,
+    .mbtn:focus-visible .mbtn-price { opacity:1; }
+  }
+
+  /* No hover available: show both, side by side, always — and drop the
+     standalone probability, because the Yes chip's price IS that number and
+     printing it twice is the redundancy we just removed from the rest state.
+     Touch therefore reads "Label [Yes 78%] [No 22%]", pointer devices read
+     "Label 78% [Yes] [No]" and reveal the prices on hover. Neither repeats
+     itself; both can reach every number. */
+  @media (hover: none), (pointer: coarse) {
+    .mbtn-swap { display:inline-flex; align-items:center; gap:4px; }
+    .mbtn-price { opacity:1; }
+    .board-row-pct { display:none; }
+  }
+
+  /* Reduced motion keeps the swap but drops the fade. */
+  @media (prefers-reduced-motion: reduce) {
+    .mbtn-swap > * { transition:none; }
   }
   /* No `opacity` here: dimming the % on the tinted No chip dropped its contrast
      to 4.29:1 in dark mode (WCAG 2.1 AA needs 4.5:1 for this 12.5px bold text).

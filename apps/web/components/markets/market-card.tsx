@@ -185,7 +185,7 @@ function BoardRow({
   const noPct = 100 - pct
   return (
     <div
-      className="flex min-h-10 items-center justify-between gap-3 py-1.5"
+      className="board-row flex min-h-10 items-center justify-between gap-2 py-1.5"
       style={{ borderTop: borderTop ? '1px solid var(--hairline-soft)' : 'none' }}
     >
       <span className="pointer-events-none flex min-w-0 flex-1 items-center gap-2">
@@ -201,18 +201,24 @@ function BoardRow({
           fact twice — they are complements that always sum to 100 — in two
           tinted fills, which cost ~90px of row width and truncated most
           labels. One number, stated once, in the row's strongest weight. */}
-      <span className="flex flex-none items-center gap-2">
+      <span className="flex flex-none items-center gap-1.5">
         <span
-          className="pointer-events-none text-[14px] font-bold tabular-nums"
+          className="board-row-pct pointer-events-none text-[14px] font-bold tabular-nums"
           style={{ color: 'var(--text-primary)' }}
         >
           {pct}%
         </span>
         <Link href={sideHref('yes', option.id || undefined)} className="mbtn mbtn-yes pointer-events-auto" aria-label={`Buy ${yesLabel} on ${option.label} — ${pct}% chance`}>
-          {yesLabel}
+          <span className="mbtn-swap" aria-hidden>
+            <span className="mbtn-label">{yesLabel}</span>
+            <span className="mbtn-price tabular-nums">{pct}%</span>
+          </span>
         </Link>
         <Link href={sideHref('no', option.id || undefined)} className="mbtn mbtn-no pointer-events-auto" aria-label={`Buy ${noLabel} on ${option.label} — ${noPct}% chance`}>
-          {noLabel}
+          <span className="mbtn-swap" aria-hidden>
+            <span className="mbtn-label">{noLabel}</span>
+            <span className="mbtn-price tabular-nums">{noPct}%</span>
+          </span>
         </Link>
       </span>
     </div>
