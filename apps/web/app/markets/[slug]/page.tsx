@@ -19,6 +19,8 @@ import { MarketRules } from '@/components/markets/market-rules'
 import { MarketFaq } from '@/components/markets/market-faq'
 import { buildMarketFaq } from '@/lib/markets/faq'
 import { RelatedMarkets } from '@/components/markets/related-markets'
+import { MarketNews } from '@/components/markets/market-news'
+import { getMarketNews } from '@/lib/markets/market-news'
 import { ContractSpecs } from '@/components/markets/contract-specs'
 import { MarketContextNews } from '@/components/markets/market-context-news'
 import { getMarketContextNews } from '@/lib/markets/context-news-data'
@@ -179,6 +181,10 @@ export default async function MarketPage({
     .select('from_currency, rate')
     .eq('to_currency', 'USD')
   const fxRates = buildRatesMap(fxRows ?? [])
+
+  // Headlines the ingest-news cron attached to this market. Public-read, so
+  // this renders for signed-out visitors too.
+  const marketNews = await getMarketNews(supabase, market.id)
   void supabase
     .from('markets')
     .update({ view_count: (market.view_count || 0) + 1 })
@@ -391,6 +397,8 @@ export default async function MarketPage({
                 the sticky wrapper so the rail pins as one unit; a sticky sibling
                 followed by a static sibling would overlap on scroll. The richer
                 contract-specs grid lives only in the mobile column under Rules. */}
+            <MarketNews items={marketNews} />
+
             <RelatedMarkets marketId={market.id} category={market.category} />
           </div>
         </div>

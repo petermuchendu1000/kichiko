@@ -1,5 +1,11 @@
 // AUTO-GENERATED from live Supabase schema. Do not edit by hand.
 // Regenerate with: python3 scripts/gen_supabase_types.py <DB_URL>
+//
+// Exception, 106: news_articles and market_news were added by hand, in this
+// file's own style, because the generator needs a direct Postgres connection
+// and the sandbox that introduced them could not open one. They match the
+// shapes the Supabase Management API reports for the live schema. The next
+// full regeneration supersedes this note.
 
 export type Json =
   | string | number | boolean | null
@@ -1969,6 +1975,66 @@ export type Database = {
           handled_at?: string | null
           created_at?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      news_articles: {
+        Row: {
+          id: string
+          url: string
+          title: string
+          source: string
+          source_domain: string
+          image_url: string | null
+          lang: string
+          published_at: string
+          ingested_at: string
+        }
+        Insert: {
+          id?: string
+          url: string
+          title: string
+          source: string
+          source_domain: string
+          image_url?: string | null
+          lang?: string
+          published_at: string
+          ingested_at?: string
+        }
+        Update: {
+          id?: string
+          url?: string
+          title?: string
+          source?: string
+          source_domain?: string
+          image_url?: string | null
+          lang?: string
+          published_at?: string
+          ingested_at?: string
+        }
+        Relationships: []
+      }
+      market_news: {
+        Row: {
+          market_id: string
+          article_id: string
+          score: number
+          matched_terms: string[]
+          created_at: string
+        }
+        Insert: {
+          market_id: string
+          article_id: string
+          score: number
+          matched_terms?: string[]
+          created_at?: string
+        }
+        Update: {
+          market_id?: string
+          article_id?: string
+          score?: number
+          matched_terms?: string[]
+          created_at?: string
         }
         Relationships: []
       }
