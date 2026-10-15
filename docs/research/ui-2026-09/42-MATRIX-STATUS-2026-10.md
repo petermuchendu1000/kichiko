@@ -89,21 +89,28 @@ rules do not. Those criteria need rewriting before a source can exist, which is
 a Reg. 45(6) question rather than data entry. `NO_INDEPENDENT_SOURCE` lists each
 with its reason.
 
-### 2.2 A3 — money figures below the 7:1 floor
+### 2.2 A3 — CLOSED 2026-10-15
 
-Measured on the market page, 390×844 light: **16 money figures between 4.56:1
-and 5.23:1** `[M]`. All clear WCAG AA for text (4.5:1); all sit under the
-stricter money floor this project set ([32] rule 6: money ≥7:1 and ΔY ≥0.80).
+Measured 390×844 in both themes, fixed, re-measured:
 
-| element | ratio |
-|---|---|
-| Buy Yes price | 4.56:1 |
-| Buy No price | 5.14:1 |
-| Volume | 5.23:1 |
+| route | light before | light after | dark after |
+|---|---|---|---|
+| `/` | 10 | **0** | 1 |
+| `/markets` | — | **0** | **0** |
+| `/markets/[slug]` | 16 | **0** | **0** |
 
-No plain-text failures remain, which matches the 0.4% figure in the original
-audit. The gate the matrix asks for — extending `a11y-contrast.test.ts` to every
-token pair used in the ticket — is still unwritten.
+The yes/no text tokens were AA-tuned and reached 4.56:1 and 5.14:1 on their
+**composited** tints — the tints render at 15% and 9% alpha, so the raw token
+values flatter the real figure. The new values are the darkest shades of the
+same hues clearing 7:1 on the composited background.
+
+Volume was the other half, and the matrix had caught it in September: *"volume
+`#aeb4bc` on white 2.09"*. Still there a month later — the hero's largest
+number and the hardest to read on the site. At 2.09:1 the word "Vol" and the
+close date beside it were failing plain WCAG AA, not just the money rule.
+
+One left: a 12px probability at **6.65:1** in dark against the 7:1 aspiration.
+Clear of AA; not worth moving a token for 0.35.
 
 ### 2.3 Section D — closed
 
@@ -188,12 +195,45 @@ than a defect fix; Polymarket and Kalshi both submit directly, and the money
 block it would re-show is already on the ticket (D5). Worth a deliberate call,
 not a silent one.
 
-### 2.5 Remaining
+### 2.5 Sections A and B — worked
 
-A6 (focus rings + pixel-diff gate), A8 (2px spacing scale), A11 (JS budget —
-we lead 9–10× but are over our own budget), A12 ("Breaking" → "New"), B1 (fixed
-180px mobile cards; hero must not auto-rotate — **WCAG 2.2.2**), B3, C4, C6,
-F2, F3, G2, and sections I and J.
+| # | Ruling | Outcome |
+|---|---|---|
+| A3 | Money ≥7:1 | **done** — §2.2 |
+| A4 C4 | 44px targets; 48px for money | **done + gated** |
+| A6 | Visible focus ring | ring already existed; **gate added** |
+| A8 | 2px spacing scale | **already satisfied** by Tailwind's default |
+| A11 | JS budget | **measured**: 102 kB shared (budget 130); `/markets/[slug]` 257 kB first load, over |
+| A12 B5 | Drop the attention framing | **done** |
+| B1 | Hero must not auto-rotate (**WCAG 2.2.2**) | **done** — stop control |
+| B3 | No chips under 44px | **done** via A4 |
+| C6 | Resolved state | not measurable — no resolved market exists |
+
+**B1.** The hero paused on hover and focus and honoured
+`prefers-reduced-motion` — more care than most carousels — but none of that is
+2.2.2's mechanism: no hover on a phone, nothing advertises it, and an OS
+setting is not an in-page control. There is now a 44×44 stop toggle, and it is
+sticky.
+
+The first attempt looked right and did nothing: `aria-pressed` flipped and the
+label changed while the carousel stayed frozen, because the control sits inside
+a region carrying `onFocusCapture={pause}` — pressing it pauses via focus, and
+focus then stays on the button so the matching blur never arrives. Verified
+afterwards with a MutationObserver rather than by sampling.
+
+**A12/B5.** The labels were selling rather than describing. The bottom-nav tab
+read "Breaking" under a flame while routing to `?sort=newest`; the hero rail's
+"Breaking News" is `movers.map()` and was about to collide with the real
+journalism now on market pages. Now "New", "Biggest moves", "Most traded" —
+every sub-label was already accurate.
+
+**A11.** Measured on a clean production build. The remaining gap is one route,
+and splitting the ticket and chart is a piece of work in its own right.
+
+### 2.6 Remaining
+
+C6 (needs a resolved market), **F2/F3** (blocked on the same missing phone
+verification as E2's second half), G2, and sections I and J.
 
 Of those, **B1's auto-rotating hero is the only outright WCAG failure left**
 (2.2.2 Pause, Stop, Hide), and **F2/F3** share the blocker that stops E2's
