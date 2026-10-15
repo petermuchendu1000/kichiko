@@ -26,6 +26,20 @@ export interface HeroActivityItem {
 
 const PER_MARKET = 6
 
+/**
+ * How recent a trade or comment must be to count as "activity".
+ *
+ * The hero feed loops its rows to suggest continuous market activity, so
+ * whatever it is given reads as happening NOW. Measured against this database
+ * on 2026-10-15 the newest market_activity row was 2026-08-13 — 63 days old —
+ * and the newest comment 81 days old, which the hero was presenting on an
+ * endless loop as live social proof. Stale activity is worse than none on a
+ * prediction market: it tells a visitor the market is dead while claiming the
+ * opposite. Past this window the feed yields nothing and the hero renders
+ * without it, which is also the shape Polymarket's hero uses.
+ */
+export const MAX_AGE_DAYS = 7
+
 export async function getSpotlightActivity(
   supabase: SupabaseClient<any, any, any>,
   marketIds: string[],
@@ -101,11 +115,20 @@ export async function getSpotlightActivity(
     })
   }
 
-  // Merge newest-first and cap per market.
+  // Merge newest-first, drop anything past the staleness window, cap per
+  // market. A market left with no fresh items is removed entirely so the hero
+  // renders without a feed rather than with an empty panel.
+  const cutoff = Date.now() - MAX_AGE_DAYS * 24 * 60 * 60 * 1000
   for (const id of Object.keys(out)) {
-    out[id] = out[id]
+    const fresh = out[id]
+      .filter((it) => {
+        const t = new Date(it.at).getTime()
+        return Number.isFinite(t) && t >= cutoff
+      })
       .sort((a, b) => new Date(b.at).getTime() - new Date(a.at).getTime())
       .slice(0, PER_MARKET)
+    if (fresh.length > 0) out[id] = fresh
+    else delete out[id]
   }
   return out
 }

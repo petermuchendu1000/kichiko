@@ -6,6 +6,7 @@
 // map and the hero simply renders without the comment strip.
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { HeroComment } from '@/components/layout/hero-section'
+import { MAX_AGE_DAYS } from './spotlight-activity'
 
 const PER_MARKET = 2
 
@@ -39,9 +40,18 @@ export async function getSpotlightComments(
     }
   }
 
+  // Same staleness window as the activity feed, and for the same reason. The
+  // hero falls back to these comments when there is no fresh trade activity,
+  // and renders them under an "Activity" heading with NO timestamp (HeroComment
+  // carries none), so an 81-day-old comment reads as something that just
+  // happened. Filter here so the fallback yields nothing rather than hiding the
+  // age of what it shows.
+  const cutoff = Date.now() - MAX_AGE_DAYS * 24 * 60 * 60 * 1000
   for (const r of rows) {
     const content = (r.content ?? '').trim()
     if (!content) continue
+    const at = new Date(r.created_at).getTime()
+    if (!Number.isFinite(at) || at < cutoff) continue
     const list = out[r.market_id] ?? (out[r.market_id] = [])
     if (list.length >= PER_MARKET) continue
     list.push({

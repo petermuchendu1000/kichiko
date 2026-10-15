@@ -310,7 +310,15 @@ function Spotlight({ market, series, comments, activity }: HeroMarket & { commen
               </>
             ) : (
               <div className="grid grid-cols-2 gap-x-3 gap-y-1 lg:flex lg:flex-col lg:gap-2">
-                {ranked.slice(0, 4).map((o) => (
+                {/* 6, not 4. The left column used to end at four outcomes and
+                    hand the remaining height to the looping activity feed; with
+                    that feed now recency-gated the column was left with 176px
+                    of measured dead space against a chart-driven card height.
+                    Six rows spend that space on actual outcome data and, for a
+                    five-outcome market like the 2027 presidency, retire the
+                    "+1 more outcomes" line entirely. Markets with more than six
+                    still collapse the remainder into that line. */}
+                {ranked.slice(0, 6).map((o) => (
                   // Each outcome is its OWN tappable target (mobile + desktop):
                   // deep-links into the market with this candidate pre-armed in
                   // the order ticket (?option=<id>, validated server-side). z-10
@@ -338,9 +346,9 @@ function Spotlight({ market, series, comments, activity }: HeroMarket & { commen
                     </span>
                   </Link>
                 ))}
-                {ranked.length > 4 && (
+                {ranked.length > 6 && (
                   <span className="col-span-2 mt-0.5 text-[12px] font-medium lg:mt-1 lg:text-[13px]" style={{ color: 'var(--text-3)' }}>
-                    +{ranked.length - 4} more outcomes
+                    +{ranked.length - 6} more outcomes
                   </span>
                 )}
               </div>
@@ -350,12 +358,21 @@ function Spotlight({ market, series, comments, activity }: HeroMarket & { commen
                 flex-1 slot so the looping (duplicated) feed fills the remaining
                 left-column height WITHOUT dictating the card height; the chart on
                 the right is the height driver, keeping both columns balanced with
-                no dead space. Removed on mobile to keep the card compact. */}
-            <div className="relative hidden min-h-0 flex-1 lg:block">
-              <div className="absolute inset-0 flex flex-col">
-                <TraderActivity items={feed} max={series.binary ? 7 : 6} />
+                no dead space. Removed on mobile to keep the card compact.
+
+                Guarded on a non-empty feed: TraderActivity renders null when it
+                has nothing fresh to show, but this flex-1 wrapper still claimed
+                its slot and left a 143px empty block in the left column. The
+                feed is now recency-filtered at source (see MAX_AGE_DAYS in
+                lib/markets/spotlight-activity.ts), so an empty feed is the
+                normal case for a quiet market, not an edge case. */}
+            {feed.length > 0 && (
+              <div className="relative hidden min-h-0 flex-1 lg:block">
+                <div className="absolute inset-0 flex flex-col">
+                  <TraderActivity items={feed} max={series.binary ? 7 : 6} />
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
           {/* chart + legend */}
