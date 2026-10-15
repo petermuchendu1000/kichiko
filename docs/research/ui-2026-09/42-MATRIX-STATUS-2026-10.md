@@ -10,6 +10,13 @@ than assumed, and what is still open. It exists because the October work drifted
 into fixing whatever was tripped over — covers, news, the footer — instead of
 walking the matrix. The matrix is the plan; this is its status.
 
+Sections A–E, G, I and J have now been worked end to end. Of the three claims
+this file still carries that are NOT measured against the running app, each
+says so where it appears: C6's banner (no market has resolved anywhere), I4's
+telephone outreach (a commitment the business has not made), and the rulings
+marked `L`, which are taken from the execution log and have not been
+re-measured since.
+
 **Evidence grades.** `M` measured by me on 2026-10-15 against the running app ·
 `V` verified in code · `L` taken from the execution log, not re-measured ·
 `DB` queried against production.
@@ -38,6 +45,12 @@ walking the matrix. The matrix is the plan; this is its status.
 | D8 D11 | pressed state, auth round-trip | already satisfied | V |
 | E2 E3 E5 | read-back, M-Pesa code, flow symmetry | **done** — see §2.4 | M, DB |
 | E4 | explicit pending state | already satisfied | V |
+| G2 | 16px inputs, no iOS zoom | **done** — §2.6 | M |
+| C6 | Resolved banner: outcome, date, what decided it | **built**, not observable — §2.6 | V |
+| I1 I3 | RG tools reachable; self-exclusion in 2 taps | **done** — §2.7 | DB + M |
+| I2 | Deposit and loss limits, 24h to loosen | **done** — §2.7 | DB + M |
+| I4 | Call list for the heaviest losers | **script**; the calls are not committed | DB |
+| J1 J2 J3 | 404, error boundary, in-app help | **KEEP confirmed + gated** — §2.8 | M |
 
 ### A4, in detail
 
@@ -225,7 +238,6 @@ not a silent one.
 | A12 B5 | Drop the attention framing | **done** |
 | B1 | Hero must not auto-rotate (**WCAG 2.2.2**) | **done** — stop control |
 | B3 | No chips under 44px | **done** via A4 |
-| C6 | Resolved state | not measurable — no resolved market exists |
 
 **B1.** The hero paused on hover and focus and honoured
 `prefers-reduced-motion` — more care than most carousels — but none of that is
@@ -248,9 +260,126 @@ every sub-label was already accurate.
 **A11.** Measured on a clean production build. The remaining gap is one route,
 and splitting the ticket and chart is a piece of work in its own right.
 
-### 2.6 Remaining
+### 2.6 C6 and G2 — worked
 
-C6 (needs a resolved market to exist), G2, and sections I and J.
+| # | Ruling | Outcome |
+|---|---|---|
+| C6 | Resolved state | **built**, unit-tested; **not observable** — no resolved market exists anywhere |
+| G2 | 16px inputs (no iOS zoom) | **done** — measured 16px on every probed route |
+
+**C6.** A settled market said `Resolved: YES` in a badge the size of a category
+chip, beside the volume: the one fact that decides whether someone's money came
+back was styled as metadata. It is now a status banner carrying the outcome,
+the date it resolved, and what decided it — the last two are things neither
+incumbent shows, and Reg. 45(6)/(8) require both the independent mechanism and
+the records of it. Kalshi's version is the warning: its side panel still read
+"To be determined" beside a full-time score.
+
+All 38 markets are active, so the banner cannot be exercised in a browser
+without writing a fake outcome into a real-money ledger. The date logic is
+unit-tested; the banner itself is unverified by measurement and says so here.
+
+**G2.** Every text input and select was 13–15px, under the 16px below which
+Safari zooms the viewport on focus — and leaves it zoomed, so the next tap
+lands somewhere else. The first fix was silently ineffective: inside
+`@layer components` the rule lost to the Tailwind `text-[13px]` utilities on
+the elements themselves. It sits outside the layer with `!important` and is
+measured at 16px.
+
+### 2.7 Section I — responsible play
+
+| # | Ruling | Outcome |
+|---|---|---|
+| I1 | RG tools exist and are reachable | **done** — limits and break on `/legal/responsible-play` |
+| I2 | Limits as the default path, free text, asymmetric change | **done** — migration 110 |
+| I3 | Self-exclusion in ≤2 taps, immediate | **done** — migration 109 |
+| I4 | Human outreach to the heaviest losers | **list built**; the calling is an operational commitment, not made here |
+
+**What was there before.** Two sentences. "Contact us via the Help page and
+we'll set it up" for a break, and "contact us … while we finish building them"
+for limits. An email, a wait, and a human, for the two controls Reg. 84 says
+must be immediate and no harder to reach than the things that take money.
+
+**I3.** Four lengths, two taps, in force at once. A break cannot be shortened
+or cancelled: `play_breaks` grants the owner INSERT and SELECT and nothing
+else, and the route has no DELETE or PATCH. A cooling-off that can be
+cancelled in the moment of wanting to play is not a cooling-off. It stops
+**play, never payout** — buying and depositing are blocked; selling and
+withdrawing stay open, because trapping someone's money at the moment they ask
+to stop is the opposite of what the regulation is for.
+
+**I2.** Lowering a limit binds immediately; raising one, or removing it, waits
+24 hours and must then be confirmed again, and any new request for that limit
+drops a pending raise. The amount is free text: a ladder of presets makes the
+operator's convenient numbers the easy answer.
+
+The loss limit is **not** a cap on realised P&L, and the distinction is the
+whole ruling. Our markets settle weeks or months out, so a realised-loss cap
+would not notice someone staking everything on a Monday until the market
+resolved — a protection in name and an ornament in effect. It counts money out
+and not back in the window (buys − sells − payouts), which is realised loss
+plus the cost of open positions: the most the person can be down, counting
+every open position as if it lost. It binds at placement.
+
+Both gates, and the break gate, moved **inside `place_order_for`**. A check one
+round trip away from the wallet debit lets two orders sent together both pass a
+limit only one should; inside, it shares the transaction — and it restores
+migration 090's finding L1, one round trip per order, which the first cut of
+I3 had broken.
+
+Three defects were found by testing the first cut, and all three are recorded
+in `supabase/migrations/110_play_limits.sql`: limits ordered only by
+`effective_at` returned an arbitrary row when two requests shared a transaction
+timestamp; `REVOKE … FROM PUBLIC` left Supabase's default grants intact, so any
+signed-in user could execute the SECURITY DEFINER functions that take a
+`p_user_id` and read another user's figures; and a confirmation message named a
+clock time in server UTC to users spread over UTC+2 and UTC+3.
+
+**I4.** `scripts/ops/responsible/outreach_candidates.py` ranks the window's
+heaviest net losers, excluding anyone already on a break, and prints
+identifiers only unless `--with-contact` is passed. Jonsson et al. (2020) is
+the strongest evidence in [31] — ~30% lower losses at twelve months, d = 0.44 —
+and it came from a telephone conversation, which is why this script stops at
+the list. Making the calls is a commitment the business has not yet made, and
+this document should not pretend otherwise.
+
+### 2.8 Section J — verified, and three defects it found
+
+| # | Ruling | Outcome |
+|---|---|---|
+| J1 | 404 | **KEEP confirmed + gated** — real 404s, two ≥44px ways out, noindex/follow |
+| J2 | Error boundary | **KEEP confirmed** — retry refetches the RSC payload, digest shown |
+| J3 | In-app help centre | **KEEP confirmed + scanned** |
+
+KEEP is a claim like any other, and no gate had ever scanned these pages. The
+scan found three live defects, none of them cosmetic:
+
+* `/help` served the "See the events" primary button in **green-700 on the blue
+  primary fill — 1.19:1**, an invisible label on the page people reach when
+  they are already stuck. The legal-page layout coloured every descendant link,
+  buttons included.
+* The home page carried a **critical** `aria-required-children`: B1's new
+  stop-rotation button sat inside the `role="tablist"`, which may contain only
+  tabs.
+* The chart placeholder's label was gray-400 on its gray-100 fill — 2.3:1.
+
+And two gates were themselves wrong, which is worse than a page being wrong.
+`focus-visible` read the computed outline at t+0 and reported a ring that was
+real but **animated** (0px at t+0, 2px at t+120, via `transition-all`);
+`target-size` was right and had been failing — the comment Like buttons were
+39×44, because the coarse-pointer rule set a minimum height and no minimum
+width.
+
+Both are fixed on both sides: the gates measure correctly, and the three
+focusable controls that eased everything now ease only colour.
+
+### 2.9 Remaining
+
+F2/F3 (below); A11's one over-budget route (`/markets/[slug]`, 257 kB against
+a 130 kB budget — splitting the ticket and the chart is work in its own
+right); H2's decision on an opt-in accuracy board to replace the profit
+leaderboard H1 removed; and I4's calls, which are a commitment rather than a
+commit.
 
 **F2/F3 — a correction.** These were recorded as sharing E2's phone blocker.
 That was wrong, and phone verification does not move them. F2 is a per-country
@@ -264,9 +393,14 @@ Both are the product decision recorded as D4 in
 waiting on a dependency. A DOB field is trivial; deciding to block existing
 depositors is not.
 
-Of those, **B1's auto-rotating hero is the only outright WCAG failure left**
-(2.2.2 Pause, Stop, Hide), and **F2/F3** share the blocker that stops E2's
-second half: no verified phone, no date of birth, no KYC before deposit.
+**No outright WCAG failure is known to be open.** B1's auto-rotating hero
+(2.2.2 Pause, Stop, Hide) was the last one, and the three found while
+verifying section J are fixed. That claim is only as good as its gates: axe
+now scans the shell pages, the 44px rule is enforced on both axes, and the
+focus gate no longer mistakes an animated ring for a missing one. E2's second
+half and **F2/F3** remain, and share a blocker that is a product decision, not
+a dependency: no date of birth is captured anywhere, and nothing stops an
+unverified user funding an account.
 
 ---
 
