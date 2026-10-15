@@ -422,11 +422,20 @@ function Spotlight({ market, series, comments, activity }: HeroMarket & { commen
             watermark inside the chart (parity with pro charting tools). */}
         <div
           className="mt-auto flex items-center justify-between gap-3 border-t pt-3"
-          style={{ borderColor: 'var(--hairline-soft)', color: 'var(--ink-300)' }}
+          // --ink-300 (#AEB4BC) is 2.09:1 on this card: the whole footer row
+          // — "Vol", the close date, the byline — failed WCAG AA, not just
+          // the figure. --text-3 is the AA-tuned muted token (4.8:1).
+          style={{ borderColor: 'var(--hairline-soft)', color: 'var(--text-3)' }}
         >
           <div className="flex items-center gap-3">
+            {/* The money figure takes --text, not the row's --ink-300.
+                Measured 2.09:1 on this card — below WCAG AA's 4.5, let alone
+                ruling A3's 7:1 floor for money, and the single lowest
+                contrast on the site. 40-ELEMENT-MATRIX recorded this exact
+                value in September ("volume #aeb4bc on white 2.09"); it is the
+                hero's largest number and it was the hardest to read. */}
             <span className="font-medium" style={{ fontSize: 13, letterSpacing: '-0.1px' }}>
-              {fmtVol(market.total_volume_usd ?? 0)} Vol
+              <span style={{ color: 'var(--text)' }}>{fmtVol(market.total_volume_usd ?? 0)}</span> Vol
             </span>
             {/* Primary CTA — jumps into the market's trade panel. z-10 so it wins
                 over the card's full-bleed overlay link. */}
@@ -571,7 +580,7 @@ function HotTopics({ topics }: { topics: Market[] }) {
               <span className="w-4 flex-none text-center text-[12px] font-semibold" style={{ color: 'var(--text-3)' }}>{i + 1}</span>
               <span className="min-w-0 flex-1 truncate text-[13px] font-medium" style={{ color: 'var(--text)' }}>{m.title}</span>
               <span className="flex flex-none items-center gap-1 text-[12px] font-semibold" style={{ color: 'var(--text-2)' }}>
-                {fmtVol(m.volume_24h_usd ?? 0)} today
+                <span style={{ color: 'var(--text)' }}>{fmtVol(m.volume_24h_usd ?? 0)}</span> today
                 <IconFire size={13} style={{ color: 'var(--warn)' }} />
               </span>
             </Link>

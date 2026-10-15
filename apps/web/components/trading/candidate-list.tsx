@@ -374,9 +374,11 @@ export function CandidateList({
                   <p className="truncate pr-3 text-base font-semibold leading-normal text-text-primary">
                     {o.label}
                   </p>
+                  {/* A3: the KSh figure takes the 7:1 money floor
+                      (text-muted measured 5.23:1); "Vol." stays quiet. */}
                   {o.volumeUsd > 0 && (
                     <span className="whitespace-nowrap text-xs font-normal text-text-muted">
-                      {formatVolume(o.volumeUsd)} Vol.
+                      <span className="text-text-primary">{formatVolume(o.volumeUsd)}</span> Vol.
                     </span>
                   )}
                 </div>

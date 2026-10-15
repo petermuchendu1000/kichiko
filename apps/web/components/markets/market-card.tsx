@@ -358,7 +358,12 @@ export function MarketCard({
             )
           ) : (
             <span>
-              <span className="uppercase tabular-nums" style={{ color: 'var(--text-secondary)' }}>
+              {/* Ruling A3: a KSh figure is a money figure, so it takes the
+                  7:1 floor rather than AA's 4.5. --text-secondary measured
+                  5.23:1 here. Volume is context rather than a number anyone
+                  transacts on, but the reason for the floor is sunlight, and
+                  this is the figure people squint at on a board. */}
+              <span className="uppercase tabular-nums" style={{ color: 'var(--text)' }}>
                 {volShort(market.total_volume_usd)}
               </span>{' '}
               Vol.

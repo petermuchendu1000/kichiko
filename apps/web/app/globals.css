@@ -28,8 +28,15 @@
     --brass-600:#B57E22; --brass-500:#D9A036; --brass-100:#F7ECD4;
 
     /* ---- Market semantics (desaturated — never neon) ---- */
-    --yes:#30A159; --yes-700:#1F7A44; --yes-tint:#ECF9F1;
-    --no:#E23939;  --no-700:#C61D1D;  --no-tint:#FCEBEB;
+    /* --yes-700/--no-700 are the TEXT colours on their tints, and the tint is
+       where money sits: the Buy pills print "KSh 34" on it. Ruling A3 puts the
+       floor for a money figure at 7:1, not AA's 4.5. Measured on the composited
+       tint (#E0F1E6 / #FCEDED, not the raw token — the tints render at 15% and
+       9% alpha), the previous values reached 4.56:1 and 5.14:1. These are the
+       darkest shades of the same hues that clear 7:1, so the palette keeps its
+       character and the numbers become legible in sunlight. */
+    --yes:#30A159; --yes-700:#175A32; --yes-tint:#ECF9F1;
+    --no:#E23939;  --no-700:#9E1717;  --no-tint:#FCEBEB;
     /* Accessible SOLID buy fills — the single source of truth for a filled
        green/red control with WHITE text. White on base --yes/--no fails WCAG
        AA (3.3:1 / 4.3:1); these darker shades clear it (Yes 5.35:1, No 5.84:1)
@@ -165,7 +172,9 @@
     /* a11y (WCAG 2.1 AA >=4.5:1): lighten semantic text colors on dark surfaces.
        Light-mode --yes-700/#177C54, --no-700/#B23446, --pip-500/#2B50E4 only reach
        ~3:1 as text on the dark palette; these dark values clear 4.5:1 everywhere. */
-    --yes-700:#3FBE8A; --no-700:#EF8092; --pip-text:#8FB0FA;
+    /* Dark already sat at 6.85:1 / 7.02:1 on its composited tints, so only
+       the green needed a nudge to clear the 7:1 money floor. */
+    --yes-700:#42C08D; --no-700:#EF8092; --pip-text:#8FB0FA;
     /* Dark: a black ring is invisible on a dark canvas, so the hairline flips
        to a low-alpha WHITE ring and the blurs stay black to keep the lift. */
     --ring-hairline:0 0 0 1px rgba(255,255,255,.08);
@@ -539,6 +548,11 @@
     .tab-pill { min-height:44px; }
     /* Open / Resolved / All segmented control (32px). */
     .status-toggle { min-height:44px; min-width:44px; display:inline-flex; align-items:center; justify-content:center; }
+    /* Money commits get 48px, not 44 (rulings A4 and C4): a mis-tap on a Buy
+       costs a position, not a scroll, and Polymarket's own desktop row
+       buttons are 48. .btn-lg and .cta-yes/.cta-no are already 48 at every
+       size; the board's Buy pills were the one money control still at 44. */
+    .pill-side { min-height:48px; }
   }
 
   /* ---- Inputs ---- */

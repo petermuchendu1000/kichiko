@@ -85,7 +85,7 @@ export function MoversRail({ movers, hotTopics, seriesByMarket, optionSeriesByMa
                       <span className="block truncate text-[13px] font-semibold" style={{ color: 'var(--text)' }}>{market.title}</span>
                       <span className="mt-0.5 flex items-center gap-1.5 text-[11px]" style={{ color: 'var(--text-3)' }}>
                         <CategoryIcon category={market.category} size={11} />
-                        {fmtVol(market.total_volume_usd ?? 0)} Vol
+                        <span style={{ color: 'var(--text)' }}>{fmtVol(market.total_volume_usd ?? 0)}</span> Vol
                       </span>
                     </span>
                     {series && series.points.length > 1 && (
@@ -121,7 +121,7 @@ export function MoversRail({ movers, hotTopics, seriesByMarket, optionSeriesByMa
                       <span className="block truncate text-[13px] font-semibold" style={{ color: 'var(--text)' }}>{market.title}</span>
                       <span className="mt-0.5 flex items-center gap-1.5 text-[11px]" style={{ color: 'var(--text-3)' }}>
                         <CategoryIcon category={market.category} size={11} />
-                        {fmtVol(market.volume_24h_usd ?? 0)} · 24h
+                        <span style={{ color: 'var(--text)' }}>{fmtVol(market.volume_24h_usd ?? 0)}</span> · 24h
                       </span>
                     </span>
                     {market.resolution_type !== 'multiple_choice' && (

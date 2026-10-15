@@ -127,7 +127,7 @@ export function MarketRules({
               href={safeResolutionSource}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-3 inline-flex min-h-11 items-center gap-1.5 text-xs font-medium text-pip-500 hover:underline"
+              className="mt-3 inline-flex min-h-11 items-center gap-1.5 text-xs font-medium text-pip-text hover:underline"
             >
               <IconExternalLink size={13} />
               Resolution source{sourceName ? `: ${sourceName}` : ''}
