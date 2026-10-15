@@ -1,0 +1,30 @@
+[
+  {
+    "label": "1H",
+    "error": "TimeoutError: locator.click: Timeout 4000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('button:text-is(\"1H\"), [role"
+  },
+  {
+    "label": "1D",
+    "error": "TimeoutError: locator.click: Timeout 4000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('button:text-is(\"1D\"), [role"
+  },
+  {
+    "label": "1W",
+    "error": "TimeoutError: locator.click: Timeout 4000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('button:text-is(\"1W\"), [role"
+  },
+  {
+    "label": "1M",
+    "error": "TimeoutError: locator.click: Timeout 4000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('button:text-is(\"1M\"), [role"
+  },
+  {
+    "label": "ALL",
+    "active": {
+      "color": "lab(15.4544 -0.764295 -4.69404)",
+      "bg": "rgba(0, 0, 0, 0)",
+      "fontWeight": "600",
+      "radius": "9.2px",
+      "shadow": "none"
+    },
+    "ariaSelected": "true",
+    "dataState": "active"
+  }
+]
