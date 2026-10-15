@@ -61,7 +61,14 @@ from urllib.parse import urljoin, urlparse
 import requests
 from PIL import Image
 
-UA = {"User-Agent": "KichikoBot/1.0 (https://kichiko.app; media-ingest; contact support@kichiko.app)"}
+# Identifies the project and carries a contact URL, in the conventional
+# "compatible" form. The shape is not cosmetic: safaricom.co.ke sits behind
+# CloudFront, which 403s any User-Agent that does not begin "Mozilla/" and any
+# that contains the substring "Bot" — "KichikoBot/1.0 (...)" was refused, so
+# the masthead logo was unreachable and the market fell back to a 48x34
+# favicon. This still says exactly who is calling and where to complain; it
+# does not impersonate a browser vendor or another crawler.
+UA = {"User-Agent": "Mozilla/5.0 (compatible; Kichiko/1.0; +https://kichiko.app; media-ingest; support@kichiko.app)"}
 BUCKET = "entity-media"
 CANVAS = 256
 
@@ -114,6 +121,20 @@ COMPANY_WIKI: dict[str, str] = {
     "whatsapp.com": "WhatsApp",
     "kra.go.ke": "Kenya Revenue Authority",
 }
+
+# Entities whose own site is a better source than their Wikipedia article.
+#
+# A Wikipedia infobox holds whatever best illustrates the subject, which for an
+# airline is a photograph of an aircraft: Kenya Airways resolved to a picture of
+# a plane against a sky, opaque and detailed, which at the card's 38px icon is a
+# muddy blue rectangle rather than a mark. The airline publishes its wordmark as
+# a true vector (`kq-coloured.svg`), so for this entity the site wins.
+#
+# A curated exception rather than a photograph detector: the obvious signals do
+# not separate a photo from a legitimate detailed emblem — the Kenya Airways
+# photo carries 6,649 colours against 14,673 in Parliament's coat of arms — so a
+# heuristic would have put 26 correct covers at risk to fix one.
+SITE_FIRST: set[str] = {"kenya-airways.com"}
 
 # Categories where the market is about the PROCESS, not any one candidate, so
 # the administering body belongs on the cover. The candidates keep their faces
@@ -223,7 +244,8 @@ def target_entity(m: dict) -> tuple[str, dict] | None:
 
     # Specific subject already set: keep it, re-resolve from its own reference.
     if kind == "company" and ref:
-        return f"company:{ref}", {"name": ref, "wiki": COMPANY_WIKI.get(ref), "domain": ref}
+        return f"company:{ref}", {"name": ref, "wiki": COMPANY_WIKI.get(ref),
+                                  "domain": ref, "site_first": ref in SITE_FIRST}
     if kind == "person" and ref:
         return f"person:{ref}", {"name": ref, "wiki": ref, "domain": None}
     return None
@@ -571,6 +593,11 @@ def resolve(org: dict) -> tuple[bytes, str] | None:
             else f"{label} artwork empty"
         )
         return None
+
+    if org.get("site_first") and org.get("domain"):
+        out = gate(site_logo_image(org["domain"]), "og:image")
+        if out:
+            return out, "og:image"
 
     if org.get("wiki"):
         out = gate(wiki_image(org["wiki"]), "wikipedia")

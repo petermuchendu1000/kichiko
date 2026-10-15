@@ -113,6 +113,22 @@ SVG sources are rasterised at 1024px when `cairosvg` is importable, and skipped
 with a stated reason when it is not. Kenya Airways publishes its wordmark as
 `kq-coloured.svg`, a true vector, against a 32×32 favicon.
 
+**A source must plausibly *be* the subject's mark.** Ranking candidates was not
+enough: with nothing better available the sort still returned its least bad
+option, so Safaricom's cover became a plain red *decrease* triangle lifted from
+a Wikipedia infobox — large, clean, vector, and depicting nothing. A file is
+now considered only if its name says `logo` or names the subject, and infobox
+status glyphs are filtered by name. Declining is the right outcome: the next
+source down found Safaricom's real vector wordmark.
+
+**The User-Agent shape is load-bearing.** `safaricom.co.ke` sits behind
+CloudFront, which 403s any User-Agent that does not begin `Mozilla/` *and* any
+containing the substring `Bot`. `KichikoBot/1.0 (…)` was refused, which is why
+the masthead was unreachable and the market fell back to a 48×34 favicon. The
+header is now `Mozilla/5.0 (compatible; Kichiko/1.0; +https://kichiko.app; …)`
+— the conventional compatible form, still naming the caller and a contact
+address, impersonating neither a browser vendor nor another crawler.
+
 **The quality gate** (`good_enough`) judges the artwork, not the canvas it
 arrived on: a source whose trimmed artwork is under `MIN_SOURCE_PX` (56px) is
 rejected rather than upscaled into blur. This is what stops the pipeline from
@@ -210,6 +226,36 @@ The one market still on the flag is *Nationwide Gen-Z protest in H2 2026?*, and
 that is the right answer rather than a miss: an election is run by the IEBC and
 inflation is reported by KNBS, but no institution holds a spontaneous protest.
 The subject really is the country.
+
+### The audit that `failed=0` did not replace
+
+Every cover was rendered onto one contact sheet and looked at, because the
+pipeline reported complete success while two covers were wrong. Both passed
+every automated check:
+
+- **Safaricom was a plain red triangle** — a Wikipedia infobox *decrease*
+  arrow. Large, clean, vector; the size gate is exactly the wrong instrument
+  for it.
+- **Kenya Airways was a photograph of an aircraft.** A Wikipedia infobox holds
+  whatever best illustrates the subject, which for an airline is a plane
+  against a sky. Opaque and detailed, it reduces at 38px to a muddy blue
+  rectangle.
+
+No heuristic was added for the second. The obvious signals do not separate a
+photograph from a legitimate detailed emblem — the aircraft photo carries 6,649
+colours against **14,673** in Parliament's coat of arms — so a detector would
+have risked 26 correct covers to repair one. `SITE_FIRST` names the exception
+instead, and the airline's own vector wordmark is used.
+
+The sheet is reproducible from the database; a cover count of `failed=0` is
+evidence the pipeline ran, not that the artwork is right.
+
+### Known weak
+
+*Kenyan wins 2026 Berlin Marathon?* resolves to **SCC**, the logo of SCC
+Events, who do organise the race. It is not wrong, but three letters no Kenyan
+reader associates with the Berlin Marathon is a poor mark. The event's own
+branding would be better and is not reliably fetchable.
 
 ### Still open
 
