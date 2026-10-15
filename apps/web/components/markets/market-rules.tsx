@@ -16,6 +16,7 @@ import { formatDistanceToNow, format } from 'date-fns'
 import { IconShield, IconInfo, IconExternalLink } from '@/components/ui/icons'
 import { TraderNameLink } from '@/components/ui/trader-link'
 import { safeHttpUrl } from '@/lib/security/sanitize'
+import { resolutionSourceName } from '@/lib/markets/source-name'
 
 type TabKey = 'rules' | 'context'
 
@@ -78,6 +79,8 @@ export function MarketRules({
   // Only treat the resolution source as a clickable link when it is a valid
   // http/https URL — blocks javascript:/data: and other XSS-prone schemes.
   const safeResolutionSource = safeHttpUrl(resolutionSource)
+  // Names the authority so it survives a link that will not open.
+  const sourceName = resolutionSourceName(resolutionSource)
   const tabs: { key: TabKey; label: string; icon: React.ReactNode }[] = [
     { key: 'rules', label: 'Rules', icon: <IconShield size={13} /> },
     { key: 'context', label: 'Market Context', icon: <IconInfo size={13} /> },
@@ -124,13 +127,15 @@ export function MarketRules({
               href={safeResolutionSource}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-pip-500 hover:underline"
+              className="mt-3 inline-flex min-h-11 items-center gap-1.5 text-xs font-medium text-pip-500 hover:underline"
             >
-              <IconExternalLink size={13} /> Resolution source
+              <IconExternalLink size={13} />
+              Resolution source{sourceName ? `: ${sourceName}` : ''}
             </a>
           ) : resolutionSource ? (
-            <span className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-text-muted">
-              <IconExternalLink size={13} /> Resolution source
+            <span className="mt-3 inline-flex min-h-11 items-center gap-1.5 text-xs font-medium text-text-muted">
+              <IconExternalLink size={13} />
+              Resolution source{sourceName ? `: ${sourceName}` : ''}
             </span>
           ) : null}
         </div>
