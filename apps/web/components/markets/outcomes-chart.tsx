@@ -99,7 +99,26 @@ export function OutcomesChart({ options, data, volumeUsd, closesAt, colorMap, sh
       .filter((t) => Number.isFinite(t))
     const usable = (ms: number | null) => {
       if (ms === null) return true                       // ALL always offered
-      return times.filter((t) => t >= now - ms).length >= 2
+      // WAS: `times.filter((t) => t >= now - ms).length >= 2` — a range was
+      // offered only when two ticks fell INSIDE it.
+      //
+      // Measured 2026-10-16 on /markets/ke-2027-president: price_history stops
+      // in late July (nothing writes it but the CLOB matching path, and nothing
+      // has traded since), so 1H/6H/1D/1W/1M each held zero ticks, only ALL
+      // survived, "ALL alone needs no tab row" fired, and the market chart
+      // rendered NO range control at all against Polymarket's 1H·6H·1D·1W·1M·ALL.
+      //
+      // The comment above diagnoses it correctly — an empty 1H panel "reads as
+      // the price vanished" — and then reaches for the wrong remedy. The price
+      // does not vanish. A market that last traded in July is still worth 46%
+      // today; the honest 1D view is a flat line saying "nothing moved today",
+      // which is exactly what migration 112 established for the trader value
+      // chart a few hours ago. Same defect, same shape, second surface.
+      //
+      // So a range is offered whenever a price is KNOWN at its end — which,
+      // for a trailing window, is whenever the series has any tick at all. The
+      // carry-forward that makes this true is in `chartData` below.
+      return times.length >= 1
     }
     const base = compactTimeframes ? TIMEFRAMES.filter((t) => t.key !== '6H') : TIMEFRAMES
     const shown = base.filter((t) => usable(t.ms))
@@ -154,9 +173,42 @@ export function OutcomesChart({ options, data, volumeUsd, closesAt, colorMap, sh
     }
     const tf = TIMEFRAMES.find((t) => t.key === timeframe)
     if (!tf?.ms) return { chartData: allRows, isSeeded: false }
-    const cutoff = Date.now() - tf.ms
-    const filtered = allRows.filter((r) => new Date(r.time as string).getTime() >= cutoff)
-    return { chartData: filtered.length >= 2 ? filtered : allRows.slice(-2), isSeeded: false }
+
+    // THE WINDOW IS THE WINDOW
+    //
+    // This used to be `filtered.length >= 2 ? filtered : allRows.slice(-2)`.
+    // The fallback is the defect the hidden tab row was masking: with nothing
+    // recorded since July, choosing 1D handed back the last two points of the
+    // series — two JULY samples — and drew them under a label that says "1D".
+    // A reader would have taken a three-month-old segment for today's trading.
+    //
+    // A price is a stock, not a flow: it persists between trades. So the
+    // window is anchored at both ends with the last value known at that
+    // instant, and whatever really traded inside it sits in between. A quiet
+    // day is then a flat line at today's price — true, and legible as "nothing
+    // moved" — instead of either an empty panel or a mislabelled one.
+    const nowMs = Date.now()
+    const cutoff = nowMs - tf.ms
+    const at = (r: Record<string, number | string>) => new Date(r.time as string).getTime()
+    const inside = allRows.filter((r) => at(r) >= cutoff)
+    const before = allRows.filter((r) => at(r) < cutoff).at(-1)
+
+    /** A synthetic row at `t`, carrying `src`'s prices (live price as a floor). */
+    const carry = (t: number, src?: Record<string, number | string>) => {
+      const row: Record<string, number | string> = { time: new Date(t).toISOString() }
+      for (const o of ranked) {
+        const v = src?.[o.id]
+        row[o.id] = typeof v === 'number' ? v : o.price
+      }
+      return row
+    }
+
+    // Only anchor the start when a price was actually known then. A window
+    // reaching back past the market's first tick must not invent one.
+    const rows = before ? [carry(cutoff, before), ...inside] : [...inside]
+    const latest = inside.at(-1) ?? before
+    if (latest) rows.push(carry(nowMs, latest))
+    return { chartData: rows.length >= 2 ? rows : allRows, isSeeded: false }
   }, [allRows, ranked, timeframe])
 
   const optionWord = ranked.length === 1 ? 'option' : 'options'
