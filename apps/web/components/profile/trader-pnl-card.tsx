@@ -34,7 +34,7 @@ import { useEffect, useMemo, useRef, useState, useCallback } from 'react'
 import { getBrowserClient } from '@/lib/supabase/client-lazy'
 import { formatUSD } from '@/lib/utils'
 import { ShareChartModal } from './share-chart-modal'
-import { PNL_RANGES, availableRanges, defaultRange, type PnlRange } from '@/lib/markets/pnl-range'
+import { PNL_RANGES, lastChangeMs, defaultRange, type PnlRange } from '@/lib/markets/pnl-range'
 
 type Range = PnlRange
 const RANGES = PNL_RANGES
@@ -44,7 +44,7 @@ const RANGE_LABEL: Record<Range, string> = {
   '1Y': 'Past Year', YTD: 'Year to Date', ALL: 'All Time',
 }
 
-interface Point { bucket: string; value_usd: number }
+interface Point { bucket: string; value_usd: number; cost_usd?: number }
 
 // --- date formatting for the hover tooltip (matches PM's compact style) ---
 function fmtTooltipDate(iso: string, range: Range): string {
@@ -56,33 +56,63 @@ function fmtTooltipDate(iso: string, range: Range): string {
   return d.toLocaleString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })
 }
 
-interface ChartProps { points: Point[]; positive: boolean; range: Range }
+interface ChartProps { points: Point[]; positive: boolean; range: Range; cost: number | null }
 
-function PnlChart({ points, positive, range }: ChartProps) {
-  const W = 720
-  const H = 148
-  const PAD_T = 10
-  const PAD_B = 10
+const H = 148
+const PAD_T = 10
+const PAD_B = 10
+
+function PnlChart({ points, positive, range, cost }: ChartProps) {
   const svgRef = useRef<SVGSVGElement | null>(null)
+  const boxRef = useRef<HTMLDivElement | null>(null)
   const uid = useMemo(() => Math.random().toString(36).slice(2, 8), [])
   const [hover, setHover] = useState<number | null>(null)
+
+  // THE VIEWBOX IS MEASURED, NOT ASSUMED
+  //
+  // This was `viewBox="0 0 720 148"` with `preserveAspectRatio="none"`. The SVG
+  // renders at the card's width, so the horizontal axis was squashed while the
+  // vertical was not: measured 2026-10-16, 448 CSS px against 720 viewBox units
+  // on desktop (0.62x) and 327 against 720 in a narrow column (0.45x).
+  //
+  // `vector-effect="non-scaling-stroke"` already kept the line 2px thick, so
+  // this never showed up as a weight problem. What it distorted was SLOPE:
+  // every rise and fall was drawn 1.6x steeper than the data on desktop and
+  // 2.2x steeper on mobile. The same account's chart looked ~36% more violent
+  // on a phone than on a laptop. On a surface where the gradient of a line is
+  // the whole message — "how fast is my money moving" — a viewport-dependent
+  // exaggeration is not a cosmetic bug.
+  //
+  // So the viewBox tracks the element's real width and the aspect is 1:1.
+  const [W, setW] = useState(448)
+  useEffect(() => {
+    const el = boxRef.current
+    if (!el || typeof ResizeObserver === 'undefined') return
+    const ro = new ResizeObserver(([e]) => {
+      const w = Math.round(e.contentRect.width)
+      if (w > 0) setW(w)
+    })
+    ro.observe(el)
+    return () => ro.disconnect()
+    // The box only exists once there is a chart to draw: on the empty-state
+    // path boxRef is null, so the observer has to be re-attached when the
+    // series arrives rather than only on mount.
+  }, [points.length])
 
   const geom = useMemo(() => {
     if (points.length < 2) return null
     const ys = points.map((p) => Number(p.value_usd))
-    const min = Math.min(...ys)
-    const max = Math.max(...ys)
-    const span = max - min || 1
+    // The cost line shares the domain, so it cannot sit outside the plot.
+    const lo = cost === null ? Math.min(...ys) : Math.min(...ys, cost)
+    const hi = cost === null ? Math.max(...ys) : Math.max(...ys, cost)
+    const span = hi - lo || 1
+    const yOf = (v: number) => H - PAD_B - ((v - lo) / span) * (H - PAD_T - PAD_B)
     const stepX = W / (points.length - 1)
-    const coords = ys.map((y, i) => {
-      const x = i * stepX
-      const yy = H - PAD_B - ((y - min) / span) * (H - PAD_T - PAD_B)
-      return [x, yy] as const
-    })
+    const coords = ys.map((y, i) => [i * stepX, yOf(y)] as const)
     const line = coords.map(([x, y], i) => `${i === 0 ? 'M' : 'L'}${x.toFixed(2)},${y.toFixed(2)}`).join(' ')
     const area = `${line} L${W},${H} L0,${H} Z`
-    return { coords, line, area }
-  }, [points])
+    return { coords, line, area, costY: cost === null ? null : yOf(cost) }
+  }, [points, cost, W])
 
   const onMove = useCallback((clientX: number) => {
     const svg = svgRef.current
@@ -114,12 +144,11 @@ function PnlChart({ points, positive, range }: ChartProps) {
   const hoverVal = hover !== null ? Number(points[hover].value_usd) : null
 
   return (
-    <div className="relative w-full select-none">
+    <div ref={boxRef} className="relative w-full select-none">
       <svg
         ref={svgRef}
         viewBox={`0 0 ${W} ${H}`}
         className="h-[148px] w-full touch-none"
-        preserveAspectRatio="none"
         role="img"
         aria-label="Profit and loss trend"
         onMouseMove={(e) => onMove(e.clientX)}
@@ -139,6 +168,37 @@ function PnlChart({ points, positive, range }: ChartProps) {
           </linearGradient>
         </defs>
         <path d={geom.area} fill={`url(#area-${uid})`} />
+        {/* COST-BASIS REFERENCE
+            Polymarket does not draw this, and it is the one place where not
+            copying them is the better call. Their chart heading is
+            "Profit/Loss", so their zero line is implicit in the quantity. Ours
+            plots position VALUE — honestly, since migration 112 — and a value
+            curve alone cannot answer the only question anyone opens this card
+            to ask: am I up? The dashed line is what the book cost
+            (avg_entry_price x shares, as of the same bucket, returned by the
+            same RPC). The gap between the curve and the line IS the unrealized
+            P&L, readable without the card having to claim a total it cannot
+            yet compute — realized P&L on closed positions is not in this
+            series, and labelling the chart "Profit/Loss" before it is would be
+            the same overclaim the headline used to make.
+
+            NO OPACITY. It shipped at 0.65 for half an hour and measured
+            2.63:1 against the light surface — under WCAG 1.4.11's 3:1 for a
+            graphical object that carries meaning, and this one carries the
+            only reference point on the card. Exactly the defect the trade
+            ticker's fade had (2.55:1), reintroduced three weeks later in a
+            different file. Subordination is the 1px weight and the dash
+            pattern, never the alpha: at full strength this is 5.2:1 light and
+            6.6:1 dark, and still plainly secondary to a 2px solid gradient.
+            Gated in e2e/pnl-card.spec.ts so it cannot come back a third
+            time. */}
+        {geom.costY !== null && (
+          <line
+            x1={0} x2={W} y1={geom.costY} y2={geom.costY}
+            stroke="var(--text-muted)" strokeWidth={1} strokeDasharray="3 3"
+            vectorEffect="non-scaling-stroke"
+          />
+        )}
         <path
           d={geom.line}
           fill="none"
@@ -176,43 +236,35 @@ export function TraderPnlCard({ userId, profitLoss, userName, profileUrl }: { us
   // The Supabase browser client loads on first use, not during render: it is
   // ~66 kB of this route's first load and nothing here needs it before an
   // effect or a handler runs. Ruling A11; see lib/supabase/client-lazy.ts.
-  // ---- which ranges actually have anything to draw -----------------------
+  // ---- which range to open on --------------------------------------------
   //
-  // The default used to be a hard-coded '1D', which is Polymarket's — and
-  // Polymarket's markets trade continuously, so for them 1D always has data.
-  // Ours are long-dated and trade in bursts: measured 2026-10-16 on a real
-  // account, 1D, 1W and 1M each returned ZERO points while 1Y, YTD and ALL
-  // returned 620. The default was parity borrowed without the condition that
-  // makes it right, and the result was a chart that opened empty for almost
-  // everyone.
+  // Not "which ranges have data" — since migration 112 they all do, because
+  // the series carries the last known price forward across empty buckets the
+  // way Polymarket's own does (measured: 95% of their all-time points repeat
+  // the previous value). Asked the old question the card would answer "1D" for
+  // a dormant account and open on a dead straight line.
   //
-  // A fixed longer default (1Y, say) fixes the empty box and breaks the other
-  // case: someone who traded this morning would land on a year in which today
-  // is one pixel. So the default is DERIVED — the shortest range that contains
-  // data. An active account still opens on 1D; a quiet one falls through to
-  // 1M, 1Y or ALL. No constant to be wrong about.
-  //
-  // This is the rule the MARKET chart already uses ("a range is offered only
-  // when it actually contains something to draw", outcomes-chart.tsx). It was
-  // written there and never applied here — the third time in this pass a fix
-  // has landed on one of two twin surfaces.
+  // The question that survives LOCF is where the MOVEMENT is: the shortest
+  // range containing the last change in value. See lib/markets/pnl-range.ts.
   const [all, setAll] = useState<Point[] | null>(null)
   const [range, setRange] = useState<Range | null>(null)
   const [points, setPoints] = useState<Point[] | null>(null)
   const [shareOpen, setShareOpen] = useState(false)
 
-  // Data runs contiguously backwards from the newest point, so "does this
-  // window hold anything" is just "is the newest point inside it". Counting
-  // points would be wrong for the short ranges: ALL is bucketed daily, so a
-  // trader active today shows ONE point in the last 24h here while the 1D
-  // query — bucketed hourly — would return a full series.
-  const newest = all && all.length > 0 ? new Date(all[all.length - 1].bucket).getTime() : null
-  const available = useMemo(() => availableRanges(newest), [newest])
+  const changeMs = useMemo(() => lastChangeMs(all), [all])
+  // An empty book has no all-time series at all; that is what hides the tabs.
+  const hasHistory = all !== null && all.length > 0
 
   // The headline is the end of the series on screen. Absence is rendered as
   // absence: with nothing to measure there is no number, rather than a zero
   // that reads as "you are flat".
   const latest = points && points.length > 0 ? Number(points[points.length - 1].value_usd) : null
+  // What the book on screen cost, as of the same bucket. Drives the dashed
+  // reference line and the "vs cost" line under the headline.
+  const cost =
+    points && points.length > 0 && points[points.length - 1].cost_usd != null
+      ? Number(points[points.length - 1].cost_usd)
+      : null
   // Direction over the window, for the caret. One point is a level, not a
   // move, so it gets no direction at all.
   const delta =
@@ -241,8 +293,8 @@ export function TraderPnlCard({ userId, profitLoss, userName, profileUrl }: { us
   // Pick the default once the span is known: the shortest range with data.
   useEffect(() => {
     if (range !== null || all === null) return
-    setRange(defaultRange(available))
-  }, [all, available, range])
+    setRange(defaultRange(changeMs))
+  }, [all, changeMs, range])
 
   useEffect(() => {
     if (range === null || all === null) return
@@ -263,7 +315,22 @@ export function TraderPnlCard({ userId, profitLoss, userName, profileUrl }: { us
     return () => { alive = false }
   }, [userId, range, all])
 
-  const positive = delta === null ? true : delta >= 0
+  // THE CARET MEANS "AM I UP ON THIS BOOK", NOT "DID THE WINDOW RISE"
+  //
+  // It used to be `delta >= 0` — the change across the selected window. The
+  // first capture after the cost basis landed showed the problem immediately:
+  // a green ▲ next to "−KSh 272,854 (6.4%) vs cost". Both statements were
+  // true (the book rose over YTD and is still under water against what it
+  // cost) and putting two different signed quantities side by side, one as a
+  // glyph and one as text, reads as a contradiction.
+  //
+  // One signed thing per card. The caret agrees with the only signed number
+  // on it, and the window's direction is already the shape of the line — the
+  // chart does not need a second, smaller chart to explain it.
+  //
+  // Falls back to the window delta when there is no cost basis to compare to,
+  // which is the only reading still available in that case.
+  const positive = cost !== null && cost > 0 ? (latest ?? 0) >= cost : delta === null ? true : delta >= 0
 
   return (
     <div className="card p-5">
@@ -282,34 +349,31 @@ export function TraderPnlCard({ userId, profitLoss, userName, profileUrl }: { us
           role="group"
           aria-label="Chart range"
           className="flex items-center gap-0.5"
-          hidden={available.size === 0}
+          hidden={!hasHistory}
         >
-          {RANGES.map((r) => {
-            const has = available.has(r)
-            return (
+          {/* No range is disabled any more. Before migration 112 a range with
+              no datapoint in it drew nothing, so offering the tab was offering
+              a dead end. Under last-observation-carried-forward every window
+              has a value, and a flat line is a true answer — "your book did
+              not move this week" — so greying the tab out would be hiding a
+              finding rather than withholding a non-finding. */}
+          {RANGES.map((r) => (
             <button
               key={r}
               type="button"
               onClick={() => setRange(r)}
-              disabled={!has}
               aria-pressed={range === r}
-              title={has ? undefined : `No activity in the last ${r === 'YTD' ? 'year to date' : r}`}
               // min-h-11/min-w-11 = 44px (ruling A4). These rendered 30x28 —
               // the same 28px the market chart's range tabs carried before A4
               // was gated there. The fix landed on one chart and not the
               // other, because only one of them was ever measured.
               className={`inline-flex min-h-11 min-w-11 items-center justify-center rounded-[9.2px] px-2 text-xs font-semibold uppercase tracking-wide transition-colors ${
-                !has
-                  ? 'cursor-not-allowed text-text-muted opacity-40'
-                  : range === r
-                    ? 'text-pip-text'
-                    : 'text-text-muted hover:text-text-secondary'
+                range === r ? 'text-pip-text' : 'text-text-muted hover:text-text-secondary'
               }`}
             >
               {r}
             </button>
-            )
-          })}
+          ))}
         </div>
       </div>
 
@@ -322,7 +386,7 @@ export function TraderPnlCard({ userId, profitLoss, userName, profileUrl }: { us
             // Not the mono face: this is a sentence, and setting prose in the
             // numeric font makes an explanation look like a reading.
             <span className="font-sans text-[20px] font-semibold text-text-muted">
-              {available.size === 0 ? 'No open positions' : 'No activity in this range'}
+              {hasHistory ? 'No activity in this range' : 'No open positions'}
             </span>
           ) : (
             formatUSD(latest)
@@ -339,8 +403,31 @@ export function TraderPnlCard({ userId, profitLoss, userName, profileUrl }: { us
           </svg>
         </button>
       </div>
+      {/* Range label, and \u2014 once the series carries a cost basis \u2014 what the
+          book is worth AGAINST what it cost.
+
+          The card is headed "Position value" and the headline is a level. A
+          level on its own is unreadable: KSh 30,730 is excellent or dreadful
+          depending entirely on a number that used to live nowhere on this
+          page. Migration 112 returns cost_usd in the same series, so the
+          comparison costs no extra query and cannot drift from the curve.
+
+          Stated as "vs cost", not as profit: this is the OPEN book only.
+          Realized P&L on positions already closed is not in this series, so
+          calling it profit would repeat the overclaim the old headline made
+          when it printed a lifetime figure under a range caption. */}
       <p className="mb-3 mt-0.5 text-xs font-medium text-text-muted">
         {range ? RANGE_LABEL[range] : '\u00A0'}
+        {latest !== null && cost !== null && cost > 0 && (
+          <>
+            {' \u00B7 '}
+            <span className={latest >= cost ? 'text-yes' : 'text-no'}>
+              {latest >= cost ? '+' : '\u2212'}
+              {formatUSD(Math.abs(latest - cost))} ({((Math.abs(latest - cost) / cost) * 100).toFixed(1)}%)
+            </span>{' '}
+            vs cost
+          </>
+        )}
       </p>
 
       <ShareChartModal
@@ -357,7 +444,7 @@ export function TraderPnlCard({ userId, profitLoss, userName, profileUrl }: { us
       {points === null || range === null ? (
         <div className="skeleton h-[148px] w-full rounded-md" />
       ) : (
-        <PnlChart points={points} positive={positive} range={range} />
+        <PnlChart points={points} positive={positive} range={range} cost={cost} />
       )}
     </div>
   )

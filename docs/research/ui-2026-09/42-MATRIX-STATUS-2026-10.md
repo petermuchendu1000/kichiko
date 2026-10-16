@@ -921,6 +921,191 @@ unverified user funding an account.
 
 ---
 
+### 2.17 The value chart was plotting the cron's schedule — 2026-10-16
+
+The owner looked at the card §2.16 had just fixed and asked a better question
+than the one I had answered: *how does the graph populate — is this how PM
+does it? Look at the height.* The default range was now right. Nothing about
+what the line was made of had ever been checked.
+
+**What the picture was showing.** A flat baseline with vertical hairlines
+rising out of it, and the whole signal crushed into the bottom of the box.
+That is not a styling problem. Measured on the account on screen
+(`d73c23c4…`, YTD): median bucket **KSh 5,470**, maximum **KSh 152,513**,
+minimum **KSh 74**. The median therefore sat at **3.5 % of the plot height** —
+96.5 % of the chart's vertical space was spent on spikes. That is the answer
+to "look at the height": the box is 148 px and matches PM's ~145 px almost
+exactly; it was the *domain* that had been stolen.
+
+**Why.** `trader_pnl_series` (migration 026) was:
+
+```sql
+SELECT date_trunc('hour', ph.recorded_at) AS bucket, SUM(shares * price)
+FROM held JOIN price_history ph ON ph.market_id = held.market_id
+GROUP BY bucket
+```
+
+Summing over price_history **rows**, inside hours that happen to contain rows.
+Two independent errors pulling in opposite directions — which is why it reads
+as noise rather than as a bias:
+
+1. **Multiplicity.** A position is counted once per snapshot row in the hour.
+   Measured: up to 7 rows per (market, option, hour), mean 1.18.
+2. **Partial coverage.** A position whose market did not tick that hour
+   contributes **zero** instead of its last known value.
+
+Decomposed, the tallest bucket in the entire YTD series — KSh 152,513 — is
+**4 of the trader's 32 positions, joined to 28 rows**. The shortest, KSh 74,
+is one position with one row. The curve was never portfolio value. It was a
+chart of *how many of this trader's markets the ingestion cron swept in each
+hour*, scaled by price.
+
+Against ground truth: `SUM(current_value_usd)` on the open book is **KSh
+30,730** and the cost basis is **KSh 32,837** — the trader is down KSh 2,107.
+The card's last point, which the headline printed, read **KSh 2,141**. Off by
+14×. Adjacent points ran 2,141 → 1,066 → 4,228 → 74 → 76,434 on a book that
+never cost more than 33k.
+
+**How Polymarket does it**, measured rather than assumed, against
+`data-api.polymarket.com/v2/user-pnl`:
+
+| interval | points | fidelity | gaps | repeat previous value |
+|---|---|---|---|---|
+| `1d` | 24 | 1 h | uniform 3600 s | — |
+| `1w` | 168 | 1 h | uniform 3600 s | — |
+| `1m` | 720 | 1 h | uniform 3600 s | 52 % |
+| `all` | 41,526 | 1 h | uniform 3600 s | **95 %** |
+
+Every bucket present; nothing missing because nothing happened. **95 % of
+their all-time series is the previous value carried forward.** That is what
+makes their line continuous, and it is the thing we were not doing. A
+portfolio's value is a stock — it exists between trades. Their points also
+carry a full ledger (`realized_pnl`, `unrealized_pnl`, `position_pnl`,
+`economic_pnl`, fees, rebates, `trade_count`), which is a different and larger
+gap, noted but not closed here.
+
+**Migration 112.** A complete bucket grid; one price per position per bucket
+(the last tick at or before it); last-observation-carried-forward across empty
+buckets via the `count()`-as-group-id trick, Postgres having no `IGNORE
+NULLS`; positions counted only from `positions.created_at`, so the book is not
+back-projected onto months it did not exist in; and `cost_usd` returned
+alongside, which closes the M4 follow-up without a second query.
+
+Two further defects fell out of reading it:
+
+- **`win.step` was computed and never referenced.** Every range was bucketed
+  hourly, which is why YTD returned 624 points into 448 px — **0.72 px per
+  point**, below the resolution of the display. The step now applies, bounded
+  to ≈400 buckets: 25 / 85 / 31 / 175 / 175 / 174 points, **2.56 px/point**.
+- **`(h.market_option_id IS NULL OR ph.market_option_id = h.market_option_id)`**
+  makes a binary position join *every* per-option row of its market — a 5×
+  inflation on a five-candidate market. Latent only because no position
+  currently holds a NULL option id (checked: 0 of 1,415). Closed with
+  `IS NOT DISTINCT FROM` before it had a chance to matter.
+
+**Verified after.** Last point = **KSh 30,730**, equal to
+`SUM(current_value_usd)` exactly. YTD range 2,965 → 34,899 on a book that grew
+through the year. No adjacent 1000× swings.
+
+**The geometry, separately.** `viewBox="0 0 720 148"` with
+`preserveAspectRatio="none"`. Measured: **448 CSS px against 720 units** on
+desktop (0.62×) and **327 against 720** at 390 px wide (0.45×), vertical 1.0×
+throughout. `vector-effect="non-scaling-stroke"` kept the line 2 px thick, so
+this never surfaced as a weight problem — what it distorted was **slope**.
+Every move was drawn 1.6× steeper on desktop and 2.2× steeper on a phone: the
+same account's chart looked ~36 % more violent on mobile than on a laptop. On
+a surface where the gradient of the line *is* the message, a viewport-dependent
+exaggeration is not cosmetic. The viewBox now tracks the measured width.
+
+This is the third time the same lesson has landed on one surface and not its
+twin: `prob-lines.tsx` carries a comment explaining that
+`preserveAspectRatio="none"` was "the root cause of the earlier axis-text
+distortion" — written for that chart, never applied to this one.
+`prob-sparkline.tsx` still sets it; checked at 1440 and 390 px and it renders
+at its declared size, so it is latent, not live.
+
+**One divergence from PM, deliberately.** Their heading is `Profit/Loss`, so
+their zero line is implicit in the quantity. Ours plots position **value** —
+honestly, now — and a value curve alone cannot answer the only question
+anyone opens this card to ask. KSh 30,730 is excellent or dreadful depending
+on a number that appeared nowhere on the page. A dashed cost-basis line now
+sits in the plot and the subtitle reads `−KSh 272,854 (6.4%) vs cost`. Stated
+as *vs cost*, not as profit: this is the open book only, and realized P&L on
+closed positions is not in the series — calling it profit would repeat exactly
+the overclaim M4 removed.
+
+**Two defects the capture itself caught**, both found by looking at the
+rendered card rather than the code:
+
+- The cost line shipped at `opacity={0.65}` and measured **2.63:1** on the
+  light surface, under WCAG 1.4.11's 3:1 for a graphical object that carries
+  meaning — and this one carries the only reference point on the card. The
+  trade ticker's 2.55:1 fade defect, reintroduced in a different file three
+  weeks later. Drawn at full strength now (5.2:1 light, 6.6:1 dark);
+  subordination is the 1 px weight and the dash pattern, never the alpha.
+- A green ▲ sat beside `−KSh 272,854 … vs cost`. Both statements were true —
+  the book rose over YTD and is still under water against what it cost — but
+  two differently-signed quantities side by side, one a glyph and one text,
+  read as a contradiction. One signed thing per card: the caret now agrees
+  with the only signed number, and the window's direction is the shape of the
+  line.
+
+**§2.16 superseded.** `availableRanges` asked which windows contain a
+datapoint. Under LOCF they all do, so that question is now vacuous and would
+answer "1D" for a dormant account — opening on a dead straight line. The rule
+that survives is *where the movement is*: the shortest range containing the
+last **change** in value (`lastChangeMs`). No range is disabled any more
+either; a flat line is a true answer ("your book did not move this week"), so
+greying the tab would be hiding a finding rather than withholding a
+non-finding.
+
+**The gate, and why its first draft was worse than nothing.**
+`e2e/pnl-card.spec.ts` first asserted that no single step spans the plot.
+Measured against the real broken series, that test **passes the broken
+chart**: its largest adjacent step is 64.1 plot units and the *correct*
+series' is 85.5 — larger, because the correct series contains one genuine
+overnight repricing while the broken one's artifact spikes blew the min/max
+domain out so far that its comb teeth compressed. An extreme-value test cannot
+tell a real step from noise.
+
+What separates them is how far the line travels in total:
+
+| | points | total variation ÷ plot height | median step |
+|---|---|---|---|
+| old (row-sum) | 623 | **23.6** | 4.15 |
+| new (LOCF) | 174 | **2.3** | 0.10 |
+
+A 10× separation; the threshold is 8, with room on both sides. The viewBox and
+contrast assertions were confirmed non-vacuous the direct way — restoring each
+defect and watching the suite go red (3 failures, the contrast one reporting
+exactly the 2.63:1 computed by hand).
+
+**The finding underneath all of this, and the correction to my first reading
+of it.** 48 % of the YTD chart is now a carried-forward flat line.
+`price_history` by month:
+
+| Apr | May | Jun | Jul | Aug | Sep | Oct |
+|---|---|---|---|---|---|---|
+| 1,246 | 6,048 | 5,837 | **8,319** | **5** | 25 | 15 |
+
+A 1,600× cliff between July and August, and `job_runs` is empty for the last
+fourteen days. I wrote "the ingestion cron stopped" and then checked, which is
+the right order and was nearly the wrong conclusion: **there is no price
+snapshot cron, by design.** `app/api/cron/` holds nine jobs and none of them
+sample prices. Every `INSERT INTO price_history` lives inside the CLOB
+matching path (migrations 030/033/034/045/074/081/089) — a row is written when
+a trade prints. Polymarket's series is the same shape for the same reason.
+
+So the cliff is the seed data ending in July, not a broken job, and the flat
+tail is a true statement: nothing has traded since. The chart is now correct
+*and* the data behind it is stale. Those are two different problems and only
+the first one was mine. What is worth deciding — not assuming — is whether a
+market whose price has not moved in three months should show a flat line
+(truthful, and PM's behaviour) or should not be chartable at all. That is a
+product call, recorded here rather than made here.
+
+---
+
 ## 3. How to work this
 
 1. One section at a time, in the matrix's own order, money path first.
