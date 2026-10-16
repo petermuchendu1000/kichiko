@@ -31,6 +31,29 @@ ARG NEXT_PUBLIC_APP_URL
 ENV NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL \
     NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY \
     NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL
+
+# FAIL THE BUILD, NOT PRODUCTION.
+#
+# These three are baked into the bundle by `next build`; they are NOT read from
+# the environment at runtime, so a Fly secret of the same name cannot repair an
+# image built without them. Omit the --build-arg flags and the build still
+# succeeds, the image still starts, the health check still answers for a while
+# — and then middleware.js throws "Your project's URL and Key are required to
+# create a Supabase client!" on EVERY request, including the health route.
+#
+# That is exactly what happened on 2026-10-16: a hand-run `flyctl deploy`
+# without --build-arg replaced all three machines with an image that 500'd on
+# every request, and elopis.com was down for about eight minutes until the
+# previous image was redeployed. deploy-staging.yml passes the flags; a human
+# running flyctl by hand had nothing to remind them.
+#
+# Three lines here turn that outage into a build failure, which is the only
+# place this is cheap to catch. Checked individually so the message names the
+# one that is missing.
+RUN test -n "$NEXT_PUBLIC_SUPABASE_URL"      || { echo "FATAL: --build-arg NEXT_PUBLIC_SUPABASE_URL is required (baked in at build time; a runtime secret cannot fix it)"; exit 1; }; \
+    test -n "$NEXT_PUBLIC_SUPABASE_ANON_KEY" || { echo "FATAL: --build-arg NEXT_PUBLIC_SUPABASE_ANON_KEY is required (baked in at build time; a runtime secret cannot fix it)"; exit 1; }; \
+    test -n "$NEXT_PUBLIC_APP_URL"           || { echo "FATAL: --build-arg NEXT_PUBLIC_APP_URL is required (baked in at build time; a runtime secret cannot fix it)"; exit 1; }
+
 RUN npm run build
 
 # ---- Runner (minimal, non-root) ----

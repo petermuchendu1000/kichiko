@@ -130,6 +130,39 @@ and GitHub *Environment/Repository secrets* (CI). Required:
 See `docs/01-ARCHITECTURE.md §4` for the full secret inventory and
 `docs/RUNBOOK.md` for the rotation procedure.
 
+### ⛔ Deploying by hand: the three build args are not optional
+
+The `NEXT_PUBLIC_*` row above says **build**, and that word is load-bearing.
+`next build` bakes those three values into the bundle; nothing reads them from
+the environment at runtime. A Fly secret of the same name **cannot** repair an
+image that was built without them — and all three are set as Fly secrets, which
+makes it look like they are covered.
+
+CI passes them (`deploy-staging.yml`). A hand-run deploy must too:
+
+```bash
+flyctl deploy --app elopis-prod --strategy rolling \
+  --build-arg NEXT_PUBLIC_SUPABASE_URL="$SUPABASE_URL" \
+  --build-arg NEXT_PUBLIC_SUPABASE_ANON_KEY="$SUPABASE_ANON_KEY" \
+  --build-arg NEXT_PUBLIC_APP_URL="https://elopis.com"
+```
+
+Omit them and the build still succeeds and the image still starts; then
+`middleware.js` throws *"Your project's URL and Key are required to create a
+Supabase client!"* on every request, including `/api/health`. Because the
+health check never passes, the rolling deploy replaces each machine and leaves
+none serving. On 2026-10-16 that took elopis.com down for about eight minutes,
+recovered by redeploying the previous image by digest:
+
+```bash
+flyctl deploy --app elopis-prod --image registry.fly.io/elopis-prod:deployment-<ID> --strategy rolling
+```
+
+`flyctl releases --app elopis-prod` lists the IDs. The Dockerfile now fails the
+build when any of the three is empty, so this specific mistake costs a red
+build instead of an outage — but the rollback command above is still the first
+move if a release ever starts failing its health check.
+
 ---
 
 ## 5. Versioning & releases
