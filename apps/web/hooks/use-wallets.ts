@@ -2,7 +2,7 @@
 
 // hooks/use-wallets.ts
 import { useEffect, useState, useCallback } from 'react'
-import { createClient } from '@/lib/supabase/client'
+import { getBrowserClient } from '@/lib/supabase/client-lazy'
 import type { Wallet, CurrencyCode } from '@/types'
 import { useAuth } from './use-auth'
 import { useRates } from './use-rates'
@@ -23,7 +23,6 @@ export function useWallets(): UseWalletsReturn {
   const { rates } = useRates()
   const [wallets, setWallets] = useState<Wallet[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const supabase = createClient()
 
   const fetchWallets = useCallback(async () => {
     if (!user) {
@@ -32,6 +31,7 @@ export function useWallets(): UseWalletsReturn {
       return
     }
 
+    const supabase = await getBrowserClient()
     const { data } = await supabase
       .from('wallets')
       .select('*')
@@ -40,7 +40,7 @@ export function useWallets(): UseWalletsReturn {
 
     setWallets((data as Wallet[]) || [])
     setIsLoading(false)
-  }, [user, supabase])
+  }, [user])
 
   useEffect(() => {
     fetchWallets()

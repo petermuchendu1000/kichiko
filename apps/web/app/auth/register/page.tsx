@@ -4,7 +4,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
+import { getBrowserClient } from '@/lib/supabase/client-lazy'
 import { AuthShell } from '@/components/auth/auth-shell'
 import { PasswordInput } from '@/components/auth/password-input'
 import { LogoMark, IconShield, IconArrowRight, IconCheck } from '@/components/ui/icons'
@@ -24,7 +24,6 @@ import { useDetectedCountry } from '@/lib/geo/use-detected-country'
 
 export default function RegisterPage() {
   const router = useRouter()
-  const supabase = createClient()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -72,6 +71,8 @@ export default function RegisterPage() {
     const safeNext = safeRedirectPath(next)
     const callbackUrl = new URL(withNext('/auth/callback', next), window.location.origin)
 
+    // See lib/supabase/client-lazy.ts — ~87 kB that only a submit needs.
+    const supabase = await getBrowserClient()
     const { data, error } = await supabase.auth.signUp({
       email,
       password,

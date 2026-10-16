@@ -24,7 +24,7 @@ import { useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/use-auth'
 import { useWallets } from '@/hooks/use-wallets'
 import { useRates } from '@/hooks/use-rates'
-import { createClient } from '@/lib/supabase/client'
+import { getBrowserClient } from '@/lib/supabase/client-lazy'
 import {
   orderTarget,
   clampLimitCents,
@@ -381,7 +381,9 @@ export function PmTicket({
   const { wallets, preferredCurrency, refreshWallets, isLoading: walletsLoading } = useWallets()
   const { rates } = useRates()
   const router = useRouter()
-  const supabase = useMemo(() => createClient(), [])
+  // No client at render time. Both reads below are guarded on `user`, so a
+  // signed-out visitor — who is most of the traffic a shared market link
+  // brings — never downloads the ~66 kB Supabase bundle at all. Ruling A11.
 
   // "Deposit → then place the order" continuity. When a trade can't be funded we
   // open the deposit sheet tagged with intent:'order' and mark that we're
@@ -800,7 +802,8 @@ export function PmTicket({
   useEffect(() => {
     if (action !== 'sell' || !user || sellPosition !== undefined) return
     let cancelled = false
-    supabase
+    void getBrowserClient().then((supabase) =>
+      supabase
       .from('positions')
       .select('shares, side, current_value_usd, market_option_id')
       .eq('market_id', market.id)
@@ -822,11 +825,12 @@ export function PmTicket({
           currentValueUsd: Number(data.current_value_usd ?? 0),
           label: opt?.label ?? (data.side ? (data.side === 'yes' ? 'Yes' : 'No') : market.title),
         })
-      })
+      }),
+    )
     return () => {
       cancelled = true
     }
-  }, [action, user, sellPosition, supabase, market.id, market.title, options])
+  }, [action, user, sellPosition, market.id, market.title, options])
 
   // CLOB: load the user's position in the SELECTED candidate + side so the Sell
   // tab knows exactly how many shares can be exited (available = shares −
@@ -838,7 +842,8 @@ export function PmTicket({
     }
     let cancelled = false
     setClobPos(undefined)
-    supabase
+    void getBrowserClient().then((supabase) =>
+      supabase
       .from('positions')
       .select('shares, reserved_shares, avg_entry_price')
       .eq('market_id', market.id)
@@ -861,11 +866,12 @@ export function PmTicket({
           available: clobAvailableShares(shares, reserved),
           avgEntry: Number(data.avg_entry_price ?? 0),
         })
-      })
+      }),
+    )
     return () => {
       cancelled = true
     }
-  }, [clob, user, selectedOptionId, side, market.id, supabase, clobRefresh])
+  }, [clob, user, selectedOptionId, side, market.id, clobRefresh])
 
   // PM ticket prices render to one decimal (e.g. 19.8¢, 80.3¢); trailing .0 is
   // dropped so round prices read cleanly (20¢). Matches live PM order ticket.

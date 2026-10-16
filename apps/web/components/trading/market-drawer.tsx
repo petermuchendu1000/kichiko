@@ -24,7 +24,7 @@ import { MarketRules } from '@/components/markets/market-rules'
 import { OutcomesChart } from '@/components/markets/outcomes-chart.lazy'
 import { OrderBookPanel } from '@/components/trading/order-book-table'
 import { EntityAvatar } from '@/components/ui/entity-avatar'
-import { createClient } from '@/lib/supabase/client'
+import { getBrowserClient } from '@/lib/supabase/client-lazy'
 import { IconChevronLeft, IconChevronDown, IconCode, IconBookmark, IconLink, IconInfo } from '@/components/ui/icons'
 import type { Market, MarketOption } from '@/types'
 
@@ -80,8 +80,8 @@ export function MarketDrawer({
     let cancelled = false
     setHistLoaded(false)
     setHistory([])
-    const supabase = createClient()
-    supabase
+    void getBrowserClient().then((supabase) =>
+      supabase
       .from('price_history')
       .select('market_option_id, price, recorded_at')
       .eq('market_option_id', openId)
@@ -97,7 +97,8 @@ export function MarketDrawer({
           })),
         )
         setHistLoaded(true)
-      })
+      }),
+    )
     return () => {
       cancelled = true
     }

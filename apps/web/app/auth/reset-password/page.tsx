@@ -12,10 +12,10 @@
 // Reuses the AuthShell / PasswordInput primitives so the surface matches
 // login & register. Personal auth surface → noindex is inherited from the
 // route; this file stays a client component for the interactive flows.
-import { Suspense, useEffect, useMemo, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
+import { getBrowserClient } from '@/lib/supabase/client-lazy'
 import { AuthShell } from '@/components/auth/auth-shell'
 import { PasswordInput } from '@/components/auth/password-input'
 import { LogoMark, IconShield, IconArrowRight, IconCheck, IconMail } from '@/components/ui/icons'
@@ -27,7 +27,6 @@ const MIN_PASSWORD = 8
 function ResetPasswordInner() {
   const router = useRouter()
   const search = useSearchParams()
-  const supabase = useMemo(() => createClient(), [])
 
   const [mode, setMode] = useState<Mode>('request')
   const [email, setEmail] = useState('')
@@ -46,17 +45,33 @@ function ResetPasswordInner() {
     if (hash.includes('type=recovery') || hash.includes('access_token')) {
       setMode('update')
     }
-    const { data: sub } = supabase.auth.onAuthStateChange((event) => {
-      if (event === 'PASSWORD_RECOVERY') setMode('update')
+    // The client loads here rather than during render (ruling A11, ~87 kB).
+    // The hash check above is the immediate signal and stays synchronous, so
+    // the mode is already right by first paint; this listener only has to
+    // catch the PASSWORD_RECOVERY event, which Supabase fires once it has
+    // exchanged the token — and it cannot exchange it before the client
+    // exists, so attaching after the import cannot miss it.
+    let cancelled = false
+    let unsubscribe: (() => void) | undefined
+    void getBrowserClient().then((supabase) => {
+      if (cancelled) return
+      const { data: sub } = supabase.auth.onAuthStateChange((event) => {
+        if (event === 'PASSWORD_RECOVERY') setMode('update')
+      })
+      unsubscribe = () => sub.subscription.unsubscribe()
     })
-    return () => sub.subscription.unsubscribe()
-  }, [supabase])
+    return () => {
+      cancelled = true
+      unsubscribe?.()
+    }
+  }, [])
 
   const handleRequest = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
     setLoading(true)
     const redirectTo = `${window.location.origin}/auth/reset-password`
+    const supabase = await getBrowserClient()
     const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), { redirectTo })
     setLoading(false)
     if (error) {
@@ -80,6 +95,7 @@ function ResetPasswordInner() {
       return
     }
     setLoading(true)
+    const supabase = await getBrowserClient()
     const { error } = await supabase.auth.updateUser({ password })
     setLoading(false)
     if (error) {

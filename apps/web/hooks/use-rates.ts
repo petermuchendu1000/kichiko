@@ -6,7 +6,7 @@
 // scope with a short TTL to avoid a network round-trip on every mount, and
 // always fall back to last-known-good rates so consumers never see an empty map.
 import { useEffect, useState } from 'react'
-import { createClient } from '@/lib/supabase/client'
+import { getBrowserClient } from '@/lib/supabase/client-lazy'
 import { FALLBACK_USD_RATES, buildRatesMap } from '@/lib/currency'
 import type { CurrencyCode } from '@/types'
 
@@ -17,7 +17,7 @@ let cache: { map: RatesRecord; ts: number } | null = null
 let inflight: Promise<RatesRecord> | null = null
 
 async function loadRates(): Promise<RatesRecord> {
-  const supabase = createClient()
+  const supabase = await getBrowserClient()
   const { data } = await supabase
     .from('exchange_rates')
     .select('from_currency, rate')

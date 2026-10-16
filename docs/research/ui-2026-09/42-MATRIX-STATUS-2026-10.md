@@ -476,9 +476,9 @@ still worth the owner re-confirming for low-probability markets.
 
 ### 2.10 Remaining
 
-F2/F3 (below); A11's one over-budget route (`/markets/[slug]`, 257 kB against
-a 130 kB budget — splitting the ticket and the chart is work in its own
-right); H2's decision on an opt-in accuracy board to replace the profit
+F2/F3 (below); **A11's remaining seven routes (§2.13)** — five authenticated
+pages that still carry the Supabase client, `/markets/[slug]` at 193 kB where
+the rest is the ticket itself, and `/` 2 kB over; H2's decision on an opt-in accuracy board to replace the profit
 leaderboard H1 removed; I4's calls, which are a commitment rather than a
 commit; **the news matcher (§2.11)**; and the one open question K3 leaves for
 the owner — whether a fixed 0–100% axis is right for a market whose every
@@ -605,6 +605,79 @@ where the pulse happened to be when it ran, which is why it passed for weeks
 and then failed on an unrelated change. The pulse is now a background wash and
 the label holds full opacity: legible throughout, and the gate passes twice in
 a row on purpose rather than by luck.
+
+### 2.13 A11 — the budget gate was watching the wrong number
+
+**Not one over-budget route. Fourteen of fifty-eight.** §2.5 recorded A11 as
+"measured: 102 kB shared (budget 130); `/markets/[slug]` 257 kB first load,
+over", and that was the whole of it. Measured properly on 2026-10-16, the
+routes over a 130 kB first load were:
+
+| | | | |
+|---|---|---|---|
+| `/markets/[slug]` 257 | `/profile` 198 | `/settings` 194 | `/traders/[id]` 193 |
+| `/auth/login` 190 | `/notifications` 184 | `/markets/create` 184 | `/kyc` 184 |
+| `/auth/register` 182 | `/auth/reset-password` 179 | `/admin/marketers` 179 | `/admin/marketers/campaigns` 178 |
+| `/admin/marketers/[id]` 178 | `/` 132 | | |
+
+The reason only one was known is the same shape of blind spot as K1, K2 and
+B4: `scripts/check-bundle-budget.mjs` asserts **"First Load JS shared by
+all"**, which Next computes as the chunks on *every* page. That figure was 102
+kB against a 130 kB budget, green, and it stayed green while most of the
+product shipped 180–260 kB. The gate was watching the number that was fine.
+
+**Thirteen of the fourteen had one cause.** Reading the build manifest,
+chunk `2230` (184 kB raw, ~66 kB gzipped) landed on exactly the fourteen, and
+it is `@supabase/ssr` + `@supabase/supabase-js`. The pattern that put it
+there, repeated across nineteen files:
+
+```ts
+const supabase = createClient()            // during render
+...
+await supabase.auth.signInWithPassword()   // only when a button is pressed
+```
+
+A visitor downloads the whole auth library before they can read the page, to
+serve a call that happens only if they act. `lib/supabase/client-lazy.ts`
+loads it on first use instead, and the call sites await it where they already
+await something.
+
+| route | before | after |
+|---|---|---|
+| `/markets/[slug]` | 257 kB | **193 kB** |
+| `/auth/login` | 190 kB | **125 kB** |
+| `/auth/register` | 182 kB | **116 kB** |
+| `/auth/reset-password` | 179 kB | **113 kB** |
+| `/markets/create` | 184 kB | **119 kB** |
+| `/admin/marketers` ×3 | 178–179 kB | **under budget** |
+
+Fourteen over budget → **seven**. Four routes came in under 130 kB outright.
+
+`/markets/[slug]` took two changes: the client out of `pm-ticket`,
+`position-summary` and `market-drawer` — all three read positions behind a
+`user` guard, so **a signed-out visitor now downloads no auth library at
+all**, which is most of the traffic a shared market link brings — and the
+Community section (comments, top holders, positions, activity) code-split
+behind `market-comments.lazy.tsx`. It sits below the rules and the news,
+nothing above it depends on it, and its realtime channel was opening on every
+visit for a section most visitors never scroll to.
+
+**What is left, and why it ranks where it does.** Five of the seven
+(`/profile`, `/settings`, `/traders/[id]`, `/kyc`, `/notifications`) still
+pull the client through a view component. They are all **authenticated**
+routes, where the chunk is usually already cached from an earlier page, so
+they rank below the public ones — A11's evidence ([32] §3.3) is about a cold
+first load on Slow 4G. `/markets/[slug]` at 193 kB is now its own page code —
+the ticket, the candidate list, the mobile trade bar — and getting under 130
+means splitting the ticket itself, which delays the primary action on the
+money path and is a design decision rather than a refactor. `/` is 2 kB over.
+
+**The gate now measures per route.** `ROUTE_ALLOWANCES` carries each remaining
+offender with the figure measured on the day; a route not on the list must
+come in under budget, and one on it may not get worse. So the list can only
+shrink, and a new over-budget route fails immediately. It was checked against
+a tightened allowance before being trusted, and it prints which routes have
+improved enough to lower their entry.
 
 ### 2.11 The news matcher — two bugs fixed, one left standing
 

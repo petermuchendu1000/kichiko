@@ -4,7 +4,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
+import { getBrowserClient } from '@/lib/supabase/client-lazy'
 import { AuthShell } from '@/components/auth/auth-shell'
 import { PasswordInput } from '@/components/auth/password-input'
 import { LogoMark, IconShield, IconArrowRight } from '@/components/ui/icons'
@@ -15,7 +15,6 @@ import { openAuthDialog } from '@/components/auth/auth-dialog'
 
 export default function LoginPage() {
   const router = useRouter()
-  const supabase = createClient()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -33,6 +32,10 @@ export default function LoginPage() {
     e.preventDefault()
     setError('')
     setLoading(true)
+    // Loaded here, not during render: the Supabase browser client is ~87 kB
+    // gzipped and this page needs it only once someone presses the button
+    // (ruling A11; see lib/supabase/client-lazy.ts).
+    const supabase = await getBrowserClient()
     const { error } = await supabase.auth.signInWithPassword({ email, password })
     if (error) {
       setError(normalizeAuthError(error, 'login'))

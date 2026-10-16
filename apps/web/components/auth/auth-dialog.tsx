@@ -21,7 +21,7 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
-import { createClient } from '@/lib/supabase/client'
+import { getBrowserClient } from '@/lib/supabase/client-lazy'
 import { PasswordInput } from '@/components/auth/password-input'
 import {
   LogoMark,
@@ -70,7 +70,6 @@ const FOCUSABLE =
   'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])'
 
 export function AuthDialog() {
-  const supabase = createClient()
   const titleId = useId()
   const descId = useId()
 
@@ -157,8 +156,13 @@ export function AuthDialog() {
       setReason(detail.reason ?? '')
       resetForm()
       setOpen(true)
-      supabase.auth
-        .getSession()
+      // Deliberately after the open, and deliberately not awaited: the dialog
+      // opens synchronously (no await before paint) and this guard only has to
+      // close it again in the case that never happens — the ticket does not
+      // fire this for a signed-in user. Loading the client here rather than
+      // during render keeps ~66 kB out of this page's first load (ruling A11).
+      void getBrowserClient()
+        .then((supabase) => supabase.auth.getSession())
         .then(({ data: { session } }) => {
           if (session?.user) setOpen(false)
         })
@@ -166,7 +170,7 @@ export function AuthDialog() {
     }
     window.addEventListener(OPEN_AUTH_EVENT, onOpen as EventListener)
     return () => window.removeEventListener(OPEN_AUTH_EVENT, onOpen as EventListener)
-  }, [supabase, resetForm])
+  }, [resetForm])
 
   // Body scroll-lock + focus management + Esc + Tab focus trap.
   useEffect(() => {
@@ -227,6 +231,7 @@ export function AuthDialog() {
   const handleLogin = async () => {
     setError('')
     setLoading(true)
+    const supabase = await getBrowserClient()
     const { error: err } = await supabase.auth.signInWithPassword({ email, password })
     if (err) {
       setError(normalizeAuthError(err, 'login'))
@@ -250,6 +255,7 @@ export function AuthDialog() {
       typeof window !== 'undefined'
         ? new URL(withNext('/auth/callback', next), window.location.origin).toString()
         : undefined
+    const supabase = await getBrowserClient()
     const { data, error: err } = await supabase.auth.signUp({
       email,
       password,
@@ -288,6 +294,7 @@ export function AuthDialog() {
     if (!canRequestCode(mode, { name, email, loading }) || (mode === 'register' && !countryOk)) return
     setError('')
     setLoading(true)
+    const supabase = await getBrowserClient()
     const { error: err } = await supabase.auth.signInWithOtp({
       email,
       options: {
@@ -317,6 +324,7 @@ export function AuthDialog() {
     verifyingRef.current = true
     setError('')
     setLoading(true)
+    const supabase = await getBrowserClient()
     const { error: err } = await supabase.auth.verifyOtp({ email, token: otp, type: 'email' })
     if (err) {
       setError(normalizeAuthError(err, mode))
@@ -328,7 +336,7 @@ export function AuthDialog() {
     // Session is live → onAuthStateChange re-enables the ticket. Bet intact.
     toast.success(mode === 'register' ? 'Account created' : 'Signed in')
     close()
-  }, [otp, email, mode, supabase, close])
+  }, [otp, email, mode, close])
 
   // Auto-verify the instant a full 6-digit code is present (paste or last key).
   useEffect(() => {

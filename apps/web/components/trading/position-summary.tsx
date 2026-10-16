@@ -11,7 +11,7 @@
 // dispatches `elopis:bet-placed`.
 import { useCallback, useEffect, useState } from 'react'
 import { useAuth } from '@/hooks/use-auth'
-import { createClient } from '@/lib/supabase/client'
+import { getBrowserClient } from '@/lib/supabase/client-lazy'
 import { formatUSD } from '@/lib/utils'
 import type { Market, MarketOption, Position } from '@/types'
 import { IconPortfolio, IconTrendUp, IconTrendDown } from '@/components/ui/icons'
@@ -33,7 +33,7 @@ export function PositionSummary({ market, options }: PositionSummaryProps) {
       setLoaded(true)
       return
     }
-    const supabase = createClient()
+    const supabase = await getBrowserClient()
     const { data } = await supabase
       .from('positions')
       .select('*')
