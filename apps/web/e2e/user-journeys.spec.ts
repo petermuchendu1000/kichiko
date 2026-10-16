@@ -7,7 +7,19 @@ async function text(page: Page): Promise<string> {
   return page.evaluate(() => document.body?.innerText ?? '')
 }
 
+// These navigate to routes they DISCOVER at runtime — whichever market the
+// board happens to link first — so unlike every other spec they cannot be
+// pre-warmed before the run. Against a dev server a cold Next.js route compile
+// is 8-15 s (measured: /profile 14.6 s, / 7.9 s, /traders/[id] 8.1 s), which on
+// its own eats half a 30 s budget and surfaces as `net::ERR_ABORTED; maybe
+// frame was detached?` rather than as anything resembling its cause.
+//
+// Third spec in this suite to need the same thing (trade-ticker, news-rotator,
+// now this). The common root is the dev server's compile-on-demand, not the
+// assertions, so the budget is what moves.
 test.describe('Public journeys', () => {
+  test.slow()
+
   test('home renders hero + navigation chrome', async ({ page }) => {
     await page.goto('/', { waitUntil: 'domcontentloaded' })
     await expect(page).toHaveTitle(/Elopis/i)

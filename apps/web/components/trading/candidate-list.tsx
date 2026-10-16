@@ -22,6 +22,7 @@ import { formatVolume } from '@/lib/utils'
 import { formatCurrency, usdToLocal } from '@/lib/currency'
 import { useRates } from '@/hooks/use-rates'
 import { formatProbability } from '@/lib/format'
+import { formatDelta, isMeaningful, type OptionDeltaMap } from '@/lib/markets/option-delta'
 import type { RatesMap } from '@/lib/currency'
 import type { CurrencyCode, Market, MarketOption } from '@/types'
 import {
@@ -60,9 +61,14 @@ export function CandidateList({
   clob = false,
   currency = 'KES',
   rates: ratesProp,
+  deltas,
 }: {
   market: Market
   options?: MarketOption[]
+  /** Per-option change since the market opened (migration 114). Serialisable
+   *  map, not a function: this crosses the server/client boundary, and a
+   *  function there is the error the trade ticker's `colorFor` prop shipped. */
+  deltas?: OptionDeltaMap
   /** Phase C: render each candidate as its own Yes/No line (Polymarket/Kalshi). */
   independent?: boolean
   /** CLOB markets: per-candidate Buy Yes/Buy No + inline Order Book drawer. */
@@ -316,6 +322,8 @@ export function CandidateList({
           const kind = kindById.get(o.id)
           const isWinner = o.isWinner === true
           const isLoser = resolved && o.isWinner === false
+          const delta = deltas?.[o.id]
+          const move = isMeaningful(delta) ? formatDelta(delta!) : null
           const yesPrice = priceLabel(o.yesPrice ?? o.price)
           const noPrice = priceLabel(o.noPrice ?? 1 - o.price)
 
@@ -384,13 +392,34 @@ export function CandidateList({
                     </span>
                   )}
                 </div>
-                <div className="flex flex-none items-center pl-2">
+                <div className="flex flex-none items-baseline gap-1.5 pl-2">
                   <span
                     className="text-[28px] font-semibold leading-none tabular-nums text-text-primary"
                     aria-label={pct < 1 ? 'less than 1 percent' : pct > 99 ? 'greater than 99 percent' : `${pct} percent`}
                   >
                     {pctLabel}
                   </span>
+                  {/* CHANGE SINCE THIS MARKET OPENED (migration 114).
+                      Polymarket sets one beside every probability — `79% ▲77%`
+                      — and the board had none. The current number is already
+                      on screen; where it came from is the part a reader cannot
+                      reconstruct by looking harder.
+
+                      Colour is never the only carrier: the caret states the
+                      direction and the aria-label says it in words, so this
+                      survives both dichromacy and a screen reader (ruling C5).
+                      Nothing renders below a tenth of a point — a green ▲ next
+                      to "0.0" asserts a direction the number cannot support. */}
+                  {move && (
+                    <span
+                      className={`text-xs font-semibold leading-none tabular-nums ${move.up ? 'text-yes' : 'text-no'}`}
+                      aria-label={`${move.up ? 'up' : 'down'} ${move.magnitude} percentage points since this market opened`}
+                      title={`Opened at ${Math.round(delta!.first * 100)}%`}
+                    >
+                      <span aria-hidden>{move.caret}</span>
+                      {move.magnitude}
+                    </span>
+                  )}
                 </div>
               </div>
 

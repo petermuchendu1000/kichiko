@@ -27,6 +27,7 @@ import { getMarketContextNews } from '@/lib/markets/context-news-data'
 import { normalizeOutcomes, isMultiOutcome, isIndependentOptions } from '@/lib/markets/outcomes'
 import { isFeatureEnabled } from '@/lib/flags'
 import { getTickerTrades } from '@/lib/markets/trade-ticker'
+import { toDeltaMap, type OptionDeltaMap } from '@/lib/markets/option-delta'
 import { fetchMarketHistory, thinByRecency } from '@/lib/markets/history'
 import type { Market, MarketOption } from '@/types'
 
@@ -193,6 +194,23 @@ export default async function MarketPage({
     .eq('to_currency', 'USD')
   const fxRates = buildRatesMap(fxRows ?? [])
 
+  // Change since this market opened, for the outcome board (migration 114).
+  //
+  // Polymarket sets a coloured change beside every probability; ours showed
+  // the probability alone, which is the only number already on screen. One
+  // indexed RPC rather than a second history fetch: the chart pulls the full
+  // per-option series, but inside its own component, and reaching it from here
+  // would mean either lifting that fetch through three layers or paying for it
+  // twice.
+  //
+  // Best-effort. The board is complete without it, so a failure here must not
+  // cost anyone the page — the same posture as the ticker and the news rail.
+  const { data: deltaRows } = await supabase
+    .rpc('market_option_deltas' as never, { p_market_id: market.id } as never)
+  const optionDeltas: OptionDeltaMap = toDeltaMap(
+    (deltaRows as unknown as Parameters<typeof toDeltaMap>[0]) ?? [],
+  )
+
   // Headlines the ingest-news cron attached to this market. Public-read, so
   // this renders for signed-out visitors too.
   const marketNews = await getMarketNews(supabase, market.id)
@@ -339,7 +357,16 @@ export default async function MarketPage({
           {/* Options / outcome board — PM renders the outcome rows AFTER the
               graph (graph first, options second). Verified live at 390px:
               chart footer ~634px, first outcome row ~687px. */}
-          {isMulti && <CandidateList market={market} options={options} independent={independent} clob={clob} rates={fxRates} />}
+          {isMulti && (
+            <CandidateList
+              market={market}
+              options={options}
+              independent={independent}
+              clob={clob}
+              rates={fxRates}
+              deltas={optionDeltas}
+            />
+          )}
 
           {/* Settlement / resolution — Rules / Market context tabs (main column
               for exact left-rail ordering: header → chart → rules → community). */}
