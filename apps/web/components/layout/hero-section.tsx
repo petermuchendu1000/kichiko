@@ -318,7 +318,7 @@ function Spotlight({ market, series, comments, activity }: HeroMarket & { commen
                     five-outcome market like the 2027 presidency, retire the
                     "+1 more outcomes" line entirely. Markets with more than six
                     still collapse the remainder into that line. */}
-                {ranked.slice(0, 6).map((o) => (
+                {ranked.slice(0, 6).map((o, i) => (
                   // Each outcome is its OWN tappable target (mobile + desktop):
                   // deep-links into the market with this candidate pre-armed in
                   // the order ticket (?option=<id>, validated server-side). z-10
@@ -331,6 +331,17 @@ function Spotlight({ market, series, comments, activity }: HeroMarket & { commen
                     aria-label={`Trade ${o.label}, ${Math.round(o.price * 100)}%`}
                   >
                     <div className="flex min-w-0 flex-1 items-center gap-1.5">
+                      {/* The line's colour, 8x8 (Polymarket's measured legend
+                          swatch). This row is the chart's legend now, which is
+                          why it is here: without it the plot has six coloured
+                          lines and nothing on the card says which is which.
+                          `i` is safe as the slot index — `ranked` and
+                          ProbLines sort by the same key, descending price. */}
+                      <span
+                        className="h-2 w-2 flex-none rounded-full"
+                        style={{ background: LINE_PALETTE[i % LINE_PALETTE.length] }}
+                        aria-hidden
+                      />
                       {o.imageUrl && (
                         <>
                           <EntityAvatar name={o.label} imageUrl={o.imageUrl} size={22} shape="squircle" className="flex-none lg:hidden" />
@@ -375,37 +386,32 @@ function Spotlight({ market, series, comments, activity }: HeroMarket & { commen
             )}
           </div>
 
-          {/* chart + legend */}
-          <div className="flex min-w-0 flex-1 flex-col gap-2.5">
-            <div className="flex flex-row flex-wrap items-center gap-x-5 gap-y-1.5">
-              {(series.binary ? ranked.slice(0, 1) : ranked.slice(0, 4)).map((o, i) => (
-                <span key={o.id || o.label} className="flex items-center gap-1.5 whitespace-nowrap">
-                  {/* PM legend swatch (measured): 8×8 round dot in the line color. */}
-                  <span
-                    className="h-2 w-2 flex-none rounded-full"
-                    style={{ background: series.binary ? 'var(--yes)' : LINE_PALETTE[i % LINE_PALETTE.length] }}
-                    aria-hidden
-                  />
-                  {/* name (text-secondary 13/400) with value inline (neutral-800, 600). */}
-                  <span style={{ fontSize: 13, lineHeight: '16px', color: 'var(--text-3)' }}>
-                    {series.binary ? 'Yes' : o.label}
-                    <span className="ml-0.5 tabular-nums font-semibold" style={{ color: 'var(--text-2)' }}>
-                      {Math.round(o.price * 100)}%
-                    </span>
-                  </span>
-                </span>
-              ))}
-            </div>
+          {/* chart.
+              The legend row that used to sit above this was deleted, not
+              restyled. Measured on 2026-10-16 it repeated the left column's
+              first four outcomes verbatim — same names, same percentages,
+              200px apart inside one card — and cost two lines of chart height
+              to do it. The left column now carries the swatch instead, so the
+              outcome list IS the legend: one place, with the avatar and the
+              figure already there. */}
+          <div className="flex min-w-0 flex-1 flex-col">
             <ProbLines
               lines={series.lines}
               binary={series.binary}
               width={496}
               height={330}
               grid
-              autoDomain
+              // NOT autoDomain. Ruling B4 is a fixed 0-100% axis and the detail
+              // chart has obeyed it since; the hero was still zooming to its
+              // own data range, so a 46% sat at a different height on every
+              // slide and two slides could not be compared. Measured on all
+              // four slides: ticks ran 0/20/40/60/80 with no 100%.
               axis="right"
               endpointHalo
-              maxLines={series.binary ? 1 : 4}
+              // Matches the left column's six rows. It drew four while the
+              // column listed five, so the fifth outcome existed in the list,
+              // had a price, and had no line — with nothing saying so.
+              maxLines={series.binary ? 1 : 6}
               fillArea={series.binary}
               xLabels={ticks}
               strokeWidth={1.75}
@@ -564,6 +570,13 @@ function BreakingNews({ items }: { items: BreakingItem[] }) {
 
 function HotTopics({ topics }: { topics: Market[] }) {
   if (topics.length === 0) return null
+  // A rank number in front of a list of one is a claim the data does not
+  // support, and it reads as a broken card rather than a quiet market.
+  // Measured 2026-10-16: exactly one of 36 active markets had any volume in
+  // the trailing 24h, so this card shipped as "Most traded / See all / 1 ...".
+  // The ordering is still by volume; only the numbering — which is only
+  // meaningful against other rows — waits until there are rows to compare.
+  const ranked = topics.length >= 3
   return (
     <div className="rounded-xl p-4" style={{ background: 'var(--surface)', border: '1px solid var(--hairline)' }}>
       <div className="mb-2 flex items-center justify-between">
@@ -577,7 +590,9 @@ function HotTopics({ topics }: { topics: Market[] }) {
           <li key={m.id}>
             <Link href={`/markets/${m.slug}`}
               className="group -mx-1.5 flex items-center gap-2.5 rounded-lg px-1.5 py-2 transition-colors hover:bg-[var(--surface-2)]">
-              <span className="w-4 flex-none text-center text-[12px] font-semibold" style={{ color: 'var(--text-3)' }}>{i + 1}</span>
+              {ranked && (
+                <span className="w-4 flex-none text-center text-[12px] font-semibold" style={{ color: 'var(--text-3)' }}>{i + 1}</span>
+              )}
               <span className="min-w-0 flex-1 truncate text-[13px] font-medium" style={{ color: 'var(--text)' }}>{m.title}</span>
               <span className="flex flex-none items-center gap-1 text-[12px] font-semibold" style={{ color: 'var(--text-2)' }}>
                 <span style={{ color: 'var(--text)' }}>{fmtVol(m.volume_24h_usd ?? 0)}</span> today

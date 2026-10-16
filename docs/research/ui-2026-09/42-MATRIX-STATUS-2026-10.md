@@ -1,23 +1,30 @@
-# 42 — Where the element matrix actually stands, 2026-10-15
+# 42 — Where the element matrix actually stands, 2026-10-16
 
 [40-ELEMENT-MATRIX](40-ELEMENT-MATRIX.md) is the canonical page-by-page,
 element-by-element comparison (Polymarket × Kalshi × Elopis → ruling). It holds
-73 rulings across ten sections, A–J. [50-EXECUTION-LOG](50-EXECUTION-LOG.md)
-records what was executed on 2026-09-27.
+**88 rulings across twelve sections, A–L** — K and L were added on 2026-10-16
+for the chart and the hero, which the first ten covered in four cells between
+them. [50-EXECUTION-LOG](50-EXECUTION-LOG.md) records what was executed on
+2026-09-27.
 
 This file says which rulings are **live in the product today**, measured rather
 than assumed, and what is still open. It exists because the October work drifted
 into fixing whatever was tripped over — covers, news, the footer — instead of
 walking the matrix. The matrix is the plan; this is its status.
 
-Sections A–E, G, I and J have now been worked end to end. Of the three claims
-this file still carries that are NOT measured against the running app, each
-says so where it appears: C6's banner (no market has resolved anywhere), I4's
-telephone outreach (a commitment the business has not made), and the rulings
-marked `L`, which are taken from the execution log and have not been
+Sections A–E, G, I, J and now K–L have been worked end to end. Of the three
+claims this file still carries that are NOT measured against the running app,
+each says so where it appears: C6's banner (no market has resolved anywhere),
+I4's telephone outreach (a commitment the business has not made), and the
+rulings marked `L`, which are taken from the execution log and have not been
 re-measured since.
 
-**Evidence grades.** `M` measured by me on 2026-10-15 against the running app ·
+Two entries in §1 below were **wrong and are corrected in place** (B4, C5).
+Both were recorded as done on an honest measurement that happened to miss —
+which is its own lesson, and §2.9 spells out how each one hid.
+
+**Evidence grades.** `M` measured by me on 2026-10-15 or 2026-10-16 against the
+running app ·
 `V` verified in code · `L` taken from the execution log, not re-measured ·
 `DB` queried against production.
 
@@ -36,9 +43,9 @@ re-measured since.
 | D4 | Set-to chips 20/50/100/200 | done | L |
 | G1 | `/search` reads and writes `?q=` | done | L |
 | H1 | Profit leaderboard removed | done | L + M |
-| C5 | Chart series colours ≥3:1 both themes | done | V — `--chart-yes/no/brand`, contrast-verified |
+| C5 | Chart series colours ≥3:1 both themes | done for `--chart-yes/no/brand`; **the multi-outcome palette was never covered and failed both halves** — see §2.9 K1 | V, then M |
 | A4 | **Every control ≥44×44 on money routes** | **done + gated** | M |
-| B4 | Fixed 0–100% axis, default All, no dead ranges | done | M |
+| B4 | Fixed 0–100% axis, default All, no dead ranges | **re-opened and closed 2026-10-16** — the axis half was never applied; see §2.9 | M |
 | C1 | Hero probability ≥28px, integer | done | M — 28px |
 | C3 | **Resolution source on every market (BINDING)** | **done** — 28 of 36; 8 named below | DB |
 | D1 D2 D5 D7 D9 D10 | the money path | **done** — see §2.3 | M |
@@ -51,6 +58,14 @@ re-measured since.
 | I2 | Deposit and loss limits, 24h to loosen | **done** — §2.7 | DB + M |
 | I4 | Call list for the heaviest losers | **script**; the calls are not committed | DB |
 | J1 J2 J3 | 404, error boundary, in-app help | **KEEP confirmed + gated** — §2.8 | M |
+| K1 | Series colours distinguishable from each other, and from their surface | **done + gated** — §2.9 | M |
+| K2 | SVG chart text meets 1.4.3 | **done + gated** (the gate is new; axe never saw charts) — §2.9 | M |
+| K3 K4 K8 | Fixed axis, one watermark rule, no single-tab row | **done** — §2.9 | M |
+| K5 K9 | Hover readout, no emoji in the data strip | **KEEP confirmed** | M, V |
+| K6 K7 | End labels at rest, on-chart trade ticker | **REJECT, with the reasoning** — §2.9 | M |
+| L1 L2 L5 | Hero legend, line count, ranked rails | **done** — §2.9 | M |
+| L3 L6 | Labelled pager + stop control; no mobile hero | **KEEP confirmed** | M |
+| L4 | News in the hero | **ADOPT, blocked on data** — §2.11 | DB |
 
 ### A4, in detail
 
@@ -373,13 +388,111 @@ width.
 Both are fixed on both sides: the gates measure correctly, and the three
 focusable controls that eased everything now ease only colour.
 
-### 2.9 Remaining
+### 2.9 Sections K and L — the chart and the hero, 2026-10-16
+
+Sections A–J spent three cells on the chart (A13 data, B4 axis, C5 series
+colour against the background) and none on how it behaves while you watch it.
+[40-ELEMENT-MATRIX](40-ELEMENT-MATRIX.md) now carries **K** (the chart as a
+live object) and **L** (hero composition), measured against polymarket.com and
+demo.kalshi.co on 2026-10-16 — re-measured rather than read from the September
+capture, because both heroes had been rebuilt since.
+
+Nine defects, all measured, all fixed in this pass:
+
+| # | Defect | Measurement |
+|---|---|---|
+| K1 | Two palette slots were the same colour | slots 3/11 **ΔE2000 2.5**; 2/9 = 7.0; 8/12 = 9.5 |
+| K1 | The leader's own line failed contrast | slot 1 = raw `--pip-500` = **2.88:1** on `--surface` dark (1.4.11 floor is 3:1) |
+| K2 | Chart axis labels failed AA | hero x-axis dates `--ink-300` on white = **2.09:1** |
+| K2 | The detail chart's watermark failed AA *and* was announced | 1.5:1 light / 1.7:1 dark, no `aria-hidden` |
+| K3 | **B4 was recorded closed and was not** | hero `autoDomain` (0/20/40/60/80, no 100%, four slides); detail `niceProbScale(max×1.3)` |
+| K4 | Two charts, two watermark rules | 47 px / 143×56 px centred vs 13 px cornered |
+| K8 | A tab row with one permanently-selected tab | its own comment said "never collapse to a single control"; the line was never written |
+| L1 | The hero legend duplicated the panel | four names and four percentages twice, 200 px apart |
+| L2 | The chart drew fewer lines than the panel listed | 4 drawn, 5 listed, nothing saying so |
+| L5 | A ranked list of one | "Most traded · 1 · … KSh 6.9K today" — 1 of 36 markets has 24 h volume |
+| — | `1 options` | flagged in the matrix as C2/N8 in September; still shipping |
+
+**The finding behind four of these: axe cannot see charts.** axe-core's
+`color-contrast` rule evaluates HTML text only — SVG text is out of scope by
+design, because it cannot resolve what is painted behind a glyph in a vector
+scene. Every number we draw on a chart is SVG text. So §2.2's "0 failures on
+`/`" was true, carefully measured, and blind to the entire chart layer.
+`e2e/svg-text-contrast.spec.ts` is now that gate: both themes, compositing the
+real background down the ancestor chain, with a decorative exemption that only
+applies when the node is *both* `aria-hidden` and under 20% opacity, so the
+exemption cannot become a hiding place. It found both K2 rows on its first run.
+
+**K1 is the one worth reading twice.** C5 asked whether a series colour clears
+3:1 against the surface. Nothing asked whether two series colours can be told
+apart, which is the comparison a reader actually makes, and the twelve-slot
+palette had a pair 2.5 ΔE apart — below the just-noticeable difference, at a
+1.75 px stroke, with the legend as the only way to recover which line was
+which. Twelve mutually-distinguishable hues do not exist inside the lightness
+band two surfaces both permit; that was searched exhaustively (best achievable
+minimum was 9.0, still a collision) before being given up on. The palette is
+now **six** theme-aware slots — Okabe & Ito's colour-universal hues, shifted as
+a set to the lightness each canvas needs — and ranks past the sixth repeat the
+hues with a dash, so the repeat is carried by a channel that is not colour.
+
+Shifting *as a set* is load-bearing and was learned by getting it wrong:
+flattening the eight hues to one lightness (for palette coherence) collapsed
+vermillion and orange to **ΔE 0.3 under deuteranopia**, because under
+dichromacy those two differ almost only in lightness. Okabe-Ito's CVD safety
+*is* its lightness spread.
+
+Six is not a ceiling we are pressed against: the widest market in production
+has six outcomes, the detail chart caps inline labels at six anyway, and the
+hero now draws exactly the six its panel lists.
+
+`lib/__tests__/series-palette.test.ts` gates all of it, and was checked against
+the retired values before being trusted — it fails them on the dark slot-1
+contrast and on slots 3/4 at 1.6 ΔE under deuteranopia. A gate nobody has seen
+fail is not yet a gate (§2.8).
+
+**K3 is a correction to this document.** §2.5 recorded B4 — "fixed 0–100% axis"
+— as done and measured. The measurement was honest: it was taken on markets
+whose leaders reach ~75%, where `niceProbScale(max × 1.3)` returns 0–100%
+anyway. The code was auto-scaling and said so in its own comment ("Polymarket
+does NOT pin the probability axis to 0–100%"), written for parity *before* B4
+ruled against that parity. Both charts are now fixed at 0–100% with five ticks.
+
+The cost is stated rather than hidden: a market where every outcome sits under
+10% now draws flat lines along the bottom of the plot. B4 took that trade
+deliberately on [31] CH-1 ("truncation exaggerates"), which on a product where
+people stake money on the number is the safer direction to be wrong in. It is
+still worth the owner re-confirming for low-probability markets.
+
+**Two measured things we are NOT copying**, with the reasoning, because a
+REJECT needs evidence as much as an ADOPT does:
+
+* **The on-chart trade ticker** (K7). Both incumbents now animate `+ $<size>`
+  labels over the plot in each outcome's series colour — Polymarket on the
+  hero chart *and* on mobile cards, where their own `+ $100` lands on top of
+  the "Up" button. It is a live feed of other people's stakes painted over the
+  price, which is the mechanism behind three findings already in [31]: Barber
+  (attention-grabbing lists precede negative returns), Chapkovski (gamification
+  selects low-literacy users) and Barasa 2026 (Kenya RCT, social interaction
+  raised betting 13%). Ruling B5 rejected attention machinery; this is that.
+  The legitimate signal inside it — *this market is trading* — we already serve
+  better, with the confidence band that widens where the book is thin.
+* **End-of-series labels on the detail chart** (K6). Polymarket paints the name
+  and a large percentage at each line's last point and runs no legend row at
+  all. It works for them because they draw **two** lines (Brazil: 32 markets,
+  2 lines) into a ~180 px right gutter. Ours draws five, three bunched under
+  20%; five stacked end-labels would sit on the lines they annotate. The legend
+  row above does the same job in less ink. On the **hero** the opposite was
+  true, and that legend was deleted — see L1.
+
+### 2.10 Remaining
 
 F2/F3 (below); A11's one over-budget route (`/markets/[slug]`, 257 kB against
 a 130 kB budget — splitting the ticket and the chart is work in its own
 right); H2's decision on an opt-in accuracy board to replace the profit
-leaderboard H1 removed; and I4's calls, which are a commitment rather than a
-commit.
+leaderboard H1 removed; I4's calls, which are a commitment rather than a
+commit; **the news matcher (§2.11)**; and the one open question K3 leaves for
+the owner — whether a fixed 0–100% axis is right for a market whose every
+outcome sits under 10%.
 
 **F2/F3 — a correction.** These were recorded as sharing E2's phone blocker.
 That was wrong, and phone verification does not move them. F2 is a per-country
@@ -392,6 +505,42 @@ Both are the product decision recorded as D4 in
 [51-PROPOSED-DB-CHANGES](51-PROPOSED-DB-CHANGES.md), not engineering work
 waiting on a dependency. A DOB field is trivial; deciding to block existing
 depositors is not.
+
+### 2.11 The news matcher — found 2026-10-16, NOT fixed
+
+Section L4 wanted the hero to carry the headline that moved the market, which
+is the one thing both incumbents put there and we do not. Checking whether the
+data existed found a worse problem than a missing slot:
+
+| table | rows |
+|---|---|
+| `news_articles` (ingested) | **234** |
+| `market_news` (attached to a market) | **8**, across 36 markets |
+
+A 3.4% attach rate would just be thin. The matches themselves are the finding:
+
+* `ke-ruto-gachagua-reconcile` ← *"These are Ruto, Gachagua children"* —
+  **score 0.571, the highest in the whole table.** A listicle about their
+  children, attached to a market on whether the two reconcile. The market page
+  orders by score, so the worst match leads.
+* `ke-housing-45k-units-2026` ← *"Govt targets 20,766 schools in digital
+  learning rollout as 64,000 teachers…"* — unrelated; presumably matched on
+  the shape of a large number plus "targets".
+* Three are genuinely right (Talanta stadium, the fuel-tax bill, Passaris on
+  Sakaja), and one is arguable.
+
+Also in `news_articles`: a row whose `source` is **Facebook** and whose title
+is written in Unicode mathematical-bold characters
+(`𝗚𝗼𝘃𝗲𝗿𝗻𝗺𝗲𝗻𝘁 𝗧𝗮𝗸𝗲𝘀 …`). That is a scraped social post rather than
+journalism, and screen readers announce mathematical alphanumerics letter by
+letter or skip them, so the headline is unreadable to the people most likely
+to need it read aloud.
+
+This is the news pipeline, not the chart, and it is left for its own pass
+rather than started at the end of this one. Until the matcher is trustworthy,
+**do not build the hero news slot** — it would ship a second always-empty box
+beside the activity feed, or worse, a confidently wrong headline under a
+market's name.
 
 **No outright WCAG failure is known to be open.** B1's auto-rotating hero
 (2.2.2 Pause, Stop, Hide) was the last one, and the three found while
@@ -413,5 +562,15 @@ unverified user funding an account.
    defects. Colours are now normalised through a canvas.
 3. Every ruling that carries a gate gets the gate, or it drifts back. A4 is the
    proof: a ruling with no gate was 58 controls out of compliance within weeks.
-4. Re-measure Polymarket and Kalshi before trusting a competitor column — the
-   captures are from 2026-09-27.
+4. Re-measure Polymarket and Kalshi before trusting a competitor column. The
+   September captures were already stale a month later: both had rebuilt the
+   home hero into a split panel + live chart + ranked rails, and both had added
+   an on-chart trade ticker that did not exist in the September DOM. K and L
+   were measured fresh for that reason, on 2026-10-16.
+5. **Ask what the gate cannot see.** Every K-section defect but one survived
+   because the instrument had a blind spot, not because nobody looked: axe does
+   not evaluate SVG text, so no chart label had ever been contrast-checked; C5
+   asked colour-vs-background and nothing asked colour-vs-colour; B4 was
+   verified on the markets where the auto-scale happens to return the fixed
+   answer. Before recording a ruling closed, write down what its measurement
+   would miss.

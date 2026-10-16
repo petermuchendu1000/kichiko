@@ -496,7 +496,12 @@ export function ScrubChart({
                   x2={activeX}
                   y1={0}
                   y2={plotH}
-                  stroke={pinned != null ? 'var(--ink-400)' : 'var(--ink-300)'}
+                  // The crosshair is a graphical object you need in order to
+                  // read the chart, so WCAG 1.4.11 wants 3:1. --ink-300 is
+                  // 2.09:1 on the light surface and --ink-400 is 2.85:1; both
+                  // fail there and only pass in dark. --text-3/--text-2 are the
+                  // theme-aware tokens already tuned past 4.5:1 on both.
+                  stroke={pinned != null ? 'var(--text-2)' : 'var(--text-3)'}
                   strokeWidth={1}
                   strokeDasharray={pinned != null ? undefined : '3 3'}
                   shapeRendering="crispEdges"
@@ -596,7 +601,16 @@ export function ScrubChart({
                 fontSize={13}
                 fontWeight={600}
                 fill="var(--text-3)"
-                opacity={0.3}
+                // A watermark is decorative, and WCAG 1.4.3 exempts incidental
+                // text — but only text that is actually incidental. At 0.3 this
+                // read 1.5:1 light / 1.7:1 dark while still sitting in the
+                // chart's accessible subtree, so a screen reader announced
+                // "Elopis" in the middle of the series readout AND it failed
+                // contrast. Marked decorative and taken below the threshold
+                // e2e/svg-text-contrast.spec.ts exempts, so it is now one thing
+                // or the other rather than neither.
+                opacity={0.16}
+                aria-hidden="true"
                 pointerEvents="none"
               >
                 {watermark}

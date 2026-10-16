@@ -10,7 +10,6 @@ import { useMemo, useState } from 'react'
 import { format } from 'date-fns'
 import { ScrubChart, type ScrubSeries } from './scrub-chart'
 import { IconTrophy, IconClock } from '@/components/ui/icons'
-import { niceProbScale } from '@/lib/markets/chart-scale'
 import { SERIES_PALETTE as PALETTE } from '@/lib/markets/series-color'
 import { formatVolume } from '@/lib/utils'
 
@@ -96,7 +95,13 @@ export function OutcomesChart({ options, data, volumeUsd, closesAt, colorMap, sh
     }
     const base = compactTimeframes ? TIMEFRAMES.filter((t) => t.key !== '6H') : TIMEFRAMES
     const shown = base.filter((t) => usable(t.ms))
-    // Never collapse to a single control; ALL alone needs no tab row.
+    // Never collapse to a single control; ALL alone needs no tab row. This
+    // line was the comment's whole content and was never written: measured
+    // 2026-10-16 on /markets/ke-2027-president, the row rendered one tab
+    // reading "ALL", permanently aria-selected, that changed nothing when
+    // pressed — a 44px control with no alternative to switch to, which a
+    // keyboard user still has to tab through.
+    if (shown.length < 2) return []
     return shown.map((t) =>
       compactTimeframes && t.key === 'ALL' ? { ...t, label: 'MAX' } : t,
     )
@@ -146,28 +151,36 @@ export function OutcomesChart({ options, data, volumeUsd, closesAt, colorMap, sh
     return { chartData: filtered.length >= 2 ? filtered : allRows.slice(-2), isSeeded: false }
   }, [allRows, ranked, timeframe])
 
+  const optionWord = ranked.length === 1 ? 'option' : 'options'
   const summary = isSeeded
-    ? `Probability standings for ${ranked.length} options. Current leader: ${
+    ? `Probability standings for ${ranked.length} ${optionWord}. Current leader: ${
         ranked[0]?.label ?? '—'
       } at ${Math.round((ranked[0]?.price ?? 0) * 100)}%. No price movement recorded yet.`
-    : `Probability history for ${ranked.length} options. Current leader: ${
+    : `Probability history for ${ranked.length} ${optionWord}. Current leader: ${
         ranked[0]?.label ?? '—'
       } at ${Math.round((ranked[0]?.price ?? 0) * 100)}%.`
 
-  // Dynamic Y-axis (PM parity): the axis zooms to the data with headroom and
-  // lands on nice round ticks (shared with the binary chart via niceProbScale).
-  const { yMax, yTicks } = useMemo(() => {
-    let max = 0
-    for (const row of chartData) {
-      for (const o of ranked) {
-        const v = row[o.id]
-        if (typeof v === 'number' && v > max) max = v
-      }
-    }
-    if (max <= 0) max = ranked[0]?.price ?? 0.1
-    const { max: m, ticks } = niceProbScale(max)
-    return { yMax: m, yTicks: ticks }
-  }, [chartData, ranked])
+  // FIXED 0-100% axis — ruling B4, not PM parity.
+  //
+  // This used to call niceProbScale(), which zooms to the data with ~30%
+  // headroom "(PM parity)". That predates the ruling and contradicts it: B4
+  // reads "fixed 0-100% axis", on the evidence that truncation exaggerates
+  // movement ([31] CH-1), which on a product where people stake money on the
+  // number is the dangerous direction to be wrong in. A market whose leader
+  // never clears 22% was drawn on a 0-30% axis, where a two-point wobble
+  // filled a third of the plot.
+  //
+  // The status doc recorded B4 as closed and measured, and it was — on
+  // markets whose leaders happened to reach ~75%, where niceProbScale returns
+  // 0-100% anyway. The measurement was true and the ruling was not applied.
+  //
+  // The cost is real and accepted: a market where every outcome sits under
+  // 10% now draws flat lines along the bottom. That is what a long shot that
+  // never moved looks like, and B4 took that trade explicitly.
+  //
+  // Five ticks, matching the hero chart and Polymarket's own 0/25/50/75/100.
+  const yMax = 1
+  const yTicks = useMemo(() => [0, 0.25, 0.5, 0.75, 1], [])
 
   // Pivoted rows -> one ScrubSeries per option, in ranked order so the inline
   // readout labels the leaders first when several options sit close together.
@@ -258,6 +271,7 @@ export function OutcomesChart({ options, data, volumeUsd, closesAt, colorMap, sh
           role="tablist"
           aria-label="Chart timeframe"
           className="inline-flex h-9 max-w-full flex-none items-center overflow-x-auto"
+          hidden={timeframes.length === 0}
         >
           {timeframes.map((tf) => {
             const active = tf.key === timeframe

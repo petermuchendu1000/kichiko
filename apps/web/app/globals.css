@@ -76,6 +76,27 @@
        themes — 4.12:1 and 4.81:1 on white here, 8.81:1 and 6.21:1 on the
        dark canvas below. See docs/design/pm-2026-10 §2.2. */
     --chart-yes:#1F8F4E; --chart-no:#D92D2D; --chart-brand:var(--pip-500);
+    /* ---- Categorical series slots, ranked (leader = --series-1) ----------
+       Each option on a multi-outcome chart takes a slot. Two properties have
+       to hold and only one of them was ever checked:
+         (a) >= 3:1 against the surface it is drawn on (WCAG 1.4.11), and
+         (b) distinguishable FROM EACH OTHER — which is what a reader actually
+             does with a chart, and what the old palette failed. Measured
+             2026-10-16: slots 3 and 11 of that palette were CIEDE2000 2.5
+             apart (below the just-noticeable difference at a 1.75px stroke),
+             slots 2/9 were 7.0, and slot 1 — raw --pip-500 — was 2.88:1 on
+             the dark surface, i.e. (a) was failing too.
+       These are the Okabe & Ito (2008) "Color Universal Design" hues, which
+       are chosen to survive the common colour-vision deficiencies, shifted as
+       a SET to the lightness each surface needs. Shifting as a set matters:
+       flattening them to one lightness (tried, measured) collapses vermillion
+       and orange to dE 0.3 under deuteranopia, because under dichromacy those
+       two differ almost only in lightness. Light keeps the brand blue at slot
+       1 — verified to cost nothing: the limiting pair is 2/6 either way.
+       Light: dE2000 >= 23.5 normal, 14.7 deuteranopia, 16.1 protanopia.
+       Gate: lib/__tests__/series-palette.test.ts. */
+    --series-1:#1452F0; --series-2:#B14800; --series-3:#00835B;
+    --series-4:#B05F8D; --series-5:#3299CD; --series-6:#C48600;
     --field:var(--paper);
 
     /* ---- Elevation ----
@@ -166,6 +187,14 @@
     /* Chart series on the dark canvas: here the bright end of the ramp is both
        safe and desirable (8.81:1 / 6.21:1 on --ink-950). */
     --chart-yes:#42C772; --chart-no:#FF5952;
+    /* The same Okabe-Ito set lifted +10 L*, which is what a dark canvas wants:
+       every slot clears 4.0:1 on --surface instead of scraping the 3:1 floor,
+       and the set keeps its internal lightness order, so the CVD separation
+       survives the move (dE2000 >= 22.3 normal, 10.6 deuteranopia, 12.2
+       protanopia). Slot 1 is a lighter brand blue because --pip-500 itself is
+       2.88:1 here — the leader's own line was below the 1.4.11 floor. */
+    --series-1:#566BFF; --series-2:#F57825; --series-3:#37B98D;
+    --series-4:#E994C2; --series-5:#76D0FF; --series-6:#FFBA2F;
     --field:var(--ink-800);
     --pip-100:rgba(20,82,240,.16); --yes-tint:rgba(31,157,107,.16); --no-tint:rgba(209,73,91,.16);
     --brass-100:rgba(217,160,54,.16);

@@ -22,7 +22,7 @@
 // AND text stay crisp at every container width, exactly like the live site.
 import type { OptionLine } from '@/lib/markets/option-series'
 import { niceDomain } from '@/lib/markets/chart-domain'
-import { SERIES_PALETTE } from '@/lib/markets/series-color'
+import { SERIES_PALETTE, seriesDashFor } from '@/lib/markets/series-color'
 
 // Per-option series palette. SINGLE SOURCE OF TRUTH is SERIES_PALETTE in
 // lib/markets/series-color.ts — the SAME rank-indexed palette used by the
@@ -128,7 +128,12 @@ export function ProbLines({
   // Y domain: fixed 0–100% (default) or zoomed to the data range (autoDomain).
   let yMin = 0
   let yMax = 1
-  let gridLevels = [0.25, 0.5, 0.75]
+  // 0 and 100 are ticks, not implied edges. Without them the fixed axis showed
+  // only 25/50/75 and a reader had to infer where the scale ended — which is
+  // the one thing a fixed scale exists to make obvious. (The three-tick default
+  // was invisible while the hero ran autoDomain, because niceDomain always
+  // returned five ticks of its own.)
+  let gridLevels = [0, 0.25, 0.5, 0.75, 1]
   if (autoDomain) {
     let dmin = 1
     let dmax = 0
@@ -195,19 +200,23 @@ export function ProbLines({
         </g>
       )}
 
-      {/* Brand watermark — centered in the plot area, drawn BEFORE the lines so
-          it sits behind them; faint + non-interactive (charting-tool style). */}
+      {/* Brand watermark — top-right corner, small.
+          It used to be centred at 16% of the plot's short side: 47px of type
+          across 143x56px of the plot's middle, measured, which is where the
+          lines live. ScrubChart (the market-detail chart) has always drawn the
+          same mark at 13px in the corner, so one chart was obeying the rule and
+          the other was not. Polymarket's own watermark is 13px, top-right. Data
+          ink wins the middle of the plot. */}
       {watermark && (
         <text
-          x={padL + w / 2}
-          y={padT + h / 2}
-          textAnchor="middle"
-          dominantBaseline="middle"
+          x={width - padR - 8}
+          y={padT + 10}
+          textAnchor="end"
           fontFamily={axisFont}
-          fontWeight={700}
-          fontSize={Math.round(Math.min(w, h) * 0.16)}
+          fontWeight={600}
+          fontSize={13}
           fill="var(--text-3)"
-          opacity={0.08}
+          opacity={0.16}
           aria-hidden
           style={{ userSelect: 'none', letterSpacing: '0.02em' }}
         >
@@ -247,6 +256,11 @@ export function ProbLines({
               fill="none"
               stroke={useGrad ? `url(#${gradId})` : color}
               strokeWidth={strokeWidth}
+              // Past the last palette slot the colours repeat, so the repeat is
+              // carried by a dash instead — a channel that survives both a
+              // colour-vision deficiency and a small screen. See
+              // lib/markets/series-color.ts.
+              strokeDasharray={binary ? undefined : seriesDashFor(li)}
               strokeLinecap="round"
               strokeLinejoin="round"
             />
@@ -282,7 +296,13 @@ export function ProbLines({
                 y={height - 6}
                 textAnchor={anchor}
                 fontSize="12"
-                fill="var(--ink-300)"
+                // --text-3, not --ink-300. #AEB4BC on the light card surface is
+                // 2.09:1 — the same token and the same figure ruling A3 chased
+                // out of the hero's volume row. It survived here because
+                // axe-core's colour-contrast rule does not evaluate SVG text,
+                // so no gate had ever looked at a chart label. e2e/
+                // svg-text-contrast.spec.ts is now that gate.
+                fill="var(--text-3)"
                 fontFamily={axisFont}
               >
                 {lbl}

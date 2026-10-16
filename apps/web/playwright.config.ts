@@ -20,6 +20,13 @@ export default defineConfig({
     baseURL: BASE_URL,
     trace: 'on-first-retry',
     navigationTimeout: process.env.CI ? 90_000 : 30_000,
+    // Escape hatch for sandboxes that ship a Chromium build Playwright did not
+    // download itself (the headless-shell revision it expects is absent, so a
+    // default launch fails with "Executable doesn't exist"). Unset — which is
+    // the case in CI, where `playwright install` runs — this is a no-op.
+    launchOptions: process.env.PW_CHROMIUM_PATH
+      ? { executablePath: process.env.PW_CHROMIUM_PATH }
+      : undefined,
   },
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },

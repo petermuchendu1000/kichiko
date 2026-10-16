@@ -229,7 +229,9 @@ export function CandidateList({
       {/* Header — count + sort + optional search */}
       <div className="flex items-center justify-between gap-3 border-b border-hairline px-4 py-3">
         <h2 className="font-display text-sm text-text-primary">
-          {outcomes.length} options
+          {/* "1 options" shipped on every binary market page and was recorded
+              in 40-ELEMENT-MATRIX C2 back in September (finding N8). */}
+          {outcomes.length} {outcomes.length === 1 ? 'option' : 'options'}
         </h2>
         <div className="flex items-center gap-2">
           <div className="relative">

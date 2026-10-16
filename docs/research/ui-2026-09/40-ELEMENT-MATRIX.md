@@ -1,10 +1,14 @@
 # 40 — Element-by-element matrix: Polymarket × Kalshi × Elopis → ruling
 
-Written 2026-09-27. Supersedes the comparative sections of [20-WORK-PLAN](20-WORK-PLAN.md) §1–§3.
+Written 2026-09-27; sections **K and L added 2026-10-16**.
+Supersedes the comparative sections of [20-WORK-PLAN](20-WORK-PLAN.md) §1–§3.
 Every cell cites where its number came from. Nothing is recalled.
 
 **Sources.**
 [PM] `captures-v2/polymarket/REPORT.md` (live polymarket.com, 2026-09-27, M1/M3) ·
+[PM2] [KA2] live polymarket.com and demo.kalshi.co, **2026-10-16**, re-measured for
+sections K and L because §3.4 says not to trust a month-old competitor column —
+and both heroes had been rebuilt in the interval ·
 [KA] `captures-v2/kalshi/REPORT.md` (demo.kalshi.co = **D**, help centre M3, API M2, store S) ·
 [KI] `captures-v2/elopis/` (live production data via a local production build, 2026-09-27, M1;
 `NOTATION-AUDIT.md` = code, V) ·
@@ -132,6 +136,38 @@ values: PM `#8b929b`/white 3.14, `#04af52` 2.89, `#f6c030` 1.68, `#bfc3ca` 1.77,
 | J1 | 404 | HTTP 404; "Page not found … Intercom"; title from slug [PM P15] | HTTP 404; illustration; "Go to home page" [KA P15] | HTTP 404; on-token page, two 44 px actions (shipped 2026-09-27) | **KEEP** |
 | J2 | Error boundary | not measured | not measured | `error.tsx` with refresh-and-retry, digest; per-segment loading without breaking 404 status | **KEEP** |
 | J3 | Help centre | separate site, no dark theme, 0/22 contrast failures | separate site, 85% targets <24 px (M1) | `/help` in-app | **KEEP** in-app help |
+
+## K. The chart as a live object (P01-hero, P03)
+
+Added 2026-10-16. Sections A–J covered the chart in three cells — A13 (data
+integrity), B4 (axis) and C5 (series colour against the background) — and
+nothing covered how the thing behaves while you watch it. Both incumbents have
+moved since the September capture; what follows is measured against
+polymarket.com and demo.kalshi.co on **2026-10-16** [PM2/KA2, M1], and against
+our own running app the same day [EL, M1].
+
+| # | Element | Polymarket | Kalshi | Elopis today | Evidence | Ruling |
+|---|---|---|---|---|---|---|
+| K1 | Series colours vs **each other** | not measured | not measured | palette slots 3/11 **CIEDE2000 2.5** apart (one colour, two names), 2/9 = 7.0, 8/12 = 9.5; slot 1 was raw `--pip-500` = **2.88:1** on the dark surface [EL, computed] | C5 checked colour-vs-background and nothing checked colour-vs-colour, which is the comparison a reader makes. 1.4.11 for the first half; Okabe & Ito (2008) for the second | **FIX** — six theme-aware Okabe-Ito slots, ≥3:1 each on its own surface, ≥20 ΔE apart (≥10 under deuteranopia/protanopia), dash beyond the sixth. Gate: `lib/__tests__/series-palette.test.ts` |
+| K2 | SVG text contrast | 244 axis nodes fall back to Arial [PM] | — | hero x-axis dates `--ink-300` on white = **2.09:1**; `ScrubChart` watermark 1.5:1 light / 1.7:1 dark [EL, M] | axe-core's `color-contrast` rule **does not evaluate SVG text**. A3's "0 failures" was measured with an instrument blind to every chart on the site | **FIX** + **INVENT** the gate: `e2e/svg-text-contrast.spec.ts`, both themes, compositing the real background; decorative watermarks exempt only when `aria-hidden` *and* under 20% opacity |
+| K3 | Axis domain | detail chart auto-scales (15/30/45/60%) | — | **both** of our charts auto-scaled: hero via `autoDomain` (ticks 0/20/40/60/80, no 100%, on all four slides), detail via `niceProbScale(max×1.3)` — a leader under 22% drew a 0–30% axis [EL, M + V] | B4 ruled fixed 0–100%; 42-STATUS recorded it closed. It was measured on markets whose leaders reached ~75%, where the auto-scale returns 0–100% anyway | **FIX** — fixed 0–100%, five ticks, on both charts. Open question for the owner: a market where every outcome sits under 10% now draws flat lines along the bottom; B4 took that trade on [31] CH-1 and it is worth re-confirming |
+| K4 | Watermark | 13 px, top-right, inside the plot [PM2] | — | `ScrubChart` 13 px corner (right); `ProbLines` **47 px, 143×56 px, dead centre of the plot** [EL, M] | Data ink | **FIX** — one rule, both charts: 13 px, corner, `aria-hidden` |
+| K5 | Hover readout | **no tooltip box**: 1 px crosshair, timestamp centred above the plot, each series' value inline on its own line in its own colour; everything after the crosshair ghosts grey [PM2 P03] | not reachable (bot challenge) | same pattern, plus pinned scrub, touch + keyboard via `role="slider"`, and a confidence band no competitor draws [EL, V] | — | **KEEP** — already past them |
+| K6 | End-of-series labels at rest | name + big % painted at the last point, in the series colour, inside a wide right gutter; **no legend row at all**; Brazil (32 markets) drew **2 lines** [PM2 P03] | same shape on the hero | dot only; a legend row above the plot carries all five names + % [EL, M] | — | **REJECT the geometry, KEEP ours.** Their labels need ~180 px of right gutter and only work because they draw two lines. Ours draws five, three of them bunched under 20%: a stack of five end-labels would sit on the lines it annotates. The legend row above does the same job in less ink. **Except on the hero** — see L1 |
+| K7 | Live trade ticker | `+ $<size>` labels in the **outcome's own series colour**, 13 px/600, in a `pointer-events-none` overlay anchored bottom-left of the plot, drifting as new trades land; also on the mobile market **cards**, where `+ $100` overlaps the Up button [PM2, M] | present on the hero chart [KA2, M] | none | B5 already REJECTED attention machinery; Barber (attention lists precede negative returns), Chapkovski (gamification selects low-literacy users), Barasa 2026 (Kenya RCT: social interaction +13% betting) [31] | **REJECT.** It is a live feed of other people's stakes animating over the price — the mechanism those three findings describe. What it legitimately smuggles is *"this market is trading"*, and we already answer that better: the ScrubChart confidence band widens where the book is thin. **INVENT** instead: a plain "last traded" time beside the volume, pull not push |
+| K8 | Range tabs | `1H 6H 1D 1W 1M ALL`, ALL default | `1D/1W/1M/ALL`, ALL default | data-aware (a range is offered only if it holds ≥2 points) — but the "never collapse to a single control" comment was never implemented, so every market with one usable range rendered a lone permanently-selected `ALL` tab [EL, M] | B4; a control with no alternative is not a control | **FIX** — hide the row below two ranges |
+| K9 | Emoji in the data strip | 🏆 Vol., 🔥 hot topics, 🎁 | ▲/▼ glyphs | zero emoji anywhere on `/` — every mark is an inline SVG [EL, M: one non-ASCII codepoint on the whole page, U+2026] | Emoji render per-platform and are announced inconsistently by screen readers | **KEEP**, and record it: this was never a ruling and it is a real lead |
+
+## L. Hero composition (P01)
+
+| # | Element | Polymarket | Kalshi | Elopis today | Evidence | Ruling |
+|---|---|---|---|---|---|---|
+| L1 | Chart legend | none — the end labels are the legend (K6) | legend row above the plot, each entry carrying its current value | a legend row that repeated the left column's first four outcomes **verbatim** — same names, same percentages, 200 px apart in one card — and cost two lines of chart height [EL, M] | — | **FIX** — delete the row; put the 8 px series swatch on the outcome rows, so the list *is* the legend. One place, with the avatar and figure already there |
+| L2 | Lines vs listed outcomes | — | — | panel listed 5, chart drew 4; the fifth had a price, a row, and no line, with nothing saying so [EL, M] | — | **FIX** — draw what the panel lists (6, matching the palette) |
+| L3 | Slides | **8**, dots + prev/next pills **labelled with the destination market's name** | **7**, "1 of 7" + arrow buttons | 4, dots + 44 px pause + labelled pills [EL, M] | WCAG 2.2.2 (B1) | **KEEP** — we already have their labelled pager *and* the stop control neither has. Slide count is a catalogue size question, not a design one |
+| L4 | News in the hero | 2 headlines per slide with source favicon and relative age (`BBC · 10h ago`) [PM2, M] | a sourced paragraph (`… according to ESPN`) [KA2, M] | none. The slot exists — the left column's activity feed — and is **empty on every slide**, correctly: the newest `market_activity` row is 63 days old and the feed is 7-day gated [EL, M + DB] | A market page answers *what* is priced; the hero does not answer *why it moved* | **ADOPT — blocked on data, not design.** `news_articles` holds 234 rows but `market_news` holds **8 links for 36 markets** (3.4%), and the highest-scored link in the whole table is wrong ("These are Ruto, Gachagua children" → *will Ruto and Gachagua reconcile*, 0.571). Building the slot now would ship a second always-empty box. Fix the matcher first — see 42-STATUS §3.3 |
+| L5 | Ranked rails | Breaking News (3, % + ↗/↘ change), Hot topics (5, $ today + 🔥) | Trending (3, % + ▲/▼ **points**) | Biggest moves (3) ✅; **Most traded rendered a ranked list of exactly one** — "1 Who wins… KSh 6.9K today" — because 1 of 36 active markets has any 24 h volume [EL, M + DB] | A rank number in front of a list of one claims an ordering the data does not have | **FIX** — drop the numbering below three rows; keep the ordering |
+| L6 | Mobile hero | **none** — PM's mobile home is an editorial card, then cards with a radial gauge and inline Up/Down quick-buy | — | no hero on mobile [EL, M] | B1 | **KEEP** — already aligned, and PM's own inline quick-buy chips collide with their trade ticker (`+ $100` painted over the Up button) |
 
 ---
 
