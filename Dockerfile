@@ -50,9 +50,17 @@ ENV NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL \
 # Three lines here turn that outage into a build failure, which is the only
 # place this is cheap to catch. Checked individually so the message names the
 # one that is missing.
-RUN test -n "$NEXT_PUBLIC_SUPABASE_URL"      || { echo "FATAL: --build-arg NEXT_PUBLIC_SUPABASE_URL is required (baked in at build time; a runtime secret cannot fix it)"; exit 1; }; \
-    test -n "$NEXT_PUBLIC_SUPABASE_ANON_KEY" || { echo "FATAL: --build-arg NEXT_PUBLIC_SUPABASE_ANON_KEY is required (baked in at build time; a runtime secret cannot fix it)"; exit 1; }; \
-    test -n "$NEXT_PUBLIC_APP_URL"           || { echo "FATAL: --build-arg NEXT_PUBLIC_APP_URL is required (baked in at build time; a runtime secret cannot fix it)"; exit 1; }
+# Checked by NAME, not by value. The first cut wrote `test -n "$VAR"`, and
+# BuildKit echoes a RUN line with its ENV references already substituted — so
+# the build log printed the Supabase URL and anon key in full. Both are public
+# by design (the anon key ships to every browser and is bounded by RLS), so
+# nothing was exposed that is not already, but a build log is the wrong place
+# to learn that habit: the next argument added here might not be public.
+# Dereferencing `$v` inside the shell keeps values out of the echoed command.
+RUN for v in NEXT_PUBLIC_SUPABASE_URL NEXT_PUBLIC_SUPABASE_ANON_KEY NEXT_PUBLIC_APP_URL; do \
+      eval "val=\${$v:-}"; \
+      [ -n "$val" ] || { echo "FATAL: --build-arg $v is required (baked in at build time by next build; a runtime secret cannot repair an image built without it)"; exit 1; }; \
+    done
 
 RUN npm run build
 

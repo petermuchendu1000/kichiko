@@ -56,8 +56,33 @@ const DEFAULT_NEXT: Record<string, string> = {
   email: '/',
 }
 
+/**
+ * The origin to build redirects from.
+ *
+ * NOT `new URL(request.url).origin`. Behind Fly's proxy that is the
+ * container's own bind address, and because fly.toml binds `::` (6PN is
+ * IPv6-only) it renders as the literal `https://[::]:3000` — which is exactly
+ * what this route emitted on its first production deploy, sending every
+ * emailed link to an address that cannot be reached from outside. The
+ * forwarded headers carry the host the user actually typed.
+ *
+ * `x-forwarded-host` is attacker-controllable in principle, so it is used only
+ * to build a redirect to a path we already validated, never trusted as an
+ * identity — and NEXT_PUBLIC_APP_URL (baked at build time) takes over whenever
+ * the header is absent.
+ */
+function publicOrigin(request: NextRequest, fallback: string): string {
+  const host = request.headers.get('x-forwarded-host')
+  if (host) {
+    const proto = request.headers.get('x-forwarded-proto') || 'https'
+    return `${proto}://${host}`
+  }
+  return process.env.NEXT_PUBLIC_APP_URL || fallback
+}
+
 export async function GET(request: NextRequest) {
-  const { searchParams, origin } = new URL(request.url)
+  const { searchParams, origin: localOrigin } = new URL(request.url)
+  const origin = publicOrigin(request, localOrigin)
   const tokenHash = searchParams.get('token_hash')
   const type = searchParams.get('type') ?? ''
   const next = safeRedirectPath(searchParams.get('next'), DEFAULT_NEXT[type] ?? '/')
