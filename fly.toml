@@ -31,6 +31,15 @@ primary_region = "lhr"
   NODE_ENV = "production"
   PORT = "3000"
   NEXT_TELEMETRY_DISABLED = "1"
+  # BIND IPv6, NOT 0.0.0.0. Fly's private network (6PN) is IPv6-ONLY, so
+  # `<app>.internal` resolves to AAAA records exclusively. The Dockerfile sets
+  # HOSTNAME=0.0.0.0, which binds IPv4 only — public traffic still worked
+  # (Fly's edge reaches the machine another way) but machine-to-machine did
+  # not, and the cron pinger's very first tick failed with "fetch failed".
+  # Measured on the running app: `netstat -lnt` showed `0.0.0.0:3000` while
+  # `dns.resolve6('elopis-prod.internal')` returned only fdaa:… addresses.
+  # `::` binds dual-stack on Linux, so both paths work.
+  HOSTNAME = "::"
 
 # DB migrations run as an ORDERED CI step (supabase db push) BEFORE the app
 # cutover in deploy-staging.yml / deploy-production.yml — the expand/contract
