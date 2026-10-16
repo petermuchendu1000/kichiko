@@ -26,6 +26,7 @@ import { MarketContextNews } from '@/components/markets/market-context-news'
 import { getMarketContextNews } from '@/lib/markets/context-news-data'
 import { normalizeOutcomes, isMultiOutcome, isIndependentOptions } from '@/lib/markets/outcomes'
 import { isFeatureEnabled } from '@/lib/flags'
+import { getTickerTrades } from '@/lib/markets/trade-ticker'
 import { fetchMarketHistory, thinByRecency } from '@/lib/markets/history'
 import type { Market, MarketOption } from '@/types'
 
@@ -95,6 +96,13 @@ async function MarketPriceHistory({
 }) {
   const supabase = await createClient()
 
+  // Live trade ticker (ruling K7, owner override 2026-10-16). Gated on
+  // flags.live_trade_ticker — a jurisdiction switch, OFF for a Kenyan
+  // licensee — and skipped entirely when off, so a disabled feature costs no
+  // query. Both halves are best-effort: the chart is complete without them.
+  const tickerEnabled = await isFeatureEnabled(supabase, 'flags.live_trade_ticker')
+  const tickerTrades = tickerEnabled ? await getTickerTrades(supabase, marketId) : []
+
   // Multiple-choice: one probability series per option (price_history rows are
   // keyed by market_option_id with a single `price`).
   if (options && options.length > 0) {
@@ -132,6 +140,9 @@ async function MarketPriceHistory({
         }))}
         volumeUsd={volumeUsd}
         closesAt={closesAt}
+        marketId={marketId}
+        tickerTrades={tickerTrades}
+        tickerEnabled={tickerEnabled}
       />
     )
   }

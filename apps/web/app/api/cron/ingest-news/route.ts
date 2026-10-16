@@ -27,6 +27,76 @@ const MAX_AGE_HOURS = 72
 const FEED_TIMEOUT_MS = 12_000
 const UA = 'Mozilla/5.0 (compatible; ElopisBot/1.0; +https://elopis.com)'
 
+/**
+ * Re-match every stored article against every live market, and REPLACE the
+ * links. `?rematch=1`, CRON_SECRET-gated like the rest of the route.
+ *
+ * It exists because the normal run has no retraction path: it upserts the
+ * links a batch produces and never removes one, so a link written by an older,
+ * buggier matcher is permanent. Measured 2026-10-16, two of the eight links in
+ * production were wrong in exactly that way — "Protests" and "Govt" had been
+ * read as names (see lib/news/match.ts) — and no amount of fixing the matcher
+ * would have cleared them.
+ *
+ * Matching runs DAY BY DAY, not over the whole table at once. The matcher's
+ * rules are explicitly properties of one day's news: PROPER_NOUN_MAX_DF is an
+ * absolute cut ("a ratio does not [separate them], because it moves with how
+ * busy the news day was"), so feeding it a month in one corpus would silently
+ * tighten it and drop real names. Day-sized batches are the shape it was
+ * tuned on.
+ */
+async function rematchAll(sb: Awaited<ReturnType<typeof createAdminClient>>) {
+  const [{ data: markets, error: mErr }, { data: articles, error: aErr }] = await Promise.all([
+    sb.from('markets').select('id, title').eq('status', 'active').eq('is_hidden', false),
+    sb.from('news_articles').select('id, title, published_at'),
+  ])
+  if (mErr) throw new Error(mErr.message)
+  if (aErr) throw new Error(aErr.message)
+
+  const byDay = new Map<string, { id: string; title: string }[]>()
+  for (const a of articles ?? []) {
+    const day = String(a.published_at ?? '').slice(0, 10) || 'undated'
+    const list = byDay.get(day) ?? []
+    list.push({ id: a.id as string, title: a.title as string })
+    byDay.set(day, list)
+  }
+
+  const marketList = (markets ?? []).map((m) => ({ id: m.id as string, title: m.title as string }))
+  const fresh = new Map<string, { market_id: string; article_id: string; score: number; matched_terms: string[] }>()
+  for (const [, dayArticles] of byDay) {
+    const corpus = buildCorpus(dayArticles.map((a) => a.title))
+    for (const m of matchArticles(marketList, dayArticles, corpus)) {
+      fresh.set(`${m.marketId}:${m.articleId}`, {
+        market_id: m.marketId,
+        article_id: m.articleId,
+        score: m.score,
+        matched_terms: m.terms,
+      })
+    }
+  }
+
+  const { data: existing } = await sb.from('market_news').select('market_id, article_id')
+  const stale = (existing ?? []).filter((r) => !fresh.has(`${r.market_id}:${r.article_id}`))
+  for (const r of stale) {
+    await sb.from('market_news').delete().eq('market_id', r.market_id).eq('article_id', r.article_id)
+  }
+  if (fresh.size > 0) {
+    const { error } = await sb
+      .from('market_news')
+      .upsert([...fresh.values()], { onConflict: 'market_id,article_id' })
+    if (error) throw new Error(error.message)
+  }
+
+  return {
+    days: byDay.size,
+    articles: (articles ?? []).length,
+    markets: marketList.length,
+    linked: fresh.size,
+    retracted: stale.length,
+    linked_markets: new Set([...fresh.values()].map((f) => f.market_id)).size,
+  }
+}
+
 async function fetchFeeds(): Promise<{ articles: ParsedArticle[]; errors: Record<string, string> }> {
   const errors: Record<string, string> = {}
   const settled = await Promise.allSettled(
@@ -68,6 +138,17 @@ async function handle(req: NextRequest) {
   }
 
   const sb = await createAdminClient()
+
+  if (new URL(req.url).searchParams.get('rematch') === '1') {
+    try {
+      const result = await rematchAll(sb)
+      log.info('ingest-news rematch complete', result)
+      return NextResponse.json({ ok: true, mode: 'rematch', ...result, request_id: requestId })
+    } catch (e) {
+      log.error('ingest-news rematch failed', { error: e instanceof Error ? e.message : 'unknown' })
+      return NextResponse.json({ error: 'rematch_failed', request_id: requestId }, { status: 500 })
+    }
+  }
 
   try {
     const outcome = await withJobRun(sb, JOB_NAME, requestId, async () => {

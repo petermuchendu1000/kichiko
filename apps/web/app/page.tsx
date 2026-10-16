@@ -7,6 +7,9 @@ import { getPriceSeries, type PriceSeries } from '@/lib/markets/price-history'
 import { getOptionSeries, type MarketSeries } from '@/lib/markets/option-series'
 import { getSpotlightComments } from '@/lib/markets/spotlight-comments'
 import { getSpotlightActivity } from '@/lib/markets/spotlight-activity'
+import { getTickerTradesForMarkets } from '@/lib/markets/trade-ticker'
+import { getLatestMarketNews } from '@/lib/markets/latest-news'
+import { isFeatureEnabled } from '@/lib/flags'
 import { safeJsonLd } from '@/lib/seo/jsonld'
 import { hideSettling } from '@/lib/markets/settling'
 import type { Market } from '@/types'
@@ -93,6 +96,19 @@ async function getData() {
   // Blended trader-activity feed (recent trades + comments) for the hero left
   // column — fills the space binary markets leave below two Yes/No rows.
   const heroActivity = await getSpotlightActivity(supabase, heroMarkets.map((m) => m.id))
+  // Live trade ticker (ruling K7, owner override 2026-10-16): the trades that
+  // have landed in the last 90 minutes, which the hero chart animates onto the
+  // plot. Gated on flags.live_trade_ticker — a jurisdiction switch, OFF for a
+  // Kenyan licensee — and skipped entirely when the flag is off so a disabled
+  // feature costs no query.
+  // Freshest matched headlines across the whole board for the rail's "In the
+  // news" card (see lib/markets/latest-news.ts for why it is board-wide and
+  // not per slide).
+  const latestNews = await getLatestMarketNews(supabase, 5)
+  const tickerEnabled = await isFeatureEnabled(supabase, 'flags.live_trade_ticker')
+  const heroTicker = tickerEnabled
+    ? await getTickerTradesForMarkets(supabase, heroMarkets.map((m) => m.id))
+    : {}
 
   // Biggest movers: markets whose implied probability shifted the most (either
   // direction) over the recorded window, ranked by absolute change.
@@ -139,13 +155,16 @@ async function getData() {
     heroSeries,
     heroComments,
     heroActivity,
+    heroTicker,
+    tickerEnabled,
+    latestNews,
     optionSeries,
   }
 }
 
 
 export default async function HomePage() {
-  const { featured, trending, recent, topByMarket, countByMarket, seriesByMarket, movers, hotTopics, breaking, allActive, categoryCounts, heroMarkets, heroSeries, heroComments, heroActivity, optionSeries } =
+  const { featured, trending, recent, topByMarket, countByMarket, seriesByMarket, movers, hotTopics, breaking, allActive, categoryCounts, heroMarkets, heroSeries, heroComments, heroActivity, heroTicker, tickerEnabled, latestNews, optionSeries } =
     await getData()
 
 
@@ -225,7 +244,7 @@ export default async function HomePage() {
         dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
       />
       {/* Category rail is now mounted globally in the root layout (SubNav). */}
-      <HeroSection items={heroItems} hotTopics={hotTopics} breaking={breaking} comments={heroComments} activity={heroActivity} />
+      <HeroSection items={heroItems} hotTopics={hotTopics} breaking={breaking} comments={heroComments} activity={heroActivity} ticker={heroTicker} tickerEnabled={tickerEnabled} news={latestNews} />
 
       <div className="max-w-[1350px] mx-auto px-4 lg:px-6">
 

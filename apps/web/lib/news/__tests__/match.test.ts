@@ -24,6 +24,9 @@ const CORPUS_TITLES = [
   'Microsoft to close Nairobi tech hub in major blow',
   'Kenya declares Ebola a formidable epidemic disease',
   'Mount Kenya wildfire: What 8,700 burnt hectares reveal',
+  // Title case, and the source of a real false positive: "Protests" was read
+  // as a name and attached the Finance Bill market to a fuel-price story.
+  'Motorists Threaten Protests Over EPRA Fuel Price Hikes',
 ]
 
 const art = (title: string) => ({ id: title, title })
@@ -63,7 +66,6 @@ describe('buildCorpus', () => {
     const { properNouns } = corpus()
     expect(properNouns.has('sakaja')).toBe(true)
     expect(properNouns.has('gachagua')).toBe(true)
-    expect(properNouns.has('talanta')).toBe(true)
   })
 
   it('refuses generic words, even capitalised ones', () => {
@@ -71,6 +73,28 @@ describe('buildCorpus', () => {
     // "MPs" is capitalised in four of these headlines — a name must be rarer.
     expect(properNouns.has('mps')).toBe(false)
     expect(properNouns.has('hits')).toBe(false)
+  })
+
+  it('ignores a TITLE-CASE headline, which capitalises everything', () => {
+    const { properNouns } = corpus()
+    // Both of these shipped as names and each produced a false link in
+    // production (measured 2026-10-16): "Protests" tied the Finance Bill
+    // market to a fuel-price story.
+    expect(properNouns.has('protests')).toBe(false)
+    // "Talanta" is the cost of this rule: it appears once, in a title-case
+    // headline, so the corpus can no longer tell it from "Sporting". Its
+    // market still matches that story — on talanta AND stadium, two terms —
+    // so nothing is lost in practice. Measured against the live table, no
+    // correct link depended on a title-case-only name and two wrong ones did.
+    expect(properNouns.has('talanta')).toBe(false)
+  })
+
+  it('ignores a word that has only ever opened one headline', () => {
+    const { properNouns } = corpus()
+    // "Govt targets 20,766 schools…" — capitalised because it starts the
+    // sentence, nothing more. As a name it attached a schools rollout to the
+    // housing market in production.
+    expect(properNouns.has('govt')).toBe(false)
   })
 })
 

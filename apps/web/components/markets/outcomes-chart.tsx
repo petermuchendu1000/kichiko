@@ -11,6 +11,8 @@ import { format } from 'date-fns'
 import { ScrubChart, type ScrubSeries } from './scrub-chart'
 import { IconTrophy, IconClock } from '@/components/ui/icons'
 import { SERIES_PALETTE as PALETTE } from '@/lib/markets/series-color'
+import { TradeTicker, TickerStopButton } from './trade-ticker'
+import type { TickerTrade } from '@/lib/markets/trade-ticker'
 import { formatVolume } from '@/lib/utils'
 
 export interface OutcomeSeriesOption {
@@ -41,6 +43,12 @@ interface OutcomesChartProps {
   showLegend?: boolean
   /** Drawer parity: hide 6H and relabel ALL→MAX (PM: 1H · 1D · 1W · 1M · MAX). */
   compactTimeframes?: boolean
+  /** Market id or slug — the ticker polls this. Omit to render no ticker. */
+  marketId?: string
+  /** Trades inside the ticker window, server-rendered (ruling K7). */
+  tickerTrades?: TickerTrade[]
+  /** flags.live_trade_ticker, resolved on the server. */
+  tickerEnabled?: boolean
 }
 
 // Timeframe range toggles — exact Polymarket set + order: 1H · 6H · 1D · 1W · 1M · ALL.
@@ -60,7 +68,7 @@ const TIMEFRAMES: { key: Timeframe; label: string; ms: number | null }[] = [
 // chart, its legend/tooltip, and the per-option Market drawer all agree
 // (see PALETTE import at the top of this file).
 
-export function OutcomesChart({ options, data, volumeUsd, closesAt, colorMap, showLegend = true, compactTimeframes = false }: OutcomesChartProps) {
+export function OutcomesChart({ options, data, volumeUsd, closesAt, colorMap, showLegend = true, compactTimeframes = false, marketId, tickerTrades, tickerEnabled = false }: OutcomesChartProps) {
   const [timeframe, setTimeframe] = useState<Timeframe>('ALL')
 
   // Stable option order + color assignment, ranked by current price.
@@ -235,15 +243,29 @@ export function OutcomesChart({ options, data, volumeUsd, closesAt, colorMap, sh
       </ul>
       )}
 
-      <ScrubChart
-        series={scrubSeries}
-        height={192}
-        yMax={yMax}
-        yTicks={yTicks}
-        watermark="Elopis"
-        ariaLabel={summary}
-        xTickFormat={(t) => xTickFormatter(new Date(t).toISOString())}
-      />
+      {/* The plot and its overlay share one positioned box, so a trade label
+          is clamped to the chart and can never drift over the footer chips or
+          the range toggles. Ruling K7; the stop control lives here because
+          this page has no carousel to borrow one from. */}
+      <div className="relative">
+        <ScrubChart
+          series={scrubSeries}
+          height={192}
+          yMax={yMax}
+          yTicks={yTicks}
+          watermark="Elopis"
+          ariaLabel={summary}
+          xTickFormat={(t) => xTickFormatter(new Date(t).toISOString())}
+        />
+        {tickerEnabled && (
+          <TradeTicker
+            initial={tickerTrades ?? []}
+            marketId={marketId}
+            enabled
+            colors={Object.fromEntries(colorById)}
+          />
+        )}
+      </div>
 
       {isSeeded && (
         <p className="mt-1 text-center text-[11px] text-text-muted">Awaiting first trade — showing current probabilities</p>
@@ -266,6 +288,12 @@ export function OutcomesChart({ options, data, volumeUsd, closesAt, colorMap, sh
             </span>
           )}
         </div>
+
+        <div className="flex flex-none items-center gap-1">
+          {/* The ticker's WCAG 2.2.2 control, in the control row rather than
+              floating over the plot — the first cut put it at the chart's
+              bottom-right corner, on top of the "0%" axis label. */}
+          {tickerEnabled && <TickerStopButton />}
 
         <div
           role="tablist"
@@ -293,6 +321,7 @@ export function OutcomesChart({ options, data, volumeUsd, closesAt, colorMap, sh
               </button>
             )
           })}
+        </div>
         </div>
       </div>
     </div>

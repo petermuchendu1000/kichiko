@@ -8,7 +8,13 @@
 // autoplay (paused on hover/focus/tab-hidden), touch swipe, keyboard arrows,
 // and prefers-reduced-motion. Because the slides themselves are server
 // components passed as props, the heavy chart SVG stays 0 first-load JS.
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
+import {
+  useMotionStopped,
+  setMotionStopped,
+  isMotionStopped,
+  subscribeMotionStopped,
+} from '@/lib/motion-stop'
 import { IconChevronLeft, IconChevronRight } from '@/components/ui/icons'
 
 interface HeroCarouselProps {
@@ -32,7 +38,16 @@ export function HeroCarousel({ slides, titles, autoPlayMs = 7000 }: HeroCarousel
   // `stopped` is the explicit, persistent choice; `pausedRef` stays as the
   // transient hover/drag courtesy. Once someone stops the rotation it stays
   // stopped — a control that silently resumes has not really stopped anything.
-  const [stopped, setStopped] = useState(false)
+  // The shared preference, not local state. Everything in the hero that moves
+  // by itself — this carousel and the on-chart trade ticker — is stopped by
+  // this one control, because three stop buttons in one card satisfies the
+  // letter of WCAG 2.2.2 and defeats its purpose. See lib/motion-stop.ts.
+  const stopped = useMotionStopped()
+  const explicitlyStopped = useSyncExternalStore(
+    subscribeMotionStopped,
+    isMotionStopped,
+    () => false,
+  )
   const pausedRef = useRef(false)
   const drag = useRef<{ x: number; y: number } | null>(null)
   // Set when a horizontal swipe just fired, so the click it would otherwise
@@ -42,7 +57,7 @@ export function HeroCarousel({ slides, titles, autoPlayMs = 7000 }: HeroCarousel
   const go = useCallback((i: number) => setActive(((i % n) + n) % n), [n])
   // Any deliberate navigation stops the carousel: having just chosen a slide,
   // nobody wants it swapped out from under them a few seconds later.
-  const goManual = useCallback((i: number) => { setStopped(true); go(i) }, [go])
+  const goManual = useCallback((i: number) => { setMotionStopped(true); go(i) }, [go])
   const next = useCallback(() => goManual(active + 1), [active, goManual])
   const prev = useCallback(() => goManual(active - 1), [active, goManual])
 
@@ -194,17 +209,19 @@ export function HeroCarousel({ slides, titles, autoPlayMs = 7000 }: HeroCarousel
                   // otherwise a lingering hover or this button's own focus
                   // would keep the carousel still.
                   pausedRef.current = false
-                  setStopped((v) => !v)
+                  setMotionStopped(!explicitlyStopped)
                 }}
-                aria-pressed={stopped}
+                aria-pressed={explicitlyStopped}
                 className="mr-1.5 grid h-11 w-11 place-items-center rounded-full transition-colors"
                 style={{ color: 'var(--text-3)' }}
-                title={stopped ? 'Resume automatic rotation' : 'Stop automatic rotation'}
+                title={explicitlyStopped ? 'Resume automatic motion' : 'Stop automatic motion'}
               >
                 <span className="sr-only">
-                  {stopped ? 'Resume automatic rotation of featured markets' : 'Stop automatic rotation of featured markets'}
+                  {explicitlyStopped
+                    ? 'Resume automatic motion: rotating featured markets and the live trade animation'
+                    : 'Stop automatic motion: rotating featured markets and the live trade animation'}
                 </span>
-                {stopped ? (
+                {explicitlyStopped ? (
                   <svg width="13" height="13" viewBox="0 0 12 12" aria-hidden="true" fill="currentColor">
                     <path d="M3 1.8v8.4a.6.6 0 0 0 .92.5l6.5-4.2a.6.6 0 0 0 0-1l-6.5-4.2A.6.6 0 0 0 3 1.8Z" />
                   </svg>

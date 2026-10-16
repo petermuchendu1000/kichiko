@@ -32,6 +32,8 @@ harness/
   rails.js     resolved swatch colours, rail row counts, icon identity
   colormath.py sRGB -> Lab -> CIEDE2000 + the Viénot/Brettel dichromacy sim
   okabe*.py    the palette search: flatten (failed), shift (shipped), compare
+  shot-ticker.js  drives the ticker from a stubbed trades route and shoots it
+  shot-news.js    three frames of the news card, one rotation apart
   pal6b.py     the from-scratch max-min search, kept because its result is the
                argument against doing it that way
 data/
@@ -39,6 +41,8 @@ data/
 shots/
   PM-*  polymarket.com     KA-*  demo.kalshi.co
   EL-*  ours, before       V-*, EL3-*  ours, after
+  TICKER-market.png   our ticker, two trades in their own outcome colours
+  NEWS-rail.png       the rotating "In the news" card in the hero rail
 ```
 
 ## The three measurements worth keeping

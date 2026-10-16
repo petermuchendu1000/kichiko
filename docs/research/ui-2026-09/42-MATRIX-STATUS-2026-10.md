@@ -463,19 +463,9 @@ deliberately on [31] CH-1 ("truncation exaggerates"), which on a product where
 people stake money on the number is the safer direction to be wrong in. It is
 still worth the owner re-confirming for low-probability markets.
 
-**Two measured things we are NOT copying**, with the reasoning, because a
-REJECT needs evidence as much as an ADOPT does:
+**One measured thing we are not copying** (K6), and one the owner overruled
+(K7, see §2.12):
 
-* **The on-chart trade ticker** (K7). Both incumbents now animate `+ $<size>`
-  labels over the plot in each outcome's series colour — Polymarket on the
-  hero chart *and* on mobile cards, where their own `+ $100` lands on top of
-  the "Up" button. It is a live feed of other people's stakes painted over the
-  price, which is the mechanism behind three findings already in [31]: Barber
-  (attention-grabbing lists precede negative returns), Chapkovski (gamification
-  selects low-literacy users) and Barasa 2026 (Kenya RCT, social interaction
-  raised betting 13%). Ruling B5 rejected attention machinery; this is that.
-  The legitimate signal inside it — *this market is trading* — we already serve
-  better, with the confidence band that widens where the book is thin.
 * **End-of-series labels on the detail chart** (K6). Polymarket paints the name
   and a large percentage at each line's last point and runs no legend row at
   all. It works for them because they draw **two** lines (Brazil: 32 markets,
@@ -506,7 +496,89 @@ Both are the product decision recorded as D4 in
 waiting on a dependency. A DOB field is trivial; deciding to block existing
 depositors is not.
 
-### 2.11 The news matcher — found 2026-10-16, NOT fixed
+### 2.12 K7 and L4 shipped — the owner's call, 2026-10-16
+
+Section 2.9 recorded the live trade ticker as **REJECT** on three findings in
+[31], and L4 as blocked on data. The owner overruled the first and redirected
+the second the same day:
+
+> "note, I said our focus is global, the company will be registered in US. if
+> polymarket as are doing it, we can! Once we register a subsidiary with
+> kenyan jurisdiction, we'll need to abide by their rules and not 'show' the
+> price animations. For now, implement it so we can progress. Also, implement
+> the news animations"
+
+That is a scoping decision, not a reversal of the evidence, and the build
+reflects it: **`flags.live_trade_ticker`** is the whole of the Kenyan switch.
+It ships ON (US/global), it is a public boolean in the settings console with
+the reasoning in its help text, and the chart renders complete without the
+overlay — so turning it off is one toggle, not a code change. The API route is
+gated on the same flag, so a disabled ticker cannot be revived from the client.
+
+**The ticker.** `market_activity` inside a 90-minute window, server-rendered
+for the first frame, then polled every 6 s against
+`/api/markets/[id]/trades?since=`. Labels are 13 px/600 in the outcome's own
+series colour, in a `pointer-events-none` overlay at the plot's `bottom-10
+left-2.5` — Polymarket's measured geometry, reproduced, with our own palette
+so a label and its line always agree.
+
+Three deliberate divergences:
+
+* **Stoppable.** Theirs cannot be stopped; WCAG 2.2.2 asks for a mechanism and
+  `prefers-reduced-motion` is not one (B1's lesson). Stopping **freezes**
+  rather than blanks: the trades on screen stay readable. One control covers
+  everything that moves — the carousel's existing 44x44 toggle now writes a
+  shared preference (`lib/motion-stop.ts`) that the ticker and the news card
+  both read, because three stop buttons in one card satisfies 2.2.2 and
+  defeats its purpose.
+* **Honest about staleness.** Nothing outside the window renders, so the
+  ticker never loops old rows to imply a market is busy. On this database that
+  means it is invisible today: the newest `market_activity` row is months old.
+  `scripts/seed_activity.py` is how to make it visible locally.
+* **Clamped.** The overlay lives inside the plot's own positioned box, so a
+  label cannot travel over a control — which Polymarket's does, on their own
+  mobile cards, where `+ $100` lands on the "Up" button.
+
+The gate (`e2e/trade-ticker.spec.ts`) stubs the trades route, because a test
+that waited for real trades would pass vacuously for as long as the market is
+quiet. It asserts a trade arriving **after load** reaches the chart (so the
+poller is exercised, not just the server frame), that labels wear their own
+outcome's colour, that the overlay stays inside the chart box, that the stop
+control is >=44 px and freezes without blanking, and that `enabled: false`
+renders nothing at all.
+
+**The news (L4), relocated and why.** Per-slide was measured impossible: six
+links across 36 markets and **none on a featured market**, so the slot would
+have been empty on every slide — the hero activity feed's mistake, twice. The
+rotating card went into the rail instead, where it is always populated and
+answers a better question: what moved the *board*, not what this slide is
+about. It is also the honest version of a card Polymarket only pretends to
+run — their rail is headed "Breaking News" and its rows are markets with a
+probability and a delta, no journalism at all.
+
+It holds a headline 7 s and cross-fades in 420 ms. **A scrolling ticker was
+rejected**: a headline is prose, and text that moves while you read it cannot
+be read — which is why 2.2.2 exists. Stopped, it freezes *and* lists the other
+stories underneath, so the choice costs motion and never content. Each story
+links out to its publisher (`noopener nofollow`) and in to the market it
+bears on.
+
+**And one defect the new work surfaced by accident.** Adding the ticker shifted
+the market page's hydration timing, and the a11y gate started failing on the
+chart's loading placeholder: `text-gray-600` composited to **#9aa0a8 on
+#f8f9fa — 2.5:1**, serious. §2.8 recorded fixing that exact label (gray-400 at
+2.3:1 → gray-600 at 7.6:1) and the fix was real. What undid it was
+`animate-pulse`, which animates opacity on whatever carries it: the box, the
+wash **and the label**, so the text's contrast halved on every cycle. 7.6:1 at
+rest, 2.5:1 at the trough.
+
+That also made the gate non-deterministic — whether axe caught it depended on
+where the pulse happened to be when it ran, which is why it passed for weeks
+and then failed on an unrelated change. The pulse is now a background wash and
+the label holds full opacity: legible throughout, and the gate passes twice in
+a row on purpose rather than by luck.
+
+### 2.11 The news matcher — two bugs fixed, one left standing
 
 Section L4 wanted the hero to carry the headline that moved the market, which
 is the one thing both incumbents put there and we do not. Checking whether the
@@ -536,11 +608,52 @@ journalism, and screen readers announce mathematical alphanumerics letter by
 letter or skip them, so the headline is unreadable to the people most likely
 to need it read aloud.
 
-This is the news pipeline, not the chart, and it is left for its own pass
-rather than started at the end of this one. Until the matcher is trustworthy,
-**do not build the hero news slot** — it would ship a second always-empty box
-beside the activity feed, or worse, a confidently wrong headline under a
-market's name.
+**Fixed 2026-10-16**, both bugs in one place — the corpus's capitalisation
+rule, which decides what counts as a name:
+
+* **Title-case headlines.** The rule already ignored ALL-CAPS headlines, on the
+  grounds that one capitalising every word is no evidence any word is a name.
+  Kenyan outlets are split roughly evenly between title case and sentence case,
+  and a title-case headline does exactly the same thing. "Motorists Threaten
+  Protests Over EPRA Fuel Price Hikes" promoted **Protests** to a name.
+* **Sentence-initial capitals.** An earlier fix removed the first-position
+  exclusion so a name leading its only headline would still be found. That
+  traded one false negative for a class of false positives: every headline
+  capitalises its opening word. "Govt targets 20,766 schools…" promoted
+  **Govt**. Leading now counts only when a term leads more than one headline.
+
+Thresholds were set against the corpus rather than by feel. At the obvious
+"4+ content words, 75% capitalised" the title-case detector swallowed "These
+are Ruto, Gachagua children" — four content words, three capitalised because
+two are names and one opens the sentence — and that headline is the only
+sentence-case sighting of **Gachagua**, so a real name was lost. Five words at
+85% separates them.
+
+The cost, stated: **Talanta** is no longer read as a name, because it appears
+once and in a title-case headline. Its market still matches that story on two
+terms (talanta *and* stadium), so nothing is lost in practice — and measured
+against the live table, no correct link depended on a title-case-only name
+while two wrong ones did.
+
+**The pipeline had no retraction path**, which is why fixing the matcher alone
+would have changed nothing: the cron upserts the links a batch produces and
+never removes one, so both false links were permanent. `?rematch=1` on the
+ingest route re-matches every stored article and **replaces** the link set. It
+works day by day rather than over the whole table at once, because the
+matcher's rules are explicitly properties of one day's news (`PROPER_NOUN_MAX_DF`
+is an absolute cut, and feeding it a month would silently tighten it).
+
+Run against production: **234 articles, 4 days, 36 markets → 6 links,
+2 retracted.** Exactly the two diagnosed false positives, and nothing else.
+
+**One is left standing, and it is the honest limit of the approach.** The
+Ruto/Gachagua children listicle still scores highest (0.568) on
+`["ruto", "gachagua"]`. The market asks whether the two *reconcile*; the story
+shares both names and none of the event. A title-only bag-of-words matcher
+cannot tell "mentions the same people" from "is about the same thing", and no
+capitalisation rule reaches it. Worth naming as the next question rather than
+papering over with a threshold — the threshold would have to exclude the
+highest-scoring link in the table.
 
 **No outright WCAG failure is known to be open.** B1's auto-rotating hero
 (2.2.2 Pause, Stop, Hide) was the last one, and the three found while

@@ -23,6 +23,10 @@ import Link from 'next/link'
 import type { Market } from '@/types'
 import { CATEGORY_LABELS } from '@/types'
 import { ProbLines, LINE_PALETTE } from '@/components/markets/prob-lines'
+import { TradeTicker } from '@/components/markets/trade-ticker'
+import { NewsRotator } from '@/components/markets/news-rotator'
+import type { LatestNewsItem } from '@/lib/markets/latest-news'
+import type { TickerTrade } from '@/lib/markets/trade-ticker'
 import type { MarketSeries } from '@/lib/markets/option-series'
 import type { HeroActivityItem } from '@/lib/markets/spotlight-activity'
 import { EntityAvatar } from '@/components/ui/entity-avatar'
@@ -190,7 +194,19 @@ function TraderActivity({ items, max }: { items?: HeroActivityItem[]; max: numbe
 }
 
 
-function Spotlight({ market, series, comments, activity }: HeroMarket & { comments?: HeroComment[]; activity?: HeroActivityItem[] }) {
+function Spotlight({
+  market,
+  series,
+  comments,
+  activity,
+  ticker,
+  tickerEnabled,
+}: HeroMarket & {
+  comments?: HeroComment[]
+  activity?: HeroActivityItem[]
+  ticker?: TickerTrade[]
+  tickerEnabled?: boolean
+}) {
   const cat = CATEGORY_LABELS[market.category] ?? { label: 'Event', emoji: '🔮' }
   const sub = prettyTag(market.tags?.[0])
   const ranked = [...series.lines].sort((a, b) => b.price - a.price)
@@ -394,7 +410,30 @@ function Spotlight({ market, series, comments, activity }: HeroMarket & { commen
               to do it. The left column now carries the swatch instead, so the
               outcome list IS the legend: one place, with the avatar and the
               figure already there. */}
-          <div className="flex min-w-0 flex-1 flex-col">
+          <div className="relative flex min-w-0 flex-1 flex-col">
+            {/* Ruling K7, owner override 2026-10-16. The overlay is clamped to
+                this wrapper, which is the plot's own box, so a label can never
+                travel over the outcome rows or the View-market button the way
+                Polymarket's lands on their mobile "Up" button. No stop control
+                here: the carousel's existing 44x44 toggle writes the shared
+                motion preference this reads (lib/motion-stop.ts). */}
+            {/* Mounted whenever the flag is on, not only when the server
+                frame already had trades: a market whose first trade lands
+                while someone is looking at the page must be able to show it,
+                and that only works if the poller is already running. */}
+            {tickerEnabled && (
+              <TradeTicker
+                initial={ticker ?? []}
+                marketId={market.id}
+                enabled
+                // `ranked` and ProbLines sort by the same key, so the row
+                // index IS the palette slot — a label and its line always
+                // carry the same colour.
+                colors={Object.fromEntries(
+                  ranked.map((o, i) => [o.id, LINE_PALETTE[i % LINE_PALETTE.length]]),
+                )}
+              />
+            )}
             <ProbLines
               lines={series.lines}
               binary={series.binary}
@@ -606,7 +645,7 @@ function HotTopics({ topics }: { topics: Market[] }) {
   )
 }
 
-function HeroRail({ hotTopics, breaking }: { hotTopics: Market[]; breaking: BreakingItem[] }) {
+function HeroRail({ hotTopics, breaking, news }: { hotTopics: Market[]; breaking: BreakingItem[]; news: LatestNewsItem[] }) {
   return (
     <aside className="flex flex-col gap-3">
       <PromoCard
@@ -618,6 +657,10 @@ function HeroRail({ hotTopics, breaking }: { hotTopics: Market[]; breaking: Brea
         href="/#how-it-works"
       />
       <BreakingNews items={breaking} />
+      {/* Real journalism, rotating. Sits above "Most traded" because it is the
+          only card in the rail that answers WHY — the other two answer what
+          and how much. */}
+      <NewsRotator items={news} />
       <HotTopics topics={hotTopics} />
       <Link href="/markets" className="btn btn-secondary w-full justify-center gap-1.5" style={{ borderRadius: 'var(--r-pill)' }}>
         See all events <IconArrowRight size={15} />
@@ -634,17 +677,34 @@ export function HeroSection({
   breaking = [],
   comments = {},
   activity = {},
+  ticker = {},
+  tickerEnabled = false,
+  news = [],
 }: {
   items?: HeroMarket[]
   hotTopics?: Market[]
   breaking?: BreakingItem[]
   comments?: Record<string, HeroComment[]>
   activity?: Record<string, HeroActivityItem[]>
+  /** Trades inside the ticker window, per market id (ruling K7). */
+  ticker?: Record<string, TickerTrade[]>
+  /** flags.live_trade_ticker, resolved on the server. */
+  tickerEnabled?: boolean
+  /** Freshest matched headlines across the board, for the rail. */
+  news?: LatestNewsItem[]
 }) {
   if (items.length === 0) return null
 
   const slides = items.map((it) => (
-    <Spotlight key={it.market.id} market={it.market} series={it.series} comments={comments[it.market.id]} activity={activity[it.market.id]} />
+    <Spotlight
+      key={it.market.id}
+      market={it.market}
+      series={it.series}
+      comments={comments[it.market.id]}
+      activity={activity[it.market.id]}
+      ticker={ticker[it.market.id]}
+      tickerEnabled={tickerEnabled}
+    />
   ))
   const titles = items.map((it) => it.market.title)
 
@@ -653,7 +713,7 @@ export function HeroSection({
       <div className="relative mx-auto max-w-[1350px] px-4 py-6 lg:px-6 sm:py-8">
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-[2.35fr_1fr]">
           <HeroCarousel slides={slides} titles={titles} autoPlayMs={11000} />
-          <HeroRail hotTopics={hotTopics} breaking={breaking} />
+          <HeroRail hotTopics={hotTopics} breaking={breaking} news={news} />
         </div>
       </div>
     </section>

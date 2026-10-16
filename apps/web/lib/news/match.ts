@@ -100,24 +100,69 @@ export function buildCorpus(articleTitles: string[]): Corpus {
   const capSeen = new Set<string>()
   const lowerSeen = new Set<string>()
 
+  // Capitalisation at the START of a headline is weak evidence: every
+  // headline capitalises its opening word whatever that word is. Counted
+  // separately so a term that only ever leads has to do it more than once.
+  const leadSeen = new Map<string, number>()
+
   for (const title of articleTitles) {
     for (const t of new Set(tokenize(title))) df.set(t, (df.get(t) ?? 0) + 1)
-    for (const raw of title.match(/[A-Za-z][A-Za-z0-9'’-]*/g) ?? []) {
+
+    const words = title.match(/[A-Za-z][A-Za-z0-9'’-]*/g) ?? []
+    // A TITLE-CASE headline ("Motorists Threaten Protests Over EPRA Fuel Price
+    // Hikes") capitalises every content word, so — exactly like an ALL-CAPS
+    // one — it is no evidence that any particular word is a name. Without this
+    // the corpus promoted "Protests" and "Govt" to names, and each then
+    // attached a market to a story on one meaningless shared word: a schools
+    // rollout landed on the housing market, measured in production
+    // 2026-10-16. Kenyan outlets are split roughly evenly between title case
+    // and sentence case, so this is not a rare shape.
+    //
+    // Thresholds chosen against the corpus, not by feel. At >=4 words and 75%
+    // the detector swallowed "These are Ruto, Gachagua children" — four
+    // content words, three of them capitalised because two are names and one
+    // opens the sentence — and that headline is the only sentence-case
+    // sighting of "Gachagua", so a real name was lost. Five words at 85%
+    // separates a genuine title-case headline (where essentially EVERY
+    // content word is capitalised) from a short sentence-case one that merely
+    // looks busy.
+    const content = words.filter((w) => w.length >= 4)
+    const titleCase =
+      content.length >= 5 &&
+      content.filter((w) => /^[A-Z]/.test(w)).length / content.length >= 0.85
+
+    words.forEach((raw, i) => {
       const key = stripPossessive(raw.toLowerCase().replace(/['’-]+$/, ''))
-      if (key.length < 3) continue
-      if (/^[a-z]/.test(raw)) lowerSeen.add(key)
-      // An ALL-CAPS headline ("KDF DAY 2026") capitalises every word, so it is
-      // no evidence that any one of them is a name.
-      else if (!(raw === raw.toUpperCase() && raw.length > 1)) capSeen.add(key)
-    }
+      if (key.length < 3) return
+      if (/^[a-z]/.test(raw)) {
+        // One lowercase sighting anywhere disqualifies a term for good, which
+        // is what makes this rule cheap and hard to fool.
+        lowerSeen.add(key)
+        return
+      }
+      // An ALL-CAPS headline ("KDF DAY 2026") says nothing either.
+      if (raw === raw.toUpperCase() && raw.length > 1) return
+      if (titleCase) return
+      if (i === 0) {
+        leadSeen.set(key, (leadSeen.get(key) ?? 0) + 1)
+        return
+      }
+      capSeen.add(key)
+    })
   }
 
   const n = Math.max(1, articleTitles.length)
   const idf = new Map<string, number>()
   for (const [term, count] of df) idf.set(term, Math.log((n + 1) / (count + 1)))
 
+  // A name is capitalised away from the first word at least once, or leads
+  // more than one headline — a word that has only ever opened a single
+  // sentence has shown nothing about itself.
+  const candidates = new Set<string>(capSeen)
+  for (const [term, leads] of leadSeen) if (leads >= 2) candidates.add(term)
+
   const properNouns = new Set<string>()
-  for (const term of capSeen) {
+  for (const term of candidates) {
     if (lowerSeen.has(term)) continue
     if ((df.get(term) ?? 0) > PROPER_NOUN_MAX_DF) continue
     properNouns.add(term)

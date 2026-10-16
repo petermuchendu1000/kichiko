@@ -5,15 +5,27 @@
 export function ChartSkeleton({ label = 'Loading chart…' }: { label?: string }) {
   return (
     <div
-      className="flex h-full min-h-[220px] w-full animate-pulse items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800/60"
+      className="relative flex h-full min-h-[220px] w-full items-center justify-center overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800/60"
       role="img"
       aria-label={label}
     >
-      {/* gray-400 on the gray-100 fill measured 2.3:1 (axe, serious): the one
-          piece of text on this box was the least legible thing on the page.
-          gray-600 on gray-100 is 7.6:1; the dark pair was no better at
-          gray-500 on gray-800, so it moves with it. */}
-      <span className="text-xs text-gray-600 dark:text-gray-300">{label}</span>
+      {/* The pulse is a BACKGROUND wash, not the whole box.
+          `animate-pulse` animates opacity on whatever carries it, and the
+          label used to carry it with everything else — so its contrast
+          halved on every cycle. Measured by axe mid-pulse: gray-600 composited
+          to #9aa0a8 on #f8f9fa, **2.5:1**, serious. At rest the same pair is
+          7.6:1, which is what the earlier fix measured and recorded; the
+          animation was quietly undoing it half the time.
+
+          That also made the a11y gate non-deterministic: whether it caught
+          this depended on where the pulse happened to be when axe ran, which
+          is why it passed for weeks and then failed. The wash animates, the
+          text does not, and the result is both legible and stable. */}
+      <span
+        className="absolute inset-0 animate-pulse bg-gray-200/60 dark:bg-gray-700/40"
+        aria-hidden="true"
+      />
+      <span className="relative text-xs text-gray-600 dark:text-gray-300">{label}</span>
     </div>
   )
 }
