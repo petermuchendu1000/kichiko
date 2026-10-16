@@ -2,12 +2,27 @@
 
 // components/kyc/kyc-wizard.tsx
 // Stepped identity verification rebuilt as an institutional "Verification Console":
-//   Overview -> Email -> Phone -> ID document -> Selfie -> Address -> Submit.
+//   Overview -> Email -> About you -> ID document -> Selfie -> Address -> Review.
 // A persistent trust bridge (level meter + vertical step rail + assurance rail)
 // sits beside a single-focus gate. Pre-informs requirements up front, shows a live
 // verification-level (Basic -> Enhanced), friendly micro-copy throughout, and
 // persists to kyc_documents + profile. Pure Pip system, custom icons, no emoji.
-import { useMemo, useState } from 'react'
+//
+// SAVE AND RESUME (migration 121)
+// Every answer used to live in React state and reach the database in one write
+// at the very end, so a refresh, a flat battery, or moving from the phone that
+// has the camera to the laptop that has the address meant starting over at
+// step one. Document upload is the step people abandon, and we were asking
+// them to repeat the four steps before it.
+//
+// Now each step is written to `kyc_drafts` as it is left, documents upload as
+// they are chosen rather than at submit, and a returning user lands on the
+// first step they have NOT finished. Shape borrowed from Lemonway's
+// save-and-resume onboarding (server-side draft, resume path, expiry) and
+// Upwardli's rule that finished steps are never asked again. The draft lives
+// on the server, not in localStorage, because changing device is the case that
+// actually breaks people.
+import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import type { User } from '@supabase/supabase-js'
 import { getBrowserClient } from '@/lib/supabase/client-lazy'
@@ -16,6 +31,20 @@ import { KycStepper, type StepDef } from '@/components/kyc/kyc-stepper'
 import { VerificationMeter } from '@/components/kyc/verification-meter'
 import { FileDrop } from '@/components/kyc/file-drop'
 import { LevelBadge, type KycLevel } from '@/components/kyc/level-badge'
+import {
+  STEP,
+  loadDraft,
+  saveDraft,
+  clearDraft,
+  stepComplete,
+  firstIncompleteStep,
+  canSubmit,
+  savedAgo,
+  isAdult,
+  MIN_AGE,
+  type KycDraft,
+  type DocType as DraftDocType,
+} from '@/lib/kyc/draft'
 import {
   IconMail,
   IconPhone,
@@ -49,10 +78,11 @@ const DOC_TYPES: { value: DocType; label: string; needsBack: boolean }[] = [
 
 const STEPS: StepDef[] = [
   { key: 'email', label: 'Email', icon: <IconMail size={15} />, desc: 'Confirm your account email' },
-  { key: 'phone', label: 'Phone', icon: <IconPhone size={15} />, desc: 'For security & payouts' },
+  { key: 'identity', label: 'About you', icon: <IconPhone size={15} />, desc: 'Phone and date of birth' },
   { key: 'id', label: 'ID document', icon: <IconKYC size={15} />, desc: 'A government-issued ID' },
   { key: 'selfie', label: 'Selfie', icon: <IconUser size={15} />, desc: 'Match your face to your ID' },
   { key: 'address', label: 'Address', icon: <IconHome size={15} />, desc: 'Unlocks Enhanced access' },
+  { key: 'review', label: 'Review', icon: <IconCheck size={15} />, desc: 'Check and submit' },
 ]
 
 interface KycWizardProps {
@@ -89,60 +119,180 @@ export function KycWizard({ user, initialPhone, initialCountry, returnTo = '/por
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState('')
 
+  // ---- RESUMABLE STATE (migration 121) ----------------------------------
+  // Date of birth: the one field an 18+ licence actually turns on, and the one
+  // the wizard never collected.
+  const [dob, setDob] = useState('')
+  // Uploaded document PATHS. A resumed journey has these and no File objects,
+  // which is exactly why completeness is judged on the path and not the File.
+  const [frontPath, setFrontPath] = useState<string | null>(null)
+  const [backPath, setBackPath] = useState<string | null>(null)
+  const [selfiePath, setSelfiePath] = useState<string | null>(null)
+  const [uploading, setUploading] = useState<string | null>(null)
+  // Draft lifecycle.
+  const [hydrated, setHydrated] = useState(false)
+  const [resumedAt, setResumedAt] = useState<string | null>(null)
+  const [saving, setSaving] = useState(false)
+
   const needsBack = DOC_TYPES.find((d) => d.value === docType)?.needsBack ?? false
 
-  // Per-step completeness (also drives the level meter).
-  const phoneOk = /^[+]?[\d\s-]{7,}$/.test(phone.trim())
-  const idOk = docNumber.trim().length > 2 && !!frontFile && (!needsBack || !!backFile)
-  const selfieOk = !!selfieFile
-  const addressOk = addrLine1.trim().length > 2 && addrCity.trim().length > 1
-  const level: KycLevel = idOk && selfieOk && addressOk ? 'enhanced' : 'basic'
+  /** The draft as the pure step rules want it (lib/kyc/draft.ts). */
+  const draft = useMemo<KycDraft>(
+    () => ({
+      currentStep: step,
+      data: {
+        phone,
+        dateOfBirth: dob,
+        docType: docType as DraftDocType,
+        docNumber,
+        idCountry,
+        expiry,
+        addrLine1,
+        addrCity,
+        addrPostal,
+        addrCountry,
+      },
+      frontPath,
+      backPath,
+      selfiePath,
+      updatedAt: resumedAt,
+    }),
+    [step, phone, dob, docType, docNumber, idCountry, expiry, addrLine1, addrCity, addrPostal,
+     addrCountry, frontPath, backPath, selfiePath, resumedAt],
+  )
 
-  const canContinue = [true, phoneOk, idOk, selfieOk, addressOk][step]
+  // Per-step completeness (also drives the level meter). One source of truth,
+  // shared with the tests, so "may I continue" and "where do I resume" can
+  // never disagree.
+  const identityOk = stepComplete(draft, STEP.identity)
+  const idOk = stepComplete(draft, STEP.document)
+  const selfieOk = stepComplete(draft, STEP.selfie)
+  const addressOk = stepComplete(draft, STEP.address)
+  const level: KycLevel = identityOk && idOk && selfieOk && addressOk ? 'enhanced' : 'basic'
+
+  const canContinue = stepComplete(draft, step)
   const isLast = step === STEPS.length - 1
 
-  const uploadFile = async (file: File, path: string): Promise<string | null> => {
+  // ---- Load any saved draft, once -----------------------------------------
+  useEffect(() => {
+    let cancelled = false
+    void (async () => {
+      const supabase = await getBrowserClient()
+      const saved = await loadDraft(supabase, user.id, initialPhone, initialCountry)
+      if (cancelled) return
+      if (saved) {
+        setPhone(saved.data.phone)
+        setDob(saved.data.dateOfBirth)
+        setDocType(saved.data.docType as DocType)
+        setDocNumber(saved.data.docNumber)
+        setIdCountry(saved.data.idCountry)
+        setExpiry(saved.data.expiry)
+        setAddrLine1(saved.data.addrLine1)
+        setAddrCity(saved.data.addrCity)
+        setAddrPostal(saved.data.addrPostal)
+        setAddrCountry(saved.data.addrCountry)
+        setFrontPath(saved.frontPath)
+        setBackPath(saved.backPath)
+        setSelfiePath(saved.selfiePath)
+        // Land on the first GAP, not on the furthest step reached: someone who
+        // skipped past the selfie must come back to it.
+        setStep(firstIncompleteStep(saved))
+        setResumedAt(saved.updatedAt)
+        setStarted(true)
+      }
+      setHydrated(true)
+    })()
+    return () => {
+      cancelled = true
+    }
+  }, [user.id, initialPhone, initialCountry])
+
+  /** Write the draft. Called when a step is left, not on every keystroke. */
+  const persist = async (next: number) => {
+    setSaving(true)
     const supabase = await getBrowserClient()
-    const { data, error: upErr } = await supabase.storage
+    await saveDraft(supabase, user.id, { ...draft, currentStep: next })
+    setSaving(false)
+  }
+
+  /**
+   * Upload one document as its step is completed, rather than holding every
+   * file in memory until submit. This is what makes resuming worth anything:
+   * the photo taken on a phone is already in storage when the journey
+   * continues on a laptop.
+   */
+  const putFile = async (
+    file: File,
+    kind: 'front' | 'back' | 'selfie',
+    setPath: (p: string | null) => void,
+  ) => {
+    setUploading(kind)
+    setError('')
+    const ext = file.name.split('.').pop() || 'jpg'
+    const path = `${user.id}/${kind}.${ext}`
+    const supabase = await getBrowserClient()
+    const { error: upErr } = await supabase.storage
       .from('kyc-documents')
       .upload(path, file, { upsert: true })
-    if (upErr || !data) return null
-    return supabase.storage.from('kyc-documents').getPublicUrl(data.path).data.publicUrl
+    setUploading(null)
+    if (upErr) {
+      setError('That upload did not go through. Check your connection and try again.')
+      setPath(null)
+      return
+    }
+    setPath(path)
   }
+
 
   const handleSubmit = async () => {
     setError('')
     setSubmitting(true)
     const supabase = await getBrowserClient()
-    const ts = Date.now()
-    const ext = (f: File) => f.name.split('.').pop() || 'jpg'
 
-    const [frontUrl, backUrl, selfieUrl] = await Promise.all([
-      uploadFile(frontFile!, `${user.id}/${ts}-front.${ext(frontFile!)}`),
-      backFile ? uploadFile(backFile, `${user.id}/${ts}-back.${ext(backFile)}`) : Promise.resolve(null),
-      uploadFile(selfieFile!, `${user.id}/${ts}-selfie.${ext(selfieFile!)}`),
-    ])
+    // The documents are already in storage: each uploaded as its step was
+    // completed, which is what makes a resumed journey skip them. Submit only
+    // turns the stored paths into the URLs review reads.
+    if (!frontPath || !selfiePath) {
+      setError('Your ID photo or selfie is missing. Go back a step and add it.')
+      setSubmitting(false)
+      return
+    }
+    const publicUrl = (p: string) =>
+      supabase.storage.from('kyc-documents').getPublicUrl(p).data.publicUrl
+    const frontUrl = publicUrl(frontPath)
+    const backUrl = backPath ? publicUrl(backPath) : null
+    const selfieUrl = publicUrl(selfiePath)
 
-    if (!frontUrl || !selfieUrl) {
-      setError('Upload failed — please check your connection and try again.')
+    // Belt and braces against the 18+ rule: the DB has a CHECK, the step gate
+    // has isAdult(), and a submission cannot slip between them.
+    if (!isAdult(dob)) {
+      setError(`You must be ${MIN_AGE} or older to verify an account.`)
       setSubmitting(false)
       return
     }
 
     // Persist the identity packet (existing columns — always valid).
+    // `date_of_birth` is added by migration 121 and is not yet in the
+    // generated types (apps/web/types/supabase.ts), the same situation the
+    // address columns from migration 019 are in a few lines below. Regenerate
+    // with `npm run db:types` from somewhere that can reach Postgres on 5432
+    // and this cast can go.
+    const insertPayload = {
+      user_id: user.id,
+      document_type: docType,
+      document_number: docNumber || null,
+      date_of_birth: dob || null,
+      country_of_issue: idCountry,
+      expiry_date: expiry || null,
+      front_image_url: frontUrl,
+      back_image_url: backUrl,
+      selfie_image_url: selfieUrl,
+      status: 'pending' as const,
+    }
+
     const { data: doc, error: dbErr } = await supabase
       .from('kyc_documents')
-      .insert({
-        user_id: user.id,
-        document_type: docType,
-        document_number: docNumber || null,
-        country_of_issue: idCountry,
-        expiry_date: expiry || null,
-        front_image_url: frontUrl,
-        back_image_url: backUrl,
-        selfie_image_url: selfieUrl,
-        status: 'pending',
-      })
+      .insert(insertPayload as never)
       .select('id')
       .single()
 
@@ -176,6 +326,10 @@ export function KycWizard({ user, initialPhone, initialCountry, returnTo = '/por
       .from('profiles')
       .update({ phone_number: phone.trim(), kyc_status: 'pending' })
       .eq('id', user.id)
+
+    // The submission is now the record. A draft that outlived it would offer
+    // to "resume" a journey that is already with a reviewer.
+    await clearDraft(supabase, user.id)
 
     setSubmitting(false)
     setSubmitted(true)
@@ -306,10 +460,30 @@ export function KycWizard({ user, initialPhone, initialCountry, returnTo = '/por
         </div>
 
         <div className="card p-5 sm:p-7">
+          {!hydrated && (
+            <p className="mb-4 text-xs text-text-muted" aria-live="polite">
+              Checking for saved progress…
+            </p>
+          )}
+          {/* RESUME NOTICE. Shown once, when a saved journey was picked up, so
+              the reason the wizard opened in the middle is stated rather than
+              left to be inferred. */}
+          {resumedAt && (
+            <div className="mb-4 flex items-start gap-2.5 rounded-md border border-hairline bg-surface-2 p-3">
+              <IconClock size={14} className="mt-0.5 flex-none text-text-muted" />
+              <p className="text-xs text-text-secondary">
+                Picked up where you left off
+                {savedAgo(resumedAt) ? ` — saved ${savedAgo(resumedAt)}` : ''}. Your finished
+                steps are kept, so you do not have to upload anything twice.
+              </p>
+            </div>
+          )}
+
           {/* Step eyebrow */}
           <div className="mb-4 flex items-center justify-between">
             <span className="font-mono text-[11px] uppercase tracking-wide text-text-muted">
               Step {step + 1} of {STEPS.length}
+              {saving ? ' · saving' : uploading ? ' · uploading' : ''}
             </span>
             <span className="hidden lg:block">
               <LevelBadge level={level} />
@@ -348,9 +522,34 @@ export function KycWizard({ user, initialPhone, initialCountry, returnTo = '/por
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
               />
-              {phone.length > 0 && !phoneOk && (
+              {phone.length > 0 && !/^[+]?[\d\s-]{7,}$/.test(phone.trim()) && (
                 <p className="mt-1.5 text-xs text-text-muted">Enter a valid phone number, including country code.</p>
               )}
+
+              {/* DATE OF BIRTH. The product had no DOB field anywhere, on a
+                  platform that may only serve adults. The rule turns on this
+                  one value, so it is collected here and checked in three
+                  places: this input, the step gate, and a CHECK constraint. */}
+              <label
+                htmlFor="kyc-dob"
+                className="mb-1.5 mt-5 block text-xs font-semibold uppercase tracking-wide text-text-muted"
+              >
+                Date of birth
+              </label>
+              <input
+                id="kyc-dob"
+                className="input w-full"
+                type="date"
+                autoComplete="bday"
+                max={new Date(Date.now() - MIN_AGE * 31557600000).toISOString().slice(0, 10)}
+                value={dob}
+                onChange={(e) => setDob(e.target.value)}
+              />
+              <p className="mt-1.5 text-xs text-text-muted">
+                {dob.length > 0 && !isAdult(dob)
+                  ? `You must be ${MIN_AGE} or older to use Elopis.`
+                  : `Elopis is for over-${MIN_AGE}s. This must match your ID.`}
+              </p>
             </StepBody>
           )}
 
@@ -410,9 +609,27 @@ export function KycWizard({ user, initialPhone, initialCountry, returnTo = '/por
                   <input id="doc-expiry" className="input w-full" type="date" value={expiry} onChange={(e) => setExpiry(e.target.value)} />
                 </div>
 
-                <FileDrop label="Front of document" file={frontFile} onChange={setFrontFile} capture="environment" />
+                <FileDrop
+                  label="Front of document"
+                  file={frontFile}
+                  onChange={(f) => {
+                    setFrontFile(f)
+                    if (f) void putFile(f, 'front', setFrontPath)
+                    else setFrontPath(null)
+                  }}
+                  capture="environment"
+                />
                 {needsBack && (
-                  <FileDrop label="Back of document" file={backFile} onChange={setBackFile} capture="environment" />
+                  <FileDrop
+                    label="Back of document"
+                    file={backFile}
+                    onChange={(f) => {
+                      setBackFile(f)
+                      if (f) void putFile(f, 'back', setBackPath)
+                      else setBackPath(null)
+                    }}
+                    capture="environment"
+                  />
                 )}
               </div>
             </StepBody>
@@ -420,7 +637,17 @@ export function KycWizard({ user, initialPhone, initialCountry, returnTo = '/por
 
           {step === 3 && (
             <StepBody title="Take a selfie" copy="Face the camera in good light, no hat or sunglasses. We use it only to match you to your ID.">
-              <FileDrop label="Selfie" hint="Front camera" file={selfieFile} onChange={setSelfieFile} capture="user" />
+              <FileDrop
+                label="Selfie"
+                hint="Front camera"
+                file={selfieFile}
+                onChange={(f) => {
+                  setSelfieFile(f)
+                  if (f) void putFile(f, 'selfie', setSelfiePath)
+                  else setSelfiePath(null)
+                }}
+                capture="user"
+              />
             </StepBody>
           )}
 
@@ -457,6 +684,46 @@ export function KycWizard({ user, initialPhone, initialCountry, returnTo = '/por
             </StepBody>
           )}
 
+          {/* REVIEW. A last readable pass before anything is sent to a human
+              reviewer, and the only screen that shows the whole packet at
+              once. Each row jumps back to the step that owns it, so a
+              correction costs one click rather than a walk through the
+              wizard. */}
+          {step === STEP.review && (
+            <StepBody title="Check your details" copy="Make sure these match your document exactly. You can change anything before you submit.">
+              <dl className="divide-y divide-hairline">
+                {(
+                  [
+                    ['Phone', phone, STEP.identity],
+                    ['Date of birth', dob, STEP.identity],
+                    ['Document', DOC_TYPES.find((d) => d.value === docType)?.label ?? docType, STEP.document],
+                    ['Document number', docNumber, STEP.document],
+                    ['ID photos', frontPath ? (backPath ? 'Front and back uploaded' : 'Front uploaded') : 'Missing', STEP.document],
+                    ['Selfie', selfiePath ? 'Uploaded' : 'Missing', STEP.selfie],
+                    ['Address', [addrLine1, addrCity, addrPostal].filter(Boolean).join(', '), STEP.address],
+                  ] as const
+                ).map(([label, value, target]) => (
+                  <div key={label} className="flex items-baseline justify-between gap-4 py-2.5">
+                    <dt className="text-xs font-semibold uppercase tracking-wide text-text-muted">{label}</dt>
+                    <dd className="flex min-w-0 items-baseline gap-3 text-right">
+                      <span className="truncate text-sm text-text-primary">{value || '—'}</span>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setStep(target)
+                          void persist(target)
+                        }}
+                        className="flex-none text-xs font-semibold text-pip-text hover:underline"
+                      >
+                        Edit
+                      </button>
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </StepBody>
+          )}
+
           {error && (
             <div role="alert" aria-live="assertive" className="mt-4 rounded-md border border-no/30 bg-no/10 p-3 text-xs text-no">
               {error}
@@ -467,7 +734,12 @@ export function KycWizard({ user, initialPhone, initialCountry, returnTo = '/por
           <div className="mt-6 flex items-center justify-between gap-3">
             <button
               type="button"
-              onClick={() => (step === 0 ? setStarted(false) : setStep((s) => s - 1))}
+              onClick={() => {
+                if (step === 0) return setStarted(false)
+                const prev = step - 1
+                setStep(prev)
+                void persist(prev)
+              }}
               className="btn btn-ghost btn-sm gap-1"
               disabled={submitting}
             >
@@ -475,7 +747,7 @@ export function KycWizard({ user, initialPhone, initialCountry, returnTo = '/por
             </button>
 
             {isLast ? (
-              <button type="button" onClick={handleSubmit} className="btn btn-primary" disabled={!canContinue || submitting}>
+              <button type="button" onClick={handleSubmit} className="btn btn-primary" disabled={submitting || !canSubmit(draft) || uploading !== null}>
                 {submitting ? (
                   <span className="flex items-center gap-2">
                     <svg className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -488,7 +760,18 @@ export function KycWizard({ user, initialPhone, initialCountry, returnTo = '/por
                 )}
               </button>
             ) : (
-              <button type="button" onClick={() => setStep((s) => s + 1)} className="btn btn-primary" disabled={!canContinue}>
+              <button
+                type="button"
+                onClick={() => {
+                  const next = step + 1
+                  setStep(next)
+                  // Written as the step is LEFT, not on every keystroke: one
+                  // row per decision, not one per character.
+                  void persist(next)
+                }}
+                className="btn btn-primary"
+                disabled={!canContinue || uploading !== null}
+              >
                 Continue <IconArrowRight size={15} />
               </button>
             )}
