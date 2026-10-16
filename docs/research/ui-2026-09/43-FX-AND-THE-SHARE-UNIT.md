@@ -129,3 +129,102 @@ right unit and §5 needs a real hedge instead.
 So the question is not which number reads better. It is **where reserves sit,
 and whether the two entities share a book** — treasury and corporate
 structure, not UI. Both sides are priced above; the call is the owner's.
+
+---
+
+## 7. Decided and implemented — KSh 100, 2026-10-16 (migration 113)
+
+The owner took the peg. What shipped, and what it did NOT have to do:
+
+**No re-denomination.** The ledger was already at 100 —
+`sum(transactions.amount) / sum(transactions.amount_usd) = 100.0001` over
+2,907 rows, and 2,289 of 2,291 `clob_orders` carry `exchange_rate_to_usd =
+0.01` exactly. Only **three rows in the whole database** were ever written at
+a live FX rate. The display had drifted off the ledger, not the other way
+round, so the peg re-aligned the display and touched no balance, position,
+order or transaction row.
+
+**The live defect it closed.** Open positions cost users KSh 157,401,812 and
+were being shown as KSh 204,323,293 — **every position overstated by 29.8%**,
+for as long as the live-FX display had been running. Measured again on a real
+account after the change: the position-value card moved KSh 3,979,185 ->
+KSh 3,072,974, a ratio of 1.2949, with the "6.4% vs cost" figure unchanged, as
+a unit-free ratio must be.
+
+**Where the peg lives.** One column, one trigger, one guard:
+
+| layer | mechanism |
+|---|---|
+| database | `exchange_rates.rate` is now the local -> share-unit rate; KES = 0.01 |
+| database | `trg_fx_apply_share_peg` moves the provider quote to `market_rate` and re-derives `rate`, so the FX cron cannot un-peg on its next cycle |
+| app | `getUsdRate` hard-guards KES in code, so no row can un-peg the product |
+
+Every consumer picked it up with no further change: the order engine
+(099/101/102/104/105/110 all read `exchange_rates.rate`), `buildRatesMap` ->
+`getUsdRate`, and the admin and marketer money formatters.
+
+**The market quote was not thrown away.** It moves to
+`exchange_rates.market_rate`, every observation still flows into
+`fx_observations`, and it is what the non-KES cross-rates are built from — so
+one share costs the same economic amount in any currency (verified:
+KSh 100 = $0.77 = UGX 3,197 = ETB 124 = BIF 2,308). The peg stays auditable:
+we keep measuring how far it sits from the market, we simply stop letting the
+market price a share.
+
+**What the board reads now**, measured on `/markets/ke-2027-president`:
+
+| outcome | chance | Buy Yes | Buy No | sum |
+|---|---|---|---|---|
+| Ruto | 46% | KSh 46 | KSh 54 | **100** |
+| Gachagua | 24% | KSh 24 | KSh 76 | **100** |
+| Kalonzo | 14% | KSh 14 | KSh 86 | **100** |
+| Matiang'i | 13% | KSh 13 | KSh 87 | **100** |
+
+It was 60 + 70 = 130. The shilling price of an outcome is now its probability
+in percent, which is the identity Polymarket gets free from $1 = 100c.
+
+### Three mistakes made while implementing it, all caught by measurement
+
+Recorded because each would have shipped silently:
+
+1. **The trigger compounded.** It keyed off `source <> 'peg'` to decide that
+   `rate` held a provider quote — true for the FX job, false for the
+   migration's own derived write, which it then crossed again. Two runs took
+   UGX from 3,181 to 2,451 per share. Found by re-running the migration and
+   reading the table. It now keys off whether the caller stated a
+   `market_rate` of its own.
+2. **The migration was not idempotent**, because the trigger is created at
+   step 4 while steps 1-3 write under the PREVIOUS version. Run 1 gave UGX
+   1,454.78 and run 2 gave 3,196.73 from identical input. Fixed by dropping
+   the trigger at step 0; now byte-identical across three consecutive runs.
+3. **`USD` is the share unit's own code, not a dollar.** Removing the
+   `currency === 'USD'` identity looked correct under the peg ($1 = 1.2981
+   units) and would have broken thirty `_usd` ledger columns, which hold share
+   units. No wallet or profile settles in USD (all 74 are KES), so it is the
+   identity and its rate is 1 — one of them being KSh 100, not a dollar.
+   Renaming the unit is the honest fix and is a thirty-column migration,
+   recorded rather than smuggled in.
+
+### The gate
+
+`e2e/share-peg.spec.ts` asserts the invariant on the rendered page, which is
+the only place all three layers meet: Yes + No sums to one share on every row,
+the shilling price equals the percentage, and the ticket agrees with the board.
+
+Proven non-vacuous — and the first attempt to falsify it **failed to falsify
+anything**: patching out the code guard changed nothing, because the database
+was still pegged and `rates.KES` still read 0.01. Only a patch that returns
+the live market rate outright reproduces the regression, and then all three
+tests fail with the original defect's own words:
+
+```
+46% priced at KSh 60
+Buy Yes KSh 60 + Buy No KSh 70 = 130, which is not one share
+```
+
+### Still open
+
+`fx-fallback.json` is still 80 days stale and ungated, and `job_runs` still
+records nothing for the FX cron. The KES band was widened to 80-180 (the peg
+sat exactly on the old 100 floor) and bands were added for the five
+currencies that had none. Those gaps are narrower now but not closed.

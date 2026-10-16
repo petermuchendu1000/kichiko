@@ -12,8 +12,11 @@
 // Prediction markets are a new category for most Kenyan visitors, so this
 // content earns its place — just not ahead of the markets. It renders on /help,
 // which already carried the same four topics in one short paragraph each.
-// Figures are passed in, never hardcoded: a share settles at $1, which is
-// ~KSh 130 at the live rate, not KSh 100.
+// Figures are passed in, never hardcoded. Since migration 113 a share settles
+// at KSh 100 — the peg — so these derive to the numbers that read most simply:
+// a Yes at 65% costs KSh 65 and pays KSh 100. They stayed derived rather than
+// being written back down, because a figure computed from the unit cannot
+// drift away from it the way the "~KSh 84" copy below once did.
 // ---------------------------------------------------------------------------
 import Link from 'next/link'
 import {
@@ -22,9 +25,9 @@ import {
 } from '@/components/ui/icons'
 
 export interface HowItWorksFigures {
-  /** Whole-shilling cost of a Yes bought at 65% (0.65 x live KES/USD). */
+  /** Whole-shilling cost of a Yes bought at 65%. KSh 65 under the peg. */
   exampleBuyKes: number
-  /** Whole-shilling settlement of one winning share ($1 at the live rate). */
+  /** Whole-shilling settlement of one winning share. KSh 100 under the peg. */
   sharePayoutKes: number
   /** sharePayoutKes - exampleBuyKes. */
   exampleProfitKes: number
@@ -125,14 +128,13 @@ export function HowItWorks({ exampleBuyKes, sharePayoutKes, exampleProfitKes, pl
       </p>
       <div className="mt-8 card p-2">
         {[
-          // Interpolated, NOT hardcoded. A share settles at $1, which is KSh
-          // {sharePayoutKes} (~130) at the live rate — not KSh 100 — so a 65%
-          // Yes costs ~KSh 84. This string still claimed "KSh 65 means a 65%
-          // chance", which only holds at a KSh 100 payout, and contradicted the
-          // two neighbouring blocks on this same page ("costs about KSh 84" and
-          // "bought at 65% (about KSh 84) pays KSh 130"). The comment above
-          // sharePayoutKes records that this copy was migrated off a hardcoded
-          // "KSh 100"; this line was missed.
+          // Interpolated, NOT hardcoded — and now interpolating to the number
+          // the original copy had written down. This line once read "KSh 65
+          // means a 65% chance", which was true only at a KSh 100 payout; it
+          // was "corrected" to ~KSh 84 when the product moved to live FX, and
+          // the peg (migration 113) has made the first version right again.
+          // It stays interpolated regardless: the sentence should follow the
+          // unit, not encode a belief about it.
           { icon: <IconPercent size={18} />, t: 'The price is the chance', s: `A “Yes” costing about KSh ${exampleBuyKes} means about a 65% chance.` },
           { icon: <IconTrendUp size={18} />, t: 'Set your own price', s: 'Buy from someone now, or place your own price and wait.' },
           { icon: <IconShield size={18} />, t: 'The other side is a person', s: `You buy from and sell to other people, not us. We only take one small fee of ${platformFeePct}%.` },

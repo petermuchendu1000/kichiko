@@ -18,8 +18,10 @@ const GUIDES: { href: string; label: string; desc: string }[] = [
   { href: '/notifications', label: 'Notifications', desc: 'Choose how we reach you.' },
 ]
 
-// Live figures, never hardcoded. A share settles at $1 — ~KSh 130 at the live
-// rate, not KSh 100 — so the worked example has to be derived, not written down.
+// Live figures, never hardcoded. A share settles at KSh 100 since migration
+// 113, so the worked example reads cleanly (a Yes at 65% costs KSh 65 and pays
+// KSh 100) — but it is still derived rather than written down, so that the
+// page cannot fall out of step with the unit the way it did under live FX.
 async function getFigures() {
   const supabase = await createClient()
   const [{ data: fxRows }, { data: settings }, activeCount, { data: volRows }, { data: cats }] =

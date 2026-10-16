@@ -10,7 +10,8 @@ bootstrap used if both the live provider and the DB are unreachable.
 To keep it from becoming a stale, hand-maintained set of magic numbers, this
 script regenerates it from the SAME live provider. Run it periodically (or in
 CI) so the bootstrap tracks reality. KES is included like every other currency:
-it is a real market FX quote (~129 KES/USD), NOT a fixed peg, so its last-known-
+it is a real market FX quote (~129 KES/USD) — the anchor the share peg's
+cross-rates are built from, not the share price itself — so its last-known-
 good value must track the live provider too.
 
     python3 scripts/ops/refresh_fx_fallback.py

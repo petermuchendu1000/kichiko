@@ -1,19 +1,40 @@
 // ============================================================
 // Elopis — Canonical currency & FX module (single source of truth)
 // ------------------------------------------------------------
-// FX MODEL
-//   `exchange_rates` stores rows of (from_currency -> USD) where
-//   1 unit of `from_currency` == `rate` USD.  Therefore:
-//     localToUsd:  usd   = local * rate
-//     usdToLocal:  local = usd  / rate
+// THE UNIT (migration 113 — ONE SHARE SETTLES AT KSh 100)
+//   `exchange_rates.rate` is the local -> SHARE-UNIT rate. One share is 1.0
+//   units; one unit is KSh 1. So:
+//     localToUsd:  units = local * rate     (KES: local / 100)
+//     usdToLocal:  local = units / rate     (KES: units * 100)
 //
-//   EVERY supported currency — KES included — is a real, market FX quote sourced
-//   live from the FX provider (see lib/integrations/fx.ts) and refreshed into
-//   `exchange_rates` by the update-exchange-rates cron. There is NO fixed
-//   "1 USD = 100 KES" peg anywhere: KES converts at the same real-time rate as
-//   every other currency (~1 USD ≈ 129 KES). The internal "USD unit" is genuine
-//   US Dollars; one share settles at $1 (Polymarket-style), which is displayed
-//   to a local user as `usdToLocal(1, currency, rates)` at the LIVE rate.
+//   The function names still say "Usd" because the internal column names do
+//   (`amount_usd`, `current_value_usd`, …) and renaming thirty columns across a
+//   live ledger buys nothing. Read "Usd" as "share unit" throughout.
+//
+//   KES IS PEGGED AT EXACTLY 0.01 AND IS THE ANCHOR. Every other currency is a
+//   cross through the KES market quote, so one share costs the same economic
+//   amount in any currency (verified at migration time: KSh 100 = $0.77 =
+//   UGX 3,181 = ETB 124).
+//
+// WHY THE PEG (measured; docs/research/ui-2026-09/43-FX-AND-THE-SHARE-UNIT.md)
+//   A share used to settle at $1 and be shown to a Kenyan at the live CBK rate
+//   (~129.81). That did two things:
+//     1. It made the board contradict itself — the same outcome printed "46%"
+//        and "KSh 60", and Yes + No summed to KSh 130. Polymarket's cent
+//        convention reads cleanly only because $1 = 100c makes price and
+//        probability the same number. At KSh 100 ours does too.
+//     2. It drifted off our own ledger. sum(transactions.amount) /
+//        sum(transactions.amount_usd) = 100.0001 across 2,907 rows, and 2,289
+//        of 2,291 clob_orders carry exchange_rate_to_usd = 0.01 exactly — only
+//        THREE rows in the database were ever written at a live rate. The open
+//        book cost users KSh 157,401,812 and was being displayed as
+//        KSh 204,323,293: every position overstated by 29.8%.
+//   So the peg re-aligned the display with the ledger. It re-denominated
+//   nothing; no balance, position, order or transaction row was touched.
+//
+//   The provider's honest market quote is still fetched every cycle and stored
+//   in `exchange_rates.market_rate` and `fx_observations`. It no longer decides
+//   what a share costs, and it is what the cross-rates above are built from.
 //
 // PRECISION
 //   All conversion math uses big.js (arbitrary-precision decimal) to avoid
@@ -63,20 +84,45 @@ export const CURRENCY_META: Record<CurrencyCode, CurrencyMeta> = {
 //     (auto-generated from the live provider by scripts/ops/refresh_fx_fallback.py;
 //     never hand-edited)
 //   - USD: the base (1 by definition)
-// KES is a first-class market quote here — NOT a fixed peg — so a transient
-// DB/provider hiccup degrades to a fresh, currency-correct KES estimate
-// (~0.00775 USD, i.e. ~129 KES/USD) instead of the old 1-USD-=-100-KES constant.
 const BOOTSTRAP_RATES = (fxBootstrap as { rates?: Partial<Record<CurrencyCode, number>> }).rates ?? {}
 
+/** Shillings paid by one winning share. The product peg (migration 113). */
+export const KES_PER_SHARE = 100
+
+/** KES -> share-unit. Exact, by definition, and never read from a database. */
+export const PEG_KES_UNIT_RATE = 1 / KES_PER_SHARE
+
+/**
+ * Last-known-good local -> SHARE-UNIT rates, used only when a live rate is
+ * unavailable.
+ *
+ * The bootstrap file holds market local->USD quotes, which are not share-unit
+ * rates, so each is crossed through the file's own KES quote exactly as
+ * `share_unit_rate()` does in the database. Deriving rather than storing
+ * pegged values means a refresh of fx-fallback.json stays correct without
+ * anybody remembering this file exists.
+ *
+ * A bootstrap without a usable KES quote yields no cross, so the non-KES
+ * fallbacks go to 0 and `getUsdRate` throws rather than invent one. KES itself
+ * is exact and needs no bootstrap at all.
+ */
+const BOOTSTRAP_KES = BOOTSTRAP_RATES.KES
+const crossFromBootstrap = (code: Exclude<CurrencyCode, 'KES'>): number => {
+  const market = code === 'USD' ? 1 : BOOTSTRAP_RATES[code]
+  if (!BOOTSTRAP_KES || BOOTSTRAP_KES <= 0) return 0
+  if (typeof market !== 'number' || !Number.isFinite(market) || market <= 0) return 0
+  return (market / BOOTSTRAP_KES) * PEG_KES_UNIT_RATE
+}
+
 export const FALLBACK_USD_RATES: Record<CurrencyCode, number> = {
-  KES: BOOTSTRAP_RATES.KES ?? 0,
-  UGX: BOOTSTRAP_RATES.UGX ?? 0,
-  TZS: BOOTSTRAP_RATES.TZS ?? 0,
-  RWF: BOOTSTRAP_RATES.RWF ?? 0,
-  ZMW: BOOTSTRAP_RATES.ZMW ?? 0,
-  ETB: BOOTSTRAP_RATES.ETB ?? 0,
-  BIF: BOOTSTRAP_RATES.BIF ?? 0,
-  USD: 1,
+  KES: PEG_KES_UNIT_RATE,
+  UGX: crossFromBootstrap('UGX'),
+  TZS: crossFromBootstrap('TZS'),
+  RWF: crossFromBootstrap('RWF'),
+  ZMW: crossFromBootstrap('ZMW'),
+  ETB: crossFromBootstrap('ETB'),
+  BIF: crossFromBootstrap('BIF'),
+  USD: crossFromBootstrap('USD'),
 }
 
 /** Partial map of live local->USD rates keyed by currency code. */
@@ -92,6 +138,23 @@ export function isSupportedCurrency(code: string): code is CurrencyCode {
  * Throws only for a genuinely unknown currency code.
  */
 export function getUsdRate(currency: CurrencyCode, rates?: RatesMap): number {
+  // THE PEG IS NOT NEGOTIABLE BY DATA.
+  //
+  // Migration 113 writes 0.01 into exchange_rates and a trigger keeps it
+  // there, so this guard should never be the thing that holds the line. It
+  // exists because it is the difference between a bad FX row costing us an
+  // observability gap and a bad FX row silently re-pricing every open
+  // position by 30% — which is precisely what the live-rate model did, for
+  // months, before anyone measured it. A product constant has no business
+  // being resolvable from a table.
+  if (currency === 'KES') return PEG_KES_UNIT_RATE
+  // 'USD' is the SHARE UNIT's own code, not a US dollar. Thirty ledger columns
+  // are named `_usd` and hold share units; `localToUsd`/`usdToLocal` short-
+  // circuit on it for exactly that reason. It is the identity, so its rate is
+  // 1 by definition — and one of them is KSh 100, not a dollar. No profile or
+  // wallet uses it as a settlement currency (checked: all 74 are KES), so this
+  // mislabels nothing a user ever sees. Renaming the unit is the real fix and
+  // is a thirty-column migration, recorded rather than smuggled in here.
   if (currency === 'USD') return 1
   const live = rates?.[currency]
   if (typeof live === 'number' && Number.isFinite(live) && live > 0) return live

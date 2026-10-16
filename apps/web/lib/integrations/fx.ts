@@ -12,10 +12,19 @@ import { SUPPORTED_CURRENCIES, FALLBACK_USD_RATES } from '@/lib/currency'
  * Currencies whose local->USD rate is a fixed PRODUCT PEG and must NOT be
  * overwritten by the live FX job.
  *
- * NONE. Every supported currency — KES included — is a real market FX quote
- * refreshed live from the provider. There is no "1 USD == 100 KES" peg: KES is
- * fetched, inverted and upserted on every cron cycle exactly like UGX/TZS/etc.
- * The constant is retained (empty) so any external reference resolves cleanly.
+ * NONE — and that is still correct after the KSh 100 share peg (migration 113).
+ *
+ * The peg is real, but it does not belong here. This list controls what the FX
+ * JOB fetches, and KES must keep being fetched: it is the anchor every other
+ * currency's cross-rate is built from, and the only continuous measurement of
+ * how far the peg sits from the market. Listing it here would stop KES
+ * observations flowing and silently break both.
+ *
+ * The peg is applied one layer down, where a rate becomes a price: the
+ * `trg_fx_apply_share_peg` trigger moves the provider quote to
+ * `exchange_rates.market_rate` and writes the pegged unit rate to `rate`, and
+ * `getUsdRate` in lib/currency.ts hard-guards KES in code so no row can
+ * un-peg the product. Fetch the market honestly; price the share by the peg.
  */
 export const PEGGED_CURRENCIES: readonly CurrencyCode[] = [] as const
 

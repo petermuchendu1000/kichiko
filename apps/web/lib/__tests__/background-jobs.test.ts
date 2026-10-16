@@ -93,7 +93,8 @@ describe('fx: toUpsertRows', () => {
   it('emits one row per non-USD supported currency (no currency is pegged)', () => {
     const { rates } = mergeWithFallback({})
     const rows = toUpsertRows(rates)
-    // Only USD (the self-rate) is excluded; PEGGED_CURRENCIES is empty.
+    // Only USD (the self-rate) is excluded; PEGGED_CURRENCIES is empty, and
+    // stays empty under the share peg — see the comment on it in fx.ts.
     expect(PEGGED_CURRENCIES.length).toBe(0)
     expect(rows.length).toBe(SUPPORTED_CURRENCIES.length - 1)
     expect(rows.some((r) => r.from_currency === 'USD')).toBe(false)
@@ -108,7 +109,11 @@ describe('fx: toUpsertRows', () => {
     const rows = toUpsertRows(rates)
     const kes = rows.find((r) => r.from_currency === 'KES')
     expect(kes).toBeDefined()
-    // 1 / 129 ≈ 0.007752 local->USD; emphatically not the old 0.01 peg.
+    // 1 / 129 ~ 0.007752 local->USD. Still the right assertion after the KSh
+    // 100 share peg (migration 113): this layer fetches and inverts MARKET
+    // quotes, which is exactly what the peg needs KES to keep doing — the
+    // cross-rates for every other currency are built from it. The peg is
+    // applied downstream (trigger + getUsdRate), not here.
     expect(kes!.rate).toBeCloseTo(1 / 129, 6)
     expect(kes!.rate).not.toBe(0.01)
   })
