@@ -117,7 +117,13 @@ describe('escaping', () => {
     // preheader. Searching for the payload's words flags safe output; searching
     // for an opening tag is what actually distinguishes escaped from injected.
     expect(m.html).not.toContain('<script')
-    expect(m.html).not.toContain('<img')
+    // The template has ONE legitimate <img> — the brand mark. Assert that the
+    // only image in the document is ours, rather than that no image exists:
+    // the payload's `<img src=x onerror=…>` must survive only as escaped text.
+    const imgs = m.html.match(/<img[^>]*>/g) ?? []
+    expect(imgs).toHaveLength(1)
+    expect(imgs[0]).toContain('/icon-192.png')
+    expect(imgs[0]).not.toContain('onerror')
     expect(m.html).toContain('&lt;script&gt;')
     expect(m.html).toContain('&lt;img src=x onerror=alert(2)&gt;')
   })
@@ -245,5 +251,62 @@ describe('the palette has not drifted from the app', () => {
     const fromCss = tokenValue(cssName)
     expect(fromCss, `--${cssName} not found in globals.css`).toBeTruthy()
     expect((C as Record<string, string>)[tokenName].toUpperCase()).toBe(fromCss)
+  })
+})
+
+describe('the design stays restrained', () => {
+  // The first draft filled a green or red panel behind every amount and a
+  // second tinted panel under it. Rendered, it read as a consumer app shouting
+  // rather than a financial institution reporting. These assertions encode the
+  // correction so it cannot quietly creep back.
+  const money = ['bet_won', 'deposit_completed', 'withdrawal_completed', 'withdrawal_failed']
+
+  it.each(money)('%s uses no tinted status panels', (type) => {
+    const m = renderNotificationEmail({
+      type,
+      title: 'Something about money',
+      body: 'A sentence.',
+      data: { amount: 1000, currency: 'KES' },
+    })
+    // The semantic fills are the ones that made it look unserious.
+    for (const tint of [C.yesTint, C.noTint, C.warnTint]) {
+      expect(m.html, `${type} still paints ${tint}`).not.toContain(tint)
+    }
+  })
+
+  it.each(money)('%s sets the amount in plain text, not a coloured one', (type) => {
+    const m = renderNotificationEmail({
+      type,
+      title: 'Something about money',
+      body: 'A sentence.',
+      data: { amount: 1000, currency: 'KES' },
+    })
+    const amt = m.html.match(/class="e-amt[^"]*"[^>]*style="([^"]+)"/)
+    expect(amt, `${type} has no amount block`).toBeTruthy()
+    expect(amt![1]).toContain(`color:${C.text}`)
+  })
+
+  it('uses exactly one saturated colour — the button', () => {
+    const m = renderNotificationEmail({
+      type: 'bet_won',
+      title: 'You won',
+      body: 'Paid out.',
+      data: { payout: 2400, currency: 'KES' },
+    })
+    // Brand blue appears on the button (bgcolor + background + border-radius
+    // wrapper) and nowhere else as a fill. Green/red never appear at all.
+    expect(m.html).not.toContain(C.yesSolid)
+    expect(m.html).not.toContain(C.noSolid)
+    expect(m.html).toContain(`bgcolor="${C.brand}"`)
+  })
+
+  it('carries the brand mark as a hosted PNG', () => {
+    // Outlook cannot render SVG and Gmail strips data: URIs — either would
+    // leave a broken box where the institution's identity should be.
+    const m = renderNotificationEmail({ type: 'bet_won', ...base, data: {} })
+    expect(m.html).toContain('/icon-192.png')
+    expect(m.html).not.toContain('data:image')
+    expect(m.html).not.toContain('.svg')
+    expect(m.html).toContain('alt="Elopis"')
   })
 })

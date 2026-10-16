@@ -28,7 +28,7 @@
 import { formatCurrency, isSupportedCurrency } from '@/lib/currency'
 import type { CurrencyCode } from '@/types'
 import { appUrl } from './tokens'
-import { shell, heading, paragraph, hero, details, button, note, spacer, esc } from './layout'
+import { shell, heading, details, button, note, spacer, amount, esc } from './layout'
 
 export interface NotificationEmailInput {
   type: string
@@ -164,7 +164,7 @@ export function renderNotificationEmail(input: NotificationEmailInput): Rendered
   const safeBody = esc(body)
 
   // Default CTA: the notification centre, which can show anything.
-  let cta: { label: string; href: string; tone?: 'brand' | 'yes' | 'no' } = {
+  let cta: { label: string; href: string } = {
     label: 'Open Elopis',
     href: appUrl('/notifications'),
   }
@@ -175,10 +175,10 @@ export function renderNotificationEmail(input: NotificationEmailInput): Rendered
     // ---- Trading ---------------------------------------------------------
     case 'bet_won': {
       const payout = money(d, 'payout', 'amount', 'net_amount', 'delta')
-      cta = { label: 'View your winnings', href: appUrl('/profile'), tone: 'yes' }
+      cta = { label: 'View your winnings', href: appUrl('/profile') }
       blocks =
         heading('You won', safeBody) +
-        (payout ? hero(payout, 'Paid to your wallet', 'yes') : '') +
+        (payout ? amount(payout, 'Paid to your wallet') : '') +
         details(
           [
             str(d.market_title) ? { label: 'Market', value: str(d.market_title)! } : null,
@@ -210,7 +210,7 @@ export function renderNotificationEmail(input: NotificationEmailInput): Rendered
       cta = { label: 'View your position', href: marketHref(d) }
       blocks =
         heading('Order filled', safeBody) +
-        (amt ? hero(amt, 'Order value') : '') +
+        (amt ? amount(amt, 'Order value') : '') +
         details(
           [
             str(d.market_title) ? { label: 'Market', value: str(d.market_title)! } : null,
@@ -232,9 +232,9 @@ export function renderNotificationEmail(input: NotificationEmailInput): Rendered
           [
             str(d.market_title) ? { label: 'Market', value: str(d.market_title)! } : null,
             str(d.outcome) ?? str(d.resolved_outcome)
-              ? { label: 'Resolved to', value: (str(d.outcome) ?? str(d.resolved_outcome))!, strong: true }
+              ? { label: 'Resolved to', value: (str(d.outcome) ?? str(d.resolved_outcome))! }
               : null,
-          ].filter(Boolean) as { label: string; value: string; strong?: boolean }[],
+          ].filter(Boolean) as { label: string; value: string }[],
         )
       break
     }
@@ -247,10 +247,10 @@ export function renderNotificationEmail(input: NotificationEmailInput): Rendered
     }
 
     case 'market_closing_soon': {
-      cta = { label: 'Trade before it closes', href: marketHref(d), tone: 'brand' }
+      cta = { label: 'Trade before it closes', href: marketHref(d) }
       blocks =
         heading('Closing soon', safeBody) +
-        note('Once a market closes, no new orders are accepted and open positions wait for resolution.', 'warn')
+        note('Once a market closes, no new orders are accepted and open positions wait for resolution.')
       break
     }
 
@@ -259,7 +259,7 @@ export function renderNotificationEmail(input: NotificationEmailInput): Rendered
       const price = num(d.price)
       blocks =
         heading('Price alert', safeBody) +
-        (price !== null ? hero(`${Math.round(price * 100)}%`, 'Current chance', 'brand') : '')
+        (price !== null ? amount(`${Math.round(price * 100)}%`, 'Current chance') : '')
       footnote = 'You set this alert. Turn alerts off any time in notification settings.'
       break
     }
@@ -267,10 +267,10 @@ export function renderNotificationEmail(input: NotificationEmailInput): Rendered
     // ---- Money -----------------------------------------------------------
     case 'deposit_completed': {
       const amt = money(d, 'amount', 'net_amount', 'delta')
-      cta = { label: 'Start trading', href: appUrl('/markets'), tone: 'yes' }
+      cta = { label: 'Start trading', href: appUrl('/markets') }
       blocks =
         heading('Deposit received', safeBody) +
-        (amt ? hero(amt, 'Added to your wallet', 'yes') : '') +
+        (amt ? amount(amt, 'Added to your wallet') : '') +
         details(refRows(d))
       break
     }
@@ -280,7 +280,7 @@ export function renderNotificationEmail(input: NotificationEmailInput): Rendered
       cta = { label: 'View wallet', href: appUrl('/profile') }
       blocks =
         heading('Withdrawal sent', safeBody) +
-        (amt ? hero(amt, 'Sent to your mobile money', 'yes') : '') +
+        (amt ? amount(amt, 'Sent to your mobile money') : '') +
         details(refRows(d)) +
         note('Mobile money usually arrives within minutes. Your provider sends its own confirmation SMS.')
       break
@@ -289,10 +289,10 @@ export function renderNotificationEmail(input: NotificationEmailInput): Rendered
     case 'withdrawal_failed': {
       const amt = money(d, 'amount', 'refunded')
       const reason = humanReason(str(d.reason))
-      cta = { label: 'Try again', href: appUrl('/profile'), tone: 'brand' }
+      cta = { label: 'Try again', href: appUrl('/profile') }
       blocks =
         heading('Withdrawal failed', safeBody) +
-        (amt ? hero(amt, 'Refunded to your wallet', 'no') : '') +
+        (amt ? amount(amt, 'Refunded to your wallet') : '') +
         details(
           [
             // humanReason() returns null for internal error text, so an
@@ -301,7 +301,7 @@ export function renderNotificationEmail(input: NotificationEmailInput): Rendered
             ...refRows(d),
           ].filter(Boolean) as { label: string; value: string }[],
         ) +
-        note('Your money was returned to your Elopis wallet. Nothing was lost.', 'no')
+        note('Your money was returned to your Elopis wallet. Nothing was lost.')
       break
     }
 
@@ -310,36 +310,36 @@ export function renderNotificationEmail(input: NotificationEmailInput): Rendered
       cta = { label: 'View wallet', href: appUrl('/profile') }
       blocks =
         heading('Withdrawal under review', safeBody) +
-        (amt ? hero(amt, 'On hold', 'warn') : '') +
+        (amt ? amount(amt, 'On hold') : '') +
         details(refRows(d)) +
-        note('Reviews are a routine check on larger or unusual withdrawals. We will email you as soon as it clears.', 'warn')
+        note('Reviews are a routine check on larger or unusual withdrawals. We will email you as soon as it clears.')
       break
     }
 
     case 'referral_bonus': {
       const amt = money(d, 'amount', 'bonus', 'delta')
-      cta = { label: 'View wallet', href: appUrl('/profile'), tone: 'yes' }
+      cta = { label: 'View wallet', href: appUrl('/profile') }
       blocks =
-        heading('Referral bonus', safeBody) + (amt ? hero(amt, 'Added to your wallet', 'yes') : '')
+        heading('Referral bonus', safeBody) + (amt ? amount(amt, 'Added to your wallet') : '')
       break
     }
 
     // ---- Account ---------------------------------------------------------
     case 'kyc_approved': {
-      cta = { label: 'Start trading', href: appUrl('/markets'), tone: 'yes' }
+      cta = { label: 'Start trading', href: appUrl('/markets') }
       blocks =
         heading('You are verified', safeBody) +
-        note('Deposits, withdrawals and trading are now open on your account.', 'yes')
+        note('Deposits, withdrawals and trading are now open on your account.')
       break
     }
 
     case 'kyc_rejected': {
       const reason = humanReason(str(d.reason) ?? str(d.notes))
-      cta = { label: 'Resubmit documents', href: appUrl('/kyc'), tone: 'brand' }
+      cta = { label: 'Resubmit documents', href: appUrl('/kyc') }
       blocks =
         heading('We could not verify your documents', safeBody) +
         (reason ? details([{ label: 'What to fix', value: reason }]) : '') +
-        note('This is usually a photo that is blurred, cropped, or expired. You can resubmit straight away.', 'warn')
+        note('This is usually a photo that is blurred, cropped, or expired. You can resubmit straight away.')
       break
     }
 
@@ -357,7 +357,7 @@ export function renderNotificationEmail(input: NotificationEmailInput): Rendered
     // notification already wrote for a human, so it is the best one-line
     // summary available without inventing copy.
     preheader: body,
-    body: blocks + button(cta.label, cta.href, cta.tone ?? 'brand') + spacer(),
+    body: blocks + button(cta.label, cta.href) + spacer(),
     footnote,
   })
 
