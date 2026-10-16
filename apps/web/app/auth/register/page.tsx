@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { getBrowserClient } from '@/lib/supabase/client-lazy'
 import { AuthShell } from '@/components/auth/auth-shell'
+import { GoogleButton } from '@/components/auth/google-button'
 import { PasswordInput } from '@/components/auth/password-input'
 import { LogoMark, IconShield, IconArrowRight, IconCheck } from '@/components/ui/icons'
 import { safeRedirectPath } from '@/lib/security/sanitize'
@@ -131,6 +132,11 @@ export default function RegisterPage() {
         <h1 className="font-display text-2xl text-text-primary">Create your account</h1>
         <p className="mt-1 text-sm text-text-muted">Free to join · No credit card needed</p>
       </div>
+
+      {/* Google signs up and signs in through the same call, so this is the
+          same component as the login page. Self-hiding while the provider is
+          off. */}
+      <GoogleButton next={next} label="Sign up with Google" dividerBelow />
 
       <form onSubmit={handleRegister} className="space-y-4">
         <div>

@@ -300,13 +300,25 @@ describe('the design stays restrained', () => {
     expect(m.html).toContain(`bgcolor="${C.brand}"`)
   })
 
-  it('carries the brand mark as a hosted PNG', () => {
+  it('carries the brand mark as a hosted PNG, and the name as real text', () => {
     // Outlook cannot render SVG and Gmail strips data: URIs — either would
     // leave a broken box where the institution's identity should be.
     const m = renderNotificationEmail({ type: 'bet_won', ...base, data: {} })
     expect(m.html).toContain('/icon-192.png')
     expect(m.html).not.toContain('data:image')
     expect(m.html).not.toContain('.svg')
-    expect(m.html).toContain('alt="Elopis"')
+
+    // The header used to be the mark alone, carrying the name only in its alt
+    // text. The name is now set beside it, which is what a reader scanning an
+    // inbox actually recognises and what survives images being blocked.
+    const header = m.html.slice(0, m.html.indexOf('</a>'))
+    expect(header, 'the wordmark is not in the header').toContain('>Elopis<')
+
+    // ...and the image alt is EMPTY precisely because of that. With both, a
+    // screen reader announces "Elopis Elopis", and clients that scrape the
+    // first body text for the inbox preview show the name twice before the
+    // preheader. The mark is decorative once the word is present.
+    expect(m.html, 'the mark should be decorative now the name is text').toContain('alt=""')
+    expect(m.html).not.toContain('alt="Elopis"')
   })
 })

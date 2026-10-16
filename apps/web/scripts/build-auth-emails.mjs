@@ -58,12 +58,27 @@ function shell({ title, preheader, inner }) {
     <tr><td align="center" style="padding:32px 12px;">
       <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" class="e-card" style="width:600px;max-width:100%;background:${C.paper};border:1px solid ${C.hairline};border-radius:8px;">
         <tr><td class="e-pad" style="padding:28px 40px 0 40px;">
-          <!-- The colour is stated even though the only child is an image: an
-               anchor with no colour inherits the client's default link blue
-               (measured rgb(0,0,238)), and several clients paint that as a
-               border or focus ring around a linked image. -->
+          <!-- Mark + wordmark, kept byte-identical to the notification shell
+               in lib/notifications/templates/layout.ts. A table because
+               Outlook lays out with Word and supports neither flex nor
+               inline-block reliably; valign=middle on both cells is what
+               centres them there.
+
+               Empty alt on the image: the name is real text beside it now, so
+               an alt of "Elopis" would read "Elopis Elopis" to a screen reader
+               and in the inbox preview, where clients scrape the first text in
+               the body.
+
+               The colour is stated on the anchor because an anchor without one
+               inherits the client's default link blue (measured rgb(0,0,238)),
+               which would paint the wordmark blue and ring the image. -->
           <a href="${APP}" style="text-decoration:none;display:inline-block;color:${C.text};">
-            <img src="${LOGO}" width="36" height="36" alt="Elopis" style="display:block;width:36px;height:36px;border:0;outline:none;text-decoration:none;border-radius:8px;">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+              <td valign="middle" style="padding-right:10px;">
+                <img src="${LOGO}" width="36" height="36" alt="" style="display:block;width:36px;height:36px;border:0;outline:none;text-decoration:none;border-radius:8px;">
+              </td>
+              <td valign="middle" class="e-text" style="font-family:${FONT};font-size:18px;line-height:1;font-weight:600;letter-spacing:-.3px;color:${C.text};">Elopis</td>
+            </tr></table>
           </a>
         </td></tr>
         <tr><td class="e-pad" style="padding:22px 40px 0 40px;">
@@ -194,14 +209,14 @@ const TEMPLATES = {
     inner: () =>
       cta('Confirm new email', 'email_change', '/account') +
       fallbackLink('email_change', '/account') +
-      note('If you did not ask to change your email, ignore this — your address stays as it is.'),
+      note('If you did not ask to change your email, ignore this. Your address stays as it is.'),
   },
   invite: {
     subject: 'You are invited to Elopis',
     file: 'invite.html',
     title: 'You are invited to Elopis',
     preheader: 'Accept your invitation to Elopis.',
-    sub: 'You have been invited to join Elopis — prediction markets for East Africa.',
+    sub: 'You have been invited to join Elopis, prediction markets for East Africa.',
     inner: () => cta('Accept invitation', 'invite') + fallbackLink('invite') + note(IGNORE),
   },
 
@@ -226,7 +241,7 @@ const TEMPLATES = {
     sub: 'The password for your Elopis account was changed just now.',
     inner: () =>
       note(
-        'If this was you, nothing else is needed. <strong>If it was not</strong>, your account may be at risk — reset your password immediately and contact support.',
+        'If this was you, nothing else is needed. <strong>If it was not</strong>, your account may be at risk. Reset your password immediately and contact support.',
       ),
   },
   email_changed_notification: {
@@ -237,7 +252,7 @@ const TEMPLATES = {
     sub: 'The email address on your Elopis account was changed to <strong>{{ .NewEmail }}</strong>.',
     inner: () =>
       note(
-        'If this was you, nothing else is needed. <strong>If it was not</strong>, contact support straight away — whoever made this change can now receive your account email.',
+        'If this was you, nothing else is needed. <strong>If it was not</strong>, contact support straight away. Whoever made this change can now receive your account email.',
       ),
   },
   phone_changed_notification: {
@@ -248,7 +263,7 @@ const TEMPLATES = {
     sub: 'The phone number on your Elopis account was changed.',
     inner: () =>
       note(
-        'If this was you, nothing else is needed. <strong>If it was not</strong>, contact support straight away — your withdrawals and M-Pesa alerts follow this number.',
+        'If this was you, nothing else is needed. <strong>If it was not</strong>, contact support straight away. Your withdrawals and M-Pesa alerts follow this number.',
       ),
   },
   identity_linked_notification: {
@@ -281,7 +296,7 @@ const TEMPLATES = {
     sub: 'A <strong>{{ .FactorType }}</strong> verification method was added to your Elopis account.',
     inner: () =>
       note(
-        'If this was you, nothing else is needed. <strong>If it was not</strong>, contact support straight away — someone else may be able to approve sign-ins.',
+        'If this was you, nothing else is needed. <strong>If it was not</strong>, contact support straight away. Someone else may be able to approve sign-ins.',
       ),
   },
   mfa_factor_unenrolled_notification: {

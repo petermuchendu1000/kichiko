@@ -20,6 +20,7 @@
 // focus trap, Esc-to-close, scroll-lock, focus restore.
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
+import { GoogleButton } from '@/components/auth/google-button'
 import toast from 'react-hot-toast'
 import { getBrowserClient } from '@/lib/supabase/client-lazy'
 import { PasswordInput } from '@/components/auth/password-input'
@@ -545,7 +546,18 @@ export function AuthDialog() {
                 </button>
               </div>
 
-              <form onSubmit={onSubmit} className="mt-5 space-y-4">
+              {/* Surface parity: the same Google entry as the full login and
+                  register pages, reading the same provider state, so a reader
+                  who sees it on one never fails to find it on another. */}
+              <div className="mt-5">
+                <GoogleButton
+                  next={next}
+                  label={isLogin ? 'Continue with Google' : 'Sign up with Google'}
+                  dividerBelow
+                />
+              </div>
+
+              <form onSubmit={onSubmit} className="space-y-4">
                 {!isLogin && (
                   <div>
                     <label

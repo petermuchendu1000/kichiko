@@ -29,12 +29,27 @@
     <tr><td align="center" style="padding:32px 12px;">
       <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" class="e-card" style="width:600px;max-width:100%;background:#FFFFFF;border:1px solid #E6E8EA;border-radius:8px;">
         <tr><td class="e-pad" style="padding:28px 40px 0 40px;">
-          <!-- The colour is stated even though the only child is an image: an
-               anchor with no colour inherits the client's default link blue
-               (measured rgb(0,0,238)), and several clients paint that as a
-               border or focus ring around a linked image. -->
+          <!-- Mark + wordmark, kept byte-identical to the notification shell
+               in lib/notifications/templates/layout.ts. A table because
+               Outlook lays out with Word and supports neither flex nor
+               inline-block reliably; valign=middle on both cells is what
+               centres them there.
+
+               Empty alt on the image: the name is real text beside it now, so
+               an alt of "Elopis" would read "Elopis Elopis" to a screen reader
+               and in the inbox preview, where clients scrape the first text in
+               the body.
+
+               The colour is stated on the anchor because an anchor without one
+               inherits the client's default link blue (measured rgb(0,0,238)),
+               which would paint the wordmark blue and ring the image. -->
           <a href="https://elopis.com" style="text-decoration:none;display:inline-block;color:#0E0F11;">
-            <img src="https://elopis.com/icon-192.png" width="36" height="36" alt="Elopis" style="display:block;width:36px;height:36px;border:0;outline:none;text-decoration:none;border-radius:8px;">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+              <td valign="middle" style="padding-right:10px;">
+                <img src="https://elopis.com/icon-192.png" width="36" height="36" alt="" style="display:block;width:36px;height:36px;border:0;outline:none;text-decoration:none;border-radius:8px;">
+              </td>
+              <td valign="middle" class="e-text" style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:18px;line-height:1;font-weight:600;letter-spacing:-.3px;color:#0E0F11;">Elopis</td>
+            </tr></table>
           </a>
         </td></tr>
         <tr><td class="e-pad" style="padding:22px 40px 0 40px;">
@@ -42,7 +57,7 @@
         </td></tr>
         <tr><td class="e-pad" style="padding:26px 40px 0 40px;">
           <h1 class="e-text" style="margin:0 0 10px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:21px;line-height:1.35;font-weight:600;letter-spacing:-.2px;color:#0E0F11;">You are invited to Elopis</h1>
-          <p class="e-text2" style="margin:0 0 22px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:15px;line-height:1.65;color:#5F6772;">You have been invited to join Elopis — prediction markets for East Africa.</p>
+          <p class="e-text2" style="margin:0 0 22px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:15px;line-height:1.65;color:#5F6772;">You have been invited to join Elopis, prediction markets for East Africa.</p>
         </td></tr>
         <tr><td class="e-pad" style="padding:0 40px 26px 40px;">
           <table role="presentation" cellpadding="0" cellspacing="0" border="0">

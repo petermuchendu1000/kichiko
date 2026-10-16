@@ -146,8 +146,8 @@ function plain(title: string, body: string, ctaLabel?: string, ctaHref?: string)
   if (ctaLabel && ctaHref) lines.push('', `${ctaLabel}: ${ctaHref}`)
   lines.push(
     '',
-    '—',
-    'Elopis — prediction markets for East Africa.',
+    '--',
+    'Elopis, prediction markets for East Africa.',
     `Notification settings: ${appUrl('/notifications')}`,
     '18+. Predict responsibly. Elopis never asks for your password or PIN by email.',
   )

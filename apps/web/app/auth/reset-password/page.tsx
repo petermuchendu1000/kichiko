@@ -41,14 +41,11 @@ const MIN_PASSWORD = 8
  * provider — the same rule the notification emails follow.
  */
 const MESSAGES: Record<string, string> = {
-  otp_expired:
-    'That link has expired or has already been used. Reset links last 60 minutes and work once — request a new one below.',
-  access_denied:
-    'That link is no longer valid. Request a new one below.',
-  invalid_link:
-    'That link is not complete. Open it directly from the email, or request a new one below.',
+  otp_expired: 'This link has expired or was already used. Request a new one below.',
+  access_denied: 'This link is no longer valid. Request a new one below.',
+  invalid_link: 'This link is incomplete. Request a new one below.',
 }
-const FALLBACK_MESSAGE = 'That link did not work. Request a new one below.'
+const FALLBACK_MESSAGE = 'This link did not work. Request a new one below.'
 
 /**
  * Read an error code from the query string OR the URL hash.
@@ -196,7 +193,7 @@ function ResetPasswordInner() {
     return (
       <AuthShell
         bridgeHeading="Set a new password."
-        bridgeSub="Choose a strong password you don't use anywhere else — it protects your balance and positions."
+        bridgeSub="Choose a strong password you don't use anywhere else. It protects your balance and positions."
       >
         <div className="mb-8 flex flex-col items-center text-center lg:items-start lg:text-left">
           <LogoMark size={40} className="mb-3 lg:hidden" />

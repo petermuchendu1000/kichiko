@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { getBrowserClient } from '@/lib/supabase/client-lazy'
 import { AuthShell } from '@/components/auth/auth-shell'
+import { GoogleButton } from '@/components/auth/google-button'
 import { PasswordInput } from '@/components/auth/password-input'
 import { LogoMark, IconShield, IconArrowRight } from '@/components/ui/icons'
 import { safeRedirectPath } from '@/lib/security/sanitize'
@@ -57,6 +58,10 @@ export default function LoginPage() {
         <h1 className="font-display text-2xl text-text-primary">Welcome back</h1>
         <p className="mt-1 text-sm text-text-muted">Sign in to your Elopis account</p>
       </div>
+
+      {/* Above the form, which is where people look for it, and self-hiding
+          while the Google provider is off. */}
+      <GoogleButton next={next} dividerBelow />
 
       <form onSubmit={handleLogin} className="space-y-4">
         <div>

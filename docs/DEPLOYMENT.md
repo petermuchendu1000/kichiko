@@ -130,6 +130,49 @@ and GitHub *Environment/Repository secrets* (CI). Required:
 See `docs/01-ARCHITECTURE.md §4` for the full secret inventory and
 `docs/RUNBOOK.md` for the rotation procedure.
 
+### Turning on Google sign-in
+
+The button is already built and shipped (`components/auth/google-button.tsx`,
+on the login page, the register page and the in-context auth dialog). It reads
+`GET /auth/v1/settings` and renders **only** when GoTrue reports the provider
+enabled, so there is no build flag and no redeploy: enable the provider and the
+button appears on the next page load.
+
+What is left is the part that needs a Google account:
+
+1. **Google Cloud Console** → APIs & Services → Credentials → *Create
+   credentials* → *OAuth client ID* → Web application.
+2. Authorised redirect URI — this must be **Supabase's** callback, not ours,
+   because GoTrue is what Google redirects to:
+   ```
+   https://<project-ref>.supabase.co/auth/v1/callback
+   ```
+   (`<project-ref>` is the subdomain of the project's API URL.)
+3. Configure the OAuth consent screen (app name, support email, logo, the
+   `email` and `profile` scopes). A public app needs verification before it
+   leaves the 100-user test cap.
+4. Paste the client ID and secret into Supabase → Authentication → Providers →
+   Google, and enable it. By API:
+   ```bash
+   curl -X PATCH "https://api.supabase.com/v1/projects/$REF/config/auth" \
+     -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" \
+     -H 'Content-Type: application/json' \
+     -d '{"external_google_enabled":true,
+          "external_google_client_id":"…",
+          "external_google_secret":"…"}'
+   ```
+
+Our own `/auth/callback` route already exchanges the returned `?code` for a
+session and honours `?next`, so an OAuth sign-in lands exactly where an email
+sign-in would have. Nothing else to wire.
+
+One consequence worth knowing before enabling: a Google account whose address
+matches an existing email account will, by default, link to it. That is usually
+what people expect, and it is also why the Google address must be verified,
+which Google guarantees.
+
+---
+
 ### ⛔ Deploying by hand: the three build args are not optional
 
 The `NEXT_PUBLIC_*` row above says **build**, and that word is load-bearing.

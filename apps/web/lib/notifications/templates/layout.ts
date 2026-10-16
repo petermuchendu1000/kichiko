@@ -96,11 +96,31 @@ export function shell({ title, preheader, body, footnote }: ShellOptions): strin
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="e-canvas" style="background:${C.canvas};">
     <tr><td align="center" style="padding:32px 12px;">
       <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" class="e-card" style="width:600px;max-width:100%;background:${C.paper};border:1px solid ${C.hairline};border-radius:8px;">
-        <!-- Header: the mark, and a rule. Nothing else. -->
+        <!-- Header: the mark, the name, and a rule. Nothing else.
+
+             A table, because this needs the two cells on one line in Outlook,
+             which lays out with Word and supports neither flex nor
+             inline-block reliably. A valign of middle on both cells is what
+             actually centres them there.
+
+             The image alt is EMPTY on purpose. The name is now real text
+             beside it, and an alt of "Elopis" would make the pair read
+             "Elopis Elopis" to a screen reader and in the inbox preview,
+             where clients scrape the first text in the body. The mark is
+             decorative once the word is present.
+
+             The colour is stated on the anchor: without it the client's
+             default link blue is inherited, which would paint the wordmark
+             blue and outline the image in some clients. -->
         <tr><td class="e-pad" style="padding:28px 40px 0 40px;">
-          <a href="${appUrl()}" style="text-decoration:none;display:inline-block;">
-            <img src="${LOGO_PNG}" width="36" height="36" alt="Elopis"
-                 style="display:block;width:36px;height:36px;border:0;outline:none;text-decoration:none;border-radius:8px;">
+          <a href="${appUrl()}" style="text-decoration:none;display:inline-block;color:${C.text};">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+              <td valign="middle" style="padding-right:10px;">
+                <img src="${LOGO_PNG}" width="36" height="36" alt=""
+                     style="display:block;width:36px;height:36px;border:0;outline:none;text-decoration:none;border-radius:8px;">
+              </td>
+              <td valign="middle" class="e-text" style="font-family:${FONT};font-size:18px;line-height:1;font-weight:600;letter-spacing:-.3px;color:${C.text};">Elopis</td>
+            </tr></table>
           </a>
         </td></tr>
         <tr><td class="e-pad" style="padding:22px 40px 0 40px;">
