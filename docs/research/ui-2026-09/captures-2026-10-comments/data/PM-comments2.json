@@ -1,0 +1,48 @@
+{
+  "initial": {
+    "roots": 10,
+    "replies": 2,
+    "container": {
+      "cls": "WINDOW",
+      "scrollH": 4359,
+      "clientH": 900
+    },
+    "sectionH": 1476,
+    "docH": 4359,
+    "avgRowH": 148
+  },
+  "scrolled": {
+    "roots": 10,
+    "replies": 2,
+    "container": {
+      "cls": "WINDOW",
+      "scrollH": 4359,
+      "clientH": 900
+    },
+    "sectionH": 1476,
+    "docH": 4359,
+    "avgRowH": 148
+  },
+  "afterClick": {
+    "roots": 10,
+    "replies": 2,
+    "container": {
+      "cls": "WINDOW",
+      "scrollH": 4359,
+      "clientH": 900
+    },
+    "sectionH": 1476,
+    "docH": 4359,
+    "avgRowH": 148
+  },
+  "clicked": null,
+  "calls": [
+    {
+      "limit": "10",
+      "offset": "0",
+      "order": "createdAt",
+      "holders": null
+    }
+  ],
+  "afterScrollCalls": 1
+}

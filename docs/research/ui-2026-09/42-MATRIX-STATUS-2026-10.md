@@ -1104,6 +1104,105 @@ market whose price has not moved in three months should show a flat line
 (truthful, and PM's behaviour) or should not be chartable at all. That is a
 product call, recorded here rather than made here.
 
+### 2.18 C11 — what one comment cost everybody (migrations 116 + 117)
+
+The thread looked fine. The defect was on the wire, and no screenshot would
+ever have shown it.
+
+`fetchComments()` read the whole thread — `.limit(500)`, every row, every
+author — and the realtime subscription called it **on every INSERT, for every
+connected viewer**. Measured on `/markets/ke-2027-president` with two browsers
+open and one 58-character comment inserted out-of-band by SQL:
+
+| | on load | idle 6 s | after ONE comment |
+|---|---|---|---|
+| viewer A | 13 requests | **0** | `comments` 19,476 B (37 rows) + `market_comment_holdings` 3,440 B |
+| viewer B | 13 requests | **0** | identical |
+
+**22,916 B per open viewer, for 58 bytes of content** — 395x — and it grows
+with the length of the thread. Cost O(thread x viewers) for an event that
+changed one row. The idle column is the part that was already right: nothing
+polls, so this was purely amplification on write.
+
+**Polymarket, measured the same day** on `brazil-presidential-election`
+(24,024 comments, the direct analogue of our market): `limit=10&offset=0`,
+**one** comments request in the whole page lifetime, no realtime stream of the
+thread at all, the rest behind a "Show more" button at the tail, first page
+27,859 B, thread 33.9% of the document. Ours rendered all 36 rows: 3,087 px of
+5,830 px, **52.9%** — and the 61% this was carried at earlier was simply wrong.
+
+**After**: 20 roots + their replies in one RPC (9,572 B), 40.1% of the page,
+and an INSERT costs **384 B**. 22,916 -> 384, **98.3%**.
+
+Three things in this one are worth keeping:
+
+**The page size is derived, not picked.** 2,743 px of page without the thread,
+a third of the document as the budget (PM's own proportion), 67 px per measured
+row: 1,371 / 67 = 20. Not PM's 10, because their 10 is a sample of 24,024
+nobody intends to read, while 20 of our 34 means one press reveals the thread.
+
+**The cursor is composite because the data said so.** 216 live comments carry
+only **125 distinct timestamps**, with up to three comments in one market
+sharing a timestamp to the microsecond. A keyset on `created_at` alone would
+skip or duplicate rows at every page boundary landing inside a tie group — at
+3-way ties and a 20-row page, near-certain rather than theoretical. Offset
+(PM's choice) has the same class of bug under insertion.
+
+**SECURITY INVOKER was the point, not an oversight.** 115 had to be DEFINER
+because it reads `positions` past "users can view own positions". 116 reads
+nothing the caller cannot already read, and being INVOKER is what makes the
+orphan rule work: admin take-down sets `is_deleted` on one comment with **no
+cascade** (014), so a moderated root leaves its replies pointing at a row RLS
+hides — and "no VISIBLE parent" then bubbles them up by itself. Proven in a
+rolled-back transaction: two replies `is_reply: true` before the take-down,
+`is_reply: false` after, parent gone, nothing committed.
+
+**Four instrument failures in one session**, which is the real lesson:
+
+1. The PM harness scrolled the **window**; their thread is its own container,
+   so it recorded "no further fetches" and nearly produced the finding "PM
+   loads everything at once".
+2. The screenshot clips were computed in **document** coordinates and passed to
+   a viewport-relative `clip`. Six captures of the page footer, all with
+   plausible dimensions. Caught only by opening them.
+3. The first "Show more" gate **passed against the defect it was written for**.
+   The bug is self-limiting — the wasted press fetches an empty page, which
+   sets `exhausted` and hides the button — so a loop that presses until the
+   button disappears walks straight through it. The assertion had to be made at
+   the moment the thread completes, not after pressing again.
+4. The first page effect fired the RPC **three times**. StrictMode runs effects
+   twice on mount but does **not** reset refs between the passes, so a
+   "skip the first run" flag was already spent and the sort effect loaded a page
+   it was written never to load. A key-compare cannot double-fire however many
+   times the effect runs.
+
+Also corrected here: **C13 was carried as OPEN and should not have been.**
+`contract-specs.tsx` already ships Market Opened, Resolver and the resolution
+source; verified on the live page. Only "Propose resolution" is outstanding,
+and that is a product decision, not a missing card.
+
+**One regression I introduced and caught by re-reading the seams, not by a
+test.** The old whole-thread fetch lived in an effect that depended on it, and
+it depended on `user` — so signing in refetched everything and the hearts came
+back filled. The new page effect is guarded on market+sort *precisely so that
+signing in does not discard the pages someone has already asked for*, which
+left nothing to notice the sign-in: every heart would have stayed empty until a
+reload. Fixed with a `[user?.id]` effect that re-seeds from a ref. It is
+**not gated**, and cannot be with what exists: the e2e suite has no
+authenticated path and vitest runs `environment: 'node'` with no DOM, so there
+is no component-test harness to put it in. Stated here rather than implied to
+be covered.
+
+What this does **not** cover: the insert-amplification measurement needs an
+authenticated writer, so it lives in
+`captures-2026-10-comments/harness/ours-refetch.js` and is run by hand, not in
+CI. The e2e gate covers the load path, the paging, the sort and the idle
+thread. The holders filter also still narrows **the loaded pages**, not the
+whole thread — server-side filtering would need the DEFINER function, which is
+exactly the property 116 was written to avoid.
+
+---
+
 ---
 
 ## 3. How to work this

@@ -1,0 +1,48 @@
+{
+  "slug": "ke-2027-president",
+  "onLoad": {
+    "viewerA": {
+      "rows": 36,
+      "threadH": 3087,
+      "docH": 5830,
+      "avgRowH": 67,
+      "badges": 34,
+      "sectionFound": false
+    },
+    "viewerB": {
+      "rows": 36,
+      "threadH": 3087,
+      "docH": 5830,
+      "avgRowH": 67,
+      "badges": 34,
+      "sectionFound": false
+    },
+    "requestsA": 13,
+    "requestsB": 13,
+    "bytesA": 2781953
+  },
+  "idle": {
+    "requestsA": 0,
+    "requestsB": 0
+  },
+  "afterOneInsert": {
+    "viewerA": [
+      "tbl:comments 19476B 37 rows",
+      "rpc:market_comment_holdings 3440B 23 rows"
+    ],
+    "viewerB": [
+      "tbl:comments 19476B 37 rows",
+      "rpc:market_comment_holdings 3440B 23 rows"
+    ],
+    "bytesA": 22916,
+    "bytesB": 22916
+  },
+  "final": {
+    "rows": 37,
+    "threadH": 3174,
+    "docH": 5917,
+    "avgRowH": 67,
+    "badges": 34,
+    "sectionFound": false
+  }
+}

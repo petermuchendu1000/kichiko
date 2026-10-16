@@ -1,0 +1,111 @@
+{
+  "slug": "brazil-presidential-election",
+  "calls": [
+    {
+      "t": 1792137476409,
+      "limit": "10",
+      "offset": "0",
+      "order": "createdAt",
+      "holders": null,
+      "url": "https://gamma-api.polymarket.com/comments?get_positions=true&get_reports=true&parent_entity_type=Event&parent_entity_id=45915&ascending=false&holders_only=true&order=createdAt&limit=10&offset=0"
+    }
+  ],
+  "sizes": [
+    {
+      "bytes": 27859,
+      "rows": 12,
+      "roots": 10,
+      "replies": 2
+    }
+  ],
+  "before": {
+    "ranked": [
+      {
+        "key": "flex items-center w-full justify-between relative gap-3",
+        "n": 12,
+        "avgH": 25
+      },
+      {
+        "key": "flex items-baseline whitespace-nowrap overflow-hidden text-ellipsis pr-8 gap-1",
+        "n": 12,
+        "avgH": 25
+      },
+      {
+        "key": "flex w-full",
+        "n": 4,
+        "avgH": 173
+      },
+      {
+        "key": "comment flex pt-6",
+        "n": 2,
+        "avgH": 268
+      },
+      {
+        "key": "flex flex-col ml-3.5 whitespace-normal w-[calc(100%-58px)]",
+        "n": 2,
+        "avgH": 244
+      },
+      {
+        "key": "comment reply flex mt-6",
+        "n": 2,
+        "avgH": 101
+      }
+    ],
+    "docH": 4359,
+    "nodes": 2639,
+    "loadMore": [
+      "More",
+      "Show more",
+      "Top Holders",
+      "Show more",
+      "View more",
+      "View more"
+    ]
+  },
+  "after": {
+    "ranked": [
+      {
+        "key": "flex items-center w-full justify-between relative gap-3",
+        "n": 12,
+        "avgH": 25
+      },
+      {
+        "key": "flex items-baseline whitespace-nowrap overflow-hidden text-ellipsis pr-8 gap-1",
+        "n": 12,
+        "avgH": 25
+      },
+      {
+        "key": "flex w-full",
+        "n": 4,
+        "avgH": 173
+      },
+      {
+        "key": "comment flex pt-6",
+        "n": 2,
+        "avgH": 268
+      },
+      {
+        "key": "flex flex-col ml-3.5 whitespace-normal w-[calc(100%-58px)]",
+        "n": 2,
+        "avgH": 244
+      },
+      {
+        "key": "comment reply flex mt-6",
+        "n": 2,
+        "avgH": 101
+      }
+    ],
+    "docH": 4359,
+    "nodes": 2641,
+    "loadMore": [
+      "More",
+      "Show more",
+      "Top Holders",
+      "Show more",
+      "View more",
+      "View more"
+    ]
+  },
+  "callsBefore": 1,
+  "callsAfter": 1
+}

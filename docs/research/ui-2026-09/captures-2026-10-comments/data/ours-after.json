@@ -1,0 +1,98 @@
+{
+  "firstPage": {
+    "rows": 22,
+    "threadH": 1873,
+    "docH": 4676,
+    "badges": 20,
+    "showMore": "Show 14 more",
+    "showMoreH": 44,
+    "commentsTab": "Comments (36)",
+    "countLine": "36 comments",
+    "warningVisible": [
+      {
+        "visible": true
+      }
+    ]
+  },
+  "pageCalls": [
+    {
+      "name": "rpc:market_comments_page",
+      "bytes": 9572,
+      "rows": 22
+    },
+    {
+      "name": "rpc:market_comments_page",
+      "bytes": 9572,
+      "rows": 22
+    },
+    {
+      "name": "rpc:market_comments_page",
+      "bytes": 9572,
+      "rows": 22
+    }
+  ],
+  "afterShowMore": {
+    "rows": 36,
+    "threadH": 3087,
+    "docH": 5890,
+    "badges": 34,
+    "showMore": "Show more comments",
+    "showMoreH": 44,
+    "commentsTab": "Comments (36)",
+    "countLine": "36 comments",
+    "warningVisible": [
+      {
+        "visible": true
+      }
+    ]
+  },
+  "showMoreCalls": [
+    "rpc:market_comments_page 6196B 14 rows"
+  ],
+  "idle": {
+    "a": 0,
+    "b": 0
+  },
+  "afterOneInsert": {
+    "viewerA": [
+      "tbl:comments 384B 1 rows",
+      "rpc:market_comment_holdings 3440B 23 rows"
+    ],
+    "viewerB": [
+      "tbl:comments 384B 1 rows",
+      "rpc:market_comment_holdings 3440B 23 rows"
+    ],
+    "bytesA": 3824,
+    "bytesB": 3824
+  },
+  "finalA": {
+    "rows": 37,
+    "threadH": 3174,
+    "docH": 5977,
+    "badges": 34,
+    "showMore": "Show more comments",
+    "showMoreH": 44,
+    "commentsTab": "Comments (37)",
+    "countLine": "37 comments",
+    "warningVisible": [
+      {
+        "visible": true
+      }
+    ]
+  },
+  "mobile": {
+    "rows": 22,
+    "threadH": 2009,
+    "docH": 6523,
+    "badges": 19,
+    "showMore": "Show 15 more",
+    "showMoreH": 44,
+    "commentsTab": "Comments (37)",
+    "countLine": "37 comments",
+    "warningVisible": [
+      {
+        "visible": true
+      }
+    ]
+  }
+}
