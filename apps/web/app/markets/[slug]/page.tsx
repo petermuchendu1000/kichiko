@@ -27,7 +27,7 @@ import { getMarketContextNews } from '@/lib/markets/context-news-data'
 import { normalizeOutcomes, isMultiOutcome, isIndependentOptions } from '@/lib/markets/outcomes'
 import { isFeatureEnabled } from '@/lib/flags'
 import { getTickerTrades } from '@/lib/markets/trade-ticker'
-import { toDeltaMap, type OptionDeltaMap } from '@/lib/markets/option-delta'
+import { toDeltaMap, type OptionDeltaMap, type DeltaRow } from '@/lib/markets/option-delta'
 import { fetchMarketHistory, thinByRecency } from '@/lib/markets/history'
 import type { Market, MarketOption } from '@/types'
 
@@ -208,7 +208,7 @@ export default async function MarketPage({
   const { data: deltaRows } = await supabase
     .rpc('market_option_deltas' as never, { p_market_id: market.id } as never)
   const optionDeltas: OptionDeltaMap = toDeltaMap(
-    (deltaRows as unknown as Parameters<typeof toDeltaMap>[0]) ?? [],
+    (deltaRows as unknown as DeltaRow[]) ?? [],
   )
 
   // Headlines the ingest-news cron attached to this market. Public-read, so

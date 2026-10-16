@@ -34,7 +34,12 @@ export function MarketNews({ items }: { items: MarketNewsItem[] }) {
         <h2 id="market-news-heading" className="font-display text-[1.25rem] font-bold tracking-[-0.02em] text-text-primary">
           In the news
         </h2>
-        <span className="text-[12px] font-medium text-text-3">Stories that move this market</span>
+        {/* text-text-muted, not text-text-3: the latter is the CSS VARIABLE's name
+            (--text-3), not the Tailwind token's (muted), so it compiled to
+            nothing and this subtitle inherited body colour — louder than the
+            heading it sits under. Caught by scripts/check-tailwind-classes.mjs,
+            which had been reporting it. */}
+        <span className="text-[12px] font-medium text-text-muted">Stories that move this market</span>
       </div>
 
       <ul className="divide-y" style={{ borderColor: 'var(--hairline-soft)' }}>
@@ -47,7 +52,7 @@ export function MarketNews({ items }: { items: MarketNewsItem[] }) {
               className="group flex items-start gap-3 py-3 transition-colors"
             >
               <span className="min-w-0 flex-1">
-                <span className="block text-[12px] font-medium text-text-3">
+                <span className="block text-[12px] font-medium text-text-muted">
                   {n.source}
                   <span aria-hidden> · </span>
                   <time dateTime={n.publishedAt}>{timeAgo(n.publishedAt)}</time>

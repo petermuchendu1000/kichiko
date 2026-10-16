@@ -10,8 +10,28 @@ export default defineConfig({
   // CI runners are far from the eu-west-1 DB and some pages (Home trending,
   // Markets board) do heavy server-side data fetching, so their SSR first-byte
   // can be slow. Give navigations generous headroom in CI to avoid flaky
-  // timeouts on these DB-backed pages (local stays snappy).
-  timeout: process.env.CI ? 120_000 : 30_000,
+  // timeouts on these DB-backed pages.
+  //
+  // LOCAL IS NOT "SNAPPY", AND 30 s WAS NEVER THE RIGHT NUMBER FOR IT.
+  //
+  // Locally the webServer below is `next dev`, which compiles each route the
+  // first time it is requested. Measured 2026-10-16 on an idle machine:
+  //   /profile 14.6 s · /traders/[id] 8.1 s · / 7.9 s · /search 8.3 s
+  // Half a 30 s budget can go to a single cold compile before an assertion
+  // runs, and specs that pick their route AT RUNTIME (user-journeys and
+  // currency-kes both open "whichever market the board links first") cannot be
+  // pre-warmed to avoid it.
+  //
+  // That produced nine failures in one full run, every one of them
+  // `Test timeout of 30000ms exceeded` and not one an assertion — across five
+  // different spec files, read as infrastructure twice and as a product
+  // regression once before the pattern was obvious. Three files had already
+  // been given test.slow() one at a time, which was treating the symptom: the
+  // slowness belongs to the harness, not to those tests.
+  //
+  // 90 s locally. CI builds for production and never pays compile-on-demand,
+  // so its own number is unchanged.
+  timeout: process.env.CI ? 120_000 : 90_000,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,

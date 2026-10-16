@@ -1,7 +1,7 @@
 // lib/__tests__/option-delta.test.ts
 // The change figure beside each outcome's probability (migration 114).
 import { describe, it, expect } from 'vitest'
-import { toDeltaMap, isMeaningful, formatDelta, DELTA_FLOOR } from '../markets/option-delta'
+import { toDeltaMap, isMeaningful, formatDelta, DELTA_FLOOR, type DeltaRow } from '../markets/option-delta'
 
 /** The measured shape of a `market_option_deltas` row. */
 const row = (o: Partial<Record<string, unknown>> = {}) => ({
@@ -11,7 +11,7 @@ const row = (o: Partial<Record<string, unknown>> = {}) => ({
   delta: -0.062,
   points: 387,
   ...o,
-}) as Parameters<typeof toDeltaMap>[0][number]
+}) as unknown as DeltaRow
 
 describe('toDeltaMap', () => {
   it('shapes the measured rows from ke-2027-president', () => {

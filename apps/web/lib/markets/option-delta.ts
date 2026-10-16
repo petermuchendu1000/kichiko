@@ -27,7 +27,8 @@ export interface OptionDelta {
 /** Serialisable map the server hands the client board. */
 export type OptionDeltaMap = Record<string, OptionDelta>
 
-interface DeltaRow {
+/** A row as `market_option_deltas` returns it. */
+export interface DeltaRow {
   market_option_id: string
   first_price: number | string | null
   last_price: number | string | null

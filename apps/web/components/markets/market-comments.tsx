@@ -36,6 +36,7 @@ import { IconComments, IconShare } from '@/components/ui/icons'
 import Link from 'next/link'
 import { MarketActivity } from '@/components/markets/market-activity'
 import { TopHolders } from '@/components/markets/top-holders'
+import { toHoldingMap, describeHolding, type CommentHoldingMap, type HoldingRow } from '@/lib/markets/comment-holdings'
 import { MarketPositions } from '@/components/markets/market-positions'
 import toast from 'react-hot-toast'
 import type { Comment, MarketOption } from '@/types'
@@ -137,6 +138,10 @@ export function MarketComments({ marketId, options, resolutionType }: MarketComm
   //  - likedIds : comment ids the current user has liked (drives the toggle).
   //  - likePending / replyPending guard against double-submits per comment.
   //  - replyingTo / replyText back the single inline reply composer.
+  // Which side each commenter is on (matrix C10). Side only, never size —
+  // see lib/markets/comment-holdings.ts and migration 115.
+  const [holdings, setHoldings] = useState<CommentHoldingMap>({})
+  const [holdersOnly, setHoldersOnly] = useState(false)
   const [likedIds, setLikedIds] = useState<Set<string>>(new Set())
   const [likePending, setLikePending] = useState<Set<string>>(new Set())
   const [replyingTo, setReplyingTo] = useState<string | null>(null)
@@ -160,6 +165,16 @@ export function MarketComments({ marketId, options, resolutionType }: MarketComm
       .limit(500)
     const rows = (data as Comment[]) || []
     setComments(rows)
+
+    // Disclosure badges. Best-effort and deliberately not awaited with the
+    // comments: a thread that renders without badges is degraded, a thread
+    // that does not render at all because a disclosure lookup failed is
+    // broken.
+    void supabase
+      .rpc('market_comment_holdings' as never, { p_market_id: marketId } as never)
+      .then(({ data: hRows }) => {
+        setHoldings(toHoldingMap((hRows as unknown as HoldingRow[]) ?? []))
+      })
 
     // Seed "liked by me" so the heart renders in the correct state on load.
     if (user && rows.length) {
@@ -345,12 +360,23 @@ export function MarketComments({ marketId, options, resolutionType }: MarketComm
     const byId = new Map<string, Comment>()
     for (const c of comments) byId.set(c.id, c)
 
+    // The holders filter keeps a ROOT when the root's author holds, or when
+    // any reply under it does — so turning it on narrows the thread list
+    // rather than shredding conversations into orphaned halves. A reply by a
+    // holder is still worth reading in the context of the question it answers.
+    const holderIds = new Set(Object.keys(holdings))
+    const keepRoot = (c: Comment): boolean => {
+      if (!holdersOnly) return true
+      if (holderIds.has(c.user_id)) return true
+      return comments.some((r) => r.parent_id === c.id && holderIds.has(r.user_id))
+    }
+
     const childrenOf = new Map<string, Comment[]>()
     const roots: Comment[] = []
     for (const c of comments) {
       const isRoot = !c.parent_id || !byId.has(c.parent_id)
       if (isRoot) {
-        roots.push(c)
+        if (keepRoot(c)) roots.push(c)
       } else {
         const arr = childrenOf.get(c.parent_id!) || []
         arr.push(c)
@@ -370,7 +396,7 @@ export function MarketComments({ marketId, options, resolutionType }: MarketComm
         (a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime(),
       ),
     }))
-  }, [comments, sort])
+  }, [comments, sort, holdersOnly, holdings])
 
   const tabs: { key: TabKey; label: string }[] = [
     // PM shows the count in parens with a thousands separator: "Comments (3,993)".
@@ -397,6 +423,39 @@ export function MarketComments({ marketId, options, resolutionType }: MarketComm
         <div className="min-w-0 flex-1">
           <div className="mb-0.5 flex items-center gap-2">
             <TraderNameLink id={comment.user_id} name={name} className="text-sm" />
+            {/* DISCLOSURE BADGE (matrix C10, migration 115).
+                Polymarket wears the commenter's position beside their name —
+                `76.7K Flávio Bolsonaro`. A reader deciding what to make of
+                "Ruto is finished" is entitled to know the author is short
+                Ruto, and on this board they could not find out.
+
+                SIDE, NEVER SIZE. Their commenters are pseudonymous wallets;
+                ours are named, KYC'd Kenyans, and the same badge here would
+                read "Tabitha Chebet holds 5,889 shares of Gachagua" — personal
+                financial data about an identified person. Which side is the
+                part that lets you discount an argument; the amount adds almost
+                nothing to that and a lot to her exposure.
+
+                Colour is not the carrier: the words say "Backs" or "Against",
+                so this reads correctly in greyscale and to a screen reader,
+                which gets the whole sentence because it cannot see the badge
+                sitting next to a name. */}
+            {(() => {
+              const h = holdings[comment.user_id]
+              if (!h) return null
+              const d = describeHolding(h, name)
+              return (
+                <span
+                  className={`flex-none rounded px-1.5 py-0.5 text-[11px] font-semibold leading-none ${
+                    d.backing ? 'bg-yes/10 text-yes' : 'bg-no/10 text-no'
+                  }`}
+                  title={d.description}
+                >
+                  <span className="sr-only">{d.description}. </span>
+                  <span aria-hidden>{d.label}</span>
+                </span>
+              )
+            })()}
             <span className="flex-none text-xs text-text-muted">
               {formatDistanceToNow(new Date(comment.created_at), { addSuffix: true })}
             </span>
@@ -549,11 +608,44 @@ export function MarketComments({ marketId, options, resolutionType }: MarketComm
             <EmptyState>No comments yet. Be the first to share your prediction.</EmptyState>
           ) : (
             <>
-              {/* Sort control (PM parity — their comments default to "Newest"). */}
-              <div className="mb-3 flex items-center justify-between">
+              {/* Sort control (PM parity — their comments default to "Newest")
+                  and the holders filter beside it (matrix C10). */}
+              <div className="mb-3 flex items-center justify-between gap-3">
                 <span className="text-xs text-text-muted">
                   {comments.length} {comments.length === 1 ? 'comment' : 'comments'}
                 </span>
+                <div className="flex items-center gap-2">
+                  {/* EXTERNAL-LINK WARNING (matrix C10).
+                      Polymarket carries a standing "Beware of external links."
+                      beside the comment controls. It belongs on any surface
+                      where strangers write to people holding money: a market
+                      thread is a high-intent audience, and the oldest attack
+                      on one is a link to a lookalike wallet or "claim your
+                      winnings" page. Static and always visible — a warning
+                      that appears only when a link is detected teaches people
+                      to trust the threads where it is absent. */}
+                  <span className="hidden text-[11px] text-text-muted sm:inline">
+                    Beware of external links.
+                  </span>
+                  {/* HOLDERS FILTER — PM carries one, and it is the natural
+                      companion to the badge: once a reader can see who has a
+                      position, the next thing they want is to read only those
+                      people, or to stop reading them.
+
+                      Hidden when nobody in the thread holds anything, rather
+                      than rendering a control that filters to an empty list.
+                      44px (ruling A4) — it is a control, not a text link. */}
+                  {Object.keys(holdings).length > 0 && (
+                    <label className="inline-flex min-h-11 cursor-pointer items-center gap-1.5 text-xs font-semibold text-text-secondary">
+                      <input
+                        type="checkbox"
+                        checked={holdersOnly}
+                        onChange={(e) => setHoldersOnly(e.target.checked)}
+                        className="h-4 w-4 accent-[var(--pip-500)]"
+                      />
+                      Holders
+                    </label>
+                  )}
                 <div className="relative">
                   <label htmlFor="comment-sort" className="sr-only">
                     Sort comments
@@ -574,6 +666,7 @@ export function MarketComments({ marketId, options, resolutionType }: MarketComm
                   >
                     <path d="M6 9l6 6 6-6" />
                   </svg>
+                </div>
                 </div>
               </div>
 
