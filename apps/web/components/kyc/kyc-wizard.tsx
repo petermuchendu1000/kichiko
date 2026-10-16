@@ -10,7 +10,7 @@
 import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import type { User } from '@supabase/supabase-js'
-import { createClient } from '@/lib/supabase/client'
+import { getBrowserClient } from '@/lib/supabase/client-lazy'
 import { KycConsole } from '@/components/kyc/kyc-console'
 import { KycStepper, type StepDef } from '@/components/kyc/kyc-stepper'
 import { VerificationMeter } from '@/components/kyc/verification-meter'
@@ -64,7 +64,9 @@ interface KycWizardProps {
 }
 
 export function KycWizard({ user, initialPhone, initialCountry, returnTo = '/portfolio' }: KycWizardProps) {
-  const supabase = useMemo(() => createClient(), [])
+  // Loaded on first use, not during render: this wizard's every call sits
+  // inside the submit path, and a visitor who opens the page to read what is
+  // required should not pay ~66 kB for it. Ruling A11.
 
   const [started, setStarted] = useState(false)
   const [step, setStep] = useState(0)
@@ -100,6 +102,7 @@ export function KycWizard({ user, initialPhone, initialCountry, returnTo = '/por
   const isLast = step === STEPS.length - 1
 
   const uploadFile = async (file: File, path: string): Promise<string | null> => {
+    const supabase = await getBrowserClient()
     const { data, error: upErr } = await supabase.storage
       .from('kyc-documents')
       .upload(path, file, { upsert: true })
@@ -110,6 +113,7 @@ export function KycWizard({ user, initialPhone, initialCountry, returnTo = '/por
   const handleSubmit = async () => {
     setError('')
     setSubmitting(true)
+    const supabase = await getBrowserClient()
     const ts = Date.now()
     const ext = (f: File) => f.name.split('.').pop() || 'jpg'
 

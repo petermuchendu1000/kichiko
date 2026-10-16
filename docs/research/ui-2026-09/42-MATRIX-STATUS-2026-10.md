@@ -2,9 +2,9 @@
 
 [40-ELEMENT-MATRIX](40-ELEMENT-MATRIX.md) is the canonical page-by-page,
 element-by-element comparison (Polymarket × Kalshi × Elopis → ruling). It holds
-**88 rulings across twelve sections, A–L** — K and L were added on 2026-10-16
-for the chart and the hero, which the first ten covered in four cells between
-them. [50-EXECUTION-LOG](50-EXECUTION-LOG.md) records what was executed on
+**95 rulings across thirteen sections, A–M** — K, L and M were added on
+2026-10-16 for the chart, the hero and the public trader profile, which the
+first ten sections covered in four cells between them. [50-EXECUTION-LOG](50-EXECUTION-LOG.md) records what was executed on
 2026-09-27.
 
 This file says which rulings are **live in the product today**, measured rather
@@ -476,9 +476,11 @@ still worth the owner re-confirming for low-probability markets.
 
 ### 2.10 Remaining
 
-F2/F3 (below); **A11's remaining seven routes (§2.13)** — five authenticated
-pages that still carry the Supabase client, `/markets/[slug]` at 193 kB where
-the rest is the ticket itself, and `/` 2 kB over; H2's decision on an opt-in accuracy board to replace the profit
+F2/F3 (below); **A11's remaining three routes (§2.13, §2.14)** —
+`/markets/[slug]` at 193 kB where the rest is the ticket itself, `/profile`
+133 and `/` 132; **M4's cost basis**, which would turn the trader profile's
+value card into real profit and loss; **M7's ruling** on what the platform
+invites people to share; H2's decision on an opt-in accuracy board to replace the profit
 leaderboard H1 removed; I4's calls, which are a commitment rather than a
 commit; **the news matcher (§2.11)**; and the one open question K3 leaves for
 the owner — whether a fixed 0–100% axis is right for a market whose every
@@ -678,6 +680,81 @@ come in under budget, and one on it may not get worse. So the list can only
 shrink, and a new over-budget route fails immediately. It was checked against
 a tightened allowance before being trusted, and it prints which routes have
 improved enough to lower their entry.
+
+### 2.14 The five authenticated routes — finished, and measured against PM
+
+**Bundle.** All five converted (`/profile`, `/settings`, `/traders/[id]`,
+`/kyc`, `/notifications`), plus the layout's navbar and bottom-nav, whose only
+use of the client is a sign-out click and which sit on every page in the
+product.
+
+| route | before | after |
+|---|---|---|
+| `/kyc` | 184 kB | **118 kB** |
+| `/notifications` | 184 kB | **118 kB** |
+| `/traders/[id]` | 193 kB | **127 kB** |
+| `/settings` | 194 kB | **128 kB** |
+| `/profile` | 199 kB | **133 kB** |
+
+**Fourteen routes over budget → three**: `/markets/[slug]` 193 (its own ticket
+code), `/profile` 133 and `/` 132, both a couple of kB over on page-specific
+client code. The Supabase client is no longer in any route's first load.
+
+Two conversions needed more than a moved line. `notifications-view` opens a
+realtime channel in an effect: it now subscribes **before** the first read, so
+a notification arriving between the two is not dropped, and it holds a
+teardown the cleanup can call even when the import resolves after unmount —
+otherwise a fast navigation would leave a live channel pushing rows into a
+dead component for the rest of the session. `use-auth` got the same treatment
+plus a failure path: a chunk that will not load now reports "not signed in"
+rather than leaving the page on a spinner for ever.
+
+**Design, head-to-head.** Section **M** of the matrix is the element-by-element
+comparison against `polymarket.com/profile/…`, measured the same day. The
+short version: we match their anatomy — identity card, three-column stats, a
+value card with range tabs, Positions/Activity tabs, an Active/Closed
+segmented control, search, sort, and the same four table columns — and we
+differ in exactly the places [31] says to.
+
+Theirs leads with **Biggest Win** as one of three headline stats, a
+`Total PnL +$7.2M` in green, a `$1,069,729.43` hero, per-row gains like
+`(1,924.72%)`, a **share icon on every position row**, and a referral code
+under the name. Ours carries none of that, which is H1 and B5 applied one
+level down from the leaderboard they were written about. Our prices are in %
+where theirs are in ¢ (A1).
+
+**Two defects the comparison found in ours**, both on the value card:
+
+* It was **two different quantities in one card**. The headline was
+  `profiles.profit_loss_usd` — a lifetime figure — under a caption naming the
+  selected range, so switching the range changed the chart and never the
+  number. And the series it charts (`trader_pnl_series`, migration 026) sums
+  `shares × price` across held positions and subtracts **no cost basis**, so
+  the card headed "Profit/Loss" was plotting **position value**. On a trader
+  with no recent price history it rendered **`KSh 0` under "Past Day"** — a
+  money figure asserting a measured zero where there was no measurement.
+  Both halves now come from the same series, the card is named for what the
+  series is, and absence reads as absence. Turning it into real P&L needs
+  `positions.avg_entry_price × shares` subtracted inside the RPC; that is the
+  open item.
+* **Thirteen controls under 44px**, including range tabs at 30×28 — the same
+  28px the market chart's range tabs carried before A4 was gated there. The
+  fix landed on one chart and not the other because only one was ever
+  measured. `/traders/[id]` is now in `e2e/target-size.spec.ts`.
+
+**And four routes joined the axe scan.** The comment at the top of
+`e2e/a11y.spec.ts` deferred authenticated journeys to a manual audit, and the
+authenticated *shells* went with them — every one of these renders signed-out.
+`/traders/[id]`, `/profile`, `/notifications` and `/kyc` are scanned now; all
+four pass.
+
+**One ruling owed (M7).** Polymarket invites sharing on the P&L headline and
+on every position row. We have it on the headline only. Reg. 87 binds the
+operator publishing a winner's identity, not a person sharing their own
+result — but what the platform *invites* is the platform's choice, and that
+belongs with H2 rather than with me. The card now shares a **value** instead
+of a signed green profit, which is the honest version whichever way the
+decision goes.
 
 ### 2.11 The news matcher — two bugs fixed, one left standing
 

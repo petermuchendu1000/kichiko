@@ -7,7 +7,7 @@ import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { formatDistanceToNow } from 'date-fns'
-import { createClient } from '@/lib/supabase/client'
+import { getBrowserClient } from '@/lib/supabase/client-lazy'
 import { useAuth } from '@/hooks/use-auth'
 import { NotificationPreferences } from '@/components/notifications/NotificationPreferences'
 import type { Notification, NotificationType } from '@/types'
@@ -99,7 +99,8 @@ function Medallion({ type }: { type: NotificationType }) {
 export function NotificationsView() {
   const { user, loading } = useAuth()
   const router = useRouter()
-  const supabase = useMemo(() => createClient(), [])
+  // The client loads on first use, not during render — ~66 kB of this route's
+  // first load, and nothing here needs it before the effect below. Ruling A11.
 
   const [notifications, setNotifications] = useState<Notification[]>([])
   const [fetching, setFetching] = useState(true)
@@ -112,35 +113,57 @@ export function NotificationsView() {
 
   useEffect(() => {
     if (!user) return
-    const load = async () => {
+    let cancelled = false
+    // Holds the teardown for the realtime channel once it exists. The import
+    // can outlive a fast navigation, and a channel left subscribed after
+    // unmount would keep pushing rows into a dead component for the rest of
+    // the session.
+    let teardown: (() => void) | undefined
+
+    const run = async () => {
+      const supabase = await getBrowserClient()
+      if (cancelled) return
+
+      // Subscribe BEFORE the first read, so a notification arriving between
+      // the two is not silently dropped.
+      const channel = supabase
+        .channel('notifications')
+        .on(
+          'postgres_changes',
+          { event: 'INSERT', schema: 'public', table: 'notifications', filter: `user_id=eq.${user.id}` },
+          (payload) => setNotifications((prev) => [payload.new as Notification, ...prev]),
+        )
+        .subscribe()
+      teardown = () => {
+        void supabase.removeChannel(channel)
+      }
+
       const { data } = await supabase
         .from('notifications')
         .select('*')
         .eq('user_id', user.id)
         .order('created_at', { ascending: false })
         .limit(100)
+      if (cancelled) return
       setNotifications((data as Notification[]) || [])
       setFetching(false)
     }
-    load()
 
-    const channel = supabase
-      .channel('notifications')
-      .on(
-        'postgres_changes',
-        { event: 'INSERT', schema: 'public', table: 'notifications', filter: `user_id=eq.${user.id}` },
-        (payload) => setNotifications((prev) => [payload.new as Notification, ...prev]),
-      )
-      .subscribe()
+    void run().catch(() => {
+      // A chunk that will not load must not leave the page on a spinner.
+      if (!cancelled) setFetching(false)
+    })
 
     return () => {
-      supabase.removeChannel(channel)
+      cancelled = true
+      teardown?.()
     }
-  }, [user, supabase])
+  }, [user])
 
   const markAllRead = async () => {
     if (!user) return
     setNotifications((prev) => prev.map((n) => ({ ...n, is_read: true })))
+    const supabase = await getBrowserClient()
     await supabase
       .from('notifications')
       .update({ is_read: true, read_at: new Date().toISOString() })
@@ -150,6 +173,7 @@ export function NotificationsView() {
 
   const markRead = async (id: string) => {
     setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, is_read: true } : n)))
+    const supabase = await getBrowserClient()
     await supabase.from('notifications').update({ is_read: true, read_at: new Date().toISOString() }).eq('id', id)
   }
 

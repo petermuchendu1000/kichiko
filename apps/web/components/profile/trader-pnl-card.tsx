@@ -2,9 +2,27 @@
 
 // components/profile/trader-pnl-card.tsx
 // ------------------------------------------------------------
-// Trader-profile P&L card — Polymarket parity, built from live hard-data
-// capture (docs/holder-page-pm-parity-spec.md):
-//   • Big signed P&L headline (~30px bold, tabular-nums) + green/red caret.
+// Trader-profile value card — Polymarket parity on the geometry, NOT on the
+// claim. Built from live hard-data capture (docs/holder-page-pm-parity-spec.md).
+//
+// WHAT THIS CARD SHOWS, AND WHY IT IS NOT CALLED PROFIT/LOSS ANY MORE
+// It used to be headed "Profit/Loss" and carry two different quantities:
+//   • the headline was `profiles.profit_loss_usd` — a LIFETIME figure — sitting
+//     under a caption that named the selected range ("Past Day"), so switching
+//     the range changed the chart and never the number; and
+//   • the chart plots `trader_pnl_series`, which sums `shares x price` over
+//     held positions (migration 026). No cost basis is subtracted anywhere in
+//     it, so it is POSITION VALUE over time, not profit.
+// On a trader with no recent price history the headline rendered "KSh 0" under
+// "Past Day" — a money figure asserting a measured zero where there was no
+// measurement at all.
+//
+// Both halves now come from the same series, so the number and the range
+// always agree, and the card says what the series is. Turning it back into
+// real P&L needs the cost basis (`positions.avg_entry_price x shares`)
+// subtracted inside the RPC; that is recorded in 42-MATRIX-STATUS §2.14 with
+// the change it needs.
+//   • Big value headline (~30px bold, tabular-nums) + green/red caret.
 //   • Range toggle 1D 1W 1M 1Y YTD ALL — 12px/600 UPPERCASE, color-only active
 //     (pip-500), inactive ink-500; h28, radius 9.2px.
 //   • Subtitle range label ("Past Day") — 12px/500 ink-500.
@@ -13,7 +31,7 @@
 //     1.5px) + focus dot + floating value/date tooltip that tracks the cursor.
 // Inline SVG only — zero chart-lib bundle cost.
 import { useEffect, useMemo, useRef, useState, useCallback } from 'react'
-import { createClient } from '@/lib/supabase/client'
+import { getBrowserClient } from '@/lib/supabase/client-lazy'
 import { formatUSD } from '@/lib/utils'
 import { ShareChartModal } from './share-chart-modal'
 
@@ -153,23 +171,38 @@ function PnlChart({ points, positive, range }: ChartProps) {
 }
 
 export function TraderPnlCard({ userId, profitLoss, userName, profileUrl }: { userId: string; profitLoss: number; userName: string; profileUrl: string }) {
-  const supabase = useMemo(() => createClient(), [])
+  // The Supabase browser client loads on first use, not during render: it is
+  // ~66 kB of this route's first load and nothing here needs it before an
+  // effect or a handler runs. Ruling A11; see lib/supabase/client-lazy.ts.
   const [range, setRange] = useState<Range>('1D')
   const [points, setPoints] = useState<Point[] | null>(null)
   const [shareOpen, setShareOpen] = useState(false)
 
+  // The headline is the end of the series on screen. Absence is rendered as
+  // absence: with nothing to measure there is no number, rather than a zero
+  // that reads as "you are flat".
+  const latest = points && points.length > 0 ? Number(points[points.length - 1].value_usd) : null
+  // Direction over the window, for the caret. One point is a level, not a
+  // move, so it gets no direction at all.
+  const delta =
+    points && points.length > 1
+      ? Number(points[points.length - 1].value_usd) - Number(points[0].value_usd)
+      : null
+
   useEffect(() => {
     let alive = true
     setPoints(null)
-    supabase
-      .rpc('trader_pnl_series' as never, { p_user_id: userId, p_range: range } as never)
+    void getBrowserClient()
+      .then((supabase) =>
+        supabase.rpc('trader_pnl_series' as never, { p_user_id: userId, p_range: range } as never),
+      )
       .then(({ data }) => {
         if (alive) setPoints(((data as unknown) as Point[]) || [])
       })
     return () => { alive = false }
-  }, [userId, range, supabase])
+  }, [userId, range])
 
-  const positive = profitLoss >= 0
+  const positive = delta === null ? true : delta >= 0
 
   return (
     <div className="card p-5">
@@ -179,7 +212,7 @@ export function TraderPnlCard({ userId, profitLoss, userName, profileUrl }: { us
           <span aria-hidden className={positive ? 'text-yes' : 'text-no'} style={{ fontSize: 10, lineHeight: 1 }}>
             {positive ? '▲' : '▼'}
           </span>
-          <h2 className="text-sm font-medium text-text-muted">Profit/Loss</h2>
+          <h2 className="text-sm font-medium text-text-muted">Position value</h2>
         </div>
         <div role="group" aria-label="Chart range" className="flex items-center gap-0.5">
           {RANGES.map((r) => (
@@ -188,7 +221,11 @@ export function TraderPnlCard({ userId, profitLoss, userName, profileUrl }: { us
               type="button"
               onClick={() => setRange(r)}
               aria-pressed={range === r}
-              className={`h-7 rounded-[9.2px] px-2 text-xs font-semibold uppercase tracking-wide transition-colors ${
+              // min-h-11/min-w-11 = 44px (ruling A4). These rendered 30x28 —
+              // the same 28px the market chart's range tabs carried before A4
+              // was gated there. The fix landed on one chart and not the
+              // other, because only one of them was ever measured.
+              className={`inline-flex min-h-11 min-w-11 items-center justify-center rounded-[9.2px] px-2 text-xs font-semibold uppercase tracking-wide transition-colors ${
                 range === r ? 'text-pip-text' : 'text-text-muted hover:text-text-secondary'
               }`}
             >
@@ -201,13 +238,23 @@ export function TraderPnlCard({ userId, profitLoss, userName, profileUrl }: { us
       {/* Headline P&L + share trigger */}
       <div className="flex items-center gap-2">
         <p className="font-mono text-[30px] font-bold leading-[38px] tabular-nums tracking-tight text-text-primary">
-          {positive ? '' : '−'}{formatUSD(Math.abs(profitLoss))}
+          {points === null ? (
+            <span className="text-text-muted">…</span>
+          ) : latest === null ? (
+            // Not the mono face: this is a sentence, and setting prose in the
+            // numeric font makes an explanation look like a reading.
+            <span className="font-sans text-[20px] font-semibold text-text-muted">
+              No positions in this range
+            </span>
+          ) : (
+            formatUSD(latest)
+          )}
         </p>
         <button
           type="button"
           onClick={() => setShareOpen(true)}
-          aria-label="Share Profit/Loss chart"
-          className="flex h-9 w-9 flex-none items-center justify-center rounded-lg border border-hairline text-text-secondary transition-colors hover:border-hairline-strong hover:text-text-primary"
+          aria-label="Share position value chart"
+          className="flex h-11 w-11 flex-none items-center justify-center rounded-lg border border-hairline text-text-secondary transition-colors hover:border-hairline-strong hover:text-text-primary"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
             <path d="M12 15V4m0 0-4 4m4-4 4 4M5 14v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -221,7 +268,7 @@ export function TraderPnlCard({ userId, profitLoss, userName, profileUrl }: { us
         onClose={() => setShareOpen(false)}
         userName={userName}
         userId={userId}
-        profitLoss={profitLoss}
+        profitLoss={latest ?? profitLoss}
         rangeLabel={RANGE_LABEL[range]}
         points={points ?? []}
         profileUrl={profileUrl}

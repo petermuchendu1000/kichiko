@@ -14,7 +14,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
+import { getBrowserClient } from '@/lib/supabase/client-lazy'
 import { NotificationPreferences } from '@/components/notifications/NotificationPreferences'
 import { LocaleSwitcher } from '@/components/layout/locale-switcher'
 import { PasswordInput } from '@/components/auth/password-input'
@@ -136,7 +136,9 @@ function InlineBanner({ banner }: { banner: Banner }) {
 
 export function SettingsView() {
   const router = useRouter()
-  const supabase = createClient()
+  // The client loads on first use, not during render — ~66 kB of this route's
+  // first load, and every use here already sits inside an async path.
+  // Ruling A11; see lib/supabase/client-lazy.ts.
 
   const [loading, setLoading] = useState(true)
   const [email, setEmail] = useState<string>('')
@@ -180,6 +182,7 @@ export function SettingsView() {
           setPhone(p.phone_number ?? '')
           setCountry(p.country_code ?? '')
           setAvatarUrl(p.avatar_url ?? '')
+          const supabase = await getBrowserClient()
           const { data: u } = await supabase.auth.getUser()
           if (active && u?.user) setUserId(u.user.id)
         }
@@ -190,8 +193,7 @@ export function SettingsView() {
     return () => {
       active = false
     }
-    // supabase client is stable across renders; intentionally run once on mount.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // Nothing in here changes across renders; intentionally run once on mount.
   }, [])
 
   const saveAccount = async (e: React.FormEvent) => {
@@ -262,6 +264,7 @@ export function SettingsView() {
     try {
       const ext = file.type === 'image/png' ? 'png' : file.type === 'image/webp' ? 'webp' : 'jpg'
       const path = `${userId}/avatar-${Date.now()}.${ext}`
+      const supabase = await getBrowserClient()
       const { error: upErr } = await supabase.storage
         .from('avatars')
         .upload(path, file, { upsert: true, cacheControl: '3600', contentType: file.type })
@@ -317,6 +320,7 @@ export function SettingsView() {
       return
     }
     setSavingPw(true)
+    const supabase = await getBrowserClient()
     const { error } = await supabase.auth.updateUser({ password: pw })
     setSavingPw(false)
     if (error) {
@@ -341,6 +345,7 @@ export function SettingsView() {
 
   const signOut = async () => {
     setSigningOut(true)
+    const supabase = await getBrowserClient()
     await supabase.auth.signOut()
     router.push('/')
     router.refresh()

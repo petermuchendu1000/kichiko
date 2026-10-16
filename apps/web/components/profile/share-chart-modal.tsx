@@ -2,7 +2,13 @@
 
 // components/profile/share-chart-modal.tsx
 // ------------------------------------------------------------
-// "Share Profit/Loss Chart" sheet — parity with the reference share flow:
+// "Share position value" sheet — parity with the reference share flow.
+//
+// The figure it carries is POSITION VALUE, not profit: `trader_pnl_series`
+// sums `shares x price` over held positions and subtracts no cost basis (see
+// trader-pnl-card.tsx). It used to render it signed and green — "+KSh 2.8M" —
+// which reads as a gain of that size. A value is a level, not a move: it is
+// neither positive nor negative, so it gets no sign and no profit colour.
 //   • Dimmed overlay; bottom-sheet on mobile, centered dialog on desktop.
 //   • A dark, rounded share CARD rendered as inline SVG (brand mark + range
 //     label, avatar + username, big signed P&L headline coloured green/red,
@@ -72,14 +78,14 @@ export function ShareChartModal({ open, onClose, userName, userId, profitLoss, r
     return () => { document.removeEventListener('keydown', onKey); document.body.style.overflow = prev }
   }, [open, onClose])
 
-  const positive = profitLoss >= 0
   const absUrl = useMemo(
     () => (profileUrl.startsWith('http') || typeof window === 'undefined' ? profileUrl : window.location.origin + profileUrl),
     [profileUrl],
   )
   const hue = useMemo(() => hueFrom(userId || userName), [userId, userName])
   const path = useMemo(() => buildChartPath(points), [points])
-  const signed = `${positive ? '+' : '−'}${formatUSD(Math.abs(profitLoss))}`
+  // No sign: this is a level, not a change (see the header).
+  const signed = formatUSD(Math.abs(profitLoss))
 
   const toPngBlob = useCallback(async (): Promise<Blob | null> => {
     const svg = cardRef.current
@@ -121,19 +127,21 @@ export function ShareChartModal({ open, onClose, userName, userId, profitLoss, r
       const file = blob ? new File([blob], 'pnl.png', { type: 'image/png' }) : null
       const nav = navigator as Navigator & { canShare?: (d?: ShareData) => boolean }
       if (file && nav.canShare?.({ files: [file] }) && navigator.share) {
-        await navigator.share({ files: [file], title: 'Profit/Loss', text: `${userName} · ${signed}`, url: absUrl })
+        await navigator.share({ files: [file], title: 'Position value', text: `${userName} · ${signed}`, url: absUrl })
         return
       }
-      if (navigator.share) { await navigator.share({ title: 'Profit/Loss', text: `${userName} · ${signed}`, url: absUrl }); return }
+      if (navigator.share) { await navigator.share({ title: 'Position value', text: `${userName} · ${signed}`, url: absUrl }); return }
       await onCopy()
     } catch { /* user cancelled */ }
   }, [toPngBlob, userName, signed, absUrl, onCopy])
 
   if (!mounted || !open) return null
 
-  const green = '#42C772'
-  const red = '#E23939'
-  const pnlColor = positive ? green : red
+  // Neutral ink, not profit-green: a value carries no direction, and colouring
+  // it green would assert one. Kept at the card's own ink rather than a token,
+  // because this SVG is rasterised to a PNG outside the document and cannot
+  // resolve CSS custom properties.
+  const pnlColor = '#F3F5F8'
 
   return createPortal(
     <div className="fixed inset-0 z-[60] flex items-end justify-center sm:items-center">
@@ -142,10 +150,10 @@ export function ShareChartModal({ open, onClose, userName, userId, profitLoss, r
         className="relative w-full max-w-md animate-slide-up rounded-t-2xl bg-surface p-5 shadow-e3 sm:rounded-2xl"
         role="dialog"
         aria-modal="true"
-        aria-label="Share Profit/Loss Chart"
+        aria-label="Share position value chart"
       >
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-bold tracking-tight text-text-primary">Share Profit/Loss Chart</h2>
+          <h2 className="text-lg font-bold tracking-tight text-text-primary">Share position value</h2>
           <button type="button" onClick={onClose} aria-label="Close" className="rounded-md p-1 text-text-muted transition-colors hover:text-text-primary">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>
           </button>
@@ -153,7 +161,7 @@ export function ShareChartModal({ open, onClose, userName, userId, profitLoss, r
 
         {/* Shareable dark card (rendered as SVG so save == what you see) */}
         <div className="overflow-hidden rounded-xl">
-          <svg ref={cardRef} viewBox={`0 0 ${CARD_W} ${CARD_H}`} width="100%" xmlns="http://www.w3.org/2000/svg" className="block h-auto w-full" role="img" aria-label="Profit and loss share card">
+          <svg ref={cardRef} viewBox={`0 0 ${CARD_W} ${CARD_H}`} width="100%" xmlns="http://www.w3.org/2000/svg" className="block h-auto w-full" role="img" aria-label="Position value share card">
             <defs>
               <linearGradient id="share-bg" x1="0" y1="0" x2="1" y2="1">
                 <stop offset="0%" stopColor="#17181C" />

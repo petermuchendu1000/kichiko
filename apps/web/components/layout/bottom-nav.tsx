@@ -17,7 +17,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/use-auth'
-import { createClient } from '@/lib/supabase/client'
+import { getBrowserClient } from '@/lib/supabase/client-lazy'
 import {
   IconHome, IconSearch, IconClock, IconMenu, IconX,
   IconMarkets, IconPortfolio, IconBell, IconUser,
@@ -135,7 +135,7 @@ export function BottomNav() {
           user={user}
           onClose={() => setMoreOpen(false)}
           onSignOut={async () => {
-            const supabase = createClient()
+            const supabase = await getBrowserClient()
             await supabase.auth.signOut()
             setMoreOpen(false)
             router.push('/')

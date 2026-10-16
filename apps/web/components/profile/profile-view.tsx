@@ -9,7 +9,7 @@ import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { format } from 'date-fns'
-import { createClient } from '@/lib/supabase/client'
+import { getBrowserClient } from '@/lib/supabase/client-lazy'
 import { formatUSD } from '@/lib/utils'
 import { useAuth } from '@/hooks/use-auth'
 import type { Position, Wallet, Market, CurrencyCode, KycStatus } from '@/types'
@@ -63,7 +63,9 @@ function KycBadge({ status }: { status: KycStatus }) {
 export function ProfileView() {
   const { user, profile, loading, refreshProfile } = useAuth()
   const router = useRouter()
-  const supabase = useMemo(() => createClient(), [])
+  // The Supabase browser client loads on first use, not during render: it is
+  // ~66 kB of this route's first load and nothing here needs it before an
+  // effect or a handler runs. Ruling A11; see lib/supabase/client-lazy.ts.
 
   const [wallets, setWallets] = useState<Wallet[]>([])
   const [positions, setPositions] = useState<PositionWithMarket[]>([])
@@ -99,6 +101,8 @@ export function ProfileView() {
     if (!user) return
     let active = true
     const load = async () => {
+      const supabase = await getBrowserClient()
+      if (!active) return
       const [{ data: wals }, { data: pos }] = await Promise.all([
         supabase.from('wallets').select('*').eq('user_id', user.id),
         supabase
@@ -117,13 +121,14 @@ export function ProfileView() {
     return () => {
       active = false
     }
-  }, [user, supabase])
+  }, [user])
 
   const handleSave = async () => {
     if (!user) return
     setSaving(true)
     setSaveError('')
     // Country and settlement currency are changed in Settings (POST /api/profile/country).
+    const supabase = await getBrowserClient()
     const { error } = await supabase
       .from('profiles')
       .update({

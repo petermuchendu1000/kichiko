@@ -47,6 +47,9 @@ shots/
   TICKER-market.png   our ticker, two trades in their own outcome colours
   TICKER-live.png     six, driven by real rows arriving while the page was open
   NEWS-rail.png       the rotating "In the news" card in the hero rail
+  PM-trader-profile.png          Polymarket's public profile (matrix section M)
+  EL-trader-profile-before.png   ours: "KSh 0" under "Past Day", 28px range tabs
+  EL-trader-profile-after.png    ours: one quantity, named honestly, 44px controls
 ```
 
 ## The three measurements worth keeping

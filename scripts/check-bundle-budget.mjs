@@ -97,19 +97,12 @@ const routeBudgetKB = Number(process.env.ROUTE_BUDGET_KB || budgetKB)
  * route comes under budget.
  */
 const ROUTE_ALLOWANCES = {
-  // All seven carry page-level client code beyond the shared bundle. Five of
-  // them still include the Supabase browser client through a view component
-  // that has not been converted yet (profile, settings, traders, kyc,
-  // notifications) — all authenticated routes, where the chunk is usually
-  // already cached from an earlier page, which is why they rank below the
-  // public ones for this work.
-  '/profile': 199,
-  '/settings': 194,
-  '/traders/[id]': 193,
-  '/markets/[slug]': 193,   // was 257: Supabase out, community section split
-  '/kyc': 185,
-  '/notifications': 184,
-  '/': 132,                 // 2 kB over; page-specific client code, not Supabase
+  // Three left, and none of them is the Supabase client any more — that is
+  // now loaded on demand everywhere it is used (lib/supabase/client-lazy.ts).
+  // What remains is each page's own client code.
+  '/markets/[slug]': 193,   // the ticket, candidate list and mobile trade bar
+  '/profile': 133,          // 3 kB over
+  '/': 132,                 // 2 kB over
 }
 
 // "├ ƒ /markets/[slug]    12.3 kB    257 kB" — the route, its own size, then

@@ -169,6 +169,23 @@ our own running app the same day [EL, M1].
 | L5 | Ranked rails | Breaking News (3, % + ↗/↘ change), Hot topics (5, $ today + 🔥) | Trending (3, % + ▲/▼ **points**) | Biggest moves (3) ✅; **Most traded rendered a ranked list of exactly one** — "1 Who wins… KSh 6.9K today" — because 1 of 36 active markets has any 24 h volume [EL, M + DB] | A rank number in front of a list of one claims an ordering the data does not have | **FIX** — drop the numbering below three rows; keep the ordering |
 | L6 | Mobile hero | **none** — PM's mobile home is an editorial card, then cards with a radial gauge and inline Up/Down quick-buy | — | no hero on mobile [EL, M] | B1 | **KEEP** — already aligned, and PM's own inline quick-buy chips collide with their trade ticker (`+ $100` painted over the Up button) |
 
+## M. Trader profile (public) — added 2026-10-16
+
+Measured head-to-head against `polymarket.com/profile/0xf031…` on 2026-10-16
+[PM2, M1] and our own `/traders/[id]` the same day [EL, M1]. This is the one
+authenticated-shell route that is fully **public** — a shared "look at this
+call" link lands here — and no gate had ever scanned it.
+
+| # | Element | Polymarket | Elopis today | Evidence | Ruling |
+|---|---|---|---|---|---|
+| M1 | Identity card | avatar, name, `Joined Jan 2026 · 135.6K views`, **`Referral: BreakTheBank`**, copy + share | avatar, name, @handle, `Joined Apr 2025 · 1,776 views`, bio | A referral code on a public profile turns every trader into an acquisition channel | **KEEP ours.** Parity on the identity, no referral broadcast |
+| M2 | Headline stats | **three**: Positions Value · **Biggest Win** · Markets Traded | **two**: Value held · Predictions | "Biggest win" is the profile-level form of the profit leaderboard H1 removed; [31] DP-3/DP-4 | **KEEP** the omission. The third slot is where H2's accuracy figure belongs if that decision lands |
+| M3 | Ledger strip | `Total PnL +$7.2M` in green, `Total Volume 291.9M` | absent | Same evidence as M2 | **KEEP** the omission |
+| M4 | Value card | `Profit/Loss`, ranges `1D…ALL`, **$1,069,729.43**, sparkline, share | **was wrong twice over** — headline was lifetime `profit_loss_usd` under a range caption, so the range changed the chart and never the number; and the series it charts (`trader_pnl_series`) sums `shares × price` with **no cost basis**, so the card titled Profit/Loss was plotting position value. On a quiet trader it rendered **`KSh 0` under "Past Day"** [EL, V + M] | Every number traceable [31 DP-1] | **FIX** — one quantity, named honestly: `Position value`, headline taken from the end of the series on screen, and absence rendered as absence rather than a zero. Real P&L needs the basis subtracted in the RPC; recorded in 42-STATUS §2.14 |
+| M5 | Positions table | MARKET/AVG/CURRENT/VALUE, prices in **¢**, per-row **share icon** | same columns, prices in **%**, no per-row share | A1 (KES + %); a share control on every winning row is the broadcast H1 rejected | **KEEP** ours on both counts |
+| M6 | Touch targets | not measured | **13 controls under 44px**: range tabs 30×28, share 36×36, Positions/Activity 36, Active/Closed 36, search 40, sort 40 [EL, M] | A4 | **FIX** + gate: the route is now in `e2e/target-size.spec.ts`. The range tabs were the market chart's 28px defect, fixed there and left here because only one was measured |
+| M7 | Sharing your own number | share on the P&L headline **and on every position row** | share on the headline only | The operator must not publish a winner's identity without consent (L.N. 112 Reg. 87); a person sharing their own result is their choice, but what the platform *invites* is the platform's | **DECISION OWED** — alongside H2. The card now shares a value rather than a signed green profit, which is the honest version either way |
+
 ---
 
 ## What the matrix says, in one paragraph

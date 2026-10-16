@@ -8,7 +8,7 @@ import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/use-auth'
-import { createClient } from '@/lib/supabase/client'
+import { getBrowserClient } from '@/lib/supabase/client-lazy'
 import { KycWizard } from '@/components/kyc/kyc-wizard'
 import { KycConsole } from '@/components/kyc/kyc-console'
 import { VerificationMeter } from '@/components/kyc/verification-meter'
@@ -19,7 +19,7 @@ import { safeRedirectPath } from '@/lib/security/sanitize'
 export default function KYCPage() {
   const { user, profile, loading } = useAuth()
   const router = useRouter()
-  const supabase = useMemo(() => createClient(), [])
+  // Loaded on first use, not during render (ruling A11).
 
   // Where to return the user after verifying, so they resume what they were
   // doing instead of dead-ending on a confirmation (#15). Sanitized against
@@ -39,18 +39,34 @@ export default function KYCPage() {
 
   useEffect(() => {
     if (!user) return
-    supabase
-      .from('kyc_documents')
-      .select('status')
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: false })
-      .limit(1)
-      .maybeSingle()
+    let cancelled = false
+    void getBrowserClient()
+      .then((supabase) =>
+        supabase
+          .from('kyc_documents')
+          .select('status')
+          .eq('user_id', user.id)
+          .order('created_at', { ascending: false })
+          .limit(1)
+          .maybeSingle(),
+      )
       .then(({ data }) => {
+        if (cancelled) return
         setStatus(data?.status ?? profile?.kyc_status ?? 'unverified')
         setReady(true)
       })
-  }, [user, profile, supabase])
+      .catch(() => {
+        // The page must not sit on a spinner because a chunk failed: fall back
+        // to whatever the profile already says.
+        if (!cancelled) {
+          setStatus(profile?.kyc_status ?? 'unverified')
+          setReady(true)
+        }
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [user, profile])
 
   // ---- Loading -------------------------------------------------------------
   if (loading || !user || !ready) {

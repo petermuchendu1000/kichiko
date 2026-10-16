@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/use-auth'
 import { useWallets } from '@/hooks/use-wallets'
-import { createClient } from '@/lib/supabase/client'
+import { getBrowserClient } from '@/lib/supabase/client-lazy'
 import { amountInWords } from '@/lib/money-words'
 import { phoneKey } from '@/lib/payments/verified-phones'
 import type { FundingStep } from '@/lib/payments/funding-steps'
@@ -33,7 +33,9 @@ export function Navbar() {
   const canCreatorConsole = role === 'creator' || role === 'admin' || role === 'superadmin'
   const canMarketerConsole = role === 'marketer' || role === 'admin' || role === 'superadmin'
   const { wallets, preferredCurrency } = useWallets()
-  const supabase = createClient()
+  // Sign-out is the only thing the navbar needs a client for, and it is a
+  // click. Loading it during render would put ~66 kB on every page in the
+  // product, since this is in the layout. Ruling A11.
 
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const [depositOpen, setDepositOpen] = useState(false)
@@ -125,6 +127,7 @@ export function Navbar() {
   }, [])
 
   const signOut = async () => {
+    const supabase = await getBrowserClient()
     await supabase.auth.signOut()
     router.push('/')
     router.refresh()

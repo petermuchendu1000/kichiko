@@ -13,7 +13,7 @@
 // Data: read-only trader_positions RPC + market_activity (public aggregates).
 import { useEffect, useMemo, useRef, useState, useCallback } from 'react'
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/client'
+import { getBrowserClient } from '@/lib/supabase/client-lazy'
 import { formatUSD } from '@/lib/utils'
 import { labelEchoesTitle } from '@/lib/markets/label-echo'
 
@@ -179,19 +179,20 @@ interface ActivityRow {
 }
 
 function ActivityPanel({ userId }: { userId: string }) {
-  const supabase = useMemo(() => createClient(), [])
   const [rows, setRows] = useState<ActivityRow[] | null>(null)
   useEffect(() => {
     let alive = true
-    supabase
+    void getBrowserClient().then((supabase) =>
+      supabase
       .from('market_activity')
       .select('id, action, amount_usd, side, price, created_at, market:markets!market_activity_market_id_fkey(title, slug)')
       .eq('user_id', userId)
       .order('created_at', { ascending: false })
       .limit(50)
-      .then(({ data }) => { if (alive) setRows(((data as unknown) as ActivityRow[]) || []) })
+      .then(({ data }) => { if (alive) setRows(((data as unknown) as ActivityRow[]) || []) }),
+    )
     return () => { alive = false }
-  }, [supabase, userId])
+  }, [userId])
 
   if (rows === null) return <PortfolioSkeleton />
   if (rows.length === 0) return <p className="py-10 text-center text-sm text-text-muted">No recent activity.</p>
@@ -223,7 +224,6 @@ function ActivityPanel({ userId }: { userId: string }) {
 }
 
 export function TraderPortfolio({ userId }: { userId: string }) {
-  const supabase = useMemo(() => createClient(), [])
   const [view, setView] = useState<'positions' | 'activity'>('positions')
   const [status, setStatus] = useState<Status>('active')
   const [sort, setSort] = useState<Sort>('value')
@@ -241,18 +241,20 @@ export function TraderPortfolio({ userId }: { userId: string }) {
   const load = useCallback(() => {
     let alive = true
     setRows(null)
-    supabase
-      .rpc('trader_positions' as never, {
-        p_user_id: userId,
-        p_status: status,
-        p_search: debounced || null,
-        p_limit: 100,
-      } as never)
+    void getBrowserClient()
+      .then((supabase) =>
+        supabase.rpc('trader_positions' as never, {
+          p_user_id: userId,
+          p_status: status,
+          p_search: debounced || null,
+          p_limit: 100,
+        } as never),
+      )
       .then(({ data }) => {
         if (alive) setRows(((data as unknown) as PositionRow[]) || [])
       })
     return () => { alive = false }
-  }, [supabase, userId, status, debounced])
+  }, [userId, status, debounced])
 
   useEffect(() => { const c = load(); return c }, [load])
 
@@ -277,7 +279,10 @@ export function TraderPortfolio({ userId }: { userId: string }) {
             role="tab"
             aria-selected={view === v}
             onClick={() => setView(v)}
-            className={`-mb-px border-b-2 pb-2.5 text-base capitalize transition-colors ${
+            // min-h-11 = 44px (ruling A4); these rendered 36px tall. The
+            // underline sits on the bottom border, so the height goes on the
+            // button and the padding keeps the rule where it was.
+            className={`-mb-px inline-flex min-h-11 items-center border-b-2 pb-2.5 pt-1.5 text-base capitalize transition-colors ${
               view === v
                 ? 'border-text-primary font-semibold text-text-primary'
                 : 'border-transparent font-semibold text-text-muted hover:text-text-secondary'
@@ -330,7 +335,8 @@ function PositionsPanel({ status, setStatus, sort, setSort, query, setQuery, sor
               role="tab"
               aria-selected={status === s}
               onClick={() => setStatus(s)}
-              className={`h-9 flex-1 rounded-[7.2px] px-4 text-sm font-semibold capitalize transition-colors sm:flex-none ${
+              // 44px (ruling A4); these rendered 36px.
+              className={`h-11 flex-1 rounded-[7.2px] px-4 text-sm font-semibold capitalize transition-colors sm:flex-none ${
                 status === s ? 'bg-surface text-text-primary shadow-e1' : 'text-text-muted hover:text-text-secondary'
               }`}
               style={{ letterSpacing: '-0.09px' }}
@@ -351,13 +357,17 @@ function PositionsPanel({ status, setStatus, sort, setSort, query, setQuery, sor
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search positions…"
-              className="h-10 w-full rounded-[9.2px] border-0 bg-surface-2 pl-11 pr-3 text-sm text-text-primary outline-none transition-shadow placeholder:text-text-muted focus:shadow-[0_0_0_2px_var(--pip-100)] sm:w-56"
+              // 44px (ruling A4); 40px before. The 16px font is ruling G2 —
+              // under it Safari zooms the viewport on focus and leaves it
+              // zoomed, so the next tap lands somewhere else.
+              className="h-11 w-full rounded-[9.2px] border-0 bg-surface-2 pl-11 pr-3 text-base text-text-primary outline-none transition-shadow placeholder:text-text-muted focus:shadow-[0_0_0_2px_var(--pip-100)] sm:w-56"
             />
           </div>
           <button
             type="button"
             onClick={() => setSort((s) => (s === 'value' ? 'pnl' : 'value'))}
-            className="flex h-10 flex-none items-center gap-1.5 whitespace-nowrap rounded-[9.2px] bg-surface-2 px-3.5 text-sm font-semibold text-text-primary transition-colors hover:text-pip-text"
+            // 44px (ruling A4); 40px before.
+            className="flex h-11 flex-none items-center gap-1.5 whitespace-nowrap rounded-[9.2px] bg-surface-2 px-3.5 text-sm font-semibold text-text-primary transition-colors hover:text-pip-text"
             style={{ letterSpacing: '-0.09px' }}
             aria-label={`Sort by ${sort === 'value' ? 'value' : 'profit and loss'}`}
           >

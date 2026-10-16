@@ -15,11 +15,19 @@
 import { test, expect } from '@playwright/test'
 
 const MARKET_SLUG = process.env.E2E_A11Y_MARKET_SLUG || 'ke-2027-president'
+const TRADER_ID = process.env.E2E_A11Y_TRADER_ID || 'b80c13b7-2e28-51f4-be48-58375e6a08ef'
 
 // Where money is committed or decided.
+//
+// The trader profile belongs here even though nothing is bought on it: it is
+// a dense table of positions with a segmented filter, a search field and a
+// sort control, it is PUBLIC (a shared "look at this call" link lands here),
+// and it is the surface someone uses to judge whether to follow a position.
+// It had never been measured.
 const MONEY_ROUTES: { name: string; path: string }[] = [
   { name: 'Markets board', path: '/markets' },
   { name: 'Market detail', path: `/markets/${MARKET_SLUG}` },
+  { name: 'Trader profile', path: `/traders/${TRADER_ID}` },
 ]
 
 const MIN = 44

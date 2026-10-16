@@ -18,6 +18,11 @@ import AxeBuilder from '@axe-core/playwright'
 // environment — a missing DB is an environment problem, not an a11y defect.
 const A11Y_MARKET_SLUG = process.env.E2E_A11Y_MARKET_SLUG || 'ke-2027-president'
 
+// A public trader profile. The route renders for a signed-out visitor — it is
+// how a shared "look at this call" link resolves — so it is scannable here
+// without a storage-state fixture, and it was not scanned until now.
+const A11Y_TRADER_ID = process.env.E2E_A11Y_TRADER_ID || 'b80c13b7-2e28-51f4-be48-58375e6a08ef'
+
 const KEY_PAGES: { name: string; path: string }[] = [
   { name: 'Home', path: '/' },
   { name: 'Markets', path: '/markets' },
@@ -35,6 +40,16 @@ const KEY_PAGES: { name: string; path: string }[] = [
   { name: 'Help centre (in-app, ruling J3)', path: '/help' },
   { name: 'Responsible play (rulings I2/I3)', path: '/legal/responsible-play' },
   { name: '404 (ruling J1)', path: '/this-page-does-not-exist' },
+  // The authenticated-route shells. Each renders signed-out — /profile and
+  // /notifications show their own sign-in prompt, /kyc its requirements, and
+  // /traders/[id] is fully public — so the chrome, the empty states and the
+  // forms around them are all reachable by this scan. Nothing had ever looked
+  // at them: the comment at the top of this file said authed journeys were
+  // deferred to a manual audit, and the shells went with them.
+  { name: 'Trader profile (public)', path: `/traders/${A11Y_TRADER_ID}` },
+  { name: 'Profile', path: '/profile' },
+  { name: 'Notifications', path: '/notifications' },
+  { name: 'KYC', path: '/kyc' },
 ]
 
 const WCAG_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']
