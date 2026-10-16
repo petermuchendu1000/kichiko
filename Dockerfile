@@ -48,6 +48,12 @@ COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.next/static ./apps/web/.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/apps/web/public ./apps/web/public
 
+# The scheduler's clock (fly.toml `cron` process group). The standalone output
+# contains only the app, so without this COPY the cron machine starts, finds no
+# such file and restart-loops. It is plain Node with no dependencies, which is
+# why it can live outside the traced bundle.
+COPY --chown=nextjs:nodejs scripts/cron-pinger.mjs ./scripts/cron-pinger.mjs
+
 USER nextjs
 EXPOSE 3000
 

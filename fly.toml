@@ -6,7 +6,21 @@
 # (never in this file) — see docs/DEPLOYMENT.md §4.
 
 app = "elopis-staging"
-primary_region = "jnb"           # Johannesburg — nearest Fly region to East Africa
+# London, NOT Johannesburg.
+#
+# jnb is the closest Fly region to our USERS, and that was the original
+# reasoning — but it ignored where the DATA is. The Supabase project is in
+# `eu-west-1` (Ireland, measured via the Management API), and every SSR page
+# here is DB-bound: the market page alone issues ~13 Supabase calls on load.
+# An app in Johannesburg pays ~9,000 km on each of those before it can send a
+# byte to the user; from London it pays ~450 km.
+#
+# A user in Nairobi is far from both, and that leg is one round trip served
+# over Cloudflare's edge. The DB leg is the one multiplied by every query, so
+# co-locating with the database is what actually wins. If users ever outweigh
+# that, the fix is to move the Supabase project closer and move this with it —
+# not to split them across continents.
+primary_region = "lhr"
 
 [build]
   dockerfile = "Dockerfile"
@@ -47,10 +61,44 @@ primary_region = "jnb"           # Johannesburg — nearest Fly region to East A
     method = "GET"
     path = "/api/health"
 
+# THE SCHEDULER. Fly has no cron, and nothing else ever scheduled these jobs.
+#
+# The nine background jobs were declared in `vercel.json` only. This deploy
+# path is Fly, so none of them has ever run — `job_runs`, the ledger every
+# worker writes to, held ZERO rows since the project was created. No market had
+# ever been auto-closed and no resolution had ever been attempted on a
+# schedule.
+#
+# `app` serves traffic. `cron` is a dumb pinger: once a minute it asks the app
+# to run a dispatch tick, and /api/cron/dispatch decides what is actually due
+# (lib/jobs/schedule.ts) and calls those routes on loopback. Keeping the clock
+# dumb and the decision in the app means the cadences are a tested pure
+# function, and a second machine cannot double-fire — the dispatcher takes a
+# transaction-scoped advisory lock (migration 118).
+#
+# `.internal` is Fly's private network, so the ping never leaves the org: no
+# TLS, no Cloudflare, no public exposure of the endpoint beyond CRON_SECRET,
+# which it still has to present.
+# `app` repeats the Dockerfile's own CMD — defining any process group replaces
+# it, so naming the group without the command would start nothing. It is
+# `node apps/web/server.js` (the Next standalone server), NOT `npm run start`:
+# the runner image carries only the standalone output and has no npm scripts.
+[processes]
+  app  = "node apps/web/server.js"
+  cron = "node scripts/cron-pinger.mjs"
+
 [[vm]]
   size = "shared-cpu-1x"
   memory = "512mb"
   cpus = 1
+  processes = ["app"]
+
+# The pinger holds a curl and a sleep. It does not need the app's memory.
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"
+  cpus = 1
+  processes = ["cron"]
 
 # Rolling deploy with a canary sanity gate; combined with health checks above
 # this gives an auto-abort on a bad release.
