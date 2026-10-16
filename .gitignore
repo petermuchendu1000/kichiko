@@ -58,3 +58,6 @@ tools/polymarket-research/data/*.json
 !tools/polymarket-research/data/MANIFEST.json
 scripts/sim/backups/
 __pycache__/
+
+# Generated email previews (scripts/preview-emails.mjs) — rendered output, not source.
+apps/web/.preview-emails/

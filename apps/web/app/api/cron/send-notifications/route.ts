@@ -17,7 +17,7 @@ import {
   summarizeBatch,
   type DeliveryChannel,
 } from '@/lib/notifications/delivery'
-import { escapeHtml } from '@/lib/security/sanitize'
+import { renderNotificationEmail } from '@/lib/notifications/templates/render'
 import { logger } from '@/lib/observability/logger'
 import { resolveRequestId } from '@/lib/observability/request-id'
 
@@ -74,11 +74,25 @@ async function handle(req: NextRequest) {
         const message = truncateSms(`${d.title}: ${d.body}`)
         ok = await sendSMS(d.destination, message)
       } else if (d.channel === 'email') {
+        // Branded, per-type template (lib/notifications/templates). This used
+        // to be `<p>${escapeHtml(body)}</p>` — an unstyled paragraph for every
+        // type, including deposits, withdrawals and wins. For money mail that
+        // is a security problem as much as a design one: a message with no
+        // sender identity is indistinguishable from one somebody else sent.
+        // The renderer escapes its own inputs and falls back to a generic
+        // branded card for any type it does not know, so an unrecognised type
+        // still sends rather than throwing in the worker.
+        const mail = renderNotificationEmail({
+          type: d.type,
+          title: d.title,
+          body: d.body,
+          data: d.data,
+        })
         ok = await sendEmail({
           to: d.destination,
-          subject: d.title,
-          html: `<p>${escapeHtml(d.body)}</p>`,
-          text: d.body,
+          subject: mail.subject,
+          html: mail.html,
+          text: mail.text,
         })
       } else {
         // push not yet implemented — mark failed (won't be enqueued by policy).
