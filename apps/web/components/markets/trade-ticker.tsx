@@ -85,6 +85,8 @@ export function TradeTicker({
 }: TradeTickerProps) {
   const stopped = useMotionStopped()
   const [shown, setShown] = useState<Shown[]>([])
+  // Set when the server says the flag went off while this page was open.
+  const [disabledByServer, setDisabledByServer] = useState(false)
   // Seeded from the newest server row so the first poll does not re-deliver
   // the frame we were rendered with.
   const sinceRef = useRef<string | null>(initial[0]?.at ?? null)
@@ -126,7 +128,7 @@ export function TradeTicker({
   // Poll. Stopped means stopped: no network either, so a frozen ticker is not
   // quietly accumulating a backlog to dump when it resumes.
   useEffect(() => {
-    if (!enabled || stopped || !marketId) return
+    if (!enabled || disabledByServer || stopped || !marketId) return
     let alive = true
     const tick = async () => {
       if (document.hidden) return
@@ -136,8 +138,17 @@ export function TradeTicker({
           cache: 'no-store',
         })
         if (!res.ok || !alive) return
-        const body = (await res.json()) as { trades?: TickerTrade[] }
-        if (alive && Array.isArray(body.trades)) admit(body.trades)
+        const body = (await res.json()) as { trades?: TickerTrade[]; enabled?: boolean }
+        if (!alive) return
+        // The flag is a jurisdiction switch, so it has to bite now rather than
+        // on the next navigation: an operator turning it off must not leave
+        // trades animating on every page someone already has open.
+        if (body.enabled === false) {
+          setShown([])
+          setDisabledByServer(true)
+          return
+        }
+        if (Array.isArray(body.trades)) admit(body.trades)
       } catch {
         // A dropped poll is not an error worth surfacing: the next one is six
         // seconds away and the chart is complete without the overlay.
@@ -148,9 +159,9 @@ export function TradeTicker({
       alive = false
       window.clearInterval(id)
     }
-  }, [enabled, stopped, marketId, admit])
+  }, [enabled, disabledByServer, stopped, marketId, admit])
 
-  if (!enabled || shown.length === 0) return null
+  if (!enabled || disabledByServer || shown.length === 0) return null
 
   return (
     <div className={className}>
@@ -179,9 +190,20 @@ export function TradeTicker({
               style={{
                 transform: `translateY(${-fromBottom * PITCH}px)`,
                 color: colorOf(t, colors, sideColors),
-                // Older labels recede rather than vanishing in one step, which
-                // is what makes the stack read as a sequence in time.
-                opacity: 1 - fromBottom * 0.13,
+                // NO opacity fade, and this was measured rather than chosen.
+                // Fading older labels is the obvious way to show age, and it
+                // is the one thing a coloured figure on a chart cannot afford:
+                // the series palette clears WCAG 1.4.11's 3:1 floor with
+                // modest headroom (slot 1 is 4.02:1 on the dark surface), so
+                // any alpha reduction spends it. At the first cut's 0.13 step
+                // the gate measured a label at **2.55:1** — a number on a
+                // price chart that could not be read.
+                //
+                // Position already carries the ordering, which is how a real
+                // trade tape reads: newest at the bottom, the stack rising,
+                // and the oldest leaving entirely after LIFETIME_MS. Age is
+                // shown by where a label is and by its going away, not by
+                // making it illegible on the way out.
                 fontSize: 13,
                 fontWeight: 600,
                 // Stopped: freeze where they are. No transition, no entrance.

@@ -547,6 +547,34 @@ outcome's colour, that the overlay stays inside the chart box, that the stop
 control is >=44 px and freezes without blanking, and that `enabled: false`
 renders nothing at all.
 
+**Two things seeding real trades then exposed**, both found by gates rather
+than by looking:
+
+* **The fade was illegible.** Older labels receded by opacity, 0.13 a step,
+  which put the sixth at 0.35. The series palette clears WCAG 1.4.11's 3:1
+  floor with modest headroom — slot 1 is 4.02:1 on the dark surface — so any
+  alpha reduction spends it, and the new per-label contrast assertion measured
+  one at **2.55:1**. A figure on a price chart that cannot be read is not a
+  softer version of the information. There is no fade now: position carries
+  the ordering, the way a trade tape reads, and the label leaves outright when
+  its time is up.
+* **The kill-switch was not immediate.** The client trusted only the
+  server-rendered flag, so an operator turning `flags.live_trade_ticker` off
+  left trades animating on every page already open until the next navigation.
+  For a jurisdiction switch that is the wrong half-life. The poller now honours
+  `enabled: false` from the route by clearing and standing down.
+
+The per-label contrast check exists because axe cannot see this either: the
+overlay is `aria-hidden`, and axe skips aria-hidden subtrees — the same shape
+of blind spot that hid the chart axis labels (§2.9 K2). Two gates now, for the
+two things no general-purpose scanner looks at on a chart.
+
+`scripts/seed_ticker_activity.py` puts trades inside the 90-minute window so
+the ticker has something to animate, and `--live` trickles genuinely new rows
+so the poller can be watched rather than inferred. Every row it writes carries
+`metadata->>'seed' = 'ticker-demo'` and `--purge` removes exactly those; it
+writes to `market_activity` only, which is a display feed, never the ledger.
+
 **The news (L4), relocated and why.** Per-slide was measured impossible: six
 links across 36 markets and **none on a featured market**, so the slot would
 have been empty on every slide — the hero activity feed's mistake, twice. The

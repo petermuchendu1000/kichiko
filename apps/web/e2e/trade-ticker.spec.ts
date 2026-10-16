@@ -122,6 +122,59 @@ test('each label wears its own outcome colour, and stays inside the plot', async
   expect(inside, 'ticker overlay escapes its chart box').toBe(true)
 })
 
+test('every visible label clears 3:1 against the plot behind it', async ({ page }) => {
+  // The overlay is aria-hidden, so axe skips it — the same blind spot that hid
+  // the chart axis labels until e2e/svg-text-contrast.spec.ts went in. A
+  // figure drawn over a price chart is information; it has to be legible even
+  // when it is the oldest one in the stack.
+  await stubTrades(page, [
+    [
+      { id: 'c1', optionId: RUTO, amountUsd: 11, price: 0.46, at: now() },
+      { id: 'c2', optionId: GACHAGUA, amountUsd: 480, price: 0.24, at: now() },
+    ],
+    [{ id: 'c3', optionId: RUTO, amountUsd: 64, price: 0.46, at: now() }],
+    [],
+  ])
+  await page.goto(MARKET, { waitUntil: 'domcontentloaded' })
+  await expect.poll(() => labels(page).count(), { timeout: 25_000 }).toBeGreaterThanOrEqual(2)
+
+  const worst = await labels(page).evaluateAll((els) => {
+    const parse = (c: string): number[] => {
+      const m = c.match(/rgba?\(([^)]+)\)/)
+      if (!m) return [0, 0, 0, 1]
+      const p = m[1].split(/[,/]/).map((s) => parseFloat(s.trim()))
+      return [p[0], p[1], p[2], p[3] == null ? 1 : p[3]]
+    }
+    const lin = (c: number) => {
+      const v = c / 255
+      return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4
+    }
+    const lum = (c: number[]) => 0.2126 * lin(c[0]) + 0.7152 * lin(c[1]) + 0.0722 * lin(c[2])
+    const bgOf = (el: Element): number[] => {
+      let n: Element | null = el
+      while (n) {
+        const c = parse(getComputedStyle(n).backgroundColor)
+        if (c[3] === 1) return c
+        n = n.parentElement
+      }
+      return [255, 255, 255]
+    }
+    let min = Infinity
+    for (const el of els) {
+      // The stack's opacity lives on the positioned wrapper.
+      const wrap = (el as HTMLElement).parentElement as HTMLElement
+      const alpha = parseFloat(getComputedStyle(wrap).opacity || '1')
+      const fg = parse(getComputedStyle(el).color)
+      const bg = bgOf(wrap)
+      const over = [0, 1, 2].map((i) => fg[i] * alpha + bg[i] * (1 - alpha))
+      const [a, b] = [lum(over), lum(bg)]
+      min = Math.min(min, (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05))
+    }
+    return Math.round(min * 100) / 100
+  })
+  expect(worst, 'faintest ticker label').toBeGreaterThanOrEqual(3)
+})
+
 test('the stop control meets 2.2.2: >=44px, freezes motion, keeps the content', async ({ page }) => {
   await stubTrades(page, [
     [{ id: 's1', optionId: RUTO, amountUsd: 20, price: 0.46, at: now() }],
@@ -166,6 +219,10 @@ test('the flag is the whole switch: enabled:false renders no ticker', async ({ p
     }),
   )
   await page.goto(MARKET, { waitUntil: 'domcontentloaded' })
-  await page.waitForTimeout(9000)
-  expect(await labels(page).count()).toBe(0)
+  // The server frame may already carry real trades — the flag is on in this
+  // environment — so what is asserted is that the FIRST poll answering
+  // `enabled: false` clears them. A fixed wait made this brittle: hydration
+  // plus one 6s poll interval lands anywhere from 7s to past 10s under
+  // parallel workers.
+  await expect.poll(() => labels(page).count(), { timeout: 30_000 }).toBe(0)
 })

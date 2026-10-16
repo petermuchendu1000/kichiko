@@ -119,14 +119,25 @@ async function sample(page: import('@playwright/test').Page, route: string, them
 
 for (const theme of ['light', 'dark'] as const) {
   test(`SVG chart text meets WCAG 1.4.3 (${theme})`, async ({ page }) => {
+    // Three DB-backed routes, each server-rendered. Against a dev build that
+    // is comfortably more than the default 30s budget, and a gate that times
+    // out is a gate nobody trusts.
+    test.slow()
     await page.emulateMedia({ colorScheme: theme })
     const failures: Sample[] = []
     const seen: Sample[] = []
 
     for (const route of ROUTES) {
       await page.goto(route, { waitUntil: 'domcontentloaded' })
-      // Charts measure their container before they draw, so wait for a path.
-      await page.waitForTimeout(1500)
+      // Charts measure their container before they draw, so wait for the text
+      // itself rather than for a fixed interval — a blind wait is both slower
+      // than it needs to be and, on a cold SSR render, not long enough.
+      await page
+        .locator('svg text')
+        .first()
+        .waitFor({ state: 'attached', timeout: 20_000 })
+        .catch(() => {})
+      await page.waitForTimeout(400)
       const rows = (await sample(page, route, theme)) as Sample[]
       seen.push(...rows)
       failures.push(...rows.filter((r) => r.ratio < r.threshold))

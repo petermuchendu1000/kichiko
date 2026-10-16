@@ -34,6 +34,9 @@ harness/
   okabe*.py    the palette search: flatten (failed), shift (shipped), compare
   shot-ticker.js  drives the ticker from a stubbed trades route and shoots it
   shot-news.js    three frames of the news card, one rotation apart
+  record-live.js  records the ticker against REAL seeded rows — no stub, so
+                  what lands on screen came through the DB, the route and the
+                  poller (pair it with scripts/seed_ticker_activity.py --live)
   pal6b.py     the from-scratch max-min search, kept because its result is the
                argument against doing it that way
 data/
@@ -42,6 +45,7 @@ shots/
   PM-*  polymarket.com     KA-*  demo.kalshi.co
   EL-*  ours, before       V-*, EL3-*  ours, after
   TICKER-market.png   our ticker, two trades in their own outcome colours
+  TICKER-live.png     six, driven by real rows arriving while the page was open
   NEWS-rail.png       the rotating "In the news" card in the hero rail
 ```
 

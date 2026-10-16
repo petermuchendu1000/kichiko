@@ -91,24 +91,27 @@ async function getData() {
   const optionSeries = await getOptionSeries(supabase, chartIds)
   const heroSeries = optionSeries
 
-  // Top couple of comments for the hero spotlight markets (comment peek).
-  const heroComments = await getSpotlightComments(supabase, heroMarkets.map((m) => m.id))
-  // Blended trader-activity feed (recent trades + comments) for the hero left
-  // column — fills the space binary markets leave below two Yes/No rows.
-  const heroActivity = await getSpotlightActivity(supabase, heroMarkets.map((m) => m.id))
-  // Live trade ticker (ruling K7, owner override 2026-10-16): the trades that
-  // have landed in the last 90 minutes, which the hero chart animates onto the
-  // plot. Gated on flags.live_trade_ticker — a jurisdiction switch, OFF for a
-  // Kenyan licensee — and skipped entirely when the flag is off so a disabled
-  // feature costs no query.
-  // Freshest matched headlines across the whole board for the rail's "In the
-  // news" card (see lib/markets/latest-news.ts for why it is board-wide and
-  // not per slide).
-  const latestNews = await getLatestMarketNews(supabase, 5)
-  const tickerEnabled = await isFeatureEnabled(supabase, 'flags.live_trade_ticker')
-  const heroTicker = tickerEnabled
-    ? await getTickerTradesForMarkets(supabase, heroMarkets.map((m) => m.id))
-    : {}
+  // Four independent reads, so they go together. Awaiting them one after
+  // another put four serial round trips to eu-west-1 on this page's critical
+  // path, and the last two of those were added with the ticker and the news
+  // card — exactly the kind of drift ruling A11 exists to catch. Nothing here
+  // depends on anything else here.
+  //
+  //  • comments  — the hero's comment peek.
+  //  • activity  — blended trader feed for the hero's left column.
+  //  • news      — the rail's rotating "In the news" card. Board-wide, not
+  //                per slide: see lib/markets/latest-news.ts for why.
+  //  • flag      — flags.live_trade_ticker, a jurisdiction switch (ruling K7).
+  const heroIds = heroMarkets.map((m) => m.id)
+  const [heroComments, heroActivity, latestNews, tickerEnabled] = await Promise.all([
+    getSpotlightComments(supabase, heroIds),
+    getSpotlightActivity(supabase, heroIds),
+    getLatestMarketNews(supabase, 5),
+    isFeatureEnabled(supabase, 'flags.live_trade_ticker'),
+  ])
+  // This one does depend on the flag: a ticker that is switched off costs no
+  // query at all.
+  const heroTicker = tickerEnabled ? await getTickerTradesForMarkets(supabase, heroIds) : {}
 
   // Biggest movers: markets whose implied probability shifted the most (either
   // direction) over the recorded window, ranked by absolute change.
