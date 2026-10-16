@@ -8,6 +8,19 @@
 // day must not be mistaken for a working rotator.
 import { test, expect, type Page } from '@playwright/test'
 
+// Every test here waits on real time passing. The rotator holds each headline
+// for 7 s, and proving it STOPPED means observing that nothing changed across
+// a full hold — you cannot poll for a non-event. Measured on an idle dev
+// server: 18.9 s, 20.0 s, 26.5 s, and 30.2 s against a 30 s budget, so the
+// last one failed wherever it ran and the other three were a slow compile away
+// from it.
+//
+// That is an under-budgeted test, not a flake, and not the product: probed
+// directly in a browser, the card rotates correctly (Nation -> Kenyans.co.ke
+// between t=4 s and t=13 s, prefers-reduced-motion false, storage unset).
+// Tripling the budget keeps the observation windows that are the whole point.
+test.slow()
+
 const card = (page: Page) => page.locator('[data-news-rotator]')
 
 async function headline(page: Page): Promise<string> {

@@ -175,6 +175,18 @@ test('every visible label clears 3:1 against the plot behind it', async ({ page 
   expect(worst, 'faintest ticker label').toBeGreaterThanOrEqual(3)
 })
 
+// This one test carries two full page loads — the market route, then a reload
+// to prove the choice persists — and each waits on the ticker's own poll. It
+// measures 24.2s on an idle dev server against a 30s budget, so it passed
+// alone and timed out at line 206 whenever the suite ran it beside anything
+// else. Twice I read that as infrastructure (the first failure did come with
+// a dead browser session, which hid it) before running it in isolation.
+//
+// A test with 6s of headroom is not a flake, it is an under-budgeted test.
+// `test.slow()` triples the budget rather than trimming the assertions: both
+// loads are the point — a stop control that does not survive a reload has not
+// stopped anything.
+test.slow()
 test('the stop control meets 2.2.2: >=44px, freezes motion, keeps the content', async ({ page }) => {
   await stubTrades(page, [
     [{ id: 's1', optionId: RUTO, amountUsd: 20, price: 0.46, at: now() }],
