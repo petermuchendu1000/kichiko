@@ -11,30 +11,47 @@ _Last updated: 2026-07-25._
 
 ## 1. Auth emails (Supabase Auth)
 
+> **CORRECTED 2026-10-16.** The table below previously claimed these values were
+> applied in July. They were **not** — the live config was read back during the
+> Fly go-live and every branded field still pointed at **MarketPips**, the
+> project's pre-rename identity:
+>
+> | setting | found live (2026-10-16) | now set to |
+> |---|---|---|
+> | `site_url` | `https://marketpips.co.ke` | `https://elopis.com` |
+> | `uri_allow_list` | `https://marketpips.co.ke/**,…` | `https://elopis.com/**,https://www.elopis.com/**` |
+> | `smtp_sender_name` | `MarketPips` | `Elopis` |
+> | `smtp_admin_email` | `noreply@marketpips.co.ke` | `noreply@elopis.com` |
+> | 5 subjects + 6 HTML templates | all "MarketPips" | all "Elopis", pushed from `supabase/templates/*.html` |
+>
+> Either the July change was never applied or the rename overwrote it. The
+> consequence was not cosmetic: every magic link and confirmation email would
+> have sent users to **marketpips.co.ke**, and because `elopis.com` was absent
+> from the redirect allow-list, a return to our own site would have been
+> **rejected**. The repo's templates were already correctly Elopis-branded —
+> only the live project was stale.
+>
+> Lesson for this file: it records intent, and intent is not state. Read the
+> live config back before trusting any row here.
+
 Applied via the Management API (`PATCH /v1/projects/{ref}/config/auth`):
 
 | Setting | Value | Notes |
 |---|---|---|
-| `mailer_otp_length` | `6` | Was `8`. The in-app dialog accepts exactly 6 digits, so 8-digit codes could never be entered. Now matched. |
+| `mailer_otp_length` | `6` | Matches the in-app dialog, which accepts exactly 6 digits. |
 | `mailer_otp_exp` | `3600` | 60-minute single-use code. |
-| `site_url` | `https://elopis.com` | Was `http://localhost:3000` (broke every link email + OAuth redirect). |
-| `uri_allow_list` | `https://elopis.com/**, https://www.elopis.com/**` | Redirect allow-list. |
-| Email templates (all 6) | branded, from `supabase/templates/*.html` | `magic_link` + `reauthentication` render a CODE; `confirmation`, `recovery`, `email_change`, `invite` are links. |
+| `site_url` | `https://elopis.com` | **Verified live 2026-10-16.** |
+| `uri_allow_list` | `https://elopis.com/**, https://www.elopis.com/**` | **Verified live 2026-10-16.** |
+| Email templates (all 6) | branded Elopis, from `supabase/templates/*.html` | `magic_link` + `reauthentication` render a CODE (`{{ .Token }}`); the rest are links (`{{ .ConfirmationURL }}`). Verified: 11 branded fields Elopis, 0 MarketPips. |
 | Custom SMTP | Resend (`smtp.resend.com:465`, user `resend`, sender `noreply@elopis.com`) | Required on the free tier to use custom templates at all. |
+| `mailer_autoconfirm` | `true` | Sign-up does not wait on a clicked link; magic-link/OTP sign-in still needs mail to deliver. |
 
-### PENDING before emails deliver (test after go-live)
-- **Verify the sending domain in Resend.** The Resend account (`cosialm22@gmail.com`)
-  has **no verified domain**, so sends from `noreply@elopis.com` are rejected
-  (`403 domain not verified`) and the key can currently only send to the account
-  owner's own address. In Resend > Domains, add `elopis.com`, publish the
-  SPF + DKIM (and optional MX) DNS records it shows, and click Verify. Until then
-  **no auth emails (or app notification emails) will be delivered.**
-- After the domain is verified, send a real sign-in code to confirm the branded
-  code email arrives end to end.
-- This is intentionally left configured for the target state (code-based,
-  branded) because the domain/system is not live yet.
-
----
+### STILL PENDING — Resend domain verification
+The DNS is now live and correct (zone moved to Cloudflare 2026-10-16; DKIM TXT,
+`send` + `rsend` CNAMEs and DMARC all resolving). What remains is pressing
+**Verify** on the domain in the Resend dashboard. Until Resend marks
+`elopis.com` verified, sends from `noreply@elopis.com` are rejected and **no
+auth email is delivered**, so nobody can sign in with a code.
 
 ## 2. M-Pesa (Safaricom Daraja) - PRODUCTION
 
