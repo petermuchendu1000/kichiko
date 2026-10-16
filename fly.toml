@@ -109,7 +109,24 @@ primary_region = "lhr"
   cpus = 1
   processes = ["cron"]
 
-# Rolling deploy with a canary sanity gate; combined with health checks above
-# this gives an auto-abort on a bad release.
+# ROLLING, NOT CANARY — forced by a flyctl bug, not a change of intent.
+#
+# With the `cron` process group added, `strategy = "canary"` makes flyctl panic
+# before it launches anything:
+#
+#   panic: runtime error: invalid memory address or nil pointer dereference
+#   deploy.(*machineDeployment).inferCanaryGuest(...)
+#     internal/command/deploy/machines_deploymachinesapp.go:291
+#   > [2/2] Creating canary machine for group cron
+#
+# It cannot infer a guest for the second group even though this file gives each
+# group an explicit [[vm]] block. The image builds and pushes fine; only the
+# canary rollout path crashes, so the deploy dies after the push with exit 2.
+#
+# Rolling keeps the property that actually matters: machines are replaced one at
+# a time and the http_service health check below must pass before traffic moves,
+# so a bad release still aborts with the previous one serving. What is lost is
+# the throwaway canary machine ahead of the rollout. Revisit when flyctl fixes
+# the panic.
 [deploy]
-  strategy = "canary"
+  strategy = "rolling"
