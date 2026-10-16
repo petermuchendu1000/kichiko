@@ -16,6 +16,8 @@
 // (see docs/design/POLYMARKET-KALSHI-PARITY.md).
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { EntityAvatar } from '@/components/ui/entity-avatar'
+import { SeriesSwatch } from '@/components/markets/series-swatch'
+import { buildSeriesColorMap, SERIES_FALLBACK } from '@/lib/markets/series-color'
 import { OrderBookDrawer } from '@/components/trading/order-book-drawer.lazy'
 import { normalizeOutcomes, type Outcome } from '@/lib/markets/outcomes'
 import { formatVolume } from '@/lib/utils'
@@ -96,6 +98,28 @@ export function CandidateList({
     for (const o of options ?? []) m.set(o.id, o.description)
     return m
   }, [options])
+
+  // THE BOARD IS THE CHART'S LEGEND (ruling C12).
+  //
+  // The legend strip above the chart was deleted in the same change that added
+  // this: it was a third copy of a fact this board and the plot's own end
+  // labels already carry, and it cost a colour->name lookup to use. What it did
+  // have, and this board did not, is the colour key — so it moves here, onto
+  // the row that already names the outcome and prints its probability.
+  //
+  // RANK, NOT ROW INDEX. This board sorts by probability, volume or A-Z and
+  // filters by search text, so the position of a row says nothing about its
+  // palette slot. buildSeriesColorMap ranks by price internally, exactly as
+  // OutcomesChart's `ranked` does, which is what keeps one outcome one colour
+  // across the two surfaces however the reader has sorted this list.
+  const seriesById = useMemo(() => buildSeriesColorMap(outcomes), [outcomes])
+  const seriesRankById = useMemo(() => {
+    const m = new Map<string, number>()
+    ;[...outcomes]
+      .sort((a, b) => b.price - a.price)
+      .forEach((o, i) => m.set(o.id, i))
+    return m
+  }, [outcomes])
 
   const resolved = market.status === 'resolved'
   const isOpen = market.status === 'active'
@@ -381,8 +405,16 @@ export function CandidateList({
                   shape={kind === 'person' ? 'circle' : 'squircle'}
                 />
                 <div className="flex min-w-0 flex-1 flex-col gap-1.5">
-                  <p className="truncate pr-3 text-base font-semibold leading-normal text-text-primary">
-                    {o.label}
+                  <p className="flex min-w-0 items-center gap-2 pr-3 text-base font-semibold leading-normal text-text-primary">
+                    {/* The chart line's own colour and dash. Sits with the name
+                        rather than out at the row's left edge: the avatar
+                        already owns that column, and the key means "this line
+                        is this candidate", so it belongs against the name. */}
+                    <SeriesSwatch
+                      color={seriesById.get(o.id) ?? SERIES_FALLBACK}
+                      rank={seriesRankById.get(o.id) ?? 0}
+                    />
+                    <span className="truncate">{o.label}</span>
                   </p>
                   {/* A3: the KSh figure takes the 7:1 money floor
                       (text-muted measured 5.23:1); "Vol." stays quiet. */}

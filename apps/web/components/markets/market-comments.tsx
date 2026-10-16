@@ -890,15 +890,61 @@ export function MarketComments({ marketId, options, resolutionType }: MarketComm
 
                       Hidden when nobody in the thread holds anything, rather
                       than rendering a control that filters to an empty list.
-                      44px (ruling A4) — it is a control, not a text link. */}
+
+                      44px (ruling A4) — it is a control, not a text link. The
+                      first cut put `min-h-11` on this LABEL and left the input
+                      at `h-4 w-4`, which reads as compliant and is not: A4's
+                      gate measures each CONTROL's own box, and a native
+                      checkbox IS the control, so `e2e/target-size.spec.ts`
+                      reported `INPUT — 16x16` on this money route. Pointer
+                      events go to the input, not the label, so the ruling was
+                      being applied to the wrong element.
+
+                      So the input becomes a transparent 44x44 target laid over
+                      the box, and the box is drawn by the span beside it. That
+                      is the only way to keep a 16px checkbox and a 44px target
+                      at once: `transform: scale()` cannot do it, because
+                      getBoundingClientRect reports the SCALED box and the gate
+                      would read the shrunken number.
+
+                      The 44px is centred on the BOX, via a `relative` wrapper
+                      that is exactly the box's size — not on the label. The
+                      first attempt anchored it to the label, whose centre sits
+                      over the word "Holders", so the target measured 44x44 and
+                      sat several pixels to the right of the thing being
+                      aimed at. A4's gate reads sizes, not positions, and
+                      passed it; the finger would not have. */}
                   {Object.keys(holdings).length > 0 && (
                     <label className="inline-flex min-h-11 cursor-pointer items-center gap-1.5 text-xs font-semibold text-text-secondary">
-                      <input
-                        type="checkbox"
-                        checked={holdersOnly}
-                        onChange={(e) => setHoldersOnly(e.target.checked)}
-                        className="h-4 w-4 accent-[var(--pip-500)]"
-                      />
+                      <span className="relative grid size-4 flex-none place-items-center">
+                        <input
+                          type="checkbox"
+                          checked={holdersOnly}
+                          onChange={(e) => setHoldersOnly(e.target.checked)}
+                          className="peer absolute left-1/2 top-1/2 size-11 -translate-x-1/2 -translate-y-1/2 cursor-pointer opacity-0"
+                        />
+                        <span
+                          aria-hidden
+                          // text-TRANSPARENT until checked, not text-white: the
+                          // tick is always in the DOM and only the box changes
+                          // on :checked, so a white tick on an unchecked box is
+                          // invisible on the light surface and plainly visible
+                          // on the dark one — the control read as permanently
+                          // ticked in dark mode. Light hid the defect, which is
+                          // why it survived; both themes are now explicit.
+                          className="grid size-4 place-items-center rounded-[3px] border border-hairline text-transparent transition-colors peer-checked:border-[var(--pip-500)] peer-checked:bg-[var(--pip-500)] peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-pip-500/40"
+                        >
+                          <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                            <path
+                              d="M1.5 5.2 3.9 7.5 8.5 2.5"
+                              stroke="currentColor"
+                              strokeWidth="1.8"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </span>
+                      </span>
                       Holders
                     </label>
                   )}

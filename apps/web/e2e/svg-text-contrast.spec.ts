@@ -155,11 +155,28 @@ for (const theme of ['light', 'dark'] as const) {
     }
 
     expect(seen.length, 'no SVG text found — the gate would pass vacuously').toBeGreaterThan(5)
+
+    // ...and specifically: the resting series labels (ruling C12) must be
+    // among what was sampled. They are the riskiest text the charts draw —
+    // the only text rendered in the SERIES palette, which is tuned to
+    // 1.4.11's 3:1 floor for strokes and clears 1.4.3's 4.5:1 on both themes
+    // in only two of its six slots. They are legal solely because they are
+    // drawn at large-text size (see FIGURE_PX in components/markets/
+    // scrub-chart.tsx), so a change that shrinks them must land as a failure
+    // here, not as a silent pass because the sample held nothing but axis
+    // ticks. `seen.length > 5` alone is satisfied by the "0%..100%" column.
+    const largeText = seen.filter((s) => s.threshold === AA_LARGE)
+    expect(
+      largeText.length,
+      'no large-text SVG sample — the in-plot series figures were not rendered, ' +
+        'so this gate measured only the axis and would pass a contrast regression on them',
+    ).toBeGreaterThan(0)
     expect(
       failures.map((f) => `${f.route} "${f.text}" ${f.fill} on ${f.bg} = ${f.ratio}:1 (needs ${f.threshold})`),
       'SVG chart text below WCAG 1.4.3',
     ).toEqual([])
+    // AA_LARGE is now load-bearing (the large-text assertion above); AA_TEXT
+    // stays documentation for the threshold the sampler computes inline.
     void AA_TEXT
-    void AA_LARGE
   })
 }

@@ -10,7 +10,7 @@ import { useMemo, useState } from 'react'
 import { monthShort, monthDay, hourMinute, monthDayYear } from '@/lib/date-display'
 import { ScrubChart, type ScrubSeries } from './scrub-chart'
 import { IconTrophy, IconClock } from '@/components/ui/icons'
-import { SERIES_PALETTE as PALETTE } from '@/lib/markets/series-color'
+import { SERIES_PALETTE as PALETTE, seriesDashFor } from '@/lib/markets/series-color'
 import { TradeTicker, TickerStopButton } from './trade-ticker'
 import type { TickerTrade } from '@/lib/markets/trade-ticker'
 import { formatVolume } from '@/lib/utils'
@@ -246,10 +246,17 @@ export function OutcomesChart({ options, data, volumeUsd, closesAt, colorMap, sh
   // readout labels the leaders first when several options sit close together.
   const scrubSeries = useMemo<ScrubSeries[]>(
     () =>
-      ranked.map((o) => ({
+      ranked.map((o, rank) => ({
         key: o.id,
         label: o.label,
         color: colorById.get(o.id) || 'var(--pip-500)',
+        // `ranked` is sorted by price descending and buildSeriesColorMap ranks
+        // the same way, so the index IS the palette slot — which is what
+        // selects the dash for the slots past the sixth, where the hues start
+        // repeating. prob-lines has drawn this since the palette was cut to
+        // six; this chart did not, so a 7-outcome market was legible on the
+        // landing card and ambiguous here.
+        dash: seriesDashFor(rank),
         points: chartData.map((row) => ({
           t: new Date(row.time as string).getTime(),
           v: typeof row[o.id] === 'number' ? (row[o.id] as number) : 0,
@@ -273,27 +280,25 @@ export function OutcomesChart({ options, data, volumeUsd, closesAt, colorMap, sh
 
   return (
     <div>
-      {/* Legend — PM places the color key ABOVE the plot: dot · name · current %.
-          On a phone only the top 4 series show (matching PM); the rest reveal at
-          >=sm where there's room. */}
-      {showLegend && (
-      <ul className="mb-2 flex flex-wrap items-center gap-x-4 gap-y-1">
-        {ranked.map((o, i) => (
-          <li
-            key={o.id}
-            className={`flex items-center gap-1.5 whitespace-nowrap ${i >= 4 ? 'hidden sm:flex' : ''}`}
-          >
-            <span
-              className="size-2 flex-none rounded-full"
-              style={{ background: colorById.get(o.id) }}
-              aria-hidden
-            />
-            <span className="text-xs text-text-secondary">{o.label}</span>
-            <span className="text-xs font-semibold text-text-primary">{Math.round(o.price * 100)}%</span>
-          </li>
-        ))}
-      </ul>
-      )}
+      {/* THE LEGEND STRIP THAT USED TO SIT HERE IS GONE — ruling C12.
+          It was a row of `dot · name · current %` above the plot, and it was
+          the third place on this page carrying the same fact: the candidate
+          board directly below already gives every outcome its name and its
+          percentage, and the chart now writes the leaders' names and figures
+          at the end of their own lines (endLabels). Reading a line meant
+          carrying its colour upward to the strip and then reading the number a
+          second time underneath.
+
+          The hero card reached this conclusion first and recorded it — "the
+          outcome list IS the legend: one place, with the avatar and the figure
+          already there" (components/layout/hero-section.tsx) — and deleted its
+          own strip on 2026-10-16. This page kept its one for another release
+          because nothing carried the lesson across. What the hero's rows have
+          and this page's board lacked is the colour swatch, so the board gets
+          one (SeriesSwatch) in the same change that removes this.
+
+          `showLegend` is kept as the prop name for its callers, but it now
+          means "this chart states its own series identity" — see endLabels. */}
 
       {/* The plot and its overlay share one positioned box, so a trade label
           is clamped to the chart and can never drift over the footer chips or
@@ -305,6 +310,7 @@ export function OutcomesChart({ options, data, volumeUsd, closesAt, colorMap, sh
           height={192}
           yMax={yMax}
           yTicks={yTicks}
+          endLabels={showLegend}
           watermark="Elopis"
           ariaLabel={summary}
           xTickFormat={(t) => xTickFormatter(new Date(t).toISOString())}

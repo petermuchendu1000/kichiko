@@ -23,6 +23,7 @@ import Link from 'next/link'
 import type { Market } from '@/types'
 import { CATEGORY_LABELS } from '@/types'
 import { ProbLines, LINE_PALETTE } from '@/components/markets/prob-lines'
+import { SeriesSwatch } from '@/components/markets/series-swatch'
 import { TradeTicker } from '@/components/markets/trade-ticker'
 import { NewsRotator } from '@/components/markets/news-rotator'
 import type { LatestNewsItem } from '@/lib/markets/latest-news'
@@ -347,16 +348,21 @@ function Spotlight({
                     aria-label={`Trade ${o.label}, ${Math.round(o.price * 100)}%`}
                   >
                     <div className="flex min-w-0 flex-1 items-center gap-1.5">
-                      {/* The line's colour, 8x8 (Polymarket's measured legend
-                          swatch). This row is the chart's legend now, which is
-                          why it is here: without it the plot has six coloured
-                          lines and nothing on the card says which is which.
-                          `i` is safe as the slot index — `ranked` and
-                          ProbLines sort by the same key, descending price. */}
-                      <span
-                        className="h-2 w-2 flex-none rounded-full"
-                        style={{ background: LINE_PALETTE[i % LINE_PALETTE.length] }}
-                        aria-hidden
+                      {/* The line's colour. This row is the chart's legend,
+                          which is why it is here: without it the plot has six
+                          coloured lines and nothing on the card says which is
+                          which. `i` is safe as the slot index — `ranked` and
+                          ProbLines sort by the same key, descending price.
+
+                          Was a local 8x8 dot (Polymarket's measured swatch).
+                          Now the shared SeriesSwatch, because the market
+                          page's candidate board needed the same key and a
+                          second copy is how the two drift: a dot cannot show
+                          the stroke dash that separates the palette slots past
+                          the sixth, which ProbLines has drawn all along. */}
+                      <SeriesSwatch
+                        color={LINE_PALETTE[i % LINE_PALETTE.length]}
+                        rank={i}
                       />
                       {o.imageUrl && (
                         <>

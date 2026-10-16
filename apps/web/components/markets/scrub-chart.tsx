@@ -59,6 +59,16 @@ export interface ScrubSeries {
    *  semantic chip palette — a 1.75px stroke needs more chroma than a filled
    *  chip to read at the same strength (see docs/design/pm-2026-10 §2.2). */
   color: string
+  /**
+   * SVG `stroke-dasharray` for this series (undefined = solid).
+   *
+   * The palette is six slots deep and ranks past the sixth REUSE the hues, so
+   * the dash is the only channel separating rank 7 from rank 1. prob-lines
+   * (the hero chart) has drawn it since the palette was cut to six; this chart
+   * ignored it, so the same 7-outcome market would have been readable on the
+   * landing card and ambiguous on the market page. Twin surfaces, one lesson.
+   */
+  dash?: string
   points: ScrubPoint[]
 }
 
@@ -79,6 +89,15 @@ interface ScrubChartProps {
    * does not bury its own plot in type.
    */
   maxLabels?: number
+  /**
+   * Label each series AT REST, at the end of its own line, instead of relying
+   * on a legend above the plot (ruling C12).
+   *
+   * Off for a chart whose series identity is already stated beside it — the
+   * per-option Market drawer renders one line under its own big "% chance", so
+   * an end label there would print the same number twice.
+   */
+  endLabels?: boolean
   showGrid?: boolean
   showXAxis?: boolean
   showYAxis?: boolean
@@ -177,6 +196,224 @@ function clipLabel(label: string, max = 22): string {
   return label.length <= max ? label : `${label.slice(0, max - 1).trimEnd()}…`
 }
 
+/* -------------------------------------------------------------------------
+ * INLINE SERIES LABELS — one renderer, two states.
+ *
+ * The same "name over a big coloured figure" block annotates the scrub point
+ * and the end of each line at rest. It is one function because it was very
+ * nearly two: the resting labels are new (C12) and the scrubbing ones already
+ * existed, and a second copy is how the contrast rule below would have been
+ * applied to one state and not the other.
+ *
+ * THE FIGURE SIZE IS A CONTRAST CONSTRAINT, NOT A TASTE
+ * Measured on 2026-10-16, every --series-N token against its own surface:
+ *
+ *             on #FFFFFF (light)   on #1A1C1F (dark)
+ *   series-1        6.01                4.02
+ *   series-2        5.53                6.18
+ *   series-3        4.78                6.90
+ *   series-4        4.31                7.71
+ *   series-5        3.19                9.95
+ *   series-6        3.11               10.02
+ *
+ * Only series-2 and series-3 clear WCAG 1.4.3's 4.5:1 on BOTH themes.
+ * series-4/5/6 fail on light — the default since 2026-10-16 — and series-1
+ * fails on dark. The palette was tuned to 1.4.11's 3:1 floor for *graphics*,
+ * which a 1.75px stroke is; text is held to a stricter standard. The one
+ * exemption is "large scale" text, >=18.66px at weight 700, which drops back
+ * to 3:1 — and at 3:1 every slot passes on both themes (worst 3.11, light
+ * series-6, the same margin the line stroke already lives on).
+ *
+ * A figure is drawn in whichever slot its series holds, so the two passing
+ * slots buy nothing: the constraint is set by the four that fail.
+ *
+ * So a series-coloured figure may never be drawn below 18.66px. The previous
+ * revision shrank it to 15px once more than three labels showed, which put
+ * four of six slots under 4.5:1 on the theme that is now the default — a live
+ * violation, found by measuring rather than by looking. Crowding is therefore
+ * answered by the CAP (fewer labels, full-size type) instead of by shrinking,
+ * and the surplus series keep their dots.
+ *
+ * Polymarket writes theirs at 26px/600 in the line's colour and the NAME in
+ * the line's colour too (measured: rgb(135,191,255) on both, 13px/500). The
+ * name cannot follow them here: at 13px it is held to 4.5:1 and no slot
+ * qualifies, so it takes --text-3, which globals.css has already verified AA
+ * on both surfaces. They can colour it because they ship one near-black theme;
+ * our default went white on 2026-10-16.
+ * ---------------------------------------------------------------------- */
+
+/**
+ * Series-coloured figure size. See above: >=18.66px at weight 700 is WCAG
+ * "large scale" text, so the 3:1 floor applies and every slot clears it.
+ *
+ * Exported for lib/__tests__/series-label-contrast.test.ts, which measures the
+ * real tokens out of globals.css and fails if this drops under the large-text
+ * threshold while any slot is still short of 4.5:1. It is a contrast budget,
+ * not a typographic preference, so it is held by a test rather than a comment.
+ */
+export const FIGURE_PX = 19
+/** Vertical room one label block needs: name (13) + figure (19) + leading. */
+const BLOCK_H = 38
+
+interface LabelRow {
+  key: string
+  color: string
+  label: string
+  /** The annotated point, in plot coordinates. */
+  px: number
+  py: number
+  /** Probability in [0,1]. */
+  v: number
+}
+
+/**
+ * How many label blocks this plot can carry: whichever of horizontal room and
+ * vertical room is tighter. A phone-width plot cannot carry six stacked labels
+ * without burying the lines they annotate, and a 192px-tall plot cannot carry
+ * six 38px blocks at all — the old code let `decollide` clamp that overflow,
+ * which silently stacked them against the axis.
+ */
+function labelCap(plotW: number, plotH: number, maxLabels: number): number {
+  const byWidth = plotW < 420 ? 3 : plotW < 600 ? 4 : maxLabels
+  const byHeight = Math.floor((plotH - 20) / BLOCK_H)
+  return Math.max(1, Math.min(byWidth, byHeight, maxLabels))
+}
+
+/**
+ * A label may not be pushed further from its own point than the height of one
+ * label block. Past that it stops annotating the line and starts contradicting
+ * it: the first cut of the resting labels drew Morocco's "26%" level with the
+ * 65% gridline, because four blocks needing 152px were squeezed around four
+ * lines sharing a 24px band, and `decollide` dutifully flung the stack across
+ * the plot. A leader line makes that legible, not honest — a reader scanning
+ * label HEIGHTS reads the standings wrong before they read the leader.
+ */
+const MAX_SHIFT = BLOCK_H
+
+/**
+ * Place as many labels as can sit near their own lines, ranked by value.
+ *
+ * Crowding is answered by labelling FEWER series, never by shrinking the type
+ * (a contrast budget, see above) and never by displacing a label off its line.
+ * A dropped series keeps its dot, and the candidate board below the chart
+ * names and colours every outcome regardless — this is the chart declining to
+ * state something it cannot state accurately, not information being lost.
+ *
+ * Why this is a search and not a formula: how much room N labels need depends
+ * on where the lines actually are, which is the market's business, not the
+ * layout's. A market whose outcomes are spread 5-80% fits six; one whose
+ * outcomes all sit between 14% and 26% fits two or three. The axis is fixed at
+ * 0-100% (ruling B4), so the squashed case is normal, not exotic.
+ */
+function fitLabels(rows: LabelRow[], cap: number, plotH: number): { row: LabelRow; y: number }[] {
+  const ranked = [...rows].sort((a, b) => b.v - a.v)
+  const clamp = (y: number) => Math.max(14, Math.min(plotH - 6, y))
+  for (let n = Math.min(cap, ranked.length); n > 1; n--) {
+    const take = ranked.slice(0, n)
+    const ys = decollide(take.map((r) => r.py), BLOCK_H, 14, plotH - 6)
+    // THE LEADER SITS ON ITS OWN LINE. `decollide` absorbs an overflowing
+    // stack by pulling ALL of it back inside the plot, which on a
+    // bottom-bunched market moves the top label furthest — and the top label
+    // is the leader, the one figure a reader anchors on before any other.
+    // Three labels on the AFCON market put "Morocco 26%" level with the 50%
+    // gridline. Two put it exactly on its line and cost one series its text,
+    // which the board below already carries. Two is the better trade, and
+    // this is the rule that picks it without a tuned constant: the leader is
+    // not negotiable, everyone else may be nudged by up to one block.
+    //
+    // Measured against the clamp rather than the raw point, so a leader at
+    // 100% — whose line runs along the plot's top edge, where no label can be
+    // centred — is not treated as displaced and does not collapse the count.
+    const leaderOk = Math.abs(ys[0] - clamp(take[0].py)) <= 3
+    const restOk = take.every((r, i) => Math.abs(ys[i] - r.py) <= MAX_SHIFT)
+    if (leaderOk && restOk) return take.map((r, i) => ({ row: r, y: ys[i] }))
+  }
+  // One label always fits: it sits at its own y, clamped into the plot.
+  const first = ranked[0]
+  return first ? [{ row: first, y: clamp(first.py) }] : []
+}
+
+/**
+ * The label blocks for one state. `rows` is every series; the ones that can be
+ * placed honestly get text and the rest are left to their dots.
+ *
+ * `flip` runs the text leftward from the anchor, which is what keeps a label
+ * inside the plot near the right edge — always true for resting labels, since
+ * a line's end IS the right edge.
+ */
+function SeriesLabels({
+  rows,
+  plotH,
+  flip,
+  cap,
+}: {
+  rows: LabelRow[]
+  plotH: number
+  flip: boolean
+  cap: number
+}) {
+  const placed = fitLabels(rows, cap, plotH)
+  return (
+    <>
+      {placed.map(({ row: r, y: ly }) => {
+        const lx = flip ? r.px - 10 : r.px + 10
+        return (
+          <g key={`lbl${r.key}`}>
+            {/* leader line when the label was displaced off its own point */}
+            {Math.abs(ly - r.py) > 3 && (
+              <line
+                x1={r.px}
+                y1={r.py}
+                x2={lx}
+                y2={ly - 4}
+                stroke={r.color}
+                strokeWidth={1}
+                strokeOpacity={0.35}
+              />
+            )}
+            {/* KNOCKOUT, same trick the lines use on each other.
+                A resting label sits at the end of its line, which on a market
+                whose outcomes are bunched means it sits ON several others —
+                the first cut drew "Ivory Coast" straight through four of them
+                and the name was unreadable. The lines already carve a halo out
+                of each other with a --surface stroke; text gets the same, via
+                paint-order so the halo is painted UNDER its own glyphs instead
+                of thickening them. */}
+            <text
+              x={lx}
+              y={ly - 6}
+              textAnchor={flip ? 'end' : 'start'}
+              fontSize={13}
+              fontWeight={500}
+              fill="var(--text-3)"
+              stroke="var(--surface)"
+              strokeWidth={3}
+              strokeLinejoin="round"
+              style={{ paintOrder: 'stroke' }}
+            >
+              {clipLabel(r.label)}
+            </text>
+            <text
+              x={lx}
+              y={ly + 13}
+              textAnchor={flip ? 'end' : 'start'}
+              fontSize={FIGURE_PX}
+              fontWeight={700}
+              fill={r.color}
+              stroke="var(--surface)"
+              strokeWidth={3.5}
+              strokeLinejoin="round"
+              style={{ fontVariantNumeric: 'tabular-nums', paintOrder: 'stroke' }}
+            >
+              {Math.round(r.v * 100)}%
+            </text>
+          </g>
+        )
+      })}
+    </>
+  )
+}
+
 const DEFAULT_X_FMT = (t: number) =>
   new Date(t).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
 const DEFAULT_READOUT_FMT = (t: number) =>
@@ -195,6 +432,7 @@ export function ScrubChart({
   futureFromIndex,
   showConfidence = false,
   maxLabels = 6,
+  endLabels = false,
   showGrid = true,
   showXAxis = true,
   showYAxis = true,
@@ -275,6 +513,7 @@ export function ScrubChart({
         key: s.key,
         label: s.label,
         color: s.color,
+        dash: s.dash,
         pts,
         observedPath: monotonePath(observed),
         projectedPath: projected.length > 1 ? monotonePath(projected) : '',
@@ -447,6 +686,7 @@ export function ScrubChart({
                   stroke={g.color}
                   strokeWidth={1.75}
                   strokeOpacity={active != null ? 0.22 : 1}
+                  strokeDasharray={g.dash}
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
@@ -456,6 +696,7 @@ export function ScrubChart({
                     fill="none"
                     stroke={g.color}
                     strokeWidth={1.75}
+                    strokeDasharray={g.dash}
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     clipPath={`url(#${uid}-past)`}
@@ -488,6 +729,47 @@ export function ScrubChart({
                 )
               })}
 
+            {/* ---- RESTING LABELS: name + current % at each line's end ----
+                Ruling C12. This is the state the chart is in almost all of the
+                time, and until now the only thing marking a line at rest was a
+                coloured dot — so reading the plot meant carrying a colour up to
+                a legend strip above it, which in turn repeated the percentages
+                already on the candidate board below. Three places for one fact.
+
+                Measured on polymarket.com (captures-2026-10-market-page,
+                PM-multi-census.json): name 13px/500 and figure 26px/600, both
+                in the line's colour, inside the plot in its last ~150px, with
+                the name's baseline sitting on the line and the figure hanging
+                below it. We take the geometry and the stacking; the colouring
+                of the NAME is where we part company, for the contrast reason
+                documented at SeriesLabels.
+
+                Anchored at the right edge running leftward, so long and short
+                names stay flush with the axis instead of starting at a fixed
+                column the way theirs do — ours have to survive arbitrary
+                market-option text, not two candidate surnames. */}
+            {endLabels && active == null && (
+              <g pointerEvents="none">
+                <SeriesLabels
+                  rows={geo.map((g) => {
+                    const last = g.pts[g.pts.length - 1]
+                    const src = series.find((s2) => s2.key === g.key)
+                    return {
+                      key: g.key,
+                      color: g.color,
+                      label: g.label,
+                      px: last.x,
+                      py: last.y,
+                      v: src?.points[src.points.length - 1]?.v ?? 0,
+                    }
+                  })}
+                  plotH={plotH}
+                  flip
+                  cap={labelCap(plotW, plotH, maxLabels)}
+                />
+              </g>
+            )}
+
             {/* ---- crosshair + per-series dot + inline value ---- */}
             {activeX != null && (
               <g pointerEvents="none">
@@ -516,12 +798,6 @@ export function ScrubChart({
                       return p ? { g, p, v: src.points[active!]?.v ?? 0 } : null
                     })
                     .filter(Boolean) as { g: (typeof geo)[number]; p: { x: number; y: number }; v: number }[]
-                  // A phone-width plot cannot carry six stacked labels without
-                  // burying the lines they annotate, so the cap tightens with
-                  // the available width. Dots still mark every series.
-                  const cap = plotW < 420 ? Math.min(3, maxLabels) : plotW < 600 ? Math.min(4, maxLabels) : maxLabels
-                  const labelled = [...rows].sort((a, b) => b.v - a.v).slice(0, cap)
-                  const anchors = decollide(labelled.map((r) => r.p.y), 34, 14, plotH - 6)
                   return (
                     <>
                       {/* dots for EVERY series, including unlabelled ones */}
@@ -531,47 +807,19 @@ export function ScrubChart({
                           <circle cx={r.p.x} cy={r.p.y} r={3.5} fill={r.g.color} />
                         </g>
                       ))}
-                      {labelled.map((r, k) => {
-                        const ly = anchors[k]
-                        const lx = flip ? r.p.x - 10 : r.p.x + 10
-                        return (
-                          <g key={`r${r.g.key}`}>
-                            {/* leader line when the label was displaced */}
-                            {Math.abs(ly - r.p.y) > 3 && (
-                              <line
-                                x1={r.p.x}
-                                y1={r.p.y}
-                                x2={lx}
-                                y2={ly - 4}
-                                stroke={r.g.color}
-                                strokeWidth={1}
-                                strokeOpacity={0.35}
-                              />
-                            )}
-                            <text
-                              x={lx}
-                              y={ly - 6}
-                              textAnchor={flip ? 'end' : 'start'}
-                              fontSize={12}
-                              fontWeight={500}
-                              fill="var(--text-3)"
-                            >
-                              {clipLabel(r.g.label)}
-                            </text>
-                            <text
-                              x={lx}
-                              y={ly + 13}
-                              textAnchor={flip ? 'end' : 'start'}
-                              fontSize={labelled.length > 3 ? 15 : 19}
-                              fontWeight={700}
-                              fill={r.g.color}
-                              style={{ fontVariantNumeric: 'tabular-nums' }}
-                            >
-                              {Math.round(r.v * 100)}%
-                            </text>
-                          </g>
-                        )
-                      })}
+                      <SeriesLabels
+                        rows={rows.map((r) => ({
+                          key: r.g.key,
+                          color: r.g.color,
+                          label: r.g.label,
+                          px: r.p.x,
+                          py: r.p.y,
+                          v: r.v,
+                        }))}
+                        plotH={plotH}
+                        flip={flip}
+                        cap={labelCap(plotW, plotH, maxLabels)}
+                      />
                     </>
                   )
                 })()}

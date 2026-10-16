@@ -44,8 +44,9 @@ running app ·
 | G1 | `/search` reads and writes `?q=` | done | L |
 | H1 | Profit leaderboard removed | done | L + M |
 | C5 | Chart series colours ≥3:1 both themes | done for `--chart-yes/no/brand`; **the multi-outcome palette was never covered and failed both halves** — see §2.9 K1 | V, then M |
-| A4 | **Every control ≥44×44 on money routes** | **done + gated** | M |
+| A4 | **Every control ≥44×44 on money routes** | **done + gated** — one control had slipped through and was found red on 2026-10-16 (the comments "Holders" checkbox, 16×16); fixed, see §2.19 | M |
 | B4 | Fixed 0–100% axis, default All, no dead ranges | **re-opened and closed 2026-10-16** — the axis half was never applied; see §2.9 | M |
+| C12 | Series labels in the plot, no legend strip | **done 2026-10-16** — and it surfaced a live WCAG 1.4.3 violation in the existing scrub readout; see §2.19 | M |
 | C1 | Hero probability ≥28px, integer | done | M — 28px |
 | C3 | **Resolution source on every market (BINDING)** | **done** — 28 of 36; 8 named below | DB |
 | D1 D2 D5 D7 D9 D10 | the money path | **done** — see §2.3 | M |
@@ -1202,6 +1203,128 @@ whole thread — server-side filtering would need the DEFINER function, which is
 exactly the property 116 was written to avoid.
 
 ---
+
+### 2.19 C12 — the legend came down, and the palette turned out to be illegal as type
+
+**What the row asked for.** Polymarket writes each series' name and value
+*inside* the plot at the end of its own line and ships no legend at all.
+Measured, not recalled — `captures-2026-10-market-page/data/PM-multi-census.json`,
+the Brazil presidential market: `Flávio Bolsonaro` at 13px/500 and `79.3%` at
+26px/600, **both in the line's colour** `rgb(135,191,255)`, left-aligned in a
+~150px column at the plot's right edge, with the name's baseline on the line
+and the figure hanging below it. Ours had a `dot · name · %` strip above the
+plot — a colour→name lookup, and the third place on the page carrying a number
+the candidate board already prints.
+
+**What shipped.** The strip is deleted. `ScrubChart` grew `endLabels` and now
+writes `name` + current % at each line's end **at rest** — the state the chart
+is in almost all of the time, and the one where it previously offered nothing
+but a coloured dot. The colour key moved onto the candidate board
+(`SeriesSwatch`), so the board *is* the legend.
+
+**This conclusion already existed on the other chart.** The hero card deleted
+its own legend row on 2026-10-16 and recorded why, verbatim: *"the left column
+now carries the swatch instead, so the outcome list IS the legend: one place,
+with the avatar and the figure already there."* The market page kept its strip
+for another release because nothing carried the lesson across. The swatch is
+now one shared component used by both, which is the only thing that stops a
+third divergence.
+
+**The finding that changed the design.** Copying PM's colouring is not legal
+here. Every `--series-N` token measured against its own surface:
+
+|          | on `#FFFFFF` (light) | on `#1A1C1F` (dark) |
+|----------|---------------------:|--------------------:|
+| series-1 | 6.01                 | **4.02**            |
+| series-2 | 5.53                 | 6.18                |
+| series-3 | 4.78                 | 6.90                |
+| series-4 | **4.31**             | 7.71                |
+| series-5 | **3.19**             | 9.95                |
+| series-6 | **3.11**             | 10.02               |
+
+Only series-2 and series-3 clear WCAG 1.4.3's 4.5:1 on **both** themes. The
+palette was tuned to 1.4.11's **3:1** floor for *graphics*, which a 1.75px
+stroke is; text is held higher. A figure is drawn in whichever slot its series
+holds, so the two passing slots buy nothing — the constraint is set by the four
+that fail. PM can colour their 13px name because they ship one near-black
+theme; ours went **white by default** the same week.
+
+So: the **name** takes `--text-3` (already AA-verified on both surfaces) and
+only the **figure** is series-coloured, pinned at 19px/700 so WCAG's
+large-text allowance applies and the 3:1 floor is the one in force — which
+every slot clears, worst 3.11.
+
+**It was already being violated.** The pre-existing scrub readout shrank that
+same series-coloured figure to **15px** as soon as more than three labels
+showed, which put four of six slots under 4.5:1 on the now-default theme. It
+had been there since before the light-theme switch and nothing caught it,
+because `e2e/svg-text-contrast.spec.ts` only samples the resting chart and the
+figure did not exist at rest. Crowding is now answered by labelling **fewer**
+series, never by shrinking type.
+
+**Two more divergences from PM, both forced by our own rulings.**
+
+1. *The leader may not be displaced off its line.* B4 fixed the axis at
+   0–100%, so a market whose outcomes all sit between 14% and 26% squashes six
+   lines into 24px. Four label blocks need 152px, and `decollide` absorbed the
+   overflow by pulling the whole stack inside the plot — which drew
+   **"Morocco 26%" level with the 50% gridline**. A leader line makes that
+   legible, not honest: a reader scanning label *heights* misreads the
+   standings before they read the leader. `fitLabels` now searches down from
+   the cap for the largest count where the leader sits on its own line and no
+   other label moves more than one block. AFCON gets two labels, the 46/24/14
+   presidency market gets three, and the dropped series keep their dots and
+   their board rows.
+2. *The text carries a knockout.* PM's labels sit in open space; ours sit on
+   the bunched tail of five other lines, and the first cut drew "Ivory Coast"
+   straight through four of them. The lines already carve `--surface` halos out
+   of each other — the text now does the same, via `paint-order: stroke`.
+
+**A latent defect closed on the way past.** `seriesDashFor` — the only channel
+separating palette slot 7 from slot 1, since the hues repeat — was drawn by
+`prob-lines` and **ignored by `ScrubChart`**. A 7-outcome market would have
+been readable on the landing card and ambiguous on the market page. Production's
+widest market has six outcomes, so this was a trap being closed before it was
+sprung. The shared swatch is a 10px line rather than a dot for the same reason:
+a dot cannot show a dash, so a dot would lie about every rank past the sixth.
+
+**Left alone deliberately.** The binary `PriceChart` keeps its Yes/No legend.
+C12's complaint is that the strip "duplicat[es] the % already in the rows
+below", and a binary market has no rows below; Yes/No is semantic, not
+categorical, so there is no colour→name lookup to remove. Checked rather than
+assumed: every non-BTC market in production is multiple-choice, so that legend
+is close to unreachable anyway.
+
+**A4 was red, and not because of this.** `e2e/target-size.spec.ts` reported
+`INPUT — 16x16` on Market detail. It is the comments **"Holders" filter** from
+C10: `min-h-11` on the `<label>`, `h-4 w-4` on the `<input>`, under a comment
+reading *"44px (ruling A4) — it is a control, not a text link"*. The ruling was
+applied to the wrapper; the gate measures each control's own box, and a native
+checkbox IS the control, so pointer events went to a 16px target. **Attributed
+before fixing**: re-run with the C12 change stashed, the failure is identical,
+so it is pre-existing and A4's "done + gated" row above was overstated for this
+one control.
+
+Rebuilt as a transparent 44×44 input over a drawn 16px box — the only way to
+hold both numbers, since `transform: scale()` would shrink the rect the gate
+reads. It then failed twice more before it was right, both caught by looking
+rather than by the gate: the 44px was first centred on the **label**, whose
+centre sits over the word "Holders", so the target measured 44×44 and sat
+beside the box (the size gate passed; the finger would not have — `c12-checkbox.mjs`
+now asserts the target *covers* the box, not just its size); and the tick was
+drawn `text-white` unconditionally, invisible on light and reading as a
+**permanently ticked box on dark**. The light default hid it, which is how it
+would have shipped.
+
+**Gates, both falsified.** `lib/__tests__/series-label-contrast.test.ts` reads
+the real tokens out of `globals.css` and fails if the figure drops below
+large-text size while any slot is short of 4.5:1 — red at 15px on both themes,
+green at 19px, and its first version asserted *"no slot clears 4.5:1 on both"*,
+which was my own overstatement and which the test caught. `e2e/svg-text-contrast.spec.ts`
+gained a non-vacuity assertion: `seen.length > 5` was satisfied by the
+`0%…100%` axis column alone, so a run that rendered no in-plot figures would
+have passed while measuring nothing. Proven by switching `endLabels` off and
+watching it fail with *"no large-text SVG sample"*.
 
 ---
 

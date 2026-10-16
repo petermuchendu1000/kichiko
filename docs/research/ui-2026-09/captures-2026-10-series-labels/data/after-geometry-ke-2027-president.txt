@@ -1,0 +1,98 @@
+
+===== light / desktop (1440x1000) =====
+chart svg 792x240 at (112,288)
+legend above plot: none
+leader lines: 1   dashed series paths: []
+board swatches: 5 ["solid","solid","solid","solid","solid"]
+in-plot / axis text nodes:
+  y=  18 x= 762 r= 794 w= 32   12px/400 start rgb(101, 109, 120)     "100%"
+  y=  29 x= 700 r= 738 w= 38   13px/600   end rgb(101, 109, 120)     "Elopis"
+  y=  66 x= 762 r= 788 w= 26   12px/400 start rgb(101, 109, 120)     "75%"
+  y= 110 x= 667 r= 744 w= 77   13px/500   end rgb(101, 109, 120)     "William Ruto"
+  y= 114 x= 762 r= 789 w= 27   12px/400 start rgb(101, 109, 120)     "50%"
+  y= 124 x= 700 r= 744 w= 44   19px/700   end rgb(20, 82, 240)       "46%"
+  y= 153 x= 635 r= 744 w=109   13px/500   end rgb(101, 109, 120)     "Rigathi Gachagua"
+  y= 162 x= 762 r= 788 w= 26   12px/400 start rgb(101, 109, 120)     "25%"
+  y= 167 x= 700 r= 744 w= 44   19px/700   end rgb(177, 72, 0)        "24%"
+  y= 191 x= 634 r= 744 w=110   13px/500   end rgb(101, 109, 120)     "Kalonzo Musyoka"
+  y= 205 x= 700 r= 744 w= 44   19px/700   end rgb(0, 131, 91)        "14%"
+  y= 210 x= 762 r= 781 w= 19   12px/400 start rgb(101, 109, 120)     "0%"
+  y= 220 x=   6 r=  27 w= 21   12px/400 middle rgb(101, 109, 120)     "Apr"
+  y= 220 x= 176 r= 200 w= 24   12px/400 middle rgb(101, 109, 120)     "May"
+  y= 220 x= 368 r= 389 w= 21   12px/400 middle rgb(101, 109, 120)     "Jun"
+  y= 220 x= 558 r= 575 w= 17   12px/400 middle rgb(101, 109, 120)     "Jul"
+  y= 220 x= 727 r= 749 w= 23   12px/400 middle rgb(101, 109, 120)     "Aug"
+
+===== light / phone (390x844) =====
+chart svg 358x240 at (16,267)
+legend above plot: none
+leader lines: 1   dashed series paths: []
+board swatches: 5 ["solid","solid","solid","solid","solid"]
+in-plot / axis text nodes:
+  y=  18 x= 328 r= 360 w= 32   12px/400 start rgb(101, 109, 120)     "100%"
+  y=  29 x= 266 r= 304 w= 38   13px/600   end rgb(101, 109, 120)     "Elopis"
+  y=  66 x= 328 r= 354 w= 26   12px/400 start rgb(101, 109, 120)     "75%"
+  y= 110 x= 233 r= 310 w= 77   13px/500   end rgb(101, 109, 120)     "William Ruto"
+  y= 114 x= 328 r= 355 w= 27   12px/400 start rgb(101, 109, 120)     "50%"
+  y= 124 x= 266 r= 310 w= 44   19px/700   end rgb(20, 82, 240)       "46%"
+  y= 153 x= 201 r= 310 w=109   13px/500   end rgb(101, 109, 120)     "Rigathi Gachagua"
+  y= 162 x= 328 r= 354 w= 26   12px/400 start rgb(101, 109, 120)     "25%"
+  y= 167 x= 266 r= 310 w= 44   19px/700   end rgb(177, 72, 0)        "24%"
+  y= 191 x= 200 r= 310 w=110   13px/500   end rgb(101, 109, 120)     "Kalonzo Musyoka"
+  y= 205 x= 266 r= 310 w= 44   19px/700   end rgb(0, 131, 91)        "14%"
+  y= 210 x= 328 r= 347 w= 19   12px/400 start rgb(101, 109, 120)     "0%"
+  y= 220 x=   6 r=  27 w= 21   12px/400 middle rgb(101, 109, 120)     "Apr"
+  y= 220 x=  68 r=  92 w= 24   12px/400 middle rgb(101, 109, 120)     "May"
+  y= 220 x= 150 r= 171 w= 21   12px/400 middle rgb(101, 109, 120)     "Jun"
+  y= 220 x= 232 r= 249 w= 17   12px/400 middle rgb(101, 109, 120)     "Jul"
+  y= 220 x= 293 r= 315 w= 23   12px/400 middle rgb(101, 109, 120)     "Aug"
+
+===== dark / desktop (1440x1000) =====
+chart svg 792x240 at (112,288)
+legend above plot: none
+leader lines: 1   dashed series paths: []
+board swatches: 5 ["solid","solid","solid","solid","solid"]
+in-plot / axis text nodes:
+  y=  18 x= 762 r= 794 w= 32   12px/400 start rgb(154, 161, 171)     "100%"
+  y=  29 x= 700 r= 738 w= 38   13px/600   end rgb(154, 161, 171)     "Elopis"
+  y=  66 x= 762 r= 788 w= 26   12px/400 start rgb(154, 161, 171)     "75%"
+  y= 110 x= 667 r= 744 w= 77   13px/500   end rgb(154, 161, 171)     "William Ruto"
+  y= 114 x= 762 r= 789 w= 27   12px/400 start rgb(154, 161, 171)     "50%"
+  y= 124 x= 700 r= 744 w= 44   19px/700   end rgb(86, 107, 255)      "46%"
+  y= 153 x= 635 r= 744 w=109   13px/500   end rgb(154, 161, 171)     "Rigathi Gachagua"
+  y= 162 x= 762 r= 788 w= 26   12px/400 start rgb(154, 161, 171)     "25%"
+  y= 167 x= 700 r= 744 w= 44   19px/700   end rgb(245, 120, 37)      "24%"
+  y= 191 x= 634 r= 744 w=110   13px/500   end rgb(154, 161, 171)     "Kalonzo Musyoka"
+  y= 205 x= 700 r= 744 w= 44   19px/700   end rgb(55, 185, 141)      "14%"
+  y= 210 x= 762 r= 781 w= 19   12px/400 start rgb(154, 161, 171)     "0%"
+  y= 220 x=   6 r=  27 w= 21   12px/400 middle rgb(154, 161, 171)     "Apr"
+  y= 220 x= 176 r= 200 w= 24   12px/400 middle rgb(154, 161, 171)     "May"
+  y= 220 x= 368 r= 389 w= 21   12px/400 middle rgb(154, 161, 171)     "Jun"
+  y= 220 x= 558 r= 575 w= 17   12px/400 middle rgb(154, 161, 171)     "Jul"
+  y= 220 x= 727 r= 749 w= 23   12px/400 middle rgb(154, 161, 171)     "Aug"
+
+===== dark / phone (390x844) =====
+chart svg 358x240 at (16,267)
+legend above plot: none
+leader lines: 1   dashed series paths: []
+board swatches: 5 ["solid","solid","solid","solid","solid"]
+in-plot / axis text nodes:
+  y=  18 x= 328 r= 360 w= 32   12px/400 start rgb(154, 161, 171)     "100%"
+  y=  29 x= 266 r= 304 w= 38   13px/600   end rgb(154, 161, 171)     "Elopis"
+  y=  66 x= 328 r= 354 w= 26   12px/400 start rgb(154, 161, 171)     "75%"
+  y= 110 x= 233 r= 310 w= 77   13px/500   end rgb(154, 161, 171)     "William Ruto"
+  y= 114 x= 328 r= 355 w= 27   12px/400 start rgb(154, 161, 171)     "50%"
+  y= 124 x= 266 r= 310 w= 44   19px/700   end rgb(86, 107, 255)      "46%"
+  y= 153 x= 201 r= 310 w=109   13px/500   end rgb(154, 161, 171)     "Rigathi Gachagua"
+  y= 162 x= 328 r= 354 w= 26   12px/400 start rgb(154, 161, 171)     "25%"
+  y= 167 x= 266 r= 310 w= 44   19px/700   end rgb(245, 120, 37)      "24%"
+  y= 191 x= 200 r= 310 w=110   13px/500   end rgb(154, 161, 171)     "Kalonzo Musyoka"
+  y= 205 x= 266 r= 310 w= 44   19px/700   end rgb(55, 185, 141)      "14%"
+  y= 210 x= 328 r= 347 w= 19   12px/400 start rgb(154, 161, 171)     "0%"
+  y= 220 x=   6 r=  27 w= 21   12px/400 middle rgb(154, 161, 171)     "Apr"
+  y= 220 x=  68 r=  92 w= 24   12px/400 middle rgb(154, 161, 171)     "May"
+  y= 220 x= 150 r= 171 w= 21   12px/400 middle rgb(154, 161, 171)     "Jun"
+  y= 220 x= 232 r= 249 w= 17   12px/400 middle rgb(154, 161, 171)     "Jul"
+  y= 220 x= 293 r= 315 w= 23   12px/400 middle rgb(154, 161, 171)     "Aug"
+
+shots in /tmp/claude-0/-home-user-kichiko/e9746c51-fa07-5e6c-b21c-bd54b620a633/scratchpad/c12-shots
