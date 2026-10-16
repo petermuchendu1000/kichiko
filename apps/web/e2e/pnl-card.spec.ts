@@ -31,6 +31,7 @@
 //   4. ONE SIGNED THING. The caret used to be the window delta while the only
 //      signed number was vs-cost, so a green ▲ could sit beside a red loss.
 import { test, expect, type Page } from '@playwright/test'
+import { forceTheme, assertTheme } from './helpers/theme'
 
 // A seeded trader with 32 open positions and price history back to January.
 const TRADER = '/traders/d73c23c4-8c18-5246-b175-16ab2273c213'
@@ -155,8 +156,10 @@ test.describe('trader position-value card', () => {
 
   for (const scheme of ['light', 'dark'] as const) {
     test(`cost reference line reaches 3:1 in ${scheme}`, async ({ page }) => {
-      await page.emulateMedia({ colorScheme: scheme })
+      // See e2e/helpers/theme.ts — the app no longer follows the device.
+      await forceTheme(page, scheme)
       await openCard(page)
+      await assertTheme(page, scheme)
       const probe = await page.evaluate((sel) => {
         const svg = document.querySelector(sel)!
         const line = svg.querySelector('line[stroke-dasharray]')

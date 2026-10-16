@@ -15,6 +15,7 @@
 // on this market hold a position, and ZERO of them appear in the public
 // top-holders board, so a size badge would have been a first publication.
 import { test, expect } from '@playwright/test'
+import { forceTheme, assertTheme } from './helpers/theme'
 
 const MARKET = `/markets/${process.env.E2E_A11Y_MARKET_SLUG || 'ke-2027-president'}`
 
@@ -99,8 +100,12 @@ test.describe('comment disclosure (matrix C10)', () => {
 
   for (const scheme of ['light', 'dark'] as const) {
     test(`badge text clears 4.5:1 in ${scheme}`, async ({ page }) => {
-      await page.emulateMedia({ colorScheme: scheme })
+      // Force the APP's theme, not the OS: the default is light for everyone
+      // now (enableSystem={false}), so emulateMedia alone would leave this
+      // test measuring the light palette under a name that says dark.
+      await forceTheme(page, scheme)
       await waitForBadges(page)
+      await assertTheme(page, scheme)
 
       const worst = await page.evaluate(() => {
         const out: { fg: string; bg: string }[] = []

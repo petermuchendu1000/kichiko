@@ -23,6 +23,7 @@
 // it is exempt — but only when it really is both (aria-hidden AND under 20%
 // opacity), which keeps the exemption from becoming a place to hide a label.
 import { test, expect } from '@playwright/test'
+import { forceTheme, assertTheme } from './helpers/theme'
 
 const ROUTES = ['/', '/markets/ke-2027-president', '/markets']
 
@@ -123,12 +124,22 @@ for (const theme of ['light', 'dark'] as const) {
     // is comfortably more than the default 30s budget, and a gate that times
     // out is a gate nobody trusts.
     test.slow()
-    await page.emulateMedia({ colorScheme: theme })
+    // See e2e/helpers/theme.ts — the app no longer follows the device, so
+    // this must set the app's own theme or every dark sample would be light.
+    await forceTheme(page, theme)
     const failures: Sample[] = []
     const seen: Sample[] = []
 
+    let themeChecked = false
     for (const route of ROUTES) {
       await page.goto(route, { waitUntil: 'domcontentloaded' })
+      // Once, after the first real navigation: prove the palette being sampled
+      // is the one this test is named for. Every ratio below is meaningless if
+      // the app silently rendered light while we asked for dark.
+      if (!themeChecked) {
+        await assertTheme(page, theme)
+        themeChecked = true
+      }
       // Charts measure their container before they draw, so wait for the text
       // itself rather than for a fixed interval — a blind wait is both slower
       // than it needs to be and, on a cold SSR render, not long enough.
