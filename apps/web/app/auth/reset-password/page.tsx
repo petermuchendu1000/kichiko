@@ -2,12 +2,22 @@
 
 // app/auth/reset-password/page.tsx — Password recovery (two modes)
 //
-//   • REQUEST  (default, signed-out): enter email → Supabase sends a recovery
-//     link that returns the user here with a recovery session in the URL hash.
-//   • UPDATE   (arrived from the email link): Supabase's client detects the
-//     recovery token in the URL, establishes a short-lived session and fires a
-//     PASSWORD_RECOVERY event. We then let the user set a new password via
-//     supabase.auth.updateUser({ password }).
+//   • REQUEST  (default, signed-out): enter email → we send a recovery link
+//     that comes back through /auth/confirm, which verifies it server-side.
+//   • UPDATE   (arrived from the email link): the session already exists in
+//     cookies by the time we render, and `?verified=recovery` says so. We then
+//     let the user set a new password via supabase.auth.updateUser.
+//
+// A LINK THAT DID NOT WORK MUST SAY SO.
+// Both /auth/confirm and (for links issued before it existed) Supabase's own
+// redirect hand us `?error=…` when a link has expired or been used. This page
+// used to ignore them completely: `useSearchParams()` was called and its value
+// never read, the mode check looked only for a recovery token, and the error
+// hash matched nothing — so the user landed on the plain "enter your email"
+// form with NO message. Measured on production 2026-10-16: the expired screen
+// and the first-visit screen rendered identical copy. From the outside the
+// emailed button simply did nothing, which is the single most likely reason
+// someone concludes the email is broken.
 //
 // Reuses the AuthShell / PasswordInput primitives so the surface matches
 // login & register. Personal auth surface → noindex is inherited from the
@@ -24,9 +34,44 @@ type Mode = 'request' | 'update'
 
 const MIN_PASSWORD = 8
 
+/**
+ * What a failed link is allowed to say. Keyed by the codes /auth/confirm and
+ * Supabase emit, with a catch-all, so an unrecognised code still produces a
+ * sentence a person can act on instead of a raw `error_description` from the
+ * provider — the same rule the notification emails follow.
+ */
+const MESSAGES: Record<string, string> = {
+  otp_expired:
+    'That link has expired or has already been used. Reset links last 60 minutes and work once — request a new one below.',
+  access_denied:
+    'That link is no longer valid. Request a new one below.',
+  invalid_link:
+    'That link is not complete. Open it directly from the email, or request a new one below.',
+}
+const FALLBACK_MESSAGE = 'That link did not work. Request a new one below.'
+
+/**
+ * Read an error code from the query string OR the URL hash.
+ *
+ * Supabase's own redirect puts them in BOTH (`?error=…#error=…`), and a link
+ * emailed before /auth/confirm existed still arrives that way for the rest of
+ * its 60-minute life, so reading only the query would keep the silent dead end
+ * alive for exactly the people already holding a link.
+ */
+function readLinkError(search: { get(key: string): string | null }): string | null {
+  const fromQuery = search.get('error_code') || search.get('error')
+  if (fromQuery) return fromQuery
+  if (typeof window === 'undefined') return null
+  const hash = window.location.hash.replace(/^#/, '')
+  if (!hash) return null
+  const params = new URLSearchParams(hash)
+  return params.get('error_code') || params.get('error')
+}
+
 function ResetPasswordInner() {
   const router = useRouter()
   const search = useSearchParams()
+  const verified = search.get('verified')
 
   const [mode, setMode] = useState<Mode>('request')
   const [email, setEmail] = useState('')
@@ -37,10 +82,36 @@ function ResetPasswordInner() {
   const [sent, setSent] = useState(false)
   const [done, setDone] = useState(false)
 
-  // Detect the recovery session that Supabase establishes when the user lands
-  // here from the emailed link. We check both the URL hash (immediate signal)
-  // and the PASSWORD_RECOVERY auth event (fired once the token is exchanged).
+  // Detect the recovery session. Three signals, because links issued at
+  // different times arrive differently and all of them must work:
+  //
+  //   1. `?verified=recovery` — /auth/confirm already verified the token
+  //      server-side and set the session cookie. This is the current path.
+  //   2. the URL hash — Supabase's own redirect, for links emailed before
+  //      /auth/confirm existed. Those stay valid for their full 60 minutes,
+  //      so this cannot be deleted yet.
+  //   3. the PASSWORD_RECOVERY event, for (2) once the client exchanges it.
+  //
+  // (1) is NOT trusted on its own: a query parameter is something anyone can
+  // type. It only switches the mode once getSession() confirms a session is
+  // really there, otherwise the page would offer a new-password form that
+  // could never submit.
   useEffect(() => {
+    // A link that failed says so FIRST, and nothing else on this effect can
+    // flip the page into update mode afterwards, because a failed link never
+    // produced a session.
+    const linkError = readLinkError(search)
+    if (linkError) {
+      setError(MESSAGES[linkError] ?? FALLBACK_MESSAGE)
+      // Strip the failure out of the address bar so a refresh (or a shared
+      // URL) does not keep re-announcing a link the user has already moved
+      // past. The message stays on screen; only the URL is tidied.
+      if (typeof window !== 'undefined') {
+        window.history.replaceState(null, '', window.location.pathname)
+      }
+      return
+    }
+
     const hash = typeof window !== 'undefined' ? window.location.hash : ''
     if (hash.includes('type=recovery') || hash.includes('access_token')) {
       setMode('update')
@@ -53,18 +124,28 @@ function ResetPasswordInner() {
     // exists, so attaching after the import cannot miss it.
     let cancelled = false
     let unsubscribe: (() => void) | undefined
-    void getBrowserClient().then((supabase) => {
+    void getBrowserClient().then(async (supabase) => {
       if (cancelled) return
       const { data: sub } = supabase.auth.onAuthStateChange((event) => {
         if (event === 'PASSWORD_RECOVERY') setMode('update')
       })
       unsubscribe = () => sub.subscription.unsubscribe()
+
+      // Signal (1): /auth/confirm says it verified a recovery token and set
+      // the cookie. Confirm the session is genuinely present before showing
+      // the form — the parameter alone proves nothing.
+      if (verified === 'recovery') {
+        const { data } = await supabase.auth.getSession()
+        if (cancelled) return
+        if (data.session) setMode('update')
+        else setError(MESSAGES.otp_expired)
+      }
     })
     return () => {
       cancelled = true
       unsubscribe?.()
     }
-  }, [])
+  }, [search, verified])
 
   const handleRequest = async (e: React.FormEvent) => {
     e.preventDefault()

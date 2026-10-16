@@ -58,7 +58,11 @@ function shell({ title, preheader, inner }) {
     <tr><td align="center" style="padding:32px 12px;">
       <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" class="e-card" style="width:600px;max-width:100%;background:${C.paper};border:1px solid ${C.hairline};border-radius:8px;">
         <tr><td class="e-pad" style="padding:28px 40px 0 40px;">
-          <a href="${APP}" style="text-decoration:none;display:inline-block;">
+          <!-- The colour is stated even though the only child is an image: an
+               anchor with no colour inherits the client's default link blue
+               (measured rgb(0,0,238)), and several clients paint that as a
+               border or focus ring around a linked image. -->
+          <a href="${APP}" style="text-decoration:none;display:inline-block;color:${C.text};">
             <img src="${LOGO}" width="36" height="36" alt="Elopis" style="display:block;width:36px;height:36px;border:0;outline:none;text-decoration:none;border-radius:8px;">
           </a>
         </td></tr>
@@ -97,19 +101,43 @@ const code = () => `        <tr><td class="e-pad" style="padding:0 40px 24px 40p
         </td></tr>
 `
 
-const cta = (label) => `        <tr><td class="e-pad" style="padding:0 40px 26px 40px;">
+/**
+ * EVERY EMAILED LINK POINTS AT ELOPIS.COM.
+ *
+ * Supabase's `{{ .ConfirmationURL }}` resolves to
+ * `https://<project-ref>.supabase.co/auth/v1/verify?token=…&redirect_to=…`.
+ * On a password-reset mail that is the exact shape of a phishing attempt — an
+ * unfamiliar third-party host asking you to re-set credentials — and the
+ * template prints it in full as copyable text, so the recipient reads the
+ * strange domain whether or not they click. It also publishes the project ref
+ * to every recipient, and a From/link domain mismatch is a signal spam filters
+ * weigh, which matters most while a domain is new and has no reputation.
+ *
+ * `{{ .TokenHash }}` carries the same one-time token to our own route
+ * (app/auth/confirm/route.ts), which verifies it server-side. Same security
+ * properties — single use, same 60-minute expiry, the token never leaves the
+ * link — and the recipient only ever sees elopis.com.
+ *
+ * `{{ .SiteURL }}` rather than a baked-in host, so a non-production project
+ * cannot email links that point at the live site.
+ */
+const confirmUrl = (type, next) =>
+  `{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&amp;type=${type}` +
+  (next ? `&amp;next=${encodeURIComponent(next)}` : '')
+
+const cta = (label, type, next) => `        <tr><td class="e-pad" style="padding:0 40px 26px 40px;">
           <table role="presentation" cellpadding="0" cellspacing="0" border="0">
             <tr><td align="center" bgcolor="${C.brand}" style="background:${C.brand};border-radius:6px;">
-              <a href="{{ .ConfirmationURL }}" style="display:inline-block;padding:12px 24px;font-family:${FONT};font-size:14px;font-weight:600;color:#FFFFFF;text-decoration:none;border-radius:6px;">${label}</a>
+              <a href="${confirmUrl(type, next)}" style="display:inline-block;padding:12px 24px;font-family:${FONT};font-size:14px;font-weight:600;color:#FFFFFF;text-decoration:none;border-radius:6px;">${label}</a>
             </td></tr>
           </table>
         </td></tr>
 `
 
 /** The link as text, for clients that strip the button. */
-const fallbackLink = () => `        <tr><td class="e-pad" style="padding:0 40px 22px 40px;">
+const fallbackLink = (type, next) => `        <tr><td class="e-pad" style="padding:0 40px 22px 40px;">
           <p class="e-text3" style="margin:0;font-family:${FONT};font-size:12px;line-height:1.6;color:${C.text3};word-break:break-all;">
-            Or paste this link into your browser:<br>{{ .ConfirmationURL }}
+            Or paste this link into your browser:<br>${confirmUrl(type, next)}
           </p>
         </td></tr>
 `
@@ -144,7 +172,7 @@ const TEMPLATES = {
     title: 'Confirm your email',
     preheader: 'One tap to confirm your Elopis email address.',
     sub: 'Confirm this address to finish setting up your Elopis account.',
-    inner: () => cta('Confirm email') + fallbackLink() + note(IGNORE),
+    inner: () => cta('Confirm email', 'signup') + fallbackLink('signup') + note(IGNORE),
   },
   recovery: {
     subject: 'Reset your Elopis password',
@@ -153,8 +181,8 @@ const TEMPLATES = {
     preheader: 'Set a new password for your Elopis account.',
     sub: 'Use the button below to set a new password. The link expires in 60 minutes.',
     inner: () =>
-      cta('Set a new password') +
-      fallbackLink() +
+      cta('Set a new password', 'recovery', '/auth/reset-password') +
+      fallbackLink('recovery', '/auth/reset-password') +
       note(`${IGNORE} Your password will not change until you set a new one.`),
   },
   email_change: {
@@ -164,8 +192,8 @@ const TEMPLATES = {
     preheader: 'Confirm the new address on your Elopis account.',
     sub: 'Confirm <strong>{{ .NewEmail }}</strong> as the new email address on your Elopis account.',
     inner: () =>
-      cta('Confirm new email') +
-      fallbackLink() +
+      cta('Confirm new email', 'email_change', '/account') +
+      fallbackLink('email_change', '/account') +
       note('If you did not ask to change your email, ignore this — your address stays as it is.'),
   },
   invite: {
@@ -174,7 +202,98 @@ const TEMPLATES = {
     title: 'You are invited to Elopis',
     preheader: 'Accept your invitation to Elopis.',
     sub: 'You have been invited to join Elopis — prediction markets for East Africa.',
-    inner: () => cta('Accept invitation') + fallbackLink() + note(IGNORE),
+    inner: () => cta('Accept invitation', 'invite') + fallbackLink('invite') + note(IGNORE),
+  },
+
+  // ---- SECURITY NOTICES (ruling: these are emails too) --------------------
+  //
+  // Supabase sends seven more templates that nothing here had ever touched.
+  // Measured on the live project 2026-10-16, every one of them was still the
+  // stock `<h2>…</h2><p>…</p>` — no logo, no card, no footer, no dark mode,
+  // no "we will never ask for your password" line.
+  //
+  // That matters most for exactly these: they are the mails that tell someone
+  // their password, email address or phone number just changed. If that was
+  // not them, this message is the only warning they get, and it arrived
+  // looking like a system error rather than something from their bank. They
+  // carry no link by design — a notice about a change you did not make must
+  // not hand you a button; it tells you to contact support.
+  password_changed_notification: {
+    subject: 'Your Elopis password was changed',
+    file: 'password_changed_notification.html',
+    title: 'Your password was changed',
+    preheader: 'The password on your Elopis account was just changed.',
+    sub: 'The password for your Elopis account was changed just now.',
+    inner: () =>
+      note(
+        'If this was you, nothing else is needed. <strong>If it was not</strong>, your account may be at risk — reset your password immediately and contact support.',
+      ),
+  },
+  email_changed_notification: {
+    subject: 'Your Elopis email address was changed',
+    file: 'email_changed_notification.html',
+    title: 'Your email address was changed',
+    preheader: 'The email address on your Elopis account was changed.',
+    sub: 'The email address on your Elopis account was changed to <strong>{{ .NewEmail }}</strong>.',
+    inner: () =>
+      note(
+        'If this was you, nothing else is needed. <strong>If it was not</strong>, contact support straight away — whoever made this change can now receive your account email.',
+      ),
+  },
+  phone_changed_notification: {
+    subject: 'Your Elopis phone number was changed',
+    file: 'phone_changed_notification.html',
+    title: 'Your phone number was changed',
+    preheader: 'The phone number on your Elopis account was changed.',
+    sub: 'The phone number on your Elopis account was changed.',
+    inner: () =>
+      note(
+        'If this was you, nothing else is needed. <strong>If it was not</strong>, contact support straight away — your withdrawals and M-Pesa alerts follow this number.',
+      ),
+  },
+  identity_linked_notification: {
+    subject: 'A new sign-in method was added',
+    file: 'identity_linked_notification.html',
+    title: 'A new sign-in method was added',
+    preheader: 'A new way to sign in was added to your Elopis account.',
+    sub: 'Your <strong>{{ .Provider }}</strong> account can now be used to sign in to Elopis.',
+    inner: () =>
+      note(
+        'If this was you, nothing else is needed. <strong>If it was not</strong>, remove it in your account settings and contact support.',
+      ),
+  },
+  identity_unlinked_notification: {
+    subject: 'A sign-in method was removed',
+    file: 'identity_unlinked_notification.html',
+    title: 'A sign-in method was removed',
+    preheader: 'A way to sign in was removed from your Elopis account.',
+    sub: 'Your <strong>{{ .Provider }}</strong> account can no longer be used to sign in to Elopis.',
+    inner: () =>
+      note(
+        'If this was you, nothing else is needed. <strong>If it was not</strong>, contact support straight away.',
+      ),
+  },
+  mfa_factor_enrolled_notification: {
+    subject: 'A new verification method was added',
+    file: 'mfa_factor_enrolled_notification.html',
+    title: 'A new verification method was added',
+    preheader: 'Two-factor verification was added to your Elopis account.',
+    sub: 'A <strong>{{ .FactorType }}</strong> verification method was added to your Elopis account.',
+    inner: () =>
+      note(
+        'If this was you, nothing else is needed. <strong>If it was not</strong>, contact support straight away — someone else may be able to approve sign-ins.',
+      ),
+  },
+  mfa_factor_unenrolled_notification: {
+    subject: 'A verification method was removed',
+    file: 'mfa_factor_unenrolled_notification.html',
+    title: 'A verification method was removed',
+    preheader: 'Two-factor verification was removed from your Elopis account.',
+    sub: 'A <strong>{{ .FactorType }}</strong> verification method was removed from your Elopis account.',
+    inner: () =>
+      note(
+        'If this was you, nothing else is needed. <strong>If it was not</strong>, add it back in your account settings and contact support.',
+      ),
   },
 }
 
