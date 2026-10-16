@@ -1,6 +1,6 @@
 version: "3.9"
 
-# Kichiko Docker Compose - for local development with external Supabase
+# Elopis Docker Compose - for local development with external Supabase
 services:
   web:
     build:

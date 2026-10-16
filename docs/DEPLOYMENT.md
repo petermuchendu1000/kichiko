@@ -1,4 +1,4 @@
-# Kichiko — Deployment & Environments
+# Elopis — Deployment & Environments
 
 > Companion to `docs/16-CICD-IAC.md` (design) and `docs/RUNBOOK.md` (operations).
 > This document is the authoritative reference for **how code becomes a running
@@ -36,8 +36,8 @@ npm run dev                                            # back to App Router @ ne
 ### Correct first-time setup
 
 ```bash
-git clone https://github.com/petermuchendu1000/kichiko
-cd kichiko
+git clone https://github.com/petermuchendu1000/elopis
+cd elopis
 cp apps/web/.env.local.template apps/web/.env.local    # then fill in values
 npm ci                                                 # NOT `npm install` for reproducibility
 npm run dev
@@ -52,9 +52,9 @@ setups so everyone builds the same dependency graph.
 
 | Environment | Trigger | App host (Fly) | Database (Supabase) | URL |
 |---|---|---|---|---|
-| **Preview** | per PR (optional) | ephemeral PR machine | staging branch (read-guarded) | `pr-<n>.preview.kichiko.…` |
-| **Staging** | merge to `main` (auto) | `kichiko-staging` | staging project | `staging.kichiko.…` |
-| **Production** | tag `v*` / manual dispatch (approval-gated) | `kichiko-prod` | prod project | `app.kichiko.…` |
+| **Preview** | per PR (optional) | ephemeral PR machine | staging branch (read-guarded) | `pr-<n>.preview.elopis.…` |
+| **Staging** | merge to `main` (auto) | `elopis-staging` | staging project | `staging.elopis.…` |
+| **Production** | tag `v*` / manual dispatch (approval-gated) | `elopis-prod` | prod project | `app.elopis.…` |
 
 **Image-based promotion.** The exact image validated on staging is the one
 promoted to production — **promote by digest, never rebuild**. This guarantees

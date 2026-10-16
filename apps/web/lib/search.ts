@@ -1,5 +1,5 @@
 // ============================================================
-// Kichiko - Module 10: Search (pure logic)
+// Elopis - Module 10: Search (pure logic)
 // Query sanitization, param parsing/validation, pagination math,
 // highlight segmentation, and a client-side relevance ranker that
 // mirrors the server's weighting (title > tags > description).

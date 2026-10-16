@@ -1,4 +1,4 @@
-# 11: Architecture, durability and correctness of matching engines and money ledgers, and a target design for Kichiko
+# 11: Architecture, durability and correctness of matching engines and money ledgers, and a target design for Elopis
 
 Research date: 2026-09-26. Track: architecture, durability and correctness at mechanism level. This report builds on and does not repeat `docs/research/brain-2026-09/03-ENGINE-ENGINEERING.md` (R03) and `docs/design/BRAIN-ARCHITECTURE-2026-09.md` (BRAIN). Where it relies on a fact that R03 fetched, it says "via R03".
 
@@ -11,7 +11,7 @@ Research date: 2026-09-26. Track: architecture, durability and correctness at me
 - **INFERENCE** marks my own reasoning or arithmetic.
 - **UNVERIFIED** marks something I could not confirm.
 
-**Kichiko facts used** (from BRAIN and R03, not re-measured here)
+**Elopis facts used** (from BRAIN and R03, not re-measured here)
 - The engine is PL/pgSQL `clob_place_order`: 046, with the ladder from 071.
 - Each order costs about 1.3 ms of database work, which caps one market at about 500 orders/s on local NVMe.
 - The database is Supabase Postgres 17 in eu-west-1, on gp3 by default ([G-SB-DISK]).
@@ -25,7 +25,7 @@ Research date: 2026-09-26. Track: architecture, durability and correctness at me
    - TigerBeetle: an fsynced WAL on a quorum of 3 of 6 replicas, hash-chained, using O_DIRECT and io_uring [G-TB-ARCH].
    - Aeron Cluster: the log is recorded by a majority, but the archive **defaults to no fsync** (`FILE_SYNC_LEVEL_DEFAULT = 0`) [G-AERON-SRC].
    - LMAX: journaled and replicated before the business logic runs [S-LMAX].
-   - For Kichiko, durability is **Postgres's WAL fsync**. That is the only durable log it has, and it should stay the only one.
+   - For Elopis, durability is **Postgres's WAL fsync**. That is the only durable log it has, and it should stay the only one.
 2. **Measured here: application-level group commit multiplies Postgres write throughput about 20×.** The test models the full write set of applying fills to Postgres (orders, fills, 4 ledger legs, wallets, positions, outbox, fenced sequence number):
    - **Batch = 1:** about 540 orders/s, commit p50 1.65 ms.
    - **Batch = 10:** 4,144/s.
@@ -38,7 +38,7 @@ Research date: 2026-09-26. Track: architecture, durability and correctness at me
    - pg_test_fsync on this disk: fdatasync 275 µs for an 8 kB write. One 16 kB O_SYNC write costs 279 µs, but sixteen 1 kB O_SYNC writes cost 25.4 ms [M-FSYNC].
    - Cloud disks make this worse: gp3 is "single-digit millisecond" and io2 Block Express averages under 500 µs for 16 KiB I/O [S-EBS]. Power-loss-protected NVMe is around 20–50 µs [S-PLP].
    - So on Supabase's default gp3 disk, the current per-order transaction is probably **flush-bound at a few hundred orders/s per market** (INFERENCE), and batching is the lever.
-4. **Postgres already does group commit, but only across concurrent sessions.** In `XLogFlush`, a leader holds `WALWriteLock` while followers wait on `LWLockAcquireOrWait` and find their record already flushed [G-PG-XLOG]. Measured: 16 concurrent single-order writers produced 32,000 commits with 9,593 WAL syncs, about 3.3 commits per flush [M-GC]. A per-market lock serialises commits, so this help is lost exactly where Kichiko needs it. That is why application-level batching per market shard is the right fix.
+4. **Postgres already does group commit, but only across concurrent sessions.** In `XLogFlush`, a leader holds `WALWriteLock` while followers wait on `LWLockAcquireOrWait` and find their record already flushed [G-PG-XLOG]. Measured: 16 concurrent single-order writers produced 32,000 commits with 9,593 WAL syncs, about 3.3 commits per flush [M-GC]. A per-market lock serialises commits, so this help is lost exactly where Elopis needs it. That is why application-level batching per market shard is the right fix.
 5. **Recommended target architecture: "B-lite", evolved from A with no new durable system.**
    - One lease-holding **matcher-sequencer per shard**. It keeps an in-memory book as a cache of Postgres and matches in memory.
    - It applies each **batch of commands and their results in one Postgres transaction**, fenced by `(epoch, last_seq)` compare-and-set.
@@ -48,8 +48,8 @@ Research date: 2026-09-26. Track: architecture, durability and correctness at me
 6. **Budget**
    - Nairobi end to end: ≈ 178 ms WAN plus 4–15 ms server time. That is **≈ 185–195 ms p50**, against about 1 s today.
    - Per-shard throughput: 2–10k orders/s at batch 10–100. This is scaled down from [M-GC] for gp3 (INFERENCE).
-   - That is 5–20× the current per-market ceiling, and far above any plausible Kichiko load.
-7. **Correctness strategy (§6).** It targets the classes of bug found in Kichiko's own audits:
+   - That is 5–20× the current per-market ceiling, and far above any plausible Elopis load.
+7. **Correctness strategy (§6).** It targets the classes of bug found in Elopis's own audits:
    - A deterministic pure matcher core.
    - A tiny reference model plus stateful property-based tests.
    - A **batch-partition invariance** property: the same command stream must give identical results for any batching.
@@ -95,8 +95,8 @@ TigerBeetle states the same thesis for ledgers [G-TB-ARCH]:
 - "Transfers between hot accounts inherently sequentialize the system. Trying to make transactions parallel doesn't make it faster."
 - "A single core can easily scale to 1mil TPS" if the core is kept busy with useful work.
 
-**What this means for Kichiko (INFERENCE):**
-- Kichiko's per-market lock in Postgres is already a single writer. It is just a very expensive one.
+**What this means for Elopis (INFERENCE):**
+- Elopis's per-market lock in Postgres is already a single writer. It is just a very expensive one.
 - Each order runs about 20 SQL statements. Each statement goes through executor startup, snapshot acquisition, the buffer-manager hash lookup plus pin plus content LWLock, heap tuple formation, WAL record assembly with CRC32C ([G-PG-XLOGREC]: `xl_crc` is a `pg_crc32c`), and B-tree descents that miss cache.
 - 1.1–1.3 ms is about 3–3.6 M cycles at 2.8 GHz. That is 10³–10⁴ times what an array-ladder match costs.
 - The measured marginal cost of a set-based batched write is **~64 µs per order**, or about 6 µs per row write [M-GC]. That confirms most of the per-order cost is per-row and per-statement database machinery, not matching logic.
@@ -150,7 +150,7 @@ Talk [S-CB-TALK]: Frank Yu, QCon SF 2025, "How to Build an Exchange". Determinis
 - The matching engine runs "as a Raft-based replicated cluster inside an AWS Cluster Placement Group". It **lost quorum when 3 of 5 nodes went offline**.
 - Trading and money movement were unavailable or degraded for about 8 h, and full recovery took another 12 h. Recovery was also slowed by a "silent failure in AWS's managed Kafka".
 
-**Lesson (INFERENCE).** Latency-driven co-location concentrates failure domains. A Raft cluster tolerates independent faults, not correlated ones. Kichiko already has one failure domain, a single Supabase primary. It should not add a second, differently-shaped one without a reason.
+**Lesson (INFERENCE).** Latency-driven co-location concentrates failure domains. A Raft cluster tolerates independent faults, not correlated ones. Elopis already has one failure domain, a single Supabase primary. It should not add a second, differently-shaped one without a reason.
 
 ### 1.5 Nasdaq INET, CME Globex, Eurex T7 (published latency figures)
 
@@ -162,7 +162,7 @@ All of these figures are search extracts. The vendor PDFs were blocked.
 | CME Globex | Median inbound 52 µs from router to match engine; "variability 39 µs" | First phase of a Globex performance release; date unclear | [S-CME]; weak, secondary press |
 | Eurex T7 | Fastest participant reaction ≈ 2.79 µs between market data and order measurement points; LF gateway about 12 µs slower than PS gateways | "Insights into Trading System Dynamics", March 2025 | [S-EUREX] |
 
-**Takeaway (INFERENCE).** These engines run at 10–100 µs because they avoid synchronous storage entirely on the order path. Durability comes from replicated in-memory sequencing and hardware fault tolerance, not per-order fsync to cloud block storage. Kichiko's users see 178 ms of WAN, so matching even at 1 ms is below 1% of what they experience.
+**Takeaway (INFERENCE).** These engines run at 10–100 µs because they avoid synchronous storage entirely on the order path. Durability comes from replicated in-memory sequencing and hardware fault tolerance, not per-order fsync to cloud block storage. Elopis's users see 178 ms of WAN, so matching even at 1 ms is below 1% of what they experience.
 
 ### 1.6 Hyperliquid (book as consensus state)
 
@@ -175,7 +175,7 @@ All of these figures are search extracts. The vendor PDFs were blocked.
 
 **Recovery.** Replay or state sync of blocks. The mechanism details are UNVERIFIED because the docs were blocked.
 
-**Lesson (INFERENCE).** Batching with a deterministic within-batch rule is legitimate. But reordering inside a batch (cancels first) changes outcomes compared with pure arrival order. Kichiko should choose arrival order and make batch boundaries invisible (§6.3).
+**Lesson (INFERENCE).** Batching with a deterministic within-batch rule is legitimate. But reordering inside a batch (cancels first) changes outcomes compared with pure arrival order. Elopis should choose arrival order and make batch boundaries invisible (§6.3).
 
 ### 1.7 Kalshi (engine sharding and per-shard collateral)
 
@@ -184,7 +184,7 @@ All of these figures are search extracts. The vendor PDFs were blocked.
 - "Programmatic traders must preallocate collateral on a given exchange shard."
 - With opt-in auto-rebalancing, "every 10 seconds" Kalshi computes each shard balance (account balance minus resting-order value) and makes an intra-exchange transfer to restore the target allocation.
 
-INFERENCE: this means each shard engine holds its own authoritative balance. Kalshi accepted a user-visible cost (fragmented collateral) to avoid cross-shard balance coordination. Kichiko can avoid that cost because Postgres row locks can serialise the rare cross-shard wallet touch (§5.4).
+INFERENCE: this means each shard engine holds its own authoritative balance. Kalshi accepted a user-visible cost (fragmented collateral) to avoid cross-shard balance coordination. Elopis can avoid that cost because Postgres row locks can serialise the rare cross-shard wallet touch (§5.4).
 
 ### 1.8 dYdX v4 (off-chain book in validator memory)
 
@@ -195,7 +195,7 @@ INFERENCE: this means each shard engine holds its own authoritative balance. Kal
 - INFERENCE from the code structure and [S-DYDX-DOCS]: short-term orders live only in memory and gossip, and are lost on a validator restart by design. They are bounded by the 40-block window.
 - Consistency of balances: subaccount balances are consensus state, and matches only take effect when included in a block and executed by every validator.
 
-**Lesson.** The book can be a *rebuildable cache* as long as the thing that moves money (the block, or for Kichiko the Postgres commit) is the single point of truth. That is the model proposed for Kichiko in §5.
+**Lesson.** The book can be a *rebuildable cache* as long as the thing that moves money (the block, or for Elopis the Postgres commit) is the single point of truth. That is the model proposed for Elopis in §5.
 
 ### 1.9 TigerBeetle (a ledger built like an exchange core)
 
@@ -257,8 +257,8 @@ Everything here comes from source and docs fetched from GitHub [G-TB-*].
 | dYdX v4 | Block proposer | Block commit (consensus) | Balances in state; book in memory | Stateful orders re-inserted from state; short-term orders dropped |
 | Hyperliquid | HyperBFT | Block commit | Both in consensus state | Replay / state sync (UNVERIFIED) |
 | Kalshi | Per-shard engine | UNVERIFIED | Per-shard collateral | UNVERIFIED |
-| **Kichiko today** | Per-market row lock in PL/pgSQL | Postgres WAL fsync per order | One ACID transaction | Postgres crash recovery |
-| **Kichiko target** | Per-shard matcher with a lease | Postgres WAL fsync per **batch** | One ACID transaction per batch | Reload book from SQL + resume from `last_seq` |
+| **Elopis today** | Per-market row lock in PL/pgSQL | Postgres WAL fsync per order | One ACID transaction | Postgres crash recovery |
+| **Elopis target** | Per-shard matcher with a lease | Postgres WAL fsync per **batch** | One ACID transaction per batch | Reload book from SQL + resume from `last_seq` |
 
 ---
 
@@ -289,7 +289,7 @@ Everything here comes from source and docs fetched from GitHub [G-TB-*].
 - A gp2 search extract reports fsync latency around 4 ms without a queue [S-GP2]. This is a weak source.
 - Supabase: "The default disk type is gp3… baseline… 3,000 IOPS"; io2 is optional [G-SB-DISK].
 
-INFERENCE: on Supabase gp3, each Kichiko commit probably pays 1–4 ms of flush. That is 2–8× the 275 µs measured here, which is why the per-market ceiling on production disks is likely below the 500/s measured on local NVMe.
+INFERENCE: on Supabase gp3, each Elopis commit probably pays 1–4 ms of flush. That is 2–8× the 275 µs measured here, which is why the per-market ceiling on production disks is likely below the 500/s measured on local NVMe.
 
 ### 2.2 Postgres group commit, mechanism and measured effect
 
@@ -300,7 +300,7 @@ INFERENCE: on Supabase gp3, each Kichiko commit probably pays 1–4 ms of flush.
 
 The docs recommend starting `commit_delay` at "half of the average time [pg_test_fsync] reports it takes to flush after a single 8kB write" [G-PG-WALDOC].
 
-**Why Kichiko cannot benefit from this today (INFERENCE).** Group commit needs *concurrent* committers. Kichiko serialises each market on one lock, so within a market there is never a second committer to share a flush. Across markets it helps, but only up to CPU.
+**Why Elopis cannot benefit from this today (INFERENCE).** Group commit needs *concurrent* committers. Elopis serialises each market on one lock, so within a market there is never a second committer to share a flush. Across markets it helps, but only up to CPU.
 
 **[M-GC] conditions**
 - A private throwaway container `supabase/postgres:17.6.1.011` (PostgreSQL 17.6), `--cpus=2`, with default config: `synchronous_commit=on`, `wal_sync_method=fdatasync`, `full_page_writes=on`, `shared_buffers=128MB`.
@@ -362,12 +362,12 @@ The batch-1000 rows come from the first run, which had no WAL accounting.
 - WAL records carry `xl_prev` (a back pointer) and a CRC32C (`xl_crc`) [G-PG-XLOGREC].
 - INFERENCE: that is a *pointer chain with per-record CRC*, not a cryptographic hash chain. It detects torn and corrupt records but not misdirected writes that carry a valid CRC. Torn data pages are covered by `full_page_writes` (the FPI cost measured above).
 
-**Kichiko cannot control this layer.** Supabase manages Postgres. What Kichiko *can* control:
+**Elopis cannot control this layer.** Supabase manages Postgres. What Elopis *can* control:
 - keep `synchronous_commit=on` for every money transaction;
 - acknowledge a fill to users only after COMMIT returns;
 - keep PITR on. Supabase archives WAL "at two-minute intervals… in the worst case scenario, PITR achieves a Recovery Point Objective (RPO) of two minutes" [G-SB-BACKUP]. Without PITR, daily backups mean up to about 24 h of loss.
 
-### 2.4 io_uring, O_DIRECT, SQPOLL, registered buffers (for completeness, if Kichiko ever builds C)
+### 2.4 io_uring, O_DIRECT, SQPOLL, registered buffers (for completeness, if Elopis ever builds C)
 
 - TigerBeetle: io_uring "combines batching and concurrency… the only reasonable way to have truly asynchronous disk io on Linux". Resumption contexts are statically allocated per component and threaded on an intrusive list, so there is no heap per I/O [G-TB-ARCH].
 - Reported numbers (secondary):
@@ -376,7 +376,7 @@ The batch-1000 rows come from the first run, which had no WAL accounting.
   - arXiv 2512.04859 (2025): single-thread gains of +21% with completion polling (IOPOLL, 376k tx/s), **+32% with SQPOLL** (≈546k tx/s, dedicating a core), +20% with NVMe passthrough, and about 11% from registered-buffer zero-copy [S-IOURING-DB].
 - SQPOLL mechanism: a kernel thread polls the submission ring, so the application submits without calling `io_uring_enter`. Registered files and buffers remove per-I/O `fget` and page-pinning cost.
 - Security: io_uring was disabled for untrusted workloads after exploits, per Google kCTF. TigerBeetle argues its trusted, fixed-size integer data makes this acceptable [G-TB-SAFETY].
-- Postgres 18 adds `io_method = worker | io_uring | sync` (default `worker`) [G-PG-CONFIG18]. The AIO README names WAL `fdatasync()`/O_DSYNC asynchrony as a motivation [G-PG-AIO]. Whether PG 18 already issues WAL writes asynchronously is UNVERIFIED. **None of this is available on Supabase PG 17.** INFERENCE: io_uring is irrelevant to Kichiko unless it builds architecture C.
+- Postgres 18 adds `io_method = worker | io_uring | sync` (default `worker`) [G-PG-CONFIG18]. The AIO README names WAL `fdatasync()`/O_DSYNC asynchrony as a motivation [G-PG-AIO]. Whether PG 18 already issues WAL writes asynchronously is UNVERIFIED. **None of this is available on Supabase PG 17.** INFERENCE: io_uring is irrelevant to Elopis unless it builds architecture C.
 - A contemporary open-source reference: Melin (Rust, io_uring, LMAX-style) [G-MELIN]. These are vendor-published and not independently verified.
   - Default ack policy: "one fsynced copy plus a second copy in another node's memory".
   - p99 245 µs at 1M events/s over kernel TCP, 40 µs with DPDK.
@@ -390,7 +390,7 @@ The batch-1000 rows come from the first run, which had no WAL accounting.
 - **Aeron:** the service and consensus module snapshot at a log position, and the Archive stores snapshots for local and remote replay [G-AERON-CL].
 - **TigerBeetle:** copy-on-write grid with a checkpoint every ~960 ops; WAL slots are only overwritten after checkpoint [G-TB-VSR], [G-TB-CONST].
 - **LMAX:** nightly (via R03).
-- **Kichiko target (INFERENCE):**
+- **Elopis target (INFERENCE):**
   - Postgres *is* the snapshot. The live book is `clob_orders WHERE status IN (open, partially_filled)`, which can be reloaded in about 0.4 s for 200k orders [M-REC].
   - The command/batch log is kept in the same database for audit and replay tests, partitioned by day, and detached or archived after reconciliation. That is log compaction without any snapshot file.
 
@@ -432,20 +432,20 @@ The batch-1000 rows come from the first run, which had no WAL accounting.
 
 - John Hughes, "Experiences with QuickCheck": translating 3,000+ pages of AUTOSAR specifications into models "resulted in over 200 issues raised" for Volvo, and race detection found the dets/Mnesia bug that affected Klarna [S-HUGHES].
 - Stateful PBT with shrinking reduces a failing 100-operation sequence to a minimal subsequence (via R03, Hypothesis).
-- An order-book QE project applying differential testing against a reference engine found that "partial fills could permanently strand trader funds due to escrow fee rounding" [S-OBQE]. That is the same class as Kichiko's R2 (rounding and clamps).
+- An order-book QE project applying differential testing against a reference engine found that "partial fills could permanently strand trader funds due to escrow fee rounding" [S-OBQE]. That is the same class as Elopis's R2 (rounding and clamps).
 
 ### 3.4 Jepsen findings relevant to money systems
 
-- **Bank workload.** Accounts with random transfers. The total must be conserved and no account may go negative. It detects read skew and lost updates [S-JEPSEN-BANK]. It is the right shape for Kichiko's invariant I2.
+- **Bank workload.** Accounts with random transfers. The total must be conserved and no account may go negative. It detects read skew and lost updates [S-JEPSEN-BANK]. It is the right shape for Elopis's invariant I2.
 - **PostgreSQL 12.3.** SERIALIZABLE allowed **G2-item**. "present since… 9.1", involving concurrent inserts and updates where the updater aborts. Fixed in 12.4 (Aug 2020) [S-JEPSEN-PG12].
-- **Amazon RDS for PostgreSQL 13.15–17.4 Multi-AZ clusters.** They exhibit **Long Fork** at Repeatable Read, which violates snapshot isolation. That behaviour is consistent with Parallel SI [S-JEPSEN-RDS]. INFERENCE for Kichiko: never make money decisions from reads on a replica or reader endpoint. Keep all money reads and writes on the primary inside the writing transaction.
+- **Amazon RDS for PostgreSQL 13.15–17.4 Multi-AZ clusters.** They exhibit **Long Fork** at Repeatable Read, which violates snapshot isolation. That behaviour is consistent with Parallel SI [S-JEPSEN-RDS]. INFERENCE for Elopis: never make money decisions from reads on a replica or reader endpoint. Keep all money reads and writes on the primary inside the writing transaction.
 - **TigerBeetle 0.16.x.** See §1.9 [S-JEPSEN-TB].
 
 ### 3.5 ACIDRain: the application-level failure class
 
 - 12 self-hosted e-commerce applications, deployed on over 2M sites, yielded **22 critical attacks**: over-spending gift cards, corrupting inventory, stealing goods. One such attack "bankrupted a popular Bitcoin exchange" [S-ACIDRAIN].
 - Cause: weak isolation plus check-then-act without locks.
-- INFERENCE: Kichiko's audits found the same shape. Examples:
+- INFERENCE: Elopis's audits found the same shape. Examples:
   - R1: `reconcile_wallet_reservations` "writes without locks".
   - A-W4: `admin_adjust_balance` bypass.
   - A-P3: an IPN that credits a different deposit.
@@ -458,7 +458,7 @@ The batch-1000 rows come from the first run, which had no WAL accounting.
 - Polymarket CTF Exchange [G-PM-CTFX]:
   - `_deriveMatchType`: BUY/BUY → **MINT**, SELL/SELL → **MERGE**, otherwise **COMPLEMENTARY**.
   - `_isCrossing`: bid/bid crosses iff `priceA + priceB >= ONE`; ask/ask crosses iff `priceA + priceB <= ONE`; bid/ask crosses iff `bid >= ask`.
-- Kichiko's 071 normalisation: `yes_px = price` for YES orders and `100 − price` for NO orders. `book_side = 'bid'` iff (buy AND yes) OR (sell AND no).
+- Elopis's 071 normalisation: `yes_px = price` for YES orders and `100 − price` for NO orders. `book_side = 'bid'` iff (buy AND yes) OR (sell AND no).
 
 **Integer domain.** Prices are integer ticks `t ∈ {1..999}` (tenths of a cent), and one complete pair = 1000 ticks of collateral. Quantities are integer shares. Cash is integer minor units scaled so that price × quantity is exact. INFERENCE: this removes R2-class rounding entirely.
 
@@ -490,7 +490,7 @@ For multi-outcome negRisk (INFERENCE, see BRAIN §5 row 3): NO on outcome i ≡ 
 
 - **Outbox:** write the event row in the same transaction as the state change. A relay publishes it. Delivery is at least once, so "consumers must be idempotent" (via R03, microservices.io).
 - **Debezium:** "An outbox pattern implementation avoids inconsistencies between a service's internal state… and state in events consumed by services". Its event router exposes an id "to remove duplicate messages" [G-DBZ-OUTBOX].
-- **For Kichiko:**
+- **For Elopis:**
   - Each batch transaction inserts one outbox row per affected book, with `(market, book_seq_from, book_seq_to, deltas)`.
   - A relay reads outbox rows in `id` order and calls Realtime Broadcast. That can be Supabase `realtime.send()`, which is itself WAL-delivered (via R03), or a tiny Node relay.
   - Clients apply deltas only if `seq = last + 1`; otherwise they re-snapshot. Duplicate deliveries are harmless.
@@ -545,11 +545,11 @@ Measured in §2.2. Other published figures:
 
 Commands that were in flight in an uncommitted batch are lost. Clients retry with the same `client_order_id`, and the command is either found (already committed: return the stored result) or applied now.
 
-Expected recovery time is 1–3 s for a Kichiko-sized shard (INFERENCE). Compare Aeron's 10 s default heartbeat timeout [G-AERON-SRC] and LMAX's under one minute (via R03).
+Expected recovery time is 1–3 s for a Elopis-sized shard (INFERENCE). Compare Aeron's 10 s default heartbeat timeout [G-AERON-SRC] and LMAX's under one minute (via R03).
 
 ---
 
-## 5. Target architecture for Kichiko
+## 5. Target architecture for Elopis
 
 ### 5.1 Principles
 
@@ -655,7 +655,7 @@ Nairobi user; API in eu-west-1 (or London +11 ms); p50 unless stated.
 
 **Matcher CPU** is negligible. R03 cites exchange-core at 5M ops/s, and an array ladder at 28M ops/s.
 
-**When to go further (architecture C).** Only if market makers need under 5 ms order-to-ack *at the venue* or sustained load above ~10k orders/s per shard. Kichiko's WAN floor of 178 ms makes the first unlikely to matter to retail.
+**When to go further (architecture C).** Only if market makers need under 5 ms order-to-ack *at the venue* or sustained load above ~10k orders/s per shard. Elopis's WAN floor of 178 ms makes the first unlikely to matter to retail.
 
 ### 5.6 Migration path (INFERENCE, extends BRAIN §8)
 
@@ -713,7 +713,7 @@ Nairobi user; API in eu-west-1 (or London +11 ms); p50 unless stated.
 
 ### 6.6 Concurrency attack suite against every money path (ACIDRain-style)
 
-- Jepsen "bank" checker over Kichiko's ledger [S-JEPSEN-BANK]. Run concurrently:
+- Jepsen "bank" checker over Elopis's ledger [S-JEPSEN-BANK]. Run concurrently:
   - trades through the matcher;
   - deposits, including callback retries and duplicate IPNs;
   - withdrawals and approvals;
@@ -722,7 +722,7 @@ Nairobi user; API in eu-west-1 (or London +11 ms); p50 unless stated.
   - the reconciliation job.
 - Check C11 at quiescent points and at every snapshot read. Check no negative balances.
 - Specifically target the audit findings: A-P3, A-W1, A-W4, R1 and D2.
-- Run at Read Committed, which is what Kichiko uses. Treat any reliance on SERIALIZABLE as suspect given [S-JEPSEN-PG12]. Never read money state from replicas [S-JEPSEN-RDS].
+- Run at Read Committed, which is what Elopis uses. Treat any reliance on SERIALIZABLE as suspect given [S-JEPSEN-PG12]. Never read money state from replicas [S-JEPSEN-RDS].
 
 ### 6.7 TLA+ (or Quint/PlusCal) for the protocol only
 
@@ -817,7 +817,7 @@ The state space is small (2 matchers, 3 commands, 2 crashes), so it can be check
 - **[S-KLEPPMANN]** M. Kleppmann, "How to do distributed locking", 2016. https://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html
 - **[S-DBOS]** DBOS, "Benchmarking How Workflow Execution Scales on Postgres". https://www.dbos.dev/blog/benchmarking-workflow-execution-scalability-on-postgres
 
-### Prior Kichiko documents (not repeated)
+### Prior Elopis documents (not repeated)
 - **R03:** `docs/research/brain-2026-09/03-ENGINE-ENGINEERING.md`. LMAX, exchange-core, Coinbase FSI309, Polymarket, Hyperliquid in-block order, RTT tables, Supabase limits, outbox, idempotency keys.
 - **BRAIN:** `docs/design/BRAIN-ARCHITECTURE-2026-09.md`. Measured engine numbers and bug register.
 - **Repo:** `supabase/migrations/071_clob_index_ordered_ladder.sql` (`yes_px` / `book_side` normalisation), and `scripts/ops/clob/{diff_engine,bench_engine,fuzz_invariants}.py`.

@@ -1,5 +1,5 @@
 -- scripts/ci/clob_bootstrap.sql
--- Supabase primitives an ephemeral vanilla Postgres needs so the Kichiko
+-- Supabase primitives an ephemeral vanilla Postgres needs so the Elopis
 -- migrations (001..NNN) apply. Stubs only what migrations reference at DDL time
 -- (cron/net/storage/realtime). The CLOB runtime path the
 -- invariant harnesses exercise needs only auth.uid()/roles/enums/tables/RPCs.

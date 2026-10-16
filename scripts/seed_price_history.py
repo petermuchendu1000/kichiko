@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-seed_price_history.py — quant-grade price-history simulator for Kichiko.
+seed_price_history.py — quant-grade price-history simulator for Elopis.
 
 Generates realistic implied-probability paths and inserts them into
 public.price_history so charts (hero, featured carousel, movers rail) show

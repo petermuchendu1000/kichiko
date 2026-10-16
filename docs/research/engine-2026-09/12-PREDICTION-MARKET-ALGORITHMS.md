@@ -1,6 +1,6 @@
 # 12 — Prediction-market matching and clearing algorithms, beyond a plain CLOB
 
-Research track: algorithms specific to prediction-market matching and clearing (complementary YES/NO books, multi-outcome events, batch auctions, AMM-in-book, exact integer money, Chinese exchange systems), ending in a concrete algorithm specification for Kichiko.
+Research track: algorithms specific to prediction-market matching and clearing (complementary YES/NO books, multi-outcome events, batch auctions, AMM-in-book, exact integer money, Chinese exchange systems), ending in a concrete algorithm specification for Elopis.
 
 Date: 2026-09-26. Scope builds on, and does not repeat, `docs/research/brain-2026-09/01..03` and `docs/design/BRAIN-ARCHITECTURE-2026-09.md` (cited below as R01, R02, R03, ARCH).
 
@@ -15,7 +15,7 @@ The network proxy blocked almost every publisher host in this session: arxiv.org
 | **[C]** | I read the source code or document myself, from a git clone at a named commit | Primary, verified |
 | **[E]** | I ran the experiment myself. Code and conditions are given in §9 | Measured, synthetic workload |
 | **[S]** | Text returned by the search engine for the named URL. I could not open the page itself because the host was blocked | Secondary; wording may be the search tool's paraphrase |
-| **[R01/R02/R03/ARCH]** | Established in an earlier Kichiko report; not re-fetched here | As in that report |
+| **[R01/R02/R03/ARCH]** | Established in an earlier Elopis report; not re-fetched here | As in that report |
 | **INFERENCE** | My own reasoning or derivation | Proof sketch given where possible |
 | **UNVERIFIED** | A claim I could not check | Do not rely on it |
 
@@ -30,7 +30,7 @@ Experiment hardware for every [E] result: a shared sandbox with 4 vCPU (Intel Xe
    - It checks crossing exactly by cross-multiplication: `Mt·Mm ≥ Tt·Tm` for a buy against a sell, `Tt·Mm + Tm·Mt ≥ Tt·Tm` for MINT, and `≤ Mt·Mm` for MERGE. [C]
    - It then floors in `taking = making·takerAmount/makerAmount`, so dust arises because orders are expressed as amount ratios. [C]
    - V1 computed 1e18-scaled floor prices, then compared them. [C]
-   - **Kichiko recommendation:** orders carry `(price_ticks, lots)`. Every fill moves exactly `price_ticks × lots` integer cash units. The only divisions left in the system are fees, pro-rata splits and FX, and each has a fixed rounding direction (§5).
+   - **Elopis recommendation:** orders carry `(price_ticks, lots)`. Every fill moves exactly `price_ticks × lots` integer cash units. The only divisions left in the system are fees, pro-rata splits and FX, and each has a fixed rounding direction (§5).
 2. **Mutually exclusive events have a clean, complete matching rule.** INFERENCE, with proof sketch and fuzz evidence [E]. With single-outcome YES/NO orders, every riskless match decomposes into three patterns:
    - **P1:** bid vs ask on one outcome's unified ladder (direct, binary mint or binary merge);
    - **P2:** YES-perspective bids on all n outcomes with Σ prices ≥ T, which mints a complete set;
@@ -52,7 +52,7 @@ Experiment hardware for every [E] result: a shared sandbox with 4 vCPU (Intel Xe
    - SZSE: maximum volume, then minimum imbalance, then closest to previous close / last trade. [S]
    - Euronext and LSE Millennium: maximum volume, then minimum surplus/imbalance, then market pressure, then reference price. [S]
    - The algorithm is O(K + L), with L ≤ 1000 levels. CPython: 0.7 ms at K = 1 k, 5.3 ms at 10 k, 90 ms at 100 k orders; always equal to brute force; cash conservation exact. [E]
-   - In thin books the three rule chains picked **different prices in 92% of cases** (1622 of 1770), so the tie-break is effectively the price rule for Kichiko's long tail. [E]
+   - In thin books the three rule chains picked **different prices in 92% of cases** (1622 of 1770), so the tie-break is effectively the price rule for Elopis's long tail. [E]
    - Median distance from the reference price: 18 ticks under the SZSE rule, 23 under SSE, 24 under Euronext (p90: 52, 60, 67). [E]
    - **Recommendation:** use the Euronext/LSE chain with the last trade as reference.
 6. **LMSR can sit inside the book as integer synthetic orders on the tick grid** (Hanson's book orders; Heidari et al.'s ε-fair paths [S]).
@@ -60,7 +60,7 @@ Experiment hardware for every [E] result: a shared sandbox with 4 vCPU (Intel Xe
    - Measured: adversarial worst-case loss 68.87 vs bound 69.31 (n = 2, b = 100); 160.43 vs 160.94 (n = 5); 114.85 vs 115.13 (n = 10, b = 50). Maximum extra charge 0.52 tick per lot, so ε ≤ 1 tick. [E]
    - One subtlety, INFERENCE: in a batch where the AMM trades several outcomes in opposite directions, LMSR's negative cross-partials (∂²C/∂q_i∂q_k = −p_i p_k / b) can push the true cost above what the per-outcome steps charged. Re-verify after clearing and trim the AMM if needed (§4.6).
 7. **Integer money design.** Proposal: T = 10,000 ticks per unit of face value, LOTS = 100 per share, and cash unit = 1/(T·LOTS) = 10⁻⁶ of the face currency.
-   - That unit matches the 6-dp wallet columns Kichiko already has.
+   - That unit matches the 6-dp wallet columns Elopis already has.
    - PostgreSQL's own docs say `numeric` is "very slow compared to the integer types". [C, PG17 docs]
    - Locally on PG 17.6, a PL/pgSQL fill-arithmetic loop cost 0.98 µs per iteration in `numeric` vs 0.30 µs in `bigint`; `SUM(p*q)` over 5 M rows took 1.50–1.67 s vs 0.28–0.29 s. [E]
    - At about 1.3 ms per order and a few fills, the speed-up is under 1% of order latency. **The reason to switch is exact conservation, not speed.**
@@ -73,7 +73,7 @@ Experiment hardware for every [E] result: a shared sandbox with 4 vCPU (Intel Xe
    | SZSE system brief | ≥ 200,000 orders/s (cash auction) | order-confirm loop 1,818–1,932 µs at 3 k orders/s; fill loop 1,945–2,070 µs; confirm 2,744–3,522 µs at 50 k/s; < 10 ms CoLo end to end | |
    | CFFEX 新一代 (new generation, launched 2019-03) | 70,000 orders/s on one matching core; 200,000 on three parallel cores | < 100 µs average | the CFFEX figures could not be tied to a specific page (UNVERIFIED attribution) |
 
-   - The design lesson for Kichiko: every one of these systems partitions by instrument, with one sequencer per partition.
+   - The design lesson for Elopis: every one of these systems partitions by instrument, with one sequencer per partition.
    - For mutually exclusive events, **the partition key must be the event, not the option**, because P2/P3 touch every option's book.
 
 ---
@@ -148,9 +148,9 @@ Repo `gnosis/conditional-tokens-contracts`, commit `eeefca66…` (2020-09-17), `
 
 - The order book API returns **only bids**, `yes_dollars` and `no_dollars`: "a yes bid at price X is equivalent to a no ask at (100−X)". [S: docs.kalshi.com/api-reference/market/get-market-orderbook; R01 K2]
 - Prices are fixed-point dollar strings on a per-market grid of `price_ranges: [{start,end,step}]`, and contract counts are fixed-point with fractional sizes. [S: docs.kalshi.com/getting_started/fixed_point_migration; R01 K4]
-- Mechanically this is Kichiko 071's `yes_px` / `book_side` normalisation. One ladder per market, keyed by YES price; NO orders are mirrored at T − p.
+- Mechanically this is Elopis 071's `yes_px` / `book_side` normalisation. One ladder per market, keyed by YES price; NO orders are mirrored at T − p.
 
-### 1.4 Integer crossing arithmetic Kichiko should use (INFERENCE)
+### 1.4 Integer crossing arithmetic Elopis should use (INFERENCE)
 
 Every order carries the **own-token price** `p ∈ grid ⊂ {1..T−1}` and `lots`. Normalise it into YES-perspective terms:
 
@@ -172,9 +172,9 @@ Execution is at the maker's YES price e. Each leg's own-token execution price is
 
 So `collateral = T × S` holds **identically, in integers**. [E: asserted on every fill, §9.1]
 
-If Kichiko ever accepts Polymarket-style amount orders (maker/taker amounts), use V2's cross-multiplications verbatim. Compute fills as `floor(making·T/M)` and send the remainder to the taker, as V2 does. Better still, reject amount orders whose implied price is not exactly on the tick grid.
+If Elopis ever accepts Polymarket-style amount orders (maker/taker amounts), use V2's cross-multiplications verbatim. Compute fills as `floor(making·T/M)` and send the remainder to the taker, as V2 does. Better still, reject amount orders whose implied price is not exactly on the tick grid.
 
-### 1.5 Where Kichiko's current engine stands (from the repo, read-only)
+### 1.5 Where Elopis's current engine stands (from the repo, read-only)
 
 `supabase/migrations/071_clob_index_ordered_ladder.sql`:
 - Prices are `numeric(4,1)` cents; shares and cash are `numeric(20,6)`.
@@ -204,7 +204,7 @@ Repo `Polymarket/neg-risk-ctf-adapter`, commit `f78b35b0…` (2026-01-08). `conv
 
 The payoffs are identical in every state, so conversion is value-neutral.
 - The repo's own doc warns that if **all** questions resolve false, the converted position is worth less (`docs/NegRiskAdapter.md`, `convertPositions` section) [C].
-- Consequence for Kichiko: an exclusive event must guarantee exactly one winner, for example with an explicit "Other" outcome, or the equivalences in this section break.
+- Consequence for Elopis: an exclusive event must guarantee exactly one winner, for example with an explicit "Other" outcome, or the equivalences in this section break.
 - The adapter only goes NO → YES. The reverse (YES on all j ∉ S → NO on S plus cash) is the direction Gebele et al. show is missing and exploitable [S, arXiv:2608.00666; R02].
 
 ### 2.2 Kalshi collateral return [S]
@@ -272,11 +272,11 @@ Results:
 
 **Production precedent.** Betfair's "cross matching" matches a back bet against lays on the same runner **and** against bets on other runners once the book reaches 100%. It was introduced on most sports in 2008 and uses best execution. [S: betfair.com.au/hub/help/cross-matching-on-exchange-markets; Betfair developer forum "Virtual Bets (Cross Matching) Algorithm"]
 
-**Cost in Kichiko's Postgres engine (INFERENCE).**
+**Cost in Elopis's Postgres engine (INFERENCE).**
 - A P2/P3 fill writes n order rows and n+1 position rows, instead of 2 and 2.
 - It needs **every** option book of the event under one serialisation point.
 - One event-level advisory lock, taken first, then wallet/position rows in id order (ARCH's deadlock fix), keeps it deadlock-free. It removes the per-option parallelism ARCH hoped for in exclusive events.
-- The measured serial ceiling of about 500 orders/s (ARCH §3) then applies per **event**. That is still orders of magnitude above Kichiko's volumes.
+- The measured serial ceiling of about 500 orders/s (ARCH §3) then applies per **event**. That is still orders of magnitude above Elopis's volumes.
 - Alternative: keep per-option locks and run a P2/P3 "sweep" under the event lock every 100 ms – 1 s. The cost is transient I6 violations, where takers can briefly get worse prices than a synthetic cross would give.
 
 ### 2.4 Optimal clearing literature: complexity and practicality
@@ -292,11 +292,11 @@ Results:
 | SPEEDEX Arrow-Debreu batch exchange | Tâtonnement approximates prices, then an LP whose size is linear in asset pairs and independent of the number of offers corrects them; guarantees asset conservation and no internal arbitrage | Yes: >100 k tx/s on 32 cores with 70 M open offers (arXiv v3); >200 k tx/s on 48 cores (NSDI'23 final) | Ramseyer, Goel, Mazières [S]; code scslab/speedex @ `e4ca7c5c` [C] |
 | Batch exchange + CFMM | axioms (asset conservation, uniform valuations, limit-order best response, non-decreasing CFMM trading function) and equilibrium computation | Yes | Ramseyer, Goyal, Goel, Mazières, EC'24, arXiv:2210.04929 [S] |
 | Flow trading (portfolio orders as piecewise-linear flow demand) | market-clearing prices exist; a quadratic program solved by interior point; design goal "less than one second" | Seconds-scale batches | Budish, Cramton, Kyle, Lee, Malec, NBER w31098 [S]. A figure of "2000 assets, 100,000 orders ≈ 1.1 s" appeared in one search summary; **UNVERIFIED** |
-| **Kichiko special case:** exclusive event, single-outcome YES/NO orders | LP with n equality rows, K+1 columns; totally unimodular after the YES-perspective change of variables, so integral fills and integral tick prices summing to T; combinatorial O(n·L·log Q) algorithm | Yes: ≤ 37 ms (Python) / ≤ 114 ms (HiGHS) at n = 20, K = 10 k | this report, §2.5 [E] |
+| **Elopis special case:** exclusive event, single-outcome YES/NO orders | LP with n equality rows, K+1 columns; totally unimodular after the YES-perspective change of variables, so integral fills and integral tick prices summing to T; combinatorial O(n·L·log Q) algorithm | Yes: ≤ 37 ms (Python) / ≤ 114 ms (HiGHS) at n = 20, K = 10 k | this report, §2.5 [E] |
 
 Recent empirical work (2025–26) is in R02 and not repeated: Saguillo et al. (AFT'25), Cheng–Yang–Zou, Gebele et al. The operationally relevant lesson is that arbitrage persists exactly where the protocol does **not** expose the equivalence as an executable primitive. P2/P3 in the matcher, plus a two-way convert, close that gap by construction.
 
-### 2.5 The Kichiko batch LP, its total unimodularity, and a combinatorial solver
+### 2.5 The Elopis batch LP, its total unimodularity, and a combinatorial solver
 
 **Formulation.**
 - Variables: x_k ∈ [0, Q_k] lots per order, and m ∈ ℤ, the net complete sets minted.
@@ -359,10 +359,10 @@ All figures are [S]. The official hosts sse.com.cn, szse.cn and cffex.com.cn wer
 
 Earlier Chinese-scholarship material (UESTC and SSE research on call auctions, the 2018 SSE closing-auction reform) is in R02 §D.
 
-**Lessons for Kichiko (INFERENCE):**
-1. Every system scales by **partitioning the instrument space with one sequencer per partition**. SZSE: partitioned bus; CFFEX: three parallel matching cores. The per-core number (70 k/s at CFFEX) is the relevant comparison for Kichiko's per-event serial ceiling of about 500/s in Postgres, a ratio of about 140×. That ratio is irrelevant while Nairobi round trips are 130–180 ms (R03).
+**Lessons for Elopis (INFERENCE):**
+1. Every system scales by **partitioning the instrument space with one sequencer per partition**. SZSE: partitioned bus; CFFEX: three parallel matching cores. The per-core number (70 k/s at CFFEX) is the relevant comparison for Elopis's per-event serial ceiling of about 500/s in Postgres, a ratio of about 140×. That ratio is irrelevant while Nairobi round trips are 130–180 ms (R03).
 2. For exclusive events, the partition must be the **event**, because P2/P3 touch every option.
-3. The latencies exchanges publish are **gateway-to-gateway loops** (1.8–3.5 ms at SZSE), not matching time alone. When Kichiko publishes numbers, it should use the same loop definition and a JR/T 0145-style replay test.
+3. The latencies exchanges publish are **gateway-to-gateway loops** (1.8–3.5 ms at SZSE), not matching time alone. When Elopis publishes numbers, it should use the same loop definition and a JR/T 0145-style replay test.
 
 ---
 
@@ -378,7 +378,7 @@ Earlier Chinese-scholarship material (UESTC and SSE research on call auctions, t
 | LSE Millennium (MIT201) | volume maximising | minimum order imbalance | market pressure | dynamic reference price | – | MIT201 Guide to the Trading System 15.6 [S] |
 | Budish–Cramton–Shim frequent batch auctions | supply meets demand at a uniform price | if a range of clearing prices, **midpoint** | – | – | **pro-rata** at the clearing price | AER P&P 104(5), 2014 [S] |
 
-### 4.2 Algorithm for Kichiko's unified binary ladder (exact integers)
+### 4.2 Algorithm for Elopis's unified binary ladder (exact integers)
 
 Inputs: orders normalised to (ypx, BID/ASK, lots, seq); the tick grid 1..T−1 with L live levels (≤ 1000); a reference price `ref` (last trade, previous uncross, or the AMM price).
 
@@ -411,7 +411,7 @@ allocate: bids with ypx > p*, asks with ypx < p* fill fully;
 
 R02 already covers the open (indicative) call, the no-cancel window and random end times (Chinese evidence). In addition:
 - Mastrolia & Xu (arXiv:2405.09764, 2024) model a strategic trader who arrives at the last moment before a periodic auction closes, and quantify two remedies: a **randomised closing time** and an optimised fee policy. [S]
-- Kichiko: end each call uniformly at random in the last r seconds, and publish the indicative price and volume continuously.
+- Elopis: end each call uniformly at random in the last r seconds, and publish the indicative price and volume continuously.
 
 ### 4.4 Multi-outcome batch
 
@@ -521,7 +521,7 @@ The cumulative-ceil form above is my integer restatement (INFERENCE).
 
 ---
 
-## 6. Specification: what Kichiko should implement
+## 6. Specification: what Elopis should implement
 
 ### 6.1 Data model (Postgres, integers throughout)
 
@@ -672,7 +672,7 @@ Run on a throwaway local `supabase/postgres:17.6.1.011` container. No remote dat
 - CoW Protocol docs @ `068fe8c409644ba7b493bd88b04d3ee55772e879`: https://github.com/cowprotocol/docs, `docs/cow-protocol/concepts/introduction/fair-combinatorial-auction.md`, `reference/core/auctions/competition_rules.md`, `reference/core/auctions/the_problem.md`.
 - SPEEDEX implementation @ `e4ca7c5c9a9c1885b0941850387899026d06721f`: https://github.com/scslab/speedex (`README.md`, `utils/price.h` PRICE_RADIX = 24, `orderbook/orderbook.cc` L519-552 rounding direction).
 - PostgreSQL 17 docs, `doc/src/sgml/datatype.sgml` (REL_17_STABLE) L518-527, 627-634: https://raw.githubusercontent.com/postgres/postgres/REL_17_STABLE/doc/src/sgml/datatype.sgml
-- Kichiko repo (read-only): `supabase/migrations/045_clob_rounding_conservation.sql`, `071_clob_index_ordered_ladder.sql`; `docs/design/BRAIN-ARCHITECTURE-2026-09.md`; `docs/research/brain-2026-09/01..03`.
+- Elopis repo (read-only): `supabase/migrations/045_clob_rounding_conservation.sql`, `071_clob_index_ordered_ladder.sql`; `docs/design/BRAIN-ARCHITECTURE-2026-09.md`; `docs/research/brain-2026-09/01..03`.
 
 **Search-engine level [S]** (hosts blocked; see the tag note)
 - Fortnow, Kilian, Pennock, Wellman. Betting Boolean-style. EC'03, DOI 10.1145/779928.779946; DSS 39(1):87-104 (2005). https://courses.cs.duke.edu/spring07/cps296.3/fortnow-dss-2004-compound-markets.pdf

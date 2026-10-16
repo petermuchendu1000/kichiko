@@ -227,7 +227,7 @@ export function OutcomesChart({ options, data, volumeUsd, closesAt, colorMap, sh
         height={192}
         yMax={yMax}
         yTicks={yTicks}
-        watermark="Kichiko"
+        watermark="Elopis"
         ariaLabel={summary}
         xTickFormat={(t) => xTickFormatter(new Date(t).toISOString())}
       />

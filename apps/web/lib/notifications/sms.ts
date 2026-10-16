@@ -21,7 +21,7 @@ interface ATResponse {
 export async function sendSMS(to: string, message: string): Promise<boolean> {
   const apiKey = process.env.AFRICASTALKING_API_KEY
   const username = process.env.AFRICASTALKING_USERNAME || 'sandbox'
-  const from = process.env.AFRICASTALKING_SENDER_ID || 'Kichiko'
+  const from = process.env.AFRICASTALKING_SENDER_ID || 'Elopis'
 
   if (!apiKey) {
     console.warn('[SMS] AFRICASTALKING_API_KEY not set — skipping SMS')
@@ -80,23 +80,23 @@ export async function sendBulkSMS(messages: SMSMessage[]): Promise<number> {
 // Templated notification helpers
 export const SMS_TEMPLATES = {
   deposit_success: (amount: string, currency: string, balance: string) =>
-    `Kichiko: Deposit of ${amount} ${currency} confirmed. New balance: ${balance} ${currency}. Trade at kichiko.co.ke`,
+    `Elopis: Deposit of ${amount} ${currency} confirmed. New balance: ${balance} ${currency}. Trade at elopis.com`,
 
   withdrawal_success: (amount: string, currency: string, phone: string) =>
-    `Kichiko: ${amount} ${currency} sent to ${phone}. You should receive it shortly.`,
+    `Elopis: ${amount} ${currency} sent to ${phone}. You should receive it shortly.`,
 
   bet_won: (amount: string, market: string) =>
-    `🎉 Kichiko: You won! Your prediction on "${market}" was correct. +${amount} credited.`,
+    `🎉 Elopis: You won! Your prediction on "${market}" was correct. +${amount} credited.`,
 
   market_closing: (market: string, closes: string) =>
-    `Kichiko: Market "${market}" closes ${closes}. Place your prediction now at kichiko.co.ke`,
+    `Elopis: Market "${market}" closes ${closes}. Place your prediction now at elopis.com`,
 
   kyc_approved: () =>
-    `Kichiko: Your identity has been verified. You now have full access. Happy predicting!`,
+    `Elopis: Your identity has been verified. You now have full access. Happy predicting!`,
 
   kyc_rejected: (reason: string) =>
-    `Kichiko: KYC rejected: ${reason}. Please resubmit at kichiko.co.ke/kyc`,
+    `Elopis: KYC rejected: ${reason}. Please resubmit at elopis.com/kyc`,
 
   otp: (code: string) =>
-    `Kichiko OTP: ${code}. Valid for 10 minutes. Do not share this code.`,
+    `Elopis OTP: ${code}. Valid for 10 minutes. Do not share this code.`,
 }

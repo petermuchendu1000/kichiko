@@ -3,7 +3,7 @@
 # block staging->prod and abort a production cutover. Read-only + auth-negative
 # probes only (never mutates data, never sends a valid CRON_SECRET).
 #
-# Usage: scripts/smoke.sh https://staging.kichiko.example
+# Usage: scripts/smoke.sh https://staging.elopis.example
 set -euo pipefail
 
 BASE_URL="${1:-${SMOKE_BASE_URL:-}}"

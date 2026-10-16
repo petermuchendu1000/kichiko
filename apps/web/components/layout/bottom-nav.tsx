@@ -201,7 +201,7 @@ function MoreSheet({
           {user && (
             <button
               type="button"
-              onClick={() => { onClose(); window.dispatchEvent(new CustomEvent('kichiko:open-deposit')) }}
+              onClick={() => { onClose(); window.dispatchEvent(new CustomEvent('elopis:open-deposit')) }}
               className="flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)]"
             >
               <IconWallet size={18} />

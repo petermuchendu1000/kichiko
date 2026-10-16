@@ -123,9 +123,9 @@ source down found Safaricom's real vector wordmark.
 
 **The User-Agent shape is load-bearing.** `safaricom.co.ke` sits behind
 CloudFront, which 403s any User-Agent that does not begin `Mozilla/` *and* any
-containing the substring `Bot`. `KichikoBot/1.0 (…)` was refused, which is why
+containing the substring `Bot`. `ElopisBot/1.0 (…)` was refused, which is why
 the masthead was unreachable and the market fell back to a 48×34 favicon. The
-header is now `Mozilla/5.0 (compatible; Kichiko/1.0; +https://kichiko.app; …)`
+header is now `Mozilla/5.0 (compatible; Elopis/1.0; +https://elopis.com; …)`
 — the conventional compatible form, still naming the caller and a contact
 address, impersonating neither a browser vendor nor another crawler.
 

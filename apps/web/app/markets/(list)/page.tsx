@@ -73,7 +73,7 @@ export async function generateMetadata(
       ? `${label} markets`
       : 'Markets'
   const description = label
-    ? `Live ${label.toLowerCase()} prediction markets on Kichiko — read the crowd’s probability and take a position.`
+    ? `Live ${label.toLowerCase()} prediction markets on Elopis — read the crowd’s probability and take a position.`
     : 'Browse live prediction markets across politics, the economy, sports, crypto and more. Read live probabilities and trade on real-world outcomes.'
 
   // A category is its own indexable page; every other filter is not.

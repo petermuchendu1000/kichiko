@@ -1,12 +1,12 @@
-# 05 — Kichiko Trading Engine: Engineering Architecture Research
+# 05 — Elopis Trading Engine: Engineering Architecture Research
 
-Research date: 2026-09-26. Scope: fastest, most correct, most scalable matching/ledger architecture for Kichiko (Supabase Postgres in eu-west-1, PostgREST RPC + Supavisor, Next.js 15 on Vercel / Fly `jnb`).
+Research date: 2026-09-26. Scope: fastest, most correct, most scalable matching/ledger architecture for Elopis (Supabase Postgres in eu-west-1, PostgREST RPC + Supavisor, Next.js 15 on Vercel / Fly `jnb`).
 
 **How to read this report**
 - Every factual claim or number carries a source URL that was fetched during this research, with its context (hardware, workload).
 - **INFERENCE** marks my own reasoning or calculations.
 - **UNVERIFIED** marks things I could not confirm from a primary source.
-- **REPO** marks observations from reading the local codebase at `/home/claude/work/kichiko` (migrations and API routes). These are not web facts.
+- **REPO** marks observations from reading the local codebase at `/home/claude/work/elopis` (migrations and API routes). These are not web facts.
 
 ---
 
@@ -147,7 +147,7 @@ Baseline IOPS rise from 500 (Micro) to 3,600 (Large) and 6,000 (XL).
 | i25959341/orderbook (Go) [GO-OB] | "above 300k trades per second" | No hardware or method stated → treat as UNVERIFIED |
 | Hobby C++ LOB, array vs `std::map` [ARR-BENCH] | Array levels: 28.4M ops/s, p50 40.6 ns; `std::map`: 15.7M ops/s, p50 71.6 ns | 1,000 price levels, 2M non-crossing insert/cancel actions, GCC -O3; hobby project, not production |
 
-INFERENCE: any competent single-threaded in-memory book in Rust, Go, Java or even Node handles far more than Kichiko's plausible order rate. Engine speed is not the bottleneck; persistence and ledger application are.
+INFERENCE: any competent single-threaded in-memory book in Rust, Go, Java or even Node handles far more than Elopis's plausible order rate. Engine speed is not the bottleneck; persistence and ledger application are.
 
 ### 2.3 How real venues structure the pipeline
 
@@ -220,7 +220,7 @@ Throughput: INFERENCE. With batches of 100–1000 orders per commit, per-shard t
 ### 3.3 Option H3: Redis Streams or NATS JetStream as the order log
 - Redis Streams consumer groups give at-least-once delivery through the pending entries list, `XACK` and `XAUTOCLAIM` [REDIS].
 - NATS JetStream gives "at-least-once delivery — messages survive restarts and can be replayed" [NATS].
-- INFERENCE: either adds a second durable system whose ordering must be reconciled with Postgres. For Kichiko, a Postgres-native queue (H2) keeps one source of truth and one backup/restore story. REPO: Upstash Redis is already used for rate limiting per the `fly.toml` comment, but not as a log.
+- INFERENCE: either adds a second durable system whose ordering must be reconciled with Postgres. For Elopis, a Postgres-native queue (H2) keeps one source of truth and one backup/restore story. REPO: Upstash Redis is already used for rate limiting per the `fly.toml` comment, but not as a log.
 
 ### 3.4 Latency budget: Nairobi user, eu-west-1 database
 

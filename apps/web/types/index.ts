@@ -1,5 +1,5 @@
 // ============================================================
-// Kichiko - Complete TypeScript Types
+// Elopis - Complete TypeScript Types
 // ============================================================
 
 import type { Enums } from './supabase'

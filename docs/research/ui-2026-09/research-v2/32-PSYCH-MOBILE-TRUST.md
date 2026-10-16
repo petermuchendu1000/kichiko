@@ -1,6 +1,6 @@
 # 32 — Interaction, perception and trust on the phones our users actually hold
 
-**Scope.** Binding interaction rules for Kichiko (layout, touch, type, colour, motion, performance,
+**Scope.** Binding interaction rules for Elopis (layout, touch, type, colour, motion, performance,
 onboarding, trust) derived from primary sources, for a mostly-Android, mobile-money, bilingual
 audience in Kenya, Uganda, Tanzania and Rwanda. Money in KES, probability in %.
 
@@ -15,7 +15,7 @@ marked **UNVERIFIED** and nothing rests on it.
   (Apple HIG, Material 3). Platform guidance is convention, not experiment.
 - **WEAK**: small n, observational, grey literature, or old device classes.
 - **CONTESTED**: the literature disagrees.
-- **INFERENCE**: my arithmetic or my transfer of a finding to Kichiko. The source does not make
+- **INFERENCE**: my arithmetic or my transfer of a finding to Elopis. The source does not make
   the claim.
 - **M1**: I measured it myself this session with an instrument. The raw data is in
   [`data-32/`](data-32/).
@@ -635,7 +635,7 @@ Apple's 44 pt is therefore more generous on our users' phones than on Apple's ow
   Where they conflict, the stricter number wins: target 48 (M3) over 44 (HIG); body 16 (M3) is kept,
   since iOS 17 pt ≈ 16 CSS px on our DPR-2 Androids once physical px size is accounted for.
 
-| Concern | Apple HIG (verified) | Material 3 (verified) | Kichiko rule |
+| Concern | Apple HIG (verified) | Material 3 (verified) | Elopis rule |
 |---|---|---|---|
 | Target | 44×44 pt default, 28 pt minimum; 12–24 pt padding | ≥ 48×48 dp; 8 dp spacing | 44 minimum, 48 for commit, 8 px gaps (K32-04) |
 | Body type | 17 pt default, 11 pt minimum | Body L 16 / 24 | 16 px minimum, 20 px money (K32-07) |
@@ -796,7 +796,7 @@ so.
    lets a winning outcome settle straight to M-Pesa, a trust moment that no US prediction market's
    card or crypto rail offers our users.
 8. **Honest limits of this edge.** Polymarket's strengths (IA, density, hierarchy by size) still
-   stand (work plan §2). Nothing here claims Kichiko will out-convert them. These are the conditions
+   stand (work plan §2). Nothing here claims Elopis will out-convert them. These are the conditions
    under which they are structurally weak and we are not. The claim is falsified if our RUM shows
    LCP p75 > 2.5 s, or if E3 and E5 show no comprehension or error advantage.
 

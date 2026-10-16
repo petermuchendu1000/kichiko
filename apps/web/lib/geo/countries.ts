@@ -1,4 +1,4 @@
-// lib/geo/countries.ts — the countries Kichiko serves, and each one's
+// lib/geo/countries.ts — the countries Elopis serves, and each one's
 // settlement currency (owner decision: settlement currency = the currency of
 // the user's country). Mirrors public.supported_countries (migration 079); a
 // test keeps the two in sync.

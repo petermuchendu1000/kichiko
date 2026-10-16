@@ -1,5 +1,5 @@
 """
-Batch (call) auction clearing for Kichiko, exact integers.
+Batch (call) auction clearing for Elopis, exact integers.
 
 1. uncross_binary(): single unified YES/NO ladder, uniform price, tie-break
    chains of Euronext/LSE (max volume, min imbalance, market pressure,

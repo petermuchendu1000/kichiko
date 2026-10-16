@@ -1,5 +1,5 @@
 /**
- * ContractSpecs — Kichiko
+ * ContractSpecs — Elopis
  * Mobile market-detail "Market details" key/value grid (Polymarket parity).
  * Pure presentational, server-safe component (no hooks / no 'use client').
  * Renders Volume, End Date, optional Market Opened, and a Resolver row.
@@ -98,7 +98,7 @@ export function ContractSpecs(props: {
                 <span className="truncate">{createdBy}</span>
               )
             ) : (
-              <span className="truncate">Kichiko oracle</span>
+              <span className="truncate">Elopis oracle</span>
             )}
           </dd>
         </div>

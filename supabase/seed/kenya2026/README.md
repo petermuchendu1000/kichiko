@@ -1,4 +1,4 @@
-# Kichiko — Kenya 2026 seed pipeline
+# Elopis — Kenya 2026 seed pipeline
 
 Rigorous, reproducible seed data for a realistic East-Africa prediction market.
 All content is grounded in live **July-2026** reporting and every market cover and

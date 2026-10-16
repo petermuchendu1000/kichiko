@@ -6,7 +6,7 @@ the three captures in `captures-v2/`, [31](research-v2/31-PSYCH-MONEY-RISK.md) a
 [32](research-v2/32-PSYCH-MOBILE-TRUST.md) (primary-source research), and
 [33](research-v2/33-KENYA-LN112-EXCERPT.md) (gazetted law, verified first-hand).
 
-**Standing decisions.** KES and % (owner, 2026-09-27). Kichiko keeps its own design system (Pip);
+**Standing decisions.** KES and % (owner, 2026-09-27). Elopis keeps its own design system (Pip);
 it borrows *patterns*, never branding.
 
 **What changed since 20, in one list** (each is measured or verified, none is opinion):
@@ -17,7 +17,7 @@ it borrows *patterns*, never branding.
 3. The audit's "~725 dead classes / colourless legal links" was wrong; the real defect (442 + 8) is
    fixed and gated in CI.
 4. Competitors are now measured page by page, in both themes, including throttled performance.
-5. Kichiko's own UI is measured against live production data for the first time.
+5. Elopis's own UI is measured against live production data for the first time.
 
 ---
 
@@ -222,7 +222,7 @@ register); DF-3 default-on limits; RG-3 outreach; the calibration record; Kiswah
 
 ## 5. Verification regime
 
-1. **Every measurement is JSON and re-runnable.** Harnesses: `captures-v2/{polymarket,kalshi,kichiko}/harness/`.
+1. **Every measurement is JSON and re-runnable.** Harnesses: `captures-v2/{polymarket,kalshi,elopis}/harness/`.
    Re-run monthly and before any design review; the diff is the report.
 2. **Gates in CI** (named above): G-NOTATION, G-TRUTH, G-CONTRAST, G-TARGET, G-TYPE, G-PRESS,
    G-VALIDATE, G-PENDING, G-FOCUS, G-MOTION, G-PERF, G-NO-AUTO, plus the existing Tailwind class
@@ -243,7 +243,7 @@ register); DF-3 default-on limits; RG-3 outreach; the calibration record; Kiswah
 
 1. **The two court-case markets** (Phase L.1). Recommendation: hide both today and have counsel
    confirm against Reg. 45(7)(a).
-2. **Is Kichiko approved by the GRA to offer prediction markets** (Reg. 45(5))? If not, every market
+2. **Is Elopis approved by the GRA to offer prediction markets** (Reg. 45(5))? If not, every market
    is exposed, not only these two. This decides whether "legality as a feature" is available.
 3. **Leaderboard** (H1): remove, or replace with an opt-in, non-monetary accuracy board.
    Recommendation: replace; winners' identities are confidential without written consent (Reg. 87

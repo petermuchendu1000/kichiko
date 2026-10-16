@@ -11,7 +11,7 @@ measured · **U** unverified, do not treat as fact.
 
 ## 1. Read this first: what to do at the start of the new session
 
-1. Start the session **with `petermuchendu1000/kichiko` attached as a source, with write/push access.** That is the entire reason for the move. Verify it before doing any work: `git push --dry-run` on a scratch branch should succeed. If it 403s, the new session has the same limitation and there is no point continuing until it is fixed.
+1. Start the session **with `petermuchendu1000/elopis` attached as a source, with write/push access.** That is the entire reason for the move. Verify it before doing any work: `git push --dry-run` on a scratch branch should succeed. If it 403s, the new session has the same limitation and there is no point continuing until it is fixed.
 2. **Re-supply the credentials.** They are deliberately not in this file. The previous session's set was to be rotated at its close, so assume it is dead. Needed: `GITHUB_PAT`, `SUPABASE_SERVICE_ROLE`, `ANON_PUBLIC_KEY`, `SUPABASE_DB_URL`, `SUPABASE_SECRET_KEY`, `SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_PAT`. Store them the same way: a `chmod 600` file in the session scratchpad, **outside the repo**, sourced per shell call, never echoed.
 3. Read [`docs/research/ui-2026-09/20-WORK-PLAN.md`](research/ui-2026-09/20-WORK-PLAN.md). It is the active plan. Its §6 lists six decisions still owed by the user.
 4. Do **not** redo the engine research or the UI research. Both are complete and committed. §4 below says what is already settled.
@@ -157,7 +157,7 @@ The three findings that drive the plan:
 
 1. **The UI is structurally complete** — 54 routes, 73 API handlers, no stubs, zero `TODO`s, all live data, a real token system ("Pip") with measured contrast arithmetic backed by a CSS-parsing test. This is a precision programme, not a build.
 2. **~725 dead Tailwind classes ship today.** *(Corrected same day: 442 + 8, and the legal-link claim was wrong — see the erratum in `20-WORK-PLAN.md`. Fixed.)* `extend.colors` drops the numeric `green`/`red`/`amber` ramps (283 uses, 41 files) and the shadcn HSL bridge is never mapped (442 uses). **Every link in Terms, Privacy, Responsible-play and Help currently renders with no colour.**
-3. **The edge over Polymarket is accessibility, measured.** Their YES tint is **4.36:1** and NO tint **4.28:1** — both fail WCAG AA, and that is their most-rendered semantic treatment. Price-delta green is 2.89:1. **89.8% of mobile home touch targets are under 44px**; the primary feed affordance is a 27px chip. Kichiko's tokens already pass AA in both themes with an enforcing test, and Polymarket served no dark mode at all.
+3. **The edge over Polymarket is accessibility, measured.** Their YES tint is **4.36:1** and NO tint **4.28:1** — both fail WCAG AA, and that is their most-rendered semantic treatment. Price-delta green is 2.89:1. **89.8% of mobile home touch targets are under 44px**; the primary feed affordance is a 27px chip. Elopis's tokens already pass AA in both themes with an enforcing test, and Polymarket served no dark mode at all.
 
 Adopt from them: a **2px** spacing grid (6/10/14px carry 23.6% of usage, so "4px grid"
 misdescribes it), borderless shadow-as-border, fixed 180px card heights, hierarchy by
@@ -235,9 +235,9 @@ required**; detailed work plan; answer "do we start with the landing page?".
    JSON via the committed harness in `experiments/competitor-capture/`. Kalshi served a
    Vercel bot checkpoint last time: use headed Chromium under `xvfb-run` with a real
    UA; fall back to dated Wayback snapshots, labelled as such.
-2. Capture Kichiko at the same viewports with live data (needs Supabase reachable +
+2. Capture Elopis at the same viewports with live data (needs Supabase reachable +
    credentials re-supplied per §1.2).
-3. Element-by-element matrix: PM vs Kalshi vs Kichiko → adopt / reject / invent, each
+3. Element-by-element matrix: PM vs Kalshi vs Elopis → adopt / reject / invent, each
    with evidence.
 4. Psychology from **primary sources only** (full text, exact n/effect sizes), mapped to
    elements and to the East African context. Re-verify every rule in `24-PSYCHOLOGY`.

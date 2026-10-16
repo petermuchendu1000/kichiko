@@ -140,8 +140,8 @@ blanket canonical existed to prevent.
   account or URL is configured anywhere in the repo, so any link would be
   invented. Needs the real accounts first.
 - **Support address is inconsistent.** `/help` renders
-  `support@kichiko.app`; the `branding.support_email` admin setting default and
-  the outbound mail sender both use `kichiko.co.ke`. The footer's "Contact us"
+  `support@elopis.com`; the `branding.support_email` admin setting default and
+  the outbound mail sender both use `elopis.com`. The footer's "Contact us"
   therefore links to `/help#contact` rather than adding a third copy of a
   disputed address. Someone needs to say which mailbox exists.
 

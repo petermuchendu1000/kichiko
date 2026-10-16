@@ -1,7 +1,7 @@
 # Troubleshooting (local development)
 
 Fast fixes for the most common local-dev issues. Most runtime weirdness after a
-`git pull`, a branch switch, or the MarketPips → Kichiko rename is a **stale
+`git pull`, a branch switch, or the MarketPips → Elopis rename is a **stale
 build cache**, not a code bug — CI builds `main` clean on every merge.
 
 ---
@@ -71,16 +71,16 @@ npm run dev
 
 ---
 
-## 2. "Am I on the right repo?" (MarketPips → Kichiko rename)
+## 2. "Am I on the right repo?" (MarketPips → Elopis rename)
 
-The GitHub repo was renamed `marketpips` → `kichiko`. GitHub **redirects** the
+The GitHub repo was renamed `marketpips` → `elopis`. GitHub **redirects** the
 old URL, so an old `origin` still pulls the *correct* repo — but update it to
 avoid confusion:
 
 ```bash
 git remote -v                       # if it shows .../marketpips(.git)
-git remote set-url origin https://github.com/petermuchendu1000/kichiko.git
-git remote -v                       # verify -> .../kichiko.git
+git remote set-url origin https://github.com/petermuchendu1000/elopis.git
+git remote -v                       # verify -> .../elopis.git
 git checkout main
 git pull origin main                # brings latest (blue logo, authz fixes, ...)
 ```
@@ -143,7 +143,7 @@ instead of the generic one, so this is diagnosable from the UI.
 1. In **Resend**, verify the sending domain you intend to use and mint a fresh
    SMTP/API key.
 2. In **Supabase → Auth → SMTP settings**, set `smtp_admin_email`,
-   `smtp_sender_name`, and the SMTP password to the verified Kichiko sender;
+   `smtp_sender_name`, and the SMTP password to the verified Elopis sender;
    set **Auth → URL Configuration → Site URL** to the current app domain so
    confirmation/reset links resolve.
 3. Keep `rate_limit_email_sent` at a sane value (≥ ~30/hour).

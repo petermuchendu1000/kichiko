@@ -49,7 +49,7 @@ export async function initiateDeposit(req: PaymentRequest): Promise<PaymentResul
           phone: req.phone,
           amount: req.amount,
           accountReference: `FB${req.depositId.slice(0, 10)}`,
-          transactionDesc: 'Kichiko Deposit',
+          transactionDesc: 'Elopis Deposit',
           depositId: req.depositId,
           country: req.country,
         })
@@ -73,7 +73,7 @@ export async function initiateDeposit(req: PaymentRequest): Promise<PaymentResul
           amount: req.amount,
           currency: req.currency,
           externalId: req.depositId,
-          payerMessage: 'Kichiko Deposit',
+          payerMessage: 'Elopis Deposit',
           payeeNote: `Deposit for ${req.userId.slice(0, 8)}`,
           country: countryMap[req.country] || 'UG',
         })
@@ -110,7 +110,7 @@ export async function initiateDeposit(req: PaymentRequest): Promise<PaymentResul
           depositId: req.depositId,
           amount: req.amount,
           currency: req.currency,
-          description: req.description || 'Kichiko Deposit',
+          description: req.description || 'Elopis Deposit',
           phone: req.phone,
         })
         return {
@@ -239,7 +239,7 @@ export async function processWithdrawal(
         const consumerKey = process.env.MPESA_CONSUMER_KEY
         const consumerSecret = process.env.MPESA_CONSUMER_SECRET
         const shortcode = process.env.MPESA_B2C_SHORTCODE || process.env.MPESA_SHORTCODE
-        const initiatorName = process.env.MPESA_INITIATOR_NAME || 'kichiko'
+        const initiatorName = process.env.MPESA_INITIATOR_NAME || 'elopis'
         const securityCredential = process.env.MPESA_SECURITY_CREDENTIAL
         const baseUrl = process.env.MPESA_BASE_URL || 'https://sandbox.safaricom.co.ke'
 
@@ -275,7 +275,7 @@ export async function processWithdrawal(
             Amount: req.amount,
             PartyA: shortcode,
             PartyB: phone,
-            Remarks: `Kichiko withdrawal ${req.reference}`,
+            Remarks: `Elopis withdrawal ${req.reference}`,
             // C1: the /api/webhooks/mpesa-b2c route fails CLOSED when the
             // shared-secret token is missing/incorrect. Without appending the
             // token here, every real Safaricom B2C result is rejected 401 and
@@ -331,7 +331,7 @@ export async function processWithdrawal(
               partyIdType: 'MSISDN',
               partyId: req.phone.replace('+', ''),
             },
-            payerMessage: 'Kichiko withdrawal',
+            payerMessage: 'Elopis withdrawal',
             payeeNote: `Withdrawal ${req.reference}`,
           }),
         })

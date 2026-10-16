@@ -1,4 +1,4 @@
-# Kichiko — Key Flows
+# Elopis — Key Flows
 
 ## 1. Authentication & RBAC (Module 1)
 

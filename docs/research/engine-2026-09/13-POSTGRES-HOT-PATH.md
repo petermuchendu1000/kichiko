@@ -1,4 +1,4 @@
-# 13: Postgres and Supabase internals on Kichiko's order hot path
+# 13: Postgres and Supabase internals on Elopis's order hot path
 
 Track: what one `clob_place_order` call (migration 071) costs inside PostgreSQL 17, measured statement by statement and explained from the source. Then what to change, ranked, with measured or derived gains, and how far a single serial transaction per market can go.
 
@@ -87,7 +87,7 @@ Throughput equals the single-client rate: 379–403/s [M-WAIT].
 
 **Serial ceiling.**
 - Today's statement shape on local NVMe: ≈400–500 orders/s per market.
-- Supabase gp3, flush 1–3 ms (UNVERIFIED for Kichiko's instance): ≈220–330/s.
+- Supabase gp3, flush 1–3 ms (UNVERIFIED for Elopis's instance): ≈220–330/s.
 - Lean V5 shape on gp3: ≈300–400/s.
 - One PL/pgSQL call per order cannot exceed ≈1/T_exec ≈ 650–900/s even with asynchronous commit.
 - Beyond that, matching must leave per-row PL/pgSQL. Postgres then applies the results set-based, at ~65–70 µs per order per report 11.
@@ -186,7 +186,7 @@ Why a crossing order takes ~100 relation locks:
 - Fast-path capacity becomes `FP_LOCK_SLOTS_PER_GROUP (16) × FastPathLockGroupsPerBackend`.
 - The group count is computed at startup as `Max(Min(pg_nextpower2_32(max_locks_per_xact) / 16, 1024), 1)` (`postinit.c:580-601`, `proc.h:87-100`). The code comment says "The default max_locks_per_transaction = 64 means 4 groups by default", i.e. 64 slots.
 - Release note: "Improve the locking performance of queries that access many relations (Tomas Vondra)", commit c4d5cb71d (`release-18.sgml`).
-- Kichiko's ~103-lock crossing order needs `max_locks_per_transaction ≥ 128` to fit entirely in fast-path slots on PG 18. INFERENCE from the formula.
+- Elopis's ~103-lock crossing order needs `max_locks_per_transaction ≥ 128` to fit entirely in fast-path slots on PG 18. INFERENCE from the formula.
 - This matters only if PG 18 becomes available on Supabase, which it is not (§5).
 
 ### 2.3 WAL generated per order [M-WAL]
@@ -464,10 +464,10 @@ Consequence: **the per-market critical section includes the flush and any synchr
 
 From `doc/src/sgml/release-18.sgml` (REL_18_STABLE; release date 2025-09-25; the file now reaches 18.6):
 
-| PG 18 change | Relevance to Kichiko's hot path |
+| PG 18 change | Relevance to Elopis's hot path |
 |---|---|
 | Asynchronous I/O subsystem (`io_method` = `worker`/`io_uring`/`sync`), Freund, Munro et al. "allows backends to queue multiple read requests … sequential scans, bitmap heap scans, vacuums" | **Reads only.** The order path is point lookups on cached pages plus WAL writes and fsync. No effect on commit latency. Could help cold-cache scans and vacuum (INFERENCE) |
-| Fast-path lock slots scale with `max_locks_per_transaction` (Vondra, c4d5cb71d) | Removes the 86 shared-table lock acquisitions per crossing order if `max_locks_per_transaction ≥ 128` (§2.2). Minor at Kichiko's concurrency |
+| Fast-path lock slots scale with `max_locks_per_transaction` (Vondra, c4d5cb71d) | Removes the 86 shared-table lock acquisitions per crossing order if `max_locks_per_transaction ≥ 128` (§2.2). Minor at Elopis's concurrency |
 | B-tree skip scan (Geoghegan, 92fe23d93) | Lets multi-column indexes serve queries without a leading-column predicate. Could merge redundant `markets`/`positions` indexes, and fewer indexes means cheaper writes (INFERENCE) |
 | Virtual generated columns, now the default (Eisentraut et al.) | Cheaper writes for non-indexed derived columns. **Not usable for `yes_px`/`book_side`**: indexes on virtual generated columns are disallowed (`indexcmds.c:1122`) |
 | `RETURNING OLD/NEW` (Rasheed, 80feb727c) | Lets one statement return pre- and post-update values, e.g. wallet balance before/after for the ledger, instead of SELECT + UPDATE |
@@ -650,7 +650,7 @@ Two takers in different markets who are makers for each other lock wallets in op
 
 - The real engine at batch 10 gains only +20–25% [M-BATCH].
 - Report 11's set-based apply gains 7–20×.
-- If Kichiko moves matching out of the database (report 11 architecture), apply each batch's results with `INSERT … SELECT unnest(...)` and `UPDATE … FROM (VALUES …)`, not N function calls.
+- If Elopis moves matching out of the database (report 11 architecture), apply each batch's results with `INSERT … SELECT unnest(...)` and `UPDATE … FROM (VALUES …)`, not N function calls.
 
 ### 11. `wal_compression = lz4`
 
@@ -680,7 +680,7 @@ because locks are released after `XLogFlush` and `SyncRepWaitForLSN` (§3.8). Th
 - T_handoff: from the 8-client, one-market runs with `sync=off`, 1/491 = 2.04 ms per order ≈ 1.45 ms of execution + ~0.1 ms autocommit round-trip share + ~0.5 ms wake-up and context switching on 2 vCPUs. So T_handoff ≈ 0.3–0.5 ms here. INFERENCE from those two measurements.
 - Predicted S ≈ 1.45 + 0.43 + 0.4 ≈ 2.3 ms, i.e. ≈ 435/s. Measured 8-client one-market throughput: 379–403/s. ✔
 
-**Projections** (INFERENCE; flush figures for gp3 and io2 come from AWS descriptions via reports 03/11, not measured on Kichiko's instance):
+**Projections** (INFERENCE; flush figures for gp3 and io2 come from AWS descriptions via reports 03/11, not measured on Elopis's instance):
 
 | Engine shape | T_exec | gp3 flush 1–3 ms | io2 flush ~0.5 ms | `sync=off` (no flush) |
 |---|---|---|---|---|
@@ -695,7 +695,7 @@ because locks are released after `XLogFlush` and `SyncRepWaitForLSN` (§3.8). Th
 - about 100 simple expressions, ≈30 µs;
 - function and snapshot overhead, ≈20 µs.
 
-That is ≈250 µs of pure executor work. On Kichiko's real schema (wide rows, more indexes) the practical floor is ≈0.5–0.7 ms. So a single market cannot exceed ≈1,400–2,000/s even with no flush and no handoff, and **≈300–500/s is realistic with durable commits on Supabase disks.**
+That is ≈250 µs of pure executor work. On Elopis's real schema (wide rows, more indexes) the practical floor is ≈0.5–0.7 ms. So a single market cannot exceed ≈1,400–2,000/s even with no flush and no handoff, and **≈300–500/s is realistic with durable commits on Supabase disks.**
 
 **Beyond that the only lever is batching with set-based apply.**
 - Report 11 measured C(b) ≈ 1.6 ms + 0.064 ms·b on the same image, so ≈10k/s per shard at b=100.
@@ -712,7 +712,7 @@ That is ≈250 µs of pure executor work. On Kichiko's real schema (wide rows, m
 
 ## 9. UNVERIFIED items and gaps
 
-1. Supabase gp3/io2 flush latency *for Kichiko's instance*. The 1–3 ms range is inferred from AWS's "single-digit millisecond" gp3 description (via reports 03 and 11). Measure with `pg_stat_wal.wal_sync_time / wal_sync` on production (read-only view) or on a staging project.
+1. Supabase gp3/io2 flush latency *for Elopis's instance*. The 1–3 ms range is inferred from AWS's "single-digit millisecond" gp3 description (via reports 03 and 11). Measure with `pg_stat_wal.wal_sync_time / wal_sync` on production (read-only view) or on a staging project.
 2. PostgREST's own per-request overhead: HTTP, JWT, JSON, and its pipelining behaviour. No binary could be obtained here.
 3. The current Supabase statement that PG 18 is unavailable is inferred from the build repository and the upgrading guide. The GitHub discussion was not fetchable.
 4. PL/Rust speed-ups: search extract only. Supabase does not offer PL/Rust anyway.
@@ -771,7 +771,7 @@ That is ≈250 µs of pure executor work. On Kichiko's real schema (wide rows, m
 - Web search only (hosts blocked; not fetched; UNVERIFIED): postgres.ai "#PostgresMarathon 2-004: Fast-path locking explained"; thebuild.com "Sixteen Locks Ought to Be Enough for Anybody"; pganalyze "PL/Rust 1.0 and its trusted language mode"; InfoQ "High Performance Functions in Rust on RDS PostgreSQL"; GitHub supabase discussion #42681 "Support postgres 18?".
 - Blocked by the egress proxy this session: `www.postgresql.org`, `supabase.com`, `postgres.ai`, `pganalyze.com`, `www.infoq.com`, `www.mail-archive.com`, `thebuild.com`, `github.com` pages and API (403), and Docker Hub (429).
 
-### Kichiko repo
+### Elopis repo
 
 - `supabase/migrations/071_clob_index_ordered_ladder.sql` (engine; line numbers cited throughout); `046_clob_order_abuse_prevention.sql`; `053_realtime_publication_correctness.sql`; `054_autovacuum_hot_table_tuning.sql` (fillfactor, per report 03); `065_refresh_market_stats_from_clob_fills.sql`.
 - `scripts/ops/clob/bench_engine.py` (workload generator).

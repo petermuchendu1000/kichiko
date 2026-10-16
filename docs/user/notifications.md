@@ -11,11 +11,11 @@
 
 ## Channels
 
-Kichiko can reach you through:
+Elopis can reach you through:
 - **In-app** notifications (the bell / Notifications page) — always on.
 - **Email** — to your registered address.
 - **SMS** — to your registered phone (great for low-data connections).
-- **Push** — if you've installed Kichiko as an app and allowed notifications.
+- **Push** — if you've installed Elopis as an app and allowed notifications.
 
 ## Managing your preferences
 
@@ -30,5 +30,5 @@ remain available so you never miss anything important.
 
 - Keep **at least one channel on** for money-related alerts (deposits,
   withdrawals, payouts).
-- Add Kichiko to your home screen to enable **push** and get instant updates
+- Add Elopis to your home screen to enable **push** and get instant updates
   even offline-friendly.

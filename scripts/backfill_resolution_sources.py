@@ -41,7 +41,7 @@ import requests
 # Same shape as scripts/backfill_market_covers.py, and for the same reason:
 # CloudFront 403s a User-Agent that does not begin "Mozilla/" or that contains
 # the substring "Bot".
-UA = {"User-Agent": "Mozilla/5.0 (compatible; Kichiko/1.0; +https://kichiko.app; media-ingest; support@kichiko.app)"}
+UA = {"User-Agent": "Mozilla/5.0 (compatible; Elopis/1.0; +https://elopis.com; media-ingest; support@elopis.com)"}
 SESSION = requests.Session()
 SESSION.headers.update(UA)
 

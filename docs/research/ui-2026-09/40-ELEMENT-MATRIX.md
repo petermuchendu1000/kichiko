@@ -1,4 +1,4 @@
-# 40 — Element-by-element matrix: Polymarket × Kalshi × Kichiko → ruling
+# 40 — Element-by-element matrix: Polymarket × Kalshi × Elopis → ruling
 
 Written 2026-09-27. Supersedes the comparative sections of [20-WORK-PLAN](20-WORK-PLAN.md) §1–§3.
 Every cell cites where its number came from. Nothing is recalled.
@@ -6,7 +6,7 @@ Every cell cites where its number came from. Nothing is recalled.
 **Sources.**
 [PM] `captures-v2/polymarket/REPORT.md` (live polymarket.com, 2026-09-27, M1/M3) ·
 [KA] `captures-v2/kalshi/REPORT.md` (demo.kalshi.co = **D**, help centre M3, API M2, store S) ·
-[KI] `captures-v2/kichiko/` (live production data via a local production build, 2026-09-27, M1;
+[KI] `captures-v2/elopis/` (live production data via a local production build, 2026-09-27, M1;
 `NOTATION-AUDIT.md` = code, V) ·
 [31] `research-v2/31-PSYCH-MONEY-RISK.md` · [32] `research-v2/32-PSYCH-MOBILE-TRUST.md` ·
 [LN112] `research-v2/33-KENYA-LN112-EXCERPT.md` (gazetted text, verified first-hand) ·
@@ -28,7 +28,7 @@ values: PM `#8b929b`/white 3.14, `#04af52` 2.89, `#f6c030` 1.68, `#bfc3ca` 1.77,
 
 ## A. System-wide
 
-| # | Element | Polymarket | Kalshi | Kichiko today | Evidence | Ruling |
+| # | Element | Polymarket | Kalshi | Elopis today | Evidence | Ruling |
 |---|---|---|---|---|---|---|
 | A1 | Money notation | `$`, `¢` with one decimal (`58.6¢`), four volume formats (`$14M`, `$69,753,899`, `$187.04K`, `$4.5K Liq.`) [PM #19] | % + multiplier on cards (`85%`, `1.15x`), ¢ in ticket (`YES 86¢`, `97.4¢`) [KA #1] | KSh + %, but `¢` still rendered by `formatCents` in the ticket limit row and order book; error text "0.1¢ and 99.9¢"; a11y name "Limit price in cents"; `KSh` vs `Ksh` in one sheet; three `formatPercent` implementations [KI N1–N5] | Owner ruling 2026-09-27: KES + %. Multiplier/return headlines mislead (Weiss-Cohen 2025, STRONG) [31 FR-2] | **FIX**: one formatter module (`formatKsh`, `formatPct`), `KSh` everywhere, integer % [31 PR-1], no ¢/multiplier anywhere. Gate: a unit test that greps rendered output of every route for `¢`, `$`, `\d+x\b`, `Ksh\b` |
 | A2 | Yes + No display | Asks shown separately: 16¢ + 85¢ = 101¢ [PM #8] | 86 + 15 = 101 (demo); API asks 0.20 + 0.85 = 1.05 [KA #2] | % on buttons (not yet summed in capture) | A reader who adds the two sides gets >100%: a comprehension trap. No study tests it (INFERENCE) | **INVENT**: show one probability per market (mid or last), and each side's **KSh price to buy** only inside the ticket. Never two % that sum ≠ 100 on one surface |
@@ -46,7 +46,7 @@ values: PM `#8b929b`/white 3.14, `#04af52` 2.89, `#f6c030` 1.68, `#bfc3ca` 1.77,
 
 ## B. Home / feed (P01, P02, P17)
 
-| # | Element | Polymarket | Kalshi | Kichiko today | Evidence | Ruling |
+| # | Element | Polymarket | Kalshi | Elopis today | Evidence | Ruling |
 |---|---|---|---|---|---|---|
 | B0 | Volume notation | `$14M Vol.` | `$4,095,797 vol` | Three spellings rendered: `KSh 17.5M Vol` (home), `KSH 22M Vol.` (search, CSS uppercase), `Ksh 636.56` (ticket) [KI screenshots] | Owner ruling (KES); consistency (A1) | **FIX** via the A1 formatter; no `text-transform` on currency |
 | B1 | Above-the-fold density (mobile) | ≈2.5 markets; card 358×180 fixed, 12 px gap [PM #13] | outcome rows + 80×38 % pill | **One** hero market fills the fold (auto-rotating carousel) [KI screenshot] | Scanning; cards for browsing, rows for deciding (20 §2) | **ADOPT** PM density: fixed-height 180 px cards on mobile; hero only on desktop, not auto-rotating (WCAG 2.2.2) |
@@ -58,7 +58,7 @@ values: PM `#8b929b`/white 3.14, `#04af52` 2.89, `#f6c030` 1.68, `#bfc3ca` 1.77,
 
 ## C. Market page (P03, P04, P05, P18)
 
-| # | Element | Polymarket | Kalshi | Kichiko today | Evidence | Ruling |
+| # | Element | Polymarket | Kalshi | Elopis today | Evidence | Ruling |
 |---|---|---|---|---|---|---|
 | C1 | Price hierarchy | "16% chance" 20/600 mobile; 28/600 desktop (July) | "87% chance"; condensed 24 px names | 46% style legend + chart | Magnitude, not weight (20 §2) | **ADOPT** one hero probability per market, integer %, ≥28 px |
 | C2 | Rounding consistency | Row "59%" vs button "58.6¢" on the same row [PM P04] | 87% vs 86¢ | Row "46%" vs button "Buy Yes 46.4%"; ticket `78.6%`; "1 options" [KI screenshots, N8] | Integer % [31 PR-1] | **FIX**: integer % everywhere; one formatter (A1) |
@@ -70,7 +70,7 @@ values: PM `#8b929b`/white 3.14, `#04af52` 2.89, `#f6c030` 1.68, `#bfc3ca` 1.77,
 
 ## D. Order ticket (P06) — the money path
 
-| # | Element | Polymarket | Kalshi | Kichiko today | Evidence | Ruling |
+| # | Element | Polymarket | Kalshi | Elopis today | Evidence | Ruling |
 |---|---|---|---|---|---|---|
 | D1 | Container | Mobile bottom sheet 390×486; desktop rail 308×357 [PM P06] | Mobile bottom sheet "Order panel"; desktop card 352×400, radius 16, no shadow [KA #5, #11] | Mobile bottom sheet; desktop rail | Split-attention (MODERATE for tickets) [32] | **KEEP** sheet/rail; **ADOPT** Kalshi's URL-encoded ticket state (linkable, restorable after auth) |
 | D2 | Side pre-selection | Yes pre-selected (solid `#007e26`) [PM P06] | Not established: the page shows both sides outlined (`Yes 86¢` / `No 15¢`); the sheet opens on the tapped side [KA P06 default screenshot] | Side comes from the tapped button (tested path selected Yes) | Defaults move choice, d=0.68, stronger for low-probability options [31 DF-1, STRONG] | **REJECT**: no pre-selected side on any viewport when opened from a neutral entry point |
@@ -86,7 +86,7 @@ values: PM `#8b929b`/white 3.14, `#04af52` 2.89, `#f6c030` 1.68, `#bfc3ca` 1.77,
 
 ## E. Confirm, receipt, deposit, withdraw (P06-confirm, P12)
 
-| # | Element | Polymarket | Kalshi | Kichiko today | Evidence | Ruling |
+| # | Element | Polymarket | Kalshi | Elopis today | Evidence | Ruling |
 |---|---|---|---|---|---|---|
 | E1 | Confirm step | not measurable (geo) | "You're buying $1.75 · Includes a fee of $0.07 · Submit" (2025) | not captured (needs account) | WCAG 3.3.4 (reversible/checked/confirmed) | **INVENT**: confirm shows the D5 block again + fee + close time; Confirm and Cancel equal size [32 rule 2] |
 | E2 | Payment verification | crypto/card | card/ACH/wire; min $10; card 2% [KA #18] | M-Pesa STK | **70% of Kenyan mobile-money losses are accidental sends** (FinAccess 2024, n=20,871) [32 §0.2, STRONG] | **INVENT**: before STK push show recipient name, amount in numerals **and words**, masked number; withdrawals only to the verified owner's number |
@@ -96,7 +96,7 @@ values: PM `#8b929b`/white 3.14, `#04af52` 2.89, `#f6c030` 1.68, `#bfc3ca` 1.77,
 
 ## F. Auth & onboarding (P10, P11)
 
-| # | Element | Polymarket | Kalshi | Kichiko today | Evidence | Ruling |
+| # | Element | Polymarket | Kalshi | Elopis today | Evidence | Ruling |
 |---|---|---|---|---|---|---|
 | F1 | Auth surface | Modal 448×446; Google 400×52; 8 provider tiles, **3 unnamed** [PM P11] | `/sign-up`; 4-digit email+SMS codes; live ID photo; ≈48 h review [KA #18] | `/auth/register`, `/auth/login`, email 6-digit code dialog | axe button-name | **KEEP** single-method email code; every control named |
 | F2 | Age gate | 18+ (US) | 18+ | not audited | **KE 18, UG 25, TZ 18, RW 18**, on verified ID before deposit [31 LW-1; UG Act s.1 verified by 31] | **INVENT**: per-country age rule in the KYC step; UG 25 |
@@ -104,21 +104,21 @@ values: PM `#8b929b`/white 3.14, `#04af52` 2.89, `#f6c030` 1.68, `#bfc3ca` 1.77,
 
 ## G. Search (P07)
 
-| # | Element | Polymarket | Kalshi | Kichiko today | Ruling |
+| # | Element | Polymarket | Kalshi | Elopis today | Ruling |
 |---|---|---|---|---|---|
 | G1 | Empty state | **None**: nonsense query keeps showing unrelated markets [PM #18] | not measured | **NOT MEASURED**: `/search` ignores `?q=` (`search-view.tsx:91` initialises `query` to `''`), so both captures show "Trending now"; searches are not linkable [KI, V] | **FIX**: read and write `?q=` (linkable, back-button safe); **INVENT** explicit "No markets match 'x'" + suggestions; measure by typing in Phase 1 |
 | G2 | Input size | 16 px mobile (no iOS zoom), 14 px desktop | — | measure in Phase 1 | **ADOPT** 16 px on mobile |
 
 ## H. Social, leaderboard, profile (P08, P09, P17)
 
-| # | Element | Polymarket | Kalshi | Kichiko today | Evidence | Ruling |
+| # | Element | Polymarket | Kalshi | Elopis today | Evidence | Ruling |
 |---|---|---|---|---|---|---|
 | H1 | Leaderboard | Public, `+$5,086,914`, win amounts 2.89:1 [PM P08] | Behind login; **users opted out by default** [KA #20] | Public `/leaderboard`; profile "Biggest win" | Winners' identity confidential unless written consent (L.N. 112 Reg. 87 per 31); no former-winner ads (L.N. 114); leaderboards/winner feeds → risk-taking [31 DP-3/DP-4] | **REJECT** profit leaderboards. Decision owed (§6 of 41): remove, or replace with an opt-in, non-monetary **accuracy** board |
 | H2 | Social feed | Activity tape "user · Up · 58¢ · ($11.64)" [PM P17b] | `/ideas/feed`, P&L cards with leverage [KA #20] | none | Social interaction + warnings raised betting 13% (Barasa 2026, Kenya RCT, per 31) | **REJECT** at launch |
 
 ## I. Responsible-play tools (P14)
 
-| # | Element | Polymarket | Kalshi | Kichiko today | Evidence | Ruling |
+| # | Element | Polymarket | Kalshi | Elopis today | Evidence | Ruling |
 |---|---|---|---|---|---|---|
 | I1 | RG link | **No responsible-gambling link anywhere** [PM P14] | Breaks ≥1 day, self-exclusion, SelfExclude.io, monthly deposit cap, Birches Health, 988 [KA #17] | `/legal/responsible-play` page | Reg. 84: deposit/loss/session limits, reality checks, self-exclusion ≥24 h, national register [31] | **ADOPT** Kalshi's cross-operator exclusion idea (→ national register); **INVENT** tools per Reg. 84 |
 | I2 | Limits | — | Monthly deposit cap; increases next month | not audited | Prompts alone: null on losses (Ivanova et al., MODERATE) [31 DF-3, rule 8 WRONG] | **INVENT**: limits as the default path, free text; decrease immediate, increase ≥24 h + reconfirm (TZ 7 days) |
@@ -127,7 +127,7 @@ values: PM `#8b929b`/white 3.14, `#04af52` 2.89, `#f6c030` 1.68, `#bfc3ca` 1.77,
 
 ## J. Shell pages (P13, P15)
 
-| # | Element | Polymarket | Kalshi | Kichiko today | Ruling |
+| # | Element | Polymarket | Kalshi | Elopis today | Ruling |
 |---|---|---|---|---|---|
 | J1 | 404 | HTTP 404; "Page not found … Intercom"; title from slug [PM P15] | HTTP 404; illustration; "Go to home page" [KA P15] | HTTP 404; on-token page, two 44 px actions (shipped 2026-09-27) | **KEEP** |
 | J2 | Error boundary | not measured | not measured | `error.tsx` with refresh-and-retry, digest; per-segment loading without breaking 404 status | **KEEP** |
@@ -137,7 +137,7 @@ values: PM `#8b929b`/white 3.14, `#04af52` 2.89, `#f6c030` 1.68, `#bfc3ca` 1.77,
 
 ## What the matrix says, in one paragraph
 
-Kichiko already beats both incumbents on the dimensions users feel but never name: contrast
+Elopis already beats both incumbents on the dimensions users feel but never name: contrast
 (0.1–0.4% vs 4–22% failing), touch targets (31.5% ≥44 px vs 13% and 7–10%), page weight (≈0.5 MB vs
 ≈5 MB) and zoom. It loses on density, number discipline and the ticket: the ticket carries every
 serious defect we measured (2.18:1 payout text, USD-derived chips, a pre-filled stake, ¢ in the

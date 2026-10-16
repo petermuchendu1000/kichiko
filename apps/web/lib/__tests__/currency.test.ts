@@ -163,7 +163,7 @@ describe('formatCurrency', () => {
   })
 
   // Intl's en-KE currency style renders "Ksh 636.56"; the product spells it KSh
-  // everywhere (captures-v2/kichiko/NOTATION-AUDIT.md N5).
+  // everywhere (captures-v2/elopis/NOTATION-AUDIT.md N5).
   it('spells Kenyan shillings KSh, never Ksh', () => {
     expect(formatCurrency(636.56, 'KES')).toBe('KSh 636.56')
     expect(formatCurrency(-20, 'KES')).toBe('-KSh 20.00')

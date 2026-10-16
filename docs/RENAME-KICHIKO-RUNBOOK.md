@@ -1,5 +1,11 @@
 # Kichiko rename runbook (MarketPips → Kichiko)
 
+> **Historical.** Kichiko was renamed to **Elopis** on 2026-10-16 — the name
+> was already taken. This file is kept as the record of the previous move and
+> of which external steps were never completed (no domain was ever registered
+> under either name, which is why the second rename cost nothing). The live
+> runbook is [RENAME-ELOPIS-RUNBOOK.md](RENAME-ELOPIS-RUNBOOK.md).
+
 Status of the rename and the **external / account-level steps that must be done
 by a human** (they cannot be changed from the repo). The in-repo rename (app
 code, config, infra code, DB objects, docs, brand assets) is **complete and

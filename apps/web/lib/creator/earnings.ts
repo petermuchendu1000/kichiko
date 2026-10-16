@@ -1,6 +1,6 @@
 // lib/creator/earnings.ts — Pure, DB-agnostic aggregation for the creator console.
 //
-// Creator rewards on Kichiko are accrued as a fraction of the trading volume on
+// Creator rewards on Elopis are accrued as a fraction of the trading volume on
 // the markets a creator authored (markets.creator_reward_rate, a real fraction
 // e.g. 0.0025 = 0.25%) and PAID OUT as ledger entries in `transactions` with
 // type = 'creator_reward' (amount_usd, credited to the creator's wallet). This

@@ -1,6 +1,6 @@
-# 10 — Microarchitecture-level design of Kichiko's in-memory matching core
+# 10 — Microarchitecture-level design of Elopis's in-memory matching core
 
-Date: 2026-09-26. Scope: a single-threaded, in-memory limit order book (LOB) for Kichiko's bounded tick grid (0.1¢–99.9¢, at most 1,000 levels per side, few orders per level), analysed at the level of caches, TLBs, branch prediction and instruction counts. It follows on from `docs/research/brain-2026-09/03-ENGINE-ENGINEERING.md` §2 and §4 and does not repeat them. That report established that an in-memory engine is 3–4 orders of magnitude faster than the PL/pgSQL engine. This report goes one level down: which layout, which instructions, what each operation costs in cycles and why. It also includes a benchmark plan.
+Date: 2026-09-26. Scope: a single-threaded, in-memory limit order book (LOB) for Elopis's bounded tick grid (0.1¢–99.9¢, at most 1,000 levels per side, few orders per level), analysed at the level of caches, TLBs, branch prediction and instruction counts. It follows on from `docs/research/brain-2026-09/03-ENGINE-ENGINEERING.md` §2 and §4 and does not repeat them. That report established that an in-memory engine is 3–4 orders of magnitude faster than the PL/pgSQL engine. This report goes one level down: which layout, which instructions, what each operation costs in cycles and why. It also includes a benchmark plan.
 
 ## Evidence tags used throughout
 
@@ -25,9 +25,9 @@ GitHub was reachable, so primary material hosted there was read in full: LMAX Di
 
 1. **The bounded grid makes the problem easy and cache-resident.** A side of 1,000 levels at 16 B per level header is 16 KB, and a 1,024-bit occupancy bitmap is 128 B.
    - The whole hot structure of one book (two ladders plus bitmaps) is **33,152 B**. That fits in a 48 KB L1D (Golden Cove, Zen 5) or trivially in a 1–2 MB L2 [I, arithmetic; cache sizes §1].
-   - The published "flat array loses" result applies to wide price domains. The Flash One harness says flat arrays "cache-thrash a wide domain", and its flash-crash scenario walks "tens of thousands of ticks" [F]. It does not apply to Kichiko.
+   - The published "flat array loses" result applies to wide price domains. The Flash One harness says flat arrays "cache-thrash a wide domain", and its flash-crash scenario walks "tens of thousands of ticks" [F]. It does not apply to Elopis.
 2. **Measured prototype [M]:**
-   - The recommended structure (tick-indexed level array, 2-level bitmap, 32-byte intrusive FIFO nodes in a slab with 32-bit links, engine-issued handles) sustains **21.5–34 ns/op (29–46 M ops/s)** on one vCPU of a KVM Cascade Lake Xeon at 2.8 GHz. That covers four Kichiko-shaped workloads, 2M operations each.
+   - The recommended structure (tick-indexed level array, 2-level bitmap, 32-byte intrusive FIFO nodes in a slab with 32-bit links, engine-issued handles) sustains **21.5–34 ns/op (29–46 M ops/s)** on one vCPU of a KVM Cascade Lake Xeon at 2.8 GHz. That covers four Elopis-shaped workloads, 2M operations each.
    - A textbook `std::map<price, std::list>` + `std::unordered_map` book runs at **87–228 ns/op** on the same command stream: 3.4–9× slower.
    - All implementations produced **bit-identical fill hashes**.
    - Cachegrind: **~102–179 instructions/op vs ~421–701** for the textbook book, and 0.9 vs 4.0 simulated L1D misses per op on the "normal" book (§5).
@@ -39,7 +39,7 @@ GitHub was reachable, so primary material hosted there was read in full: LMAX Di
 4. **With many markets, the cache-cold book is what matters, not the algorithm [M].**
    - Routing 2M ops uniformly across 1 / 100 / 1,000 / 10,000 books costs 28.8 / 45.3 / ~81–102 / ~197–238 ns per op.
    - Software look-ahead prefetch in the sequencer loop (prefetch the book header, level and order node of the command 4 ahead) cuts the 10k-book case to **165–177 ns/op (−15 to −20%)**.
-   - Even the worst case is ≥4 M ops/s on one core. That is 10⁴× Kichiko's current per-market database ceiling of ~500 orders/s (brain doc §3).
+   - Even the worst case is ≥4 M ops/s on one core. That is 10⁴× Elopis's current per-market database ceiling of ~500 orders/s (brain doc §3).
 5. **The bitmap matters only for sparse books [M].**
    - With dense books (next level usually adjacent), a linear scan of level headers ties with the LZCNT/TZCNT bitmap (21.8 vs 21.5 ns/op).
    - On a sweep workload (takers crossing up to 40 ticks) the bitmap wins by ~12% (33.8 vs 38.6 ns/op), and cachegrind shows fewer instructions (179 vs 188 per op).
@@ -68,7 +68,7 @@ GitHub was reachable, so primary material hosted there was read in full: LMAX Di
    7. single writer, with an SPSC ring to a persistence thread (128 B-padded counters);
    8. cold error paths `noinline`.
 
-   SIMD is not useful in the matching loop. For Kichiko the engine is not the bottleneck. This design buys headroom and a flat tail, and it lets one core hold every market.
+   SIMD is not useful in the matching loop. For Elopis the engine is not the bottleneck. This design buys headroom and a flat tail, and it lets one core hold every market.
 
 ---
 
@@ -103,7 +103,7 @@ GitHub was reachable, so primary material hosted there was read in full: LMAX Di
 3. **Cache line and adjacent-line pairing.** Every core above uses 64 B lines.
    - Intel's L2 "spatial prefetcher" fetches the *pair* line that completes a 128 B-aligned chunk [S: Intel manual text quoted in the Intel community forum].
    - crossbeam therefore pads `CachePadded` to **128 B on x86_64 and aarch64**. Its source comment: "Starting from Intel's Sandy Bridge, spatial prefetcher is now pulling pairs of 64-byte cache lines at a time, so we have to align to 128 bytes rather than 64", citing the Intel manual and folly [F].
-   - Consequences for Kichiko: any word written by the engine thread and read by another thread (ring counters, published best-bid/offer) must sit alone in a 128 B-aligned block. Single-thread book data should be *packed*, not padded.
+   - Consequences for Elopis: any word written by the engine thread and read by another thread (ring counters, published best-bid/offer) must sit alone in a 128 B-aligned block. Single-thread book data should be *packed*, not padded.
 4. **False sharing** is the same effect on writes: two cores writing one line, or a pair of lines under spatial prefetch, turn every store into a coherence round-trip.
    - The Disruptor paper's cost table, one 64-bit counter incremented 500M times on a 2.4 GHz Westmere [F]:
 
@@ -121,7 +121,7 @@ GitHub was reachable, so primary material hosted there was read in full: LMAX Di
    - Golden Cove / SPR: L1 DTLB **96 entries**; L2 STLB **2,048 entries**; an STLB hit adds **7 cycles** (SPR "inherits the same TLB architecture") [S].
    - Zen 4: L1 DTLB 72, L2 3,072. Zen 5: 96 and **4,096**; an L2 DTLB hit costs 7 extra cycles, the same as Zen 4 [S].
    - Neoverse V2: 48-entry fully associative L1 DTLB and 2,048-entry 8-way L2 TLB, +5 cycles [S].
-   - With 4 KiB pages, 2,048 entries cover only **8 MiB**. A Kichiko shard with 10k books × 32 KB bodies (320 MB), a 128 MB order slab and an account table far exceeds that. Every cold access then pays a page walk on top of the cache miss.
+   - With 4 KiB pages, 2,048 entries cover only **8 MiB**. A Elopis shard with 10k books × 32 KB bodies (320 MB), a 128 MB order slab and an account table far exceeds that. Every cold access then pays a page walk on top of the cache miss.
    - With 2 MiB pages the same 2,048 entries would reach 4 GiB [I; whether the STLB shares entries between 4 KiB and 2 MiB pages on each core is U].
    - Under virtualization the walk is two-dimensional. The kernel THP doc says TLB misses "run faster (especially with virtualization using nested pagetables…)" and that "a significant speedup already happens if only one of the two [guest or host] is using hugepages" [F: `transhuge.rst`].
    - Measured here: at 1 GiB, THP cut pointer-chase latency from 240–273 ns to 183–189 ns (−25 to −30%). At ≤64 MB the difference was within noise [M].
@@ -139,7 +139,7 @@ GitHub was reachable, so primary material hosted there was read in full: LMAX Di
 
 ## 2. What an operation on a bounded-grid book actually touches
 
-Kichiko facts from the repository, which are the design inputs:
+Elopis facts from the repository, which are the design inputs:
 - prices are `numeric(4,1)` cents in [0.1, 99.9], which is ≤999 integer ticks (`clob_orders.price_cents` CHECK);
 - sizes are `numeric(20,6)`, i.e. micro-shares, so a `u64` fixed-point value is exact;
 - the tick size can be 0.1¢ or 1¢ (`031`, per the comment in `071_clob_index_ordered_ladder.sql:189–190`);
@@ -172,7 +172,7 @@ This is why the per-op cost is only a few tens of nanoseconds when hot, and ~150
 ### 3.1 Price-level array indexed by tick (the ladder)
 
 - **Layout.** `struct Level { u32 head; u32 tail; u64 qty; }` is 16 B, four per line. It is indexed directly by tick, so there is no search. 1,000 levels are 16,000 B per side.
-- Gross's slides say "A typical stock order book has ~1000 price levels 'per side'" [F]. Kichiko's *entire price domain* is that size.
+- Gross's slides say "A typical stock order book has ~1000 price levels 'per side'" [F]. Elopis's *entire price domain* is that size.
 - **Why not a tree or `std::map`.**
   - Every level access in a red-black tree is ~log₂(n) dependent node loads, plus an allocator call per new level.
   - Gross: `std::map` median 33 ns in a warm benchmark, but **63 ns once allocations are randomised**. The tree's nodes scatter, and each comparison is a cache miss [F, slide 31 chart].
@@ -180,7 +180,7 @@ This is why the per-op cost is only a few tens of nanoseconds when hot, and ~150
   - For a bounded grid, direct indexing removes even the linear search.
 - **Why not "flat arrays are slow" (Flash One harness).** The harness classifies "Flat direct-indexed array (± bitmap)" best at 5.60 M/s (14 engines) and notes "O(1) by tick, but cache-thrashes a wide domain → lands lower" [F].
   - Its tick is $0.005 on a $167.52 mid, i.e. 33,504 ticks, and its flash-crash scenario walks "tens of thousands of ticks" [F: `docs/METHODOLOGY.md`].
-  - 16 B × 60k ticks ≈ 1 MB per side, which spills L2 [I]. Kichiko's 16 KB per side does not.
+  - 16 B × 60k ticks ≈ 1 MB per side, which spills L2 [I]. Elopis's 16 KB per side does not.
 - **Alignment.** `alignas(64)` on the ladder, and 16 B headers at 16 B-aligned offsets, so no header straddles two lines. Four adjacent ticks share a line, and ticks near the touch are the hot set, so the L1 hot set of the touch region is 1–3 lines [I].
 
 ### 3.2 Hierarchical occupancy bitmap with LZCNT / TZCNT
@@ -223,7 +223,7 @@ This is why the per-op cost is only a few tens of nanoseconds when hot, and ~150
 - **Alternative (option B): per-level contiguous FIFO chunks** (arrays of handles, tombstone on cancel, compaction when more than half are dead).
   - Matching then reads sequentially and prefetch-friendly.
   - Flash One's "Priority-Indicated Node (PIN)" is described as "a contiguously addressable region of slots and priority indicators encoding the node-local priority rule, that provide worst-case constant work per node while preserving strict price–time priority" [S: abstract extract].
-  - With Kichiko's small per-level counts the linked list's k-hop chain is short, and cancels stay O(1) without compaction. So the list is ranked first and chunks second [I]. Benchmark both (§8, scenario S9).
+  - With Elopis's small per-level counts the linked list's k-hop chain is short, and cancels stay O(1) without compaction. So the list is ranked first and chunks second [I]. Benchmark both (§8, scenario S9).
 
 ### 3.4 Order-id → slot map
 
@@ -237,7 +237,7 @@ This is why the per-op cost is only a few tens of nanoseconds when hot, and ~150
 | `std::unordered_map` (node-based) | 14 ns (10 elements) to 24 ns (10k), 0.67 IPC, 56.5% frontend idle | Cook 2017 [F] |
 | ART (adaptive radix tree) | Several dependent node loads | exchange-core [F] |
 
-Kichiko orders are UUIDs in Postgres. [I] The engine should return a `(handle u32, oid u64)` pair at accept, and the API/DB should persist it next to the UUID so that every later cancel or modify is direct-indexed. A UUID→handle Swiss table can live in the gateway, off the matching thread, for clients that only know UUIDs.
+Elopis orders are UUIDs in Postgres. [I] The engine should return a `(handle u32, oid u64)` pair at accept, and the API/DB should persist it next to the UUID so that every later cancel or modify is direct-indexed. A UUID→handle Swiss table can live in the gateway, off the matching thread, for clients that only know UUIDs.
 
 ### 3.5 Structure-of-arrays vs array-of-structures, and hot/cold split
 
@@ -273,7 +273,7 @@ Kichiko orders are UUIDs in Postgres. [I] The engine should return a `(handle u3
   - "maker fully filled?" is predictable when orders are small relative to takers;
   - "STP hit?" is rare and marked `UNLIKELY`;
   - "level empty?" is predictable.
-- "Keeping the cache hot": run a frequent dummy path through the system to keep the d-cache, i-cache and branch predictor trained [F: Cook slide 38]. [I] For Kichiko's low message rate this matters more than any of the above. At 10 orders/s per market, every real order arrives to a cold core unless warmed.
+- "Keeping the cache hot": run a frequent dummy path through the system to keep the d-cache, i-cache and branch predictor trained [F: Cook slide 38]. [I] For Elopis's low message rate this matters more than any of the above. At 10 orders/s per market, every real order arrives to a cold core unless warmed.
 
 ### 3.9 SIMD (AVX2 / AVX-512): where it helps and where it does not
 
@@ -313,8 +313,8 @@ Kichiko orders are UUIDs in Postgres. [I] The engine should return a `(handle u3
 
 Reading of the evidence [I]:
 1. Every serious engine converges on the same ideas: a single writer, pooled or pre-allocated order objects, O(1) access to the best level, and short pointer chains.
-2. Most "M ops/s" claims are not comparable. They differ in whether gateway, risk, journaling or output hand-off are included, and in message mix. The Flash One harness is the only public apples-to-apples comparison, and its domain (wide ticks, cancel-heavy equity flow) differs from Kichiko's.
-3. At 30–45 M ops/s our prototype is in the same order as FlashOne's 33 M/s, but **not comparable**. It is a different machine; the harness adds a C ABI call and an inter-thread output hand-off per message; and our grid is 1,000 ticks. Our 4 Kichiko scenarios are closer to Flash One's "static"/"normal" than to its worst case.
+2. Most "M ops/s" claims are not comparable. They differ in whether gateway, risk, journaling or output hand-off are included, and in message mix. The Flash One harness is the only public apples-to-apples comparison, and its domain (wide ticks, cancel-heavy equity flow) differs from Elopis's.
+3. At 30–45 M ops/s our prototype is in the same order as FlashOne's 33 M/s, but **not comparable**. It is a different machine; the harness adds a C ABI call and an inter-thread output hand-off per message; and our grid is 1,000 ticks. Our 4 Elopis scenarios are closer to Flash One's "static"/"normal" than to its worst case.
 
 ---
 
@@ -330,7 +330,7 @@ Reading of the evidence [I]:
   - Per-op latency uses `lfence; rdtsc; lfence … rdtscp; lfence`, with TSC calibrated at 2.800 GHz. This is the Paoloni (Intel 2010) CPUID/RDTSC … RDTSCP pattern with lfence as the serialiser; overhead is measured and reported, not silently subtracted [F method].
   - The empty timed region costs **p50 17.5 ns (49 TSC ticks)**.
 - **Workload** (`generate()` in `book.cpp`):
-  - Kichiko-shaped flow on ticks 1..999.
+  - Elopis-shaped flow on ticks 1..999.
   - The mid price random-walks by ±1 tick with 2% probability per message.
   - Passive orders are placed at the half-spread + 1 + Exp(mean d) ticks from mid, sized 1–100 shares (in micro-shares).
   - Takers cross the opposite best by 0..s ticks, sized 20–320 shares.
@@ -443,8 +443,8 @@ Setup: M independent "thin"-shaped books (150 resting each, 2,048-slot pool each
   - ZGC max pauses "rarely exceed 250 microseconds", averaging tens of µs; Generational ZGC keeps pauses <1 ms [S: JEP 377/439].
   - Array-of-objects layouts carry pointer indirection until value types exist; the Disruptor paper names this limitation [F].
   - The Flash One harness's JVM engines measured 1.2–2.0 M/s with JNI per-message overhead [F].
-  - [I] Not recommended for a new Kichiko core, because nothing requires it.
-- **Node / TypeScript** (Kichiko's current app stack): possible for the book logic with typed arrays (`Uint32Array` links, `BigUint64Array`/`Float64Array` quantities). JIT de-optimisation and GC are the tail-latency risks [I/U]. Not measured here.
+  - [I] Not recommended for a new Elopis core, because nothing requires it.
+- **Node / TypeScript** (Elopis's current app stack): possible for the book logic with typed arrays (`Uint32Array` links, `BigUint64Array`/`Float64Array` quantities). JIT de-optimisation and GC are the tail-latency risks [I/U]. Not measured here.
 
 ### 6.2 How to measure (the VM has no PMU)
 
@@ -471,7 +471,7 @@ Setup: M independent "thin"-shaped books (150 resting each, 2,048-slot pool each
 
 ---
 
-## 7. Recommended design for Kichiko's in-memory book (ranked)
+## 7. Recommended design for Elopis's in-memory book (ranked)
 
 Assumptions:
 - one engine thread per shard (core);
@@ -570,7 +570,7 @@ Warm figures are for an L1/L2-resident book, using the Golden Cove / SPR latenci
    - Cold error paths `noinline`/`cold`.
    - Side specialised by template or const generic.
    - cmov for min/max.
-   - A periodic warm-up path at low traffic (Cook's "dummy path"), because at Kichiko's rates every real order otherwise arrives cold [F, I].
+   - A periodic warm-up path at low traffic (Cook's "dummy path"), because at Elopis's rates every real order otherwise arrives cold [F, I].
 8. **Hot/cold split and integer fixed point.** 32 B cold record; `u64` micro-shares; `i64` micro-USD. The notional `qty × tick` fits in `u64` (1e14 × 999 < 1.8e19), with the division by 1,000 done once per fill with explicit rounding [I].
 9. **Rust with a small `unsafe` core** (or C++) [M: parity]. **Not** Java or a managed runtime for the core [I].
 
@@ -595,13 +595,13 @@ Warm figures are for an L1/L2-resident book, using the Golden Cove / SPR latenci
   - the same stream replayed on every candidate.
 - **Correctness first:**
   - every candidate must match the fill-sequence hash, *and* the book state (best bid/ask, depth) at random probe points. This is Flash One's audit idea [F].
-  - the reference is **Kichiko's PL/pgSQL engine (071)**: replay the same stream through `clob_place_order` on a local Postgres and diff fills. This extends the existing 12,500-operation differential test in the brain doc §3 to ≥10⁸ ops against the in-memory book [I].
+  - the reference is **Elopis's PL/pgSQL engine (071)**: replay the same stream through `clob_place_order` on a local Postgres and diff fills. This extends the existing 12,500-operation differential test in the brain doc §3 to ≥10⁸ ops against the in-memory book [I].
 
 **Scenarios** (each at ≥10⁷ ops, 10 trials, report the median and the range):
 
 | ID | Scenario | What it stresses |
 |---|---|---|
-| S1 | thin binary market (≈150 resting, 12% takers) | typical Kichiko market; i-cache and branch warmth |
+| S1 | thin binary market (≈150 resting, 12% takers) | typical Elopis market; i-cache and branch warmth |
 | S2 | normal (≈3.5k resting) | L1 → L2 transition of nodes |
 | S3 | deep (≈80–100k resting) | L2 → L3 node misses, cancel cost |
 | S4 | sweep (takers cross 1–40 ticks) | bitmap vs linear scan; fill emission rate |
@@ -686,7 +686,7 @@ Search-extract only (page fetch blocked) [S]:
 22. rust-lang/rust issues #54878 (https://github.com/rust-lang/rust/issues/54878) and #84958 (noalias history)
 23. Readyset, "How much does Rust's bounds checking actually cost?", https://readyset.io/blog/bounds-checks (blocked; not used for numbers)
 
-Kichiko internal:
+Elopis internal:
 
 24. `docs/design/BRAIN-ARCHITECTURE-2026-09.md` §3 (PL/pgSQL 1.3 ms/order, ~500 orders/s)
 25. `docs/research/brain-2026-09/03-ENGINE-ENGINEERING.md` §2, §4

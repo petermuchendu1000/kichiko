@@ -1,6 +1,6 @@
 # Module 12 — Background jobs
 
-Kichiko runs four background workers. Each is a **Next.js route handler** under
+Elopis runs four background workers. Each is a **Next.js route handler** under
 `apps/web/app/api/cron/*`, authenticated with the shared `CRON_SECRET`, backed by
 **atomic, service-role-only Postgres RPCs** (migration `016`), and recorded in the
 `job_runs` observability table. They are scheduled with **pg_cron + pg_net**.
@@ -64,18 +64,18 @@ Extensions), then run **once per environment** from the SQL editor (the secret
 never lives in a migration):
 
 ```sql
-select public.schedule_kichiko_jobs('https://app.kichiko.co.ke', '<CRON_SECRET>');
+select public.schedule_elopis_jobs('https://app.elopis.com', '<CRON_SECRET>');
 ```
 
-`schedule_kichiko_jobs` is idempotent (it unschedules prior definitions first)
+`schedule_elopis_jobs` is idempotent (it unschedules prior definitions first)
 and no-ops with a clear message if the extensions aren't installed — so the
 migration is safe to run in CI/local environments that lack them.
 
 To inspect or tear down:
 
 ```sql
-select jobname, schedule, active from cron.job where jobname like 'kichiko-%';
-select cron.unschedule('kichiko-close-markets');  -- etc.
+select jobname, schedule, active from cron.job where jobname like 'elopis-%';
+select cron.unschedule('elopis-close-markets');  -- etc.
 ```
 
 ## Environment

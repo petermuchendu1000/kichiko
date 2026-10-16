@@ -192,7 +192,7 @@ export async function POST(req: NextRequest) {
       country,
       userId: user.id,
       depositId: deposit.id,
-      description: 'Kichiko Deposit',
+      description: 'Elopis Deposit',
     })
 
     if (!paymentResult.success) {

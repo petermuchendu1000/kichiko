@@ -54,9 +54,9 @@ export async function generateMetadata({
   const name = traderName(t)
   return {
     title: `${name}: Player profile`,
-    description: `${name}'s prediction-market track record on Kichiko: positions, profit & loss, and trading activity.`,
+    description: `${name}'s prediction-market track record on Elopis: positions, profit & loss, and trading activity.`,
     alternates: { canonical: `/traders/${id}` },
-    openGraph: { title: `${name} on Kichiko`, type: 'profile' },
+    openGraph: { title: `${name} on Elopis`, type: 'profile' },
     robots: { index: true, follow: true },
   }
 }

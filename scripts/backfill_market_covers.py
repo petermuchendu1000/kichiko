@@ -64,11 +64,11 @@ from PIL import Image
 # Identifies the project and carries a contact URL, in the conventional
 # "compatible" form. The shape is not cosmetic: safaricom.co.ke sits behind
 # CloudFront, which 403s any User-Agent that does not begin "Mozilla/" and any
-# that contains the substring "Bot" — "KichikoBot/1.0 (...)" was refused, so
+# that contains the substring "Bot" — "ElopisBot/1.0 (...)" was refused, so
 # the masthead logo was unreachable and the market fell back to a 48x34
 # favicon. This still says exactly who is calling and where to complain; it
 # does not impersonate a browser vendor or another crawler.
-UA = {"User-Agent": "Mozilla/5.0 (compatible; Kichiko/1.0; +https://kichiko.app; media-ingest; support@kichiko.app)"}
+UA = {"User-Agent": "Mozilla/5.0 (compatible; Elopis/1.0; +https://elopis.com; media-ingest; support@elopis.com)"}
 BUCKET = "entity-media"
 CANVAS = 256
 

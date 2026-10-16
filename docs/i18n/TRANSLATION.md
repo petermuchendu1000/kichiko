@@ -1,4 +1,4 @@
-# Kichiko — Translation & Localization Workflow
+# Elopis — Translation & Localization Workflow
 
 > Module 17.3 / 17.4. How UI copy is internationalized, how to add or complete a
 > language, and the guardrails (missing-key check, pseudo-locale, RTL-readiness)

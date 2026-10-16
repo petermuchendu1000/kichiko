@@ -1,7 +1,7 @@
 # 42 — Where the element matrix actually stands, 2026-10-15
 
 [40-ELEMENT-MATRIX](40-ELEMENT-MATRIX.md) is the canonical page-by-page,
-element-by-element comparison (Polymarket × Kalshi × Kichiko → ruling). It holds
+element-by-element comparison (Polymarket × Kalshi × Elopis → ruling). It holds
 73 rulings across ten sections, A–J. [50-EXECUTION-LOG](50-EXECUTION-LOG.md)
 records what was executed on 2026-09-27.
 

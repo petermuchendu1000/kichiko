@@ -3,7 +3,7 @@
 //
 // Polymarket populates this feed from an external news-ingestion pipeline that
 // pairs published articles with the outcome probability move they triggered.
-// Kichiko does not yet have that pipeline, so this returns an empty list for
+// Elopis does not yet have that pipeline, so this returns an empty list for
 // now — the <MarketContextNews /> component renders nothing when empty, so the
 // page stays clean until a real source is connected.
 //

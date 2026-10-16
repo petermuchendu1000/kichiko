@@ -3,14 +3,14 @@ import { LegalPage } from '@/components/content/legal-page'
 
 export const metadata: Metadata = {
   title: 'Terms of Service',
-  description: 'The terms governing your use of Kichiko.',
+  description: 'The terms governing your use of Elopis.',
 }
 
 export default function TermsPage() {
   return (
     <LegalPage title="Terms of Service" updated="July 2026">
       <p>
-        These Terms govern your access to and use of Kichiko (the
+        These Terms govern your access to and use of Elopis (the
         &ldquo;Platform&rdquo;). By creating an account or making a prediction you
         agree to these Terms. <strong>This is a launch template pending final
         review by legal counsel for each East-African jurisdiction we operate

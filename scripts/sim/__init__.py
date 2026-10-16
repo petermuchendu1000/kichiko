@@ -1,1 +1,1 @@
-"""Kichiko simulation seeding package."""
+"""Elopis simulation seeding package."""

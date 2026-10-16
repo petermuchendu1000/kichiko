@@ -12,7 +12,7 @@ export default function ResponsiblePlayPage() {
   return (
     <LegalPage title="Responsible Play" updated="July 2026">
       <p>
-        Kichiko involves real money and real risk. We want trading to stay fun
+        Elopis involves real money and real risk. We want trading to stay fun
         and under control. Please read and take these seriously.
       </p>
 

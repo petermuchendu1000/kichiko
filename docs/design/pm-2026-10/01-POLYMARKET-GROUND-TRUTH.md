@@ -22,9 +22,9 @@ Tailwind (`bg-pk-elevated`, `text-pk-content-secondary`, `shadow-pk-minimal-soft
 Many colours are authored in **CIE Lab** (`lab(44.7153% 32.3672 -86.8665)`), not hex —
 a deliberate choice for perceptually even ramps. Resolved values below.
 
-### Neutrals — identical to Kichiko's `ink` ramp
+### Neutrals — identical to Elopis's `ink` ramp
 
-| Token | Value | Kichiko `ink` |
+| Token | Value | Elopis `ink` |
 |---|---|---|
 | `--neutral-950` | `#0e0f11` | `--ink-950` ✅ same |
 | `--neutral-900` | `#1a1c1f` | `--ink-900` ✅ |
@@ -38,11 +38,11 @@ a deliberate choice for perceptually even ramps. Resolved values below.
 | `--neutral-100` | `#e6e8ea` | `--ink-100` ✅ |
 | `--neutral-50`  | `#f4f5f6` | `--ink-50` ✅ |
 
-Kichiko's prior parity work on neutrals is **exact**. No change needed.
+Elopis's prior parity work on neutrals is **exact**. No change needed.
 
 ### Market semantics — also already matched
 
-| Token | Value | Kichiko |
+| Token | Value | Elopis |
 |---|---|---|
 | `--market-positive` | `#30a159` | `--yes` ✅ same |
 | `--market-negative` | `#e23939` | `--no` ✅ same |
@@ -55,14 +55,14 @@ Kichiko's prior parity work on neutrals is **exact**. No change needed.
 |---|---|
 | `--blue-500` (palette token) | `#1652f0` |
 | **Chart series stroke (computed)** | `rgb(20, 82, 240)` = **`#1452f0`** |
-| Kichiko `--pip-500` | `#1452F0` |
+| Elopis `--pip-500` | `#1452F0` |
 
-Kichiko matches the **rendered** brand blue. Their palette token is 2/255 off in the
-red channel from what they actually paint. Kichiko is correct — leave it.
+Elopis matches the **rendered** brand blue. Their palette token is 2/255 off in the
+red channel from what they actually paint. Elopis is correct — leave it.
 
 ### Layout constants
 
-| Token | Value | Kichiko |
+| Token | Value | Elopis |
 |---|---|---|
 | `--page-max-width` | **1350px** | `--maxw:1200px` / `--maxw-wide:1320px` ⚠️ narrower |
 | `--navbar-height` | **116px** | 102px (57 + 45) |
@@ -77,14 +77,14 @@ scroll offsets 0 / 80 / 200 / 600 / 1400 on the landing page and 0 / 300 / 900 /
 `position: sticky`. The collapsed-height token is not applied on either page.
 There is no collapse to copy.
 
-Kichiko's nav is **102px** (57px bar + 45px category rail), the same two-row
+Elopis's nav is **102px** (57px bar + 45px category rail), the same two-row
 shape and already tighter. Hit-testing and clicks verified; `backdrop-filter`
 is computed and supported, so content ghosting in headless screenshots is a
 compositing artifact of the capture, not a defect.
 
 ### Typography — the density signal
 
-Inter variable, with an explicit feature string Kichiko does not set:
+Inter variable, with an explicit feature string Elopis does not set:
 
 ```
 --inter-font-features: "liga" 1, "calt" 1, "cv01" 1, "cv02" 1,
@@ -95,7 +95,7 @@ Inter variable, with an explicit feature string Kichiko does not set:
 open `g`, straight-tail `l`, disambiguated `1`/`I`). This is what makes their
 numerals and lowercase read "fintech" rather than "default Inter".
 
-**Kichiko already sets this**, identically, at `app/globals.css:179` — verified
+**Elopis already sets this**, identically, at `app/globals.css:179` — verified
 after the capture. Parity, not a gap.
 
 Measured size frequency across the landing page:
@@ -127,11 +127,11 @@ inset 0 0 0 0 transparent,
 0 2px 10px 0     lab(0 0 0 / .025);
 ```
 
-A 6%-opacity 1px ring plus two 2.5% blurs. Kichiko's `--e1 (0 1px 2px rgba(10,12,16,.05))`
+A 6%-opacity 1px ring plus two 2.5% blurs. Elopis's `--e1 (0 1px 2px rgba(10,12,16,.05))`
 is a conventional drop shadow with **no ring** — visibly flatter and less crisp.
 
 Radius frequency: `7.2px` (172), `5.2px` (134), `2px` (105), `15.2px` (37),
-`9.2px` (31), `11.2px` (19), pill. A *six-step* radius scale; Kichiko has three.
+`9.2px` (31), `11.2px` (19), pill. A *six-step* radius scale; Elopis has three.
 
 ### Motion — one canonical micro-transition
 
@@ -143,7 +143,7 @@ Radius frequency: `7.2px` (172), `5.2px` (134), `2px` (105), `15.2px` (37),
 | `0.7s cubic-bezier(0.22,1,0.36,1)` | 10 |
 
 **One** transition does 95% of the work: 150ms standard-ease. Large reveals use
-700ms easeOutQuint. Kichiko declares `--dur-micro:120ms / --dur:200ms / --dur-in:280ms`
+700ms easeOutQuint. Elopis declares `--dur-micro:120ms / --dur:200ms / --dur-in:280ms`
 with two custom eases — more tokens, less discipline.
 
 ---
@@ -152,7 +152,7 @@ with two custom eases — more tokens, less discipline.
 
 **Engine: `visx`** (Airbnb's D3-primitives-for-React). Not Recharts, not Highcharts.
 Confirmed by `[class*="visx"]` and by the hand-built axis/grid structure.
-Kichiko uses **Recharts** — a higher-level, less controllable wrapper.
+Elopis uses **Recharts** — a higher-level, less controllable wrapper.
 
 Plot geometry on a 1440px viewport: **922 × 240px**, 8 `path`, 24 `line`, 17 `text`,
 4 `circle`, 32 `g`. Pure SVG, zero canvas on the detail chart.
@@ -191,7 +191,7 @@ continuation — visually honest about "this is not data yet".
 The chart red is **far brighter** than the semantic `--market-negative #e23939`.
 Charts get their own, more saturated palette tuned for thin 1.75px strokes against
 white — a thin line needs more chroma than a filled chip to read at the same strength.
-Kichiko currently paints chart series with the semantic red; at 1.75px it will look
+Elopis currently paints chart series with the semantic red; at 1.75px it will look
 muddier than theirs.
 
 ### 2.3 Hover: no tooltip box at all
@@ -274,9 +274,9 @@ circular arc gauge), **binary Yes/No card** (77% + green Yes / red No buttons),
 
 ---
 
-## 4. Scorecard — where Kichiko stands
+## 4. Scorecard — where Elopis stands
 
-| Dimension | Polymarket | Kichiko today | Verdict |
+| Dimension | Polymarket | Elopis today | Verdict |
 |---|---|---|---|
 | Neutral ramp | 11 steps | identical | ✅ parity |
 | Market semantics | `#30a159` / `#e23939` | identical | ✅ parity |

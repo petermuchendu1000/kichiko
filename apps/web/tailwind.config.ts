@@ -1,7 +1,7 @@
 import type { Config } from 'tailwindcss'
 
 /**
- * Kichiko — "Pip" design system Tailwind theme.
+ * Elopis — "Pip" design system Tailwind theme.
  * Colors/radii mirror app/globals.css tokens. Fonts come from next/font
  * (--font-inter UI, --font-geist-mono numerics). Green/red are DESATURATED
  * market semantics (YES/NO), never neon; brand is Pip Blue.

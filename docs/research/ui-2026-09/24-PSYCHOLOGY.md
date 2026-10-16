@@ -1,4 +1,4 @@
-# 04 — Behavioural Science for the Kichiko UI
+# 04 — Behavioural Science for the Elopis UI
 
 **Scope.** What the behavioural-science, risk-communication, HCI and responsible-gambling literatures
 actually establish about presenting a real-money binary prediction market on a mid-range Android
@@ -11,7 +11,7 @@ phone, to first-time users in Kenya, Uganda, Tanzania, Rwanda and Zambia paying 
 - **Evidence: MODERATE** — one or two good experiments, or a well-conducted single large trial.
 - **Evidence: WEAK / CONTESTED** — single study, practitioner research, non-peer-reviewed, or the
   literature disagrees. Flagged explicitly.
-- **INFERENCE** — my reasoning or my transfer of a finding to Kichiko. Not a claim the source makes.
+- **INFERENCE** — my reasoning or my transfer of a finding to Elopis. Not a claim the source makes.
 - **[PP]** — preprint / not peer reviewed. **[GREY]** — grey literature or practitioner research.
 
 **Every rule is written to be testable**: a design rule plus the outcome measure that would falsify it.
@@ -30,7 +30,7 @@ This is a **market-design and microstructure** document, not a UI document. It e
   theory; Page & Clemen (2013) — prediction markets are well calibrated near expiry and biased for
   distant events; Bürgi et al. on Kalshi — contracts priced ≤10¢ lose **more than 60%** on average,
   average return ≈ −20%; Le (2026)[PP] — prices compress toward 50% in political markets. It already
-  draws the inference that **retail users disproportionately buy cheap longshots** and that Kichiko
+  draws the inference that **retail users disproportionately buy cheap longshots** and that Elopis
   should consider "consumer-protection disclosures showing the historical realised return by price
   bucket."
 - It contains **no** risk-communication, framing, dark-pattern, chart-cognition, trust or
@@ -155,7 +155,7 @@ languages, **numbers are the interoperable channel; words are decoration.**
 **Testable as:** removing verbal labels does not reduce comprehension; removing numbers does.
 
 ### 1.4 Percentage "payout" formats inflate perceived chance of winning; loss framing in money units is better understood
-**Claim.** This is the single most transferable experimental result for Kichiko. In a 5,311-person UK
+**Claim.** This is the single most transferable experimental result for Elopis. In a 5,311-person UK
 randomised experiment, five ways of stating the same house economics were compared. Presenting the
 information as a **simplified money loss with volatility** ("Players lose £7 for every £100 bet on
 average") beat return-to-player percentage on comprehension — **52% vs 27%** correct on the key
@@ -188,7 +188,7 @@ experiments, one registered report, one incentivised behavioural study (n=2,433)
 behavioural change but with the authors' own explicit warning that the **effect sizes were small**
 and "a public health approach to gambling should not rely on informational provisions only."
 
-**Design rule R4.** Never state Kichiko's economics as a payout percentage. State them as **money
+**Design rule R4.** Never state Elopis's economics as a payout percentage. State them as **money
 lost per KSh 100 staked, on average**, plus a volatility sentence. Concretely, the fee and the
 favourite–longshot warning should read like `On average, people who buy at prices under KSh 10 get
 back about KSh 4 of every KSh 10 they put in` — money units, loss direction, no percentage headline.
@@ -233,7 +233,7 @@ preference. This is the foundational result and it is not seriously disputed.
 **Evidence: STRONG.** Nobel-recognised, replicated; the *parameters* of the weighting function are
 debated but the qualitative pattern is not.
 
-**Design rule R6.** Because framing flips preference, Kichiko must **hold the frame constant and
+**Design rule R6.** Because framing flips preference, Elopis must **hold the frame constant and
 symmetric** rather than pick the flattering one. YES and NO must be rendered with identical visual
 weight, identical wording structure, and identical disclosure. Any asymmetry (bigger button, warmer
 colour, "popular" badge on one side) is a thumb on the scale.
@@ -325,7 +325,7 @@ work is mostly correlational.
 strongest statement of that link I found is journalism, and the academic mobile-payment work is
 largely cross-sectional and from other markets). Flagged as thin.
 
-**Design rule R9.** Because the M-Pesa STK-push rail is *designed* to be frictionless, Kichiko must
+**Design rule R9.** Because the M-Pesa STK-push rail is *designed* to be frictionless, Elopis must
 supply the tangibility the rail removes: **every amount in KSh, never in points, credits, chips,
 "units" or a token**; a running session-spend figure the user can see; and the balance shown in the
 same units as the M-Pesa message. No abstraction layer between money and money.
@@ -493,10 +493,10 @@ verifiable and auditable after the fact. Safaricom's own fraud-awareness materia
 trust claims rest on operator guidance, a thesis, one CHI-adjacent conference paper and GSMA/CGAP
 practitioner work. **Flagged: there is no controlled study I could find that measures which interface
 signals raise trust for Kenyan/Ugandan/Tanzanian mobile-money users.** This is the biggest evidence
-gap in this document, and it is exactly where Kichiko should run its own research.
+gap in this document, and it is exactly where Elopis should run its own research.
 
 **Design rule R14.** Mirror the M-Pesa grammar exactly: (a) a **name-and-amount verification step**
-before the PIN-equivalent ("You are paying KICHIKO — KSh 200 — correct?"); (b) an **immediate
+before the PIN-equivalent ("You are paying ELOPIS — KSh 200 — correct?"); (b) an **immediate
 in-app receipt with a copyable reference code**, matching what the SMS says, character for character;
 (c) a permanent, searchable transaction history the user can reconcile against their M-Pesa
 statement.
@@ -662,7 +662,7 @@ header.
 ## 6. Dark patterns and the ethical line
 
 ### 6.1 The catalogue, with the evidence for each
-| Pattern | What it is | Evidence it works / harms | Verdict for Kichiko |
+| Pattern | What it is | Evidence it works / harms | Verdict for Elopis |
 |---|---|---|---|
 | **Variable / intermittent reward** | Unpredictable reinforcement schedules; spinning, reveals, surprise bonuses | Foundational operant-conditioning literature; the gambling-harm case rests on it | **Never.** No reveal animation, no surprise bonus, no spin |
 | **Near-miss framing** | Presenting a loss as almost-a-win | Clark et al. (2009), *Neuron* 61(3):481–490, *Gambling Near-Misses Enhance Motivation to Gamble and Recruit Win-Related Brain Circuitry*, https://www.sciencedirect.com/science/article/pii/S0896627309000373 ; Chase & Clark striatal findings, https://pmc.ncbi.nlm.nih.gov/articles/PMC4987843/ ; review: *The Near-Miss Effect in Slot Machines*, J Gambling Studies, https://link.springer.com/article/10.1007/s10899-019-09891-8 | **Never.** A market that resolved against the user is shown as a plain loss. No "you were so close", no "it was at 48% an hour ago" |
@@ -834,7 +834,7 @@ legibility session per release.
 1. **No controlled study of trust signals for East African mobile-money users.** §4 is the weakest
    section. The M-Pesa grammar recommendation (Hakikisha-style verification, receipt code,
    reconcilable history) is a well-motivated inference from operator guidance, a Kenyan MSc thesis,
-   and GSMA/CGAP practitioner work — not from an experiment. **This is Kichiko's highest-value own
+   and GSMA/CGAP practitioner work — not from an experiment. **This is Elopis's highest-value own
    research opportunity.**
 2. **The whole probability-format literature is about health, weather and climate**, not about buying
    a binary contract with your own money. The single closest evidence — the BIT odds-comprehension

@@ -8,7 +8,7 @@ deliberately did not do.
 
 ## 1. The headline number
 
-Kichiko's landing page, measured at 1440×900:
+Elopis's landing page, measured at 1440×900:
 
 | | Before | After |
 |---|---|---|

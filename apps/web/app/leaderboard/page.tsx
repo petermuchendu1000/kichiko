@@ -10,7 +10,7 @@ import { IconLeaderboard } from '@/components/ui/icons'
 
 export const metadata: Metadata = {
   title: 'Leaderboard',
-  description: 'The Kichiko leaderboard is paused while it is rebuilt as an opt-in accuracy board.',
+  description: 'The Elopis leaderboard is paused while it is rebuilt as an opt-in accuracy board.',
   robots: { index: false, follow: true },
 }
 

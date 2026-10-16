@@ -1,6 +1,6 @@
 // app/api/cron/deposit-sweep/route.ts — settle deposits whose callback never
 // came by asking the provider (deposit half of audit 6.10; migration 084).
-// Scheduled every 2 minutes by schedule_kichiko_jobs ('kichiko-deposit-sweep');
+// Scheduled every 2 minutes by schedule_elopis_jobs ('elopis-deposit-sweep');
 // CRON_SECRET-gated. Settles only on an authoritative answer, through the same
 // idempotent credit/fail RPCs and idempotency keys as the webhooks.
 import { NextRequest, NextResponse } from 'next/server'

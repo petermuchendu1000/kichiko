@@ -1,7 +1,7 @@
 # 31 — Decision psychology of money and risk: re-verified evidence and binding rules
 
 **Scope.** The order ticket, market pages, charts, notifications and responsible-gambling (RG)
-tools of Kichiko, a real-money binary prediction market for Kenya first, then Uganda, Tanzania
+tools of Elopis, a real-money binary prediction market for Kenya first, then Uganda, Tanzania
 and Rwanda. Money is shown in KSh and probability in % (decided 2026-09-27; not re-argued here).
 
 **Compiled:** 2026-09-27. **Supersedes** the evidence claims of [`24-PSYCHOLOGY.md`](../24-PSYCHOLOGY.md)
@@ -41,7 +41,7 @@ Verdicts: **CONFIRMED** · **OVERSTATED** (with the corrected statement) · **WR
 
 | # | Prior claim (20-WORK-PLAN §3) | Verdict | What the primary source actually says; corrected statement | Source checked |
 |---|---|---|---|---|
-| 1 | Never express economics as a payout %; BIT 2022 loss framing raised comprehension 27%→52% and cut willingness to play ~9pp; Weiss-Cohen 2025 RTP raised perceived chance vs no information. **STRONG** | **OVERSTATED** | **Accurate:** in the BIT study (n=5,311 UK online panel, slots), the ratio item was 27%→52% for the "simplified loss-volatility" arm. The other claims need correcting. **(a)** Answering all three items correctly rose only **11%→14%**. The item "not guaranteed any wins" **fell** 47%→43% (p<.05). BIT itself says the loss framing **increased the misreading that there is a maximum loss** ("lose £7 per £100" read as "lose no more than £7"). **(b)** Decision to play fell **75%→68% (−7pp)** in the loss-volatility arm and to 64% in the graphic arm. The "~9pp" is BIT's average of the two. **(c)** There was **no substantive difference in amount lost, stakes or spins** among those who played. **(d)** Among **PGSI 4+ (problem gambling, n=542) play was 91–95% in every arm: no effect.** **(e)** Weiss-Cohen et al. 2025 (N=6,062, UK+US, 2 studies): a 90% RTP message raised perceived chance vs no information (ORs>5). **House-edge messages beat RTP but were no better than no information.** **Corrected:** do not headline economics as a return/payout %, because RTP-style framing misleads (**STRONG**, replicated). Money-loss framing improves understanding of one ratio (**MODERATE**). Its behavioural effect is small and limited to entry (**WEAK**), and it is **null for problem gamblers**. **Legal note:** Kenya L.N. 112 Reg. 20(2)–(3) requires casinos, and online operators "with the necessary modification", to display "house edge and average return to the player". Reg. 45(4) requires the theoretical RTP to be disclosed **to the Authority** (the draft said "publicly"). If the GRA applies Reg. 20 to Kichiko, the RTP goes in the rules layer, not the headline. | BIT 2022 [FT]; Weiss-Cohen 2025 [ABS]; L.N. 112 [FT] |
+| 1 | Never express economics as a payout %; BIT 2022 loss framing raised comprehension 27%→52% and cut willingness to play ~9pp; Weiss-Cohen 2025 RTP raised perceived chance vs no information. **STRONG** | **OVERSTATED** | **Accurate:** in the BIT study (n=5,311 UK online panel, slots), the ratio item was 27%→52% for the "simplified loss-volatility" arm. The other claims need correcting. **(a)** Answering all three items correctly rose only **11%→14%**. The item "not guaranteed any wins" **fell** 47%→43% (p<.05). BIT itself says the loss framing **increased the misreading that there is a maximum loss** ("lose £7 per £100" read as "lose no more than £7"). **(b)** Decision to play fell **75%→68% (−7pp)** in the loss-volatility arm and to 64% in the graphic arm. The "~9pp" is BIT's average of the two. **(c)** There was **no substantive difference in amount lost, stakes or spins** among those who played. **(d)** Among **PGSI 4+ (problem gambling, n=542) play was 91–95% in every arm: no effect.** **(e)** Weiss-Cohen et al. 2025 (N=6,062, UK+US, 2 studies): a 90% RTP message raised perceived chance vs no information (ORs>5). **House-edge messages beat RTP but were no better than no information.** **Corrected:** do not headline economics as a return/payout %, because RTP-style framing misleads (**STRONG**, replicated). Money-loss framing improves understanding of one ratio (**MODERATE**). Its behavioural effect is small and limited to entry (**WEAK**), and it is **null for problem gamblers**. **Legal note:** Kenya L.N. 112 Reg. 20(2)–(3) requires casinos, and online operators "with the necessary modification", to display "house edge and average return to the player". Reg. 45(4) requires the theoretical RTP to be disclosed **to the Authority** (the draft said "publicly"). If the GRA applies Reg. 20 to Elopis, the RTP goes in the rules layer, not the headline. | BIT 2022 [FT]; Weiss-Cohen 2025 [ABS]; L.N. 112 [FT] |
 | 2 | Show `You pay` / `Most you can lose` / `If right you get`, in KSh, before confirm; Newall 2022; GRA Reg 45; WCAG 3.3.4. **STRONG + normative** | **OVERSTATED** | **Normative basis CONFIRMED.** L.N. 112 Reg. 45(1) (rules displayed "before a player … places any wager"); Reg. 23(1) ("clearly display betting odds, rules and terms applicable to each bet"); Act s.72(6) (all rules and "the particulars of any processing fee"). WCAG 2.2 SC 3.3.4 requires "at least one of" reversible, checked or confirmed. **Behavioural claim unsupported.** Newall et al. 2022 (US, N=2,433, incentivised slots) tested house-edge and volatility statements against RTP (spins OR 1.40 and 1.57, "rather small"). It did not test a pay/max-loss/payout triad. No study was found that tests this triad. **Corrected:** BINDING display duty; behavioural effect **UNTESTED** (see E2). | L.N. 112 [FT]; Act [FT]; W3C WCAG source [FT]; Newall 2022 preprint [FT] |
 | 3 | All-in fees up front, never dripped; OFT 2010, Rasch 2020, Santana 2020. **STRONG** | **CONFIRMED** (sources upgraded) | Blake, Moshary, Sweeney & Tadelis 2021 ran a **large-scale StubHub field experiment**: disclosing fees up front reduced both quantity and quality purchased, and obfuscation made consumers spend more. Santana et al. 2020 (6 studies) found dripped surcharges lead people to pick higher-total options and stick with them. Rasch et al. 2020 (lab) found sellers maximise drips and consumer surplus falls. The **FTC 2022 staff report** lists drip pricing as a dark pattern. **BINDING in Kenya:** Act s.72(6)(b). OFT 2010 was not re-fetched and is not needed. **Commercial cost stated honestly:** in Blake et al., up-front pricing **reduced purchases**. | Blake 2021 [ABS/NBER]; Santana 2020 [ABS]; Rasch 2020 [ABS]; FTC 2022 [FT]; Act [FT] |
 | 4 | Probability as % with a co-located frequency gloss `57% · about 57 in 100`; Gigerenzer 2007, Galesic 2009, Garcia-Retamero & Cokely 2017. **STRONG** (transfer is inference) | **OVERSTATED → CONTESTED** | Natural frequencies help **Bayesian inference** tasks: meta-analysis of 35 articles and 226 estimates (McDowell & Jacobs 2017); Galesic 2009 (n=162), positive predictive value correct 15–18% vs 55–58%. A market price is a **single-event** probability. For single-event forecasts, **Joslyn & Nichols 2009** found participants understood **"90%" better than "9 times in 10" or "90 out of 100"**, and adding a reference-class phrase did **not** help. **Slovic et al. 2000** found frequency formats ("2 out of 10") produce **higher perceived risk** than the equivalent %, through vivid imagery. For a longshot, that imagery could make the win feel more attainable. This is the ratio bias of Denes-Raj & Epstein 1994, which correlated with self-reported gambling. **Corrected:** the % is primary. A frequency gloss is a **hypothesis to test (E1), not a rule**. | McDowell 2017 [ABS]; Galesic 2009 [ABS]; Joslyn 2009 [ABS]; Slovic 2000 [ABS]; Denes-Raj 1994 [ABS] |
@@ -59,14 +59,14 @@ Verdicts: **CONFIRMED** · **OVERSTATED** (with the corrected statement) · **WR
 
 | Item | Verdict | Finding |
 |---|---|---|
-| Variable or intermittent reward; surprise bonuses | **UNVERIFIABLE** as cited | Neither pass cites a primary source; doc 24 says "foundational operant-conditioning literature". Keep it as **precautionary Kichiko policy**. It is not a Kenyan legal requirement: Act s.74(3) permits bonus bets. |
+| Variable or intermittent reward; surprise bonuses | **UNVERIFIABLE** as cited | Neither pass cites a primary source; doc 24 says "foundational operant-conditioning literature". Keep it as **precautionary Elopis policy**. It is not a Kenyan legal requirement: Act s.74(3) permits bonus bets. |
 | Near-miss framing ("it was at 48% an hour ago") | **OVERSTATED** (transfer) | Clark et al. 2009, a slot-machine fMRI task: near-misses were less pleasant but **increased desire to play, only when the player had personal control**. No study covers prediction markets. Keep it as a precaution and label it that way. |
 | Any celebration where net proceeds ≤ stake (UKGC 2021) | **CONFIRMED** | UKGC announced the ban on 2 Feb 2021, in force by 31 Oct 2021, now **RTS 14F** ("must not celebrate a return which is less than or equal to the total stake"). Myles, Bennett & Newall 2026: **17 of 26** popular UK slots still used win-associated sounds after losses disguised as wins (validated with 400 gamblers). The rule must be **operationally defined** (see FR-5). Behavioural evidence: Graydon et al. 2018, lab, n=132 (WEAK). |
 | Countdown timers not tied to a real close | **CONFIRMED** | Mathur 2019 (157 deceptive). |
 | Manufactured social proof or winner feeds | **CONFIRMED + BINDING** (for ads) | Kenya L.N. 114 r.9(e) no testimonials; r.9(f) no "former winners". L.N. 112 **Reg. 87**: winners' identities are confidential unless they consent in writing. **Barasa 2026 (Kenya, n=905, lab-in-the-field RCT):** peer interaction plus warnings **increased betting rounds by 13%**, undermining the warning's effect. |
 | Any notification or banner triggered by a loss (*Sci Rep* 2024) | **OVERSTATED citation; rule CONFIRMED** | Zhang et al. 2024 is observational eCasino data: players bet more and played longer **after immediate losses**. It does not test notifications. The rule is supported by UKGC **RTS 14A** (products must not encourage chasing losses; comparative), **Uganda Betting Regs 2017 r.4(c)** (ads must not encourage "recovering past … losses"; BINDING in Uganda), and Russell et al. 2018 (EMA, n=202: **texts raised betting likelihood and spend within 24h**). |
 | Streaks, badges or confetti on money surfaces (Barber & Odean 2022) | **OVERSTATED** (mis-cited) | Barber, **Huang**, Odean & **Schwarz** 2022 is about **attention-induced trading**: the top-bought stocks had −4.7% 20-day abnormal returns. The direct evidence is **Chapkovski, Khapko & Zoican 2026** (*Management Science*, randomised): hedonic gamification (confetti, badges) raised trading volume **5.17%**. 70% of the platform gap is self-selection, 30% causal, and **low financial literacy predicts preferring the gamified platform**. Grade MODERATE. |
-| Deposit bonuses, free stakes or credit ("prohibited outright by the Gambling Control Act 2025") | **WRONG** for bonuses and free bets | Act **s.72(7)** bans inducing bets "by advancing credits, the use of credit cards or meeting third party costs", then adds the proviso: "**shall not apply to free bets and bonus bets** conducted in the ordinary course of business". **s.74(1)(a)** bans credit, but **s.74(3)**: "Nothing in this section shall be construed as limiting an operator from **offering free bets and bonus bets**". **Credit is prohibited; bonuses and free bets are lawful in Kenya.** s.74(1)(b) (no "offer designed to induce persons to participate or increase their participation") sits in tension with 74(3). **Keep the ban as Kichiko policy**, on evidence: Challet-Bouju et al. 2020 RCT (n=171; inducements raised money wagered and perceived loss of control); Balem et al. 2022 (observational, n≈15,000); BIT 2022 free spins raised play 70%→75%. Tanzania's Advertising Code 2023, cl. 2.2.1(h), bans credit, vouchers or rewards as inducements in ads. |
+| Deposit bonuses, free stakes or credit ("prohibited outright by the Gambling Control Act 2025") | **WRONG** for bonuses and free bets | Act **s.72(7)** bans inducing bets "by advancing credits, the use of credit cards or meeting third party costs", then adds the proviso: "**shall not apply to free bets and bonus bets** conducted in the ordinary course of business". **s.74(1)(a)** bans credit, but **s.74(3)**: "Nothing in this section shall be construed as limiting an operator from **offering free bets and bonus bets**". **Credit is prohibited; bonuses and free bets are lawful in Kenya.** s.74(1)(b) (no "offer designed to induce persons to participate or increase their participation") sits in tension with 74(3). **Keep the ban as Elopis policy**, on evidence: Challet-Bouju et al. 2020 RCT (n=171; inducements raised money wagered and perceived loss of control); Balem et al. 2022 (observational, n≈15,000); BIT 2022 free spins raised play 70%→75%. Tanzania's Advertising Code 2023, cl. 2.2.1(h), bans credit, vouchers or rewards as inducements in ads. |
 | Confirmshaming | **CONFIRMED** (catalogued) | A Mathur 2019 category. Luguri 2021 found "loaded language" moderately effective. |
 | Drip-priced fees | **CONFIRMED** | See rule 3. |
 | Asymmetric YES/NO defaults | **CONFIRMED** (re-cited) | See rule 7. Polymarket's desktop ticket **pre-selects the leading candidate**, and the event page renders "Yes 58.7¢" selected (doc 21 §4 and §17 C15; doc 23 §5, measured). |
@@ -79,7 +79,7 @@ Verdicts: **CONFIRMED** · **OVERSTATED** (with the corrected statement) · **WR
    Draft 87(2)(f) "**player savings tool**" is **dropped**. Draft 45 "RTP publicly disclosed" became
    45(4) "disclosed **to the Authority**". The draft's ad-audience threshold ("more than twenty-five
    per centum … under the age") became "audience … **reasonably expected to be under the age**" (46(d)).
-2. **New and binding for Kichiko: L.N. 112 Reg. 45(5)–(8).** No prediction market "except with the
+2. **New and binding for Elopis: L.N. 112 Reg. 45(5)–(8).** No prediction market "except with the
    prior approval of the Authority". Outcomes must be determined by "a transparent, verifiable and
    independent resolution mechanism approved by the Authority". **No markets on** pending Kenyan court
    proceedings, "the physical safety, health or death of an identifiable natural person", or matters
@@ -131,14 +131,14 @@ fail a PR on.
   yield small positive returns (Bürgi, Deng & Whelan 2026, **abstract only**; bucket magnitudes
   UNVERIFIED). In horse racing the bias is driven by **misperception of probability**, not risk-love
   (Snowberg & Wolfers 2010; **MODERATE**). But **two-outcome** sports markets often show *favourite*
-  bias (Newall & Cortis 2021, review). **CONTESTED** on direction in binary markets, so Kichiko must
+  bias (Newall & Cortis 2021, review). **CONTESTED** on direction in binary markets, so Elopis must
   measure its own.
 - **Binary-option precedent.** ESMA banned binary options for EU retail clients (Decision
   (EU) 2018/795). Its reasons: pricing "requires retail clients to accurately assess the value of
   the option in relation to the expected probability"; "the more positions an investor takes, the
   more likely they are to lose money"; and "the existence of a secondary market … does not change
-  the fundamental characteristics". A Kichiko contract is structurally a binary option on a trading
-  venue. The price-comprehension problem **transfers fully**. Kichiko's P2P structure has no house
+  the fundamental characteristics". A Elopis contract is structurally a binary option on a trading
+  venue. The price-comprehension problem **transfers fully**. Elopis's P2P structure has no house
   counterparty, but fees make the aggregate expected return negative in the same way.
 - **Numeracy.** Less numerate people are more swayed by framing and irrelevant affect (Peters et
   al. 2006; **MODERATE**). Problem gamblers had the lowest comprehension: 2% all-correct vs 14% of
@@ -163,7 +163,7 @@ fail a PR on.
 - **PR-4. Verbal words only inline with the number.** For example `57% (likely)`. Never in a
   tooltip, never alone. *Accept:* lint rejects `likely|unlikely|probable|almost certain` in any
   string template that has no `%` token in the same string.
-- **PR-5. Kichiko's own calibration, disclosed.** A public calibration page shows, per price
+- **PR-5. Elopis's own calibration, disclosed.** A public calibration page shows, per price
   bucket (0–10, 10–20 … 90–100), resolved contracts n, the realised win rate and the average
   money result per KSh 100 staked, with 95% CIs. The ticket shows a static bucket line (money
   framing, FR-3) **only** when that bucket has n ≥ 200 resolved contracts and its CI excludes zero.
@@ -231,7 +231,7 @@ fail a PR on.
   total (Santana).
 - **Transfer.** Directly transferable: a trading fee revealed at confirm is a mandatory surcharge.
   Kenya makes it binding (Act s.72(6)(b)). The FTC notes that an honest seller is "at a significant
-  disadvantage" to one that drips, which is the commercial cost Kichiko accepts.
+  disadvantage" to one that drips, which is the commercial cost Elopis accepts.
 
 **Rules**
 - **FE-1. All-in first, everywhere.** The first price the user sees for an action already includes
@@ -342,7 +342,7 @@ fail a PR on.
   **WEAK**, n per experiment as small as 9).
 - **Time horizon.** Shorter chart horizons raise trading and fees without changing risk-taking
   (Borsboom 2022, n=1,041; **MODERATE**, equities, lab). The churn mechanism transfers, because fees
-  make trading costly on Kichiko too. The magnitude should not be assumed.
+  make trading costly on Elopis too. The magnitude should not be assumed.
 - **Distributions.** For continuous forecasts, quantile dotplots improve incentivised decisions
   (Fernandes 2018, n=408: 97% of optimal payoff, +5pp vs control) and estimate precision (Kay 2016,
   n=320). **MODERATE**. This applies only to range or numeric markets.
@@ -389,7 +389,7 @@ fail a PR on.
   (Russell 2018, EMA; **WEAK-MODERATE**).
 - **Chasing.** Players chase within sessions after immediate losses (Zhang 2024; Edson 2025,
   n≈71,000; observational, **MODERATE** for existence).
-- **Transfer.** Live sports markets on Kichiko resolving within minutes are the in-play product.
+- **Transfer.** Live sports markets on Elopis resolving within minutes are the in-play product.
   Speed transfers as time-between-decisions.
 
 **Rules**
@@ -428,7 +428,7 @@ fail a PR on.
   market carousel, no "try another", and no "win it back" copy (UKGC RTS 14A; Uganda r.4(c)).
   *Accept:* snapshot and reviewer checklist.
 - **HM-6. Reality check (BINDING in KE).** A pop-up shows **time elapsed** since the session began
-  (Reg. 84(2)(d)) and, as Kichiko policy, **the session net in KSh**. The user must acknowledge it
+  (Reg. 84(2)(d)) and, as Elopis policy, **the session net in KSh**. The user must acknowledge it
   before the next order. It offers `Stop for now` and a link to history. The frequency is
   user-settable, and the default is the **shortest** interval offered (cf. RTS 13B). Efficacy:
   pop-ups meta g≈0.5 short-term, with heterogeneity (Bjørseth 2021; **MODERATE**). Mandatory breaks
@@ -517,7 +517,7 @@ fail a PR on.
   "Breaking News" deltas appear in the July capture (doc 21). *Accept:* grep for
   `confetti|streak|badge|🔥|trending|hot` in `apps/web`, with an allow-list for non-money surfaces.
 - **DP-5. No inducements at launch.** No deposit bonus, free bet, referral cash, promo code, or
-  "earn X% on balance". This is **Kichiko policy, not a Kenyan legal requirement** (Act s.74(3)).
+  "earn X% on balance". This is **Elopis policy, not a Kenyan legal requirement** (Act s.74(3)).
   Polymarket's July capture shows "Use code POLY50 for $50" and "Earn 3.25%" (doc 21). *Accept:*
   reviewer checklist, and no `promo_code` column in production migrations.
 - **DP-6. Neutral decline.** Decline options read `Not now` or `No limit for now`: no guilt, no
@@ -616,14 +616,14 @@ than a sacrifice. Where (3) is an inference, it is labelled.
    - *Evidence:* the only intervention in this review with a durable, moderate RCT effect is
      personal contact with the heaviest losers: phone −30% theoretical loss at 12 months, d=0.44,
      >93% retained (Jonsson 2020).
-   - *Why incumbents do not use it:* incumbents at global scale do not phone users. At Kichiko's
+   - *Why incumbents do not use it:* incumbents at global scale do not phone users. At Elopis's
      launch scale the top 0.5% is a handful of people.
    - *Local condition (inference):* voice contact matches how M-Pesa customer care already works
      for this audience. This is the edge with the best evidence-to-cost ratio in the document.
 6. **Legality as a feature.**
    - *Competitor:* Polymarket geo-blocks this region (doc 23), and the CFTC tells consumers that
      with unregistered entities "you may have little or no protections".
-   - *Kichiko:* a GRA-approved prediction market with an approved resolution mechanism (Reg. 45(5)–
+   - *Elopis:* a GRA-approved prediction market with an approved resolution mechanism (Reg. 45(5)–
      (6)), linked to the national self-exclusion register, can say so on every ticket (LW-4).
    - *Honest limit:* whether the licence line raises trust or conversion among Kenyan users is
      untested (E9).

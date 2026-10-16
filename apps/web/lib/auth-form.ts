@@ -1,5 +1,5 @@
 // ============================================================
-// Kichiko — Auth form logic (pure, framework-free, unit-tested)
+// Elopis — Auth form logic (pure, framework-free, unit-tested)
 // ------------------------------------------------------------
 // ONE source of truth for the decisions shared by every auth surface —
 // the full-page /auth/login & /auth/register routes AND the in-context
@@ -20,7 +20,7 @@ export const AUTH_COUNTRIES = SUPPORTED_COUNTRIES
 
 export type CountryCode = SupportedCountryCode
 
-/** A country's settlement currency, or null when Kichiko does not serve it (never a silent KES default). */
+/** A country's settlement currency, or null when Elopis does not serve it (never a silent KES default). */
 export function currencyForCountry(code: string): string | null {
   return settlementCurrencyFor(code)
 }

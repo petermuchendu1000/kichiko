@@ -22,14 +22,14 @@ Labels used below: **VERIFIED-LIVE** means fetched from this sandbox today. **RE
 5. **Recommendation:**
    - **(a) Ingestion layer:** use official central-bank observations with provenance through **Frankfurter v2** (`/v2/rates?base=USD&quotes=…&expand=providers`). Self-host the Docker image if the fair-use limits or availability are a concern. Do not write and maintain 7 scrapers.
    - **(b) Independent second source:** fawazahmed0 (CC0, three mirrors).
-   - **(c) Third, tie-break source:** the existing ExchangeRate-API open endpoint. It needs visible attribution, which Kichiko does not show today.
+   - **(c) Third, tie-break source:** the existing ExchangeRate-API open endpoint. It needs visible attribution, which Elopis does not show today.
    - Add sanity bands, a daily-move gate, a cross-source deviation gate and a staleness gate, all enforced in SQL (§6).
 6. **Why FX is stale (last KES fetch 2026-07-28):**
    - Nothing in the repo schedules the cron.
    - `vercel.json` has no `crons`.
    - `fly.toml` has no scheduled machine.
    - No GitHub workflow calls `/api/cron/*`.
-   - The pg_cron jobs exist only if an operator ran `schedule_kichiko_jobs(url, secret)` by hand.
+   - The pg_cron jobs exist only if an operator ran `schedule_elopis_jobs(url, secret)` by hand.
    - The 2026-07-28 timestamp equals the day migration 067 was committed (`3476616`, 2026-07-28 14:20 UTC), and 067 sets `fetched_at = now()`. That is consistent with the cron never having written a row since (INFERENCE; §7.3).
 7. **A labelling bug found on the way:** the admin deposits and withdrawals pages define a local `kes()` that just prefixes "KSh" (`deposits/page.tsx:26-28`, `withdrawals/page.tsx:26-28`, comment "stored natively in KES"). Deposits and withdrawals are stored in the wallet's own currency (`001:400-401`), so a UGX 100,000 withdrawal is shown as "KSh 100,000" (§7.4, H1–H2).
 
@@ -391,8 +391,8 @@ State per currency lives in `exchange_rates`. Every raw observation lands in a n
 2. `fly.toml` has one `app` process with no scheduled machines or cron process.
 3. `.github/workflows/*`: the only schedules are `load-test.yml:15`, `realtime-e2e.yml:13`, `security-audit.yml:12` and `terraform.yml:14`. **None calls `/api/cron/*`.**
 4. pg_cron: no migration registers the HTTP jobs.
-   - Migrations 016:386-437 and 055:25-81 only **define** `schedule_kichiko_jobs(p_base_url, p_cron_secret)`.
-   - An operator must run it by hand (`supabase/config.toml:147`, `docs/12-BACKGROUND-JOBS.md:65`, which says `https://app.kichiko.co.ke`).
+   - Migrations 016:386-437 and 055:25-81 only **define** `schedule_elopis_jobs(p_base_url, p_cron_secret)`.
+   - An operator must run it by hand (`supabase/config.toml:147`, `docs/12-BACKGROUND-JOBS.md:65`, which says `https://app.elopis.com`).
    - The earlier 016 comment points at `https://app.marketpips.co.ke`. If it was run before the rename, the jobs target the old domain until someone re-runs the 055 helper.
    - The CRON_SECRET is **baked into the cron command text** (`055:48-49`). Rotating the Fly secret silently turns every call into 401.
    - pg_net is fire-and-forget: failures only appear in `net._http_response` and `cron.job_run_details`, which nobody watches.
@@ -507,7 +507,7 @@ State per currency lives in `exchange_rates`. Every raw observation lands in a n
 **Step 1: get the cron running today (no code change).**
 
 - Run the read-only diagnostics in §7.3.6.
-- Then run `select public.schedule_kichiko_jobs('https://<current prod domain>', '<current CRON_SECRET>');`.
+- Then run `select public.schedule_elopis_jobs('https://<current prod domain>', '<current CRON_SECRET>');`.
 - Add `.github/workflows/fx-refresh.yml` as a **second, observable** trigger:
   ```yaml
   on:
@@ -545,7 +545,7 @@ alter table public.exchange_rates
 - Replace the single-provider logic with `fetchAllSources(): Observation[]`. It runs Frankfurter v2 (`expand=providers`), fawazahmed0 (three mirrors) and, optionally, ExchangeRate-API **once**.
 - Keep the pure functions testable, and add `normalize()`, `crossDerive()` and `choose()` (median of the sources that agree).
 - Remove the second `fetchUsdKesReference` call. Derive the platform setting from the chosen KES value instead.
-- If Frankfurter's public host proves unreliable, deploy `lineofflight/frankfurter` as a Fly app (`kichiko-fx`, SQLite volume) and point `FX_FRANKFURTER_URL` at it.
+- If Frankfurter's public host proves unreliable, deploy `lineofflight/frankfurter` as a Fly app (`elopis-fx`, SQLite volume) and point `FX_FRANKFURTER_URL` at it.
 
 **Step 4: read path.**
 

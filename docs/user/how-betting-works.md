@@ -1,7 +1,7 @@
 # How betting & pricing works
 
 > A plain-language explanation of prices, shares, payouts, and the order-book
-> engine behind Kichiko.
+> engine behind Elopis.
 
 ## Shares, prices, and payouts
 
@@ -23,7 +23,7 @@ staked — because you're betting on the less-expected outcome.
 
 ## Why prices move (the order book)
 
-Kichiko runs an **order book**: your order is matched against other traders'
+Elopis runs an **order book**: your order is matched against other traders'
 orders, and the price is set by where buyers and sellers actually meet. Orders
 match by **price-time priority** — the best price fills first, and ties go to
 whoever was there first.

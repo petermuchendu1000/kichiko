@@ -1,4 +1,4 @@
-# Kichiko — Deep Code-Level Audit (2026-07-28)
+# Elopis — Deep Code-Level Audit (2026-07-28)
 
 **Method:** Read-only audit of the full codebase (TypeScript, SQL, docs) across six parallel
 domains, with live read-only verification against the Supabase database. **No application

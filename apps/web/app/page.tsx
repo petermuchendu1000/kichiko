@@ -186,14 +186,14 @@ export default async function HomePage() {
   // the number of categories the catalogue spans, and the real platform fee.
   // Structured data (SEO): Organization + WebSite with a sitelinks search box.
   // Fully additive, no visual cost \u2014 improves rich-result eligibility.
-  const siteUrl = (process.env.NEXT_PUBLIC_APP_URL ?? 'https://kichiko.co.ke').replace(/\/$/, '')
+  const siteUrl = (process.env.NEXT_PUBLIC_APP_URL ?? 'https://elopis.com').replace(/\/$/, '')
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
       {
         '@type': 'Organization',
         '@id': `${siteUrl}/#organization`,
-        name: 'Kichiko',
+        name: 'Elopis',
         url: siteUrl,
         logo: `${siteUrl}/icon.png`,
         description:
@@ -204,7 +204,7 @@ export default async function HomePage() {
         '@type': 'WebSite',
         '@id': `${siteUrl}/#website`,
         url: siteUrl,
-        name: 'Kichiko',
+        name: 'Elopis',
         publisher: { '@id': `${siteUrl}/#organization` },
         potentialAction: {
           '@type': 'SearchAction',

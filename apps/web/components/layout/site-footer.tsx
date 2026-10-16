@@ -51,9 +51,9 @@ const COLUMNS: FooterColumn[] = [
       { href: '/help', label: 'Help' },
       // Anchors to the support address rather than repeating it. A hardcoded
       // mailto would be a third copy of an address the codebase already
-      // disagrees about: /help says support@kichiko.app, while the
+      // disagrees about: /help says support@elopis.com, while the
       // `branding.support_email` admin setting and the outbound mail sender
-      // both say kichiko.co.ke. Linking the page keeps one source of truth.
+      // both say elopis.com. Linking the page keeps one source of truth.
       { href: '/help#contact', label: 'Contact us' },
       { href: '/legal/terms', label: 'Terms' },
       { href: '/legal/privacy', label: 'Privacy' },
@@ -76,10 +76,10 @@ export function SiteFooter() {
 
           {/* Brand column */}
           <div>
-            <Link href="/" className="inline-flex items-center gap-2.5" aria-label="Kichiko home">
+            <Link href="/" className="inline-flex items-center gap-2.5" aria-label="Elopis home">
               <LogoMark size={30} />
               <span className="font-display text-[17px] font-bold tracking-tight" style={{ color: 'var(--text)' }}>
-                Kichiko
+                Elopis
               </span>
             </Link>
 
@@ -200,7 +200,7 @@ export function SiteFooter() {
           style={{ borderColor: 'var(--hairline)' }}
         >
           <p className="text-[13px]" style={{ color: 'var(--text-3)' }}>
-            © {YEAR} Kichiko · Made for East Africa
+            © {YEAR} Elopis · Made for East Africa
           </p>
           <LocaleSwitcher />
         </div>

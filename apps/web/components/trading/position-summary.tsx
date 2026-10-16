@@ -8,7 +8,7 @@
 //
 // Positions are USD-denominated (place_bet settles in USD), so figures are shown
 // in USD to stay unambiguous. Refreshes on mount and whenever the order ticket
-// dispatches `kichiko:bet-placed`.
+// dispatches `elopis:bet-placed`.
 import { useCallback, useEffect, useState } from 'react'
 import { useAuth } from '@/hooks/use-auth'
 import { createClient } from '@/lib/supabase/client'
@@ -55,8 +55,8 @@ export function PositionSummary({ market, options }: PositionSummaryProps) {
       const detail = (e as CustomEvent).detail as { marketId?: string } | undefined
       if (!detail?.marketId || detail.marketId === market.id) void load()
     }
-    window.addEventListener('kichiko:bet-placed', handler)
-    return () => window.removeEventListener('kichiko:bet-placed', handler)
+    window.addEventListener('elopis:bet-placed', handler)
+    return () => window.removeEventListener('elopis:bet-placed', handler)
   }, [load, market.id])
 
   if (!loaded || !user || positions.length === 0) return null

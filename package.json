@@ -1,8 +1,8 @@
 {
-  "name": "kichiko",
+  "name": "elopis",
   "version": "1.0.0",
   "private": true,
-  "description": "Kichiko - East Africa's Premier Prediction Market Platform",
+  "description": "Elopis - East Africa's Premier Prediction Market Platform",
   "workspaces": [
     "apps/*"
   ],

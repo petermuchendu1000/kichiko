@@ -1,4 +1,4 @@
-/* Kichiko landing — interaction layer. Progressive enhancement only. */
+/* Elopis landing — interaction layer. Progressive enhancement only. */
 (function () {
   "use strict";
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;

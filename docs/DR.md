@@ -1,4 +1,4 @@
-# Kichiko — Disaster Recovery, Backups, HA & Capacity
+# Elopis — Disaster Recovery, Backups, HA & Capacity
 
 > Module 17.6. Backup policy, point-in-time recovery, a **rehearsable** restore
 > drill, high-availability topology, and a capacity plan with scale triggers.

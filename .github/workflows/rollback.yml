@@ -27,11 +27,11 @@ permissions:
   contents: read
 
 env:
-  FLY_APP: kichiko-prod
+  FLY_APP: elopis-prod
 
 jobs:
   rollback:
-    name: Rollback kichiko-prod
+    name: Rollback elopis-prod
     runs-on: ubuntu-latest
     environment:
       name: production          # required reviewers gate the rollback too

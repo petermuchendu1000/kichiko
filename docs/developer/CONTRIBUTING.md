@@ -1,6 +1,6 @@
 # Contributing
 
-> Module 17.5. How to make changes to Kichiko safely.
+> Module 17.5. How to make changes to Elopis safely.
 
 ## Workflow
 

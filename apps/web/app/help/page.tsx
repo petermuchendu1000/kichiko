@@ -8,7 +8,7 @@ import { formatCompact } from '@/lib/format'
 
 export const metadata: Metadata = {
   title: 'Help & Support',
-  description: 'Guides and support for using Kichiko.',
+  description: 'Guides and support for using Elopis.',
 }
 
 const GUIDES: { href: string; label: string; desc: string }[] = [
@@ -61,7 +61,7 @@ export default async function HelpPage() {
   return (
     <LegalPage title="Help & Support">
       <p>
-        New to Kichiko? Start with the basics below, or jump straight into the
+        New to Elopis? Start with the basics below, or jump straight into the
         app. For anything else, contact our support team and we&rsquo;ll help.
       </p>
 
@@ -108,7 +108,7 @@ export default async function HelpPage() {
       <h2 id="contact">Contact support</h2>
       <p>
         Reach us by email at{' '}
-        <a href="mailto:support@kichiko.app">support@kichiko.app</a> with
+        <a href="mailto:support@elopis.com">support@elopis.com</a> with
         your account email and any transaction reference. We aim to respond
         quickly during business hours (East Africa Time).
       </p>

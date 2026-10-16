@@ -1,4 +1,4 @@
-//! Native twin of Kichiko's SQL matching engine.
+//! Native twin of Elopis's SQL matching engine.
 //!
 //! Spec: `clob_place_order` as of migration 071 (index-ordered ladder) and
 //! `clob_cancel_order` / `clob_expire_orders` as of 045 (072 does not touch

@@ -1,8 +1,8 @@
-# 🎯 Kichiko
+# 🎯 Elopis
 
 **East Africa's Premier Prediction Market Platform**
 
-Kichiko lets users trade on real-world outcomes — elections, sports, economics, crypto, and more — paying with **M-Pesa, MTN MoMo, Airtel Money, and PesaPal**.
+Elopis lets users trade on real-world outcomes — elections, sports, economics, crypto, and more — paying with **M-Pesa, MTN MoMo, Airtel Money, and PesaPal**.
 
 Built specifically for East Africa:
 - 🇰🇪 Kenya (KES · M-Pesa · Airtel Money)
@@ -18,7 +18,7 @@ Built specifically for East Africa:
 ## 📐 Architecture
 
 ```
-kichiko/
+elopis/
 ├── apps/
 │   └── web/                        # Next.js 15 App Router (TypeScript)
 │       ├── app/
@@ -94,8 +94,8 @@ RPCs; the live book is read with `clob_get_book`, and matches are recorded as
 ### 1. Clone & Install
 
 ```bash
-git clone https://github.com/yourorg/kichiko.git
-cd kichiko/apps/web
+git clone https://github.com/yourorg/elopis.git
+cd elopis/apps/web
 npm install
 ```
 
@@ -184,13 +184,13 @@ Africa's Talking covers Kenya, Uganda, Tanzania, Rwanda, and more.
 ```env
 AFRICASTALKING_USERNAME=your-username
 AFRICASTALKING_API_KEY=your-api-key
-AFRICASTALKING_SENDER_ID=Kichiko
+AFRICASTALKING_SENDER_ID=Elopis
 ```
 
 ### Email (Resend)
 ```env
 RESEND_API_KEY=re_your-key
-RESEND_FROM_EMAIL=Kichiko <noreply@kichiko.co.ke>
+RESEND_FROM_EMAIL=Elopis <noreply@elopis.com>
 ```
 
 ---
@@ -339,7 +339,7 @@ $100K/month volume → ~$1,750/month platform revenue.
 
 ## 📄 Legal Notice
 
-Kichiko is a prediction market platform. Users must:
+Elopis is a prediction market platform. Users must:
 - Be 18+ years old
 - Comply with local laws regarding prediction markets/betting
 - Understand that prediction markets involve financial risk
@@ -350,9 +350,9 @@ Operators must review and comply with gambling/prediction market regulations in 
 
 ## 📞 Support
 
-- Email: support@kichiko.co.ke
-- Website: kichiko.co.ke
-- GitHub Issues: github.com/yourorg/kichiko/issues
+- Email: support@elopis.com
+- Website: elopis.com
+- GitHub Issues: github.com/yourorg/elopis/issues
 
 ---
 

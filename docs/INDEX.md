@@ -1,6 +1,6 @@
-# Kichiko — Documentation Index
+# Elopis — Documentation Index
 
-> Module 17.5. The single entry point to all Kichiko documentation: users,
+> Module 17.5. The single entry point to all Elopis documentation: users,
 > developers, API, operations, compliance, and per-module design specs. If you're
 > new, start with **Getting started** (users) or **Developer setup** (engineers).
 

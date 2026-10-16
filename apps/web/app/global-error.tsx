@@ -34,7 +34,7 @@ export default function GlobalError({
         <main role="alert" style={{ maxWidth: 420, padding: 24, textAlign: 'center' }}>
           <h1 style={{ fontSize: 24, fontWeight: 600, margin: '0 0 12px' }}>Something went wrong</h1>
           <p style={{ color: '#AEB4BC', margin: '0 0 20px', lineHeight: 1.5 }}>
-            Kichiko couldn’t load. Please try again.
+            Elopis couldn’t load. Please try again.
           </p>
           <button
             type="button"

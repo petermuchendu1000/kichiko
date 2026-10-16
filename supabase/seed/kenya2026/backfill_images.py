@@ -26,7 +26,7 @@ SUPA_URL = os.environ["SUPABASE_URL"].rstrip("/")
 SECRET = os.environ.get("SUPABASE_SECRET") or os.environ["SUPABASE_SERVICE_ROLE"]
 BUCKET = "entity-media"
 SIZE = 256
-UA = {"User-Agent": "KichikoBot/1.0 (+https://kichiko.co.ke; media-ingest)"}
+UA = {"User-Agent": "ElopisBot/1.0 (+https://elopis.com; media-ingest)"}
 CRYPTO_SYM = {"bitcoin": "btc", "ethereum": "eth", "ripple": "xrp", "solana": "sol"}
 COMPANY_WIKI = {
     "eabl.com": "East African Breweries",

@@ -1,5 +1,5 @@
 // ============================================================
-// Kichiko — Portfolio P&L (live mark-to-market)
+// Elopis — Portfolio P&L (live mark-to-market)
 // ------------------------------------------------------------
 // WHY THIS EXISTS
 //   `positions.current_value_usd` is written once by place_bet at trade time

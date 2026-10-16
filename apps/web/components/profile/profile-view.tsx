@@ -445,7 +445,7 @@ function ReferralCard({
       <SectionTitle>Refer a friend</SectionTitle>
       <div className="card p-4">
         <p className="mb-3 text-xs" style={{ color: 'var(--text-muted)' }}>
-          Share your code with friends who want to join Kichiko.
+          Share your code with friends who want to join Elopis.
         </p>
         <div className="flex gap-2">
           <input className="input mono flex-1 text-sm" readOnly value={code} aria-label="Referral code" />

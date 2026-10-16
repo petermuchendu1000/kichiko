@@ -73,7 +73,7 @@ export async function platformGate(action: GatedAction, extraKeys: string[] = []
     return { ok: false, status: 503, error: 'Temporarily unavailable. Please try again shortly.', code: 'settings_unavailable' }
   }
   if (booleanSetting('maintenance.enabled', stored)) {
-    return { ok: false, status: 503, error: 'Kichiko is in maintenance. Please try again shortly.', code: 'maintenance' }
+    return { ok: false, status: 503, error: 'Elopis is in maintenance. Please try again shortly.', code: 'maintenance' }
   }
   if (flag && !booleanSetting(flag, stored)) {
     return { ok: false, status: 503, error: `${ACTION_LABEL[action]} temporarily paused.`, code: `${action}_paused` }

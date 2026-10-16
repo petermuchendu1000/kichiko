@@ -49,7 +49,7 @@ import {
 import { countryByCode } from '@/lib/geo/countries'
 import { useDetectedCountry } from '@/lib/geo/use-detected-country'
 
-export const OPEN_AUTH_EVENT = 'kichiko:open-auth'
+export const OPEN_AUTH_EVENT = 'elopis:open-auth'
 
 export interface OpenAuthDetail {
   /** Which tab to open on. Defaults to 'login'. */
@@ -377,7 +377,7 @@ export function AuthDialog() {
             <div className="flex items-center gap-2">
               <LogoMark size={30} />
               <span className="font-display text-[15px] font-bold tracking-tight text-text-primary">
-                Kichiko
+                Elopis
               </span>
             </div>
             <button

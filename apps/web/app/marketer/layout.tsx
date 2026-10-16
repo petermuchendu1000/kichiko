@@ -8,7 +8,7 @@ import { requireMarketer } from '@/lib/marketer/guard'
 import { MarketerNav } from '@/components/marketer/MarketerNav'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Marketer Console · Kichiko' }
+export const metadata = { title: 'Marketer Console · Elopis' }
 
 export default async function MarketerLayout({ children }: { children: React.ReactNode }) {
   const ctx = await requireMarketer()

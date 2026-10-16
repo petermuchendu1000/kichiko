@@ -9,7 +9,7 @@ import { CreatorNav } from '@/components/creator/CreatorNav'
 
 export const dynamic = 'force-dynamic'
 export const metadata = {
-  title: 'Creator Console · Kichiko',
+  title: 'Creator Console · Elopis',
   robots: { index: false, follow: false },
 }
 

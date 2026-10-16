@@ -1,6 +1,6 @@
-# 04 — Academic Literature: The Market-Design "Brain" for Kichiko
+# 04 — Academic Literature: The Market-Design "Brain" for Elopis
 
-**Scope:** Research papers on automated market makers (AMMs), multi-outcome/combinatorial markets, matching and microstructure, Chinese-institution research, and order-book engineering. Each area is read for what it means for Kichiko: a Postgres/Supabase binary and multi-outcome prediction market with a central limit order book (CLOB), for East African mobile-money users who trade small tickets, with thin liquidity on long-tail markets.
+**Scope:** Research papers on automated market makers (AMMs), multi-outcome/combinatorial markets, matching and microstructure, Chinese-institution research, and order-book engineering. Each area is read for what it means for Elopis: a Postgres/Supabase binary and multi-outcome prediction market with a central limit order book (CLOB), for East African mobile-money users who trade small tickets, with thin liquidity on long-tail markets.
 
 **Date compiled:** 2026-09-26
 
@@ -12,7 +12,7 @@
 For arXiv papers where the report names an institution, the affiliation was read from page 1 of the PDF. If no abstract or full text could be retrieved, the reference is marked **[title-level only]** and the report makes no claims about what it says.
 
 **Labels used in this report:**
-- **INFERENCE** marks my own reasoning or my application of a paper to Kichiko. It is not a claim made by the paper.
+- **INFERENCE** marks my own reasoning or my application of a paper to Elopis. It is not a claim made by the paper.
 - **[preprint]** marks work that is not peer-reviewed (arXiv or SSRN only).
 
 **Access problems (logged as required):**
@@ -30,12 +30,12 @@ For arXiv papers where the report names an institution, the affiliation was read
 
 | Rank | Recommendation | Main evidence | Counter-evidence / caveats |
 |---|---|---|---|
-| 1 | **Price-time (FIFO) priority on a fixed tick grid** (1¢, i.e. 99 levels per outcome). Represent the book as a **direct-indexed price-level array**, not a tree. | Pro-rata worsened depth and spreads at LIFFE [R52]. FIFO gives more efficient prices, while pro-rata inflates order sizes and cancellations [R53, R54]. A bounded tick grid makes O(1) level indexing possible, and tree-plus-list books pay pointer-chasing costs [R102, preprint]. | Queue priority reduces risk-sharing among makers; one model estimates quoted depth could change by up to 8.4% [R55]. At Kichiko's scale the data structure is not the bottleneck; Postgres locking is (INFERENCE). |
+| 1 | **Price-time (FIFO) priority on a fixed tick grid** (1¢, i.e. 99 levels per outcome). Represent the book as a **direct-indexed price-level array**, not a tree. | Pro-rata worsened depth and spreads at LIFFE [R52]. FIFO gives more efficient prices, while pro-rata inflates order sizes and cancellations [R53, R54]. A bounded tick grid makes O(1) level indexing possible, and tree-plus-list books pay pointer-chasing costs [R102, preprint]. | Queue priority reduces risk-sharing among makers; one model estimates quoted depth could change by up to 8.4% [R55]. At Elopis's scale the data structure is not the bottleneck; Postgres locking is (INFERENCE). |
 | 2 | **Hybrid CLOB + automated market maker (LMSR / LS-LMSR) that posts limit orders into the book**, with a per-market subsidy cap. | Hanson designed market scoring rules to solve the "thin market problem" [R1] and described merging book orders with a market scoring rule [R3]. A general ε-fair algorithm for combining market makers with limit orders exists [R21]. LMSR beat a continuous double auction (CDA) on accuracy, **especially on low-activity questions** [R24]. LMSR produced about 3× more trades and lower volatility in simulation [R25]. | In a CDA simulation, an LMSR maker narrowed spreads and raised trader surplus but **did not consistently improve price discovery** [R22]. LMSR is subsidised by construction: worst-case loss is b·ln n (see §A). |
 | 3 | **Native complete-set and negRisk conversions in both directions** for multi-outcome markets, plus a coherent multi-outcome market maker (one LMSR over all n outcomes, so prices sum to 1 by construction). | Polymarket arbitrage: about US$40M realised [R39]. When the protocol offered only NO→YES conversion, violations clustered on the unsupported YES side [R41]. | Depth-limited arbitrage is small at retail scale: a median of 14.8 executable shares in NBA markets [R40]. Pricing a full combinatorial LMSR is #P-hard [R33], so offer only flat mutually exclusive sets, not arbitrary combinations. |
 | 4 | **Taker-only fee of the form θ·P(1−P)**, with zero or rebated maker fees. | Kalshi charged takers $0.07·P(1−P) and makers nothing during the period studied. Makers lost 9.6% on average versus 31.5% for takers [R70]. Shifting the fee split toward makers narrows quoted spreads, leaves all-in taker costs unchanged, and draws more aggressive retail flow [R57]. | A favourite–longshot bias remains under this fee schedule: contracts priced ≤10¢ lose more than 60% on average [R70]. Fee design alone will not fix mispricing (INFERENCE). |
 | 5 | **Periodic call auctions ("frequent batch auctions") for thin or long-tail markets**, possibly every 1–5 s or on demand. Continuous matching stays on for liquid markets. | Batch auctions remove structural latency arbitrage [R44] and restore the liquidity–information trade-off [R46]. In lab tests they reduced predation, speed investment, transaction costs and spread volatility [R47]. A periodic auction "can function where continuous mechanisms fail" [R48]. Chinese exchanges' open call auctions improved depth and reduced volatility [R93]. | Batch auctions sacrifice continuity and raise information costs [R48]. Without incentives, a toy illiquid periodic auction produced **no trade**; fees indexed to the half-spread were needed [R49]. Mobile users may find batch timing confusing (INFERENCE). |
-| 6 | **Inventory-aware quoting in logit space** for any house or partner market maker. This adapts Avellaneda–Stoikov and Guéant–Lehalle–Fernandez-Tapia to [0,1] contracts: widen near 50/50 and near resolution, and skew by inventory. | Classic inventory models [R60, R61]. Prediction-market-specific optimal quotes that account for settlement risk [R62, preprint]. A logit jump-diffusion kernel [R63, preprint]. Structural volatility is highest near 50/50 and rises near resolution [R64, preprint]. | All three prediction-market papers are 2025–26 preprints. Calibration on Kichiko-scale data is untested. |
+| 6 | **Inventory-aware quoting in logit space** for any house or partner market maker. This adapts Avellaneda–Stoikov and Guéant–Lehalle–Fernandez-Tapia to [0,1] contracts: widen near 50/50 and near resolution, and skew by inventory. | Classic inventory models [R60, R61]. Prediction-market-specific optimal quotes that account for settlement risk [R62, preprint]. A logit jump-diffusion kernel [R63, preprint]. Structural volatility is highest near 50/50 and rises near resolution [R64, preprint]. | All three prediction-market papers are 2025–26 preprints. Calibration on Elopis-scale data is untested. |
 | 7 | **Time-scheduled subsidy for the automated market maker** (uniform-loss or pm-AMM-style liquidity withdrawal) and, later, **adaptive liquidity**. | Uniform-loss AMMs and liquidity schedules that shape loss across price and time [R14]. The dynamic pm-AMM spreads LP loss evenly over time instead of concentrating it near expiry [R13]. Online-learning mixtures over liquidity levels keep bounded loss [R17, preprint]. | Theory and simulation only; no field results. |
 | 8 | **Surveillance: self-trade prevention, network or cluster wash-trade detection, and manipulation monitoring on thin markets.** Do not rely on VPIN. | Wash trading peaked near 60% of Polymarket volume and was about 20% in October 2025 [R77]. Field experiment: manipulations remained visible 60 days later, and thinner markets were easier to move [R76]. VPIN is a poor predictor of short-run volatility [R59]. | Cong et al.'s 70%+ estimate [R78] covers unregulated crypto exchanges, not prediction markets. KYC through mobile money reduces anonymity (INFERENCE). |
 
@@ -55,7 +55,7 @@ For arXiv papers where the report names an institution, the affiliation was read
 - **Chen & Pennock (utility framework) [R5]:**
   - LMSR is equivalent to a negative-exponential-utility market maker.
   - "For a fixed bound on worst-case loss, some market makers exhibit greater liquidity near uniform prices and some … near extreme prices, but no market maker can exhibit uniformly greater liquidity in all regimes."
-  - **INFERENCE:** there is no free lunch in choosing a cost function. Pick one based on where Kichiko's markets usually trade. Long-tail markets often sit near extremes.
+  - **INFERENCE:** there is no free lunch in choosing a cost function. Pick one based on where Elopis's markets usually trade. Long-tail markets often sit near extremes.
 - **Abernethy, Chen & Wortman Vaughan (2013) [R8]:**
   - Any market satisfying intuitive conditions must price securities through a convex cost function (built by conjugate duality).
   - Market making reduces to convex optimisation over a convex hull. Relaxing the hull gains tractability without breaking the bounded budget.
@@ -91,7 +91,7 @@ For arXiv papers where the report names an institution, the affiliation was read
 - **Bhaskara, Frongillo, Lindgren & Papireddygari (2023; EC 2026) [R16]:**
   - A general protocol lets third-party LPs supply arbitrary cost functions.
   - With three or more securities, liquidity is matrix-valued, and "natural axioms on the design of these fees are incompatible."
-  - **INFERENCE:** outside LP pools are much harder to design for multi-outcome markets. Keep the Kichiko market maker house-funded at first.
+  - **INFERENCE:** outside LP pools are much harder to design for multi-outcome markets. Keep the Elopis market maker house-funded at first.
 - **Nueve, Nguyen, Frongillo & Waggoner (2026) [R17, preprint]:** treat liquidity selection as online learning. The paper mixes a family of cost-function markets with learnable weights, while preserving no-arbitrage, bounded loss and "positive upside," with switching-regret guarantees. Results are from simulation only.
 - **Papireddygari, Wang, Waggoner & Pennock (2025; EC 2026) [R18, preprint]:**
   - The Constant Log Utility Market Maker (CLUM) "has constant worst-case loss," unlike LMSR, whose loss grows with the number of outcomes. Outcomes can be added on the fly.
@@ -108,7 +108,7 @@ For arXiv papers where the report names an institution, the affiliation was read
   - **INFERENCE:** this is the most directly usable blueprint for an "AMM that posts into a CLOB."
 - **Chakraborty, Das & Peabody (2015) [R22]:** an LMSR-based market maker built on Hanson's book-order idea, inside a CDA with zero-intelligence traders. It "reduces bid-ask spreads and enhances trader surplus" but "does not consistently strengthen price discovery," more so when trader beliefs vary widely.
 - **Wah, Lahaie & Pennock (2016) [R23]:** empirical game-theoretic analysis (EGTA) of an LMSR market maker, with lagged signals built from Betfair NBA data. It studies how the maker's liquidity and spread settings affect price discovery and welfare.
-- **Atanasov, Witkowski, Mellers & Tetlock (2025) [R24]:** in a multi-year forecasting tournament, the "LMSR market produces more accurate forecasts than the CDA market, especially on low-activity questions." **This is the most Kichiko-relevant empirical result in topic A.**
+- **Atanasov, Witkowski, Mellers & Tetlock (2025) [R24]:** in a multi-year forecasting tournament, the "LMSR market produces more accurate forecasts than the CDA market, especially on low-activity questions." **This is the most Elopis-relevant empirical result in topic A.**
 - **Klingert & Meyer (2018) [R25]:** in a lab-validated agent-based model, LMSR produced about 3× more trades and lower volatility. Its accuracy advantage was context-dependent and reversed under extreme information distributions.
 - **Jian & Sami (2012) [R26]:** in the lab, the direct probability-report and indirect security-trading forms of the market scoring rule performed about the same. Structured trade order beat unstructured.
 
@@ -136,7 +136,7 @@ For a binary LMSR with liquidity parameter b:
 - For thin, small-ticket markets, set b small enough that a typical ticket (say KES 50–200) moves the price only a few points, and cap the total per-market subsidy.
 - LS-LMSR [R6] makes b grow with volume, so a new market starts sensitive and deepens as flow arrives. This matches long-tail markets well.
 
-### A.3 Applicability to Kichiko
+### A.3 Applicability to Elopis
 
 - **Thin books.** Of everything reviewed, the hybrid design has the strongest empirical support for low-activity questions [R24], and the ε-fair algorithm [R21] shows how to build it. A pure CLOB leaves long-tail markets with no quotes.
 - **Small tickets.** LMSR prices are defined for fractional quantities. Round to the platform's minimum share unit, and always round in the house's favour, as Berg & Proebsting stress for rounding and fraud [R4].
@@ -178,7 +178,7 @@ For a binary LMSR with liquidity parameter b:
   - Semantically equivalent markets on different venues show persistent execution-aware deviations of 2–4% [R42, preprint].
   - In 2024 US election markets, identical contracts had divergent prices across exchanges, with arbitrage opportunities peaking in the final two weeks [R43].
 
-### B.2 Applicability to Kichiko
+### B.2 Applicability to Elopis
 
 - **Coherence by construction.** For an n-outcome mutually exclusive market, one LMSR over all n outcomes gives prices that sum exactly to 1 (the standard LMSR property from R1/R2). With LS-LMSR, the sum slightly exceeds 1 by design [R6].
 - **Coherence through conversion.** In the CLOB, provide these operations as atomic Postgres functions (INFERENCE based on R41):
@@ -215,7 +215,7 @@ For a binary LMSR with liquidity parameter b:
   - Lab: asymmetric speed bumps cut speed investment by only about 20%, and a symmetric speed bump performed no better than none [R50].
   - Eurex's 2019 asymmetric speed bump on French equity options reduced spreads and increased depth, with spillover benefits to Euronext [R51].
 - **Applicability (INFERENCE):**
-  - Kichiko users arrive over USSD, SMS, app and web with very different latencies. For small-ticket retail flow, the "structural arbitrage rent" argument [R44] becomes a fairness argument: a batch every few seconds neutralises channel latency.
+  - Elopis users arrive over USSD, SMS, app and web with very different latencies. For small-ticket retail flow, the "structural arbitrage rent" argument [R44] becomes a fairness argument: a batch every few seconds neutralises channel latency.
   - A batch also lets Postgres process a market's orders in one transaction per interval, which reduces lock contention.
   - Madhavan's result [R48] supports call auctions specifically for thin markets. Derchu et al. [R49] warn that an illiquid periodic auction may need maker incentives or a house market maker to produce any trade at all.
   - Suggested pattern: continuous matching for the top markets, and periodic calls with the automated market maker participating for long-tail markets.
@@ -225,7 +225,7 @@ For a binary LMSR with liquidity parameter b:
 - **Chung, Lee & Rösch (2020) [R56], SEC Tick Size Pilot (larger tick):** "liquidity for small orders (e.g., the quoted and effective spreads) decreases, [while] liquidity for large orders … improves." Pricing efficiency and trade size rose, and the number of trades fell.
 - **Dubach (2026) [R79, preprint], Polymarket:** documents a "longshot spread premium," with depth "closer to uniform than to top-of-book."
 - **Applicability (INFERENCE):**
-  - Kichiko's users are small-order traders, so R56 argues against coarse ticks.
+  - Elopis's users are small-order traders, so R56 argues against coarse ticks.
   - 1¢ (99 levels) is a sensible default. A finer 0.1¢ tick near the extremes (below 5¢ or above 95¢) would reduce the proportional cost of longshot contracts, where R79 finds spread premiums.
   - A mixed-tick grid is still a bounded array of about 190 levels, which keeps the O(1) indexing in §E.
 
@@ -263,7 +263,7 @@ For a binary LMSR with liquidity parameter b:
   - Volatility combines Wright–Fisher deadline resolution with Glosten–Milgrom order flow.
   - "Volatility is highest near fifty-fifty prices, rises near resolution."
   - The structural model dominates ARCH/GARCH.
-- **Applicability (INFERENCE):** quote in logit space, set half-spreads to scale with the estimated belief volatility (largest near 0.5 and near the deadline), skew by inventory as in A-S/GLFT, and hard-cap inventory per outcome. Treat every quoting parameter as provisional until Kichiko's own data is available.
+- **Applicability (INFERENCE):** quote in logit space, set half-spreads to scale with the estimated belief volatility (largest near 0.5 and near the deadline), skew by inventory as in A-S/GLFT, and hard-cap inventory per outcome. Treat every quoting parameter as provisional until Elopis's own data is available.
 
 ### C.7 Favourite–longshot bias (FLB) and calibration
 
@@ -297,7 +297,7 @@ For a binary LMSR with liquidity parameter b:
   - Intrade data suggested manipulation by a single large trader [R75].
 - **Macro forecasts:** Kalshi-implied macro forecasts are a real-time, distributional benchmark useful to policymakers [R73, Federal Reserve FEDS].
 - **Applicability (INFERENCE):**
-  - Kichiko's thin markets are exactly where manipulation persists [R76] and volume figures are most distorted [R80].
+  - Elopis's thin markets are exactly where manipulation persists [R76] and volume figures are most distorted [R80].
   - Record the true trade direction (aggressor side) in the ledger, which a Postgres engine can do trivially.
   - Report net turnover separately from mint/burn volume.
   - Run self-trade prevention and cluster detection on the counterparty graph [R77].
@@ -327,7 +327,7 @@ Affiliations were read from page 1 of each paper unless noted otherwise. English
 - **Li Mengyu, Qi Tiange, Huang Yongjian, Feng Panpan & Zhao Yingying (2024/25) [R96]:** the same 2018 SSE reform "can effectively reduce closing price manipulation."
 - **Li, Luo & Zhou (2021), "Call auction, continuous trading and closing price formation" [R97, title-level only; abstract not retrieved].**
 - **Applicability (INFERENCE):**
-  - The Chinese design is well tested and suits Kichiko's thin markets: an open (indicative-price) call auction, with a no-cancel window before the uncross and a random end time to deter last-second manipulation.
+  - The Chinese design is well tested and suits Elopis's thin markets: an open (indicative-price) call auction, with a no-cancel window before the uncross and a random end time to deter last-second manipulation.
   - Use it for market opening, for long-tail markets that trade in calls, and for the final window before a market closes to trading.
   - The uncross rule is the standard maximum-volume rule, then minimum imbalance, then reference price.
 
@@ -345,11 +345,11 @@ Affiliations were read from page 1 of each paper unless noted otherwise. English
 - **Huang, Ge, Chou & Du (2021) [R88]:** "Benchmark Dataset for Short-Term Market Prediction of Limit Order Book in China Markets" (Journal of Financial Data Science). Existence was checked via Crossref; affiliations were not checked, because ResearchGate returned 429.
 - **Li Junjie, Liu Yang, Liu Weiqing, Fang Shikai, Wang Lewen, Xu Chang & Bian Jiang, Microsoft Research Asia (ICLR 2025) [R85]:**
   - MarS is an order-level generative "Large Market Model" for realistic, interactive market simulation. It shows scalability with data and model size and "robust and practicable realism in controlled generation with market impact."
-  - **INFERENCE:** a candidate tool for stress-testing Kichiko's matching rules before launch.
+  - **INFERENCE:** a candidate tool for stress-testing Elopis's matching rules before launch.
 - **Counter-evidence (non-Chinese):**
   - Deep LOB forecasting power "does not necessarily correspond to actionable trading signals" [R106].
   - With preprocessing, simple models match or beat DeepLOB on crypto LOB data [R107].
-  - **INFERENCE:** deep LOB models are not a priority for Kichiko's thin books.
+  - **INFERENCE:** deep LOB models are not a priority for Elopis's thin books.
 
 ### D.4 Market making with reinforcement learning
 
@@ -359,7 +359,7 @@ Affiliations were read from page 1 of each paper unless noted otherwise. English
   - A representation-learning unit captures short- and long-term trends to reduce adverse selection.
   - It beat RL baselines on four real datasets.
 - **Note:** Jiang et al. (2022), "Market Making via Reinforcement Learning in China Commodity Market," is a KU Leuven MSc thesis, not a Chinese institution [R101].
-- **Applicability (INFERENCE):** RL market making needs dense data and a simulator. For Kichiko it is a phase-3 option at best. The analytical logit-space quoter in C.6 is the practical choice.
+- **Applicability (INFERENCE):** RL market making needs dense data and a simulator. For Elopis it is a phase-3 option at best. The analytical logit-space quoter in C.6 is the practical choice.
 
 ### D.5 Prediction markets and information aggregation
 
@@ -376,7 +376,7 @@ Affiliations were read from page 1 of each paper unless noted otherwise. English
 - **Xue Dong He, Chen Yang & Yutian Zhou, CUHK SEEM [R89, preprint]:** "Optimal Design of Automated Market Makers on Decentralized Exchanges." For a risk-averse LP, the optimal unit trading fee rises with fundamental volatility, and the optimal pricing function makes the pool allocation efficient for the LP.
 - **Same authors [R90, preprint]:** "Arbitrage on Decentralized Exchanges." An equilibrium model of gas-fee competition between arbitrageurs. There is no pure symmetric equilibrium, but there are unique mixed equilibria. Validated on Binance and Uniswap V2.
 - **Wang Ye (ETH), Chen Yan (Zhejiang University), Wu Haotian (Xi'an Jiaotong University), Zhou Liyi (Imperial), Deng Shuiguang (Zhejiang University) & Wattenhofer (ETH), WWW 2022 Companion [R91]:** "Cyclic Arbitrage in Decentralized Exchanges." Empirical cyclic arbitrage across AMM pools.
-- **Applicability (INFERENCE):** R89's finding that the fee should rise with volatility supports volatility-scaled fees or spreads for the Kichiko market maker near resolution, which is consistent with C.6.
+- **Applicability (INFERENCE):** R89's finding that the fee should rise with volatility supports volatility-scaled fees or spreads for the Elopis market maker near resolution, which is consistent with C.6.
 
 ---
 
@@ -392,10 +392,10 @@ Affiliations were read from page 1 of each paper unless noted otherwise. English
 - **Jericevich, Sing & Gebbie (2022), CoinTossX, University of the Witwatersrand [R103]:** an open-source Java matching engine (UDP, Aeron). Reported 90th-percentile latencies of 106–248 ns on a high-spec server (1–10 clients) and 123–393 ns on an Azure VM. **Caveat:** the same summary reports Azure throughput of "77–274 orders per second," which is internally odd; check it against the paper before relying on it.
 - **Kashera, Jain, Banerjee & Purini (FPL 2023) [R104, title-level only]:** hybrid binary/linear search structures for low-latency FPGA order books.
 - **Zheng (HKUST, 2023) [R98]:** FPGA order-book reconstruction with 1.98–93.21× memory reduction.
-- **Moosavi & Clark (2021), Lissy [R105]:** an on-chain call-market exchange is "too heavy for Ethereum today" (a few hundred executions per block) but cut gas cost by 99.88% on Arbitrum. **INFERENCE:** relevant only if Kichiko ever moves settlement on-chain.
+- **Moosavi & Clark (2021), Lissy [R105]:** an on-chain call-market exchange is "too heavy for Ethereum today" (a few hundred executions per block) but cut gas cost by 99.88% on Arbitrum. **INFERENCE:** relevant only if Elopis ever moves settlement on-chain.
 - **Gap:** I found **no peer-reviewed paper benchmarking price-level arrays vs red-black trees vs skip lists on bounded tick grids** such as the 99–999 levels of a prediction market. The array argument comes from complexity reasoning and R102, which is a preprint.
 
-### E.2 Recommended data structures for Kichiko (INFERENCE, grounded in E.1 and C.1)
+### E.2 Recommended data structures for Elopis (INFERENCE, grounded in E.1 and C.1)
 
 1. **Price-level array, per (market, outcome, side), indexed by integer tick 1..99 (or 1..999).**
    - Best-price lookup can use a bitmap of non-empty levels, or a cached best-tick pointer updated on insert and fill.
@@ -418,7 +418,7 @@ Affiliations were read from page 1 of each paper unless noted otherwise. English
 
 ---
 
-## F. Consolidated design sketch for Kichiko (INFERENCE, with evidence pointers)
+## F. Consolidated design sketch for Elopis (INFERENCE, with evidence pointers)
 
 | Layer | Choice | Evidence |
 |---|---|---|

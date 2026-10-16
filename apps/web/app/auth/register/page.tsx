@@ -221,7 +221,7 @@ export default function RegisterPage() {
               ? 'Detected from your device. Your balance and payouts will be in ' + (countryByCode(country)?.currency ?? '') + '.'
               : countryByCode(country)
                 ? 'Your balance and payouts will be in ' + (countryByCode(country)?.currency ?? '') + '.'
-                : 'Kichiko is available in Kenya, Uganda, Tanzania, Rwanda, Zambia, Ethiopia and Burundi.'}
+                : 'Elopis is available in Kenya, Uganda, Tanzania, Rwanda, Zambia, Ethiopia and Burundi.'}
           </p>
         </div>
 

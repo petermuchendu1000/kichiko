@@ -1,14 +1,14 @@
-# Kichiko ↔ Polymarket Ground-Truth Mapping & Parity Gaps
+# Elopis ↔ Polymarket Ground-Truth Mapping & Parity Gaps
 
-> Part of the [Polymarket Research Corpus](./README.md). The Kichiko side was **introspected
+> Part of the [Polymarket Research Corpus](./README.md). The Elopis side was **introspected
 > live** from Supabase (`information_schema`) on 2026-07-22; the Polymarket side from the
 > snapshots + docs in this corpus. This document is the authoritative parity checklist.
 
 ---
 
-## 1. What Kichiko is (and isn't)
+## 1. What Elopis is (and isn't)
 
-Kichiko is a **centralized, off-chain** prediction-market platform that presents a
+Elopis is a **centralized, off-chain** prediction-market platform that presents a
 **Polymarket-parity UX**. It is **not** on-chain: there is no CTF, no Polygon settlement, no
 UMA oracle. Instead it uses Supabase/Postgres as the system of record with:
 
@@ -27,7 +27,7 @@ that goal.
 
 ## 2. Schema alignment (live-verified columns)
 
-| Domain        | Polymarket ground truth                        | Kichiko columns (verified)                                              | Verdict |
+| Domain        | Polymarket ground truth                        | Elopis columns (verified)                                              | Verdict |
 |---------------|------------------------------------------------|---------------------------------------------------------------------------|---------|
 | Market core   | `id`, `slug`, `question`, `conditionId`        | `markets.id, slug, title, description, status, category`                   | ✅ / ❌ no `condition_id` |
 | Outcomes      | `outcomes[]`, `clobTokenIds[]`, `outcomePrices`| `market_options.label, price, yes_price, no_price, q_yes, q_no, display_order` | ✅ / ❌ no token id |
@@ -66,7 +66,7 @@ that goal.
 5. **Depth-aware order preview (walk-the-book).** Quote `effective_price(Q)` and slippage from
    the live book, not the touch. *Action:* a preview RPC over `clob_orders`. Ground truth:
    median 5¢ depth $38.8k, p95 $5.9M — slippage is real on the tail.
-6. **On-chain / external identifiers (optional but future-proof).** If Kichiko ever ingests
+6. **On-chain / external identifiers (optional but future-proof).** If Elopis ever ingests
    or mirrors Polymarket data, add nullable `markets.condition_id` and
    `market_options.clob_token_id` as external-reference keys.
 
@@ -81,9 +81,9 @@ that goal.
 
 ---
 
-## 4. Numeric parity targets (calibrate Kichiko against these)
+## 4. Numeric parity targets (calibrate Elopis against these)
 
-| Property                         | Polymarket ground truth (2026-07-22) | Kichiko target |
+| Property                         | Polymarket ground truth (2026-07-22) | Elopis target |
 |----------------------------------|--------------------------------------|-------------------|
 | Tick size                        | 0.001 (65%) / 0.01 (35%)             | support 0.001     |
 | Min order size                   | ~$5                                  | configurable ≥ local min |

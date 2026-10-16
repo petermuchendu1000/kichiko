@@ -1,4 +1,4 @@
-# Kichiko — System Architecture
+# Elopis — System Architecture
 
 ## 1. High-level topology
 

@@ -1,4 +1,4 @@
-# Polymarket → Kichiko — M7 Teardown: Chart dashed gridlines + Community/Related (2026-07)
+# Polymarket → Elopis — M7 Teardown: Chart dashed gridlines + Community/Related (2026-07)
 
 ### Live research → measurement → parity mapping
 

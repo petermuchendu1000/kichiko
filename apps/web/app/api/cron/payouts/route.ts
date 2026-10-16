@@ -1,6 +1,6 @@
 // app/api/cron/payouts/route.ts — send queued payouts and settle unsettled ones
 // (migration 083; audit 6.6, 6.10). Scheduled every minute by
-// schedule_kichiko_jobs ('kichiko-payouts'); CRON_SECRET-gated.
+// schedule_elopis_jobs ('elopis-payouts'); CRON_SECRET-gated.
 //
 //   1. dispatch: claim queued withdrawals (approved after review, retried,
 //      or not sent by the request) and send them. A claim is atomic, so a

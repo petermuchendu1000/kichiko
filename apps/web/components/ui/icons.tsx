@@ -1,5 +1,5 @@
 // Hand-crafted SVG icon system — zero external icon libraries
-// Every icon is purpose-built for Kichiko
+// Every icon is purpose-built for Elopis
 
 import React from 'react'
 
@@ -99,17 +99,22 @@ export const IconComments = icon(<><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 0
 export const IconSell = icon(<><circle cx="12" cy="12" r="9"/><path d="M9 15l6-6M15 9h-4M15 9v4" stroke="currentColor"/></>)
 
 // Logo mark
-// Pip brand mark — a rising probability line on a baseline reference with
-// square "pip" terminals. Pip Blue by default; pass a solid className/fill to recolor.
-// Kichiko brand mark — a Pip-Blue (#1452F0) rounded tile with a white "K"
-// (public/logo-tile.svg). A solid colored tile reads clearly on any surface —
-// light app chrome, dark app chrome, and the browser tab bar alike — so the mark
-// stays crisp and recognizable everywhere (the navy mask-based mark vanished on
-// dark browser bars). The tile is square (1:1); `size` sets both width and height.
+//
+// Elopis brand mark — a Pip-Blue (#1452F0) rounded tile carrying [E], the
+// EXPECTATION OPERATOR (public/logo-tile.svg). E[X] is the expected value of X,
+// and the price of a binary market is exactly that, so the mark is the
+// product's own notation rather than a picture of something. The brackets are
+// left empty on purpose: the question that has not been answered yet.
+//
+// A solid coloured tile reads on any surface — light chrome, dark chrome and
+// the browser tab bar alike — so the mark stays crisp everywhere (an earlier
+// mask-based mark vanished on dark browser bars). Verified legible down to
+// 16px on both themes before shipping. The tile is square (1:1); `size` sets
+// both width and height.
 export const LogoMark = ({ size = 28, className = '' }: { size?: number; className?: string }) => (
   <span
     role="img"
-    aria-label="Kichiko"
+    aria-label="Elopis"
     className={`inline-block shrink-0 bg-center bg-no-repeat bg-contain ${className}`}
     style={{
       width: `${size}px`,

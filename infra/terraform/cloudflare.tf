@@ -26,7 +26,7 @@ resource "cloudflare_record" "staging" {
 # ---------------------------------------------------------------------------
 # TLS + compression + performance zone settings.
 # ---------------------------------------------------------------------------
-resource "cloudflare_zone_settings_override" "kichiko" {
+resource "cloudflare_zone_settings_override" "elopis" {
   zone_id = var.cloudflare_zone_id
 
   settings {
@@ -48,7 +48,7 @@ resource "cloudflare_zone_settings_override" "kichiko" {
 }
 
 # Tiered Cache (Argo smart topology) — fewer origin hits for public reads.
-resource "cloudflare_tiered_cache" "kichiko" {
+resource "cloudflare_tiered_cache" "elopis" {
   zone_id    = var.cloudflare_zone_id
   cache_type = "smart"
 }
@@ -60,7 +60,7 @@ resource "cloudflare_tiered_cache" "kichiko" {
 # ---------------------------------------------------------------------------
 resource "cloudflare_ruleset" "cache_rules" {
   zone_id = var.cloudflare_zone_id
-  name    = "Kichiko cache policy"
+  name    = "Elopis cache policy"
   kind    = "zone"
   phase   = "http_request_cache_settings"
 
@@ -112,7 +112,7 @@ resource "cloudflare_ruleset" "cache_rules" {
 # ---------------------------------------------------------------------------
 resource "cloudflare_ruleset" "rate_limit" {
   zone_id = var.cloudflare_zone_id
-  name    = "Kichiko edge rate limits"
+  name    = "Elopis edge rate limits"
   kind    = "zone"
   phase   = "http_ratelimit"
 

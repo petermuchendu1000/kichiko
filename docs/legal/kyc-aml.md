@@ -1,6 +1,6 @@
 # KYC / AML Posture
 
-> **Launch template — pending legal & compliance review.** Summarises Kichiko'
+> **Launch template — pending legal & compliance review.** Summarises Elopis'
 > Know-Your-Customer and Anti-Money-Laundering approach.
 
 _Last updated: July 2026_

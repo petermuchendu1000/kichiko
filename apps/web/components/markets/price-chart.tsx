@@ -168,7 +168,7 @@ export function PriceChart({ data, currentYes = 0.5, volumeUsd = 0, resolutionDa
         showXAxis={opts.xAxis}
         showYAxis={opts.yAxis}
         showConfidence={opts.confidence}
-        watermark={opts.annotations ? 'Kichiko' : undefined}
+        watermark={opts.annotations ? 'Elopis' : undefined}
         ariaLabel={`Market price history. ${summary}`}
       />
 

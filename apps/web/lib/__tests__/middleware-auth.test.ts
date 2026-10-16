@@ -11,7 +11,7 @@ vi.mock('@supabase/ssr', () => ({ createServerClient: vi.fn(() => ({ auth, rpc }
 
 import { middleware } from '@/middleware'
 
-const req = (path: string, method = 'GET') => new NextRequest(`https://kichiko.test${path}`, { method })
+const req = (path: string, method = 'GET') => new NextRequest(`https://elopis.test${path}`, { method })
 
 beforeEach(() => {
   vi.clearAllMocks()

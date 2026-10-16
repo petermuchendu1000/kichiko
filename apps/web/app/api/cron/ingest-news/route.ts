@@ -25,7 +25,7 @@ const JOB_NAME = 'ingest-news'
 const MAX_AGE_HOURS = 72
 /** Per-feed timeout: a hanging outlet must not consume the whole run. */
 const FEED_TIMEOUT_MS = 12_000
-const UA = 'Mozilla/5.0 (compatible; KichikoBot/1.0; +https://kichiko.app)'
+const UA = 'Mozilla/5.0 (compatible; ElopisBot/1.0; +https://elopis.com)'
 
 async function fetchFeeds(): Promise<{ articles: ParsedArticle[]; errors: Record<string, string> }> {
   const errors: Record<string, string> = {}

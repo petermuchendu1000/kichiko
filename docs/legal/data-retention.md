@@ -1,6 +1,6 @@
 # Data Retention Policy
 
-> **Launch template — pending legal review.** Defines how long Kichiko keeps
+> **Launch template — pending legal review.** Defines how long Elopis keeps
 > each category of data and when it is deleted or anonymised.
 
 _Last updated: July 2026_

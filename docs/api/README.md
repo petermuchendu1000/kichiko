@@ -1,4 +1,4 @@
-# Kichiko — API Reference
+# Elopis — API Reference
 
 > Module 17.5. Authoritative reference for **every** HTTP endpoint exposed by the
 > Next.js App Router route handlers under `apps/web/app/api/`. Covers method,
@@ -7,7 +7,7 @@
 
 ## Conventions
 
-- **Base URL:** `${NEXT_PUBLIC_APP_URL}` (e.g. `https://kichiko.app`).
+- **Base URL:** `${NEXT_PUBLIC_APP_URL}` (e.g. `https://elopis.com`).
 - **Content type:** JSON in / JSON out unless noted (CSV exports return
   `text/csv`; webhooks accept provider-specific bodies).
 - **Auth models:**

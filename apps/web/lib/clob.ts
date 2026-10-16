@@ -169,7 +169,7 @@ export type ClobError = {
 export const CLOB_ERRORS: Record<string, ClobError> = {
   // place_order_for (migration 090): the checks the route used to make itself
   P0190: { status: 403, error: 'Account is not active', code: 'account_inactive' },
-  P0191: { status: 503, error: 'Kichiko is in maintenance. Please try again shortly.', code: 'maintenance' },
+  P0191: { status: 503, error: 'Elopis is in maintenance. Please try again shortly.', code: 'maintenance' },
   P0192: { status: 503, error: 'Order-book trading is temporarily unavailable', code: 'trading_paused' },
   P0193: { status: 409, error: 'Choose your country in Settings before moving money.', code: 'country_required' },
   P0194: { status: 409, error: 'Your account settles in another currency. Refresh and try again.', code: 'currency_mismatch' },

@@ -18,7 +18,7 @@ const schema = z.object({
 
 const ERRORS: Record<string, { status: number; error: string }> = {
   P0170: { status: 409, error: 'Your settlement currency is locked after your first deposit, withdrawal or order. Contact support to change country.' },
-  P0171: { status: 400, error: 'Kichiko is not available in that country yet.' },
+  P0171: { status: 400, error: 'Elopis is not available in that country yet.' },
   P0172: { status: 409, error: 'Your country cannot change once your account has money activity.' },
   P0173: { status: 429, error: 'Your country can be changed once every 24 hours.' },
   P0174: { status: 401, error: 'Unauthorized' },

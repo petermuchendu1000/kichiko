@@ -1,4 +1,4 @@
-# How Polymarket and Kalshi's trading engines work (2025–2026), and what Kichiko should take from them
+# How Polymarket and Kalshi's trading engines work (2025–2026), and what Elopis should take from them
 
 **Research date:** 2026-09-26. Every source was fetched on that date unless the entry says otherwise.
 **Citation rule:** every factual claim carries a reference tag such as `[P3]`, `[K7]` or `[X1]`. Section 11 maps each tag to a URL and gives the source's own date or version where it shows one. Anything I could not verify from a source I actually saw is marked **UNVERIFIED**.
@@ -13,7 +13,7 @@ Much of the common knowledge about both venues is out of date. The biggest 2026 
 1. **Polymarket rewrote its exchange ("CLOB V2", live 2026-04-28).** It shipped new Exchange contracts, a rewritten CLOB backend and a new collateral token, **pUSD**, an ERC-20 backed by USDC that replaces USDC.e for trading. The signed order struct dropped `nonce`, `feeRateBps`, `taker` and `expiration`, and added `timestamp` (ms), `metadata` and `builder`. All resting orders were wiped at cutover. [P23][P24][P31][P32]
 2. **Polymarket is no longer fee-free.** Taker fees follow `fee = C × feeRate × p × (1−p)`, with rates from 0.04 to 0.07 by category. Geopolitics is still free. Makers pay nothing and receive 15–25% of taker fees as rebates. A tiered taker-rebate programme started 2026-05-28. [P3][P15][P16][P23]
 3. **Kalshi moved to fixed-point prices and fractional contracts.** Prices are up to 4 dp in dollars and quantities go down to 0.01 contracts. Each market has its own tapered tick grid (`price_ranges`). Kalshi added a documented fee-rounding accumulator, dropped the `market` order type (all orders are limit orders), and began **sharding** its matching engine by category (Aug–Sep 2026). [K4][K5][K11][K17]
-4. **Kalshi's matching rule is published and binding.** Rule 5.9 of its CFTC rulebook specifies **price-time priority**. [K19] Polymarket's current docs never state a priority rule. Price-time priority at Polymarket is widely assumed, including in Kichiko's own docs, but it is **UNVERIFIED** from primary sources.
+4. **Kalshi's matching rule is published and binding.** Rule 5.9 of its CFTC rulebook specifies **price-time priority**. [K19] Polymarket's current docs never state a priority rule. Price-time priority at Polymarket is widely assumed, including in Elopis's own docs, but it is **UNVERIFIED** from primary sources.
 5. **Both venues had costly trust failures in 2025–26:**
    - a UMA whale "governance attack" on a US$7M Polymarket market [X2];
    - a Columbia study estimating that about 25% of Polymarket volume was wash trading [X1];
@@ -327,9 +327,9 @@ In V2 the match type is derived arithmetically from the two sides, and price cro
 
 ---
 
-## 10. Weaknesses, incidents and criticism (Kichiko's openings)
+## 10. Weaknesses, incidents and criticism (Elopis's openings)
 
-| # | Venue | What happened | Source | Opening for Kichiko |
+| # | Venue | What happened | Source | Opening for Elopis |
 |---|---|---|---|---|
 | 1 | Polymarket | "Ukraine agrees to Trump mineral deal before April?" (US$7M) resolved YES without a deal after an alleged UMA whale vote (2025-03-24/25). Polymarket called it "unprecedented" and refused refunds. | [X2] | Accountable resolution: named resolvers, a written rationale, an appeal path, and no token-weighted vote. |
 | 2 | Polymarket / UMA | Proposals restricted to whitelisted proposers (2025-08-12) after non-whitelisted proposers were only 85.8% accurate. Polymarket's docs still say "anyone can propose". | [X3][P8] | Publish exactly who resolves, and track resolver accuracy publicly. |
@@ -348,13 +348,13 @@ In V2 the match type is derived arithmetically from the two sides, and price cro
 | 15 | Kalshi | Interest (3.25%) is US-only and needs at least US$250. | [K20] | Consider a small-balance-friendly incentive, if regulation allows. |
 | 16 | Both | Kalshi's REST lags exchange events [K1]; Polymarket's market feed has no `seq`, only hashes [P17]. | [K1][P17] | Sequence-numbered deltas and read-your-writes responses. |
 
-**Thin books on long-tail markets:** a 2026 academic study of Polymarket found a "longshot spread premium", meaning wider relative spreads on low-probability outcomes. [X14] Kichiko's own snapshot (`docs/research/polymarket/03`) measured relative spreads blowing out for longshots. That snapshot is internal data, not re-verified here.
+**Thin books on long-tail markets:** a 2026 academic study of Polymarket found a "longshot spread premium", meaning wider relative spreads on low-probability outcomes. [X14] Elopis's own snapshot (`docs/research/polymarket/03`) measured relative spreads blowing out for longshots. That snapshot is internal data, not re-verified here.
 
 ---
 
 ## 11. Side-by-side comparison
 
-| Dimension | Polymarket (intl.) | Kalshi | Kichiko takeaway |
+| Dimension | Polymarket (intl.) | Kalshi | Elopis takeaway |
 |---|---|---|---|
 | Custody / settlement | Non-custodial; atomic on-chain settlement on Polygon; pUSD collateral [P4][P7] | Custodial USD through a DCO clearing house [K19] | Custodial KES/USD ledger in Postgres; publish balance commitments (cf. Polymarket Perps state roots [P27]) |
 | Matching priority | **UNVERIFIED** (not documented) | Price-time, in rulebook Rule 5.9 [K19] | Price-time, documented and tested |
@@ -377,11 +377,11 @@ In V2 the match type is derived arithmetically from the two sides, and price cro
 
 ---
 
-## 12. Recommendations for Kichiko (M-Pesa users, small tickets, Postgres engine)
+## 12. Recommendations for Elopis (M-Pesa users, small tickets, Postgres engine)
 
 ### 12.1 Strengths to borrow
 1. **Documented price-time priority with a queue-position endpoint**, as in Kalshi Rule 5.9 and the queue-position API. [K19][K14] In Postgres, order the book by `(price DESC, seq ASC)` using a per-market `bigserial` sequence, not `created_at`, since timestamps can collide.
-2. **Complementary matching on one ladder** (COMPLEMENTARY, MINT, MERGE) [P31]. Kichiko already has direct, mint and burn (`CLOB-TWO-SIDED-ENGINE.md`). Keep the conservation invariants.
+2. **Complementary matching on one ladder** (COMPLEMENTARY, MINT, MERGE) [P31]. Elopis already has direct, mint and burn (`CLOB-TWO-SIDED-ENGINE.md`). Keep the conservation invariants.
 3. **The p(1−p) fee curve with a per-market coefficient**, applied at match time rather than signed into orders. [P3][P24][K18] This avoids overcharging near-certain bets. Small bets on longshots are the typical M-Pesa ticket.
 4. **Kalshi's fee-rounding accumulator** [K5]. M-Pesa settles in whole shillings, and fractional prices and sizes create sub-shilling remainders. Round against the user within a fill, then refund accumulated overpayment across an order's fills. This beats Polymarket's rule of rounding tiny fees to zero [P3], which can be farmed.
 5. **A tapered tick grid** (`price_ranges`) [K4]: coarse ticks in the middle, fine ticks near 0 and 1. Nearly half of Polymarket's markets sit at longshot prices (internal snapshot), and a small KES bet needs a fine grid there.
@@ -411,13 +411,13 @@ In V2 the match type is derived arithmetically from the two sides, and price cro
 6. **Fee clarity**: publish the formula, the coefficients and worked KES examples. Polymarket's fee maths was reportedly broken for a day at launch [X12].
 
 ### 12.3 Postgres-specific notes (design inference, not sourced facts)
-- **Serialise matching per market.** Use `pg_advisory_xact_lock(market_id)` or a single-writer worker per book. This keeps price-time priority deterministic and avoids serialisation retries under load, which Kichiko's docs currently plan to handle with `SELECT … FOR UPDATE` plus retries (`CLOB-ARCHITECTURE.md`).
+- **Serialise matching per market.** Use `pg_advisory_xact_lock(market_id)` or a single-writer worker per book. This keeps price-time priority deterministic and avoids serialisation retries under load, which Elopis's docs currently plan to handle with `SELECT … FOR UPDATE` plus retries (`CLOB-ARCHITECTURE.md`).
 - **Integer arithmetic.** Store amounts as integer minor units (e.g. KES × 100, or 6 dp as Polymarket does [P11]). Store prices as integers on a tick grid (e.g. 1/10,000 of a unit).
 - **Treat throughput as capacity, not a feature.** Polymarket and Kalshi both publish burst rates of hundreds of orders per second per client [P21][K7]. A Postgres engine should publish its own per-user limits and measure p99 match latency before advertising anything.
 
 ---
 
-## 13. Corrections to Kichiko's local docs
+## 13. Corrections to Elopis's local docs
 
 Files reviewed: `docs/research/polymarket/*.md`, `docs/design/POLYMARKET-KALSHI-PARITY.md`, `docs/design/KALSHI-ORDER-TICKET.md`. None were modified.
 

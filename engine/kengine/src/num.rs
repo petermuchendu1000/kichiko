@@ -1,5 +1,5 @@
 //! Exact emulation of the subset of PostgreSQL `numeric` arithmetic that the
-//! Kichiko CLOB engine uses.
+//! Elopis CLOB engine uses.
 //!
 //! A [`Num`] is `m / 10^s` where `s` is PostgreSQL's *display scale* (dscale).
 //! Tracking dscale matters because PostgreSQL chooses the result scale of a

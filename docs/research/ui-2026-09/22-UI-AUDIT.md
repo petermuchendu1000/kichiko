@@ -1,5 +1,5 @@
-# Kichiko Web Front-End Audit
-Target: `/home/claude/kichiko/apps/web` — Next.js 15.5.22 App Router, React 18.3, Tailwind 3.4.15
+# Elopis Web Front-End Audit
+Target: `/home/claude/elopis/apps/web` — Next.js 15.5.22 App Router, React 18.3, Tailwind 3.4.15
 Date of audit: 2026-09-27. Evidence-based; every claim cites a file path. `node_modules` is NOT installed, so nothing was built or run — findings come from source reading and static counts.
 
 > **Erratum, 2026-09-27 (same day, verified by compiling with Tailwind 3.4.19).**
@@ -159,12 +159,12 @@ No stub handlers found; the smallest (`admin/users/[id]/note` 22, `admin/payouts
 |---|---|---|---|---|
 | **Order ticket** | `components/trading/pm-ticket.tsx` | **1,877** | yes | The single trade surface for desktop sidebar (`variant='panel'`) and mobile sheet (`variant='sheet'`). Buy/Sell toggle, Market/Limit (`PmLimitBody` l.180), Yes/No arming, quick-stake chips, live CLOB estimates from top-of-book (l.515), auth round-trip continuity via `lib/pending-bet` (l.571), funding shortfall planning via `lib/funding`, success receipt (l.986), closed/pending states (`CLOSED_COPY` l.167, l.1041), and a `TradeError` component (l.73) with typed follow-ups (`retry`/`support`/`wait` + countdown). Complete and unusually thorough. Also the single biggest client file in the repo and **not** code-split. |
 | **Market card** | `components/markets/market-card.tsx` | 369 | yes | Three shapes in one shell (multi-outcome candidate board, binary chance meter, up/down with live ping). Full-bleed overlay `Link` + `z-30` Yes/No controls that deep-link with `?side=&option=`. **Zero breakpoint classes** — fully fluid. |
-| **Candidate board** | `components/trading/candidate-list.tsx` | 400 | yes | Sort (prob/volume/az), search, avatars, inline `OrderBookDrawer` accordion, broadcasts `kichiko:select-option`. |
+| **Candidate board** | `components/trading/candidate-list.tsx` | 400 | yes | Sort (prob/volume/az), search, avatars, inline `OrderBookDrawer` accordion, broadcasts `elopis:select-option`. |
 | **Order book** | `components/trading/order-book-table.tsx` | 279 | yes | `useClobBook` hook (fetch + 4s poll, `active`-gated, l.59) + `BookTable`/`OrderBookPanel`. Shared by desktop drawer and mobile drawer — one data path. |
 | **Order-book drawer** | `components/trading/order-book-drawer.tsx` | 169 | yes | 3 tabs: Order Book / Graph / Resolution. |
 | **Mobile trade bar** | `components/trading/mobile-trade-bar.tsx` | 291 | yes | `lg:hidden` fixed thumb-zone bar + bottom sheet hosting the *same* `PmTicket`. Offsets itself above the bottom nav (`bottom: calc(3.5rem + env(safe-area-inset-bottom))`, l.187). |
 | **Market drawer** | `components/trading/market-drawer.tsx` | 321 | yes | Mobile name-tap drawer: option header, `OutcomesChart`, order book, rules, solid Yes/No bar with safe-area padding (l.306). |
-| **Position summary** | `components/trading/position-summary.tsx` | 156 | yes | Mark-to-market P&L, refreshes on `kichiko:bet-placed`. |
+| **Position summary** | `components/trading/position-summary.tsx` | 156 | yes | Mark-to-market P&L, refreshes on `elopis:bet-placed`. |
 | **Price chart** | `components/markets/price-chart.tsx` | 368 (+13 lazy) | yes | Recharts, `dynamic({ssr:false})` behind `price-chart.lazy.tsx`. |
 | **Outcomes chart** | `components/markets/outcomes-chart.tsx` | 357 (+10 lazy) | yes | Multi-series probability lines. |
 | **BTC live chart** | `components/markets/btc-live-chart.tsx` | **986** (+10 lazy) | yes | Three synchronized views; four `setInterval`s (1s clock l.162, 2.5s tick l.368, 20s load l.226, 30s load l.348). |
@@ -474,7 +474,7 @@ Unimported packages are tree-shaken and will not ship in the client bundle, so t
 ### 6.6 Instrumentation & budgets
 
 - `components/perf/web-vitals.tsx` (56) uses `web-vitals@4` and POSTs to `app/api/telemetry/vitals/route.ts` (38). `lib/__tests__/vitals.test.ts` exists.
-- `/home/claude/kichiko/lighthouserc.json` — collects 3 runs each of `/`, `/markets`, `/leaderboard`, `/search` with **`preset: "desktop"`**. Assertions, all `warn` (nothing fails the build), median-run: performance ≥ 0.85, accessibility ≥ 0.90, LCP ≤ 2500ms, CLS ≤ 0.1, TBT ≤ 300ms. Upload to `temporary-public-storage`.
+- `/home/claude/elopis/lighthouserc.json` — collects 3 runs each of `/`, `/markets`, `/leaderboard`, `/search` with **`preset: "desktop"`**. Assertions, all `warn` (nothing fails the build), median-run: performance ≥ 0.85, accessibility ≥ 0.90, LCP ≤ 2500ms, CLS ≤ 0.1, TBT ≤ 300ms. Upload to `temporary-public-storage`.
   - Two problems: (a) the preset is **desktop** for a product that claims mobile-first — mobile LCP/TBT on a throttled 4G profile is never measured; (b) every assertion is `warn`, so no budget is actually enforced. `/markets/[slug]` — the heaviest, most valuable route — is not in the URL list at all.
 - `next.config.js`: `output: 'standalone'`, `outputFileTracingRoot` set for the monorepo, `serverExternalPackages: ['sharp']`, immutable caching on `/_next/static`, `no-store` on `/sw.js`, tight same-origin CORS on `/api/*` (reflects `NEXT_PUBLIC_APP_URL`, never `*`).
 
