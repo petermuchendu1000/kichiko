@@ -2,7 +2,7 @@
 // Recent activity feed on the Pip system: custom icons only (no lucide) and
 // design tokens throughout (no shadcn text-muted-foreground / text-foreground).
 import { formatDistanceToNow } from 'date-fns'
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/cn'
 import { IconTrendUp, IconTrendDown } from '@/components/ui/icons'
 import { TraderNameLink } from '@/components/ui/trader-link'
 

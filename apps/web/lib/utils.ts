@@ -1,11 +1,9 @@
 // lib/utils.ts
-import { type ClassValue, clsx } from 'clsx'
-import { twMerge } from 'tailwind-merge'
+//
+// `cn` used to live here and has moved to lib/cn.ts: it carries
+// `tailwind-merge` (~72 kB), and twenty of this module's twenty-one importers
+// want a number formatter, not a class-name resolver. See lib/cn.ts.
 import { usdToLocal } from './currency'
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
-}
 
 // formatCurrency lives in @/lib/currency, not here.
 //

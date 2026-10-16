@@ -12,7 +12,7 @@
  */
 
 import { useId, useState } from 'react'
-import { formatDistanceToNow, format } from 'date-fns'
+import { monthDayYear, timeAgo } from '@/lib/date-display'
 import { IconShield, IconInfo, IconExternalLink } from '@/components/ui/icons'
 import { TraderNameLink } from '@/components/ui/trader-link'
 import { safeHttpUrl } from '@/lib/security/sanitize'
@@ -169,8 +169,8 @@ export function MarketRules({
             )}
             <span>
               {isResolved && resolvedAt
-                ? `Resolved ${formatDistanceToNow(new Date(resolvedAt), { addSuffix: true })}`
-                : `Closes ${format(new Date(closesAt), 'MMM d, yyyy')}`}
+                ? `Resolved ${timeAgo(new Date(resolvedAt))}`
+                : `Closes ${monthDayYear(new Date(closesAt))}`}
             </span>
             {safeResolutionSource ? (
               <>

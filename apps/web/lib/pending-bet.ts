@@ -148,30 +148,27 @@ export function parsePendingBet(raw: unknown, opts: ParsePendingBetOptions): Pen
 // base64url is URL-safe, so nesting it inside an already-encoded `next` value
 // (and threading it through the email-confirmation callback) is lossless.
 
-/** Isomorphic UTF-8 → base64url (Node Buffer or browser btoa/TextEncoder). */
+// btoa/atob and TextEncoder, NOT Buffer. The Buffer branch these used to open
+// with was dead code that cost 27 kB: merely naming `Buffer` makes webpack
+// bundle its browser polyfill, and this module is a CLIENT carrier — the
+// polyfill shipped in /markets/[slug]'s first load to serve a branch the
+// browser never took. Both globals have been in Node since 16 and in every
+// browser we support, so one implementation covers both sides (ruling A11).
+
+/** UTF-8 → base64url. */
 function toBase64Url(s: string): string {
-  let b64: string
-  if (typeof Buffer !== 'undefined') {
-    b64 = Buffer.from(s, 'utf8').toString('base64')
-  } else {
-    const bytes = new TextEncoder().encode(s)
-    let bin = ''
-    bytes.forEach((b) => {
-      bin += String.fromCharCode(b)
-    })
-    b64 = btoa(bin)
-  }
-  return b64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
+  const bytes = new TextEncoder().encode(s)
+  let bin = ''
+  bytes.forEach((b) => {
+    bin += String.fromCharCode(b)
+  })
+  return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
 }
 
-/** Isomorphic base64url → UTF-8. Returns null on malformed input. */
+/** base64url → UTF-8. Returns null on malformed input. */
 function fromBase64Url(token: string): string | null {
   try {
-    const b64 = token.replace(/-/g, '+').replace(/_/g, '/')
-    if (typeof Buffer !== 'undefined') {
-      return Buffer.from(b64, 'base64').toString('utf8')
-    }
-    const bin = atob(b64)
+    const bin = atob(token.replace(/-/g, '+').replace(/_/g, '/'))
     const bytes = Uint8Array.from(bin, (c) => c.charCodeAt(0))
     return new TextDecoder().decode(bytes)
   } catch {

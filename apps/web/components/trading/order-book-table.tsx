@@ -10,58 +10,17 @@
 // divider → bids (green, desc), dual %+¢ price, cumulative TOTAL, left-anchored
 // depth bars, Asks/Bids pills, TRADE YES heading. Live from GET
 // /api/markets/[id]/book (public, cached ~2s), polled while visible.
-import { useCallback, useEffect, useRef, useState, useSyncExternalStore, type RefObject } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { dualPriceLabel, formatCents, type BookLevel, type ClobBook } from '@/lib/clob'
-import { bookPoller, EMPTY_SNAPSHOT } from '@/lib/book-poller'
 import { formatVolume } from '@/lib/utils'
 import { IconRefresh } from '@/components/ui/icons'
+import { useClobBook, useIsDisplayed } from './use-clob-book'
+
+// Re-exported so the drawers that import the table keep one import line.
+export { useClobBook, useIsDisplayed }
 
 const num = (n: number, d = 2) =>
   n.toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d })
-
-/**
- * One (market, option, side) CLOB book, polled every 4s while `active`.
- * Every component asking for the same book shares one request and one snapshot
- * (lib/book-poller.ts); polls never overlap and pause in background tabs.
- */
-export function useClobBook(
-  marketRef: string,
-  optionId: string,
-  side: 'yes' | 'no' = 'yes',
-  active = true,
-) {
-  const url = `/api/markets/${encodeURIComponent(marketRef)}/book?option=${optionId}&side=${side}`
-  const live = active && !!optionId
-  const subscribe = useCallback(
-    (onChange: () => void) => (live ? bookPoller.subscribe(url, onChange) : () => {}),
-    [live, url],
-  )
-  const snap = useSyncExternalStore(
-    subscribe,
-    () => bookPoller.getSnapshot(url),
-    () => EMPTY_SNAPSHOT,
-  )
-  const reload = useCallback(() => bookPoller.reload(url), [url])
-  return { book: snap.book, loading: snap.loading, error: snap.error, reload }
-}
-
-/**
- * False while `ref`'s element is not displayed (e.g. inside a `hidden lg:block`
- * wrapper on a phone), so a mounted-but-hidden component can stop polling.
- */
-export function useIsDisplayed(ref: RefObject<HTMLElement | null>): boolean {
-  const [shown, setShown] = useState(true)
-  useEffect(() => {
-    const el = ref.current
-    if (!el || typeof ResizeObserver === 'undefined') return
-    const check = () => setShown(el.getClientRects().length > 0)
-    check()
-    const ro = new ResizeObserver(check)
-    ro.observe(el)
-    return () => ro.disconnect()
-  }, [ref])
-  return shown
-}
 
 /**
  * The depth table: asks (red desc) → Last/Spread → bids (green desc).

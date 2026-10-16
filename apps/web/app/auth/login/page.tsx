@@ -11,7 +11,7 @@ import { LogoMark, IconShield, IconArrowRight } from '@/components/ui/icons'
 import { safeRedirectPath } from '@/lib/security/sanitize'
 import { withNext } from '@/lib/auth-redirect'
 import { canSubmitLogin, normalizeAuthError } from '@/lib/auth-form'
-import { openAuthDialog } from '@/components/auth/auth-dialog'
+import { openAuthDialog } from '@/lib/auth-dialog-bus'
 
 export default function LoginPage() {
   const router = useRouter()

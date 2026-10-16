@@ -3,7 +3,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { createClient, createAdminClient } from '@/lib/supabase/server'
 import { readFlagFromEnv } from '@/lib/flags'
-import { clobOrderSchema, clobErrorFor } from '@/lib/clob'
+import { clobErrorFor } from '@/lib/clob'
+import { clobOrderSchema } from '@/lib/clob-schema'
 import { MIN_STAKE_KES } from '@/lib/stake'
 
 /**

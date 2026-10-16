@@ -7,7 +7,7 @@
 // timestamp so every option shares an x-axis. Color is decorative — the legend
 // and accessible summary carry the meaning, never hue alone.
 import { useMemo, useState } from 'react'
-import { format } from 'date-fns'
+import { monthShort, monthDay, hourMinute, monthDayYear } from '@/lib/date-display'
 import { ScrubChart, type ScrubSeries } from './scrub-chart'
 import { IconTrophy, IconClock } from '@/components/ui/icons'
 import { SERIES_PALETTE as PALETTE } from '@/lib/markets/series-color'
@@ -214,9 +214,9 @@ export function OutcomesChart({ options, data, volumeUsd, closesAt, colorMap, sh
     const spanMs = first && last ? new Date(last).getTime() - new Date(first).getTime() : 0
     const DAY = 86_400_000
     const d = new Date(v)
-    if (spanMs > 45 * DAY) return format(d, 'MMM')
-    if (spanMs > 2 * DAY) return format(d, 'MMM d')
-    return format(d, 'HH:mm')
+    if (spanMs > 45 * DAY) return monthShort(d)
+    if (spanMs > 2 * DAY) return monthDay(d)
+    return hourMinute(d)
   }
 
   return (
@@ -284,7 +284,7 @@ export function OutcomesChart({ options, data, volumeUsd, closesAt, colorMap, sh
           {closesAt && (
             <span className="inline-flex items-center gap-1 whitespace-nowrap text-text-muted">
               <IconClock size={13} />
-              {format(new Date(closesAt), 'MMM d, yyyy')}
+              {monthDayYear(new Date(closesAt))}
             </span>
           )}
         </div>

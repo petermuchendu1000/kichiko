@@ -16,7 +16,7 @@
 // (see docs/design/POLYMARKET-KALSHI-PARITY.md).
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { EntityAvatar } from '@/components/ui/entity-avatar'
-import { OrderBookDrawer } from '@/components/trading/order-book-drawer'
+import { OrderBookDrawer } from '@/components/trading/order-book-drawer.lazy'
 import { normalizeOutcomes, type Outcome } from '@/lib/markets/outcomes'
 import { formatVolume } from '@/lib/utils'
 import { formatCurrency, usdToLocal } from '@/lib/currency'

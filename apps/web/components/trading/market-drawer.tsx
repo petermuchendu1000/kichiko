@@ -25,6 +25,11 @@ import { OutcomesChart } from '@/components/markets/outcomes-chart.lazy'
 import { OrderBookPanel } from '@/components/trading/order-book-table'
 import { EntityAvatar } from '@/components/ui/entity-avatar'
 import { getBrowserClient } from '@/lib/supabase/client-lazy'
+import {
+  OPEN_MARKET_EVENT,
+  consumeOpenMarketIntent,
+  type OpenMarketDetail,
+} from '@/lib/open-market-bus'
 import { IconChevronLeft, IconChevronDown, IconCode, IconBookmark, IconLink, IconInfo } from '@/components/ui/icons'
 import type { Market, MarketOption } from '@/types'
 
@@ -63,13 +68,18 @@ export function MarketDrawer({
 
   // Open on an explicit name/body tap broadcast by the board row.
   useEffect(() => {
-    const onOpen = (e: Event) => {
-      const d = (e as CustomEvent).detail || {}
+    const apply = (d: OpenMarketDetail) => {
       if (d.marketId && d.marketId !== market.id) return
-      if (d.optionId) setOpenId(d.optionId as string)
+      if (d.optionId) setOpenId(d.optionId)
     }
-    window.addEventListener('elopis:open-market', onOpen as EventListener)
-    return () => window.removeEventListener('elopis:open-market', onOpen as EventListener)
+    const onOpen = (e: Event) => apply(((e as CustomEvent).detail || {}) as OpenMarketDetail)
+    window.addEventListener(OPEN_MARKET_EVENT, onOpen as EventListener)
+    // This component is mounted lazily, so the tap that summoned it landed
+    // before this listener existed. The bus held it; claim it rather than
+    // losing the tap to a chunk fetch. See lib/open-market-bus.ts.
+    const held = consumeOpenMarketIntent()
+    if (held) apply(held)
+    return () => window.removeEventListener(OPEN_MARKET_EVENT, onOpen as EventListener)
   }, [market.id])
 
   // Lazily fetch THIS option's probability history the first time it opens. One

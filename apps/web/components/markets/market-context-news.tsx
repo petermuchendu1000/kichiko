@@ -14,7 +14,7 @@
 'use client'
 
 import { useState } from 'react'
-import { format } from 'date-fns'
+import { monthDayYear } from '@/lib/date-display'
 
 import { type MarketNewsItem, formatMove } from '@/lib/markets/context-news'
 import { IconInfo } from '@/components/ui/icons'
@@ -49,7 +49,7 @@ export function MarketContextNews({
           return (
             <li key={item.id} className="border-b border-hairline pb-4 last:border-b-0 last:pb-0">
               <time dateTime={item.publishedAt} className="block text-xs text-text-muted">
-                {format(new Date(item.publishedAt), 'MMM d yyyy')}
+                {monthDayYear(new Date(item.publishedAt))}
               </time>
 
               <h3 className="mt-1 text-sm font-semibold text-text-primary">{item.headline}</h3>

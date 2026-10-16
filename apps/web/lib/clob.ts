@@ -6,7 +6,6 @@
 // so the matching-adjacent math (cumulative depth, tick clamping, ¢/% format)
 // can't silently drift from PM's ground truth
 // (docs/design/PM-CLOB-DRAWER-MEASURED-2026-07.md).
-import { z } from 'zod'
 
 // ---------------------------------------------------------------------------
 // Price ticks. PM uses a 0.1¢ tick in [0.1¢, 99.9¢]; we store price_cents as
@@ -111,43 +110,6 @@ export function shapeBook(raw: RawClobBook): ClobBook {
 // dollar-denominated for market buys (the API converts to size via best ask).
 // ---------------------------------------------------------------------------
 export const CURRENCIES = ['KES', 'UGX', 'TZS', 'RWF', 'ZMW', 'ETB', 'BIF', 'USD'] as const
-
-export const clobOrderSchema = z
-  .object({
-    engine: z.literal('clob'),
-    market_id: z.string().uuid(),
-    market_option_id: z.string().uuid(), // phase 1b: per-candidate book required
-    outcome_side: z.enum(['yes', 'no']),
-    action: z.enum(['buy', 'sell']).default('buy'),
-    order_type: z.enum(['market', 'limit']),
-    price_cents: z.number().min(CLOB_MIN_CENTS).max(CLOB_MAX_CENTS).optional(),
-    size: z.number().positive().optional(), // shares
-    amount_local: z.number().positive().optional(), // $ for market buys
-    // optional assertion only: the order settles in the user's settlement currency (lib/settlement.ts)
-    currency: z.enum(CURRENCIES).optional(),
-    client_order_id: z.string().max(64).optional(),
-    expires_at: z.string().datetime().optional(),
-  })
-  .refine((d) => d.order_type !== 'limit' || d.price_cents != null, {
-    message: 'price_cents is required for limit orders',
-    path: ['price_cents'],
-  })
-  .refine((d) => d.order_type !== 'limit' || d.size != null, {
-    message: 'size (shares) is required for limit orders',
-    path: ['size'],
-  })
-  .refine((d) => d.order_type !== 'market' || d.size != null || d.amount_local != null, {
-    message: 'market orders need size or amount_local',
-    path: ['size'],
-  })
-  // Reject a past/instant expiry up front so it never rests with locked escrow
-  // waiting for the sweeper (audit #5). Future expiries are swept on lapse.
-  .refine((d) => d.expires_at == null || Date.parse(d.expires_at) > Date.now(), {
-    message: 'expires_at must be in the future',
-    path: ['expires_at'],
-  })
-
-export type ClobOrderInput = z.infer<typeof clobOrderSchema>
 
 // ---------------------------------------------------------------------------
 // SQLSTATE → HTTP mapping for clob_place_order / clob_cancel_order. Single

@@ -34,9 +34,11 @@ import { useEffect, useMemo, useRef, useState, useCallback } from 'react'
 import { getBrowserClient } from '@/lib/supabase/client-lazy'
 import { formatUSD } from '@/lib/utils'
 import { ShareChartModal } from './share-chart-modal'
+import { PNL_RANGES, availableRanges, defaultRange, type PnlRange } from '@/lib/markets/pnl-range'
 
-type Range = '1D' | '1W' | '1M' | '1Y' | 'YTD' | 'ALL'
-const RANGES: Range[] = ['1D', '1W', '1M', '1Y', 'YTD', 'ALL']
+type Range = PnlRange
+const RANGES = PNL_RANGES
+
 const RANGE_LABEL: Record<Range, string> = {
   '1D': 'Past Day', '1W': 'Past Week', '1M': 'Past Month',
   '1Y': 'Past Year', YTD: 'Year to Date', ALL: 'All Time',
@@ -174,9 +176,38 @@ export function TraderPnlCard({ userId, profitLoss, userName, profileUrl }: { us
   // The Supabase browser client loads on first use, not during render: it is
   // ~66 kB of this route's first load and nothing here needs it before an
   // effect or a handler runs. Ruling A11; see lib/supabase/client-lazy.ts.
-  const [range, setRange] = useState<Range>('1D')
+  // ---- which ranges actually have anything to draw -----------------------
+  //
+  // The default used to be a hard-coded '1D', which is Polymarket's — and
+  // Polymarket's markets trade continuously, so for them 1D always has data.
+  // Ours are long-dated and trade in bursts: measured 2026-10-16 on a real
+  // account, 1D, 1W and 1M each returned ZERO points while 1Y, YTD and ALL
+  // returned 620. The default was parity borrowed without the condition that
+  // makes it right, and the result was a chart that opened empty for almost
+  // everyone.
+  //
+  // A fixed longer default (1Y, say) fixes the empty box and breaks the other
+  // case: someone who traded this morning would land on a year in which today
+  // is one pixel. So the default is DERIVED — the shortest range that contains
+  // data. An active account still opens on 1D; a quiet one falls through to
+  // 1M, 1Y or ALL. No constant to be wrong about.
+  //
+  // This is the rule the MARKET chart already uses ("a range is offered only
+  // when it actually contains something to draw", outcomes-chart.tsx). It was
+  // written there and never applied here — the third time in this pass a fix
+  // has landed on one of two twin surfaces.
+  const [all, setAll] = useState<Point[] | null>(null)
+  const [range, setRange] = useState<Range | null>(null)
   const [points, setPoints] = useState<Point[] | null>(null)
   const [shareOpen, setShareOpen] = useState(false)
+
+  // Data runs contiguously backwards from the newest point, so "does this
+  // window hold anything" is just "is the newest point inside it". Counting
+  // points would be wrong for the short ranges: ALL is bucketed daily, so a
+  // trader active today shows ONE point in the last 24h here while the 1D
+  // query — bucketed hourly — would return a full series.
+  const newest = all && all.length > 0 ? new Date(all[all.length - 1].bucket).getTime() : null
+  const available = useMemo(() => availableRanges(newest), [newest])
 
   // The headline is the end of the series on screen. Absence is rendered as
   // absence: with nothing to measure there is no number, rather than a zero
@@ -189,8 +220,38 @@ export function TraderPnlCard({ userId, profitLoss, userName, profileUrl }: { us
       ? Number(points[points.length - 1].value_usd) - Number(points[0].value_usd)
       : null
 
+  // One call on mount: the full history, which tells us the data's span (and
+  // therefore the default and which tabs to offer) and doubles as the ALL
+  // series, so selecting ALL costs no second query.
   useEffect(() => {
     let alive = true
+    void getBrowserClient()
+      .then((supabase) =>
+        supabase.rpc('trader_pnl_series' as never, { p_user_id: userId, p_range: 'ALL' } as never),
+      )
+      .then(({ data }) => {
+        if (alive) setAll(((data as unknown) as Point[]) || [])
+      })
+      .catch(() => {
+        if (alive) setAll([])
+      })
+    return () => { alive = false }
+  }, [userId])
+
+  // Pick the default once the span is known: the shortest range with data.
+  useEffect(() => {
+    if (range !== null || all === null) return
+    setRange(defaultRange(available))
+  }, [all, available, range])
+
+  useEffect(() => {
+    if (range === null || all === null) return
+    let alive = true
+    // ALL is already in hand from the mount query.
+    if (range === 'ALL') {
+      setPoints(all)
+      return () => { alive = false }
+    }
     setPoints(null)
     void getBrowserClient()
       .then((supabase) =>
@@ -200,7 +261,7 @@ export function TraderPnlCard({ userId, profitLoss, userName, profileUrl }: { us
         if (alive) setPoints(((data as unknown) as Point[]) || [])
       })
     return () => { alive = false }
-  }, [userId, range])
+  }, [userId, range, all])
 
   const positive = delta === null ? true : delta >= 0
 
@@ -214,24 +275,41 @@ export function TraderPnlCard({ userId, profitLoss, userName, profileUrl }: { us
           </span>
           <h2 className="text-sm font-medium text-text-muted">Position value</h2>
         </div>
-        <div role="group" aria-label="Chart range" className="flex items-center gap-0.5">
-          {RANGES.map((r) => (
+        {/* Hidden entirely when nothing is held: a row of six dead tabs over
+            an empty box explains nothing. (Same reasoning as the market
+            chart's "ALL alone needs no tab row".) */}
+        <div
+          role="group"
+          aria-label="Chart range"
+          className="flex items-center gap-0.5"
+          hidden={available.size === 0}
+        >
+          {RANGES.map((r) => {
+            const has = available.has(r)
+            return (
             <button
               key={r}
               type="button"
               onClick={() => setRange(r)}
+              disabled={!has}
               aria-pressed={range === r}
+              title={has ? undefined : `No activity in the last ${r === 'YTD' ? 'year to date' : r}`}
               // min-h-11/min-w-11 = 44px (ruling A4). These rendered 30x28 —
               // the same 28px the market chart's range tabs carried before A4
               // was gated there. The fix landed on one chart and not the
               // other, because only one of them was ever measured.
               className={`inline-flex min-h-11 min-w-11 items-center justify-center rounded-[9.2px] px-2 text-xs font-semibold uppercase tracking-wide transition-colors ${
-                range === r ? 'text-pip-text' : 'text-text-muted hover:text-text-secondary'
+                !has
+                  ? 'cursor-not-allowed text-text-muted opacity-40'
+                  : range === r
+                    ? 'text-pip-text'
+                    : 'text-text-muted hover:text-text-secondary'
               }`}
             >
               {r}
             </button>
-          ))}
+            )
+          })}
         </div>
       </div>
 
@@ -244,7 +322,7 @@ export function TraderPnlCard({ userId, profitLoss, userName, profileUrl }: { us
             // Not the mono face: this is a sentence, and setting prose in the
             // numeric font makes an explanation look like a reading.
             <span className="font-sans text-[20px] font-semibold text-text-muted">
-              No positions in this range
+              {available.size === 0 ? 'No open positions' : 'No activity in this range'}
             </span>
           ) : (
             formatUSD(latest)
@@ -261,7 +339,9 @@ export function TraderPnlCard({ userId, profitLoss, userName, profileUrl }: { us
           </svg>
         </button>
       </div>
-      <p className="mb-3 mt-0.5 text-xs font-medium text-text-muted">{RANGE_LABEL[range]}</p>
+      <p className="mb-3 mt-0.5 text-xs font-medium text-text-muted">
+        {range ? RANGE_LABEL[range] : '\u00A0'}
+      </p>
 
       <ShareChartModal
         open={shareOpen}
@@ -269,12 +349,12 @@ export function TraderPnlCard({ userId, profitLoss, userName, profileUrl }: { us
         userName={userName}
         userId={userId}
         profitLoss={latest ?? profitLoss}
-        rangeLabel={RANGE_LABEL[range]}
+        rangeLabel={range ? RANGE_LABEL[range] : ''}
         points={points ?? []}
         profileUrl={profileUrl}
       />
 
-      {points === null ? (
+      {points === null || range === null ? (
         <div className="skeleton h-[148px] w-full rounded-md" />
       ) : (
         <PnlChart points={points} positive={positive} range={range} />

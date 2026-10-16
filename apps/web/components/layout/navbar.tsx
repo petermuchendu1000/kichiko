@@ -12,7 +12,7 @@ import type { FundingStep } from '@/lib/payments/funding-steps'
 import { CURRENCIES, type CurrencyCode } from '@/types'
 import { depositPresets, phonePlaceholder, phonePrefill, isValidPhone, depositRequestBody, withdrawRequestBody } from '@/lib/payments/deposit-ux'
 import { readJson } from '@/lib/http/client'
-import { openAuthDialog } from '@/components/auth/auth-dialog'
+import { openAuthDialog } from '@/lib/auth-dialog-bus'
 import { StkPushLoader } from '@/components/payments/stk-push-loader'
 import {
   LogoMark,

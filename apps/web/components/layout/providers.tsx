@@ -3,7 +3,16 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useState } from 'react'
 import { Toaster } from 'react-hot-toast'
-import { AuthDialog } from '@/components/auth/auth-dialog'
+import dynamic from 'next/dynamic'
+
+// The dialog renders nothing until the elopis:open-auth event fires, so there
+// is no reason for it to be in the first load of every page in the product.
+// `openAuthDialog` lives in lib/auth-dialog-bus.ts and stays eager — it is
+// three lines, and the callers need it synchronously.
+const AuthDialog = dynamic(
+  () => import('@/components/auth/auth-dialog').then((m) => m.AuthDialog),
+  { ssr: false },
+)
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient({

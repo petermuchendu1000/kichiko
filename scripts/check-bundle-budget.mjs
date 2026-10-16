@@ -97,12 +97,20 @@ const routeBudgetKB = Number(process.env.ROUTE_BUDGET_KB || budgetKB)
  * route comes under budget.
  */
 const ROUTE_ALLOWANCES = {
-  // Three left, and none of them is the Supabase client any more — that is
-  // now loaded on demand everywhere it is used (lib/supabase/client-lazy.ts).
-  // What remains is each page's own client code.
-  '/markets/[slug]': 193,   // the ticket, candidate list and mobile trade bar
-  '/profile': 133,          // 3 kB over
-  '/': 132,                 // 2 kB over
+  // One left. 193 kB -> 149 kB once the libraries that had no business in a
+  // market page's first load were taken out: zod (128 kB of source, pulled in
+  // by a schema parked beside the CLOB helpers), tailwind-merge (72 kB, via
+  // `cn` sitting in lib/utils next to the number formatters), the Buffer
+  // polyfill (27 kB, for a dead `typeof Buffer` branch) and date-fns/format
+  // (47 kB, to spell four fixed patterns).
+  //
+  // Worth stating plainly: 149 kB is INSIDE ruling A11's own budget, which is
+  // "JS <= 150 kB" ([32] §3.3). The 130 here is the shared-bundle figure
+  // reused per route — stricter than the ruling, deliberately, so there is
+  // somewhere to fall before the real line is crossed. The rest of this route
+  // is the order ticket itself; splitting that delays the primary action on
+  // the money path and is a design decision, not a refactor.
+  '/markets/[slug]': 149,
 }
 
 // "├ ƒ /markets/[slug]    12.3 kB    257 kB" — the route, its own size, then

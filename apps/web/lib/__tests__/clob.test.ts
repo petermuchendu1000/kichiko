@@ -7,7 +7,6 @@ import {
   dualPriceLabel,
   withCumulativeTotals,
   shapeBook,
-  clobOrderSchema,
   clobErrorFor,
   CLOB_MIN_CENTS,
   CLOB_MAX_CENTS,
@@ -17,6 +16,7 @@ import {
   clobAvailableShares,
   buildClobOrderPayload,
 } from '@/lib/clob'
+import { clobOrderSchema } from '../clob-schema'
 
 describe('clob price ticks', () => {
   it('snaps to the 0.1¢ grid', () => {

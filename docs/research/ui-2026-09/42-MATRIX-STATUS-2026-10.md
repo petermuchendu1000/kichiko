@@ -476,9 +476,10 @@ still worth the owner re-confirming for low-probability markets.
 
 ### 2.10 Remaining
 
-F2/F3 (below); **A11's remaining three routes (§2.13, §2.14)** —
-`/markets/[slug]` at 193 kB where the rest is the ticket itself, `/profile`
-133 and `/` 132; **M4's cost basis**, which would turn the trader profile's
+F2/F3 (below); **A11 is effectively closed (§2.15)** — every route is inside
+the ruling's 150 kB, one is over the gate's stricter 130, and the remainder of
+`/markets/[slug]` is the order ticket, whose split is a design decision;
+**M4's cost basis**, which would turn the trader profile's
 value card into real profit and loss; **M7's ruling** on what the platform
 invites people to share; H2's decision on an opt-in accuracy board to replace the profit
 leaderboard H1 removed; I4's calls, which are a commitment rather than a
@@ -755,6 +756,82 @@ result — but what the platform *invites* is the platform's choice, and that
 belongs with H2 rather than with me. The card now shares a **value** instead
 of a signed green profit, which is the honest version whichever way the
 decision goes.
+
+### 2.15 /markets/[slug] under budget — by measuring, not by splitting
+
+**193 kB → 149 kB.** Ruling A11's own figure is "JS ≤ 150 kB" ([32] §3.3), so
+the money page is now inside it; the 130 kB the gate enforces is the
+shared-bundle number reused per route, deliberately stricter so there is
+somewhere to fall before the real line.
+
+The first three attempts moved **10 kB between them**: splitting the market
+drawer, the order-book drawer and the limit panel out of the first load. All
+three were sensible, all three were guesses about where the weight was, and
+the weight was not there.
+
+So I turned on `productionBrowserSourceMaps` and read the chunk. It was not our
+components at all:
+
+| source | kB | why it was there |
+|---|---|---|
+| `zod/v3/types.js` | **128** | `clobOrderSchema` lived in `lib/clob.ts`, beside the pure helpers the ticket imports |
+| `tailwind-merge` | **72** | `cn` lived in `lib/utils.ts`, beside the number formatters |
+| `date-fns/format` + formatters | **47** | four fixed patterns: `MMM`, `MMM d`, `HH:mm`, `MMM d, yyyy` |
+| `buffer` polyfill | **27** | a dead `typeof Buffer !== 'undefined'` branch in `pending-bet.ts` |
+
+All four are the same defect, and it is the one this whole pass keeps finding:
+**a heavy dependency parked in a module people import for a neighbour.** Twenty
+of `lib/utils`'s twenty-one importers want `formatUSD` and get a class-name
+resolver. Nothing on the client validates an order payload — the API route
+does, after the request has left the browser. The `Buffer` branch never ran in
+a browser; naming the global was enough to ship the polyfill.
+
+Fixed by drawing module boundaries around what callers actually need:
+`lib/clob-schema.ts`, `lib/cn.ts`, `lib/date-display.ts` (Intl, cached
+formatters), and deleting the dead branch. Four one-line import changes and
+three new files; no component restructured.
+
+`big.js` (23 kB) **stays**. It is arbitrary-precision decimal on the currency
+conversion path and `lib/currency.ts` says why. Trading float error for 23 kB
+on the money path is the wrong direction, and A11 does not ask for it.
+
+Knock-on, because these modules are imported everywhere: `/` 133 → **126**,
+`/profile` 133 → **126**, `/traders/[id]` 128 → **121**. **One route over the
+gate's 130, none over the ruling's 150.**
+
+The rest of `/markets/[slug]` is the order ticket. Splitting that delays the
+primary action on the money path, which is a design decision rather than a
+refactor, and it stays recorded as one.
+
+### 2.16 The value chart's default range — a question I should have asked
+
+§2.14 fixed the card's honesty: it stopped reporting `KSh 0` where there was
+no measurement. It did not ask why the chart was empty in the first place,
+which the owner did:
+
+> "instead of always having a blank graph under positions, why dont we have a
+> like 1yr as default split. user can the select the time as i please and the
+> graph populates beased on the selected time."
+
+Right question, and the fix is a step past the suggestion. Measured on a real
+account: 1D, 1W and 1M each returned **zero** points; 1Y, YTD and ALL returned
+620. The '1D' default was Polymarket's, and Polymarket's markets trade
+continuously — ours are long-dated and trade in bursts. Parity borrowed
+without the condition that makes it right.
+
+A fixed 1Y fixes the empty box and breaks the other case: someone who traded
+this morning lands on a year in which today is one pixel. So the default is
+**derived — the shortest range that holds data**. Active account opens on 1D;
+quiet one falls through to 1M, 1Y, YTD or ALL. Ranges with nothing in them are
+disabled rather than clickable into a blank, and with nothing held at all the
+tab row is hidden instead of offering six dead controls.
+
+Which is, again, the rule the market chart already had ("a range is offered
+only when it actually contains something to draw") and that had never been
+applied here. `lib/markets/pnl-range.ts` holds it now, with ten tests —
+including the one that matters: in October YTD is the shorter window and in
+January 1Y is, so the right default moves through the year and cannot be
+written down as a constant.
 
 ### 2.11 The news matcher — two bugs fixed, one left standing
 

@@ -47,24 +47,13 @@ import {
   type AuthMode,
 } from '@/lib/auth-form'
 import { countryByCode } from '@/lib/geo/countries'
+import {
+  OPEN_AUTH_EVENT,
+  consumePendingAuthIntent,
+  clearPendingAuthIntent,
+  type OpenAuthDetail,
+} from '@/lib/auth-dialog-bus'
 import { useDetectedCountry } from '@/lib/geo/use-detected-country'
-
-export const OPEN_AUTH_EVENT = 'elopis:open-auth'
-
-export interface OpenAuthDetail {
-  /** Which tab to open on. Defaults to 'login'. */
-  mode?: AuthMode
-  /** Post-auth return path — only used by the email-confirmation round-trip. */
-  next?: string
-  /** One-line context shown under the title (e.g. "Sign in to place your bet"). */
-  reason?: string
-}
-
-/** Imperative opener so call sites never hand-roll the CustomEvent. */
-export function openAuthDialog(detail: OpenAuthDetail = {}): void {
-  if (typeof window === 'undefined') return
-  window.dispatchEvent(new CustomEvent(OPEN_AUTH_EVENT, { detail }))
-}
 
 const FOCUSABLE =
   'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])'
@@ -146,8 +135,8 @@ export function AuthDialog() {
   // opener is a no-op (the ticket never dispatches for a signed-in user, but we
   // stay defensive so a stray event can't flash a pointless dialog).
   useEffect(() => {
-    const onOpen = (e: Event) => {
-      const detail = ((e as CustomEvent).detail ?? {}) as OpenAuthDetail
+    const show = (detail: OpenAuthDetail) => {
+      clearPendingAuthIntent()
       // Open synchronously (deterministic; no await before paint). The signed-in
       // guard runs in the background purely as defense — the ticket never fires
       // this for an authenticated user — and never blocks the open path.
@@ -168,7 +157,13 @@ export function AuthDialog() {
         })
         .catch(() => {})
     }
+    const onOpen = (e: Event) => show(((e as CustomEvent).detail ?? {}) as OpenAuthDetail)
     window.addEventListener(OPEN_AUTH_EVENT, onOpen as EventListener)
+    // This component is mounted lazily, so the press that summoned it may have
+    // happened before this listener existed. The bus holds that intent;
+    // claim it here rather than losing the click to a chunk fetch.
+    const buffered = consumePendingAuthIntent()
+    if (buffered) show(buffered)
     return () => window.removeEventListener(OPEN_AUTH_EVENT, onOpen as EventListener)
   }, [resetForm])
 

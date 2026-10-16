@@ -5,7 +5,7 @@
  * Renders Volume, End Date, optional Market Opened, and a Resolver row.
  */
 
-import { format } from 'date-fns'
+import { monthDayYear } from '@/lib/date-display'
 import { formatUSD } from '@/lib/utils'
 import { IconInfo, IconExternalLink } from '@/components/ui/icons'
 import { TraderNameLink } from '@/components/ui/trader-link'
@@ -21,10 +21,12 @@ function resolverHost(url: string): string {
 }
 
 /** Safely format an ISO date string; returns null when unparseable. */
-function safeFormat(iso: string, pattern: string): string | null {
+function safeFormat(iso: string, withTime = false): string | null {
   const date = new Date(iso)
   if (Number.isNaN(date.getTime())) return null
-  return format(date, pattern)
+  if (!withTime) return monthDayYear(date)
+  const time = new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: '2-digit' }).format(date)
+  return `${monthDayYear(date)}, ${time.toLowerCase()}`
 }
 
 export function ContractSpecs(props: {
@@ -38,8 +40,8 @@ export function ContractSpecs(props: {
 }) {
   const { volumeUsd, endDate, openedAt, resolutionSource, createdBy, createdById, className } = props
 
-  const endLabel = safeFormat(endDate, 'MMM d, yyyy') ?? endDate
-  const openedLabel = openedAt ? safeFormat(openedAt, 'MMM d, yyyy, h:mm a') : null
+  const endLabel = safeFormat(endDate) ?? endDate
+  const openedLabel = openedAt ? safeFormat(openedAt, true) : null
 
   // Only render the resolver as a clickable link when it is a valid http/https
   // URL — blocks javascript:/data: and other XSS-prone schemes from the href.
