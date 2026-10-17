@@ -673,9 +673,16 @@
      The list is rendered twice; the track scrolls up -50% for a seamless wrap.
      Soft top/bottom fade so rows dissolve at the edges. Pauses on hover; frozen
      entirely under reduced-motion. Pure CSS → keeps the hero server-rendered. */
+  /* The fade bands have to be small relative to the window, or they ARE the
+     window. Measured on the live hero: the viewport was 35px tall at 1920 and
+     1440 and 15px at 1280, against a 20px row and 12px + 16px of fade. The
+     fully opaque band was 7px of a 20px row at best, and at 1280 the bands
+     were taller than the window, so every row was permanently ghosted and the
+     feed could not be read at any desktop width. The wrapper now carries a
+     min-height (hero-section.tsx) and these bands are trimmed to match. */
   .hero-activity {
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 12px, #000 calc(100% - 16px), transparent 100%);
-    mask-image: linear-gradient(to bottom, transparent 0, #000 12px, #000 calc(100% - 16px), transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 8px, #000 calc(100% - 10px), transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0, #000 8px, #000 calc(100% - 10px), transparent 100%);
   }
   @keyframes hero-activity-scroll {
     from { transform: translateY(0); }

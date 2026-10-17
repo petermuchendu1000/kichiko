@@ -30,7 +30,8 @@ import {
   consumeOpenMarketIntent,
   type OpenMarketDetail,
 } from '@/lib/open-market-bus'
-import { IconChevronLeft, IconChevronDown, IconCode, IconBookmark, IconLink, IconInfo } from '@/components/ui/icons'
+import toast from 'react-hot-toast'
+import { IconChevronLeft, IconChevronDown, IconBookmark, IconLink, IconInfo } from '@/components/ui/icons'
 import type { Market, MarketOption } from '@/types'
 
 interface OptionTick { optionId: string; price: number; recordedAt: string }
@@ -51,6 +52,49 @@ export function MarketDrawer({
   const [histLoaded, setHistLoaded] = useState(false)
   // Order Book is collapsed by default (PM).
   const [bookOpen, setBookOpen] = useState(false)
+  const [saved, setSaved] = useState(false)
+
+  // Bookmarks live in localStorage under 'mp:saved', the same store the market
+  // header writes, so a market saved from either surface shows as saved in the
+  // other. Read on open rather than on mount: the drawer outlives its content.
+  useEffect(() => {
+    if (!openId) return
+    try {
+      const set = new Set(JSON.parse(localStorage.getItem('mp:saved') || '[]') as string[])
+      setSaved(set.has(market.id))
+    } catch {
+      setSaved(false)
+    }
+  }, [openId, market.id])
+
+  const toggleSave = useCallback(() => {
+    try {
+      const set = new Set(JSON.parse(localStorage.getItem('mp:saved') || '[]') as string[])
+      const next = !set.has(market.id)
+      if (next) set.add(market.id)
+      else set.delete(market.id)
+      localStorage.setItem('mp:saved', JSON.stringify([...set]))
+      setSaved(next)
+      toast.success(next ? 'Saved' : 'Removed')
+    } catch {
+      // Private mode, or storage blocked. Say so rather than silently doing
+      // nothing, which is the bug this button already had.
+      toast.error('Could not save on this device')
+    }
+  }, [market.id])
+
+  const shareOutcome = useCallback(async () => {
+    const url = `${window.location.origin}/markets/${market.slug}`
+    try {
+      if (navigator.share) await navigator.share({ title: market.title, url })
+      else {
+        await navigator.clipboard.writeText(url)
+        toast.success('Link copied')
+      }
+    } catch {
+      /* share sheet dismissed */
+    }
+  }, [market.slug, market.title])
 
   const outcomes = normalizeOutcomes(market, options)
   // Persistent id→colour map (ranked by price) shared with the overview chart,
@@ -198,23 +242,29 @@ export function MarketDrawer({
             >
               <IconChevronLeft size={20} />
             </button>
+            {/* THREE BUTTONS, NONE OF WHICH DID ANYTHING.
+                Embed, Bookmark and Share were rendered with an aria-label, a
+                hover state and no onClick, so each announced itself to a
+                screen reader as a control and then ignored every press.
+                Bookmark and Share now run the same behaviour the market header
+                has had all along (localStorage 'mp:saved' and the Web Share
+                API with a clipboard fallback). Embed is gone: no embed feature
+                exists anywhere in the product, and the honest version of a
+                button with nothing behind it is no button. */}
             <div className="flex items-center gap-1">
               <button
                 type="button"
-                aria-label="Embed"
-                className="grid h-9 w-9 place-items-center rounded-full text-text-primary transition-colors hover:bg-surface-2"
-              >
-                <IconCode size={19} />
-              </button>
-              <button
-                type="button"
-                aria-label="Bookmark"
-                className="grid h-9 w-9 place-items-center rounded-full text-text-primary transition-colors hover:bg-surface-2"
+                onClick={toggleSave}
+                aria-label={saved ? 'Remove bookmark' : 'Bookmark'}
+                aria-pressed={saved}
+                className="grid h-9 w-9 place-items-center rounded-full transition-colors hover:bg-surface-2"
+                style={{ color: saved ? 'var(--pip-text)' : 'var(--text)' }}
               >
                 <IconBookmark size={19} />
               </button>
               <button
                 type="button"
+                onClick={shareOutcome}
                 aria-label="Share"
                 className="grid h-9 w-9 place-items-center rounded-full text-text-primary transition-colors hover:bg-surface-2"
               >

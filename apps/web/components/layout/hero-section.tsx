@@ -399,8 +399,16 @@ function Spotlight({
                 feed is now recency-filtered at source (see MAX_AGE_DAYS in
                 lib/markets/spotlight-activity.ts), so an empty feed is the
                 normal case for a quiet market, not an edge case. */}
+            {/* A FLOOR, not just flex-1.
+                `flex-1` hands this slot whatever the chart leaves over, and the
+                chart plus six outcome rows left 35px at 1920 and 1440 and 15px
+                at 1280. Against a 30px row pitch that is not a ticker, it is a
+                sliver of two half-faded rows with nothing readable between
+                them, at every desktop width. The floor fits one clean row with
+                one fading in and one out (3 x 30px pitch + the 18px of mask),
+                and the card grows to meet it. */}
             {feed.length > 0 && (
-              <div className="relative hidden min-h-0 flex-1 lg:block">
+              <div className="relative hidden min-h-0 flex-1 lg:block lg:min-h-[108px]">
                 <div className="absolute inset-0 flex flex-col">
                   <TraderActivity items={feed} max={series.binary ? 7 : 6} />
                 </div>
@@ -660,9 +668,18 @@ function HeroRail({ hotTopics, breaking, news }: { hotTopics: Market[]; breaking
         title="Deposit in seconds"
         body="Deposit money and withdraw it any time with M-Pesa."
         cta="See how it works"
-        href="/#how-it-works"
+        // NOT "/#how-it-works". HowItWorks moved to /help and took its
+        // id="how-it-works" anchor with it, so this button navigated to the
+        // home page, found no such element, and did nothing at all. It is the
+        // most prominent call to action in the rail and it had been dead.
+        href="/help#how-it-works"
       />
-      <BreakingNews items={breaking} />
+      {/* BreakingNews ("Biggest moves") used to sit here. It rendered the same
+          three markets, in the same order, as the Movers rail further down the
+          same page — both visible at 1920x1080 without scrolling. A rail is
+          for what the page below does not already say. Removing it also lets
+          the rail stop being the taller column, which is what left 88px of
+          dead space under the carousel controls. */}
       {/* Real journalism, rotating. Sits above "Most traded" because it is the
           only card in the rail that answers WHY — the other two answer what
           and how much. */}
@@ -717,7 +734,15 @@ export function HeroSection({
   return (
     <section className="relative">
       <div className="relative mx-auto max-w-[1350px] px-4 py-6 lg:px-6 sm:py-8">
-        <div className="grid grid-cols-1 gap-5 lg:grid-cols-[2.35fr_1fr]">
+        {/* items-start, not the default stretch.
+            A stretched grid makes both columns as tall as the taller one, so
+            whichever column has less content carries the difference as dead
+            space INSIDE itself. That is what put 88px of white under the
+            carousel controls while the rail ran on, and simply shortening the
+            rail only moved the same gap to the other side. Sizing each column
+            to its own content means neither one manufactures emptiness, and
+            the rail is free to be as long as its data happens to be. */}
+        <div className="grid grid-cols-1 gap-5 lg:grid-cols-[2.35fr_1fr] lg:items-start">
           <HeroCarousel slides={slides} titles={titles} autoPlayMs={11000} />
           <HeroRail hotTopics={hotTopics} breaking={breaking} news={news} />
         </div>

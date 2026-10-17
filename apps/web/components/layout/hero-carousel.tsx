@@ -290,7 +290,13 @@ export function HeroCarousel({ slides, titles, autoPlayMs = 7000 }: HeroCarousel
               aria-label={`Previous: ${titles[prevIdx] ?? ''}`}
             >
               <IconChevronLeft size={13} />
-              <span className="max-w-[16ch] truncate">{titles[prevIdx]}</span>
+              {/* 16ch was 145px against a title needing 259px, so "Most-used
+                  app in Kenya, end of 2026?" showed as "Most-used app in K..."
+                  — 56% of a question whose whole job is to say what the next
+                  slide is. The row has 899px at 1920 and the two pills were
+                  using 380px of it. Widened in steps so the pair still fits the
+                  narrower column at lg. */}
+              <span className="max-w-[18ch] truncate xl:max-w-[26ch]">{titles[prevIdx]}</span>
             </button>
             <button
               type="button"
@@ -299,7 +305,7 @@ export function HeroCarousel({ slides, titles, autoPlayMs = 7000 }: HeroCarousel
               style={{ background: 'var(--surface)', border: '1px solid var(--hairline)', color: 'var(--text-3)' }}
               aria-label={`Next: ${titles[nextIdx] ?? ''}`}
             >
-              <span className="max-w-[16ch] truncate">{titles[nextIdx]}</span>
+              <span className="max-w-[18ch] truncate xl:max-w-[26ch]">{titles[nextIdx]}</span>
               <IconChevronRight size={13} />
             </button>
           </div>

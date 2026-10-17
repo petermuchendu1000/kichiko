@@ -118,8 +118,21 @@ export function ProbLines({
   const showXLabels = grid && !!xLabels && xLabels.length > 0
   // Room for the % axis labels (right/left) — Arial ~12px, "60%" ≈ 26px.
   const axisW = grid ? 30 : 4
+  // ROOM FOR THE ENDPOINT HALO, not just the label.
+  //
+  // The endpoint is an r=4 dot with a pulsing ring that scales to ~3.95x, so
+  // its ink reaches ~16px past the last data point, which sits exactly on the
+  // plot's right edge. The axis gutter was sized for the TEXT alone (30px,
+  // enough for "100%"), and the label is drawn 5px into it, so the halo and
+  // the label shared the same 16px of the gutter. Measured on the live hero at
+  // 1440: the orange 25% halo touching the "2" of its own label, with two more
+  // outcomes' halos sitting unlabelled in the gutter beside it.
+  //
+  // The plot now ends one halo-radius earlier, so the ring expands into empty
+  // space and the label keeps the outer 30px to itself.
+  const haloW = endpointHalo ? 16 : 0
   const padL = grid && !axisRight ? axisW : 6
-  const padR = grid && axisRight ? axisW : 8
+  const padR = (grid && axisRight ? axisW : 8) + (axisRight ? haloW : 0)
   const padT = 10
   const padB = showXLabels ? 24 : grid ? 20 : 6
   const w = width - padL - padR
@@ -155,7 +168,10 @@ export function ProbLines({
     return padL + ((i + offset) / (maxLen - 1)) * w
   }
 
-  const labelX = axisRight ? width - padR + 5 : padL - 6
+  // Anchored to the OUTER axis strip, not to the plot edge. padR now also
+  // carries the halo's reach, and following it would walk the label straight
+  // back into the ring this change exists to clear.
+  const labelX = axisRight ? width - axisW + 5 : padL - 6
   const labelAnchor = axisRight ? 'start' : 'end'
   const axisFont = 'system-ui, -apple-system, Arial, sans-serif'
 
@@ -206,11 +222,19 @@ export function ProbLines({
           lines live. ScrubChart (the market-detail chart) has always drawn the
           same mark at 13px in the corner, so one chart was obeying the rule and
           the other was not. Polymarket's own watermark is 13px, top-right. Data
-          ink wins the middle of the plot. */}
+          ink wins the middle of the plot.
+
+          It also landed 13px from the "100%" label with the top gridline
+          running through the word, because both were anchored to the same edge
+          at the same height (measured on the live hero at 1920: watermark
+          ending x=1162, label starting x=1175). Anchoring to the PLOT edge,
+          which padR now pulls in by the halo width, and dropping below the
+          first gridline separates the two without moving the mark out of the
+          corner every charting tool puts it in. */}
       {watermark && (
         <text
           x={width - padR - 8}
-          y={padT + 10}
+          y={padT + 19}
           textAnchor="end"
           fontFamily={axisFont}
           fontWeight={600}

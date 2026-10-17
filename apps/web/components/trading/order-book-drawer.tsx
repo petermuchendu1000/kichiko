@@ -140,27 +140,24 @@ export function OrderBookDrawer({
       )}
 
       {tab === 'resolution' && (
-        // PM parity: a "Propose resolution" outlined pill (left) + a
-        // "View details ↗" link (right); criteria text sits below when present.
+        // Two dead controls lived here, copied from Polymarket's layout
+        // without the features behind them.
+        //
+        // "Propose resolution" was a <button> with no onClick. There is no
+        // proposal flow in this product, so it did nothing at all.
+        //
+        // "View details ↗" pointed at #resolution, and no element anywhere in
+        // the codebase carries that id. It also sat directly above the
+        // resolution criteria it claimed to link to.
+        //
+        // A control that cannot do what it says is worse than no control: it
+        // spends the user's attention and their trust. Both are gone; the
+        // criteria, which is the actual content, stays.
         <div className="pt-4">
-          <div className="flex items-center justify-between gap-4">
-            <button
-              type="button"
-              className="rounded-[9px] border border-hairline px-3 py-1.5 text-sm font-semibold text-text-primary transition-colors hover:bg-surface-2"
-            >
-              Propose resolution
-            </button>
-            <a
-              href="#resolution"
-              className="inline-flex items-center gap-0.5 text-sm font-semibold text-pip-text transition-opacity hover:opacity-80"
-            >
-              View details <span aria-hidden>↗</span>
-            </a>
-          </div>
           {resolutionCriteria ? (
-            <p className="mt-3 text-sm leading-relaxed text-text-secondary">{resolutionCriteria}</p>
+            <p className="text-sm leading-relaxed text-text-secondary">{resolutionCriteria}</p>
           ) : (
-            <p className="mt-3 text-sm text-text-muted">Resolution details will be published here.</p>
+            <p className="text-sm text-text-muted">Resolution details will be published here.</p>
           )}
         </div>
       )}

@@ -152,15 +152,15 @@ export function PmLimitBody({
 
       <div className="h-px w-full bg-hairline" />
 
-      {/* Expires */}
+      {/* Expires.
+          This was a <button> with a dropdown chevron, no onClick and no menu:
+          it looked like a picker, announced itself as a control, and could not
+          change the one thing it named. Limit orders here are good till
+          cancelled and there is no expiry to choose, so this states the fact
+          instead of offering a choice that does not exist. */}
       <div className="flex items-center justify-between">
         <span className="text-sm font-medium text-text-muted">Expires</span>
-        <button type="button" className="flex items-center gap-1 text-sm font-medium text-ink-300 transition-colors hover:text-text-secondary">
-          Never
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-            <path d="M3.5 5.25 7 8.75l3.5-3.5" />
-          </svg>
-        </button>
+        <span className="text-sm font-medium text-text-secondary">Never</span>
       </div>
 
       {/* Total */}
