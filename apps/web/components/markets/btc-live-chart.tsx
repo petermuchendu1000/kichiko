@@ -50,6 +50,7 @@ import {
   pickSuccessorWindow,
   pickCandleSource,
   downsamplePoints,
+  twapSeries,
   niceTicks,
   timeTicks,
   type ChartType,
@@ -57,6 +58,12 @@ import {
   type Candle,
   type SeriesWindow,
 } from '@/lib/markets/btc-chart'
+
+/** The averaging window for the plotted line. Polymarket's BTC Up-or-Down
+ *  socket publishes `crypto_prices_twap_sixty` and their rules resolve on
+ *  Chainlink's `btc-usd-twap-60s` stream; sixty seconds is their number and
+ *  there is no reason to invent a different one. */
+const TWAP_MS = 60_000
 
 const BTC_ORANGE = '#F7931A'
 const PROB_BLUE = '#2B50E4'
@@ -136,6 +143,9 @@ export function BtcLiveChart({
   const closeMs = useMemo(() => new Date(closesAt).getTime(), [closesAt])
   const openMs = useMemo(() => closeMs - windowSeconds * 1000, [closeMs, windowSeconds])
 
+  // Samples reach back one averaging window BEFORE the open — see the seed
+  // effect. Nothing before `openMs` is ever plotted; it exists so the first
+  // plotted point is a fully warmed average.
   const [points, setPoints] = useState<Pt[]>([{ t: openMs, price: referencePrice }])
   const [live, setLive] = useState<number>(referencePrice)
   const [connected, setConnected] = useState(false)
@@ -290,7 +300,9 @@ export function BtcLiveChart({
       setPoints((prev) => {
         const capped = Math.min(t, closeMs)
         const next = [...prev, { t: capped, price }]
-        return next.length > 900 ? next.slice(next.length - 900) : next
+        // Must outlast a full window plus its run-up, or the lookback gets
+        // sliced away mid-window and the warmed start of the line shifts.
+        return next.length > 1400 ? next.slice(next.length - 1400) : next
       })
     }
   }, [closeMs])
@@ -310,7 +322,16 @@ export function BtcLiveChart({
   // for the stretch of a longer window they do not reach.
   useEffect(() => {
     let alive = true
-    const within = (t: number) => t >= openMs && t <= closeMs
+    // THE AVERAGE NEEDS A RUN-UP.
+    //
+    // Cropping the prints to the window made the first minute of every chart a
+    // flat line pinned to the strike: a sixty-second mean over a window only
+    // seventy seconds old is very nearly the window's own mean, which is the
+    // strike. Polymarket does not have this because their TWAP stream is
+    // continuous and the window merely crops it — at open, their lookback is
+    // the minute BEFORE the open. So collect that minute too. It is never
+    // plotted; twapPoints drops everything before `openMs`.
+    const within = (t: number) => t >= openMs - TWAP_MS && t <= closeMs
 
     const fromTrades = async (): Promise<Pt[]> => {
       const r = await fetch('https://api.exchange.coinbase.com/products/BTC-USD/trades?limit=1000')
@@ -324,7 +345,7 @@ export function BtcLiveChart({
     }
 
     const fromCandles = async (): Promise<Pt[]> => {
-      const startISO = new Date(openMs).toISOString()
+      const startISO = new Date(openMs - TWAP_MS).toISOString()
       const endISO = new Date(Math.min(closeMs, Date.now() + 1000)).toISOString()
       const r = await fetch(
         `https://api.exchange.coinbase.com/products/BTC-USD/candles?granularity=60&start=${startISO}&end=${endISO}`,
@@ -355,7 +376,11 @@ export function BtcLiveChart({
       const thinned = downsamplePoints(seeded)
       setPoints((prev) => {
         const tail = prev.filter((p) => p.t > (thinned.at(-1)?.t ?? openMs))
-        return [{ t: openMs, price: referencePrice }, ...thinned, ...tail]
+        // No synthetic anchor at the open any more. It was one reading of the
+        // strike dropped into the middle of real prints, and with pre-window
+        // history it now lands out of order. The strike is drawn as its own
+        // reference line; it does not need to be a sample too.
+        return [...thinned, ...tail]
       })
     })()
 
@@ -478,8 +503,33 @@ export function BtcLiveChart({
     }
   }, [windowClosed, pushPrice])
 
-  const isUp = live >= referencePrice
-  const delta = live - referencePrice
+  // THE PLOTTED LINE IS A SIXTY-SECOND MEAN, NOT THE TAPE.
+  //
+  // Raw prints are kept for the candles, which are supposed to show a real
+  // high and low. The line and the implied chance are drawn from the TWAP,
+  // because a tape is a step function and no axis work makes it a curve. See
+  // twapSeries for the measurements on both feeds.
+  // Averaged across the run-up, then cropped: the run-up warms the mean, it
+  // never appears on the chart.
+  const twapPoints = useMemo(
+    () => twapSeries(points, TWAP_MS, 1000).filter((p) => p.t >= openMs),
+    [points, openMs],
+  )
+  /** Prints inside the window — what the candles and their axis are built from. */
+  const windowPoints = useMemo(() => points.filter((p) => p.t >= openMs), [points, openMs])
+  const lastTwap = twapPoints.length ? twapPoints[twapPoints.length - 1] : null
+  // Everything the header states, and the probability model, read the same
+  // number the line ends on. A headline that disagrees with its own chart is
+  // worse than either value alone.
+  const shownPrice = lastTwap ? lastTwap.price : live
+  const tPrices = twapPoints.map((p) => p.price)
+  const tLo = tPrices.length ? Math.min(referencePrice, ...tPrices) : referencePrice
+  const tHi = tPrices.length ? Math.max(referencePrice, ...tPrices) : referencePrice
+  const tPad = Math.max((tHi - tLo) * 0.12, 0.75)
+  const twapAxis = niceTicks(tLo - tPad, tHi + tPad)
+
+  const isUp = shownPrice >= referencePrice
+  const delta = shownPrice - referencePrice
   const deltaPct = referencePrice > 0 ? (delta / referencePrice) * 100 : 0
   const leanTone = isUp ? UP_GREEN : DOWN_RED
 
@@ -494,7 +544,7 @@ export function BtcLiveChart({
   // live-growing domain, instead of leaving empty space out to the close time.
   const rightMs = windowClosed ? closeMs : Math.min(closeMs, Math.max(now, openMs + 1000))
 
-  const prices = points.map((p) => p.price)
+  const prices = windowPoints.map((p) => p.price)
   const lo = Math.min(referencePrice, ...prices)
   const hi = Math.max(referencePrice, ...prices)
   // PADDING SCALED TO THE MOVE, NOT TO THE ASSET'S PRICE.
@@ -526,16 +576,16 @@ export function BtcLiveChart({
   // Both candidates, then whichever actually says something — see
   // pickCandleSource for the five blocks and the five dashes that got us here.
   const bucketed = useMemo(
-    () => bucketCandles(points, openMs, closeMs, 44),
-    [points, openMs, closeMs],
+    () => bucketCandles(windowPoints, openMs, closeMs, 44),
+    [windowPoints, openMs, closeMs],
   )
   const usingRealCandles = pickCandleSource(realCandles, bucketed) === 'real'
   const candles = useMemo<Candle[]>(() => {
     if (usingRealCandles) {
-      return windowClosed ? realCandles : mergeLiveCandle(realCandles, points, granularity)
+      return windowClosed ? realCandles : mergeLiveCandle(realCandles, windowPoints, granularity)
     }
     return bucketed
-  }, [usingRealCandles, realCandles, bucketed, points, granularity, windowClosed])
+  }, [usingRealCandles, realCandles, bucketed, windowPoints, granularity, windowClosed])
 
   // Candle spacing (ms) — real bars use the granularity; synthetic ones use the
   // bucket width. Drives the candle body width in the SVG layer below.
@@ -556,13 +606,13 @@ export function BtcLiveChart({
   // ---- Probability series: implied UP chance over time ---------------------
   const probPoints = useMemo(
     () =>
-      points.map((p) => ({
+      twapPoints.map((p) => ({
         t: p.t,
         prob: impliedUpProb(p.price, referencePrice, Math.max(0, (closeMs - p.t) / 1000)),
       })),
-    [points, referencePrice, closeMs],
+    [twapPoints, referencePrice, closeMs],
   )
-  const liveProb = impliedUpProb(live, referencePrice, remainingSec)
+  const liveProb = impliedUpProb(shownPrice, referencePrice, remainingSec)
   const probLean = liveProb >= 50
   // Probability axis.
   //
@@ -734,7 +784,7 @@ export function BtcLiveChart({
           {/* Live price + move + Up/Down lean + countdown */}
           <div className="mb-2 flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-sm">
             <div className="flex items-baseline gap-2">
-              <span className="font-mono text-lg font-bold tabular-nums" style={{ color: BTC_ORANGE }}>{usd(live, 2)}</span>
+              <span className="font-mono text-lg font-bold tabular-nums" style={{ color: BTC_ORANGE }}>{usd(shownPrice, 2)}</span>
               <span className="flex items-center gap-0.5 font-semibold tabular-nums" style={{ color: leanTone }}>
                 {isUp ? <IconArrowUp size={13} /> : <IconArrowDown size={13} />}
                 {/* A $3.46 move on an $81k coin is 0.0042%, which printed as
@@ -864,8 +914,8 @@ export function BtcLiveChart({
                 dot={false}
                 activeDot={{ r: 3 }}
               />
-              {last && !windowClosed && (
-                <ReferenceDot x={last.t} y={liveProb} r={4} shape={(props) => <LivePulseDot {...props} color={PROB_BLUE} />} />
+              {lastTwap && !windowClosed && (
+                <ReferenceDot x={lastTwap.t} y={liveProb} r={4} shape={(props) => <LivePulseDot {...props} color={PROB_BLUE} />} />
               )}
             </AreaChart>
           ) : chartType === 'candle' ? (
@@ -902,7 +952,7 @@ export function BtcLiveChart({
               <Customized component={CandleLayer} />
             </ComposedChart>
           ) : (
-            <AreaChart data={points} margin={{ top: 8, right: 4, bottom: 0, left: 0 }}>
+            <AreaChart data={twapPoints} margin={{ top: 8, right: 4, bottom: 0, left: 0 }}>
               <defs>
                 <linearGradient id="btcFill" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor={BTC_ORANGE} stopOpacity={0.2} />
@@ -912,12 +962,12 @@ export function BtcLiveChart({
               <XAxis {...xAxisProps} />
               <YAxis
                 orientation="right"
-                domain={[lo - pad, hi + pad]}
-                {...(priceAxis.ticks.length >= 2 ? { ticks: priceAxis.ticks } : {})}
-                tickFormatter={(v) => usd(Number(v), priceAxis.dp)}
+                domain={[tLo - tPad, tHi + tPad]}
+                {...(twapAxis.ticks.length >= 2 ? { ticks: twapAxis.ticks } : {})}
+                tickFormatter={(v) => usd(Number(v), twapAxis.dp)}
                 tick={{ fontSize: 10, fill: 'var(--text-muted)' }}
                 stroke="var(--hairline)"
-                width={priceAxis.dp ? 78 : 66}
+                width={twapAxis.dp ? 78 : 66}
               />
               <Tooltip content={<Tip kind="price" />} />
               <ReferenceLine
@@ -943,8 +993,8 @@ export function BtcLiveChart({
                 dot={false}
                 activeDot={{ r: 3 }}
               />
-              {last && !windowClosed && (
-                <ReferenceDot x={last.t} y={last.price} r={4} shape={(props) => <LivePulseDot {...props} color={BTC_ORANGE} />} />
+              {lastTwap && !windowClosed && (
+                <ReferenceDot x={lastTwap.t} y={lastTwap.price} r={4} shape={(props) => <LivePulseDot {...props} color={BTC_ORANGE} />} />
               )}
             </AreaChart>
           )}
@@ -995,12 +1045,12 @@ export function BtcLiveChart({
 
       <p className="mt-2 text-center text-[11px] text-text-muted">
         {chartType === 'prob'
-          ? 'Implied Up chance from live BTC/USD (Coinbase) vs the strike'
+          ? 'Implied Up chance from the 60-second average BTC/USD (Coinbase) vs the strike'
           : chartType === 'candle'
             ? usingRealCandles
               ? 'Real BTC/USD OHLC candles via Coinbase · settles at the reference price'
               : 'BTC/USD candles bucketed from the live Coinbase spot feed · settles at the reference price'
-            : 'Live BTC/USD via Coinbase · settles at the reference price when the window closes'}
+            : '60-second time-weighted average BTC/USD via Coinbase · settles at the reference price when the window closes'}
       </p>
     </div>
   )

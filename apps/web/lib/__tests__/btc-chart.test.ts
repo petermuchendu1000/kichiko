@@ -17,6 +17,7 @@ import {
   informativeCandles,
   pickCandleSource,
   downsamplePoints,
+  twapSeries,
   niceTicks,
   timeTicks,
   type SeriesWindow,
@@ -249,6 +250,61 @@ const flat = (n: number, from = 0): Candle[] =>
   Array.from({ length: n }, (_, i) => bar(from + i, 100, 100, 100, 100))
 const moving = (n: number, from = 0): Candle[] =>
   Array.from({ length: n }, (_, i) => bar(from + i, 100, 101, 102, 99))
+
+describe('twapSeries', () => {
+  const S = (pairs: [number, number][]): Pt[] => pairs.map(([t, price]) => ({ t, price }))
+
+  it('leaves a flat tape flat', () => {
+    const out = twapSeries(S([[0, 100], [30_000, 100], [60_000, 100]]))
+    for (const p of out) expect(p.price).toBeCloseTo(100, 9)
+  })
+
+  it('averages a step over the lookback by time, not by count', () => {
+    // 100 held for 60s, then 200 held for 30s. At t=90s the trailing 60s is
+    // 30s of 100 and 30s of 200.
+    const out = twapSeries(S([[0, 100], [60_000, 200], [90_000, 200]]), 60_000, 1000)
+    const at90 = out.find((p) => p.t === 90_000)
+    expect(at90?.price).toBeCloseTo(150, 6)
+  })
+
+  it('averages only over what exists before the window is full', () => {
+    // At t=30s only 30s of history exists, all of it at 100.
+    const out = twapSeries(S([[0, 100], [30_000, 100]]), 60_000, 1000)
+    expect(out.find((p) => p.t === 30_000)?.price).toBeCloseTo(100, 9)
+  })
+
+  it('cannot jump the way the tape does', () => {
+    // The measured defect: $16.76 in one slice. Through a 60s mean, a single
+    // late jump moves the average by at most its share of the window.
+    const tape: [number, number][] = []
+    for (let t = 0; t <= 60_000; t += 1000) tape.push([t, 81_471])
+    tape.push([61_000, 81_488])
+    const out = twapSeries(S(tape), 60_000, 1000)
+    let worst = 0
+    for (let i = 1; i < out.length; i += 1) worst = Math.max(worst, Math.abs(out[i].price - out[i - 1].price))
+    expect(worst).toBeLessThan(1)
+  })
+
+  it('emits on the step cadence and finishes on the freshest sample', () => {
+    const out = twapSeries(S([[0, 100], [10_500, 101]]), 60_000, 1000)
+    expect(out[0].t).toBe(0)
+    expect(out[out.length - 1].t).toBe(10_500)
+    expect(out[1].t - out[0].t).toBe(1000)
+  })
+
+  it('stays inside the range of the prices it averages', () => {
+    const out = twapSeries(S([[0, 100], [20_000, 400], [40_000, 100], [60_000, 250]]))
+    for (const p of out) {
+      expect(p.price).toBeGreaterThanOrEqual(100)
+      expect(p.price).toBeLessThanOrEqual(400)
+    }
+  })
+
+  it('handles the degenerate inputs', () => {
+    expect(twapSeries([])).toEqual([])
+    expect(twapSeries(S([[5, 77]]))).toEqual([{ t: 5, price: 77 }])
+  })
+})
 
 describe('downsamplePoints', () => {
   const series = (n: number): Pt[] => Array.from({ length: n }, (_, i) => ({ t: i, price: 100 + i }))

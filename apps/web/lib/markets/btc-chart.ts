@@ -102,6 +102,73 @@ export function pickGranularity(windowSeconds: number): CoinbaseGranularity {
 }
 
 /**
+ * Rolling time-weighted average price.
+ *
+ * WHY THE LINE LOOKED LIKE STAIRS. We plotted last-trade price. A tape is a
+ * step function: measured on Coinbase BTC-USD, 1000 prints over 310 seconds
+ * carried 44 distinct prices, with ten-second slices ranging one cent and then
+ * a $16.76 jump. Dozens of prints peck the same resting order, then the book
+ * moves. No amount of axis or padding work makes that curve.
+ *
+ * Polymarket's BTC Up-or-Down chart is smooth because it is not plotting a
+ * tape. Captured from their live market socket, topic
+ * `crypto_prices_twap_sixty`, one message per second:
+ *
+ *   81502.81476676697  81502.88702075426  81502.95926986705  81503.02960677713
+ *
+ * Steps of about seven hundredths of a dollar. That is a sixty-second TWAP,
+ * and their rules confirm it — the market resolves on Chainlink's
+ * `btc-usd-twap-60s` stream, "not according to any other sources or spot
+ * markets". A rolling mean cannot jump: each new sample moves it by
+ * (new - oldest) / window.
+ *
+ * So this computes the same quantity from the prints we already hold. The
+ * series is treated as a step function (a price holds until the next print),
+ * integrated over the trailing window, and emitted on a fixed cadence. Early
+ * in a window the lookback is shorter than `windowMs`; it averages over what
+ * exists rather than inventing history, which is why the first seconds move
+ * faster — the same behaviour their feed shows.
+ */
+export function twapSeries(points: Pt[], windowMs = 60_000, stepMs = 1000): Pt[] {
+  if (points.length === 0) return []
+  const t0 = points[0].t
+  const tN = points[points.length - 1].t
+  if (tN <= t0) return [{ t: tN, price: points[points.length - 1].price }]
+
+  // Cumulative integral of the step function at each sample.
+  const cum = new Array<number>(points.length).fill(0)
+  for (let i = 1; i < points.length; i += 1) {
+    cum[i] = cum[i - 1] + points[i - 1].price * (points[i].t - points[i - 1].t)
+  }
+
+  const integralTo = (t: number): number => {
+    if (t <= t0) return 0
+    if (t >= tN) return cum[cum.length - 1] + points[points.length - 1].price * (t - tN)
+    let lo = 0
+    let hi = points.length - 1
+    while (hi - lo > 1) {
+      const mid = (lo + hi) >> 1
+      if (points[mid].t <= t) lo = mid
+      else hi = mid
+    }
+    return cum[lo] + points[lo].price * (t - points[lo].t)
+  }
+
+  const at = (t: number): Pt => {
+    const a = Math.max(t0, t - windowMs)
+    const span = t - a
+    return { t, price: span <= 0 ? points[0].price : (integralTo(t) - integralTo(a)) / span }
+  }
+
+  const out: Pt[] = []
+  for (let t = t0; t <= tN; t += stepMs) out.push(at(t))
+  // Always finish on the freshest sample, so the live endpoint is the live
+  // endpoint and not up to a step stale.
+  if (out.length === 0 || out[out.length - 1].t < tN) out.push(at(tN))
+  return out
+}
+
+/**
  * Thin a series to at most `max` samples, keeping the first and the last.
  *
  * Coinbase's trade feed hands back a thousand prints for a five-minute window.
