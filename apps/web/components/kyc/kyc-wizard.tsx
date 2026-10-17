@@ -1,64 +1,58 @@
 'use client'
 
 // components/kyc/kyc-wizard.tsx
-// Stepped identity verification rebuilt as an institutional "Verification Console":
-//   Overview -> Email -> About you -> ID document -> Selfie -> Address -> Review.
-// A persistent trust bridge (level meter + vertical step rail + assurance rail)
-// sits beside a single-focus gate. Pre-informs requirements up front, shows a live
-// verification-level (Basic -> Enhanced), friendly micro-copy throughout, and
-// persists to kyc_documents + profile. Pure Pip system, custom icons, no emoji.
+// Identity verification: About you -> Address -> ID check.
 //
-// SAVE AND RESUME (migration 121)
-// Every answer used to live in React state and reach the database in one write
-// at the very end, so a refresh, a flat battery, or moving from the phone that
-// has the camera to the laptop that has the address meant starting over at
-// step one. Document upload is the step people abandon, and we were asking
-// them to repeat the four steps before it.
+// WHAT THIS USED TO BE
+// Six steps, three of them collecting evidence by hand: document type and
+// number, a photograph of the front, one of the back, a selfie. All of it went
+// to a private bucket and then to a person, who looked at a JPEG and decided
+// whether it was genuine. A person cannot verify an MRZ checksum, cannot tell
+// a printed photo held up to a camera from a face, and cannot check a name
+// against a sanctions list. They took one to two days to not do those things.
 //
-// Now each step is written to `kyc_drafts` as it is left, documents upload as
-// they are chosen rather than at submit, and a returning user lands on the
-// first step they have NOT finished. Shape borrowed from Lemonway's
-// save-and-resume onboarding (server-side draft, resume path, expiry) and
-// Upwardli's rule that finished steps are never asked again. The draft lives
-// on the server, not in localStorage, because changing device is the case that
-// actually breaks people.
-import { useEffect, useMemo, useState } from 'react'
+// Didit does them in about a minute, so those three steps are gone. What is
+// left is what Didit does not do: a legal name and date of birth for it to
+// check its own OCR against, a phone number for payouts, and a residential
+// address (neither KYC workflow includes proof of address).
+//
+// SAVE AND RESUME still holds, and matters more now rather than less: the two
+// steps we own are written to `kyc_drafts` as they are left, and the vendor
+// session id is held on the same row, so closing the tab mid-scan returns you
+// to the SAME Didit session rather than a second, billable one. Didit's own
+// page carries a QR code to move the scan to a phone, which is the device
+// change our upload steps existed to survive.
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import type { User } from '@supabase/supabase-js'
 import { getBrowserClient } from '@/lib/supabase/client-lazy'
 import { KycConsole } from '@/components/kyc/kyc-console'
 import { KycStepper, type StepDef } from '@/components/kyc/kyc-stepper'
 import { VerificationMeter } from '@/components/kyc/verification-meter'
-import { FileDrop } from '@/components/kyc/file-drop'
 import { LevelBadge, type KycLevel } from '@/components/kyc/level-badge'
 import {
   STEP,
+  STEP_COUNT,
   loadDraft,
   saveDraft,
-  clearDraft,
   stepComplete,
   firstIncompleteStep,
-  canSubmit,
+  canStartVerification,
   savedAgo,
   isAdult,
   MIN_AGE,
   type KycDraft,
-  type DocType as DraftDocType,
 } from '@/lib/kyc/draft'
 import {
-  IconMail,
-  IconPhone,
-  IconKYC,
   IconUser,
   IconHome,
+  IconKYC,
   IconShield,
   IconCheck,
   IconArrowRight,
   IconChevronLeft,
   IconClock,
 } from '@/components/ui/icons'
-
-type DocType = 'national_id' | 'passport' | 'drivers_license'
 
 const COUNTRIES = [
   { code: 'KE', name: 'Kenya' },
@@ -70,108 +64,68 @@ const COUNTRIES = [
   { code: 'BI', name: 'Burundi' },
 ]
 
-const DOC_TYPES: { value: DocType; label: string; needsBack: boolean }[] = [
-  { value: 'national_id', label: 'National ID', needsBack: true },
-  { value: 'passport', label: 'Passport', needsBack: false },
-  { value: 'drivers_license', label: "Driver's licence", needsBack: true },
+const STEPS: StepDef[] = [
+  { key: 'identity', label: 'About you', icon: <IconUser size={15} />, desc: 'Name, date of birth, phone' },
+  { key: 'address', label: 'Address', icon: <IconHome size={15} />, desc: 'Where you live' },
+  { key: 'verify', label: 'ID check', icon: <IconKYC size={15} />, desc: 'Scan your ID and face' },
 ]
 
-const STEPS: StepDef[] = [
-  { key: 'email', label: 'Email', icon: <IconMail size={15} />, desc: 'Confirm your account email' },
-  { key: 'identity', label: 'About you', icon: <IconPhone size={15} />, desc: 'Phone and date of birth' },
-  { key: 'id', label: 'ID document', icon: <IconKYC size={15} />, desc: 'A government-issued ID' },
-  { key: 'selfie', label: 'Selfie', icon: <IconUser size={15} />, desc: 'Match your face to your ID' },
-  { key: 'address', label: 'Address', icon: <IconHome size={15} />, desc: 'Unlocks Enhanced access' },
-  { key: 'review', label: 'Review', icon: <IconCheck size={15} />, desc: 'Check and submit' },
-]
+interface SessionStatus {
+  providerStatus: string | null
+  kycStatus: 'unverified' | 'pending' | 'verified' | 'rejected' | null
+  reason?: string | null
+}
+
+/** Didit statuses that mean the user still has work to do in the hosted flow. */
+const IN_FLIGHT = new Set(['Not Started', 'In Progress', 'Awaiting User', 'Resubmitted'])
 
 interface KycWizardProps {
   user: User
   initialPhone: string
   initialCountry: string
-  /** Where to send the user after submitting, to resume what they were doing (#15). */
+  /** Where to send the user afterwards, so they resume what they were doing (#15). */
   returnTo?: string
 }
 
 export function KycWizard({ user, initialPhone, initialCountry, returnTo = '/portfolio' }: KycWizardProps) {
-  // Loaded on first use, not during render: this wizard's every call sits
-  // inside the submit path, and a visitor who opens the page to read what is
-  // required should not pay ~66 kB for it. Ruling A11.
-
   const [started, setStarted] = useState(false)
-  const [step, setStep] = useState(0)
+  const [step, setStep] = useState<number>(STEP.identity)
 
-  // Field state
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
   const [phone, setPhone] = useState(initialPhone)
-  const [docType, setDocType] = useState<DocType>('national_id')
-  const [docNumber, setDocNumber] = useState('')
-  const [idCountry, setIdCountry] = useState(initialCountry || 'KE')
-  const [expiry, setExpiry] = useState('')
-  const [frontFile, setFrontFile] = useState<File | null>(null)
-  const [backFile, setBackFile] = useState<File | null>(null)
-  const [selfieFile, setSelfieFile] = useState<File | null>(null)
+  const [dob, setDob] = useState('')
   const [addrLine1, setAddrLine1] = useState('')
   const [addrCity, setAddrCity] = useState('')
   const [addrPostal, setAddrPostal] = useState('')
   const [addrCountry, setAddrCountry] = useState(initialCountry || 'KE')
 
-  const [submitting, setSubmitting] = useState(false)
-  const [submitted, setSubmitted] = useState(false)
-  const [error, setError] = useState('')
-
-  // ---- RESUMABLE STATE (migration 121) ----------------------------------
-  // Date of birth: the one field an 18+ licence actually turns on, and the one
-  // the wizard never collected.
-  const [dob, setDob] = useState('')
-  // Uploaded document PATHS. A resumed journey has these and no File objects,
-  // which is exactly why completeness is judged on the path and not the File.
-  const [frontPath, setFrontPath] = useState<string | null>(null)
-  const [backPath, setBackPath] = useState<string | null>(null)
-  const [selfiePath, setSelfiePath] = useState<string | null>(null)
-  const [uploading, setUploading] = useState<string | null>(null)
-  // Draft lifecycle.
   const [hydrated, setHydrated] = useState(false)
   const [resumedAt, setResumedAt] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
+  const [error, setError] = useState('')
 
-  const needsBack = DOC_TYPES.find((d) => d.value === docType)?.needsBack ?? false
+  // Vendor session state.
+  const [opening, setOpening] = useState(false)
+  const [checking, setChecking] = useState(false)
+  const [session, setSession] = useState<SessionStatus>({ providerStatus: null, kycStatus: null })
+  const pollTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  /** The draft as the pure step rules want it (lib/kyc/draft.ts). */
   const draft = useMemo<KycDraft>(
     () => ({
       currentStep: step,
-      data: {
-        phone,
-        dateOfBirth: dob,
-        docType: docType as DraftDocType,
-        docNumber,
-        idCountry,
-        expiry,
-        addrLine1,
-        addrCity,
-        addrPostal,
-        addrCountry,
-      },
-      frontPath,
-      backPath,
-      selfiePath,
+      data: { firstName, lastName, phone, dateOfBirth: dob, addrLine1, addrCity, addrPostal, addrCountry },
+      didit: { sessionId: null, sessionUrl: null, status: session.providerStatus },
       updatedAt: resumedAt,
     }),
-    [step, phone, dob, docType, docNumber, idCountry, expiry, addrLine1, addrCity, addrPostal,
-     addrCountry, frontPath, backPath, selfiePath, resumedAt],
+    [step, firstName, lastName, phone, dob, addrLine1, addrCity, addrPostal, addrCountry,
+     session.providerStatus, resumedAt],
   )
 
-  // Per-step completeness (also drives the level meter). One source of truth,
-  // shared with the tests, so "may I continue" and "where do I resume" can
-  // never disagree.
   const identityOk = stepComplete(draft, STEP.identity)
-  const idOk = stepComplete(draft, STEP.document)
-  const selfieOk = stepComplete(draft, STEP.selfie)
   const addressOk = stepComplete(draft, STEP.address)
-  const level: KycLevel = identityOk && idOk && selfieOk && addressOk ? 'enhanced' : 'basic'
-
+  const level: KycLevel = session.kycStatus === 'verified' ? 'enhanced' : 'basic'
   const canContinue = stepComplete(draft, step)
-  const isLast = step === STEPS.length - 1
 
   // ---- Load any saved draft, once -----------------------------------------
   useEffect(() => {
@@ -181,21 +135,16 @@ export function KycWizard({ user, initialPhone, initialCountry, returnTo = '/por
       const saved = await loadDraft(supabase, user.id, initialPhone, initialCountry)
       if (cancelled) return
       if (saved) {
+        setFirstName(saved.data.firstName)
+        setLastName(saved.data.lastName)
         setPhone(saved.data.phone)
         setDob(saved.data.dateOfBirth)
-        setDocType(saved.data.docType as DocType)
-        setDocNumber(saved.data.docNumber)
-        setIdCountry(saved.data.idCountry)
-        setExpiry(saved.data.expiry)
         setAddrLine1(saved.data.addrLine1)
         setAddrCity(saved.data.addrCity)
         setAddrPostal(saved.data.addrPostal)
         setAddrCountry(saved.data.addrCountry)
-        setFrontPath(saved.frontPath)
-        setBackPath(saved.backPath)
-        setSelfiePath(saved.selfiePath)
-        // Land on the first GAP, not on the furthest step reached: someone who
-        // skipped past the selfie must come back to it.
+        setSession((s) => ({ ...s, providerStatus: saved.didit.status }))
+        // Land on the first GAP, not the furthest step reached.
         setStep(firstIncompleteStep(saved))
         setResumedAt(saved.updatedAt)
         setStarted(true)
@@ -215,184 +164,137 @@ export function KycWizard({ user, initialPhone, initialCountry, returnTo = '/por
     setSaving(false)
   }
 
+  // ---- Vendor session ------------------------------------------------------
+
   /**
-   * Upload one document as its step is completed, rather than holding every
-   * file in memory until submit. This is what makes resuming worth anything:
-   * the photo taken on a phone is already in storage when the journey
-   * continues on a laptop.
+   * Ask the server what Didit says.
+   *
+   * The server re-reads the decision with our API key; nothing here trusts the
+   * `?from=didit` the browser came back with. That is why this is a fetch and
+   * not a read of the URL.
    */
-  const putFile = async (
-    file: File,
-    kind: 'front' | 'back' | 'selfie',
-    setPath: (p: string | null) => void,
-  ) => {
-    setUploading(kind)
-    setError('')
-    const ext = file.name.split('.').pop() || 'jpg'
-    const path = `${user.id}/${kind}.${ext}`
-    const supabase = await getBrowserClient()
-    const { error: upErr } = await supabase.storage
-      .from('kyc-documents')
-      .upload(path, file, { upsert: true })
-    setUploading(null)
-    if (upErr) {
-      setError('That upload did not go through. Check your connection and try again.')
-      setPath(null)
-      return
-    }
-    setPath(path)
-
-    // SAVE THE PATH NOW, not when the step is left.
-    //
-    // Everything else can wait for the Continue button, because retyping a
-    // phone number is cheap. A document is not: it is the slow step, often on
-    // a phone camera and a mobile connection, and it is where people stop. The
-    // first cut only wrote the draft on navigation, so uploading and then
-    // closing the tab left the file sitting in storage with the draft unaware
-    // of it, and the next visit asked for the photo again. Caught by driving
-    // the real wizard and reading the row back: the object existed,
-    // front_path was NULL.
-    //
-    // The patch is passed explicitly rather than read from `draft`, which is
-    // memoised from state that has not re-rendered yet at this point.
-    const patch = {
-      front: { frontPath: path },
-      back: { backPath: path },
-      selfie: { selfiePath: path },
-    }[kind]
-    await saveDraft(supabase, user.id, { ...draft, ...patch })
-  }
-
-
-  const handleSubmit = async () => {
-    setError('')
-    setSubmitting(true)
-    const supabase = await getBrowserClient()
-
-    // The documents are already in storage: each uploaded as its step was
-    // completed, which is what makes a resumed journey skip them. Submit only
-    // turns the stored paths into the URLs review reads.
-    if (!frontPath || !selfiePath) {
-      setError('Your ID photo or selfie is missing. Go back a step and add it.')
-      setSubmitting(false)
-      return
-    }
-    const publicUrl = (p: string) =>
-      supabase.storage.from('kyc-documents').getPublicUrl(p).data.publicUrl
-    const frontUrl = publicUrl(frontPath)
-    const backUrl = backPath ? publicUrl(backPath) : null
-    const selfieUrl = publicUrl(selfiePath)
-
-    // Belt and braces against the 18+ rule: the DB has a CHECK, the step gate
-    // has isAdult(), and a submission cannot slip between them.
-    if (!isAdult(dob)) {
-      setError(`You must be ${MIN_AGE} or older to verify an account.`)
-      setSubmitting(false)
-      return
-    }
-
-    // Persist the identity packet (existing columns — always valid).
-    // `date_of_birth` is added by migration 121 and is not yet in the
-    // generated types (apps/web/types/supabase.ts), the same situation the
-    // address columns from migration 019 are in a few lines below. Regenerate
-    // with `npm run db:types` from somewhere that can reach Postgres on 5432
-    // and this cast can go.
-    const insertPayload = {
-      user_id: user.id,
-      document_type: docType,
-      document_number: docNumber || null,
-      date_of_birth: dob || null,
-      country_of_issue: idCountry,
-      expiry_date: expiry || null,
-      front_image_url: frontUrl,
-      back_image_url: backUrl,
-      selfie_image_url: selfieUrl,
-      status: 'pending' as const,
-    }
-
-    const { data: doc, error: dbErr } = await supabase
-      .from('kyc_documents')
-      .insert(insertPayload as never)
-      .select('id')
-      .single()
-
-    if (dbErr || !doc) {
-      setError(dbErr?.message ?? 'Could not save your submission. Please try again.')
-      setSubmitting(false)
-      return
-    }
-
-    // Best-effort address (Enhanced tier). Non-fatal if the migration that adds
-    // these columns hasn't been applied yet — the submission still succeeds.
+  const check = useCallback(async (): Promise<SessionStatus | null> => {
+    setChecking(true)
     try {
-      const addressPatch = {
-        address_line1: addrLine1 || null,
-        address_city: addrCity || null,
-        address_postal_code: addrPostal || null,
-        address_country: addrCountry || null,
-      }
-      // Cast: these columns are added by migration 019 and may not be in the
-      // generated Supabase types yet. Non-fatal if absent.
-      await supabase
-        .from('kyc_documents')
-        .update(addressPatch as never)
-        .eq('id', doc.id)
+      const res = await fetch('/api/kyc/session', { cache: 'no-store' })
+      if (!res.ok) return null
+      const data = (await res.json()) as SessionStatus
+      setSession(data)
+      return data
     } catch {
-      /* columns not present yet — ignore */
+      return null
+    } finally {
+      setChecking(false)
     }
+  }, [])
 
-    // Save phone + flip profile to pending.
-    await supabase
-      .from('profiles')
-      .update({ phone_number: phone.trim(), kyc_status: 'pending' })
-      .eq('id', user.id)
+  // Returning from the hosted flow. Didit's webhook and this poll race, and
+  // either may win; both end at the same upsert. Poll because the webhook can
+  // be slow, mis-configured or retried, and a user staring at "checking" is
+  // the failure they report.
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const params = new URLSearchParams(window.location.search)
+    if (params.get('from') !== 'didit') return
 
-    // The submission is now the record. A draft that outlived it would offer
-    // to "resume" a journey that is already with a reviewer.
-    await clearDraft(supabase, user.id)
+    // Drop the marker so a refresh does not re-enter the polling state.
+    const url = new URL(window.location.href)
+    url.searchParams.delete('from')
+    window.history.replaceState({}, '', url.toString())
 
-    setSubmitting(false)
-    setSubmitted(true)
+    setStarted(true)
+    setStep(STEP.verify)
+
+    let tries = 0
+    const tick = async () => {
+      const result = await check()
+      tries += 1
+      // Stop on a decision, or after about a minute. Didit's own median is
+      // well under that; beyond it the user is better served by a page that
+      // says "we will email you" than by a spinner.
+      if (result?.kycStatus || tries >= 20) return
+      pollTimer.current = setTimeout(() => void tick(), 3000)
+    }
+    void tick()
+
+    return () => {
+      if (pollTimer.current) clearTimeout(pollTimer.current)
+    }
+  }, [check])
+
+  /** Open (or re-open) the hosted session and hand the user over. */
+  const startVerification = async () => {
+    setError('')
+    setOpening(true)
+    try {
+      const res = await fetch('/api/kyc/session', { method: 'POST' })
+      const body = (await res.json().catch(() => ({}))) as { url?: string; error?: string }
+      if (!res.ok || !body.url) {
+        setOpening(false)
+        setError(body.error || 'Could not start the ID check. Try again.')
+        return
+      }
+      // Same tab, not a popup: a popup is blocked on most mobile browsers, and
+      // the whole flow is designed to be finished on a phone.
+      window.location.href = body.url
+    } catch {
+      setOpening(false)
+      setError('Could not start the ID check. Check your connection.')
+    }
   }
 
-  // The bridge (desktop): live level meter + the vertical step rail.
   const bridge = (
     <div className="space-y-9">
-      <VerificationMeter level={level} pending={submitted} />
+      <VerificationMeter level={level} pending={session.kycStatus === 'pending'} />
       <div>
         <span className="mb-4 block text-[11px] font-semibold uppercase tracking-wide text-text-muted">
-          {started ? 'Your progress' : `${STEPS.length} quick steps`}
+          {started ? 'Your progress' : `${STEP_COUNT} quick steps`}
         </span>
-        <KycStepper steps={STEPS} current={submitted ? STEPS.length : started ? step : -1} variant="vertical" />
+        <KycStepper steps={STEPS} current={started ? step : -1} variant="vertical" />
       </div>
     </div>
   )
 
-  // ---- Submitted -----------------------------------------------------------
-  if (submitted) {
+  // ---- Terminal states from the vendor ------------------------------------
+  if (session.kycStatus === 'verified') {
     return (
       <KycConsole bridge={bridge}>
-        <div className="card animate-scale-in p-8 text-center sm:p-10">
-          <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-pill bg-yes/10 text-yes-700">
-            <IconCheck size={30} strokeWidth={2.5} />
-          </div>
-          <div className="mb-3 flex justify-center">
-            <LevelBadge level="enhanced" pending />
-          </div>
-          <h2 className="font-display text-2xl text-text-primary">Submitted for review</h2>
-          <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-text-secondary">
-            Thanks — our compliance team will review your documents, usually within 1–2 business
-            days. We&apos;ll email you the moment you&apos;re verified.
-          </p>
-          <div className="mx-auto mt-6 flex max-w-xs items-center justify-center gap-1.5 rounded-md border border-hairline bg-surface-2 px-3 py-2 text-xs text-text-muted">
-            <IconShield size={13} className="text-pip-500" /> Your documents are encrypted and
-            private.
-          </div>
-          {/* Resume where they were, not a dead confirmation (#15). */}
-          <Link href={returnTo} className="btn btn-primary mt-6">
-            Continue
-          </Link>
-        </div>
+        <Outcome
+          tone="good"
+          title="Identity verified"
+          copy="Deposits, withdrawals and trading are unlocked."
+          action={<Link href={returnTo} className="btn btn-primary mt-6">Continue <IconArrowRight size={15} /></Link>}
+        />
+      </KycConsole>
+    )
+  }
+
+  if (session.kycStatus === 'pending') {
+    return (
+      <KycConsole bridge={bridge}>
+        <Outcome
+          tone="wait"
+          title="Under review"
+          copy="Your check needs a second look. We'll email you, usually within a few hours."
+          action={<Link href={returnTo} className="btn btn-secondary mt-6">Continue</Link>}
+        />
+      </KycConsole>
+    )
+  }
+
+  if (session.kycStatus === 'rejected') {
+    return (
+      <KycConsole bridge={bridge}>
+        <Outcome
+          tone="bad"
+          title="Verification unsuccessful"
+          copy={session.reason || 'We could not verify your identity.'}
+          action={
+            <button type="button" onClick={startVerification} className="btn btn-primary mt-6" disabled={opening}>
+              {opening ? 'Opening…' : 'Try again'}
+            </button>
+          }
+        />
       </KycConsole>
     )
   }
@@ -409,10 +311,10 @@ export function KycWizard({ user, initialPhone, initialCountry, returnTo = '/por
             Verify your identity
           </h1>
           <p className="mt-2 max-w-md text-sm leading-relaxed text-text-secondary">
-            A quick, one-time check that keeps Elopis safe and unlocks higher deposit and
-            withdrawal limits. Most people finish in about{' '}
+            A one-time check that unlocks deposits, withdrawals and higher limits. Most people
+            finish in about{' '}
             <span className="inline-flex items-center gap-1 font-semibold text-text-primary">
-              <IconClock size={13} /> 3 minutes
+              <IconClock size={13} /> 2 minutes
             </span>
             .
           </p>
@@ -423,10 +325,9 @@ export function KycWizard({ user, initialPhone, initialCountry, returnTo = '/por
             </h2>
             <ul className="mt-4 space-y-4">
               {[
-                { icon: <IconPhone size={16} />, t: 'Your phone number', s: 'For account security and payouts' },
-                { icon: <IconKYC size={16} />, t: 'A government ID', s: 'National ID, passport or driver’s licence' },
-                { icon: <IconUser size={16} />, t: 'A selfie', s: 'To match you to your document' },
-                { icon: <IconHome size={16} />, t: 'Your residential address', s: 'Required for Enhanced access' },
+                { icon: <IconUser size={16} />, t: 'Your details', s: 'Legal name, date of birth, phone' },
+                { icon: <IconHome size={16} />, t: 'Your address', s: 'Where you currently live' },
+                { icon: <IconKYC size={16} />, t: 'A government ID', s: 'National ID, passport or licence' },
               ].map((r) => (
                 <li key={r.t} className="flex items-start gap-3">
                   <span className="flex h-9 w-9 flex-none items-center justify-center rounded-md bg-pip-100 text-pip-500">
@@ -444,8 +345,8 @@ export function KycWizard({ user, initialPhone, initialCountry, returnTo = '/por
           <div className="mt-4 flex items-start gap-2.5 rounded-md border border-hairline bg-surface-2 p-3.5 text-xs leading-relaxed text-text-muted">
             <IconShield size={15} className="mt-0.5 flex-none text-pip-500" />
             <span>
-              Bank-grade encryption. Your documents are private, used only for verification, and
-              never sold or shared — reviewed by our compliance team.
+              The ID scan runs on Didit, a specialist verification provider. Your document stays
+              with them and is never stored on Elopis.
             </span>
           </div>
 
@@ -456,11 +357,6 @@ export function KycWizard({ user, initialPhone, initialCountry, returnTo = '/por
           >
             Start verification <IconArrowRight size={16} />
           </button>
-
-          {/* Mobile-only trust chips (bridge is hidden on small screens) */}
-          <p className="mt-5 flex items-center gap-1.5 text-xs text-text-muted lg:hidden">
-            <IconShield size={12} /> AES-256 encryption · Never sold or shared · Human review
-          </p>
         </div>
       </KycConsole>
     )
@@ -470,7 +366,6 @@ export function KycWizard({ user, initialPhone, initialCountry, returnTo = '/por
   return (
     <KycConsole bridge={bridge}>
       <div className="animate-fade-in">
-        {/* Mobile progress + level (bridge hidden < lg) */}
         <div className="mb-6 lg:hidden">
           <div className="mb-3 flex items-center justify-between">
             <h1 className="font-display text-lg text-text-primary">Verify your identity</h1>
@@ -485,265 +380,146 @@ export function KycWizard({ user, initialPhone, initialCountry, returnTo = '/por
               Checking for saved progress…
             </p>
           )}
-          {/* RESUME NOTICE. Shown once, when a saved journey was picked up, so
-              the reason the wizard opened in the middle is stated rather than
-              left to be inferred. */}
           {resumedAt && (
             <div className="mb-4 flex items-start gap-2.5 rounded-md border border-hairline bg-surface-2 p-3">
               <IconClock size={14} className="mt-0.5 flex-none text-text-muted" />
               <p className="text-xs text-text-secondary">
                 Picked up where you left off
-                {savedAgo(resumedAt) ? ` — saved ${savedAgo(resumedAt)}` : ''}. Your finished
-                steps are kept, so you do not have to upload anything twice.
+                {savedAgo(resumedAt) ? `, saved ${savedAgo(resumedAt)}` : ''}.
               </p>
             </div>
           )}
 
-          {/* Step eyebrow */}
           <div className="mb-4 flex items-center justify-between">
             <span className="font-mono text-[11px] uppercase tracking-wide text-text-muted">
-              Step {step + 1} of {STEPS.length}
-              {saving ? ' · saving' : uploading ? ' · uploading' : ''}
+              Step {step + 1} of {STEP_COUNT}
+              {saving ? ' · saving' : ''}
             </span>
             <span className="hidden lg:block">
               <LevelBadge level={level} />
             </span>
           </div>
 
-          {step === 0 && (
+          {step === STEP.identity && (
             <StepBody
-              title="Confirm your email"
-              copy="This is the email linked to your account. We'll send verification updates here."
+              title="About you"
+              copy="Use the name exactly as it appears on your ID. We check it against your document."
             >
-              <label htmlFor="kyc-email" className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-text-muted">
-                Email
-              </label>
-              <div className="flex items-center gap-2">
-                <input id="kyc-email" className="input w-full" value={user.email ?? ''} readOnly />
-                <span className="badge badge-green flex-none gap-1">
-                  <IconCheck size={11} strokeWidth={2.5} /> Verified
-                </span>
+              <div className="grid grid-cols-2 gap-3">
+                <Field id="kyc-first" label="First name">
+                  <input id="kyc-first" className="input w-full" autoComplete="given-name" value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="Amina" />
+                </Field>
+                <Field id="kyc-last" label="Last name">
+                  <input id="kyc-last" className="input w-full" autoComplete="family-name" value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder="Wanjiru" />
+                </Field>
               </div>
-            </StepBody>
-          )}
 
-          {step === 1 && (
-            <StepBody title="Your phone number" copy="Used for account security and to process payouts.">
-              <label htmlFor="kyc-phone" className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-text-muted">
-                Phone number
-              </label>
-              <input
-                id="kyc-phone"
-                className="input w-full"
-                type="tel"
-                inputMode="tel"
-                autoComplete="tel"
-                placeholder="+254 7XX XXX XXX"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-              />
-              {phone.length > 0 && !/^[+]?[\d\s-]{7,}$/.test(phone.trim()) && (
-                <p className="mt-1.5 text-xs text-text-muted">Enter a valid phone number, including country code.</p>
-              )}
-
-              {/* DATE OF BIRTH. The product had no DOB field anywhere, on a
-                  platform that may only serve adults. The rule turns on this
-                  one value, so it is collected here and checked in three
-                  places: this input, the step gate, and a CHECK constraint. */}
-              <label
-                htmlFor="kyc-dob"
-                className="mb-1.5 mt-5 block text-xs font-semibold uppercase tracking-wide text-text-muted"
-              >
-                Date of birth
-              </label>
-              <input
-                id="kyc-dob"
-                className="input w-full"
-                type="date"
-                autoComplete="bday"
-                max={new Date(Date.now() - MIN_AGE * 31557600000).toISOString().slice(0, 10)}
-                value={dob}
-                onChange={(e) => setDob(e.target.value)}
-              />
-              <p className="mt-1.5 text-xs text-text-muted">
-                {dob.length > 0 && !isAdult(dob)
-                  ? `You must be ${MIN_AGE} or older to use Elopis.`
-                  : `Elopis is for over-${MIN_AGE}s. This must match your ID.`}
-              </p>
-            </StepBody>
-          )}
-
-          {step === 2 && (
-            <StepBody title="Government ID" copy="Choose a document, then upload clear photos — all corners visible, no glare.">
-              <div className="space-y-4">
-                <div>
-                  <span className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-text-muted">Document type</span>
-                  <div className="grid grid-cols-3 gap-2">
-                    {DOC_TYPES.map((d) => (
-                      <button
-                        key={d.value}
-                        type="button"
-                        onClick={() => setDocType(d.value)}
-                        aria-pressed={docType === d.value}
-                        className={`rounded-sm border px-2 py-2.5 text-xs font-semibold transition-colors ${
-                          docType === d.value
-                            ? 'border-pip-400 bg-pip-100 text-pip-500'
-                            : 'border-hairline bg-surface-2 text-text-secondary hover:border-pip-300'
-                        }`}
-                      >
-                        {d.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label htmlFor="doc-number" className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-text-muted">
-                      Document number
-                    </label>
-                    <input
-                      id="doc-number"
-                      className="input w-full"
-                      value={docNumber}
-                      onChange={(e) => setDocNumber(e.target.value)}
-                      placeholder="e.g. 12345678"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="doc-country" className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-text-muted">
-                      Country of issue
-                    </label>
-                    <select id="doc-country" className="input w-full" value={idCountry} onChange={(e) => setIdCountry(e.target.value)}>
-                      {COUNTRIES.map((c) => (
-                        <option key={c.code} value={c.code}>{c.name}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                <div>
-                  <label htmlFor="doc-expiry" className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-text-muted">
-                    Expiry date <span className="font-normal normal-case text-text-muted">(optional)</span>
-                  </label>
-                  <input id="doc-expiry" className="input w-full" type="date" value={expiry} onChange={(e) => setExpiry(e.target.value)} />
-                </div>
-
-                <FileDrop
-                  label="Front of document"
-                  uploaded={!!frontPath}
-                  file={frontFile}
-                  onChange={(f) => {
-                    setFrontFile(f)
-                    if (f) void putFile(f, 'front', setFrontPath)
-                    else setFrontPath(null)
-                  }}
-                  capture="environment"
+              <Field id="kyc-dob" label="Date of birth" className="mt-4">
+                <input
+                  id="kyc-dob"
+                  className="input w-full"
+                  type="date"
+                  autoComplete="bday"
+                  max={new Date(Date.now() - MIN_AGE * 31557600000).toISOString().slice(0, 10)}
+                  value={dob}
+                  onChange={(e) => setDob(e.target.value)}
                 />
-                {needsBack && (
-                  <FileDrop
-                    label="Back of document"
-                    uploaded={!!backPath}
-                    file={backFile}
-                    onChange={(f) => {
-                      setBackFile(f)
-                      if (f) void putFile(f, 'back', setBackPath)
-                      else setBackPath(null)
-                    }}
-                    capture="environment"
-                  />
+                <p className="mt-1.5 text-xs text-text-muted">
+                  {dob.length > 0 && !isAdult(dob)
+                    ? `You must be ${MIN_AGE} or older to use Elopis.`
+                    : `Elopis is for over-${MIN_AGE}s. This must match your ID.`}
+                </p>
+              </Field>
+
+              <Field id="kyc-phone" label="Phone number" className="mt-4">
+                <input
+                  id="kyc-phone"
+                  className="input w-full"
+                  type="tel"
+                  inputMode="tel"
+                  autoComplete="tel"
+                  placeholder="+254 7XX XXX XXX"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
+                {phone.length > 0 && !/^[+]?[\d\s-]{7,}$/.test(phone.trim()) && (
+                  <p className="mt-1.5 text-xs text-text-muted">Include your country code.</p>
                 )}
-              </div>
+              </Field>
             </StepBody>
           )}
 
-          {step === 3 && (
-            <StepBody title="Take a selfie" copy="Face the camera in good light, no hat or sunglasses. We use it only to match you to your ID.">
-              <FileDrop
-                label="Selfie"
-                hint="Front camera"
-                uploaded={!!selfiePath}
-                file={selfieFile}
-                onChange={(f) => {
-                  setSelfieFile(f)
-                  if (f) void putFile(f, 'selfie', setSelfiePath)
-                  else setSelfiePath(null)
-                }}
-                capture="user"
-              />
-            </StepBody>
-          )}
-
-          {step === 4 && (
-            <StepBody title="Residential address" copy="Your current home address. Required to reach the Enhanced verification level.">
+          {step === STEP.address && (
+            <StepBody title="Residential address" copy="Your current home address.">
               <div className="space-y-3">
-                <div>
-                  <label htmlFor="addr1" className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-text-muted">
-                    Street address
-                  </label>
+                <Field id="addr1" label="Street address">
                   <input id="addr1" className="input w-full" autoComplete="address-line1" value={addrLine1} onChange={(e) => setAddrLine1(e.target.value)} placeholder="123 Ngong Road" />
-                </div>
+                </Field>
                 <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label htmlFor="addr-city" className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-text-muted">City</label>
+                  <Field id="addr-city" label="City">
                     <input id="addr-city" className="input w-full" autoComplete="address-level2" value={addrCity} onChange={(e) => setAddrCity(e.target.value)} placeholder="Nairobi" />
-                  </div>
-                  <div>
-                    <label htmlFor="addr-postal" className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-text-muted">
-                      Postal code <span className="font-normal normal-case">(optional)</span>
-                    </label>
+                  </Field>
+                  <Field id="addr-postal" label="Postal code (optional)">
                     <input id="addr-postal" className="input w-full" autoComplete="postal-code" value={addrPostal} onChange={(e) => setAddrPostal(e.target.value)} placeholder="00100" />
-                  </div>
+                  </Field>
                 </div>
-                <div>
-                  <label htmlFor="addr-country" className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-text-muted">Country</label>
+                <Field id="addr-country" label="Country">
                   <select id="addr-country" className="input w-full" value={addrCountry} onChange={(e) => setAddrCountry(e.target.value)}>
                     {COUNTRIES.map((c) => (
                       <option key={c.code} value={c.code}>{c.name}</option>
                     ))}
                   </select>
-                </div>
+                </Field>
               </div>
             </StepBody>
           )}
 
-          {/* REVIEW. A last readable pass before anything is sent to a human
-              reviewer, and the only screen that shows the whole packet at
-              once. Each row jumps back to the step that owns it, so a
-              correction costs one click rather than a walk through the
-              wizard. */}
-          {step === STEP.review && (
-            <StepBody title="Check your details" copy="Make sure these match your document exactly. You can change anything before you submit.">
-              <dl className="divide-y divide-hairline">
-                {(
-                  [
-                    ['Phone', phone, STEP.identity],
-                    ['Date of birth', dob, STEP.identity],
-                    ['Document', DOC_TYPES.find((d) => d.value === docType)?.label ?? docType, STEP.document],
-                    ['Document number', docNumber, STEP.document],
-                    ['ID photos', frontPath ? (backPath ? 'Front and back uploaded' : 'Front uploaded') : 'Missing', STEP.document],
-                    ['Selfie', selfiePath ? 'Uploaded' : 'Missing', STEP.selfie],
-                    ['Address', [addrLine1, addrCity, addrPostal].filter(Boolean).join(', '), STEP.address],
-                  ] as const
-                ).map(([label, value, target]) => (
-                  <div key={label} className="flex items-baseline justify-between gap-4 py-2.5">
-                    <dt className="text-xs font-semibold uppercase tracking-wide text-text-muted">{label}</dt>
-                    <dd className="flex min-w-0 items-baseline gap-3 text-right">
-                      <span className="truncate text-sm text-text-primary">{value || '—'}</span>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setStep(target)
-                          void persist(target)
-                        }}
-                        className="flex-none text-xs font-semibold text-pip-text hover:underline"
-                      >
-                        Edit
-                      </button>
-                    </dd>
-                  </div>
+          {step === STEP.verify && (
+            <StepBody
+              title="Scan your ID"
+              copy="You'll photograph your document and your face. It takes about a minute and opens on this device or your phone."
+            >
+              <ul className="divide-y divide-hairline rounded-md border border-hairline">
+                {[
+                  ['Document check', 'Confirms the ID is genuine and reads your details'],
+                  ['Face check', 'Confirms you are a live person and match the document'],
+                ].map(([t, s]) => (
+                  <li key={t} className="flex items-start gap-3 p-3.5">
+                    <span className="mt-0.5 flex h-5 w-5 flex-none items-center justify-center rounded-pill bg-pip-100 text-pip-500">
+                      <IconCheck size={11} strokeWidth={2.5} />
+                    </span>
+                    <span>
+                      <span className="block text-sm font-semibold text-text-primary">{t}</span>
+                      <span className="block text-xs text-text-muted">{s}</span>
+                    </span>
+                  </li>
                 ))}
-              </dl>
+              </ul>
+
+              {/* Mid-flight: they opened the session and came back without a
+                  decision. Say so, and offer the SAME session rather than a
+                  second billable one. */}
+              {session.providerStatus && IN_FLIGHT.has(session.providerStatus) && !checking && (
+                <p className="mt-4 rounded-md border border-hairline bg-surface-2 p-3 text-xs text-text-secondary">
+                  Your check is open but not finished. Continuing takes you back to where you
+                  stopped.
+                </p>
+              )}
+              {checking && (
+                <p className="mt-4 text-xs text-text-muted" aria-live="polite">
+                  Checking your result…
+                </p>
+              )}
+
+              <button
+                type="button"
+                onClick={startVerification}
+                className="btn btn-primary btn-lg mt-5 w-full"
+                disabled={opening || checking || !canStartVerification(draft)}
+              >
+                {opening ? 'Opening…' : session.providerStatus && IN_FLIGHT.has(session.providerStatus) ? 'Continue ID check' : 'Start ID check'}
+                <IconArrowRight size={16} />
+              </button>
             </StepBody>
           )}
 
@@ -753,47 +529,31 @@ export function KycWizard({ user, initialPhone, initialCountry, returnTo = '/por
             </div>
           )}
 
-          {/* Nav */}
           <div className="mt-6 flex items-center justify-between gap-3">
             <button
               type="button"
               onClick={() => {
-                if (step === 0) return setStarted(false)
+                if (step === STEP.identity) return setStarted(false)
                 const prev = step - 1
                 setStep(prev)
                 void persist(prev)
               }}
               className="btn btn-ghost btn-sm gap-1"
-              disabled={submitting}
             >
               <IconChevronLeft size={15} /> Back
             </button>
 
-            {isLast ? (
-              <button type="button" onClick={handleSubmit} className="btn btn-primary" disabled={submitting || !canSubmit(draft) || uploading !== null}>
-                {submitting ? (
-                  <span className="flex items-center gap-2">
-                    <svg className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M21 12a9 9 0 11-6.219-8.56" />
-                    </svg>
-                    Submitting…
-                  </span>
-                ) : (
-                  <>Submit for review <IconArrowRight size={15} /></>
-                )}
-              </button>
-            ) : (
+            {step < STEP.verify && (
               <button
                 type="button"
                 onClick={() => {
                   const next = step + 1
                   setStep(next)
-                  // Written as the step is LEFT, not on every keystroke: one
-                  // row per decision, not one per character.
+                  // Written as the step is LEFT, not on every keystroke.
                   void persist(next)
                 }}
                 className="btn btn-primary"
-                disabled={!canContinue || uploading !== null}
+                disabled={!canContinue}
               >
                 Continue <IconArrowRight size={15} />
               </button>
@@ -802,8 +562,14 @@ export function KycWizard({ user, initialPhone, initialCountry, returnTo = '/por
         </div>
 
         <p className="mt-4 flex items-center justify-center gap-1.5 text-xs text-text-muted">
-          <IconShield size={12} /> Encrypted end-to-end · Reviewed by our compliance team
+          <IconShield size={12} /> Encrypted end-to-end · ID scan handled by Didit
         </p>
+
+        {/* Completeness is also what the meter reads, so keep the two honest. */}
+        <span className="sr-only">
+          {identityOk ? 'Details complete.' : 'Details incomplete.'}{' '}
+          {addressOk ? 'Address complete.' : 'Address incomplete.'}
+        </span>
       </div>
     </KycConsole>
   )
@@ -815,6 +581,45 @@ function StepBody({ title, copy, children }: { title: string; copy: string; chil
       <h2 className="font-display text-xl text-text-primary">{title}</h2>
       <p className="mb-5 mt-1 text-sm leading-relaxed text-text-secondary">{copy}</p>
       {children}
+    </div>
+  )
+}
+
+function Field({ id, label, className = '', children }: { id: string; label: string; className?: string; children: React.ReactNode }) {
+  return (
+    <div className={className}>
+      <label htmlFor={id} className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-text-muted">
+        {label}
+      </label>
+      {children}
+    </div>
+  )
+}
+
+function Outcome({
+  tone,
+  title,
+  copy,
+  action,
+}: {
+  tone: 'good' | 'wait' | 'bad'
+  title: string
+  copy: string
+  action: React.ReactNode
+}) {
+  const skin = {
+    good: { wrap: 'bg-yes/10 text-yes-700', icon: <IconCheck size={30} strokeWidth={2.5} /> },
+    wait: { wrap: 'bg-brass-100 text-brass-600', icon: <IconClock size={28} /> },
+    bad: { wrap: 'bg-no/10 text-no', icon: <IconShield size={28} /> },
+  }[tone]
+  return (
+    <div className="card animate-scale-in p-8 text-center sm:p-10">
+      <div className={`mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-pill ${skin.wrap}`}>
+        {skin.icon}
+      </div>
+      <h2 className="font-display text-2xl text-text-primary">{title}</h2>
+      <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-text-secondary">{copy}</p>
+      {action}
     </div>
   )
 }

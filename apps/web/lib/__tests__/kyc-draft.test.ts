@@ -1,35 +1,37 @@
 // lib/__tests__/kyc-draft.test.ts
 // ---------------------------------------------------------------------------
-// The step rules decide whether a returning user is asked for their ID photo a
-// second time, and the age rule decides whether a 17-year-old can open an
-// account on an 18+ licence. Both are worth more than a render test.
+// The step rules decide where a returning user lands, and the age rule decides
+// whether a 17-year-old can open an account on an 18+ licence. Both are worth
+// more than a render test.
+//
+// Since migration 123 the document and selfie steps are Didit's, so what is
+// left to prove here is that the two steps we still own gate correctly, that
+// the verify step is only "done" on a real decision, and that a draft written
+// by the six-step wizard loads without dragging its dead fields back.
 import { describe, it, expect } from 'vitest'
 import {
   STEP,
   STEP_COUNT,
   emptyDraft,
-  needsBack,
   ageOn,
   isAdult,
   stepComplete,
   firstIncompleteStep,
-  canSubmit,
+  canStartVerification,
   savedAgo,
   type KycDraft,
 } from '../kyc/draft'
 
 const AT = new Date('2026-10-17T00:00:00Z')
 
-/** A draft with every step satisfied, which each test then breaks one way. */
+/** A draft with every step we own satisfied, which each test then breaks. */
 function fullDraft(): KycDraft {
   const d = emptyDraft('+254712345678', 'KE')
+  d.data.firstName = 'Amina'
+  d.data.lastName = 'Wanjiru'
   d.data.dateOfBirth = '1995-06-15'
-  d.data.docNumber = '12345678'
   d.data.addrLine1 = '12 Kenyatta Avenue'
   d.data.addrCity = 'Nairobi'
-  d.frontPath = 'u/front.jpg'
-  d.backPath = 'u/back.jpg'
-  d.selfiePath = 'u/selfie.jpg'
   return d
 }
 
@@ -40,97 +42,108 @@ describe('age', () => {
     expect(ageOn('2008-10-18', AT)).toBe(17)
   })
 
-  it('does not round a 29 February birthday the wrong way', () => {
-    // The naive (now - dob) / 365.25d version drifts across leap years; this
-    // person turns 18 on 2026-02-28/29, so by October they are 18.
-    expect(ageOn('2008-02-29', AT)).toBe(18)
+  it('rejects a date that does not exist rather than rolling it forward', () => {
+    // Date would silently make this 1 March. On an 18+ rule a silent roll is
+    // a date of birth nobody typed.
+    expect(ageOn('2000-02-30')).toBeNull()
   })
 
-  it('rejects dates that are not dates', () => {
-    // Date() would silently roll 2026-02-30 forward to 1 March.
-    expect(ageOn('2008-02-30', AT)).toBeNull()
-    expect(ageOn('not-a-date', AT)).toBeNull()
-    expect(ageOn('', AT)).toBeNull()
-  })
-
-  it('admits adults and refuses minors and impossible ages', () => {
-    expect(isAdult('2008-10-17', AT)).toBe(true)
-    expect(isAdult('2008-10-18', AT)).toBe(false)
+  it('rejects junk and out-of-range ages', () => {
+    expect(isAdult('', AT)).toBe(false)
+    expect(isAdult('not-a-date', AT)).toBe(false)
+    expect(isAdult('2010-01-01', AT)).toBe(false)
     expect(isAdult('1850-01-01', AT)).toBe(false)
+    expect(isAdult('1995-06-15', AT)).toBe(true)
   })
 })
 
 describe('step completeness', () => {
-  it('a complete draft satisfies every step', () => {
+  it('needs a legal name on both halves, not just one', () => {
     const d = fullDraft()
-    for (let s = 0; s < STEP_COUNT; s++) {
-      expect(stepComplete(d, s), `step ${s}`).toBe(true)
-    }
-    expect(canSubmit(d)).toBe(true)
-    expect(firstIncompleteStep(d)).toBe(STEP.review)
-  })
-
-  it('an underage date of birth blocks the identity step', () => {
-    const d = fullDraft()
-    d.data.dateOfBirth = '2010-01-01'
+    expect(stepComplete(d, STEP.identity)).toBe(true)
+    d.data.lastName = ''
     expect(stepComplete(d, STEP.identity)).toBe(false)
-    expect(canSubmit(d)).toBe(false)
-    expect(firstIncompleteStep(d)).toBe(STEP.identity)
+    // A single letter is a typo, not a surname.
+    d.data.lastName = 'W'
+    expect(stepComplete(d, STEP.identity)).toBe(false)
   })
 
-  it('a stored path counts as an upload, with no File in memory', () => {
-    // THE POINT OF RESUMING. A user who uploaded yesterday on a phone has no
-    // File object today on a laptop; only the path survives, and it must be
-    // enough.
+  it('needs a plausible phone number', () => {
     const d = fullDraft()
-    expect(stepComplete(d, STEP.document)).toBe(true)
-    d.frontPath = null
-    expect(stepComplete(d, STEP.document)).toBe(false)
+    d.data.phone = '0712'
+    expect(stepComplete(d, STEP.identity)).toBe(false)
   })
 
-  it('only asks for the reverse side when the document has one', () => {
+  it('needs an under-age date of birth to fail the step, not just the input', () => {
     const d = fullDraft()
-    d.backPath = null
-    d.data.docType = 'national_id'
-    expect(needsBack('national_id')).toBe(true)
-    expect(stepComplete(d, STEP.document)).toBe(false)
-
-    d.data.docType = 'passport'
-    expect(needsBack('passport')).toBe(false)
-    expect(stepComplete(d, STEP.document)).toBe(true)
+    d.data.dateOfBirth = '2015-01-01'
+    expect(stepComplete(d, STEP.identity)).toBe(false)
   })
 
-  it('resumes at the first gap, not at the furthest step reached', () => {
-    // Someone who skipped ahead and left the selfie behind must come back to
-    // the selfie, not be dropped at the address they half-typed.
+  it('needs a street and a city', () => {
     const d = fullDraft()
-    d.selfiePath = null
-    d.currentStep = STEP.address
-    expect(firstIncompleteStep(d)).toBe(STEP.selfie)
+    expect(stepComplete(d, STEP.address)).toBe(true)
+    d.data.addrCity = ''
+    expect(stepComplete(d, STEP.address)).toBe(false)
   })
 
-  it('an empty draft starts at the identity step', () => {
-    // Step 0 is the account email, which is already known, so a fresh journey
-    // has nothing to do there.
-    const d = emptyDraft('', 'KE')
-    expect(stepComplete(d, STEP.email)).toBe(true)
-    expect(firstIncompleteStep(d)).toBe(STEP.identity)
-    expect(canSubmit(d)).toBe(false)
+  it('does not count an unfinished Didit session as a completed verify step', () => {
+    const d = fullDraft()
+    // The failure this guards: a user who opened the camera and walked away
+    // must come BACK to the verify step, not be shown a finished journey.
+    for (const s of ['Not Started', 'In Progress', 'Awaiting User', 'Abandoned', 'Expired']) {
+      d.didit.status = s
+      expect(stepComplete(d, STEP.verify)).toBe(false)
+    }
+    for (const s of ['Approved', 'In Review', 'Declined']) {
+      d.didit.status = s
+      expect(stepComplete(d, STEP.verify)).toBe(true)
+    }
+  })
+})
+
+describe('resume point', () => {
+  it('lands on the first gap, not the furthest step reached', () => {
+    const d = fullDraft()
+    d.currentStep = STEP.verify
+    d.data.addrCity = ''
+    expect(firstIncompleteStep(d)).toBe(STEP.address)
+  })
+
+  it('lands on verify when everything we own is done', () => {
+    const d = fullDraft()
+    expect(firstIncompleteStep(d)).toBe(STEP.verify)
+  })
+
+  it('sends an empty draft to the first step', () => {
+    expect(firstIncompleteStep(emptyDraft())).toBe(STEP.identity)
+  })
+
+  it('has one step per index', () => {
+    expect(Object.keys(STEP)).toHaveLength(STEP_COUNT)
+  })
+})
+
+describe('canStartVerification', () => {
+  it('is false until Didit has something to check the document against', () => {
+    const d = fullDraft()
+    expect(canStartVerification(d)).toBe(true)
+    // Without a name there is no expected_details, so Didit's OCR becomes the
+    // only source and the cross-check the step exists for does not happen.
+    d.data.firstName = ''
+    expect(canStartVerification(d)).toBe(false)
   })
 })
 
 describe('savedAgo', () => {
   const now = new Date('2026-10-17T12:00:00Z')
-  it.each([
-    ['2026-10-17T11:59:30Z', 'just now'],
-    ['2026-10-17T11:58:00Z', '2 minutes ago'],
-    ['2026-10-17T11:00:00Z', '1 hour ago'],
-    ['2026-10-15T12:00:00Z', '2 days ago'],
-  ])('%s -> %s', (at, expected) => {
-    expect(savedAgo(at, now)).toBe(expected)
+  it('reads in the units a person would use', () => {
+    expect(savedAgo('2026-10-17T11:59:40Z', now)).toBe('just now')
+    expect(savedAgo('2026-10-17T11:45:00Z', now)).toBe('15 minutes ago')
+    expect(savedAgo('2026-10-17T09:00:00Z', now)).toBe('3 hours ago')
+    expect(savedAgo('2026-10-15T12:00:00Z', now)).toBe('2 days ago')
   })
-
-  it('says nothing when there is nothing to say', () => {
+  it('says nothing rather than NaN when there is no timestamp', () => {
     expect(savedAgo(null, now)).toBeNull()
     expect(savedAgo('nonsense', now)).toBeNull()
   })

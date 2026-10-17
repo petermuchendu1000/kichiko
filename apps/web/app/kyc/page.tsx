@@ -91,7 +91,7 @@ export default function KYCPage() {
           </div>
           <h1 className="font-display text-2xl text-text-primary">Identity verified</h1>
           <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-text-secondary">
-            You&apos;re fully verified — all deposit, withdrawal and trading features are unlocked.
+            You&apos;re fully verified. Deposits, withdrawals and trading are unlocked.
           </p>
           <Link href={returnTo} className="btn btn-primary mt-6">
             Continue <IconArrowRight size={15} />
@@ -114,11 +114,11 @@ export default function KYCPage() {
           </div>
           <h1 className="font-display text-2xl text-text-primary">Under review</h1>
           <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-text-secondary">
-            Your documents are with our compliance team. This usually takes 1–2 business days, and
-            we&apos;ll email you as soon as you&apos;re verified.
+            Your check needs a second look from our compliance team. We&apos;ll email you as soon
+            as it&apos;s done, usually within a few hours.
           </p>
           <div className="mx-auto mt-6 flex max-w-xs items-center justify-center gap-1.5 rounded-md border border-hairline bg-surface-2 px-3 py-2 text-xs text-text-muted">
-            <IconShield size={13} className="text-pip-500" /> Your documents are encrypted and private.
+            <IconShield size={13} className="text-pip-500" /> Your ID is held by Didit, not by Elopis.
           </div>
           <Link href={returnTo} className="btn btn-secondary mt-6">
             Continue
@@ -164,7 +164,7 @@ function TerminalBridge({ state }: { state: 'verified' | 'pending' }) {
         <p className="mt-1.5 text-xs leading-snug text-text-muted">
           {state === 'verified'
             ? 'Enhanced verification unlocks full deposits, withdrawals and the highest limits.'
-            : 'A compliance officer is reviewing your documents. No further action is needed.'}
+            : 'A compliance officer is reviewing your check. No further action is needed.'}
         </p>
       </div>
     </div>
