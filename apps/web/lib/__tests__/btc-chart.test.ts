@@ -14,6 +14,8 @@ import {
   candleBucketMs,
   bucketCandles,
   mergeLiveCandle,
+  niceTicks,
+  timeTicks,
   type SeriesWindow,
   type Pt,
   type Candle,
@@ -236,5 +238,87 @@ describe('mergeLiveCandle', () => {
   })
   it('returns [] when there are no real candles', () => {
     expect(mergeLiveCandle([], [{ t: 1, price: 1 }], 60)).toEqual([])
+  })
+})
+
+describe('niceTicks', () => {
+  it('lays round, evenly spaced values across the domain', () => {
+    const { ticks, dp } = niceTicks(49.5, 50.5)
+    expect(dp).toBe(1)
+    expect(ticks).toEqual([49.5, 50, 50.5])
+  })
+
+  it('never emits two labels that render the same text', () => {
+    // The defect this replaced: an axis reading 52 / 52 / 51 / 50 / 50.
+    for (const [lo, hi] of [[49.4, 50.6], [38, 50], [81_448, 81_461], [0.02, 0.09]] as const) {
+      const { ticks, dp } = niceTicks(lo, hi)
+      const labels = ticks.map((t) => t.toFixed(dp))
+      expect(new Set(labels).size).toBe(labels.length)
+    }
+  })
+
+  it('keeps every tick inside the domain it was given', () => {
+    const { ticks } = niceTicks(81_448.3, 81_461.9)
+    expect(ticks.length).toBeGreaterThanOrEqual(3)
+    for (const t of ticks) {
+      expect(t).toBeGreaterThanOrEqual(81_448.3)
+      expect(t).toBeLessThanOrEqual(81_461.9)
+    }
+  })
+
+  it('steps on a round multiple, not on the domain ends', () => {
+    const { ticks } = niceTicks(81_448.3, 81_461.9)
+    const step = ticks[1] - ticks[0]
+    for (let i = 2; i < ticks.length; i += 1) {
+      expect(ticks[i] - ticks[i - 1]).toBeCloseTo(step, 6)
+    }
+    expect([1, 2, 5, 10, 20, 50]).toContain(step)
+  })
+
+  it('densifies rather than leaving a tight axis with two labels', () => {
+    // A quiet 5-minute window measured live: $81,464.2 to $81,466.9.
+    const { ticks, dp } = niceTicks(81_464.2, 81_466.9)
+    expect(ticks.length).toBeGreaterThanOrEqual(3)
+    expect(new Set(ticks.map((v) => v.toFixed(dp))).size).toBe(ticks.length)
+  })
+
+  it('returns nothing for a degenerate domain rather than looping', () => {
+    expect(niceTicks(5, 5).ticks).toEqual([])
+    expect(niceTicks(5, 4).ticks).toEqual([])
+    expect(niceTicks(NaN, 10).ticks).toEqual([])
+  })
+})
+
+describe('timeTicks', () => {
+  const T = Date.UTC(2026, 9, 17, 5, 46, 7)
+
+  it('drops to seconds on a window that has only just opened', () => {
+    const { ticks, stepMs } = timeTicks(T, T + 50_000)
+    expect(stepMs).toBe(15_000)
+    for (const t of ticks) expect(t % 15_000).toBe(0)
+  })
+
+  it('uses whole minutes across a five-minute window', () => {
+    const { ticks, stepMs } = timeTicks(T, T + 300_000)
+    expect(stepMs).toBe(60_000)
+    expect(ticks.length).toBeGreaterThanOrEqual(4)
+    for (const t of ticks) expect(t % 60_000).toBe(0)
+  })
+
+  it('never places a tick outside the domain', () => {
+    // The defect this replaced: an axis ending on 05:39:03, which is just
+    // wherever `now` happened to be when the frame was drawn.
+    const { ticks } = timeTicks(T, T + 3_600_000)
+    for (const t of ticks) {
+      expect(t).toBeGreaterThanOrEqual(T)
+      expect(t).toBeLessThanOrEqual(T + 3_600_000)
+    }
+  })
+
+  it('keeps the tick count readable as the window grows', () => {
+    for (const span of [30_000, 300_000, 900_000, 1_800_000, 3_600_000, 86_400_000]) {
+      const { ticks } = timeTicks(T, T + span)
+      expect(ticks.length).toBeLessThanOrEqual(7)
+    }
   })
 })

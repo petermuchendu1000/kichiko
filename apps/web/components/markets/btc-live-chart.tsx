@@ -48,6 +48,8 @@ import {
   pastWindows,
   windowOutcome,
   pickSuccessorWindow,
+  niceTicks,
+  timeTicks,
   type ChartType,
   type Pt,
   type Candle,
@@ -148,6 +150,9 @@ export function BtcLiveChart({
   // "Past ▾" navigator and the window-close successor auto-advance.
   const [seriesRows, setSeriesRows] = useState<SeriesWindow[]>([])
   const lastPush = useRef<number>(0)
+  // When the socket last delivered a tick. The REST poll stands down while
+  // this is fresh — see the poll effect for why mixing the two was visible.
+  const lastWsMs = useRef<number>(0)
 
   // Coinbase candle granularity chosen for this window length (5M/15M/30M/1H
   // all resolve to 60s; larger windows step up). One source of truth so the
@@ -352,18 +357,40 @@ export function BtcLiveChart({
     }
   }, [openMs, closeMs, granularity, windowClosed])
 
-  // ALWAYS-ON REST spot poll — guarantees a moving line even if the socket is
-  // blocked. api.coinbase.com is CORS-open, so this works from any browser.
+  // REST fallback poll — guarantees a moving line when the socket is blocked.
+  //
+  // ONE BOOK, NOT TWO. This used to poll api.coinbase.com's aggregated
+  // `/v2/prices/BTC-USD/spot` unconditionally, alongside the exchange socket,
+  // and write both into the same series. The two are different prices, so the
+  // line drew $4 drops with flat bottoms and vertical sides — caught on a live
+  // 5-minute window, a plunge and a full recovery inside three seconds, which
+  // is the two sources disagreeing rather than Bitcoin moving. On a market
+  // that settles within a few dollars, a fake $4 spike is not cosmetic.
+  //
+  // So: poll the exchange, the same book the socket and the settlement oracle
+  // read, and only while the socket is quiet. The aggregated endpoint stays on
+  // as a second fallback for regions where the exchange host is blocked, where
+  // a slightly different price still beats a frozen line.
   useEffect(() => {
     if (windowClosed) return
     let alive = true
-    const tick = () =>
-      fetch('https://api.coinbase.com/v2/prices/BTC-USD/spot')
-        .then((r) => r.json())
-        .then((j) => {
-          if (alive) pushPrice(parseFloat(j?.data?.amount))
-        })
-        .catch(() => {})
+    const tick = async () => {
+      if (Date.now() - lastWsMs.current < 6000) return
+      try {
+        const r = await fetch('https://api.exchange.coinbase.com/products/BTC-USD/ticker')
+        if (r.ok) {
+          const px = parseFloat((await r.json())?.price)
+          if (alive && Number.isFinite(px)) {
+            pushPrice(px)
+            return
+          }
+        }
+      } catch {/* fall through to the aggregated endpoint */}
+      try {
+        const j = await (await fetch('https://api.coinbase.com/v2/prices/BTC-USD/spot')).json()
+        if (alive) pushPrice(parseFloat(j?.data?.amount))
+      } catch {/* next tick */}
+    }
     tick()
     const id = setInterval(tick, 2500)
     return () => {
@@ -386,7 +413,10 @@ export function BtcLiveChart({
       ws.onmessage = (ev) => {
         try {
           const m = JSON.parse(ev.data)
-          if (m.type === 'ticker' && m.product_id === 'BTC-USD') pushPrice(parseFloat(m.price))
+          if (m.type === 'ticker' && m.product_id === 'BTC-USD') {
+            lastWsMs.current = Date.now()
+            pushPrice(parseFloat(m.price))
+          }
         } catch {/* ignore */}
       }
       ws.onerror = () => setConnected(false)
@@ -422,7 +452,25 @@ export function BtcLiveChart({
   const prices = points.map((p) => p.price)
   const lo = Math.min(referencePrice, ...prices)
   const hi = Math.max(referencePrice, ...prices)
-  const pad = Math.max((hi - lo) * 0.2, referencePrice * 0.0006)
+  // PADDING SCALED TO THE MOVE, NOT TO THE ASSET'S PRICE.
+  //
+  // This floor used to be `referencePrice * 0.0006`, which on an $81k BTC is
+  // $48.89. A 5-minute window moves a few dollars, so a $9 range was padded by
+  // $98 and the line sat in a thin band across a mostly empty plot: measured
+  // live, an axis of $81,431 to $81,540 for data spanning $81,483 to $81,492.
+  // The constant is a fraction of the ABSOLUTE price, which says nothing about
+  // how far the price travelled; on a $200 asset the same formula gives 12
+  // cents.
+  //
+  // Polymarket's own 5m price chart, measured from their screenshot: axis
+  // $81,482 to $81,490 for data around $81,485 to $81,487. They pad by roughly
+  // the size of the move. The absolute floor here is in dollars and small
+  // enough that a dead-flat window still gets a readable band instead of a
+  // zero-height domain.
+  const pad = Math.max((hi - lo) * 0.12, 0.75)
+  // A tight window can hold a few dollars across the whole axis, where
+  // whole-dollar labels repeat themselves. See niceTicks.
+  const priceAxis = niceTicks(lo - pad, hi + pad)
   const last = points[points.length - 1]
 
   // ---- Candlesticks --------------------------------------------------------
@@ -448,7 +496,10 @@ export function BtcLiveChart({
   // spot line's min/max, so widen the axis to include every high/low + strike.
   const candleLo = candles.length ? Math.min(lo, ...candles.map((c) => c.l)) : lo
   const candleHi = candles.length ? Math.max(hi, ...candles.map((c) => c.h)) : hi
-  const candlePad = Math.max((candleHi - candleLo) * 0.2, referencePrice * 0.0006)
+  // Same correction. Candles carry real wicks so the range is genuinely wider,
+  // but the floor must still be a size, not a percentage of the asset's price.
+  const candlePad = Math.max((candleHi - candleLo) * 0.12, 0.75)
+  const candleAxis = niceTicks(candleLo - candlePad, candleHi + candlePad)
 
   // ---- Probability series: implied UP chance over time ---------------------
   const probPoints = useMemo(
@@ -471,15 +522,31 @@ export function BtcLiveChart({
   //
   // Scale it to the range instead, with a floor so a dead-flat minute does not
   // zoom into its own rounding noise.
+  //
+  // My first correction also forced 48-52 into frame, on the reasoning that 50
+  // is the decision boundary. Polymarket does not do that, and measuring their
+  // chart shows why: at 39% their axis runs 38 to 50, which is exactly the
+  // data's own range. Anchoring to 50 would have spent a third of the plot on
+  // a value the market had left behind. The headline figure already says which
+  // side is ahead; the chart's job is to show the movement.
   const probVals = probPoints.map((p) => p.prob)
   const pDataLo = Math.min(...probVals, liveProb)
   const pDataHi = Math.max(...probVals, liveProb)
-  const pPad = Math.max(1.5, (pDataHi - pDataLo) * 0.35)
-  // 50 is this market's decision boundary, so it stays in frame: the dashed
-  // reference line and "which side is ahead" are the chart's whole point, and
-  // a zoomed domain that excluded 50 would drop both.
-  const pLo = Math.max(0, Math.min(pDataLo - pPad, 48))
-  const pHi = Math.min(100, Math.max(pDataHi + pPad, 52))
+  const pPad = Math.max(0.5, (pDataHi - pDataLo) * 0.1)
+  const pLo = Math.max(0, pDataLo - pPad)
+  const pHi = Math.min(100, pDataHi + pPad)
+  const pAxis = niceTicks(pLo, pHi)
+  // THE NUMBER BESIDE "52% CHANCE" HAS TO BE A CHANGE IN THE CHANCE.
+  //
+  // It was `deltaPct`, BTC's own price move. Rendered as "52% chance ↑ 0.04%"
+  // it reads as the chance having risen four hundredths of a point, when what
+  // rose by that much was Bitcoin. Two different quantities, the same glyph,
+  // sitting next to each other. The price view is where the price move
+  // belongs; here the series is the probability, so the delta is the
+  // probability's, in points, and it carries its own sign rather than
+  // borrowing the price's.
+  const probDelta = liveProb - (probPoints[0]?.prob ?? liveProb)
+  const probRising = probDelta >= 0
 
   // Candle geometry drawn against recharts' own axis scales (so it stays in
   // sync with the shared time / price domain and stays responsive).
@@ -518,16 +585,53 @@ export function BtcLiveChart({
     )
   }
 
+  const { ticks: tTicks, stepMs: tStep } = useMemo(() => timeTicks(openMs, rightMs), [openMs, rightMs])
   const xAxisProps = {
     dataKey: 't',
     type: 'number' as const,
     domain: [openMs, rightMs],
     scale: 'time' as const,
-    tickFormatter: (t: number) => format(new Date(Number(t)), 'HH:mm:ss'),
+    // Fewer than two round marks means the window has only just opened; let
+    // recharts place them until there is room for our own.
+    ...(tTicks.length >= 2 ? { ticks: tTicks } : {}),
+    tickFormatter: (t: number) => format(new Date(Number(t)), tStep < 60_000 ? 'HH:mm:ss' : 'HH:mm'),
     tick: { fontSize: 10, fill: 'var(--text-muted)' },
     stroke: 'var(--hairline)',
     minTickGap: 56,
   }
+
+  // THE CLOCK IS THE DECISION.
+  //
+  // On a five-minute market, how long is left governs whether a trade is worth
+  // taking at all, and it was set as small grey text at the end of a row, on
+  // the price view only — the probability view showed no clock whatsoever.
+  // Polymarket sets this same figure in large type at the top of the card.
+  // One rail, in both views, in mono so the digits do not jitter, and in the
+  // alert colour inside the last minute.
+  const urgent = !windowClosed && remainingMs <= 60_000
+  const statusRail = (
+    <div className="flex flex-none items-center gap-2.5">
+      {!windowClosed && (
+        <span
+          className="font-mono text-lg font-bold leading-none tabular-nums"
+          style={{ color: urgent ? 'var(--no-700)' : 'var(--text-2)' }}
+          title="Time left in this window"
+        >
+          {mm}:{ss.toString().padStart(2, '0')}
+        </span>
+      )}
+      <span
+        className="inline-flex items-center gap-1.5 rounded-pill border border-hairline px-2.5 py-1 text-xs font-semibold"
+        style={{ color: windowClosed ? 'var(--text-muted)' : 'var(--no-700)' }}
+      >
+        <span
+          className={`inline-block h-1.5 w-1.5 rounded-full ${!windowClosed ? 'animate-pulse-dot' : ''}`}
+          style={{ background: windowClosed ? 'var(--text-muted)' : 'var(--no)' }}
+        />
+        {windowClosed ? 'Closed' : 'Live'}
+      </span>
+    </div>
+  )
 
   return (
     <div>
@@ -535,29 +639,31 @@ export function BtcLiveChart({
       {chartType === 'prob' ? (
         <div className="mb-3 flex items-start justify-between gap-3">
           <div>
+            {/* ALWAYS THE UP SIDE, because the figure and the line below it
+                are both the Up chance. Swapping the eyebrow to "Down" while
+                still printing the Up probability made the number read as the
+                named side's: a market with Up at 30 announced "DOWN 30%
+                chance" when Down was in fact at 70. At 49.6 it printed "DOWN
+                50% chance", a contradiction in three words, which is how it
+                was caught. Polymarket names one outcome and charts that
+                outcome; the colour carries the lean. */}
             <p className="text-xs font-semibold uppercase tracking-wide" style={{ color: probLean ? UP_GREEN : DOWN_RED }}>
-              {probLean ? upLabel : downLabel}
+              {upLabel}
             </p>
             <p className="flex items-baseline gap-2">
               <span className="text-2xl font-bold tabular-nums" style={{ color: PROB_BLUE }}>
                 {liveProb.toFixed(0)}% chance
               </span>
-              <span className="flex items-center gap-0.5 text-sm font-semibold tabular-nums" style={{ color: leanTone }}>
-                {isUp ? <IconArrowUp size={13} /> : <IconArrowDown size={13} />}
-                {Math.abs(deltaPct).toFixed(2)}%
+              <span
+                className="flex items-center gap-0.5 text-sm font-semibold tabular-nums"
+                style={{ color: probRising ? UP_GREEN : DOWN_RED }}
+              >
+                {probRising ? <IconArrowUp size={13} /> : <IconArrowDown size={13} />}
+                {Math.abs(probDelta).toFixed(1)} pts
               </span>
             </p>
           </div>
-          <span
-            className="inline-flex items-center gap-1.5 rounded-pill border border-hairline px-2.5 py-1 text-xs font-semibold"
-            style={{ color: windowClosed ? 'var(--text-muted)' : 'var(--no-700)' }}
-          >
-            <span
-              className={`inline-block h-1.5 w-1.5 rounded-full ${!windowClosed ? 'animate-pulse-dot' : ''}`}
-              style={{ background: windowClosed ? 'var(--text-muted)' : 'var(--no)' }}
-            />
-            {windowClosed ? 'Closed' : 'Live'}
-          </span>
+          {statusRail}
         </div>
       ) : (
         <>
@@ -567,16 +673,7 @@ export function BtcLiveChart({
               <p className="text-xs uppercase tracking-wide text-text-muted">Price to beat</p>
               <p className="font-mono text-2xl font-bold tabular-nums text-text-primary">{usd(referencePrice, 2)}</p>
             </div>
-            <span
-              className="inline-flex items-center gap-1.5 rounded-pill border border-hairline px-2.5 py-1 text-xs font-semibold"
-              style={{ color: windowClosed ? 'var(--text-muted)' : 'var(--no-700)' }}
-            >
-              <span
-                className={`inline-block h-1.5 w-1.5 rounded-full ${!windowClosed ? 'animate-pulse-dot' : ''}`}
-                style={{ background: windowClosed ? 'var(--text-muted)' : 'var(--no)' }}
-              />
-              {windowClosed ? 'Closed' : 'Live'}
-            </span>
+            {statusRail}
           </div>
 
           {/* Live price + move + Up/Down lean + countdown */}
@@ -585,7 +682,12 @@ export function BtcLiveChart({
               <span className="font-mono text-lg font-bold tabular-nums" style={{ color: BTC_ORANGE }}>{usd(live, 2)}</span>
               <span className="flex items-center gap-0.5 font-semibold tabular-nums" style={{ color: leanTone }}>
                 {isUp ? <IconArrowUp size={13} /> : <IconArrowDown size={13} />}
-                {delta >= 0 ? '+' : '−'}{usd(Math.abs(delta), 2)} ({Math.abs(deltaPct).toFixed(2)}%)
+                {/* A $3.46 move on an $81k coin is 0.0042%, which printed as
+                    "(0.00%)" — a no-change reading sitting beside a change.
+                    On these windows the dollars are the signal; the percentage
+                    only earns its place once it rounds to something. */}
+                {delta >= 0 ? '+' : '−'}{usd(Math.abs(delta), 2)}
+                {Math.abs(deltaPct) >= 0.005 ? ` (${Math.abs(deltaPct).toFixed(2)}%)` : ''}
               </span>
             </div>
             <div className="flex items-center gap-2 text-xs">
@@ -594,8 +696,10 @@ export function BtcLiveChart({
                 {isUp ? upLabel : downLabel} leading
               </span>
               <span aria-hidden className="text-text-muted">·</span>
+              {/* The countdown moved up into the rail, where it is large
+                  enough to act on. This row keeps the feed state only. */}
               <span className="tabular-nums text-text-muted">
-                {connected && !windowClosed ? 'live · ' : ''}{countdown}
+                {windowClosed ? countdown : connected ? 'live feed' : 'connecting'}
               </span>
             </div>
           </div>
@@ -669,12 +773,17 @@ export function BtcLiveChart({
           {chartType === 'prob' ? (
             <AreaChart data={probPoints} margin={{ top: 8, right: 4, bottom: 0, left: 0 }}>
               <defs>
-                {/* 0.18 to nothing over the full height read as a smudge
-                    rather than a fill. A stronger top and a mid stop give the
-                    area some body without competing with the stroke. */}
+                {/* NO FILL ON THE PROBABILITY VIEW.
+                    Polymarket draws this one as a bare stroke and reserves the
+                    filled area for the price view. They are right: an area
+                    chart's fill encodes "distance from the baseline", and on a
+                    zoomed probability axis the baseline is an arbitrary number
+                    like 38%, so the shaded mass means nothing. Worse, it was
+                    competing with the one thing the chart has to show, which is
+                    where the line went. Kept as an empty gradient so the Area
+                    component below keeps its type without painting anything. */}
                 <linearGradient id="probFill" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor={PROB_BLUE} stopOpacity={0.3} />
-                  <stop offset="55%" stopColor={PROB_BLUE} stopOpacity={0.1} />
+                  <stop offset="0%" stopColor={PROB_BLUE} stopOpacity={0} />
                   <stop offset="100%" stopColor={PROB_BLUE} stopOpacity={0} />
                 </linearGradient>
               </defs>
@@ -682,10 +791,11 @@ export function BtcLiveChart({
               <YAxis
                 orientation="right"
                 domain={[pLo, pHi]}
-                tickFormatter={(v) => `${Math.round(Number(v))}%`}
+                {...(pAxis.ticks.length >= 2 ? { ticks: pAxis.ticks } : {})}
+                tickFormatter={(v) => `${Number(v).toFixed(pAxis.dp)}%`}
                 tick={{ fontSize: 10, fill: 'var(--text-muted)' }}
                 stroke="var(--hairline)"
-                width={44}
+                width={pAxis.dp ? 52 : 44}
               />
               <Tooltip content={<Tip kind="prob" />} />
               <ReferenceLine y={50} stroke="var(--hairline)" strokeDasharray="4 4" />
@@ -709,17 +819,24 @@ export function BtcLiveChart({
               <YAxis
                 orientation="right"
                 domain={[candleLo - candlePad, candleHi + candlePad]}
-                tickFormatter={(v) => usd(Number(v), 0)}
+                {...(candleAxis.ticks.length >= 2 ? { ticks: candleAxis.ticks } : {})}
+                tickFormatter={(v) => usd(Number(v), candleAxis.dp)}
                 tick={{ fontSize: 10, fill: 'var(--text-muted)' }}
                 stroke="var(--hairline)"
-                width={66}
+                width={candleAxis.dp ? 78 : 66}
               />
               <ReferenceLine
                 y={referencePrice}
                 stroke={BTC_ORANGE}
                 strokeDasharray="5 4"
                 strokeOpacity={0.7}
-                label={{ value: 'Target', position: 'insideTopRight', fontSize: 10, fill: BTC_ORANGE }}
+                // `insideTopRight` pins the word to the top of the PLOT, not
+                // to the line it names. Measured live, the target sat level
+                // with the price line while its label floated near the top
+                // edge pointing at nothing, and with the tightened domain it
+                // would have landed on the line itself. Polymarket puts a pill
+                // at the right edge ON the line; `right` does the same here.
+                label={{ value: 'Target', position: 'right', fontSize: 10, fill: BTC_ORANGE }}
               />
               <ReferenceLine
                 y={live}
@@ -741,10 +858,11 @@ export function BtcLiveChart({
               <YAxis
                 orientation="right"
                 domain={[lo - pad, hi + pad]}
-                tickFormatter={(v) => usd(Number(v), 0)}
+                {...(priceAxis.ticks.length >= 2 ? { ticks: priceAxis.ticks } : {})}
+                tickFormatter={(v) => usd(Number(v), priceAxis.dp)}
                 tick={{ fontSize: 10, fill: 'var(--text-muted)' }}
                 stroke="var(--hairline)"
-                width={66}
+                width={priceAxis.dp ? 78 : 66}
               />
               <Tooltip content={<Tip kind="price" />} />
               <ReferenceLine
@@ -752,7 +870,13 @@ export function BtcLiveChart({
                 stroke={BTC_ORANGE}
                 strokeDasharray="5 4"
                 strokeOpacity={0.7}
-                label={{ value: 'Target', position: 'insideTopRight', fontSize: 10, fill: BTC_ORANGE }}
+                // `insideTopRight` pins the word to the top of the PLOT, not
+                // to the line it names. Measured live, the target sat level
+                // with the price line while its label floated near the top
+                // edge pointing at nothing, and with the tightened domain it
+                // would have landed on the line itself. Polymarket puts a pill
+                // at the right edge ON the line; `right` does the same here.
+                label={{ value: 'Target', position: 'right', fontSize: 10, fill: BTC_ORANGE }}
               />
               <Area
                 type="monotone"

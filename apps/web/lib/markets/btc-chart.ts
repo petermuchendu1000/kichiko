@@ -236,3 +236,78 @@ export function mergeLiveCandle(realCandles: Candle[], livePoints: Pt[], granula
   }
   return [...realCandles, live]
 }
+
+/* ---------- axis ticks ---------- */
+
+/**
+ * Round tick VALUES for a value axis, and the precision they need.
+ *
+ * Two defects, one cause. Left to itself on a zoomed domain recharts printed
+ * 52 / 52 / 51 / 50 / 50 — two pairs of identical labels, which reads as a
+ * broken chart rather than as a quiet market. Giving the formatter a decimal
+ * made them distinct and then showed the real problem: 45.7 / 47.7 / 50.5,
+ * three labels with different gaps between them, because the values were
+ * wherever the padded domain's ends happened to fall.
+ *
+ * Polymarket's axis reads 38 / 40 / 42 / 44: round numbers, evenly spaced,
+ * independent of where the data starts. So choose the step, put the ticks on
+ * its multiples, and let the step say how many decimals the label needs — a
+ * step of 2 never needs one, a step of 0.5 always does. Ticks outside the
+ * domain are simply not emitted, so the plot keeps the tight range the
+ * padding gives it.
+ *
+ * The step set is 1, 2 and 5 times a power of ten, and deliberately NOT the
+ * 2.5 that usually joins them: a 0.25 step puts a tick on 49.75, which one
+ * decimal renders as "49.8" — a label that is not the value it marks. Every
+ * step here is exact at the precision its own magnitude implies.
+ */
+export function niceTicks(lo: number, hi: number, target = 5): { ticks: number[]; dp: number } {
+  // A very quiet window can be two or three dollars tall, where the first
+  // round step that fits yields only two labels and the axis stops saying
+  // much. Ask for a denser target before settling, which drops the step to
+  // the next size down (1 -> 0.5) rather than leaving the gap unmarked.
+  for (const t of [target, target + 3, target + 6]) {
+    const got = buildTicks(lo, hi, t)
+    if (got.ticks.length >= 3) return got
+  }
+  return buildTicks(lo, hi, target)
+}
+
+function buildTicks(lo: number, hi: number, target: number): { ticks: number[]; dp: number } {
+  const span = hi - lo
+  if (!Number.isFinite(span) || span <= 0) return { ticks: [], dp: 0 }
+  const raw = span / Math.max(2, target - 1)
+  const mag = Math.pow(10, Math.floor(Math.log10(raw)))
+  const step = [1, 2, 5, 10].map((m) => m * mag).find((v) => v >= raw) ?? 10 * mag
+  // Exactly the decimals the step needs: 5 -> 0, 0.5 -> 1, 0.05 -> 2. The
+  // epsilon keeps log10(0.1) = 1.0000000000000002 from asking for two.
+  const dp = Math.max(0, Math.min(4, Math.ceil(-Math.log10(step) - 1e-9)))
+  const ticks: number[] = []
+  for (let v = Math.ceil(lo / step) * step; v <= hi + step * 1e-9; v += step) {
+    ticks.push(Number(v.toFixed(6)))
+  }
+  return { ticks, dp }
+}
+
+const TICK_STEPS_MS = [
+  15_000, 30_000, 60_000, 120_000, 300_000, 600_000,
+  900_000, 1_800_000, 3_600_000, 7_200_000, 21_600_000,
+]
+
+/**
+ * Round time ticks, instead of whatever the domain's ends happen to be.
+ *
+ * The right edge tracks `now`, so recharts' automatic ticks closed the axis on
+ * 05:39:03 — a time with no meaning, sitting beside clean minute marks. Choose
+ * a step that suits the window and lay ticks on it. The caller formats with
+ * seconds only when the step is finer than a minute, which is what keeps
+ * Polymarket's short-window axis readable and ours from printing ":00" five
+ * times.
+ */
+export function timeTicks(fromMs: number, toMs: number): { ticks: number[]; stepMs: number } {
+  const span = Math.max(0, toMs - fromMs)
+  const stepMs = TICK_STEPS_MS.find((s) => span / s <= 6) ?? TICK_STEPS_MS[TICK_STEPS_MS.length - 1]
+  const ticks: number[] = []
+  for (let t = Math.ceil(fromMs / stepMs) * stepMs; t <= toMs; t += stepMs) ticks.push(t)
+  return { ticks, stepMs }
+}
