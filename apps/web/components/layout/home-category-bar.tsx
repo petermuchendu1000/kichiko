@@ -34,7 +34,15 @@ const CATEGORY_PILLS: Pill[] = (
 
 const PILLS: Pill[] = [...LEAD, ...CATEGORY_PILLS]
 
-export function HomeCategoryBar() {
+/**
+ * `inline` renders ONLY the strip: no sticky wrapper, no second translucent
+ * background, no second hairline. The navbar uses it on lg+ so the logo and
+ * the categories share one bar, which is what the header always looked like it
+ * should be and was not: two stacked blurred surfaces with two borders read as
+ * two separate navigation bars, and logged in they read as a toolbar stuck
+ * under a toolbar.
+ */
+export function HomeCategoryBar({ inline = false }: { inline?: boolean } = {}) {
   const scrollRef = useRef<HTMLDivElement>(null)
   const pathname = usePathname()
   // Kalshi-style tabs keep exactly one active at a time. On the homepage the
@@ -57,19 +65,10 @@ export function HomeCategoryBar() {
     window.dispatchEvent(new CustomEvent('elopis:home-category', { detail: { category } }))
   }
 
-  return (
-    <div
-      data-sticky-rail
-      className="sticky z-40"
-      style={{
-        top: 'var(--nav-h, 56px)',
-        background: 'color-mix(in srgb, var(--bg) 82%, transparent)',
-        backdropFilter: 'saturate(1.2) blur(12px)',
-        WebkitBackdropFilter: 'saturate(1.2) blur(12px)',
-        borderBottom: '1px solid var(--hairline)',
-      }}
-    >
-      <div className="max-w-[1350px] mx-auto px-4 lg:px-6 relative flex items-center gap-1">
+  const strip = (
+      <div className={inline
+        ? 'relative flex min-w-0 flex-1 items-center gap-1'
+        : 'max-w-[1350px] mx-auto px-4 lg:px-6 relative flex items-center gap-1'}>
         <button
           type="button"
           onClick={() => scroll('left')}
@@ -80,11 +79,20 @@ export function HomeCategoryBar() {
           <IconChevronLeft size={14} />
         </button>
 
-        {/* edge fades */}
-        <div aria-hidden className="absolute inset-y-0 left-8 w-8 z-10 pointer-events-none hidden sm:block"
-          style={{ background: 'linear-gradient(90deg, var(--bg), transparent)' }} />
-        <div aria-hidden className="absolute inset-y-0 right-8 w-8 z-10 pointer-events-none hidden sm:block"
-          style={{ background: 'linear-gradient(270deg, var(--bg), transparent)' }} />
+        {/* Edge fades, standalone only.
+            They sit at left-8 / right-8, which lines up with the arrows when
+            the strip has the page gutter in front of it. Inline in the navbar
+            there is no gutter, so the left fade landed on "Trending" and
+            greyed out the first tab at rest. The arrows already say the strip
+            scrolls; a fade that dims a live tab says something false. */}
+        {!inline && (
+          <>
+            <div aria-hidden className="absolute inset-y-0 left-8 w-8 z-10 pointer-events-none hidden sm:block"
+              style={{ background: 'linear-gradient(90deg, var(--bg), transparent)' }} />
+            <div aria-hidden className="absolute inset-y-0 right-8 w-8 z-10 pointer-events-none hidden sm:block"
+              style={{ background: 'linear-gradient(270deg, var(--bg), transparent)' }} />
+          </>
+        )}
 
         <nav
           ref={scrollRef}
@@ -132,6 +140,23 @@ export function HomeCategoryBar() {
           <IconChevronRight size={14} />
         </button>
       </div>
+  )
+
+  if (inline) return strip
+
+  return (
+    <div
+      data-sticky-rail
+      className="sticky z-40"
+      style={{
+        top: 'var(--nav-h, 56px)',
+        background: 'color-mix(in srgb, var(--bg) 82%, transparent)',
+        backdropFilter: 'saturate(1.2) blur(12px)',
+        WebkitBackdropFilter: 'saturate(1.2) blur(12px)',
+        borderBottom: '1px solid var(--hairline)',
+      }}
+    >
+      {strip}
     </div>
   )
 }

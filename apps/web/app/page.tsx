@@ -136,11 +136,26 @@ async function getData() {
     return { market, change, pct: Math.round(lead * 100) }
   })
 
-  // Hot topics: highest 24h dollar volume right now.
-  const hotTopics = [...moversPoolList]
-    .filter((m) => (m.volume_24h_usd ?? 0) > 0)
-    .sort((a, b) => (b.volume_24h_usd ?? 0) - (a.volume_24h_usd ?? 0))
-    .slice(0, 6)
+  // Most traded.
+  //
+  // This used to require `volume_24h_usd > 0` and render nothing otherwise,
+  // which is how the landing page shipped with the right half of "Movers & hot
+  // topics" blank and the hero rail a card short. The zero is not a bug:
+  // measured 2026-10-17, every one of 40 active markets had 0 in the trailing
+  // 24h because the most recent fill was 2026-08-13. A young book is quiet,
+  // and the panel disappearing on a quiet day is the wrong answer to that.
+  //
+  // So it falls back to all-time volume and SAYS SO (hotTopicsWindow drives
+  // the sub-label). Relabelling is the fix; printing "24h" over all-time
+  // numbers would be the lie.
+  const traded24h = [...moversPoolList].filter((m) => (m.volume_24h_usd ?? 0) > 0)
+  const hotTopicsWindow: '24h' | 'all' = traded24h.length > 0 ? '24h' : 'all'
+  const hotTopics = (hotTopicsWindow === '24h'
+    ? traded24h.sort((a, b) => (b.volume_24h_usd ?? 0) - (a.volume_24h_usd ?? 0))
+    : [...moversPoolList]
+        .filter((m) => (m.total_volume_usd ?? 0) > 0)
+        .sort((a, b) => (b.total_volume_usd ?? 0) - (a.total_volume_usd ?? 0))
+  ).slice(0, 6)
 
   return {
     featured: featuredList,
@@ -151,6 +166,7 @@ async function getData() {
     seriesByMarket,
     movers,
     hotTopics,
+    hotTopicsWindow,
     breaking,
     allActive,
     categoryCounts,
@@ -167,7 +183,7 @@ async function getData() {
 
 
 export default async function HomePage() {
-  const { featured, trending, recent, topByMarket, countByMarket, seriesByMarket, movers, hotTopics, breaking, allActive, categoryCounts, heroMarkets, heroSeries, heroComments, heroActivity, heroTicker, tickerEnabled, latestNews, optionSeries } =
+  const { featured, trending, recent, topByMarket, countByMarket, seriesByMarket, movers, hotTopics, hotTopicsWindow, breaking, allActive, categoryCounts, heroMarkets, heroSeries, heroComments, heroActivity, heroTicker, tickerEnabled, latestNews, optionSeries } =
     await getData()
 
 
@@ -254,7 +270,7 @@ export default async function HomePage() {
         {/* Breaking + Hot topics rail */}
         {(movers.length > 0 || hotTopics.length > 0) && (
           <Section eyebrow="Live now" title="Movers & hot topics" href="/markets?sort=volume">
-            <MoversRail movers={movers} hotTopics={hotTopics} seriesByMarket={seriesByMarket} optionSeriesByMarket={optionSeries} />
+            <MoversRail movers={movers} hotTopics={hotTopics} hotTopicsWindow={hotTopicsWindow} seriesByMarket={seriesByMarket} optionSeriesByMarket={optionSeries} />
           </Section>
         )}
 

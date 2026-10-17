@@ -21,6 +21,8 @@ interface Mover { market: Market; change: number }
 interface MoversRailProps {
   movers: Mover[]
   hotTopics: Market[]
+  /** Which window `hotTopics` was ranked over, so the label can tell the truth. */
+  hotTopicsWindow?: '24h' | 'all'
   seriesByMarket: Map<string, PriceSeries>
   /** Per-option series → one mini line per outcome (falls back to sparkline). */
   optionSeriesByMarket?: Map<string, MarketSeries>
@@ -59,11 +61,17 @@ function PanelHead({ icon, title, sub }: { icon: React.ReactNode; title: string;
   )
 }
 
-export function MoversRail({ movers, hotTopics, seriesByMarket, optionSeriesByMarket }: MoversRailProps) {
+export function MoversRail({ movers, hotTopics, hotTopicsWindow = '24h', seriesByMarket, optionSeriesByMarket }: MoversRailProps) {
   if (movers.length === 0 && hotTopics.length === 0) return null
 
+  // TWO COLUMNS ONLY WHEN THERE ARE TWO PANELS.
+  // `lg:grid-cols-2` was unconditional, so when "Most traded" had nothing to
+  // show the section rendered one card beside an empty half-screen of white.
+  // A grid should not reserve space for content that does not exist.
+  const both = movers.length > 0 && hotTopics.length > 0
+
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+    <div className={`grid grid-cols-1 gap-4${both ? ' lg:grid-cols-2' : ''}`}>
       {/* Ruling A12 / B5. "Breaking" and "Hot topics 🔥" are Polymarket's
           attention machinery; both panels now say what they actually rank.
           The sub-labels were already accurate — it was only the titles that
@@ -107,7 +115,7 @@ export function MoversRail({ movers, hotTopics, seriesByMarket, optionSeriesByMa
       {/* Hot topics — ranked by 24h volume */}
       {hotTopics.length > 0 && (
         <div className="market-card !p-0 overflow-hidden">
-          <PanelHead icon={<IconTrendUp size={15} />} title="Most traded" sub="Ranked by 24h volume" />
+          <PanelHead icon={<IconTrendUp size={15} />} title="Most traded" sub={hotTopicsWindow === '24h' ? 'Ranked by 24h volume' : 'Ranked by all-time volume'} />
           <ul className="flex flex-col">
             {hotTopics.map((market, i) => {
               const yesPct = Math.round(market.yes_price * 100)
@@ -121,7 +129,9 @@ export function MoversRail({ movers, hotTopics, seriesByMarket, optionSeriesByMa
                       <span className="block truncate text-[13px] font-semibold" style={{ color: 'var(--text)' }}>{market.title}</span>
                       <span className="mt-0.5 flex items-center gap-1.5 text-[11px]" style={{ color: 'var(--text-3)' }}>
                         <CategoryIcon category={market.category} size={11} />
-                        <span style={{ color: 'var(--text)' }}>{fmtVol(market.volume_24h_usd ?? 0)}</span> · 24h
+                        <span style={{ color: 'var(--text)' }}>
+                          {fmtVol((hotTopicsWindow === '24h' ? market.volume_24h_usd : market.total_volume_usd) ?? 0)}
+                        </span> · {hotTopicsWindow === '24h' ? '24h' : 'all time'}
                       </span>
                     </span>
                     {market.resolution_type !== 'multiple_choice' && (

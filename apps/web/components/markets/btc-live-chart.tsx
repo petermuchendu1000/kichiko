@@ -461,10 +461,25 @@ export function BtcLiveChart({
   )
   const liveProb = impliedUpProb(live, referencePrice, remainingSec)
   const probLean = liveProb >= 50
-  // Probability axis: zoom around the live value but always keep some context.
+  // Probability axis.
+  //
+  // A FIXED ±8 PADDING FLATTENED THE LINE. On a 15-minute market the implied
+  // chance typically travels two or three points, and padding that by eight on
+  // each side gives a ~19pt window in which the data occupies about 16% of the
+  // plot height: a nearly straight line pinned through the middle of a lot of
+  // white, which is what it looked like. The padding was five times the signal.
+  //
+  // Scale it to the range instead, with a floor so a dead-flat minute does not
+  // zoom into its own rounding noise.
   const probVals = probPoints.map((p) => p.prob)
-  const pLo = Math.max(0, Math.min(...probVals, liveProb) - 8)
-  const pHi = Math.min(100, Math.max(...probVals, liveProb) + 8)
+  const pDataLo = Math.min(...probVals, liveProb)
+  const pDataHi = Math.max(...probVals, liveProb)
+  const pPad = Math.max(1.5, (pDataHi - pDataLo) * 0.35)
+  // 50 is this market's decision boundary, so it stays in frame: the dashed
+  // reference line and "which side is ahead" are the chart's whole point, and
+  // a zoomed domain that excluded 50 would drop both.
+  const pLo = Math.max(0, Math.min(pDataLo - pPad, 48))
+  const pHi = Math.min(100, Math.max(pDataHi + pPad, 52))
 
   // Candle geometry drawn against recharts' own axis scales (so it stays in
   // sync with the shared time / price domain and stays responsive).
@@ -654,8 +669,12 @@ export function BtcLiveChart({
           {chartType === 'prob' ? (
             <AreaChart data={probPoints} margin={{ top: 8, right: 4, bottom: 0, left: 0 }}>
               <defs>
+                {/* 0.18 to nothing over the full height read as a smudge
+                    rather than a fill. A stronger top and a mid stop give the
+                    area some body without competing with the stroke. */}
                 <linearGradient id="probFill" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor={PROB_BLUE} stopOpacity={0.18} />
+                  <stop offset="0%" stopColor={PROB_BLUE} stopOpacity={0.3} />
+                  <stop offset="55%" stopColor={PROB_BLUE} stopOpacity={0.1} />
                   <stop offset="100%" stopColor={PROB_BLUE} stopOpacity={0} />
                 </linearGradient>
               </defs>

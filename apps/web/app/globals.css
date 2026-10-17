@@ -1034,3 +1034,21 @@ main:focus, main:focus-visible { outline:none; }
     font-size: 16px !important;
   }
 }
+
+@layer components {
+  /* Footer accordions.
+     Collapsed on phones, always open from sm up. One <details> per column, so
+     it works with no JavaScript and the links stay in the DOM for crawlers
+     either way; these rules only decide what is painted.
+
+     The toggle is on a WRAPPER, not on the list. Setting display on the <ul>
+     itself would have overridden its own layout — one of these lists is a
+     wrapped flex row of category links and would have collapsed to a block. */
+  .footer-acc:not([open]) > .footer-acc-body { display: none; }
+  @media (min-width: 640px) {
+    .footer-acc > .footer-acc-body { display: block; }
+  }
+  .footer-acc-mark { font-size: 18px; line-height: 1; color: var(--text-3); }
+  .footer-acc[open] .footer-acc-mark { font-size: 0; }
+  .footer-acc[open] .footer-acc-mark::before { content: '\2212'; font-size: 18px; }
+}

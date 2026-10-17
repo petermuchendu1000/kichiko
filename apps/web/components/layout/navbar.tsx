@@ -22,6 +22,8 @@ import {
   IconMarkets, IconChevronDown, IconTrophy,
 } from '@/components/ui/icons'
 import { ThemeToggle } from '@/components/ui/theme-toggle'
+import { HomeCategoryBar } from '@/components/layout/home-category-bar'
+import { showCategoryRail } from '@/components/layout/sub-nav'
 
 export function Navbar() {
   const pathname = usePathname()
@@ -138,6 +140,8 @@ export function Navbar() {
   ]
 
   const isActive = (href: string) => pathname === href || pathname.startsWith(href + '/')
+  // Same route rule the standalone rail uses, so the two never disagree.
+  const showCategories = showCategoryRail(pathname)
 
   return (
     <>
@@ -153,6 +157,21 @@ export function Navbar() {
             </span>
           </Link>
 
+          {/* ONE BAR, NOT TWO.
+              The category rail used to be a second sticky surface directly
+              under this one: its own translucent background, its own blur, its
+              own hairline. Stacked, they read as two navigation bars, and that
+              is exactly what it looked like signed in. Here it is part of this
+              row on lg+, so the header is logo, then categories, then search
+              and account — one bar. Below lg it stays on its own line (see
+              sub-nav.tsx), because a phone cannot carry both on 390px, but
+              the duplicate chrome is gone there too. */}
+          {showCategories && (
+            <div className="hidden min-w-0 flex-1 lg:flex">
+              <HomeCategoryBar inline />
+            </div>
+          )}
+
           {/* Desktop nav links.
               transition-colors, not transition-all: `all` animates the focus
               outline too, so tabbing to this link grew its ring from 0 to 2px
@@ -160,7 +179,7 @@ export function Navbar() {
               The ring arrived, late and faint — which is not what WCAG 2.4.11
               asks of an indicator, and it is the one thing on this page that
               should never fade in. */}
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden md:flex lg:hidden items-center gap-1">
             {navLinks.map(link => (
               <Link
                 key={link.href}
@@ -177,7 +196,7 @@ export function Navbar() {
           </div>
 
           {/* Search bar — desktop */}
-          <div className="hidden md:flex flex-1 max-w-xs mx-2">
+          <div className="hidden md:flex flex-1 max-w-xs mx-2 lg:max-w-[200px] lg:flex-none">
             <button
               onClick={() => router.push('/search')}
               className="w-full flex items-center gap-2 px-3 py-2 rounded-lg bg-[var(--bg-tertiary)] border border-[var(--border)] text-[var(--text-muted)] text-sm hover:border-[var(--border-hover)] transition-colors"
