@@ -2,11 +2,19 @@
 //
 // Scheduled every minute (pg_cron -> this endpoint with the CRON_SECRET header;
 // see schedule_elopis_btc_jobs in migration 024). Each run:
-//   1) fetches BTC/USD spot (Coinbase -> Kraken -> CoinGecko fallback),
-//   2) records it as an oracle tick (record_btc_tick),
+//   1) ingests the last ~90s of Coinbase prints as per-second oracle ticks
+//      (record_btc_ticks) so a 60-second TWAP has something to average,
+//   2) fetches BTC/USD spot (Coinbase -> Kraken -> CoinGecko fallback) and
+//      records it as a tick too (record_btc_tick), as the keep-alive that
+//      survives a trade-feed outage,
 //   3) auto-resolves any due windows against the recorded ticks
 //      (resolve_btc_windows -> pays out via the audited resolve_market RPC),
 //   4) rolls a fresh window per series as the prior one closes (open_btc_windows).
+//
+// ORDER MATTERS. Ingestion runs before settlement, because resolve_btc_windows
+// prices a window on the 60 seconds ending at its close and will skip a window
+// it cannot yet cover. Settlement runs before opening, so a window that closes
+// and one that opens in the same minute both see the same tick history.
 //
 // Idempotent and safe to run concurrently. A price-source outage degrades the
 // run to a partial no-op (no tick recorded) rather than failing hard — the next
@@ -15,7 +23,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/server'
 import { isAuthorizedCron } from '@/lib/cron-auth'
 import { withJobRun } from '@/lib/jobs/runner'
-import { fetchBtcSpot } from '@/lib/markets/btc-price'
+import { fetchBtcSpot, fetchBtcTradeTicks } from '@/lib/markets/btc-price'
 import { logger } from '@/lib/observability/logger'
 import { resolveRequestId } from '@/lib/observability/request-id'
 
@@ -36,7 +44,26 @@ async function handle(req: NextRequest) {
 
   try {
     const outcome = await withJobRun(sb, JOB_NAME, requestId, async () => {
-      // 1) + 2) — sample the spot price and record it as an oracle tick.
+      // 1) — per-second prints, so the TWAP has samples to weight.
+      let ticks = 0
+      try {
+        const sampled = await fetchBtcTradeTicks(90)
+        if (sampled.length > 0) {
+          const { data, error } = await sb.rpc(
+            'record_btc_ticks' as never,
+            { p_ticks: sampled, p_source: 'coinbase-trades' } as never,
+          )
+          if (error) throw new Error(error.message)
+          ticks = typeof data === 'number' ? data : 0
+        }
+      } catch (e) {
+        // Non-fatal by design. The per-minute keep-alive tick below still
+        // lands, windows already open on the spot rule still settle, and a
+        // window that cannot be averaged is skipped rather than mispriced.
+        log.warn('btc trade-tick ingest failed', { error: e instanceof Error ? e.message : 'unknown' })
+      }
+
+      // 2) — sample the spot price and record it as an oracle tick.
       let price: number | null = null
       let priceSource: string | null = null
       try {
@@ -68,6 +95,7 @@ async function handle(req: NextRequest) {
         result: {
           price,
           price_source: priceSource,
+          ticks,
           resolved: r.resolved ?? 0,
           skipped: r.skipped ?? 0,
           opened: o.opened ?? 0,

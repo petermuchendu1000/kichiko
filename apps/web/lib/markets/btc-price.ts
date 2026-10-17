@@ -87,3 +87,54 @@ export async function fetchBtcSpot(): Promise<BtcSpot> {
   }
   throw new Error(`All BTC price sources failed — ${errors.join('; ')}`)
 }
+
+/** One per-second sample, as `record_btc_ticks` expects it. */
+export interface BtcTick {
+  /** ISO-8601 instant, truncated to the second by the database. */
+  t: string
+  /** BTC/USD price for that second. */
+  p: number
+}
+
+/**
+ * Per-second BTC/USD samples from the exchange's recent trade prints.
+ *
+ * WHY THIS EXISTS. Settlement needs a 60-second TWAP, and a TWAP needs samples
+ * inside those 60 seconds. pg_cron cannot run faster than once a minute, and it
+ * showed: measured on production, 28 ticks in 30 minutes, an average gap of 65
+ * seconds. Density therefore has to come from each run fetching a stretch of
+ * history rather than from the scheduler ticking faster.
+ *
+ * Coinbase's public trade feed returns the last 1000 prints, which on BTC-USD
+ * is about five minutes, so a per-minute run with a 90-second reach always
+ * overlaps the previous one and leaves no hole even if a run is slow or
+ * skipped. The prints are bucketed to the last price in each second, which is
+ * the cadence Polymarket publishes its own TWAP stream at and plenty to
+ * average over.
+ *
+ * Same exchange as fetchBtcSpot's first choice and as the chart, so the
+ * reference price, the plotted line and the settlement all read one book.
+ */
+export async function fetchBtcTradeTicks(lookbackSeconds = 90): Promise<BtcTick[]> {
+  const rows = await fetchJson('https://api.exchange.coinbase.com/products/BTC-USD/trades?limit=1000')
+  if (!Array.isArray(rows)) return []
+
+  const cutoff = Date.now() - Math.max(1, lookbackSeconds) * 1000
+  /** second (ms) -> the freshest print in it */
+  const bySecond = new Map<number, { ms: number; price: number }>()
+
+  for (const row of rows as { time?: unknown; price?: unknown }[]) {
+    const price = positiveNumber(row?.price)
+    const ms = typeof row?.time === 'string' ? Date.parse(row.time) : NaN
+    if (price == null || !Number.isFinite(ms) || ms < cutoff) continue
+    const second = Math.floor(ms / 1000) * 1000
+    const held = bySecond.get(second)
+    // Trades arrive newest-first; keep the latest print within the second so a
+    // second's sample is its close, matching how the chart buckets candles.
+    if (!held || ms > held.ms) bySecond.set(second, { ms, price })
+  }
+
+  return [...bySecond.entries()]
+    .sort((a, b) => a[0] - b[0])
+    .map(([second, v]) => ({ t: new Date(second).toISOString(), p: v.price }))
+}
