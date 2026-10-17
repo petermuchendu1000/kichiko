@@ -110,7 +110,10 @@ describe('outcome helpers', () => {
   it('derives an outcome from settle vs reference', () => {
     expect(outcomeFromPrices(64000, 64100)).toBe('up')
     expect(outcomeFromPrices(64000, 63900)).toBe('down')
-    expect(outcomeFromPrices(64000, 64000)).toBe('up') // tie ⇒ up (settle ≥ ref)
+    // A flat window settles DOWN. resolve_btc_windows() pays on
+    // `settle > reference` and the rules text says "A flat price settles NO",
+    // so the chart must not draw a tie as Up.
+    expect(outcomeFromPrices(64000, 64000)).toBe('down')
     expect(outcomeFromPrices(null, 64000)).toBeNull()
     expect(outcomeFromPrices(64000, null)).toBeNull()
   })

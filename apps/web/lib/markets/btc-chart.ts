@@ -239,12 +239,24 @@ export function outcomeOf(resolvedOutcome: string | null | undefined): WindowOut
 /**
  * Derive an Up/Down outcome from settle vs reference price when the stored
  * `resolved_outcome` is missing (defensive — the oracle should always set it).
- * UP iff settle ≥ reference, matching the settlement rule.
+ *
+ * STRICTLY greater, because that is what actually pays. resolve_btc_windows()
+ * settles on `v_settle > v_w.reference_price`, and the market's own rules text
+ * says so in as many words: "A flat price settles NO." This function used to
+ * use `>=` while its comment claimed to match the settlement rule, so an exact
+ * tie would have been drawn as Up on the chart and paid as Down in the ledger.
+ * A tie is unlikely on a TWAP carried to twelve decimal places, but "unlikely"
+ * is not a reason for the chart and the payout to disagree.
+ *
+ * Note this is the one place Kichiko deliberately differs from Polymarket,
+ * whose BTC Up/Down resolves ties UP ("greater than or equal to the price at
+ * the beginning of that range"). Matching them is a product decision about who
+ * wins a flat window, not a rendering detail, so it is not made here.
  */
 export function outcomeFromPrices(referencePrice?: number | null, settlePrice?: number | null): WindowOutcome {
   if (referencePrice == null || settlePrice == null) return null
   if (!Number.isFinite(referencePrice) || !Number.isFinite(settlePrice)) return null
-  return settlePrice >= referencePrice ? 'up' : 'down'
+  return settlePrice > referencePrice ? 'up' : 'down'
 }
 
 /** Best-available outcome: prefer the stored flag, fall back to price compare. */
