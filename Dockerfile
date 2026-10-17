@@ -17,6 +17,14 @@ FROM base AS deps
 COPY package.json package-lock.json ./
 COPY apps/web/package.json ./apps/web/package.json
 RUN npm ci
+# npm decides for itself what to hoist. With the current lockfile it puts
+# everything at the root and creates no apps/web/node_modules at all, and the
+# builder stage below copies that path unconditionally, so the build died with
+# `"/app/apps/web/node_modules": not found` the first time the tree deduped
+# that way. Which packages get nested is not something this image should have
+# an opinion about, so guarantee the directory exists and let the COPY be a
+# no-op when npm nested nothing.
+RUN mkdir -p /app/apps/web/node_modules
 
 # ---- Builder ----
 FROM base AS builder
