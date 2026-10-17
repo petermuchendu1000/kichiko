@@ -20,8 +20,10 @@
 //   MPESA_WEBHOOK_IP_ALLOWLIST  comma-separated client IPs (exact match)
 // ============================================================
 
-import crypto from 'node:crypto'
 import { trustedClientIp } from '@/lib/security/client-ip'
+// Shared with the Africa's Talking delivery-report callback, which has the
+// same problem: a provider that does not sign and cannot send a header.
+import { timingSafeStrEqual } from '@/lib/security/webhook-token'
 
 /** Minimal shape we need from a webhook request (Request/NextRequest satisfy it). */
 export interface WebhookSourceRequest {
@@ -38,15 +40,8 @@ export interface VerifyResult {
   reason?: 'no_token' | 'bad_token' | 'ip_not_allowed' | 'no_secret_configured'
 }
 
-/** Constant-time string compare that never throws on length mismatch. */
-export function timingSafeStrEqual(a: string, b: string): boolean {
-  const ba = Buffer.from(a, 'utf8')
-  const bb = Buffer.from(b, 'utf8')
-  // Compare fixed-length digests so we don't early-return on length and leak it.
-  const ha = crypto.createHash('sha256').update(ba).digest()
-  const hb = crypto.createHash('sha256').update(bb).digest()
-  return crypto.timingSafeEqual(ha, hb) && ba.length === bb.length
-}
+/** Constant-time string compare. Re-exported so existing callers are unchanged. */
+export { timingSafeStrEqual }
 
 /**
  * The caller's IP for the allowlist: the TRUSTED client IP (audit 6.9). The

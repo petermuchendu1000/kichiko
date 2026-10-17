@@ -3,80 +3,83 @@
 // Save / resume for the KYC wizard.
 //
 // The shape the wizard holds, the rules for what counts as a finished step,
-// and the read-write pair against `kyc_drafts` (migration 121). Kept out of
-// the component so the step rules are testable without rendering anything:
-// "is this step done" is the logic that decides whether someone is asked for
-// their ID photo a second time, and it should not only be exercised by a
-// browser.
+// and the read-write pair against `kyc_drafts` (migrations 121, 123). Kept out
+// of the component so the step rules are testable without rendering anything.
+//
+// WHAT CHANGED WHEN DIDIT ARRIVED (migration 123)
+// The wizard used to have six steps, three of which existed to collect
+// evidence by hand: document type and number, front and back photographs, a
+// selfie. Didit's hosted flow does all of that, reads the document itself, and
+// checks the face against it, so those steps are gone and with them the
+// storage uploads and the `*_path` fields.
+//
+// What is left is what Didit does NOT do: a legal name and date of birth to
+// check its OCR against, a phone number for payouts, and a residential address
+// (neither KYC workflow includes proof of address). Three steps, then the
+// handoff.
 import type { SupabaseClient } from '@supabase/supabase-js'
 
-/** Kenya-first, matching the ID types Smile ID resolves against IPRS/e-citizen. */
-export type DocType = 'national_id' | 'passport' | 'drivers_license' | 'alien_card'
-
 /**
- * Everything the wizard collects EXCEPT the files themselves, which live in
- * storage and are referenced by path. One flat object because it is written
- * and read whole, never queried.
+ * Everything the wizard collects. One flat object because it is written and
+ * read whole, never queried.
+ *
+ * The name is collected as two fields and is the LEGAL name, not
+ * `profiles.display_name`: a display name is "trader99", and sending it to
+ * Didit as an expected first name would fail every honest user's document
+ * check. It exists so Didit can compare what the user claims against what it
+ * reads off the document, which is the only reason to ask for something a
+ * scanner could read for us.
  */
 export interface KycDraftData {
+  firstName: string
+  lastName: string
   phone: string
   dateOfBirth: string
-  docType: DocType
-  docNumber: string
-  idCountry: string
-  expiry: string
   addrLine1: string
   addrCity: string
   addrPostal: string
   addrCountry: string
 }
 
+/** The vendor session attached to this journey, if one has been opened. */
+export interface DiditDraftState {
+  sessionId: string | null
+  sessionUrl: string | null
+  status: string | null
+}
+
 export interface KycDraft {
   currentStep: number
   data: KycDraftData
-  frontPath: string | null
-  backPath: string | null
-  selfiePath: string | null
+  didit: DiditDraftState
   updatedAt: string | null
 }
 
-export const STEP_COUNT = 6
-
 /** Step indices, named. The wizard renders these in order. */
 export const STEP = {
-  email: 0,
-  identity: 1,
-  document: 2,
-  selfie: 3,
-  address: 4,
-  review: 5,
+  identity: 0,
+  address: 1,
+  verify: 2,
 } as const
+
+export const STEP_COUNT = 3
 
 export function emptyDraft(phone = '', country = 'KE'): KycDraft {
   return {
     currentStep: 0,
     data: {
+      firstName: '',
+      lastName: '',
       phone,
       dateOfBirth: '',
-      docType: 'national_id',
-      docNumber: '',
-      idCountry: country || 'KE',
-      expiry: '',
       addrLine1: '',
       addrCity: '',
       addrPostal: '',
       addrCountry: country || 'KE',
     },
-    frontPath: null,
-    backPath: null,
-    selfiePath: null,
+    didit: { sessionId: null, sessionUrl: null, status: null },
     updatedAt: null,
   }
-}
-
-/** Which document types have a meaningful reverse side. */
-export function needsBack(docType: DocType): boolean {
-  return docType === 'national_id' || docType === 'drivers_license' || docType === 'alien_card'
 }
 
 /**
@@ -110,33 +113,31 @@ export function isAdult(dob: string, today: Date = new Date()): boolean {
   return age !== null && age >= MIN_AGE && age <= 120
 }
 
+/** Didit statuses that mean the session has run and produced something. */
+const DECIDED = new Set(['Approved', 'In Review', 'Declined'])
+
 /**
  * Is each step complete?
  *
- * The document and selfie steps are satisfied by a stored PATH, not by a File
- * in memory. That is the whole point of resuming: someone who uploaded their
- * ID yesterday on a phone must not be asked for it again today on a laptop,
- * where the file object does not exist.
+ * The verify step is complete once Didit has something to say. "In Progress"
+ * is not complete: a user who opened the camera and walked away has not
+ * verified, and must land back on this step rather than on a summary telling
+ * them they are done.
  */
 export function stepComplete(draft: KycDraft, step: number): boolean {
   const d = draft.data
   switch (step) {
-    case STEP.email:
-      return true
     case STEP.identity:
-      return /^[+]?[\d\s-]{7,}$/.test(d.phone.trim()) && isAdult(d.dateOfBirth)
-    case STEP.document:
       return (
-        d.docNumber.trim().length > 2 &&
-        !!draft.frontPath &&
-        (!needsBack(d.docType) || !!draft.backPath)
+        d.firstName.trim().length > 1 &&
+        d.lastName.trim().length > 1 &&
+        /^[+]?[\d\s-]{7,}$/.test(d.phone.trim()) &&
+        isAdult(d.dateOfBirth)
       )
-    case STEP.selfie:
-      return !!draft.selfiePath
     case STEP.address:
       return d.addrLine1.trim().length > 2 && d.addrCity.trim().length > 1
-    case STEP.review:
-      return true
+    case STEP.verify:
+      return !!draft.didit.status && DECIDED.has(draft.didit.status)
     default:
       return false
   }
@@ -145,14 +146,12 @@ export function stepComplete(draft: KycDraft, step: number): boolean {
 /** The first step that is not yet complete. Where a resumed journey lands. */
 export function firstIncompleteStep(draft: KycDraft): number {
   for (let s = 0; s < STEP_COUNT; s++) if (!stepComplete(draft, s)) return s
-  return STEP.review
+  return STEP.verify
 }
 
-/** Everything before `review` is done, so the submission is allowed. */
-export function canSubmit(draft: KycDraft): boolean {
-  return [STEP.identity, STEP.document, STEP.selfie, STEP.address].every((s) =>
-    stepComplete(draft, s),
-  )
+/** Everything Didit needs from us is present, so a session may be opened. */
+export function canStartVerification(draft: KycDraft): boolean {
+  return stepComplete(draft, STEP.identity) && stepComplete(draft, STEP.address)
 }
 
 /* ------------------------------------------------------------------------ */
@@ -162,11 +161,13 @@ export function canSubmit(draft: KycDraft): boolean {
 interface DraftRow {
   current_step: number
   data: Partial<KycDraftData> | null
-  front_path: string | null
-  back_path: string | null
-  selfie_path: string | null
+  didit_session_id: string | null
+  didit_session_url: string | null
+  didit_status: string | null
   updated_at: string | null
 }
+
+const COLS = 'current_step, data, didit_session_id, didit_session_url, didit_status, updated_at'
 
 /**
  * Read this user's draft, or null when there is none.
@@ -174,6 +175,9 @@ interface DraftRow {
  * Merged over `emptyDraft` rather than used raw: a draft written by an older
  * version of the wizard is missing whatever fields have been added since, and
  * `undefined` reaching a controlled input turns it into an uncontrolled one.
+ * Drafts written before migration 123 carry document fields that no longer
+ * exist here; the merge drops them without complaint, which is what should
+ * happen to a half-finished journey whose steps have been deleted.
  */
 export async function loadDraft(
   supabase: SupabaseClient,
@@ -183,23 +187,36 @@ export async function loadDraft(
 ): Promise<KycDraft | null> {
   const { data, error } = await supabase
     .from('kyc_drafts')
-    .select('current_step, data, front_path, back_path, selfie_path, updated_at')
+    .select(COLS)
     .eq('user_id', userId)
     .maybeSingle()
   if (error || !data) return null
-  const row = data as DraftRow
+  const row = data as unknown as DraftRow
   const base = emptyDraft(fallbackPhone, fallbackCountry)
+  const merged = { ...base.data, ...(row.data ?? {}) }
   return {
     currentStep: row.current_step ?? 0,
-    data: { ...base.data, ...(row.data ?? {}) },
-    frontPath: row.front_path,
-    backPath: row.back_path,
-    selfiePath: row.selfie_path,
+    // Only the keys this version knows about. A stale `docNumber` riding along
+    // in `data` would be written straight back on the next save.
+    data: Object.fromEntries(
+      Object.keys(base.data).map((k) => [k, (merged as Record<string, unknown>)[k] ?? '']),
+    ) as unknown as KycDraftData,
+    didit: {
+      sessionId: row.didit_session_id,
+      sessionUrl: row.didit_session_url,
+      status: row.didit_status,
+    },
     updatedAt: row.updated_at,
   }
 }
 
-/** Write the draft. Upsert on the primary key, so advancing is idempotent. */
+/**
+ * Write the draft. Upsert on the primary key, so advancing is idempotent.
+ *
+ * The Didit columns are NOT written here. They are set by the server when a
+ * session is opened and by the webhook as it progresses, and a browser that
+ * could write them could write itself an approved status.
+ */
 export async function saveDraft(
   supabase: SupabaseClient,
   userId: string,
@@ -210,9 +227,6 @@ export async function saveDraft(
       user_id: userId,
       current_step: draft.currentStep,
       data: draft.data,
-      front_path: draft.frontPath,
-      back_path: draft.backPath,
-      selfie_path: draft.selfiePath,
     },
     { onConflict: 'user_id' },
   )

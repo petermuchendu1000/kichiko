@@ -8,7 +8,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/server'
 import { isAuthorizedCron } from '@/lib/cron-auth'
-import { sendSMS } from '@/lib/notifications/sms'
+import { sendSms } from '@/lib/notifications/africastalking'
+import { maskPhone, toE164 } from '@/lib/notifications/phone'
 import { sendEmail } from '@/lib/notifications/email'
 import {
   backoffSeconds,
@@ -59,20 +60,60 @@ async function handle(req: NextRequest) {
   const outcomes: { status: 'sent' | 'failed' | 'skipped' }[] = []
 
   for (const d of claimed) {
+    // Rows enqueued before migration 125 carry whatever the user typed, which
+    // for a Kenyan is usually "0712 345 678". Normalising here as well as in
+    // the database means those are delivered rather than written off as
+    // invalid on their first and only attempt.
+    const destination =
+      d.channel === 'sms' ? (toE164(d.destination) ?? d.destination) : d.destination
+
     // Permanently-invalid destinations: record failure without hammering the provider.
-    if (!isValidDestination(d.channel, d.destination)) {
-      await complete(sb, d.id, false, null, `invalid ${d.channel} destination`, d.attempts)
-      outcomes.push({ status: d.attempts >= d.max_attempts ? 'failed' : 'failed' })
+    if (!isValidDestination(d.channel, destination)) {
+      // Permanent: a destination that is not a destination will not become one
+      // in six hours, and five attempts at it is five wasted provider calls.
+      await complete(sb, d.id, false, null, `invalid ${d.channel} destination`, d.attempts, {
+        permanent: true,
+      })
+      outcomes.push({ status: 'failed' })
       continue
     }
 
     try {
       let ok = false
       let providerMessageId: string | null = null
+      // A failure nothing can fix. Retrying an unregistered sender ID or a
+      // number that is not a number five times over eight hours is eight hours
+      // of queue and five provider calls spent on a certainty.
+      let permanent = false
+      let providerCost: string | null = null
+      let providerStatus: string | null = null
+      let error: string | null = null
 
       if (d.channel === 'sms') {
         const message = truncateSms(`${d.title}: ${d.body}`)
-        ok = await sendSMS(d.destination, message)
+        const res = await sendSms(destination, message)
+        ok = res.ok
+        permanent = res.permanent
+        // The id is what a delivery report arrives under. Without storing it
+        // the callback has nothing to match and the real outcome is lost.
+        providerMessageId = res.messageId
+        providerCost = res.cost
+        providerStatus = res.statusName
+        error = res.error
+        if (!ok) {
+          // InsufficientBalance is the one failure a person has to act on, and
+          // it silently stops every SMS on the platform until they do.
+          const level = res.statusCode === 405 ? 'error' : 'warn'
+          log[level]('sms send failed', {
+            delivery_id: d.id,
+            status_code: res.statusCode,
+            status: res.statusName,
+            permanent,
+            // Masked: a delivery log is read by more people than the account
+            // holder, and this column is a phone number.
+            to: maskPhone(destination),
+          })
+        }
       } else if (d.channel === 'email') {
         // Branded, per-type template (lib/notifications/templates). This used
         // to be `<p>${escapeHtml(body)}</p>` — an unstyled paragraph for every
@@ -89,7 +130,7 @@ async function handle(req: NextRequest) {
           data: d.data,
         })
         ok = await sendEmail({
-          to: d.destination,
+          to: destination,
           subject: mail.subject,
           html: mail.html,
           text: mail.text,
@@ -99,7 +140,11 @@ async function handle(req: NextRequest) {
         ok = false
       }
 
-      await complete(sb, d.id, ok, providerMessageId, ok ? null : 'provider returned failure', d.attempts)
+      await complete(sb, d.id, ok, providerMessageId, ok ? null : error ?? 'provider returned failure', d.attempts, {
+        permanent,
+        providerCost,
+        providerStatus,
+      })
       outcomes.push({ status: ok ? 'sent' : 'failed' })
     } catch (e) {
       await complete(sb, d.id, false, null, e instanceof Error ? e.message : 'dispatch error', d.attempts)
@@ -118,7 +163,8 @@ async function complete(
   success: boolean,
   providerMessageId: string | null,
   error: string | null,
-  attempts: number
+  attempts: number,
+  extra: { permanent?: boolean; providerCost?: string | null; providerStatus?: string | null } = {}
 ) {
   await sb.rpc('complete_notification_delivery' as never, {
     p_id: id,
@@ -126,6 +172,11 @@ async function complete(
     p_provider_message_id: providerMessageId,
     p_error: error,
     p_backoff_seconds: backoffSeconds(attempts),
+    // Migration 124. A permanent failure is final on the first attempt; the
+    // backoff above is then never read.
+    p_permanent: extra.permanent ?? false,
+    p_provider_cost: extra.providerCost ?? null,
+    p_provider_status: extra.providerStatus ?? null,
   } as never)
 }
 

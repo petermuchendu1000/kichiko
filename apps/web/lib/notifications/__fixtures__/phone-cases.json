@@ -1,0 +1,21 @@
+{
+  "_comment": "The shared contract between lib/notifications/phone.ts and public.normalize_phone_e164() in migration 125. Two implementations enforce the same rule, in the only two places it can be enforced (the browser cannot be trusted, and RLS lets a user PATCH their own profile directly), so the cases live here and both are checked against them. null means the number cannot be placed and must not be guessed at. apps/web/scripts/check-phone-parity.mjs runs these through the database.",
+  "cases": [
+    ["0712345678", "KE", "+254712345678"],
+    ["+254 712 345 678", "KE", "+254712345678"],
+    ["254712345678", "KE", "+254712345678"],
+    ["+254 0712 345 678", "KE", "+254712345678"],
+    ["00254712345678", "KE", "+254712345678"],
+    ["712345678", "KE", "+254712345678"],
+    ["0112345678", "KE", "+254112345678"],
+    ["0701234567", "UG", "+256701234567"],
+    ["0765432109", "TZ", "+255765432109"],
+    ["079123456", "BI", "+25779123456"],
+    ["+255 712 345 678", "KE", "+255712345678"],
+    ["+2348012345678", "KE", "+2348012345678"],
+    ["07123", "KE", null],
+    ["not a phone", "KE", null],
+    ["0812345678", "KE", null],
+    ["", "KE", null]
+  ]
+}

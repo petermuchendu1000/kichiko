@@ -14,6 +14,7 @@ import { formatUSD } from '@/lib/utils'
 import { useAuth } from '@/hooks/use-auth'
 import type { Position, Wallet, Market, CurrencyCode, KycStatus } from '@/types'
 import { CURRENCIES } from '@/types'
+import { toE164 } from '@/lib/notifications/phone'
 import {
   IconMarkets,
   IconPercent,
@@ -135,7 +136,13 @@ export function ProfileView() {
         display_name: form.display_name,
         username: form.username || null,
         bio: form.bio,
-        phone_number: form.phone_number || null,
+        // Normalised here so the field shows what was stored. The database
+        // normalises it again on write (migration 125), which is the rule:
+        // RLS lets this very call be made by hand against PostgREST, so a
+        // browser-side normalisation is only ever a courtesy. A number we
+        // cannot place is sent as typed and kept as typed rather than
+        // silently discarded.
+        phone_number: form.phone_number ? toE164(form.phone_number, profile?.country_code ?? 'KE') ?? form.phone_number : null,
       })
       .eq('id', user.id)
     setSaving(false)

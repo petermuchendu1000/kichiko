@@ -5,6 +5,7 @@ import { KycReviewActions } from '@/components/admin/kyc/KycReviewActions'
 import { KycBadge } from '@/components/admin/users/Badges'
 import { PageHeader, Panel, Segmented, EmptyState } from '@/components/admin/ui'
 import { IconShield, IconClock } from '@/components/ui/icons'
+import { summariseChecks } from '@/lib/kyc/didit'
 
 export const dynamic = 'force-dynamic'
 export const metadata = { title: 'Admin · KYC' }
@@ -23,19 +24,37 @@ export default async function KycQueuePage({
     ? (rawStatus as KycStatus)
     : 'pending'
 
-  const { data: docs } = await ctx.supabase
+  // provider_* arrive with migration 123 and are not in types/supabase.ts yet
+  // (regeneration needs a direct Postgres connection this environment lacks),
+  // so the row shape is stated here rather than inferred.
+  interface KycRow {
+    id: string
+    user_id: string
+    document_type: string | null
+    document_number: string | null
+    country_of_issue: string | null
+    status: KycStatus
+    rejection_reason: string | null
+    created_at: string | null
+    provider: string | null
+    provider_status: string | null
+    provider_decision: Record<string, unknown> | null
+  }
+
+  const { data } = await ctx.supabase
     .from('kyc_documents')
-    .select('id, user_id, document_type, document_number, country_of_issue, status, rejection_reason, created_at')
+    .select('id, user_id, document_type, document_number, country_of_issue, status, rejection_reason, created_at, provider, provider_status, provider_decision')
     .eq('status', status)
     .order('created_at', { ascending: true })
     .limit(100)
+  const docs = (data ?? []) as unknown as KycRow[]
 
-  const userIds = Array.from(new Set((docs ?? []).map((d) => d.user_id)))
+  const userIds = Array.from(new Set(docs.map((d) => d.user_id)))
   const { data: profiles } = userIds.length
     ? await ctx.supabase.from('profiles').select('id, display_name, username, country_code').in('id', userIds)
     : { data: [] as { id: string; display_name: string | null; username: string | null; country_code: string | null }[] }
   const pmap = new Map((profiles ?? []).map((p) => [p.id, p]))
-  const rows = docs ?? []
+  const rows = docs
 
   return (
     <div className="mx-auto max-w-4xl">
@@ -71,6 +90,19 @@ export default async function KycQueuePage({
                   <p className="mt-1 flex items-center gap-1.5 text-xs text-[var(--text-muted)]">
                     <IconClock size={12} /> Submitted {d.created_at ? new Date(d.created_at).toLocaleString() : '—'}
                   </p>
+                  {/* What the vendor found. A reviewer should not have to
+                      open Didit's console to see which check objected. */}
+                  {d.provider === 'didit' && (
+                    <p className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-[var(--text-muted)]">
+                      <span className="font-medium">Didit · {d.provider_status}</span>
+                      {summariseChecks((d.provider_decision ?? {}) as Record<string, unknown>).map((c) => (
+                        <span key={c.label} className={c.status === 'Declined' ? 'text-red-600 dark:text-red-400' : ''}>
+                          {c.label}: {c.status}
+                          {c.score !== null ? ` (${c.score})` : ''}
+                        </span>
+                      ))}
+                    </p>
+                  )}
                   {d.rejection_reason && (
                     <p className="mt-2 rounded-md bg-red-500/10 px-2.5 py-1.5 text-xs text-red-600 dark:text-red-400">
                       Reason: {d.rejection_reason}
