@@ -241,6 +241,26 @@ export function KycWizard({ user, initialPhone, initialCountry, returnTo = '/por
       return
     }
     setPath(path)
+
+    // SAVE THE PATH NOW, not when the step is left.
+    //
+    // Everything else can wait for the Continue button, because retyping a
+    // phone number is cheap. A document is not: it is the slow step, often on
+    // a phone camera and a mobile connection, and it is where people stop. The
+    // first cut only wrote the draft on navigation, so uploading and then
+    // closing the tab left the file sitting in storage with the draft unaware
+    // of it, and the next visit asked for the photo again. Caught by driving
+    // the real wizard and reading the row back: the object existed,
+    // front_path was NULL.
+    //
+    // The patch is passed explicitly rather than read from `draft`, which is
+    // memoised from state that has not re-rendered yet at this point.
+    const patch = {
+      front: { frontPath: path },
+      back: { backPath: path },
+      selfie: { selfiePath: path },
+    }[kind]
+    await saveDraft(supabase, user.id, { ...draft, ...patch })
   }
 
 
@@ -341,7 +361,7 @@ export function KycWizard({ user, initialPhone, initialCountry, returnTo = '/por
       <VerificationMeter level={level} pending={submitted} />
       <div>
         <span className="mb-4 block text-[11px] font-semibold uppercase tracking-wide text-text-muted">
-          {started ? 'Your progress' : 'Five quick steps'}
+          {started ? 'Your progress' : `${STEPS.length} quick steps`}
         </span>
         <KycStepper steps={STEPS} current={submitted ? STEPS.length : started ? step : -1} variant="vertical" />
       </div>
@@ -611,6 +631,7 @@ export function KycWizard({ user, initialPhone, initialCountry, returnTo = '/por
 
                 <FileDrop
                   label="Front of document"
+                  uploaded={!!frontPath}
                   file={frontFile}
                   onChange={(f) => {
                     setFrontFile(f)
@@ -622,6 +643,7 @@ export function KycWizard({ user, initialPhone, initialCountry, returnTo = '/por
                 {needsBack && (
                   <FileDrop
                     label="Back of document"
+                    uploaded={!!backPath}
                     file={backFile}
                     onChange={(f) => {
                       setBackFile(f)
@@ -640,6 +662,7 @@ export function KycWizard({ user, initialPhone, initialCountry, returnTo = '/por
               <FileDrop
                 label="Selfie"
                 hint="Front camera"
+                uploaded={!!selfiePath}
                 file={selfieFile}
                 onChange={(f) => {
                   setSelfieFile(f)

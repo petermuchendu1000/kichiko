@@ -12,6 +12,12 @@ interface FileDropProps {
   hint?: string
   file: File | null
   onChange: (file: File | null) => void
+  /**
+   * Set when a previous session already uploaded this document. There is no
+   * File to show after a reload, only the stored path, so the control says so
+   * instead of rendering an empty drop zone and inviting a second upload.
+   */
+  uploaded?: boolean
   /** 'user' opens the front camera on mobile (selfie); 'environment' the rear. */
   capture?: 'user' | 'environment'
   accept?: string
@@ -24,8 +30,9 @@ export function FileDrop({
   file,
   onChange,
   capture,
-  accept = 'image/png,image/jpeg,image/webp',
-  maxMb = 8,
+  uploaded = false,
+  accept = 'image/png,image/jpeg,application/pdf',
+  maxMb = 5,
 }: FileDropProps) {
   const inputId = useId()
   const inputRef = useRef<HTMLInputElement>(null)
@@ -44,7 +51,7 @@ export function FileDrop({
         return
       }
       if (!f.type.startsWith('image/')) {
-        setError('Please choose an image file (PNG, JPG or WebP).')
+        setError('Please choose a PNG, JPG or PDF.')
         return
       }
       if (f.size > maxMb * 1024 * 1024) {
@@ -107,9 +114,13 @@ export function FileDrop({
             </svg>
           </span>
           <span className="text-sm font-medium text-text-secondary">
-            {capture ? 'Take a photo or upload' : 'Drop image or browse'}
+            {uploaded
+              ? 'Uploaded earlier — tap to replace'
+              : capture
+                ? 'Take a photo or upload'
+                : 'Drop image or browse'}
           </span>
-          <span className="text-[11px] text-text-muted">PNG, JPG or WebP · up to {maxMb} MB</span>
+          <span className="text-[11px] text-text-muted">PNG, JPG or PDF · up to {maxMb} MB</span>
         </button>
       )}
 
