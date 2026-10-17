@@ -306,6 +306,66 @@ export function pastWindows(windows: SeriesWindow[], limit = 8): SeriesWindow[] 
     .slice(0, limit)
 }
 
+/**
+ * The window's time range, the way Polymarket writes it under the title:
+ * "October 17, 2:35-2:40PM ET".
+ *
+ * Captured from their BTC 5m page, which renders it at 16px/500 in the
+ * secondary text colour directly beneath the h1. The meridiem appears once
+ * when both ends share it ("2:35-2:40PM") and twice when they do not
+ * ("11:55AM-12:00PM"), which is the only part of the format that is not
+ * obvious. The zone abbreviation is appended so the range is unambiguous —
+ * theirs is always ET because that is the only clock their market speaks; ours
+ * is the viewer's, so it has to be named rather than assumed.
+ *
+ * This only reads as a range because the windows sit on the wall clock
+ * (migration 128). Before that the honest rendering of a 5M window was
+ * "2:59:33-3:04:33", which is why there was nothing to print.
+ *
+ * Pure: the caller supplies both instants and the zone, so it is deterministic
+ * and testable, and the component can defer it to the client where the real
+ * timezone is known.
+ */
+export function formatWindowRange(openMs: number, closeMs: number, timeZone?: string): string {
+  if (!Number.isFinite(openMs) || !Number.isFinite(closeMs)) return ''
+  const open = new Date(openMs)
+  const close = new Date(closeMs)
+
+  const opts: Intl.DateTimeFormatOptions = { hour: 'numeric', minute: '2-digit', hour12: true }
+  if (timeZone) opts.timeZone = timeZone
+
+  // en-US gives "2:35 PM"; split the meridiem off so it can be shown once.
+  const split = (d: Date): { time: string; meridiem: string } => {
+    const parts = new Intl.DateTimeFormat('en-US', opts).formatToParts(d)
+    const time = parts
+      .filter((p) => p.type === 'hour' || p.type === 'literal' || p.type === 'minute')
+      .map((p) => p.value)
+      .join('')
+      .trim()
+    const meridiem = (parts.find((p) => p.type === 'dayPeriod')?.value ?? '').toUpperCase()
+    return { time, meridiem }
+  }
+
+  const a = split(open)
+  const b = split(close)
+
+  const dateOpts: Intl.DateTimeFormatOptions = { month: 'long', day: 'numeric' }
+  if (timeZone) dateOpts.timeZone = timeZone
+  const day = new Intl.DateTimeFormat('en-US', dateOpts).format(open)
+
+  const zoneOpts: Intl.DateTimeFormatOptions = { timeZoneName: 'short' }
+  if (timeZone) zoneOpts.timeZone = timeZone
+  const zone =
+    new Intl.DateTimeFormat('en-US', zoneOpts).formatToParts(open).find((p) => p.type === 'timeZoneName')?.value ?? ''
+
+  const range =
+    a.meridiem === b.meridiem
+      ? `${a.time}-${b.time}${b.meridiem}`
+      : `${a.time}${a.meridiem}-${b.time}${b.meridiem}`
+
+  return zone ? `${day}, ${range} ${zone}` : `${day}, ${range}`
+}
+
 /** Candle bucket width (ms) so a window renders ~`targetCount` OHLC bars. */
 export function candleBucketMs(openMs: number, closeMs: number, targetCount = 44): number {
   const span = Math.max(1, closeMs - openMs)

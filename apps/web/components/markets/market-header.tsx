@@ -9,6 +9,7 @@ import toast from 'react-hot-toast'
 import type { Market, MarketStatus } from '@/types'
 import { CATEGORY_LABELS } from '@/types'
 import type { Outcome } from '@/lib/markets/outcomes'
+import { formatWindowRange } from '@/lib/markets/btc-chart'
 import { EntityAvatar } from '@/components/ui/entity-avatar'
 import { CategoryIcon, IconShare, IconLink, IconBookmark } from '@/components/ui/icons'
 import { ResolvedBanner } from './resolved-banner'
@@ -34,6 +35,24 @@ const STATUS_BADGE: Record<MarketStatus, { label: string; className: string }> =
 
 export function MarketHeader({ market, outcomes, isMulti }: MarketHeaderProps) {
   const category = CATEGORY_LABELS[market.category]
+
+  // Window time range for the recurring Up/Down markets, in the viewer's zone.
+  const isUpDown = (market.metadata as Record<string, unknown> | null)?.card_kind === 'up_down'
+  const [windowRange, setWindowRange] = useState('')
+  useEffect(() => {
+    if (!isUpDown || !market.opens_at || !market.closes_at) {
+      setWindowRange('')
+      return
+    }
+    setWindowRange(
+      formatWindowRange(
+        new Date(market.opens_at).getTime(),
+        new Date(market.closes_at).getTime(),
+        Intl.DateTimeFormat().resolvedOptions().timeZone,
+      ),
+    )
+  }, [isUpDown, market.opens_at, market.closes_at])
+
   const yesPercent = Math.round(market.yes_price * 100)
   const isResolved = market.status === 'resolved'
   // Name the winner the way the reader knows it. A multi-outcome market
@@ -209,6 +228,23 @@ export function MarketHeader({ market, outcomes, isMulti }: MarketHeaderProps) {
           <h1 className="font-display text-2xl font-semibold leading-[28px] tracking-[-0.36px] text-pretty text-text-primary">
             {market.title}
           </h1>
+
+          {/* The window's time range, for the recurring Up/Down markets only.
+              PM measured: 16px / 500 / lh 24px, secondary text colour, sat
+              directly under the h1 ("October 17, 2:35-2:40PM ET").
+
+              Rendered after mount because the range is formatted in the
+              VIEWER's timezone, which the server does not know — printing it
+              during SSR would either lie about the zone or mismatch on
+              hydration. Until then the row is simply absent rather than a
+              placeholder that shifts the layout.
+
+              This only became printable once windows were put on the wall
+              clock (migration 128); a drifting window's honest range was
+              "2:59:33-3:04:33", which is not a thing to show anyone. */}
+          {windowRange && (
+            <p className="mt-1 text-[16px] font-medium leading-6 text-text-muted">{windowRange}</p>
+          )}
 
           {/* Status + compact live probability (binary) / resolved outcome.
               PM's mobile header carries NO status badge — the outcome legend

@@ -6,6 +6,7 @@ import {
   pickGranularity,
   isWindowClosed,
   outcomeOf,
+  formatWindowRange,
   outcomeFromPrices,
   windowOutcome,
   pickLiveWindow,
@@ -435,5 +436,30 @@ describe('timeTicks', () => {
       const { ticks } = timeTicks(T, T + span)
       expect(ticks.length).toBeLessThanOrEqual(7)
     }
+  })
+})
+
+describe('formatWindowRange', () => {
+  // 2026-10-17 18:35:00Z — 18:40:00Z is Polymarket's own 2:35-2:40PM ET window.
+  const open = Date.UTC(2026, 9, 17, 18, 35, 0)
+  const close = Date.UTC(2026, 9, 17, 18, 40, 0)
+
+  it('writes the range the way Polymarket does, meridiem once', () => {
+    expect(formatWindowRange(open, close, 'America/New_York')).toBe('October 17, 2:35-2:40PM EDT')
+  })
+
+  it('repeats the meridiem when the window straddles noon', () => {
+    const a = Date.UTC(2026, 9, 17, 15, 55, 0) // 11:55 AM ET
+    const b = Date.UTC(2026, 9, 17, 16, 0, 0) //  12:00 PM ET
+    expect(formatWindowRange(a, b, 'America/New_York')).toBe('October 17, 11:55AM-12:00PM EDT')
+  })
+
+  it('renders in the zone it is given, not the host zone', () => {
+    expect(formatWindowRange(open, close, 'Africa/Nairobi')).toBe('October 17, 9:35-9:40PM GMT+3')
+  })
+
+  it('is empty for unusable instants', () => {
+    expect(formatWindowRange(NaN, close, 'UTC')).toBe('')
+    expect(formatWindowRange(open, Number.POSITIVE_INFINITY, 'UTC')).toBe('')
   })
 })
