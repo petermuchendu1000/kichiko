@@ -130,11 +130,6 @@ async function getData() {
   // for the rail's ranked list (question + % + signed delta). The leading
   // probability is the top-ranked option's current price (lines are ordered
   // highest-first), matching the hero chart legend + card rows exactly.
-  const breaking = movers.map(({ market, change }) => {
-    const s = optionSeries.get(market.id)
-    const lead = s?.lines?.[0]?.price ?? market.yes_price ?? 0
-    return { market, change, pct: Math.round(lead * 100) }
-  })
 
   // Most traded.
   //
@@ -148,6 +143,15 @@ async function getData() {
   // So it falls back to all-time volume and SAYS SO (hotTopicsWindow drives
   // the sub-label). Relabelling is the fix; printing "24h" over all-time
   // numbers would be the lie.
+  // The live Bitcoin windows, soonest close first. They are generated on a
+  // clock, so this list is never empty while the generator runs — which is the
+  // whole reason the landing page's live panel reads from here and not from a
+  // volume ranking.
+  const liveCrypto = allActive
+    .filter((m) => m.slug.startsWith('btc-up-down-'))
+    .sort((a, b) => new Date(a.closes_at).getTime() - new Date(b.closes_at).getTime())
+    .slice(0, 4)
+
   const traded24h = [...moversPoolList].filter((m) => (m.volume_24h_usd ?? 0) > 0)
   const hotTopicsWindow: '24h' | 'all' = traded24h.length > 0 ? '24h' : 'all'
   const hotTopics = (hotTopicsWindow === '24h'
@@ -167,7 +171,7 @@ async function getData() {
     movers,
     hotTopics,
     hotTopicsWindow,
-    breaking,
+    liveCrypto,
     allActive,
     categoryCounts,
     heroMarkets,
@@ -183,7 +187,7 @@ async function getData() {
 
 
 export default async function HomePage() {
-  const { featured, trending, recent, topByMarket, countByMarket, seriesByMarket, movers, hotTopics, hotTopicsWindow, breaking, allActive, categoryCounts, heroMarkets, heroSeries, heroComments, heroActivity, heroTicker, tickerEnabled, latestNews, optionSeries } =
+  const { featured, trending, recent, topByMarket, countByMarket, seriesByMarket, movers, hotTopics, hotTopicsWindow, liveCrypto, allActive, categoryCounts, heroMarkets, heroSeries, heroComments, heroActivity, heroTicker, tickerEnabled, latestNews, optionSeries } =
     await getData()
 
 
@@ -263,14 +267,14 @@ export default async function HomePage() {
         dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
       />
       {/* Category rail is now mounted globally in the root layout (SubNav). */}
-      <HeroSection items={heroItems} hotTopics={hotTopics} breaking={breaking} comments={heroComments} activity={heroActivity} ticker={heroTicker} tickerEnabled={tickerEnabled} news={latestNews} />
+      <HeroSection items={heroItems} hotTopics={hotTopics} hotTopicsWindow={hotTopicsWindow} comments={heroComments} activity={heroActivity} ticker={heroTicker} tickerEnabled={tickerEnabled} news={latestNews} />
 
       <div className="max-w-[1350px] mx-auto px-4 lg:px-6">
 
         {/* Breaking + Hot topics rail */}
-        {(movers.length > 0 || hotTopics.length > 0) && (
+        {(movers.length > 0 || liveCrypto.length > 0) && (
           <Section eyebrow="Live now" title="Movers & hot topics" href="/markets?sort=volume">
-            <MoversRail movers={movers} hotTopics={hotTopics} hotTopicsWindow={hotTopicsWindow} seriesByMarket={seriesByMarket} optionSeriesByMarket={optionSeries} />
+            <MoversRail movers={movers} liveCrypto={liveCrypto} seriesByMarket={seriesByMarket} optionSeriesByMarket={optionSeries} />
           </Section>
         )}
 

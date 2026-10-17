@@ -12,6 +12,7 @@ import { EntityAvatar } from '@/components/ui/entity-avatar'
 import { CategoryIcon, IconTrendUp, IconArrowDown } from '@/components/ui/icons'
 import { ProbSparkline } from '@/components/markets/prob-sparkline'
 import { ProbLines } from '@/components/markets/prob-lines'
+import { LiveCryptoPanel } from '@/components/markets/live-crypto-panel'
 import type { PriceSeries } from '@/lib/markets/price-history'
 import type { MarketSeries } from '@/lib/markets/option-series'
 import { formatVolume } from '@/lib/utils'
@@ -20,9 +21,8 @@ interface Mover { market: Market; change: number }
 
 interface MoversRailProps {
   movers: Mover[]
-  hotTopics: Market[]
-  /** Which window `hotTopics` was ranked over, so the label can tell the truth. */
-  hotTopicsWindow?: '24h' | 'all'
+  /** The live Bitcoin windows, soonest close first. */
+  liveCrypto: Market[]
   seriesByMarket: Map<string, PriceSeries>
   /** Per-option series → one mini line per outcome (falls back to sparkline). */
   optionSeriesByMarket?: Map<string, MarketSeries>
@@ -61,14 +61,14 @@ function PanelHead({ icon, title, sub }: { icon: React.ReactNode; title: string;
   )
 }
 
-export function MoversRail({ movers, hotTopics, hotTopicsWindow = '24h', seriesByMarket, optionSeriesByMarket }: MoversRailProps) {
-  if (movers.length === 0 && hotTopics.length === 0) return null
+export function MoversRail({ movers, liveCrypto, seriesByMarket, optionSeriesByMarket }: MoversRailProps) {
+  if (movers.length === 0 && liveCrypto.length === 0) return null
 
   // TWO COLUMNS ONLY WHEN THERE ARE TWO PANELS.
   // `lg:grid-cols-2` was unconditional, so when "Most traded" had nothing to
   // show the section rendered one card beside an empty half-screen of white.
   // A grid should not reserve space for content that does not exist.
-  const both = movers.length > 0 && hotTopics.length > 0
+  const both = movers.length > 0 && liveCrypto.length > 0
 
   return (
     <div className={`grid grid-cols-1 gap-4${both ? ' lg:grid-cols-2' : ''}`}>
@@ -112,38 +112,18 @@ export function MoversRail({ movers, hotTopics, hotTopicsWindow = '24h', seriesB
         </div>
       )}
 
-      {/* Hot topics — ranked by 24h volume */}
-      {hotTopics.length > 0 && (
-        <div className="market-card !p-0 overflow-hidden">
-          <PanelHead icon={<IconTrendUp size={15} />} title="Most traded" sub={hotTopicsWindow === '24h' ? 'Ranked by 24h volume' : 'Ranked by all-time volume'} />
-          <ul className="flex flex-col">
-            {hotTopics.map((market, i) => {
-              const yesPct = Math.round(market.yes_price * 100)
-              return (
-                <li key={market.id} style={{ borderTop: i === 0 ? 'none' : '1px solid var(--hairline)' }}>
-                  <Link href={`/markets/${market.slug}`}
-                    className="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-[var(--surface-2)]">
-                    <span className="w-4 flex-none text-center font-mono text-[12px] font-bold" style={{ color: 'var(--text-3)' }}>{i + 1}</span>
-                    <EntityAvatar name={market.title} imageUrl={market.cover_image_url} size={30} />
-                    <span className="min-w-0 flex-1">
-                      <span className="block truncate text-[13px] font-semibold" style={{ color: 'var(--text)' }}>{market.title}</span>
-                      <span className="mt-0.5 flex items-center gap-1.5 text-[11px]" style={{ color: 'var(--text-3)' }}>
-                        <CategoryIcon category={market.category} size={11} />
-                        <span style={{ color: 'var(--text)' }}>
-                          {fmtVol((hotTopicsWindow === '24h' ? market.volume_24h_usd : market.total_volume_usd) ?? 0)}
-                        </span> · {hotTopicsWindow === '24h' ? '24h' : 'all time'}
-                      </span>
-                    </span>
-                    {market.resolution_type !== 'multiple_choice' && (
-                      <span className="flex-none font-mono text-[13px] font-bold tabular-nums" style={{ color: 'var(--text)' }}>{yesPct}%</span>
-                    )}
-                  </Link>
-                </li>
-              )
-            })}
-          </ul>
-        </div>
-      )}
+      {/* THE RIGHT HALF USED TO BE "Most traded".
+          It was ranked by 24h volume, which is zero on every market because
+          the newest fill is two months old, so the panel rendered nothing and
+          the section showed one card beside an empty half-screen. The first
+          attempt to fix that fell back to all-time volume — and produced the
+          SAME six markets the hero rail's own "Most traded" already listed,
+          duplicating a panel one scroll apart, while the rail kept rendering
+          the 24h figure and printed "KSh 0 today" six times.
+          A ranked list of a book nobody is trading cannot fill this slot. The
+          Bitcoin windows can: they open and close on a clock and are priced
+          off live BTC/USD, so they move whether or not anyone has traded. */}
+      <LiveCryptoPanel markets={liveCrypto} />
     </div>
   )
 }

@@ -39,13 +39,6 @@ import {
   IconMpesa,
 } from '@/components/ui/icons'
 
-export interface BreakingItem {
-  market: Market
-  /** Signed 24h/window change in percentage points. */
-  change: number
-  /** Current leading probability, 0–100. */
-  pct: number
-}
 
 export interface HeroMarket {
   market: Market
@@ -570,58 +563,11 @@ function PromoCard({
   )
 }
 
-function BreakingNews({ items }: { items: BreakingItem[] }) {
-  if (items.length === 0) return null
-  return (
-    <div className="rounded-xl p-4" style={{ background: 'var(--surface)', border: '1px solid var(--hairline)' }}>
-      <div className="mb-1 flex items-center justify-between">
-        {/* Ruling A12 / B5. This panel is movers.map() — markets ranked by
-            probability change. "Breaking News" was never news, and since the
-            market pages now carry actual journalism (MarketNews), the label
-            was about to collide with the real thing. */}
-        <h3 className="flex items-center gap-1 text-[15px] font-bold" style={{ color: 'var(--text)' }}>
-          Biggest moves <IconChevronRight size={15} style={{ color: 'var(--text-3)' }} />
-        </h3>
-      </div>
-      <ol className="flex flex-col">
-        {items.slice(0, 3).map((it, i) => {
-          const up = it.change >= 0
-          const delta = `${Math.abs(Math.round(it.change))}%`
-          return (
-            <li key={it.market.id}>
-              <Link
-                href={`/markets/${it.market.slug}`}
-                className="-mx-1.5 flex items-start gap-3 rounded-lg px-1.5 py-2.5 transition-colors hover:bg-[var(--surface-2)]"
-              >
-                <span className="w-4 flex-none pt-0.5 text-[13px] font-semibold" style={{ color: 'var(--text-3)' }}>{i + 1}</span>
-                <span
-                  className="min-w-0 flex-1 text-[14px] font-medium leading-snug"
-                  style={{ color: 'var(--text)', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}
-                >
-                  {it.market.title}
-                </span>
-                <span className="flex flex-none flex-col items-end">
-                  <span className="tabular-nums font-semibold leading-none" style={{ fontSize: 18, color: 'var(--text)', letterSpacing: '-0.2px' }}>
-                    {Math.round(it.pct)}%
-                  </span>
-                  <span
-                    className="mt-1 flex items-center gap-0.5 tabular-nums text-[12px] font-semibold"
-                    style={{ color: up ? 'var(--yes-text)' : 'var(--no-text)' }}
-                  >
-                    {up ? <IconArrowUp size={11} /> : <IconArrowDown size={11} />}
-                    {delta}
-                  </span>
-                </span>
-              </Link>
-            </li>
-          )
-        })}
-      </ol>
-    </div>
-  )
-}
-
-function HotTopics({ topics }: { topics: Market[] }) {
+// BreakingNews lived here. It rendered the same three markets, in the same
+// order, as the Movers section further down the same page, both visible at
+// 1920x1080 without scrolling. Deleted rather than left dormant: a component
+// nobody renders is the one that gets wired back in by mistake.
+function HotTopics({ topics, window: win = '24h' }: { topics: Market[]; window?: '24h' | 'all' }) {
   if (topics.length === 0) return null
   // A rank number in front of a list of one is a claim the data does not
   // support, and it reads as a broken card rather than a quiet market.
@@ -633,6 +579,12 @@ function HotTopics({ topics }: { topics: Market[] }) {
   return (
     <div className="rounded-xl p-4" style={{ background: 'var(--surface)', border: '1px solid var(--hairline)' }}>
       <div className="mb-2 flex items-center justify-between">
+        {/* The LABEL FOLLOWS THE DATA.
+            This card ranked by whatever page.tsx handed it but always rendered
+            `volume_24h_usd` with the word "today". When the ranking fell back
+            to all-time volume on a quiet book, every row printed "KSh 0
+            today": a card whose only content was a zero. Changing the data
+            source without changing what renders it is how that happens. */}
         <h3 className="text-[13px] font-bold" style={{ color: 'var(--text)' }}>Most traded</h3>
         <Link href="/markets?sort=volume" className="flex items-center gap-0.5 text-[12px] font-semibold" style={{ color: 'var(--pip-text)' }}>
           See all <IconChevronRight size={12} />
@@ -648,7 +600,9 @@ function HotTopics({ topics }: { topics: Market[] }) {
               )}
               <span className="min-w-0 flex-1 truncate text-[13px] font-medium" style={{ color: 'var(--text)' }}>{m.title}</span>
               <span className="flex flex-none items-center gap-1 text-[12px] font-semibold" style={{ color: 'var(--text-2)' }}>
-                <span style={{ color: 'var(--text)' }}>{fmtVol(m.volume_24h_usd ?? 0)}</span> today
+                <span style={{ color: 'var(--text)' }}>
+                  {fmtVol((win === '24h' ? m.volume_24h_usd : m.total_volume_usd) ?? 0)}
+                </span> {win === '24h' ? 'today' : 'all time'}
                 <IconFire size={13} style={{ color: 'var(--warn)' }} />
               </span>
             </Link>
@@ -659,7 +613,7 @@ function HotTopics({ topics }: { topics: Market[] }) {
   )
 }
 
-function HeroRail({ hotTopics, breaking, news }: { hotTopics: Market[]; breaking: BreakingItem[]; news: LatestNewsItem[] }) {
+function HeroRail({ hotTopics, hotTopicsWindow, news }: { hotTopics: Market[]; hotTopicsWindow: '24h' | 'all'; news: LatestNewsItem[] }) {
   return (
     <aside className="flex flex-col gap-3">
       <PromoCard
@@ -684,7 +638,7 @@ function HeroRail({ hotTopics, breaking, news }: { hotTopics: Market[]; breaking
           only card in the rail that answers WHY — the other two answer what
           and how much. */}
       <NewsRotator items={news} />
-      <HotTopics topics={hotTopics} />
+      <HotTopics topics={hotTopics} window={hotTopicsWindow} />
       <Link href="/markets" className="btn btn-secondary w-full justify-center gap-1.5" style={{ borderRadius: 'var(--r-pill)' }}>
         See all events <IconArrowRight size={15} />
       </Link>
@@ -697,7 +651,7 @@ function HeroRail({ hotTopics, breaking, news }: { hotTopics: Market[]; breaking
 export function HeroSection({
   items = [],
   hotTopics = [],
-  breaking = [],
+  hotTopicsWindow = '24h',
   comments = {},
   activity = {},
   ticker = {},
@@ -706,7 +660,8 @@ export function HeroSection({
 }: {
   items?: HeroMarket[]
   hotTopics?: Market[]
-  breaking?: BreakingItem[]
+  /** Which window hotTopics was ranked over, so the rail's label matches it. */
+  hotTopicsWindow?: '24h' | 'all'
   comments?: Record<string, HeroComment[]>
   activity?: Record<string, HeroActivityItem[]>
   /** Trades inside the ticker window, per market id (ruling K7). */
@@ -744,7 +699,7 @@ export function HeroSection({
             the rail is free to be as long as its data happens to be. */}
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-[2.35fr_1fr] lg:items-start">
           <HeroCarousel slides={slides} titles={titles} autoPlayMs={11000} />
-          <HeroRail hotTopics={hotTopics} breaking={breaking} news={news} />
+          <HeroRail hotTopics={hotTopics} hotTopicsWindow={hotTopicsWindow} news={news} />
         </div>
       </div>
     </section>
