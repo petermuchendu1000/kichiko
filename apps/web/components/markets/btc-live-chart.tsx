@@ -48,6 +48,8 @@ import {
   pastWindows,
   windowOutcome,
   pickSuccessorWindow,
+  pickCandleSource,
+  downsamplePoints,
   niceTicks,
   timeTicks,
   type ChartType,
@@ -293,27 +295,70 @@ export function BtcLiveChart({
     }
   }, [closeMs])
 
-  // Best-effort seed of recent history from Coinbase 1-minute candles.
+  // HISTORY FROM PRINTS, NOT FROM MINUTE CLOSES.
+  //
+  // This seeded from Coinbase 1-minute candles, which is all the resolution a
+  // candle endpoint offers. On a five-minute window that is five samples, and
+  // it showed: the price line drew a straight interpolation from the strike
+  // across two minutes of "flat", and the candle view had three bars, one of
+  // them a quarter of the plot wide. Polymarket's chart is dense because it is
+  // drawn from prints.
+  //
+  // Coinbase's public trade feed returns the last thousand prints, which on
+  // BTC-USD is almost exactly five minutes — measured, 1000 trades spanning
+  // 304 seconds. So take the prints first, and fall back to minute closes only
+  // for the stretch of a longer window they do not reach.
   useEffect(() => {
     let alive = true
-    const startISO = new Date(openMs).toISOString()
-    const endISO = new Date(Math.min(closeMs, Date.now() + 1000)).toISOString()
-    fetch(`https://api.exchange.coinbase.com/products/BTC-USD/candles?granularity=60&start=${startISO}&end=${endISO}`)
-      .then((r) => (r.ok ? r.json() : Promise.reject(new Error('candles'))))
-      .then((rows: number[][]) => {
-        if (!alive || !Array.isArray(rows) || rows.length === 0) return
-        const seeded: Pt[] = rows
-          .map((c) => ({ t: c[0] * 1000, price: c[4] }))
-          .filter((p) => p.t >= openMs && p.t <= closeMs)
-          .sort((a, b) => a.t - b.t)
-        if (seeded.length) {
-          setPoints((prev) => {
-            const tail = prev.filter((p) => p.t > (seeded.at(-1)?.t ?? openMs))
-            return [{ t: openMs, price: referencePrice }, ...seeded, ...tail]
-          })
-        }
+    const within = (t: number) => t >= openMs && t <= closeMs
+
+    const fromTrades = async (): Promise<Pt[]> => {
+      const r = await fetch('https://api.exchange.coinbase.com/products/BTC-USD/trades?limit=1000')
+      if (!r.ok) return []
+      const rows: unknown = await r.json()
+      if (!Array.isArray(rows)) return []
+      return (rows as { time: string; price: string }[])
+        .map((x) => ({ t: new Date(x.time).getTime(), price: parseFloat(x.price) }))
+        .filter((p) => Number.isFinite(p.t) && Number.isFinite(p.price) && within(p.t))
+        .sort((a, b) => a.t - b.t)
+    }
+
+    const fromCandles = async (): Promise<Pt[]> => {
+      const startISO = new Date(openMs).toISOString()
+      const endISO = new Date(Math.min(closeMs, Date.now() + 1000)).toISOString()
+      const r = await fetch(
+        `https://api.exchange.coinbase.com/products/BTC-USD/candles?granularity=60&start=${startISO}&end=${endISO}`,
+      )
+      if (!r.ok) return []
+      const rows: unknown = await r.json()
+      if (!Array.isArray(rows)) return []
+      return (rows as number[][])
+        .map((c) => ({ t: c[0] * 1000, price: c[4] }))
+        .filter((p) => within(p.t))
+        .sort((a, b) => a.t - b.t)
+    }
+
+    void (async () => {
+      let seeded: Pt[] = []
+      try {
+        seeded = await fromTrades()
+      } catch {/* fall back to minute closes */}
+      // A minute of slack: prints that start right after the open need no
+      // patching, and asking for candles costs a round trip.
+      if (seeded.length === 0 || seeded[0].t > openMs + 60_000) {
+        try {
+          const cut = seeded[0]?.t ?? Number.POSITIVE_INFINITY
+          seeded = [...(await fromCandles()).filter((p) => p.t < cut), ...seeded]
+        } catch {/* REST poll fills the line instead */}
+      }
+      if (!alive || seeded.length === 0) return
+      const thinned = downsamplePoints(seeded)
+      setPoints((prev) => {
+        const tail = prev.filter((p) => p.t > (thinned.at(-1)?.t ?? openMs))
+        return [{ t: openMs, price: referencePrice }, ...thinned, ...tail]
       })
-      .catch(() => {/* CORS/region — baseline REST poll fills the line instead */})
+    })()
+
     return () => {
       alive = false
     }
@@ -478,18 +523,25 @@ export function BtcLiveChart({
   // in-progress candle built from the freshest spot ticks so the tail keeps
   // moving between 1-minute bars. If Coinbase is unreachable, fall back to
   // bucketing the live spot series into ~44 synthetic candles.
+  // Both candidates, then whichever actually says something — see
+  // pickCandleSource for the five blocks and the five dashes that got us here.
+  const bucketed = useMemo(
+    () => bucketCandles(points, openMs, closeMs, 44),
+    [points, openMs, closeMs],
+  )
+  const usingRealCandles = pickCandleSource(realCandles, bucketed) === 'real'
   const candles = useMemo<Candle[]>(() => {
-    if (realCandles.length > 0) {
+    if (usingRealCandles) {
       return windowClosed ? realCandles : mergeLiveCandle(realCandles, points, granularity)
     }
-    return bucketCandles(points, openMs, closeMs, 44)
-  }, [realCandles, points, openMs, closeMs, granularity, windowClosed])
+    return bucketed
+  }, [usingRealCandles, realCandles, bucketed, points, granularity, windowClosed])
 
   // Candle spacing (ms) — real bars use the granularity; synthetic ones use the
   // bucket width. Drives the candle body width in the SVG layer below.
   const bucketMs = useMemo(
-    () => (realCandles.length > 0 ? granularity * 1000 : candleBucketMs(openMs, closeMs, 44)),
-    [realCandles.length, granularity, openMs, closeMs],
+    () => (usingRealCandles ? granularity * 1000 : candleBucketMs(openMs, closeMs, 44)),
+    [usingRealCandles, granularity, openMs, closeMs],
   )
 
   // Candle view has its own price domain: real OHLC wicks can reach past the
@@ -561,7 +613,10 @@ export function BtcLiveChart({
     const xScale = Object.values(xMap)[0]?.scale
     const yScale = Object.values(yMap)[0]?.scale
     if (!xScale || !yScale) return null
-    const cw = Math.max(2, Math.abs(xScale(openMs + bucketMs) - xScale(openMs)) * 0.62)
+    // Capped: a 60-second bar on a five-minute domain is a fifth of the plot
+    // wide, which reads as a wall rather than a candle. The cap only bites on
+    // the coarse-bar fallback; bucketed candles are far below it.
+    const cw = Math.min(26, Math.max(2, Math.abs(xScale(openMs + bucketMs) - xScale(openMs)) * 0.62))
     return (
       <g>
         {candles.map((c) => {
@@ -942,7 +997,9 @@ export function BtcLiveChart({
         {chartType === 'prob'
           ? 'Implied Up chance from live BTC/USD (Coinbase) vs the strike'
           : chartType === 'candle'
-            ? `Real BTC/USD OHLC candles via Coinbase${realCandles.length ? '' : ' (spot fallback)'} · settles at the reference price`
+            ? usingRealCandles
+              ? 'Real BTC/USD OHLC candles via Coinbase · settles at the reference price'
+              : 'BTC/USD candles bucketed from the live Coinbase spot feed · settles at the reference price'
             : 'Live BTC/USD via Coinbase · settles at the reference price when the window closes'}
       </p>
     </div>

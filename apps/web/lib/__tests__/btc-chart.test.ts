@@ -14,6 +14,9 @@ import {
   candleBucketMs,
   bucketCandles,
   mergeLiveCandle,
+  informativeCandles,
+  pickCandleSource,
+  downsamplePoints,
   niceTicks,
   timeTicks,
   type SeriesWindow,
@@ -238,6 +241,59 @@ describe('mergeLiveCandle', () => {
   })
   it('returns [] when there are no real candles', () => {
     expect(mergeLiveCandle([], [{ t: 1, price: 1 }], 60)).toEqual([])
+  })
+})
+
+const bar = (t: number, o: number, c: number, h: number, l: number): Candle => ({ t, o, c, h, l })
+const flat = (n: number, from = 0): Candle[] =>
+  Array.from({ length: n }, (_, i) => bar(from + i, 100, 100, 100, 100))
+const moving = (n: number, from = 0): Candle[] =>
+  Array.from({ length: n }, (_, i) => bar(from + i, 100, 101, 102, 99))
+
+describe('downsamplePoints', () => {
+  const series = (n: number): Pt[] => Array.from({ length: n }, (_, i) => ({ t: i, price: 100 + i }))
+
+  it('leaves a series that already fits', () => {
+    const s = series(50)
+    expect(downsamplePoints(s, 600)).toBe(s)
+  })
+
+  it('thins a thousand prints to the cap', () => {
+    expect(downsamplePoints(series(1000), 600)).toHaveLength(600)
+  })
+
+  it('keeps the open and the live end', () => {
+    const out = downsamplePoints(series(1000), 600)
+    expect(out[0].t).toBe(0)
+    expect(out[out.length - 1].t).toBe(999)
+  })
+
+  it('stays in order and never invents a sample', () => {
+    const src = series(1000)
+    const out = downsamplePoints(src, 97)
+    for (let i = 1; i < out.length; i += 1) expect(out[i].t).toBeGreaterThan(out[i - 1].t)
+    for (const p of out) expect(src[p.t]).toEqual(p)
+  })
+})
+
+describe('pickCandleSource', () => {
+  it('keeps the real bars when bucketing only yields flat dashes', () => {
+    // A window that closed with nobody watching: five minute-closes, no ticks.
+    expect(pickCandleSource(moving(5), flat(6))).toBe('real')
+  })
+
+  it('uses the denser bucketed series once it has range to show', () => {
+    // A 5-minute window watched for a couple of minutes.
+    expect(pickCandleSource(moving(5), moving(20))).toBe('bucketed')
+  })
+
+  it('buckets when Coinbase returned no bars at all', () => {
+    expect(pickCandleSource([], flat(3))).toBe('bucketed')
+  })
+
+  it('counts range, not bars', () => {
+    expect(informativeCandles(flat(30))).toBe(0)
+    expect(informativeCandles([...flat(10), ...moving(4)])).toBe(4)
   })
 })
 

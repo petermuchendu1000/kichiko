@@ -102,6 +102,58 @@ export function pickGranularity(windowSeconds: number): CoinbaseGranularity {
 }
 
 /**
+ * Thin a series to at most `max` samples, keeping the first and the last.
+ *
+ * Coinbase's trade feed hands back a thousand prints for a five-minute window.
+ * That is the right history to have and the wrong number of SVG points to draw
+ * on a 1400px plot, so stride it. Endpoints are kept because the first sample
+ * anchors the window open and the last is the live price.
+ */
+export function downsamplePoints(points: Pt[], max = 600): Pt[] {
+  if (max < 2 || points.length <= max) return points
+  const stride = (points.length - 1) / (max - 1)
+  const out: Pt[] = []
+  for (let i = 0; i < max; i += 1) out.push(points[Math.round(i * stride)])
+  return out
+}
+
+/** Candles that say something: a bar with no range at all is a flat dash. */
+export function informativeCandles(cs: Candle[]): number {
+  return cs.reduce((n, c) => (c.h > c.l ? n + 1 : n), 0)
+}
+
+/**
+ * Which of the two candle sources to draw.
+ *
+ * 60 seconds is the finest bar Coinbase publishes, so a 5-minute window gets
+ * five of them. Measured live, that drew one block a quarter of the plot wide
+ * and two hairlines beside it: a bar chart with five bars, not a candlestick
+ * chart. Polymarket shows dozens on the same window because theirs come from
+ * their own tick feed, which this app does not have. Bucketing our live spot
+ * series into 44 candles gives the short windows the resolution they need.
+ *
+ * But the first attempt at this decided on the window LENGTH, and a window
+ * that closed while the chart was open showed why that is wrong: nobody was
+ * collecting ticks, so bucketing had only five minute-closes to work with and
+ * drew five zero-height dashes, having discarded the five real OHLC bars that
+ * were the best data available. The length of the window says nothing about
+ * how much live data we happen to hold.
+ *
+ * So decide on the thing that actually matters — whether the bucketed series
+ * has enough bars with a real high-low range to be worth looking at. A past
+ * window, or one opened seconds ago, falls back to the real bars; a window
+ * that has been watched for a couple of minutes uses its own denser ticks.
+ */
+export function pickCandleSource(
+  real: Candle[],
+  bucketed: Candle[],
+  minInformative = 12,
+): 'real' | 'bucketed' {
+  if (real.length === 0) return 'bucketed'
+  return informativeCandles(bucketed) >= minInformative ? 'bucketed' : 'real'
+}
+
+/**
  * A window is "closed" for UI purposes when the server has already moved it off
  * `active`, OR the wall clock has reached its close time (client-side detection
  * so the chart + ticket freeze the instant a window ends, with no refresh).
