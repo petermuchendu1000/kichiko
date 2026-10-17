@@ -450,3 +450,65 @@ display_countdown           MM / SS, per-digit, CLOB-server-synced
 payout                      shares = stake / ask_price
 complement_invariant        bid(UP) = 1 - ask(DOWN), exactly
 ```
+
+---
+
+## 8. Side-by-side, 1440×900, DPR 2
+
+Both pages captured in the same browser, viewport, DPR, locale and timezone.
+Polymarket: `btc-updown-5m-*` live. Kichiko: `btc-up-down-5m-1792264200` on the
+local dev server.
+
+### Already matching
+
+The h1 is identical by measurement — 24px / 600 / 28px line-height /
+−0.36px tracking — and `market-header.tsx` already carries that measurement in
+a comment from earlier parity work. `--r-lg: 11.2px` and `--r-xl: 15.2px` in
+`globals.css` are exactly Polymarket's `--radius: .7rem` and their one-tap
+button radius. Both pages render: a Price-To-Beat label over its value, a
+current price with a signed delta in orange, a live countdown, a dashed
+reference line labelled `Target`, an orange price line with a live endpoint
+dot, a right-hand value axis, past-window chips with direction arrows, an
+interval switcher, a line/asset/candle chart-type toggle, and Rules / Market
+Context tabs.
+
+### Divergences
+
+| # | Thing | Polymarket | Kichiko | Severity |
+|---|---|---|---|---|
+| 1 | Probability shown | CLOB midpoint — real order flow | `impliedUpProb()`, a logistic with a hand-picked σ | High |
+| 2 | Order book | A section on the page | None — no CLOB orders exist on these markets (0 orders / 0 fills against 2,291 / 13,138 platform-wide) | High |
+| 3 | Countdown | `03 MINS 53 SECS`, per-digit odometer, synced to `clob/time` | `3:05`, one string, local clock | Medium |
+| 4 | Price cluster | Price-To-Beat and Current Price side by side, split by a rule | Stacked vertically | Medium |
+| 5 | Payout preview | $5 / $25 / $100 cards showing `win $8.47` | Amount chips 20/50/100/200, no payout | Medium |
+| 6 | Upcoming windows | Tabs for the next windows (`2:45 PM`, `2:50 PM`, `More`) | Past chips only | Medium |
+| 7 | Plot size | canvas 922×260 + 28px axis | SVG 792×240 | Low |
+| 8 | Plot technology | `lightweight-charts` on canvas | recharts on SVG | Low |
+| 9 | Trade annotations | `+$9 / +$1 / +$7` from the trade websocket | None | Low |
+| 10 | Semantic colours | green `#04af52`, red `#df0c10` (resolved) | `--yes #30A159`, `--no #E23939` | See below |
+
+### On the colours
+
+Adopting Polymarket's greens and reds wholesale would regress accessibility.
+Their `green-600 #34c759` on white is roughly 1.9:1, which fails WCAG AA for
+text, and `globals.css` shows this codebase has deliberately chosen accessible
+variants before — `--text-3` carries the comment "ink-500 was 3.66:1 on
+surface-2; #656D78 = 4.8:1 (WCAG AA)".
+
+So this is not a defect to fix by copying. The defensible split is to match
+their hue on non-text surfaces, where contrast rules do not apply (chart
+strokes, fills, pill backgrounds, the dot on a past chip), and keep
+AA-compliant variants wherever the colour carries text. That is a deliberate
+divergence, and it is a product call rather than a technical one, so it is
+recorded here rather than made unilaterally.
+
+### On the probability
+
+Items 1 and 2 are one problem. Polymarket's displayed percentage is the
+midpoint of a real book; ours is a model because the BTC windows carry no
+order flow at all. Fixing the display without the book would just be a
+better-looking guess. The real options are to make a market on these windows
+(seed the existing CLOB so the price becomes real) or to keep a model and stop
+presenting it as a market price. Either is a product decision with scope well
+beyond a chart helper, which is why this session measured and reported it
+instead of quietly recalibrating σ.
