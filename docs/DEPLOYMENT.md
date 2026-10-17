@@ -184,11 +184,29 @@ makes it look like they are covered.
 CI passes them (`deploy-staging.yml`). A hand-run deploy must too:
 
 ```bash
-flyctl deploy --app elopis-prod --strategy rolling \
+flyctl deploy --app elopis-prod --strategy rolling --depot=false \
   --build-arg NEXT_PUBLIC_SUPABASE_URL="$SUPABASE_URL" \
   --build-arg NEXT_PUBLIC_SUPABASE_ANON_KEY="$SUPABASE_ANON_KEY" \
   --build-arg NEXT_PUBLIC_APP_URL="https://elopis.com"
 ```
+
+### `--depot=false` from behind an inspecting proxy
+
+flyctl's default builder is Depot, which reaches its build machine over gRPC
+with its own TLS stack. From an environment whose egress re-terminates TLS
+(any corporate MITM proxy, and the Claude Code sandbox), that handshake fails:
+
+```
+failed to list workers: Unavailable: connection error: desc =
+"transport: authentication handshake failed: tls: failed to verify certificate:
+x509: certificate signed by unknown authority"
+```
+
+Pointing `SSL_CERT_FILE` at the proxy CA does **not** fix it; the Depot client
+does not read it. `--depot=false` uses Fly's own remote builder, which goes
+over a path the proxy does not intercept, and works unchanged. Harmless
+everywhere else, so it is in the command above rather than in a footnote.
+Never work around this by disabling TLS verification.
 
 Omit them and the build still succeeds and the image still starts; then
 `middleware.js` throws *"Your project's URL and Key are required to create a
