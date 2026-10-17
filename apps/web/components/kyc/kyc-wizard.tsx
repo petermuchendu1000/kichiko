@@ -108,6 +108,9 @@ export function KycWizard({ user, initialPhone, initialCountry, returnTo = '/por
   // Vendor session state.
   const [opening, setOpening] = useState(false)
   const [checking, setChecking] = useState(false)
+  // The poll ran its course without a decision. Not a failure, but not
+  // something to stay silent about either.
+  const [stalled, setStalled] = useState(false)
   const [session, setSession] = useState<SessionStatus>({ providerStatus: null, kycStatus: null })
   const pollTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -212,7 +215,15 @@ export function KycWizard({ user, initialPhone, initialCountry, returnTo = '/por
       // Stop on a decision, or after about a minute. Didit's own median is
       // well under that; beyond it the user is better served by a page that
       // says "we will email you" than by a spinner.
-      if (result?.kycStatus || tries >= 20) return
+      if (result?.kycStatus) return
+      if (tries >= 20) {
+        // SAY SO. Falling out of the loop used to drop the user back on a
+        // "Start ID check" button, which tells somebody who has just finished
+        // a scan that nothing happened and invites them to pay for a second
+        // session. The scan is with the vendor either way.
+        setStalled(true)
+        return
+      }
       pollTimer.current = setTimeout(() => void tick(), 3000)
     }
     void tick()
@@ -293,6 +304,31 @@ export function KycWizard({ user, initialPhone, initialCountry, returnTo = '/por
             <button type="button" onClick={startVerification} className="btn btn-primary mt-6" disabled={opening}>
               {opening ? 'Opening…' : 'Try again'}
             </button>
+          }
+        />
+      </KycConsole>
+    )
+  }
+
+  if (stalled) {
+    return (
+      <KycConsole bridge={bridge}>
+        <Outcome
+          tone="wait"
+          title="Your check is still processing"
+          copy="Didit has your scan. We'll email you the moment it's decided, usually within a few minutes. There's nothing else to do."
+          action={
+            <div className="mt-6 flex items-center justify-center gap-2">
+              <button
+                type="button"
+                onClick={() => { setStalled(false); void check() }}
+                className="btn btn-secondary"
+                disabled={checking}
+              >
+                {checking ? 'Checking…' : 'Check again'}
+              </button>
+              <Link href={returnTo} className="btn btn-primary">Continue</Link>
+            </div>
           }
         />
       </KycConsole>

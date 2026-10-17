@@ -124,7 +124,42 @@ export async function GET() {
   const { user, supabase } = guard.ctx
 
   const draft = await loadDraft(supabase, user.id)
+
   if (!draft?.didit.sessionId) {
+    // NO DRAFT IS NOT THE SAME AS NO ANSWER.
+    //
+    // apply_didit_decision() deletes the draft once a decision lands, and the
+    // webhook and this poll race to be the one that applies it. When the
+    // webhook wins, the next poll found no draft, returned nulls, and the
+    // wizard sat on "checking your result" against a user who was already
+    // verified — with a "Start ID check" button inviting them to pay for a
+    // second session. Reported from a real run.
+    //
+    // So when the draft is gone, answer from the record the decision left
+    // behind instead of from its absence.
+    // provider_status arrives with migration 123 and is not in
+    // types/supabase.ts yet, so the row shape is stated rather than inferred
+    // (see draftsClient above for why regeneration is still pending).
+    const { data } = await supabase
+      .from('kyc_documents')
+      .select('status, provider_status, rejection_reason')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+    const doc = data as unknown as {
+      status: 'unverified' | 'pending' | 'verified' | 'rejected'
+      provider_status: string | null
+      rejection_reason: string | null
+    } | null
+
+    if (doc?.status) {
+      return NextResponse.json({
+        providerStatus: doc.provider_status ?? null,
+        kycStatus: doc.status,
+        reason: doc.rejection_reason ?? null,
+      })
+    }
     return NextResponse.json({ providerStatus: null, kycStatus: null })
   }
 
