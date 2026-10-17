@@ -81,6 +81,31 @@ export async function POST() {
   }
 
   const admin = await draftsClient()
+
+  // THE PHONE HAS TO REACH THE PROFILE.
+  //
+  // The six-step wizard wrote `profiles.phone_number` on submit. Replacing it
+  // with the Didit handoff removed that write, and the phone then lived only
+  // in the draft, which is deleted the moment a decision lands.
+  // `enqueue_notification_deliveries()` reads the profile column to address an
+  // SMS, so every user verifying through the new flow would have ended up with
+  // no phone on file and no deposit or payout SMS ever sent to them.
+  //
+  // Written here, at the point they commit to the check, rather than on
+  // approval: the number is theirs either way, and a verification that stalls
+  // should not also cost them their notifications. The database normalises it
+  // to E.164 on write (migration 125).
+  if (draft.data.phone.trim()) {
+    const { error: phoneErr } = await admin
+      .from('profiles')
+      .update({ phone_number: draft.data.phone.trim() })
+      .eq('id', user.id)
+    // Non-fatal, and deliberately not surfaced: phone_number is UNIQUE, so a
+    // number already on another account fails here. That is worth a log and a
+    // look, but it is not a reason to block somebody's identity check.
+    if (phoneErr) console.warn('could not store phone on profile', { reason: phoneErr.message })
+  }
+
   await admin
     .from('kyc_drafts')
     .update({

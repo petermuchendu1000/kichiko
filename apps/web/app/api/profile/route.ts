@@ -13,6 +13,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { requireUser } from '@/lib/auth'
+import { toE164 } from '@/lib/notifications/phone'
 
 const usernameSchema = z
   .string()
@@ -79,11 +80,31 @@ export async function PATCH(req: NextRequest) {
   // field is cleared rather than stored as "".
   const d = parsed.data
   const nn = (v: string | undefined) => (v === undefined || v === '' ? null : v)
+
+  // Which country a bare national number belongs to. Read rather than assumed:
+  // "0712345678" is a different person in Kampala than in Nairobi.
+  let profileCountry = 'KE'
+  if (d.phone_number) {
+    const { data: me } = await guard.ctx.supabase
+      .from('profiles')
+      .select('country_code')
+      .eq('id', guard.ctx.user.id)
+      .maybeSingle()
+    profileCountry = me?.country_code ?? 'KE'
+  }
+
   const updates = {
     ...(d.display_name !== undefined && { display_name: d.display_name }),
     ...(d.username !== undefined && { username: d.username }),
     ...(d.bio !== undefined && { bio: nn(d.bio) }),
-    ...(d.phone_number !== undefined && { phone_number: nn(d.phone_number) }),
+    // Normalised so the response the client re-renders from matches what was
+    // stored. The database normalises it again on write (migration 125) and
+    // that is the authority: this route is not the only way into the column,
+    // because RLS lets a user PATCH their own profile row directly. A number
+    // we cannot place is stored as typed rather than dropped.
+    ...(d.phone_number !== undefined && {
+      phone_number: d.phone_number ? toE164(d.phone_number, profileCountry) ?? d.phone_number : null,
+    }),
     ...(d.avatar_url !== undefined && { avatar_url: nn(d.avatar_url) }),
   }
 
